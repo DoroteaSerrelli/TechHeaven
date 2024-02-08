@@ -6,8 +6,8 @@ CREATE TABLE Cliente_DatiPersonali(
 email varchar(50) NOT NULL,
 nome varchar(40) NOT NULL,
 cognome varchar(50) NOT NULL,
-sesso enum('M', 'F'),
-telefono char(12),
+sesso enum('M', 'F') NOT NULL,
+telefono char(12) NOT NULL,
 
 PRIMARY KEY(email)
 ) ENGINE=InnoDB;

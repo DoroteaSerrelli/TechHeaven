@@ -1,4 +1,4 @@
-package model;
+package application.NavigazioneService;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

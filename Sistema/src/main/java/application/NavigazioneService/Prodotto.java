@@ -1,4 +1,4 @@
-package model;
+package application.NavigazioneService;
 
 import java.awt.Image;
 

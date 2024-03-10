@@ -1,4 +1,4 @@
-package model;
+package storage.DatabaseConnectionManager;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -46,7 +46,7 @@ public class DriverManagerConnectionPool  {
 		Connection connection;
 
 		if (!freeDbConnections.isEmpty()) {
-			connection = (Connection) freeDbConnections.get(0);
+			connection = freeDbConnections.get(0);
 			freeDbConnections.remove(0);
 
 			try {

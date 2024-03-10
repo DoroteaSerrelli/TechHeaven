@@ -17,41 +17,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     margin-bottom: 20px;
 }
 
-/*FORM DI REGISTRAZIONE*/
 .section-p1{
     padding: 40px 80px;
-    text-align: center;
 }
-form {
-  display: inline-block; /* Keeps the form from stretching to full width */
-  text-align: left; /* Resets the text alignment for form elements */
-}
-.center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* Optional: Center vertically within the viewport */
-}
-.row {
-  display: flex;
-  justify-content: space-between; /* Distribute space evenly between inputs */
-  
-}
-.input-wrapper {
-  flex-basis: 40%; /* Adjust width as needed */
-  margin-right: 10%;
-  width: 50%;
-}
-.input-wrapper p{
-    width: 200px;
-}
-
-.confirm_button{
-    width: 100px;
-    margin-top: 20px;
-    background-image:  url("view/img/4.png");
-}
-/*FORM DI REGISTRAZIONE*/
 
 .section-m1{
     margin: 40px 80px;
@@ -80,7 +48,7 @@ h4{
 
 p{
     font-size: 20px;
-    color: rgb(91,68,242);
+    color: darkseagreen;
     margin: 15px 0 20px 0;
 }
 
@@ -126,7 +94,7 @@ Quindi dell'immagine in background e del testo, flex (allineamento degli item)
 Che setteremò per incollonare il testo al centro.
 */
 #hero{
-    background-image: url("view/img/3.png");
+    background-image: url("img/3.png");
     height: 90vh;
     width: 100%;
     background-position: top 25% right 0;
@@ -164,7 +132,7 @@ Che setteremò per incollonare il testo al centro.
     align-items: center;
     justify-content: space-between;
     padding: 20px 80px;
-    background-color:   rgb(91,68,242);
+    background-color:   #6C1908;
     box-shadow: 0px 15px rgba(22,12,89,0.06);
     z-index: 999;
     top: 0;
@@ -177,17 +145,6 @@ Che setteremò per incollonare il testo al centro.
     align-items: center;
     justify-content: center;
     
-}
-#categories{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-#categories li{
-    list-style: none;
-    padding: 0px 30px;
-    position: relative;
-    background-color: rgb(160,211,242)
 }
 
 /*Sto "targettando" la lista linkata all'interno della barra di navigazione'
@@ -248,7 +205,7 @@ Sto modificando le caratteristiche DELLA SOTTOLINEATURA che apparirà sotto i li
     text-align: center;
 }
 #product1 h2{
-	color: #1d428a;
+	color: rgb(119,62,11);
 }
 #product1 p{
 	color: burlywood;
@@ -479,7 +436,6 @@ button.minbanner{
 }
 
 footer{
-        background-color: rgb(80, 104, 242);
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
@@ -496,60 +452,35 @@ footer .logo{
 footer h4{
 	font-size: 14px;
 	padding-bottom: 20px;
-	color: #1d428a;
+	color: #B82306;
 }
 footer p{
 	font-size: 13px;
 	margin: 0 0 8px 0;
-	color: rgb(160,211,242);
+	color: #B82306;
 }
 footer a{
 	font-size: 13px;
 	text-decoration: none;
-	color: rgb(160,211,242);
+	color: chocolate;
 	margin: 10px;
 }
 footer .follow{
 	margin-top: 20px;
 }
-footer .follow .icon{
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
+footer .follow .icon i{
+	color: #B8391F;
+	padding-right: 4px;
+	cursor: pointer;
 }
 footer .follow .icon i:hover, footer a:hover{
-	color: #F2CB50;
+	color: #6B1807;
 	padding-right: 4px;
 	cursor: pointer;
 }
 footer .install img{
-	margin: 10px 0 15px 0;	
-}
-footer .follow img {
-  background-color: rgb(80, 104, 242);  
-  /* Change 1s to the desired animation duration */
-  /* 'forwards' keeps the last keyframe state after the animation ends */
-}
-
-.footer .logo img {
-  /* Set initial opacity to 0 to hide the GIF */
-  opacity: 0;
-}
-
-.animate-png {
-  /* Set opacity to 1 to make the GIF visible */
-  opacity: 1;
-  transition: opacity 0.5s ease; /* Add a transition effect for smoother 
-}
-
-@keyframes playPngAnimation {
-  /* Define animation keyframes for opacity transition */
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+	margin: 10px 0 15px 0;
+	
 }
 footer .copyright{
 	width: 100%;
@@ -573,21 +504,6 @@ footer .copyright{
 		height: 70%;
 	}
     #navbar{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: fixed;
-    top: 0;
-    right: -300px; 
-    height: 100vh;
-    width: 300px;
-    background-color: #E3E6F3;
-    box-shadow: 0 40px 60px rgba(0,0,0, 0.1);
-    padding: 80px 0 0 10px ;
-    transition: 0.3s;   	
-    }
-    #categories{
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -677,16 +593,15 @@ footer .copyright{
 	}
 }
 @media (max-width:477px){
-    
 	#header{
 		padding: 10px 30px;
  	}
 	#header a img{
-		width: 30%;
-		height: 30%;
+		width: 70%;
+		height: 70%;
 	}
 	#header a img.logo{
-		width: 55%;
+		width: 85%;
 	}
 	#hero{
 		padding: 0 15px;
@@ -741,28 +656,4 @@ footer .copyright{
 	footer .copyright{
 		text-align:start;
 	}
-        
-        /*REGISTRAZIONE TELEFUNCEN*/       
-        form {
-            display: inline-block; /* Keeps the form from stretching to full width */
-            text-align: left; /* Resets the text alignment for form elements */
-            
-            flex-direction:  column;
-            
-        }
-        .center {
-            display: table-column;
-            justify-content: left;
-            align-items:   flex-start;
-            height: 100vh; /* Optional: Center vertically within the viewport */
-        }
-        .row {
-            width: 50%;
-            justify-content: space-between; /* Distribute space evenly between inputs */
-        }
-        .input-wrapper {
-            margin-right: 30%;
-           
-        }
-        
 }

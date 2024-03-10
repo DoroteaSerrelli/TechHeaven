@@ -10,7 +10,6 @@
         senza doverlo importare da altre parti-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous"></script> 
     <script src="https://kit.fontawesome.com/207052c3a9.js" integrity="sha512-BgwIN3PpXLkbg6HyWOm0LO0m1sBZr6gEHLStmyYQ+3WtPcbEJkhC5lH1iISIYI0pWi+L6snpMjPQ99mrWPagew==" crossorigin="anonymous"></script>  
-    <script src="view/navi_script.js"></script>
     </head>    
     <script> 
      function hasClass(element, clsName) {
@@ -41,18 +40,9 @@
                 <li><a href="login.jsp">Login</a></li> 
                 <li><a href="Registrazione.jsp">Register</a></li> 
                 <li><a href="account.jsp"><i class="fa-solid fa-user-gear" style="color: #CCCC66;"></i></a></li>
-                <li><a id="lg-bag">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="#2DA0F2" d="M16 6h-1V5c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v1H8c-1.1 0-1.99.9-1.99 2L6 19c0 1.1.89 2 1.99 2H17c1.1 0 2-.9 2-2l.01-11c0-1.1-.89-2-1.99-2zM9 5h6v1H9V5zm8 14H7V9h10v10z"/>
-                        <path fill="none" d="M0 0h24v24H0V0z"/>
-                    </svg>
-                    </a>
+                <li><a id="lg-bag"><img src="view\img\cart-shopping-solid.svg" height="20" width="20" alt="alt"/></a>
                 </li>
-                <a href="#" id="close" onClick="closeSidebar()">
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                        <path fill="#2DA0F2" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
-                    </svg>                
-                </a>                     
+                <a href="#" id="close"><img src="view/img/xmark-solid.svg"></a>
             </ul>  
             <ul id="categories">            
                 <li><a href="#">Telefonia</a></li> 
@@ -63,6 +53,7 @@
         </div>
          <div id="carrello" > 
              <a href="cart.jsp">Checkout</a>
+             
              <br>
                 <%
                     if(request.getSession().getAttribute("usercart")==null);
@@ -76,16 +67,8 @@
                <% }}%>
         </div>  
         <div id="mobile">
-            <a href="/GestioneCarrello">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                    <path fill="#2DA0F2" d="M16 6h-1V5c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v1H8c-1.1 0-1.99.9-1.99 2L6 19c0 1.1.89 2 1.99 2H17c1.1 0 2-.9 2-2l.01-11c0-1.1-.89-2-1.99-2zM9 5h6v1H9V5zm8 14H7V9h10v10z"/>
-                    <path fill="none" d="M0 0h24v24H0V0z"/>
-                </svg>
-            </a>
-            <button class="openbtn" onclick="openSidebar()">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
-                <path fill="#2DA0F2" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z"/>
-            </button>         
+        <a href="cart.jsp"><img src="img\2.png" height="60" width="60" alt="alt"/></a>    
+        <img id="bar" src="view/img/outdent-solid.svg"><script src="view/script.js"></script>            
         </div>
         <br>         
         </section>       

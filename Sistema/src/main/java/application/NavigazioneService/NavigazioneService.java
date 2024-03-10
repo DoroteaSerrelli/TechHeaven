@@ -14,7 +14,7 @@ public class NavigazioneService {
     }
     public Prodotto getProductByCodice(int codice){   
         Prodotto product = null;
-        String sql = "SELECT * FROM products WHERE id = ?";
+        String sql = "SELECT * FROM prodotto WHERE CodiceProdotto=?";
         DriverManagerConnectionPool dm = new DriverManagerConnectionPool();
         try{ 
             Connection conn = dm.getConnection();
@@ -26,10 +26,11 @@ public class NavigazioneService {
                 product.setCodice(resultSet.getInt("CodiceProdotto"));
                 product.setNome(resultSet.getString("Nome"));
                 product.setTop_descrizione(resultSet.getString("TopDescrizione"));
-                product.setPrezzo(resultSet.getDouble("Prezzo"));
+                product.setPrezzo(resultSet.getDouble("Prezzo"));           
             }
+            dm.releaseConnection(conn);
         } catch (SQLException e) {
-            e.printStackTrace();
+            e.printStackTrace();           
         }
         return product;
     }

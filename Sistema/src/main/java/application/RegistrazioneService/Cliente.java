@@ -4,6 +4,11 @@ import java.util.ArrayList;
 
 import application.GestioneOrdiniService.Ordine;
 
+/*
+ * Questa classe detiene le informazioni personali dell'utente
+ * come cliente del negozio.
+ * */
+
 public class Cliente {
 	
 	public enum Sesso{
@@ -19,12 +24,13 @@ public class Cliente {
 	private ArrayList<Indirizzo> indirizzi;
 	private ArrayList<Ordine> ordini;
 	
-	String emailPattern = "/^\\S+@\\S+\\.\\S+$/";
-	String nomeCognomePattern = "^[A-Za-z\s]+$";
-	String telefonoPattern = "^([0-9]{3}-[0-9]{3}-[0-9]{4})$";
-	
-	public boolean checkValidate(String email, String nome, String cognome, Sesso sex, String telefono,
+	public static boolean checkValidate(String email, String nome, String cognome, Sesso sex, String telefono,
 			Indirizzo indirizzo) {
+		
+		String emailPattern = "/^\\S+@\\S+\\.\\S+$/";
+		String nomeCognomePattern = "^[A-Za-z\s]+$";
+		String telefonoPattern = "^([0-9]{3}-[0-9]{3}-[0-9]{4})$";
+		
 		if(!email.matches(emailPattern) || !nome.matches(nomeCognomePattern) || !cognome.matches(nomeCognomePattern)
 				|| !telefono.matches(telefonoPattern))
 			return false;

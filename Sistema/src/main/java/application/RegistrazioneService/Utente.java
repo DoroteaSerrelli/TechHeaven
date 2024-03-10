@@ -6,16 +6,23 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
 public class Utente {
+	
+	/*
+	 * Questa classe detiene le informazioni relative all'utente:
+	 * username, password, ruoli associati e profilo personale.
+	 * */
+	
 	private String username;
 	private String password;
 	private Cliente profile;
 	private ArrayList<Ruolo> ruoli;
 	
-	String usernamePattern = "\\d+(\\.\\d+)?";
-	String passwordOnlyNumbersPattern = "\\d+(\\.\\d+)?";
-	String passwordOnlyCharsPattern = "\\D+";
 	
-	public boolean checkValidate(String username, String password) {
+	public static boolean checkValidate(String username, String password) {
+		
+		String usernamePattern = "\\d+(\\.\\d+)?";
+		String passwordOnlyNumbersPattern = "\\d+(\\.\\d+)?";
+		String passwordOnlyCharsPattern = "\\D+";
 		
 		if(username.length() < 5 || username.isBlank() || username.matches(usernamePattern))
 			return false;
@@ -25,7 +32,11 @@ public class Utente {
 		return true;
 	}
 	
-	public boolean checkResetPassword(String password) {
+	public static boolean checkResetPassword(String password) {
+		
+		String passwordOnlyNumbersPattern = "\\d+(\\.\\d+)?";
+		String passwordOnlyCharsPattern = "\\D+";
+		
 		return !(password.length() < 5 || password.isBlank() || password.matches(passwordOnlyNumbersPattern) 
 				|| password.matches(passwordOnlyCharsPattern));
 	}

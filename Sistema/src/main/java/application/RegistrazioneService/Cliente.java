@@ -104,8 +104,15 @@ public class Cliente {
 		this.sex = sex;
 	}
 
-
-
+	public void setSex(String sex) {
+	    if(sex.equalsIgnoreCase("F")) {
+	        this.sex = Sesso.F;
+	    } else if(sex.equalsIgnoreCase("M")) {
+	        this.sex = Sesso.M;
+	    } else {
+	        throw new IllegalArgumentException("Il valore del sesso deve essere 'F' o 'M'.");
+	    }
+	}
 
 	public String getTelefono() {
 		return telefono;

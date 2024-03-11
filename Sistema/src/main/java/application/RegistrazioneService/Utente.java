@@ -92,6 +92,14 @@ public class Utente {
 		this.profile = profile;
 	}
 	
+	public ArrayList<Ruolo> getRuoli() {
+		return ruoli;
+	}
+
+	public void setRuoli(ArrayList<Ruolo> ruoli) {
+		this.ruoli = ruoli;
+	}
+
 	@Override
 	public String toString() {
 		return "Utente [username=" + username + ", password=" + password + ", profile=" + profile.toString() + "]";

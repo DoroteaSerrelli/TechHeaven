@@ -1,6 +1,7 @@
 <div style="display: flex; justify-content: center; align-items: center; border-bottom:2px solid gray">
         <img id="logo" src="./src/main/webapp/images/logo.png" alt="" style="padding: 20px; width: 45%; height: 45%;">
 </div>
+
 # TechHeaven
 Progetto preparato per il corso di Ingegneria del Software di un sistema software per la gestione degli ordini del negozio "TechHeaven - Il paradiso digitale".
 

@@ -17,30 +17,37 @@ public class Utente {
 	private Cliente profile;
 	private ArrayList<Ruolo> ruoli;
 	
-	
+	/*
+	 * Questo metodo verifica se le credenziali inserite dall'utente sono valide.
+	 * */
 	public static boolean checkValidate(String username, String password) {
 		
 		String usernamePattern = "\\d+(\\.\\d+)?";
-		String passwordOnlyNumbersPattern = "\\d+(\\.\\d+)?";
-		String passwordOnlyCharsPattern = "\\D+";
+		String passwordPattern = "^(?=.*[a-zA-Z])(?=.*[0-9]).{5,}$";
 		
 		if(username.length() < 5 || username.isBlank() || username.matches(usernamePattern))
 			return false;
-		else if(password.length() < 5 || password.isBlank() || password.matches(passwordOnlyNumbersPattern) || password.matches(passwordOnlyCharsPattern))
+		else if(password.length() < 5 || password.isBlank() || !password.matches(passwordPattern))
 			return false;
 		
 		return true;
 	}
 	
+	
+	/*
+	 * Questo metodo verifica se la nuova password inserita dall'utente è valida.
+	 * */
 	public static boolean checkResetPassword(String password) {
 		
-		String passwordOnlyNumbersPattern = "\\d+(\\.\\d+)?";
-		String passwordOnlyCharsPattern = "\\D+";
+		String passwordPattern = "^(?=.*[a-zA-Z])(?=.*[0-9]).{5,}$";
 		
-		return !(password.length() < 5 || password.isBlank() || password.matches(passwordOnlyNumbersPattern) 
-				|| password.matches(passwordOnlyCharsPattern));
+		return !(password.length() < 5 || password.isBlank() || !password.matches(passwordPattern));
 	}
 	
+	
+	/*
+	 * Questo metodo effettua l'hashing della password.
+	 * */
 	private StringBuilder hashPassword(String password) {
 	    StringBuilder hashString = new StringBuilder();
 	    try {
@@ -55,7 +62,10 @@ public class Utente {
 	    return hashString;
 	}
 
-	
+	/*
+	 * Questo metodo crea un nuovo oggetto Utente (con ruolo cliente) date le credenziali di accesso e le informazioni
+	 * personali : nome, cognome, sesso, email, numero di telefono, indirizzo.
+	 * */
 	public Utente(String username, String password, Cliente profile) {
 		this.username = username;
 		this.password = hashPassword(password).toString();
@@ -64,6 +74,10 @@ public class Utente {
 		ruoli.add(new Ruolo("Cliente"));
 	}
 	
+	/*
+	 * Questo metodo crea un nuovo oggetto Utente (con ruolo cliente e role) date le credenziali di accesso e le informazioni
+	 * personali : nome, cognome, sesso, email, numero di telefono, indirizzo.
+	 * */
 	public Utente(String username, String password, Cliente profile, Ruolo role) {
 		this.username = username;
 		this.password = hashPassword(password).toString();
@@ -73,6 +87,9 @@ public class Utente {
 		ruoli.add(role);
 	}
 	
+	/*
+	 * Metodi GETTER E SETTER
+	 * */
 	public String getUsername() {
 		return username;
 	}

@@ -49,7 +49,7 @@ public class IndirizzoDAODataSource {
 	        preparedStatement.setInt(1, address.getIDIndirizzo());
 	        preparedStatement.setString(2, address.getVia());
 	        preparedStatement.setString(3, address.getNumCivico());
-	        preparedStatement.setString(4, address.getCittà());
+	        preparedStatement.setString(4, address.getCitta());
 	        preparedStatement.setString(5, address.getCap());
 	        preparedStatement.setString(6, address.getProvincia());
 
@@ -109,7 +109,7 @@ public class IndirizzoDAODataSource {
 				dto.setIDIndirizzo(rs.getInt("IDINDIRIZZO"));
 				dto.setVia(rs.getString("VIA"));
 				dto.setNumCivico(rs.getString("NUMCIVICO"));
-				dto.setCittà(rs.getString("CITTA"));
+				dto.setCitta(rs.getString("CITTA"));
 				dto.setCap(rs.getString("CAP"));
 				dto.setProvincia(rs.getString("PROVINCIA"));
 			}
@@ -228,7 +228,7 @@ public class IndirizzoDAODataSource {
 				dto.setIDIndirizzo(rs.getInt("IDINDIRIZZO"));
 				dto.setVia(rs.getString("VIA"));
 				dto.setNumCivico(rs.getString("NUMCIVICO"));
-				dto.setCittà(rs.getString("CITTA"));
+				dto.setCitta(rs.getString("CITTA"));
 				dto.setCap(rs.getString("CAP"));
 				dto.setProvincia(rs.getString("PROVINCIA"));
 				addresses.add(dto);

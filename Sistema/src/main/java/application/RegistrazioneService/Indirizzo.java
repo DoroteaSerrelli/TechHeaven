@@ -4,32 +4,43 @@ public class Indirizzo {
 	private int IDIndirizzo = 0;
 	private String via = "";
 	private String numCivico = "";
-	private String città = "";
+	private String citta = "";
 	private String cap = "";
 	private String provincia = "";
 	
 	String viaPattern = "^[A-Za-z\\\\s]+$" ;
 	String numCivicoPattern = "\"^(([0-9])|(([0-9]+|\\\\w)(\\\\w|[0-9]+)))$\"";
-	String cittàPattern = "^[A-Za-z\\s]+$";
+	String cittaPattern = "^[A-Za-z\\s]+$";
 	String capPattern = "^\\d{5}$";
 	String provinciaPattern = "^[A-Za-z\\\\s]+$" ;
 	
-	public boolean checkValidate(String via, String numCivico, String città, String cap, String provincia) {
+	public boolean checkValidate(String via, String numCivico, String citta, String cap, String provincia) {
 		return (!via.matches(viaPattern) || !numCivico.matches(numCivicoPattern) ||
-				!città.matches(cittàPattern) || !cap.matches(capPattern) || 
+				!citta.matches(cittaPattern) || !cap.matches(capPattern) || 
 				!provincia.matches(provinciaPattern)) ? false : true;
 	}
 	
 	public boolean checkValidate(Indirizzo indirizzo) {
 		return checkValidate(indirizzo.getVia(), indirizzo.getNumCivico(), 
-				indirizzo.getCittà(), indirizzo.getCap(), indirizzo.getProvincia());
+				indirizzo.getCitta(), indirizzo.getCap(), indirizzo.getProvincia());
 	}
 	
-	public Indirizzo(int iDIndirizzo, String via, String numCivico, String città, String cap, String provincia) {
+	public Indirizzo(int iDIndirizzo, String via, String numCivico, String citta, String cap, String provincia) {
 		IDIndirizzo = iDIndirizzo;
 		this.via = via;
 		this.numCivico = numCivico;
-		this.città = città;
+		this.citta = citta;
+		this.cap = cap;
+		this.provincia = provincia;
+	}
+	
+	/*
+	 * Da vedere per generare l'ID dell'indirizzo.
+	 * */
+	public Indirizzo(String via, String numCivico, String citta, String cap, String provincia) {
+		this.via = via;
+		this.numCivico = numCivico;
+		this.citta = citta;
 		this.cap = cap;
 		this.provincia = provincia;
 	}
@@ -58,12 +69,12 @@ public class Indirizzo {
 		this.numCivico = numCivico;
 	}
 	
-	public String getCittà() {
-		return città;
+	public String getCitta() {
+		return citta;
 	}
 	
-	public void setCittà(String città) {
-		this.città = città;
+	public void setCitta(String citta) {
+		this.citta = citta;
 	}
 	
 	public String getCap() {
@@ -84,7 +95,7 @@ public class Indirizzo {
 	
 	@Override
 	public String toString() {
-		return "Indirizzo [via=" + via + ", numCivico=" + numCivico + ", città=" + città + ", cap=" + cap
+		return "Indirizzo [via=" + via + ", numCivico=" + numCivico + ", città=" + citta + ", cap=" + cap
 				+ ", provincia=" + provincia + "]";
 	}	
 }

@@ -6,6 +6,7 @@ import application.RegistrazioneService.Cliente.Sesso;
 import storage.AutenticazioneDAO.ClienteDAODataSource;
 import storage.AutenticazioneDAO.UtenteDAODataSource;
 import storage.AutenticazioneDAO.RuoloDAODataSource;
+import storage.AutenticazioneDAO.IndirizzoDAODataSource;
 
 public class RegistrazioneServiceImpl implements RegistrazioneService{
 
@@ -22,6 +23,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 				ClienteDAODataSource profileDAO = new ClienteDAODataSource();
 				UtenteDAODataSource userDAO = new UtenteDAODataSource();
 				RuoloDAODataSource roleDAO = new RuoloDAODataSource();
+				IndirizzoDAODataSource addressDAO = new IndirizzoDAODataSource();
 				try {
 					profileDAO.doSave(profile);
 				} catch (SQLException e) {
@@ -36,6 +38,12 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 					roleDAO.doSave(user, new Ruolo("Cliente"));
 				} catch (SQLException e) {
 					System.out.println("Errore nella memorizzazione nel Database del ruolo dell'utente.");
+				}
+				
+				try {
+					addressDAO.doSave(indirizzo, username);
+				} catch (SQLException e) {
+					System.out.println("Errore nella memorizzazione nel Database dell'indirizzo dell'utente.");
 				}
 
 				return user;
@@ -58,6 +66,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 				ClienteDAODataSource profileDAO = new ClienteDAODataSource();
 				UtenteDAODataSource userDAO = new UtenteDAODataSource();
 				RuoloDAODataSource roleDAO = new RuoloDAODataSource();
+				IndirizzoDAODataSource addressDAO = new IndirizzoDAODataSource();
 				try {
 					profileDAO.doSave(profile);
 				} catch (SQLException e) {
@@ -73,6 +82,11 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 					roleDAO.doSave(user, isOrderManager);
 				} catch (SQLException e) {
 					System.out.println("Errore nella memorizzazione nel Database dei ruoli dell'utente.");
+				}
+				try {
+					addressDAO.doSave(indirizzo, username);
+				} catch (SQLException e) {
+					System.out.println("Errore nella memorizzazione nel Database dell'indirizzo dell'utente.");
 				}
 
 				return user;
@@ -95,6 +109,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 				ClienteDAODataSource profileDAO = new ClienteDAODataSource();
 				UtenteDAODataSource userDAO = new UtenteDAODataSource();
 				RuoloDAODataSource roleDAO = new RuoloDAODataSource();
+				IndirizzoDAODataSource addressDAO = new IndirizzoDAODataSource();
 				try {
 					profileDAO.doSave(profile);
 				} catch (SQLException e) {
@@ -110,7 +125,11 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 					roleDAO.doSave(user, isCatalogManager);
 				} catch (SQLException e) {
 					System.out.println("Errore nella memorizzazione nel Database dei ruoli dell'utente.");
-
+				}
+				try {
+					addressDAO.doSave(indirizzo, username);
+				} catch (SQLException e) {
+					System.out.println("Errore nella memorizzazione nel Database dell'indirizzo dell'utente.");
 				}
 				return user;
 			}

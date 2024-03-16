@@ -38,7 +38,7 @@
             <ul id="navbar">
                 <li><a class="active" href="index.jsp">Home</a></li> 
                 <li><a href="Shop">Shop</a></li> 
-                <li><a href="login.jsp">Login</a></li> 
+                <li><a href="Autenticazione.jsp">Login</a></li> 
                 <li><a href="Registrazione.jsp">Register</a></li> 
                 <li><a href="account.jsp"><i class="fa-solid fa-user-gear" style="color: #CCCC66;"></i></a></li>
                 <li><a id="lg-bag">

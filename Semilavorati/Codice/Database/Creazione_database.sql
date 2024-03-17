@@ -14,7 +14,7 @@ PRIMARY KEY(email)
 
 CREATE TABLE utente (
 username varchar(25) NOT NULL,
-Userpassword varchar(50) NOT NULL,
+Userpassword varchar(129) NOT NULL,
 email varchar(50) NOT NULL,
 
 PRIMARY KEY(username),

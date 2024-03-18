@@ -4,8 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import javax.naming.Context;
@@ -203,17 +202,56 @@ public class IndirizzoDAODataSource {
 	}
 
 
-	public synchronized Collection<Indirizzo> doRetrieveAll(String orderCriterion, String username) throws SQLException {	//lista degli indirizzi dell'utente
+	public synchronized ArrayList<Indirizzo> doRetrieveAll(String orderCriterion, String username) throws SQLException {	//lista degli indirizzi dell'utente
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Collection<Indirizzo> addresses = new LinkedList<>();
+		ArrayList<Indirizzo> addresses = new ArrayList<>();
 
 		String selectSQL = "SELECT * FROM (" + IndirizzoDAODataSource.TABLE_NAME + " NATURAL JOIN POSSIEDE_INDIRIZZO) WHERE UTENTE = ?";
 
 		if (orderCriterion != null && !orderCriterion.equals("")) {
 			selectSQL += " ORDER BY " + orderCriterion;
 		}
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, username);
+
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				Indirizzo dto = new Indirizzo(-1, "", "", "", "", "");
+
+				dto.setIDIndirizzo(rs.getInt("IDINDIRIZZO"));
+				dto.setVia(rs.getString("VIA"));
+				dto.setNumCivico(rs.getString("NUMCIVICO"));
+				dto.setCitta(rs.getString("CITTA"));
+				dto.setCap(rs.getString("CAP"));
+				dto.setProvincia(rs.getString("PROVINCIA"));
+				addresses.add(dto);
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return addresses;
+	}
+	
+	public synchronized ArrayList<Indirizzo> doRetrieveAll(String username) throws SQLException {	//lista degli indirizzi dell'utente
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		ArrayList<Indirizzo> addresses = new ArrayList<>();
+
+		String selectSQL = "SELECT * FROM (" + IndirizzoDAODataSource.TABLE_NAME + " NATURAL JOIN POSSIEDE_INDIRIZZO) WHERE UTENTE = ?";
 
 		try {
 			connection = ds.getConnection();

@@ -8,8 +8,8 @@ public class Indirizzo {
 	private String cap = "";
 	private String provincia = "";
 	
-	String viaPattern = "^[A-Za-z\\\\s]+$" ;
-	String numCivicoPattern = "\"^(([0-9])|(([0-9]+|\\\\w)(\\\\w|[0-9]+)))$\"";
+	String viaPattern = "^[A-Za-z\\s]+$" ;
+	String numCivicoPattern = "^(([0-9])|(([0-9]+|\\w)(\\w|[0-9]+)))$";
 	String cittaPattern = "^[A-Za-z\\s]+$";
 	String capPattern = "^\\d{5}$";
 	String provinciaPattern = "^[A-Za-z\\\\s]+$" ;

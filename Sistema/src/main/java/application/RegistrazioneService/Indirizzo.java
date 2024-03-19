@@ -12,7 +12,7 @@ public class Indirizzo {
 	String numCivicoPattern = "^(([0-9])|(([0-9]+|\\w)(\\w|[0-9]+)))$";
 	String cittaPattern = "^[A-Za-z\\s]+$";
 	String capPattern = "^\\d{5}$";
-	String provinciaPattern = "^[A-Za-z\\\\s]+$" ;
+	String provinciaPattern = "^[A-Za-z\\s]+$" ;
 	
 	public boolean checkValidate(String via, String numCivico, String citta, String cap, String provincia) {
 		return (!via.matches(viaPattern) || !numCivico.matches(numCivicoPattern) ||

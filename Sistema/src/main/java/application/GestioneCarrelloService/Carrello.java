@@ -3,45 +3,92 @@ package application.GestioneCarrelloService;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Carrello {
+import application.GestioneCarrelloService.CarrelloException.CarrelloVuotoException;
+import application.GestioneCarrelloService.CarrelloException.ProdottoNonPresenteException;
+import application.GestioneCarrelloService.CarrelloException.ProdottoNulloException;
+import application.GestioneCarrelloService.CarrelloException.ProdottoPresenteException;
 
+/*Classe che si occupa di operazioni volte a manipolare
+ * i prodotti presenti nel carrello.
+ * 
+ * @author Dorotea Serrelli
+ * */
+
+public class Carrello {
+	
 	private List<ItemCarrello> products;
 	
+	/*
+	 * Costruttore di classe
+	 * */
 	public Carrello() {
 		products = new ArrayList<>();
 	}
 	
-	public void addProduct(ItemCarrello product) {
-		if(products == null) {
+	/*
+	 * Questo metodo consente l'aggiunta di un prodotto all'interno del carrello.
+	 * @param product è il prodotto da aggiungere al carrello
+	 * @precondition product != null
+	 * @precondition !this.isPresent(product)
+	 * @throws ProdottoPresenteException se il prodotto è già presente nel carrello
+	 * */
+	
+	public void addProduct(ItemCarrello product) throws ProdottoPresenteException, ProdottoNulloException{
+		if(product == null)
+			throw new ProdottoNulloException("Non e\' stato specificato nessun prodotto da aggiungere al carrello.");
+		if(products != null && isPresent(product))
+			throw new ProdottoPresenteException("Il prodotto " + product.getNome() + " e\' gia\' presente nel carrello.");
+		else
 			products.add(product);
-			
-		}else {
-			boolean exist = false;
-			for(ItemCarrello c: products) {
-				if(c.getCodice() == product.getCodice()) {
-					exist = true;
-					ItemCarrello cart2 = c;
-					products.remove(c);
-					cart2.setQuantità(1+cart2.getQuantità());
-					products.add(cart2);
+	}
+	
+	/*
+	 * Questo metodo consente la rimozione di un prodotto all'interno del carrello.
+	 * @param product è il prodotto da rimuovere dal carrello
+	 * @precondition product != null
+	 * @precondition this.isPresent(product)
+	 * @throws ProdottoNulloException se product è null
+	 * @throws ProdottoNonPresenteException se il prodotto non è presente nel carrello
+	 * @throws CarrelloVuotoException se il carrello è vuoto
+	 * */
+	
+	public void deleteProduct(ItemCarrello product) throws ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException{
+		if(product == null)
+			throw new ProdottoNulloException("Non e\' stato specificato nessun prodotto da rimuovere dal carrello.");
+		if(products == null)
+			throw new CarrelloVuotoException("Il carrello e\' vuoto.");
+		else if(!isPresent(product))
+			throw new ProdottoNonPresenteException("Il prodotto " + product.getNome() + " non e\' presente nel carrello.");
+		else
+			for(ItemCarrello prod : products) {
+				if(prod.getCodice() == product.getCodice()) {
+					products.remove(prod);
 					break;
 				}
 			}
-			
-			if(!exist) {
-				products.add(product);
-			}
-		}
-	}
+ 	}
 	
-	public void deleteProduct(ItemCarrello product) {
-		for(ItemCarrello prod : products) {
-			if(prod.getCodice() == product.getCodice()) {
-				products.remove(prod);
+	/*
+	 * Questo metodo consente di controllare se un prodotto si trova all'interno del carrello.
+	 * @param product è il prodotto da verificare dal carrello
+	 * @precondition product != null
+	 * @throws ProdottoNulloException se product è null
+	 * */
+	
+	public boolean isPresent(ItemCarrello product) throws ProdottoNulloException{
+		if(product == null)
+			throw new ProdottoNulloException("Non e\' stato specificato nessun prodotto da verificare all'interno del carrello.");
+
+		boolean exist = false;
+		
+		for(ItemCarrello c: products) {
+			if(c.getCodice() == product.getCodice()) {
+				exist = true;
 				break;
 			}
 		}
- 	}
+		return exist;
+	}
 	
 	public List<ItemCarrello> getProducts() {
 		return  products;

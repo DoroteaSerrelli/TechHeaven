@@ -208,7 +208,9 @@ public class IndirizzoDAODataSource {
 
 		ArrayList<Indirizzo> addresses = new ArrayList<>();
 
-		String selectSQL = "SELECT * FROM (" + IndirizzoDAODataSource.TABLE_NAME + " NATURAL JOIN POSSIEDE_INDIRIZZO) WHERE UTENTE = ?";
+		String primaryKeyAddressTable = "idIndirizzo";
+		String selectSQL = "SELECT * FROM (" + IndirizzoDAODataSource.TABLE_NAME + " INNER JOIN POSSIEDE_INDIRIZZO) "
+				+ "WHERE UTENTE = ? AND " + IndirizzoDAODataSource.TABLE_NAME + "." + primaryKeyAddressTable + " = POSSIEDE_INDIRIZZO.INDIRIZZO";
 
 		if (orderCriterion != null && !orderCriterion.equals("")) {
 			selectSQL += " ORDER BY " + orderCriterion;
@@ -250,8 +252,9 @@ public class IndirizzoDAODataSource {
 		PreparedStatement preparedStatement = null;
 
 		ArrayList<Indirizzo> addresses = new ArrayList<>();
-
-		String selectSQL = "SELECT * FROM (" + IndirizzoDAODataSource.TABLE_NAME + " NATURAL JOIN POSSIEDE_INDIRIZZO) WHERE UTENTE = ?";
+		String primaryKeyAddressTable = "idIndirizzo";
+		String selectSQL = "SELECT * FROM (" + IndirizzoDAODataSource.TABLE_NAME + " INNER JOIN POSSIEDE_INDIRIZZO) "
+				+ "WHERE UTENTE = ? AND " + IndirizzoDAODataSource.TABLE_NAME + "." + primaryKeyAddressTable + " = POSSIEDE_INDIRIZZO.INDIRIZZO";
 
 		try {
 			connection = ds.getConnection();

@@ -8,24 +8,33 @@ import application.GestioneCarrelloService.CarrelloException.ProdottoNonPresente
 import application.GestioneCarrelloService.CarrelloException.ProdottoNulloException;
 import application.GestioneCarrelloService.CarrelloException.ProdottoPresenteException;
 
-/*Classe che si occupa di operazioni volte a manipolare
- * i prodotti presenti nel carrello.
+/**
+ * Classe che esprime il concetto 'carrello': si occupa di operazioni volte 
+ * a manipolare il carrello ed i suoi prodotti.
+ * 
+ * @see java.application.GestioneCarrelloService.GestioneCarrelloService
+ * @see java.application.GestioneCarrelloService.GestioneCarrelloServiceImpl
+ * @see java.application.GestioneCarrelloService.CarrelloException
  * 
  * @author Dorotea Serrelli
  * */
 
 public class Carrello {
 	
+	/**
+	 * I prodotti presenti nel carrello.
+	 * @see java.application.GestioneCarrelloService.ItemCarrello
+	 * */
 	private List<ItemCarrello> products;
 	
-	/*
+	/**
 	 * Costruttore di classe
 	 * */
 	public Carrello() {
 		products = new ArrayList<>();
 	}
 	
-	/*
+	/**
 	 * Questo metodo consente l'aggiunta di un prodotto all'interno del carrello.
 	 * @param product è il prodotto da aggiungere al carrello
 	 * @precondition product != null
@@ -42,7 +51,7 @@ public class Carrello {
 			products.add(product);
 	}
 	
-	/*
+	/**
 	 * Questo metodo consente la rimozione di un prodotto all'interno del carrello.
 	 * @param product è il prodotto da rimuovere dal carrello
 	 * @precondition product != null
@@ -66,9 +75,9 @@ public class Carrello {
 					break;
 				}
 			}
- 	}
+	}
 	
-	/*
+	/**
 	 * Questo metodo consente di controllare se un prodotto si trova all'interno del carrello.
 	 * @param product è il prodotto da verificare dal carrello
 	 * @precondition product != null
@@ -90,41 +99,69 @@ public class Carrello {
 		return exist;
 	}
 	
+	/**
+	 * Questo metodo aggiorna la quantità di un prodotto all'interno del carrello.
+	 * @param product è il prodotto la cui quantità deve essere aggiornata
+	 * @precondition product != null
+	 * @precondition this.isPresent(product)
+	 * @throws ProdottoNulloException se product è null
+	 * @throws ProdottoNonPresenteException se il prodotto non è presente nel carrello
+	 * @throws CarrelloVuotoException se il carrello è vuoto
+	 * */
+
+	public void updateProductQuantity(ItemCarrello product, int quantity) throws ProdottoNulloException, CarrelloVuotoException, ProdottoNonPresenteException {
+		if(product == null)
+			throw new ProdottoNulloException("Non e\' stato specificato nessun prodotto del carrello per il quale aggiornare la quantità.");
+		if(products == null)
+			throw new CarrelloVuotoException("Il carrello e\' vuoto.");
+		else if(!isPresent(product))
+			throw new ProdottoNonPresenteException("Il prodotto " + product.getNome() + " non e\' presente nel carrello.");
+		else {
+			for(ItemCarrello prod : products) {
+				if(prod.getCodice() == product.getCodice()) {
+					prod.setQuantità(quantity);
+					break;
+				}
+			}
+		}
+	}
+
+
+	/**
+	 * Questo metodo restituisce i prodotti presenti nel carrello
+	 * @return products i prodotti del carrello
+	 * */
+	
 	public List<ItemCarrello> getProducts() {
 		return  products;
 	}
 	
+	/**
+	 * Questo metodo determina il numero di pezzi presenti nel carrello.
+	 * @return itemsNo il numero di pezzi nel carrello
+	 * */
+	
 	public int getNumProdotti() {
-		int quantity = 0;
+		int itemsNo = 0;
 		if(products == null)
 			return 0;
 		for(ItemCarrello prod : products) {
-			quantity += prod.getQuantità();
+			itemsNo += prod.getQuantità();
 		}
-		return quantity;
-	}
-
-	public void updateProduct(ItemCarrello item) {
-		for(ItemCarrello prod : products) {
-			if(prod.getCodice() == item.getCodice()) {
-				products.remove(prod);
-				products.add(item);
-				break;
-			}
-		}
-		
+		return itemsNo;
 	}
 	
-	public double totaleSpesa() {
-		double costo = 0.00;
+	/**
+	 * Questo metodo determina il costo totale dei prodotti prresenti nel carrello.
+	 * @return il costo totale della spesa
+	 * */
+	
+	public double totalAmount() {
+		double price = 0.00;
 		List<ItemCarrello> prodotti = this.getProducts();
 		for(ItemCarrello i : prodotti) {
-				costo += i.getPrezzo()*i.getQuantità();
+			price += i.getPrezzo()*i.getQuantità();
 		}
-		return Math.round(costo*100.00)/100.00;
-	}
-
-	public void svuota() {
-		products.clear();
+		return Math.round(price*100.00)/100.00;
 	}
 }

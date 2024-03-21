@@ -1,6 +1,7 @@
-<%@page import="model.Prodotto"%>
-<%@page import="model.GestioneCarrello"%>
-<%@page import="model.Carrello"%>
+
+<%@page import="application.GestioneCarrelloService.GestioneCarrelloServiceImpl"%>
+<%@page import="application.NavigazioneService.Prodotto"%>
+<%@page import="application.GestioneCarrelloService.Carrello"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html  lang="en">
@@ -38,7 +39,7 @@
             <ul id="navbar">
                 <li><a class="active" href="index.jsp">Home</a></li> 
                 <li><a href="Shop">Shop</a></li> 
-                <li><a href="login.jsp">Login</a></li> 
+                <li><a href="Autenticazione.jsp">Login</a></li> 
                 <li><a href="Registrazione.jsp">Register</a></li> 
                 <li><a href="account.jsp"><i class="fa-solid fa-user-gear" style="color: #CCCC66;"></i></a></li>
                 <li><a id="lg-bag">
@@ -68,8 +69,7 @@
                     if(request.getSession().getAttribute("usercart")==null);
                     else{
                         Carrello cart = (Carrello)request.getSession().getAttribute("usercart"); 
-                        GestioneCarrello gestCart = new GestioneCarrello();
-                        
+                        GestioneCarrelloServiceImpl gestCart = new GestioneCarrelloServiceImpl();                       
                         for(Prodotto p: gestCart.visualizzaCarrello(cart)){            
                 %>
                 <%=p.toString()%>

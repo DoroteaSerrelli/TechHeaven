@@ -35,9 +35,19 @@ public class Cliente {
 				|| !telefono.matches(telefonoPattern))
 			return false;
 
-		if(!indirizzo.checkValidate(indirizzo))
+		if(!Indirizzo.checkValidate(indirizzo))
 			return false;
 		return true;
+	}
+	
+	public static boolean checkValidateEmail(String email) {
+		String emailPattern = "/^\\S+@\\S+\\.\\S+$/";
+		return email.matches(emailPattern);
+	}
+	
+	public static boolean checkValidateTelefono(String telefono) {
+		String telefonoPattern = "^([0-9]{3}-[0-9]{3}-[0-9]{4})$";
+		return telefono.matches(telefonoPattern);
 	}
 	
 	public Cliente(String email, String nome, String cognome, Sesso sex, String telefono,
@@ -62,43 +72,29 @@ public class Cliente {
 		this.email = email;
 	}
 
-
-
-
 	public String getNome() {
 		return nome;
 	}
-
-
-
 
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
 
-
-
-
 	public String getCognome() {
 		return cognome;
 	}
-
-
-
 
 	public void setCognome(String cognome) {
 		this.cognome = cognome;
 	}
 
-
-
-
 	public Sesso getSex() {
 		return sex;
 	}
 
-
-
+	public String getSexAsString() {
+		return sex.toString();
+	}
 
 	public void setSex(Sesso sex) {
 		this.sex = sex;
@@ -118,20 +114,13 @@ public class Cliente {
 		return telefono;
 	}
 
-
-
-
 	public void setTelefono(String telefono) {
 		this.telefono = telefono;
 	}
 
-
-
-
 	public ArrayList<Indirizzo> getIndirizzi() {
 		return indirizzi;
 	}
-
 
 	public void setIndirizzi(ArrayList<Indirizzo> indirizzi) {
 		this.indirizzi = indirizzi;
@@ -141,13 +130,9 @@ public class Cliente {
 		return ordini;
 	}
 
-
-
-
 	public void setOrdini(ArrayList<Ordine> ordini) {
 		this.ordini = ordini;
 	}
-
 
 	@Override
 	public String toString() {

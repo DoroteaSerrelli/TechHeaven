@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
@@ -15,6 +16,7 @@ import javax.sql.DataSource;
 import application.RegistrazioneService.Cliente;
 import application.RegistrazioneService.Ruolo;
 import application.RegistrazioneService.Utente;
+import application.RegistrazioneService.Indirizzo;
 
 public class UtenteDAODataSource{
 	
@@ -69,7 +71,14 @@ public class UtenteDAODataSource{
 				 * Si intende memorizzare le informazioni personali associate all'utente.
 				 * */
 				
+				//Profilo
+				ClienteDAODataSource profileDAO = new ClienteDAODataSource();
+				profileDAO.doSave(user_account.getProfile());
 				
+				//Indirizzo
+				IndirizzoDAODataSource addressDAO = new IndirizzoDAODataSource();
+				for(Indirizzo address : user_account.getProfile().getIndirizzi())
+					addressDAO.doSave(address, user_account.getUsername());
 			}
 			
 			connection.setAutoCommit(false);
@@ -114,6 +123,40 @@ public class UtenteDAODataSource{
 			}
 		}
 		return (result != 0);
+	}
+	
+	/*
+	 * RESET DELLA PASSWORD
+	 * */
+	public synchronized void doResetPassword(String username, String password) throws SQLException {
+
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		String insertUserSQL = "UPDATE " + UtenteDAODataSource.TABLE_NAME
+				+ " SET USERPASSWORD = " + password + " WHERE USERNAME = ?;";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(insertUserSQL);
+			preparedStatement.setString(1, username);
+
+			if(preparedStatement.executeUpdate() == 0) {
+				System.out.println("Errore nella reimpostazione della password dell'utente "+ username 
+				+ "nel database\n");
+			}
+			
+			connection.setAutoCommit(false);
+			connection.commit();
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
 	}
 
 	/*
@@ -164,7 +207,7 @@ public class UtenteDAODataSource{
 	/*
 	 * Questo metodo restituisce un utente in base al suo username.
 	 * */
-	public synchronized Utente doRetrieveByKey(String username) throws SQLException {
+	public synchronized Utente doRetrieveFullUserByKey(String username) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		Utente user = new Utente("", "", null);
@@ -180,7 +223,47 @@ public class UtenteDAODataSource{
 				String email = rs.getString("EMAIL");
 				ClienteDAODataSource clienteDao = new ClienteDAODataSource();
 				Cliente profilo = clienteDao.doRetrieveByKey(email);
+				/*
+				 * Recupero degli indirizzi
+				 * */
+				IndirizzoDAODataSource addressDao = new IndirizzoDAODataSource();
+				ArrayList<Indirizzo> indirizzi = addressDao.doRetrieveAll("IDINDIRIZZO", username);
+				profilo.setIndirizzi(indirizzi);
+				
+				/*
+				 * Recupero degli ordini
+				 * */
+				
+				
+				
 				user.setProfile(profilo);
+				
+			}
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return user;
+	}
+
+	public Utente doRetrieveProxyUserByKey(String username) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+		Utente user = new Utente("", "", null);
+		String selectSQL = "SELECT * FROM " + UtenteDAODataSource.TABLE_NAME + " WHERE USERNAME = ?";
+		try {
+			connection = ds.getConnection();	
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1, username);
+			ResultSet rs = preparedStatement.executeQuery();
+			while (rs.next()) {
+				user.setUsername(rs.getString("USERNAME"));
+				user.setPassword(rs.getString("USERPASSWORD"));
 			}
 		} finally {
 			try {

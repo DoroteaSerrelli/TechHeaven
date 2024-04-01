@@ -200,8 +200,48 @@ public class IndirizzoDAODataSource {
 		
 		return (result != 0);
 	}
+	
+	/*
+	 * Questo metodo rimuove un indirizzo dalla rubrica degli indirizzi dell'utente.
+	 * */
+	public synchronized boolean doUpdateAddress(Indirizzo newAddress, String username) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
 
+		int result = 0;
 
+		String updateSQL = "UPDATE POSSIEDE_INDIRIZZO INNER JOIN INDIRIZZO"
+				+ "SET VIA = ?, NUMCIVICO = ?, CITTA = ?, CAP = ?, PROVINCIA = ?"
+				+ " WHERE (" +
+				IndirizzoDAODataSource.TABLE_NAME + ".idIndirizzo = POSSIEDE_INDIRIZZO.indirizzo)"
+						+ "AND (UTENTE = ? AND INDIRIZZO = ?)";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(updateSQL);
+			preparedStatement.setString(1, newAddress.getVia());
+			preparedStatement.setString(2, newAddress.getNumCivico());
+			preparedStatement.setString(3, newAddress.getCitta());
+			preparedStatement.setString(4, newAddress.getCap());
+			preparedStatement.setString(5, newAddress.getProvincia());
+			preparedStatement.setString(6, username);
+			preparedStatement.setInt(7, newAddress.getIDIndirizzo());
+
+			result = preparedStatement.executeUpdate();
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return (result != 0);
+	}
+	
+	
 	public synchronized ArrayList<Indirizzo> doRetrieveAll(String orderCriterion, String username) throws SQLException {	//lista degli indirizzi dell'utente
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;

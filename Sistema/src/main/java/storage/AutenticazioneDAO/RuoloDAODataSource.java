@@ -145,7 +145,7 @@ public class RuoloDAODataSource{
 	/*
 	 * Questo metodo restituisce l'insieme dei ruoli associati ad un utente.
 	 * */
-	public Collection<Ruolo> doRetrieveByKey(String username) throws SQLException {
+	public ArrayList<Ruolo> doRetrieveByKey(String username) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ArrayList<Ruolo> roles = new ArrayList<>();
@@ -185,7 +185,7 @@ public class RuoloDAODataSource{
 			ResultSet rs = preparedStatement.executeQuery();
 			UtenteDAODataSource userDao = new UtenteDAODataSource();
 			while (rs.next()) {
-				users.add(userDao.doRetrieveByKey((rs.getString("UTENTE"))));
+				users.add(userDao.doRetrieveFullUserByKey((rs.getString("UTENTE"))));
 			}
 		} finally {
 			try {

@@ -8,19 +8,19 @@ public class Indirizzo {
 	private String cap = "";
 	private String provincia = "";
 	
-	String viaPattern = "^[A-Za-z\\s]+$" ;
-	String numCivicoPattern = "^(([0-9])|(([0-9]+|\\w)(\\w|[0-9]+)))$";
-	String cittaPattern = "^[A-Za-z\\s]+$";
-	String capPattern = "^\\d{5}$";
-	String provinciaPattern = "^[A-Za-z\\s]+$" ;
-	
-	public boolean checkValidate(String via, String numCivico, String citta, String cap, String provincia) {
+	public static boolean checkValidate(String via, String numCivico, String citta, String cap, String provincia) {
+		String viaPattern = "^[A-Za-z\\s]+$" ;
+		String numCivicoPattern = "^(([0-9])|(([0-9]+|\\w)(\\w|[0-9]+)))$";
+		String cittaPattern = "^[A-Za-z\\s]+$";
+		String capPattern = "^\\d{5}$";
+		String provinciaPattern = "^[A-Za-z\\s]+$" ;
+		
 		return (!via.matches(viaPattern) || !numCivico.matches(numCivicoPattern) ||
 				!citta.matches(cittaPattern) || !cap.matches(capPattern) || 
 				!provincia.matches(provinciaPattern)) ? false : true;
 	}
 	
-	public boolean checkValidate(Indirizzo indirizzo) {
+	public static boolean checkValidate(Indirizzo indirizzo) {
 		return checkValidate(indirizzo.getVia(), indirizzo.getNumCivico(), 
 				indirizzo.getCitta(), indirizzo.getCap(), indirizzo.getProvincia());
 	}

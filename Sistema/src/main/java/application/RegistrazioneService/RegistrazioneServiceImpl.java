@@ -8,15 +8,26 @@ import storage.AutenticazioneDAO.UtenteDAODataSource;
 import storage.AutenticazioneDAO.RuoloDAODataSource;
 import storage.AutenticazioneDAO.IndirizzoDAODataSource;
 
-public class RegistrazioneServiceImpl implements RegistrazioneService{
+/**
+ * La classe fornisce un'implementazione al servizio di registrazione di un nuovo utente
+ * al sistema: cliente, gestore degli ordini e gestore del catalogo.
+ * @see application.RegistrazioneService
+ * @see application.RegistrazioneService.Proxyutente
+ * @see application.RegistrazioneService.ObjectUtente
+ * @see application.RegistrazioneService.Utente
+ * 
+ * @author Dorotea Serrelli
+ * */
 
+public class RegistrazioneServiceImpl implements RegistrazioneService{
+	
 	@Override
-	/*
+	/**
 	 * Implementa la funzionalità di registrazione di un cliente.
 	 * */
-	public Utente registraCliente(String username, String password, String email, String nome, String cognome, Sesso sex, String telefono,
+	public ProxyUtente registraCliente(String username, String password, String email, String nome, String cognome, Sesso sex, String telefono,
 			Indirizzo indirizzo) {
-		if(Utente.checkValidate(username, password)) {
+		if(ObjectUtente.checkValidate(username, password)) {
 			if(Cliente.checkValidate(email, nome, cognome, sex, telefono, indirizzo)) {
 				Cliente profile = new Cliente(email, nome, cognome, sex, telefono, indirizzo);
 				Utente user = new Utente(username, password, profile);
@@ -46,7 +57,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 					System.out.println("Errore nella memorizzazione nel Database dell'indirizzo dell'utente.");
 				}
 
-				return user;
+				return new ProxyUtente(user.getUsername(), user.getPassword(), user.getRuoli());
 			}
 			return null;
 		}
@@ -54,12 +65,12 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 	}
 
 	@Override
-	/*
+	/**
 	 * Implementa la funzionalità di registrazione di un gestore degli ordini con ruoli: Cliente, Gestore ordini.
 	 * */
-	public Utente registraGestoreOrdini(String username, String password, String email, String nome, String cognome, Sesso sex, String telefono,
+	public ProxyUtente registraGestoreOrdini(String username, String password, String email, String nome, String cognome, Sesso sex, String telefono,
 			Indirizzo indirizzo, Ruolo isOrderManager) {
-		if(Utente.checkValidate(username, password)) {
+		if(ObjectUtente.checkValidate(username, password)) {
 			if(Cliente.checkValidate(email, nome, cognome, sex, telefono, indirizzo)) {
 				Cliente profile = new Cliente(email, nome, cognome, sex, telefono, indirizzo);
 				Utente user = new Utente(username, password, profile, isOrderManager);
@@ -89,7 +100,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 					System.out.println("Errore nella memorizzazione nel Database dell'indirizzo dell'utente.");
 				}
 
-				return user;
+				return new ProxyUtente(user.getUsername(), user.getPassword(), user.getRuoli());
 			}
 			return null;
 		}
@@ -97,12 +108,12 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 	}
 
 	@Override
-	/*
+	/**
 	 * Implementa la funzionalità di registrazione di un gestore del catalogo.
 	 * */
-	public Utente registraGestoreCatalogo(String username, String password, String email, String nome, String cognome, Sesso sex, String telefono,
+	public ProxyUtente registraGestoreCatalogo(String username, String password, String email, String nome, String cognome, Sesso sex, String telefono,
 			Indirizzo indirizzo, Ruolo isCatalogManager) {
-		if(Utente.checkValidate(username, password)) {
+		if(ObjectUtente.checkValidate(username, password)) {
 			if(Cliente.checkValidate(email, nome, cognome, sex, telefono, indirizzo)) {
 				Cliente profile = new Cliente(email, nome, cognome, sex, telefono, indirizzo);
 				Utente user = new Utente(username, password, profile, new Ruolo("Gestore catalogo"));
@@ -131,7 +142,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 				} catch (SQLException e) {
 					System.out.println("Errore nella memorizzazione nel Database dell'indirizzo dell'utente.");
 				}
-				return user;
+				return new ProxyUtente(user.getUsername(), user.getPassword(), user.getRuoli());
 			}
 			return null;
 		}

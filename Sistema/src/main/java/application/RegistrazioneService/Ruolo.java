@@ -14,6 +14,4 @@ public class Ruolo {
 	public void setNomeRuolo(String nomeRuolo) {
 		this.nomeRuolo = nomeRuolo;
 	}
-	
-	
 }

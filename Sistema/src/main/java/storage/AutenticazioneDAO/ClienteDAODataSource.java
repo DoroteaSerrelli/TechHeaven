@@ -44,7 +44,7 @@ public class ClienteDAODataSource{
 			preparedStatement.setString(1, user.getEmail());
 			preparedStatement.setString(2, user.getNome());
 			preparedStatement.setString(3, user.getCognome());
-			preparedStatement.setString(4, user.getSex().name());
+			preparedStatement.setString(4, user.getSexAsString());
 			preparedStatement.setString(5, user.getTelefono());
 
 			preparedStatement.executeUpdate();
@@ -111,6 +111,72 @@ public class ClienteDAODataSource{
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(deleteSQL);
 			preparedStatement.setString(1, email);
+
+			result = preparedStatement.executeUpdate();
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return (result != 0);
+	}
+	
+	/*
+	 * Questo metodo modifica l'email
+	 * */
+	
+	public synchronized boolean updateEmail(String exEmail, String newEmail) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		int result = 0;
+		
+		String updateSQL = "UPDATE " + ClienteDAODataSource.TABLE_NAME + 
+				" SET EMAIL = ? WHERE EMAIL = ?";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(updateSQL);
+			preparedStatement.setString(1, newEmail);
+			preparedStatement.setString(2, exEmail);
+
+			result = preparedStatement.executeUpdate();
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return (result != 0);
+	}
+	
+	/*
+	 * Questo metodo modifica il numero di telefono
+	 * */
+	
+	public synchronized boolean updateTelephone(String email, String newTel) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		int result = 0;
+		
+		String updateSQL = "UPDATE " + ClienteDAODataSource.TABLE_NAME + 
+				" SET TELEFONO = ? WHERE EMAIL = ?";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(updateSQL);
+			preparedStatement.setString(1, newTel);
+			preparedStatement.setString(2, email);
 
 			result = preparedStatement.executeUpdate();
 

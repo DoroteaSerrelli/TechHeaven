@@ -17,7 +17,7 @@
         </section>   
           <section id="feature" class="section-p1">
             <div class="fe-box">
-                <img src="view/img/freechockbird2.png" alt="alt">
+                <img src="view/img/freeshipping.png" alt="alt">
                 <h6>Free Shipping</h6>
                 
             </div>

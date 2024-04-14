@@ -8,7 +8,7 @@
     <body>
     <footer class="section-p1">
        <div class="col">
-           <img class="logo" src="view/img/logo.png" height="100" width="100" alt="alt">
+           <img class="logo" src="${pageContext.request.contextPath}/view/img/logo.png" height="100" width="100" alt="alt">
 	<h4>Contact</h4>
 	<p><strong>Address:</strong> via qualcosa n° 56, San Francisco</p>
 	<p><strong>Phone:</strong> +01 2222 365/(91) 01 5432 6987</p>					
@@ -16,21 +16,21 @@
 	<div class="follow">
             <h4>Follow us</h4>
             <div class="icon" id="icons">
-                 <div class="icon" data-static="view/img/logos/facebook.png" data-gif="view/img/logos/facebook_animated.gif">
-                    <img class="static-image" src="view/img/logos/facebook.png">
-                    <img class="gif-image" src="view/img/logos/facebook_animated.gif">
+                 <div class="icon">
+                    <img class="static-image" src="${pageContext.request.contextPath}/view/img/logos/facebook.png">
+                    <img class="gif-image" src="${pageContext.request.contextPath}/view/img/logos/facebook_animated.gif">
                 </div>
-                <div class="icon" data-static="view/img/logos/twitter.png" data-gif="view/img/logos/twitter_animated.gif">
-                    <img class="static-image" src="view/img/logos/twitter.png">
-                    <img class="gif-image" src="view/img/logos/twitter_animated.gif">
+                <div class="icon">
+                    <img class="static-image" src="${pageContext.request.contextPath}/view/img/logos/twitter.png">
+                    <img class="gif-image" src="${pageContext.request.contextPath}/view/img/logos/twitter_animated.gif">
                 </div>
-                <div class="icon" data-static="view/img/logos/instagram.png" data-gif="view/img/logos/instagram_animated.gif">
-                    <img class="static-image" src="view/img/logos/instagram.png">
-                    <img class="gif-image" src="view/img/logos/instagram_animated.gif">
+                <div class="icon">
+                    <img class="static-image" src="${pageContext.request.contextPath}/view/img/logos/instagram.png">
+                    <img class="gif-image" src="${pageContext.request.contextPath}/view/img/logos/instagram_animated.gif">
                 </div>
-                <div class="icon" data-static="view/img/logos/youtube.png" data-gif="view/img/logos/youtube_animated.gif">
-                    <img class="static-image" src="view/img/logos/youtube.png">
-                    <img class="gif-image" src="view/img/logos/youtube_animated.gif">
+                <div class="icon">
+                    <img class="static-image" src="${pageContext.request.contextPath}/view/img/logos/youtube.png">
+                    <img class="gif-image" src="${pageContext.request.contextPath}/view/img/logos/youtube_animated.gif">
                 </div>             
             </div>
 	</div>	
@@ -65,6 +65,6 @@
                 <p>&copy 2024, TechHeavenSRL etc - Website TechHeaven</p>
             </div>
 	</footer>
-        <script src="view/gif_observer.js"></script>
+        <script src="${pageContext.request.contextPath}/view/gif_observer.js"></script>
     </body>
 </html>

@@ -4,6 +4,7 @@
     Author     : raffy
 --%>
 
+<%@page import="application.RegistrazioneService.ProxyUtente"%>
 <%@page import="application.RegistrazioneService.Utente"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="application.RegistrazioneService.Ruolo"%>
@@ -14,8 +15,8 @@
         if (request.getSession().getAttribute("user") == null) {
             out.println("");
         } else {
-            Utente u = (Utente) request.getSession().getAttribute("user");
-            ArrayList<Ruolo> ruoli = u.getRuoli();
+            ProxyUtente u = (ProxyUtente) request.getSession().getAttribute("user");
+            ArrayList<Ruolo> ruoli = u.getRuoli();          
     %>
 
     <% if (ruoli != null && !ruoli.isEmpty()) { %>

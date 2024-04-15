@@ -151,11 +151,19 @@ public abstract class ObjectUtente {
 	}
 
 	/**
-	 * Imposta la password dell'utente.
+	 * Imposta la password dell'utente già cifrata.
 	 * */
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+	
+	/**
+	 * Imposta la password dell'utente non ancora cifrata.
+	 * */
+
+	public void setPasswordToHash(String p) {
+		this.password = hashPassword(p).toString();
 	}
 
 	/**

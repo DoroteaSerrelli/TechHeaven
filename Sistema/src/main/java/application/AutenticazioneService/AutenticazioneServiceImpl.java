@@ -86,7 +86,9 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 			else {
 				if(!ObjectUtente.checkResetPassword(newPassword))
 					throw new FormatoPasswordException("Formato della nuova password non valido");
-				userDAO.doResetPassword(username, newPassword);
+				//hashing della nuova password
+				userReal.setPasswordToHash(newPassword);
+				userDAO.doResetPassword(username, userReal.getPassword());
 				
 			}
 		}

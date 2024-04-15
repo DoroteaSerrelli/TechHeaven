@@ -46,7 +46,7 @@ public class Carrello {
 		if(product == null)
 			throw new ProdottoNulloException("Non e\' stato specificato nessun prodotto da aggiungere al carrello.");
 		if(products != null && isPresent(product))
-			throw new ProdottoPresenteException("Il prodotto " + product.getNome() + " e\' gia\' presente nel carrello.");
+			throw new ProdottoPresenteException("Il prodotto " + product.getNomeProdotto() + " e\' gia\' presente nel carrello.");
 		else
 			products.add(product);
 	}
@@ -67,10 +67,10 @@ public class Carrello {
 		if(products == null)
 			throw new CarrelloVuotoException("Il carrello e\' vuoto.");
 		else if(!isPresent(product))
-			throw new ProdottoNonPresenteException("Il prodotto " + product.getNome() + " non e\' presente nel carrello.");
+			throw new ProdottoNonPresenteException("Il prodotto " + product.getNomeProdotto() + " non e\' presente nel carrello.");
 		else
 			for(ItemCarrello prod : products) {
-				if(prod.getCodice() == product.getCodice()) {
+				if(prod.getCodiceProdotto() == product.getCodiceProdotto()) {
 					products.remove(prod);
 					break;
 				}
@@ -91,7 +91,7 @@ public class Carrello {
 		boolean exist = false;
 		
 		for(ItemCarrello c: products) {
-			if(c.getCodice() == product.getCodice()) {
+			if(c.getCodiceProdotto() == product.getCodiceProdotto()) {
 				exist = true;
 				break;
 			}
@@ -115,11 +115,11 @@ public class Carrello {
 		if(products == null)
 			throw new CarrelloVuotoException("Il carrello e\' vuoto.");
 		else if(!isPresent(product))
-			throw new ProdottoNonPresenteException("Il prodotto " + product.getNome() + " non e\' presente nel carrello.");
+			throw new ProdottoNonPresenteException("Il prodotto " + product.getNomeProdotto() + " non e\' presente nel carrello.");
 		else {
 			for(ItemCarrello prod : products) {
-				if(prod.getCodice() == product.getCodice()) {
-					prod.setQuantità(quantity);
+				if(prod.getCodiceProdotto() == product.getCodiceProdotto()) {
+					prod.setQuantita(quantity);
 					break;
 				}
 			}
@@ -146,7 +146,7 @@ public class Carrello {
 		if(products == null)
 			return 0;
 		for(ItemCarrello prod : products) {
-			itemsNo += prod.getQuantità();
+			itemsNo += prod.getQuantita();
 		}
 		return itemsNo;
 	}
@@ -160,7 +160,7 @@ public class Carrello {
 		double price = 0.00;
 		List<ItemCarrello> prodotti = this.getProducts();
 		for(ItemCarrello i : prodotti) {
-			price += i.getPrezzo()*i.getQuantità();
+			price += i.getPrezzo()*i.getQuantita();
 		}
 		return Math.round(price*100.00)/100.00;
 	}

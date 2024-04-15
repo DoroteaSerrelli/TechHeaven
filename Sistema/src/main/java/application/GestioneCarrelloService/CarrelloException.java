@@ -77,6 +77,22 @@ public class CarrelloException extends Exception{
 			super(message);
 		}
 	}
+	
+	/**
+	 * Classe statica per gestire la specifica di una quantità errata di un prodotto nel carrello.
+	 * */
+	public static class QuantitaProdottoException extends CarrelloException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+
+		public QuantitaProdottoException(String message) {
+			super(message);
+		}
+	}
 
 	/**
 	 * Classe statica per gestire un carrello vuoto.

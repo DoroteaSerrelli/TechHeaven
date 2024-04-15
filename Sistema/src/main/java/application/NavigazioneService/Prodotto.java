@@ -1,149 +1,145 @@
 package application.NavigazioneService;
 
-import java.awt.Image;
+import java.util.ArrayList;
 
-public class Prodotto {
-    private int addedToCart;
-    
-    private String nome;
-    private int codice;
-    private String top_descrizione, dettagli;
-    private double prezzo;
-    private String categoria, sotto_categoria;
-    private String marca, modello;
-    private boolean inCatalogo, inVetrina;
-    private Image img;
-    private int quantità;
-    
-    public Prodotto(){}
-    
-    public Prodotto(String nome, int codice, String top_descrizione, String dettagli, double prezzo, String categoria, String sotto_categoria, String marca, String modello, boolean inCatalogo, boolean inVetrina, Image img, int quantità) {
-        this.nome = nome;
-        this.codice = codice;
-        this.top_descrizione = top_descrizione;
-        this.dettagli = dettagli;
-        this.prezzo = prezzo;
-        this.categoria = categoria;
-        this.sotto_categoria = sotto_categoria;
-        this.marca = marca;
-        this.modello = modello;
-        this.inCatalogo = inCatalogo;
-        this.inVetrina = inVetrina;
-        this.img = img;
-        this.quantità = quantità;
-    }
+/**
+ * La classe possiede le informazioni relative ad un prodotto venduto dal negozio.
+ * @see application.NavigazioneService.ObjectProdotto
+ * @see application.NavigazioneService.ProxyProdotto
+ * 
+ * @author Dorotea Serrelli
+ * */
 
-    public String getNome() {
-        return nome;
-    }
+public class Prodotto extends ObjectProdotto{
 
-    public void setNome(String nome) {
-        this.nome = nome;
-    }
+	/**
+	 * topImmagine : contiene l'immagine del prodotto da porre
+	 * in primo piano.
+	 * */
+	
+	private byte[] topImmagine;
+	
+	/**
+	 * dettagli : testo che elenca le specifiche del prodotto 
+	 * (es. componenti, finalità del prodotto, corretto utilizzo, ...)
+	 * */
+	private String dettagli;
+	
+	/**
+	 * galleriaImmagini : le immagini che forniscono un particolare
+	 * del prodotto in vendita
+	 * */
+	private ArrayList<byte[]> galleriaImmagini;
+	
+	/**
+	 * Il metodo verifica se i dati inseriti, relativi ad un prodotto, rispettano
+	 * il relativo formato.
+	 * @param codice il codice del prodotto
+	 * @param nome il nome del prodotto
+	 * @param topDescrizione la descrizione di presentazione del prodotto
+	 * @param prezzo il prezzo del prodotto
+	 * @param marca il produttore del prodotto
+	 * @param modello il modello del prodotto
+	 * @param quantita il numero di scorte in magazzino del prodotto
+	 * @param dettagli la descrizione dettagliata del prodotto
+	 * 
+	 * @return true se i dati sono stati inseriti con il formato corretto; false altrimenti.
+	 * */
+	public static boolean checkValidateDetails(int codice, String nome, String topDescrizione, float prezzo, 
+			String marca, String modello, int quantita, String dettagli) {
+		checkValidate(codice, nome, topDescrizione, prezzo, marca, modello, quantita);
+		String descriptionPattern = "^[a-zA-Z0-9\s]{1,200}$";
+		String numbersPattern = "^[0-9]$";
+		return !(dettagli.isBlank() || dettagli.matches(numbersPattern) 
+				|| !dettagli.matches(descriptionPattern));
+	}
+	
+	/**
+	 * Costruttore di classe di default.
+	 * */
+	public Prodotto() {
+		super();
+	}
+	
+	/**
+	 * Costruttore di classe che crea un prodotto appartenente ad una categoria privo di
+	 * immagine in evidenza e di galleria di immagini.
+	 * */
+	public Prodotto(int codiceProdotto, String nomeProdotto, String topDescrizione, String dettagli, float prezzo,
+			Categoria categoria, String marca, String modello, int quantita,
+			boolean inCatalogo, boolean inVetrina) {
+		
+		super(codiceProdotto, nomeProdotto, topDescrizione, prezzo,
+			categoria, marca, modello, quantita,
+			inCatalogo, inVetrina);
+		this.dettagli = dettagli;
+		this.topImmagine = null;
+		this.galleriaImmagini = null;
+	}
+	
+	/**
+	 * Costruttore di classe che crea un prodotto appartenente ad una categoria, e sottocategoria, privo di
+	 * immagine in evidenza e di galleria di immagini.
+	 * */
+	public Prodotto(int codiceProdotto, String nomeProdotto, String topDescrizione, String dettagli, float prezzo,
+			Categoria categoria, Sottocategoria sottocategoria, String marca, String modello, int quantita,
+			boolean inCatalogo, boolean inVetrina) {
+		
+		super(codiceProdotto, nomeProdotto, topDescrizione, prezzo,
+				categoria, sottocategoria, marca, modello, quantita,
+				inCatalogo, inVetrina);
+		this.dettagli = dettagli;
+		this.topImmagine = null;
+		this.galleriaImmagini = null;
+	}
+	
+	/**
+	 * Fornisce l'immagine di presentazione del prodotto in vendita.
+	 * @return l'immagine in primo piano del prodotto
+	 * */
+	public byte[] getTopImmagine() {
+		return topImmagine;
+	}
+	
+	/**
+	 * Imposta l'immagine di presentazione del prodotto in vendita.
+	 * @param topImmagine : sequenza di byte relativa all'immagine in primo piano del prodotto.
+	 * */
+	public void setTopImmagine(byte[] topImmagine) {
+		this.topImmagine = topImmagine;
+	}
+	
+	/**
+	 * Fornisce la descrizione dettagliata del prodotto.
+	 * @return specifica tecnica del prodotto
+	 * */
+	public String getDettagli() {
+		return dettagli;
+	}
+	
+	/**
+	 * Imposta la specifica tecnica del prodotto.
+	 * @param dettagli: descrizione dettagliata del prodotto
+	 * */
+	public void setDettagli(String dettagli) {
+		this.dettagli = dettagli;
+	}
+	
+	/**
+	 * Fornisce la galleria di immagini dettagliate associata al prodotto
+	 * in vendita.
+	 * @return immagini dettagliate del prodotto
+	 * */
+	public ArrayList<byte[]> getGalleriaImmagini() {
+		return galleriaImmagini;
+	}
 
-    public int getCodice() {
-        return codice;
-    }
-
-    public void setCodice(int codice) {
-        this.codice = codice;
-    }
-
-    public String getTop_descrizione() {
-        return top_descrizione;
-    }
-
-    public void setTop_descrizione(String top_descrizione) {
-        this.top_descrizione = top_descrizione;
-    }
-
-    public String getDettagli() {
-        return dettagli;
-    }
-
-    public void setDettagli(String dettagli) {
-        this.dettagli = dettagli;
-    }
-
-    public double getPrezzo() {
-        return prezzo;
-    }
-
-    public void setPrezzo(float prezzo) {
-        this.prezzo = prezzo;
-    }
-
-    public String getCategoria() {
-        return categoria;
-    }
-
-    public void setCategoria(String categoria) {
-        this.categoria = categoria;
-    }
-
-    public String getSotto_categoria() {
-        return sotto_categoria;
-    }
-
-    public void setSotto_categoria(String sotto_categoria) {
-        this.sotto_categoria = sotto_categoria;
-    }
-
-    public String getMarca() {
-        return marca;
-    }
-
-    public void setMarca(String marca) {
-        this.marca = marca;
-    }
-
-    public String getModello() {
-        return modello;
-    }
-
-    public void setModello(String modello) {
-        this.modello = modello;
-    }
-
-    public boolean isInCatalogo() {
-        return inCatalogo;
-    }
-
-    public void setInCatalogo(boolean inCatalogo) {
-        this.inCatalogo = inCatalogo;
-    }
-
-    public boolean isInVetrina() {
-        return inVetrina;
-    }
-
-    public void setInVetrina(boolean inVetrina) {
-        this.inVetrina = inVetrina;
-    }
-
-    public Image getImg() {
-        return img;
-    }
-
-    public void setImg(Image img) {
-        this.img = img;
-    }
-
-    public int getQuantità() {
-        return quantità;
-    }
-
-    public void setQuantità(int quantità) {
-        this.quantità = quantità;
-    }
-    
-    public int getAddedToCart() {
-        return addedToCart;
-    }
-    public void removeAll(){
-        this.addedToCart = 0;
-    }
-    public void setAddedToCart(int addedToCart) {
-        this.addedToCart += addedToCart;
-    }    
+	/**
+	 * Imposta la galleria di immagini dettagliate associata al prodotto
+	 * in vendita.
+	 * @param galleriaImmagini
+	 * */
+	public void setGalleriaImmagini(ArrayList<byte[]> galleriaImmagini) {
+		this.galleriaImmagini = galleriaImmagini;
+	}
 }

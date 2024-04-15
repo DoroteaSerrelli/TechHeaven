@@ -10,8 +10,7 @@
         viene usato e basta importarlo nel file contenente la sezione usata 
         senza doverlo importare da altre parti-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous"></script> 
-    <script src="https://kit.fontawesome.com/207052c3a9.js" integrity="sha512-BgwIN3PpXLkbg6HyWOm0LO0m1sBZr6gEHLStmyYQ+3WtPcbEJkhC5lH1iISIYI0pWi+L6snpMjPQ99mrWPagew==" crossorigin="anonymous"></script>  
-    <script src="view/navi_script.js"></script>
+    <script src="${pageContext.request.contextPath}/view/navi_script.js"></script>
     </head>    
     <script> 
      function hasClass(element, clsName) {
@@ -32,16 +31,16 @@
     });       
     });
     </script>
-       <link rel="stylesheet" href="style.css"> 
+       <link rel="stylesheet" href="${pageContext.request.contextPath}/common/style.css"> 
        <section id="header">
-           <a href="#"> <img src="view\img\logo.png" height="100" width="100" class="logo" alt="alt"/></a>
+           <a href="#"> <img src="${pageContext.request.contextPath}\view\img\logo.png" height="100" width="100" class="logo" alt="alt"/></a>
         <div>              
             <ul id="navbar">
-                <li><a class="active" href="index.jsp">Home</a></li> 
+                <li><a class="active" href="${pageContext.request.contextPath}/index.jsp">Home</a></li> 
                 <li><a href="Shop">Shop</a></li> 
-                <li><a href="Autenticazione.jsp">Login</a></li> 
-                <li><a href="Registrazione.jsp">Register</a></li> 
-                <li><a href="account.jsp"><i class="fa-solid fa-user-gear" style="color: #CCCC66;"></i></a></li>
+                <li><a href="${pageContext.request.contextPath}/Autenticazione.jsp">Login</a></li> 
+                <li><a href="${pageContext.request.contextPath}/Registrazione.jsp">Register</a></li> 
+                <li><a href="${pageContext.request.contextPath}/AreaRiservata.jsp"><img src="${pageContext.request.contextPath}/view/img/icon_user.png" height="30" width="30"></a></li>
                 <li><a id="lg-bag">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                         <path fill="#2DA0F2" d="M16 6h-1V5c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v1H8c-1.1 0-1.99.9-1.99 2L6 19c0 1.1.89 2 1.99 2H17c1.1 0 2-.9 2-2l.01-11c0-1.1-.89-2-1.99-2zM9 5h6v1H9V5zm8 14H7V9h10v10z"/>

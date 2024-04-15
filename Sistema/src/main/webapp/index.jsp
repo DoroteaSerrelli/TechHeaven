@@ -7,14 +7,39 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <link rel="stylesheet" href="style.css">
-        <jsp:include page="header.jsp"  flush="true"/>
+        <link rel="stylesheet" href="common/style.css">
+        <jsp:include page="common/header.jsp"  flush="true"/>
         <section id="hero" >
-            <h4>Chockyloky offer for you and family</h4>
+            <h4>Spacial offers availables every day</h4>
             <h2>Super value deal</h2>
             <h1>On all products</h1>
             <button> Buy Now </button>
-        </section>       
+        </section>   
+          <section id="feature" class="section-p1">
+            <div class="fe-box">
+                <img src="view/img/freeshipping.png" alt="alt">
+                <h6>Free Shipping</h6>
+                
+            </div>
+             <div class="fe-box">
+                <img src="view/img/spedizionionline.png" alt="alt">
+                <h6>Online Order</h6>
+                
+            </div>
+            <div class="fe-box">
+                <img src="view/img/savemoneyups.png" alt="alt">
+                <h6>Save Money</h6>
+                
+            </div>           
+            <div class="fe-box">
+                <img src="view/img/promozioni.png" alt="alt">
+                <h6>Promotions</h6>                
+            </div>           
+            <div class="fe-box">
+                <img src="view/img/supportoh24.png" alt="alt">
+                <h6>F24/7 Support</h6>               
+            </div> 
+        </section>
         <section id="product1" class="section-p1">
                 <h2>Featured Product</h2>
                 <p>Some of our featured products include:</p>
@@ -39,9 +64,9 @@
                         </a>
                     </div>                                        
             </section> 
-            <section id="banner" class="section-m1">
-                <h4>Even for fitness</h4>
-                <h2>Up to <span>70% off</span> - Try Newly Produced Protein Bars</h2>
+            <section id="banner">
+                <h4>Buy a laptop today</h4>
+                <h2>Up to <span>70% off</span> - To improve your efficiency at home</h2>
                 <button>Explore More</button>
             </section>			
 	    <section id="product1" class="section-p1">
@@ -118,6 +143,6 @@
                     <button class="minbanner"> Learn More </button>
                 </div>
             </section>	
-       <jsp:include page="footer.jsp"  flush="true"/>
+       <jsp:include page="common/footer.jsp"  flush="true"/>
     </body>
 </html>

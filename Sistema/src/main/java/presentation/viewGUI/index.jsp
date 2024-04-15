@@ -7,8 +7,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <link rel="stylesheet" href="style.css">
-        <jsp:include page="header.jsp"  flush="true"/>
+        <link rel="stylesheet" href="common/style.css">
+        <jsp:include page="common/header.jsp"  flush="true"/>
         <section id="hero" >
             <h4>Spacial offers availables every day</h4>
             <h2>Super value deal</h2>
@@ -17,7 +17,7 @@
         </section>   
           <section id="feature" class="section-p1">
             <div class="fe-box">
-                <img src="view/img/freechockbird2.png" alt="alt">
+                <img src="view/img/freeshipping.png" alt="alt">
                 <h6>Free Shipping</h6>
                 
             </div>
@@ -143,6 +143,6 @@
                     <button class="minbanner"> Learn More </button>
                 </div>
             </section>	
-       <jsp:include page="footer.jsp"  flush="true"/>
+       <jsp:include page="common/footer.jsp"  flush="true"/>
     </body>
 </html>

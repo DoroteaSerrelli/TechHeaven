@@ -4,22 +4,30 @@
 	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	 xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
 	 version="3.1">
-    <session-config>
-        <session-timeout>
-            30
-        </session-timeout>
-    </session-config>
-
 	<display-name>Sistema</display-name>
 	<welcome-file-list>
 	<!-- DA SOSTITUIRE INDEX.HTML CON LA HOMEPAGE -->
-		<welcome-file>index.html</welcome-file>
-		<welcome-file>index.htm</welcome-file>
-		<welcome-file>index.jsp</welcome-file>
-		<welcome-file>default.html</welcome-file>
-		<welcome-file>default.htm</welcome-file>
-		<welcome-file>default.jsp</welcome-file>
+		<welcome-file>Registrazione.jsp</welcome-file>
 	</welcome-file-list>
+	
+	
+	<servlet>
+        <servlet-name>RegistrazioneController</servlet-name>
+        <servlet-class>application.RegistrazioneControl.RegistrazioneController</servlet-class>  
+    </servlet>
+    <servlet>  
+        <servlet-name>AutenticazioneController</servlet-name>
+        <servlet-class>application.AutenticazioneControl.AutenticazioneController</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RegistrazioneController</servlet-name>
+        <url-pattern>/RegistrazioneController</url-pattern>      
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AutenticazioneController</servlet-name>
+        <url-pattern>/AutenticazioneController</url-pattern>
+    </servlet-mapping>
+    
 	
 	<resource-ref>
 		<description>Riferimento JNDI ad un DataSource</description>
@@ -27,6 +35,8 @@
 		<res-type>javax.sql.DataSource</res-type>
 		<res-auth>Container</res-auth>
 	</resource-ref>
+	
+	
 	
 <!-- security constraints to apply when build HTTPS certificate
 	<security-constraint>

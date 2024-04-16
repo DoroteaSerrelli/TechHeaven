@@ -41,6 +41,12 @@
                 <li><a href="${pageContext.request.contextPath}/Autenticazione.jsp">Login</a></li> 
                 <li><a href="${pageContext.request.contextPath}/Registrazione.jsp">Register</a></li> 
                 <li><a href="${pageContext.request.contextPath}/AreaRiservata.jsp"><img src="${pageContext.request.contextPath}/view/img/icon_user.png" height="30" width="30"></a></li>
+                
+                <li>
+                    <form method="post" action="NavigazioneController?search_type=bar"><input type="text" name="keyword">
+                        <button><input type="submit"></button></form>
+                </li>
+                
                 <li><a id="lg-bag">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                         <path fill="#2DA0F2" d="M16 6h-1V5c0-1.1-.9-2-2-2h-4c-1.1 0-2 .9-2 2v1H8c-1.1 0-1.99.9-1.99 2L6 19c0 1.1.89 2 1.99 2H17c1.1 0 2-.9 2-2l.01-11c0-1.1-.89-2-1.99-2zM9 5h6v1H9V5zm8 14H7V9h10v10z"/>

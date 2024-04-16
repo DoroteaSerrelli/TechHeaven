@@ -9,6 +9,7 @@ import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,8 +21,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author raffy
  */
-@WebServlet(name = "NavigazioneController", urlPatterns = {"/NavigazioneController"})
-public class NavigazioneController extends HttpServlet {
+@WebServlet(name = "BarraRicercaController", urlPatterns = {"/BarraRicercaController"})
+public class BarraRicercaController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,19 +35,21 @@ public class NavigazioneController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /*
-            Servlet per LA visualizzazione e paginazione dei risultati.
-        */
-        if(request.getParameter("search_type").contains("bar")){
-            String keyword = (String)request.getAttribute("keyword");
+          String searched_prod = request.getParameter("keyword");
+       // Check if productIdString is null or empty
+        if (searched_prod == null || searched_prod.isEmpty()) {
+        // Handle the case where id parameter is missing
+        // For example, you could return an error response or redirect the user
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID parameter is missing");
+            return;
+        }  
+        try {
+            NavigazioneServiceImpl productService = new NavigazioneServiceImpl();
+            List<ProxyProdotto> prodotti = productService.ricercaProdottoBar(searched_prod);
             
-            request.setAttribute("keyword", keyword);
-            request.getRequestDispatcher("/BarraRicercaController").forward(request, response);
-            List<ProxyProdotto> prodotti = (List<ProxyProdotto>)request.getAttribute("prodottiFound");         
+            request.setAttribute("prodottiFound", prodotti);
         }
-        else {
-             System.out.println("sono qui");
-        }
+        catch(NumberFormatException bn){}
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -582,6 +582,11 @@ public class ProdottoDAODataSource{
 	    	try {
 	    		// Recupera il numero totale di record
 	    		preparedStatement = connection.prepareStatement(countSQL);
+	    		preparedStatement.setString(1, "%" + searchTerm + "%");
+	    		preparedStatement.setString(2, "%" + searchTerm + "%");
+	    		preparedStatement.setString(3, "%" + searchTerm + "%");
+	    		preparedStatement.setString(4, "%" + searchTerm + "%");
+	    		preparedStatement.setString(5, "%" + searchTerm + "%");
 	    		ResultSet rs = preparedStatement.executeQuery();
 	    		rs.next();
 	    		totalRecords = rs.getInt(1);
@@ -603,11 +608,16 @@ public class ProdottoDAODataSource{
 	        }
 
 	        // Esegui la query con LIMIT e OFFSET
-	        int offset = (page - 1) * perPage;
+	        int offset = Math.max(0, (page - 1) * perPage);
 	        selectSQL += " LIMIT ? OFFSET ?";
 	        preparedStatement = connection.prepareStatement(selectSQL);
-	        preparedStatement.setInt(1, perPage);
-	        preparedStatement.setInt(2, offset);
+	        preparedStatement.setString(1, "%" + searchTerm + "%");
+	        preparedStatement.setString(2, "%" + searchTerm + "%");
+	        preparedStatement.setString(3, "%" + searchTerm + "%");
+	        preparedStatement.setString(4, "%" + searchTerm + "%");
+	        preparedStatement.setString(5, "%" + searchTerm + "%");
+	        preparedStatement.setInt(6, perPage);
+	        preparedStatement.setInt(7, offset);
 
 	        // Recupera i record paginati
 	        ResultSet rs = preparedStatement.executeQuery();

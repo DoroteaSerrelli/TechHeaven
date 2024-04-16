@@ -278,24 +278,21 @@ public abstract class ObjectProdotto {
 	 * @param categoria la categoria del prodotto espressa come stringa
 	 * */
 	public void setCategoria(String category) {
-		
-	    if(category.equalsIgnoreCase("TELEFONIA")) {
-	        this.categoria = Categoria.TELEFONIA;
-	    }
-	    
-		if(category.equalsIgnoreCase("PRODOTTI_ELETTRONICA")) {
-	        this.categoria = Categoria.PRODOTTI_ELETTRONICA;
-	    }
-		
-		if(category.equalsIgnoreCase("PICCOLI_ELETTRODOMESTICI")) {
-	        this.categoria = Categoria.PICCOLI_ELETTRODOMESTICI;
-	    }
-		
-		if(category.equalsIgnoreCase("GRANDI_ELETTRODOMESTICI")) {
-	        this.categoria = Categoria.GRANDI_ELETTRODOMESTICI;
-	    }else {
-	        throw new IllegalArgumentException("Le categorie ammissibili sono TELEFONIA, PRODOTTI ELETTRONICA,"
-	        		+ "GRANDI ELETTRODOMESTICI, PICCOLI ELETTRODOMESTICI");
+	    switch (category.toUpperCase()) {
+	        case "TELEFONIA":
+	            this.categoria = Categoria.TELEFONIA;
+	            break;
+	        case "PRODOTTI_ELETTRONICA":
+	            this.categoria = Categoria.PRODOTTI_ELETTRONICA;
+	            break;
+	        case "PICCOLI_ELETTRODOMESTICI":
+	            this.categoria = Categoria.PICCOLI_ELETTRODOMESTICI;
+	            break;
+	        case "GRANDI_ELETTRODOMESTICI":
+	            this.categoria = Categoria.GRANDI_ELETTRODOMESTICI;
+	            break;
+	        default:
+	            throw new IllegalArgumentException("Le categorie ammissibili sono TELEFONIA, PRODOTTI ELETTRONICA, GRANDI ELETTRODOMESTICI, PICCOLI ELETTRODOMESTICI");
 	    }
 	}
 	
@@ -327,26 +324,25 @@ public abstract class ObjectProdotto {
 	 * Imposta la sottocategoria di appartenenza del prodotto
 	 * @param subCategory la sottocategoria del prodotto espressa come stringa
 	 * */
-	public void setSottocategoria(String subCategory) {
-
-	    if(subCategory.equalsIgnoreCase("TABLET")) {
-	        this.sottocategoria = Sottocategoria.TABLET;
-	    }
-		
-		if(subCategory.equalsIgnoreCase("SMARTPHONE")) {
-	        this.sottocategoria = Sottocategoria.SMARTPHONE;
-	    }
-		
-		if(subCategory.equalsIgnoreCase("PC")) {
-	        this.sottocategoria = Sottocategoria.PC;
-	    }
-		
-		if(subCategory.equalsIgnoreCase("SMARTWATCH")) {
-	        this.sottocategoria = Sottocategoria.SMARTWATCH;
-	    }else {
-	        throw new IllegalArgumentException("Le sottocategorie ammissibili sono:"
-	        		+ "\n- TABLET e SMARTPHONE per la categoria TELEFONIA;"
-	        		+ "\n- PC e SMARTWATCH per la categoria PRODOTTI ELETTRONICA.");
+	
+	public void setSottocategoria(String subcategory) {
+	    switch (subcategory.toUpperCase()) {
+	        case "TABLET":
+	        	this.sottocategoria = Sottocategoria.TABLET;
+	            break;
+	        case "SMARTPHONE":
+	        	this.sottocategoria = Sottocategoria.SMARTPHONE;
+	            break;
+	        case "PC":
+	            this.sottocategoria = Sottocategoria.PC;
+	            break;
+	        case "SMARTWATCH":
+	            this.sottocategoria = Sottocategoria.SMARTWATCH;
+	            break;
+	        default:
+	        	throw new IllegalArgumentException("Le sottocategorie ammissibili sono:"
+		        		+ "\n- TABLET e SMARTPHONE per la categoria TELEFONIA;"
+		        		+ "\n- PC e SMARTWATCH per la categoria PRODOTTI ELETTRONICA.");
 	    }
 	}
 	

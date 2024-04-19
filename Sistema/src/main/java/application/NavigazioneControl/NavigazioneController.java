@@ -22,7 +22,9 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "NavigazioneController", urlPatterns = {"/NavigazioneController"})
 public class NavigazioneController extends HttpServlet {
-
+    private static final long serialVersionUID = 1L; 
+    
+    public NavigazioneController() { super(); } 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -41,12 +43,15 @@ public class NavigazioneController extends HttpServlet {
             String keyword = (String)request.getAttribute("keyword");
             
             request.setAttribute("keyword", keyword);
-            request.getRequestDispatcher("/BarraRicercaController").forward(request, response);
-            List<ProxyProdotto> prodotti = (List<ProxyProdotto>)request.getAttribute("prodottiFound");         
+            //Setto la prima pagina della ricerca e la inoltro al Controller che effettua
+            //la ricerca.
+            request.setAttribute("page", 1);
+            request.getRequestDispatcher("/BarraRicercaController").forward(request, response);            
         }
         else {
              System.out.println("sono qui");
         }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

@@ -7,6 +7,7 @@ package application.NavigazioneControl;
 import application.NavigazioneService.NavigazioneServiceImpl;
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProxyProdotto;
+import application.NavigazioneService.SearchResult;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -35,6 +36,8 @@ public class BarraRicercaController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+           
+          int page = 1;
           String searched_prod = request.getParameter("keyword");
        // Check if productIdString is null or empty
         if (searched_prod == null || searched_prod.isEmpty()) {
@@ -45,9 +48,21 @@ public class BarraRicercaController extends HttpServlet {
         }  
         try {
             NavigazioneServiceImpl productService = new NavigazioneServiceImpl();
-            List<ProxyProdotto> prodotti = productService.ricercaProdottoBar(searched_prod);
-            
-            request.setAttribute("prodottiFound", prodotti);
+            if (request.getParameter("page") != null) 
+            page = Integer.parseInt( 
+                request.getParameter("page")); 
+            SearchResult searchResult = productService.ricercaProdottoBar(searched_prod, page);
+            int resultsPerPage = 10; // Number of results per page (you can adjust this value)
+            int totalRecords = searchResult.getTotalRecords();
+            int totalPages = (int) Math.ceil((double) totalRecords / resultsPerPage);
+
+            // Set attributes for the JSP page
+            request.setAttribute("products", searchResult.getProducts());
+            request.setAttribute("totalPages", totalPages);
+            request.setAttribute("keyword", searched_prod);
+            // Forward the request to the JSP page
+            request.getRequestDispatcher("searchResults.jsp").forward(request, response);
+          
         }
         catch(NumberFormatException bn){}
     }

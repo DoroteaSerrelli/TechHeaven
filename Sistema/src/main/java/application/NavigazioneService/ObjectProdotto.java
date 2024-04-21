@@ -149,7 +149,7 @@ public abstract class ObjectProdotto {
 	/**
 	 * Costruttore di classe che crea un prodotto appartenente ad una categoria.
 	 * */
-	public ObjectProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,
+	protected ObjectProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,
 			Categoria categoria, String marca, String modello, int quantita,
 			boolean inCatalogo, boolean inVetrina) {
 		
@@ -169,7 +169,7 @@ public abstract class ObjectProdotto {
 	/**
 	 * Costruttore di classe che crea un prodotto appartenente ad una categoria, e sottocategoria.
 	 * */
-	public ObjectProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,
+	protected ObjectProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,
 			Categoria categoria, Sottocategoria sottocategoria, String marca, String modello, int quantita,
 			boolean inCatalogo, boolean inVetrina) {
 		this.codiceProdotto = codiceProdotto;

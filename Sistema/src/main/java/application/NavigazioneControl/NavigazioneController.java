@@ -45,13 +45,16 @@ public class NavigazioneController extends HttpServlet {
             request.setAttribute("keyword", keyword);
             //Setto la prima pagina della ricerca e la inoltro al Controller che effettua
             //la ricerca.
-            request.setAttribute("page", 1);
             request.getRequestDispatcher("/BarraRicercaController").forward(request, response);            
         }
-        else {
-             System.out.println("sono qui");
+        else if(request.getParameter("search_type").contains("menu")){
+            String categoria = (String)request.getParameter("keyword"); 
+            request.setAttribute("keyword", categoria);
+            request.getRequestDispatcher("/MenuNavigazioneController").forward(request, response);
         }
-        
+        else{
+            response.sendError(1,"No search type selected");
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

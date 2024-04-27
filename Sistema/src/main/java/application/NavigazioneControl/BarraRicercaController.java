@@ -40,7 +40,7 @@ public class BarraRicercaController extends HttpServlet {
           int page = 1;
           String searched_prod = request.getParameter("keyword");
        // Check if productIdString is null or empty
-        if (searched_prod.trim() == null || searched_prod.trim().isEmpty()) {
+        if (searched_prod == null || searched_prod.isEmpty()) {
         // Handle the case where id parameter is missing
         // For example, you could return an error response or redirect the user
             response.sendRedirect("index.jsp");

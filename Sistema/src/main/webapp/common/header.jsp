@@ -1,4 +1,5 @@
 
+<%@page import="application.GestioneCarrelloService.ItemCarrello"%>
 <%@page import="application.GestioneCarrelloService.GestioneCarrelloServiceImpl"%>
 <%@page import="application.NavigazioneService.Prodotto"%>
 <%@page import="application.GestioneCarrelloService.Carrello"%>
@@ -11,26 +12,10 @@
         senza doverlo importare da altre parti-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous"></script> 
     <script src="${pageContext.request.contextPath}/view/navi_script.js"></script>
+    
+    <script src="${pageContext.request.contextPath}/view/cartAndSearch_functions.js"></script>
+    
     </head>    
-    <script> 
-     function hasClass(element, clsName) {
-    return (' ' + element.className + ' ').indexOf(' ' + clsName + ' ') > -1;
-    }
-    $(document).ready(function(){
-         $('#carrello').hide();         
-         $('#lg-bag').click(function(){
-          if (hasClass(document.getElementById('carrello'),"active")) {     
-          document.getElementById('carrello').classList.remove("active");
-          $('#carrello').hide();          
-        }
-        else
-        { 
-          document.getElementById('carrello').classList.add("active");  
-          $('#carrello').show();                  
-        }
-    });       
-    });
-    </script>
        <link rel="stylesheet" href="${pageContext.request.contextPath}/common/style.css"> 
        <section id="header">
            <a href="#"> <img src="${pageContext.request.contextPath}\view\img\logo.png" height="100" width="100" class="logo" alt="alt"/></a>
@@ -63,11 +48,11 @@
            </ul> 
                 <ul id="search_section">
                     <li>
-                    <form method="post" action="NavigazioneController?search_type=bar">
+                    <form id="searchForm" method="post" action="NavigazioneController?search_type=bar" onsubmit="return validateSearch()">
                         <button class="search" type="submit">
                             <img src="${pageContext.request.contextPath}/view/img/search.png" width="30" height="30" alt="Search">
                         </button>
-                        <input type="text" name="keyword">                        
+                        <input id="searchInput" type="text" name="keyword" required="">                        
                     </form>     
                     </li> 
                 </ul>     
@@ -75,15 +60,17 @@
          <div id="carrello" > 
              <a href="cart.jsp">Checkout</a>
              <br>
+             <div id="carrelloroba">
                 <%
                     if(request.getSession().getAttribute("usercart")==null);
                     else{
                         Carrello cart = (Carrello)request.getSession().getAttribute("usercart"); 
-                        GestioneCarrelloServiceImpl gestCart = new GestioneCarrelloServiceImpl();                       
-                        for(Prodotto p: gestCart.visualizzaCarrello(cart)){            
+                        for(ItemCarrello p: cart.getProducts()){            
                 %>
                 <%=p.toString()%>
+                <%=p.getQuantita()%>
                <% }}%>
+             </div>  
         </div>  
         <div id="mobile">
             <a href="/GestioneCarrello">
@@ -98,5 +85,22 @@
             </button>         
         </div>
         <br>         
-        </section>       
+        </section>
+    <script>
+        // Add event listener for close button
+        document.getElementById('close').addEventListener('click', function() {
+            closeSidebar();
+        });
+
+        // Add event listener for search form submission
+        document.getElementById('searchForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent default form submission
+            if (validateSearch()) {
+                this.submit(); // Submit the form
+            } else {
+                // Handle invalid search input
+                displayNotification("Please enter a valid search query.");
+            }
+        });
+    </script>      
 </html>

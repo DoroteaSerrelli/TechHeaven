@@ -59,9 +59,10 @@
                             </div>
                             <h4><%=product.getPrezzo()%>€</h4>
                         </div>
-                        <a href="Shop">
+                        <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
                             <img class="cart" src="${pageContext.request.contextPath}/view/img/icon_carrello2.png">
                         </a>
+                        <div id="error"></div>
                     </div>                    
              <%}%>
               </div>

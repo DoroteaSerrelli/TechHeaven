@@ -230,9 +230,24 @@ Che setteremò per incollonare il testo al centro.
     background-color: rgb(160,211,242)
 }
 
+/*CARRELLO SEZIONE prodotti mini preview*/
+/* Style for the checkout link */
 #carrello a {
     color: #ba9823;
+    
 }
+
+/* Style for the cart items container */
+#carrelloroba {
+    margin-top: 10px;
+}
+
+/* Style for each individual cart item */
+.cart-item {
+    border-bottom: 1px solid #ccc; /* Add a border between each item */
+    padding: 5px 0;
+}
+/*CARRELLO SEZIONE prodotti mini preview*/
 
 /*Sto "targettando" la lista linkata all'interno della barra di navigazione'
 SUPERCLASSE di tutti gli elementi che vengono sotto anche la sottolineatura*/

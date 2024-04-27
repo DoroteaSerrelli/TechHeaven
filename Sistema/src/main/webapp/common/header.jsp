@@ -58,17 +58,26 @@
                 </ul>     
         </div>
          <div id="carrello" > 
-             <a href="cart.jsp">Checkout</a>
-             <br>
              <div id="carrelloroba">
+             <a href="cart.jsp">Mosttra il Carrello</a>
+             <br>
                 <%
                     if(request.getSession().getAttribute("usercart")==null);
                     else{
                         Carrello cart = (Carrello)request.getSession().getAttribute("usercart"); 
                         for(ItemCarrello p: cart.getProducts()){            
                 %>
-                <%=p.toString()%>
-                <%=p.getQuantita()%>
+                <div class="cart-item">
+                    <img src="data:image/jpg;base64, <%=p.getTopImmagine()%>" alt="alt">
+                    <span class="product-name"><%= p.getNomeProdotto() %></span>
+                    <span ><%= p.getTopDescrizione()%></span>               
+                    <span class="quantity">Quantity: <%= p.getQuantita() %></span>
+                    <a href="#" onClick="modifyCart(<%=p.getCodiceProdotto()%>,'rimuoviDalCarrello')">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
+                            <path fill="#2DA0F2" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
+                        </svg>
+                    </a>    
+                </div>
                <% }}%>
              </div>  
         </div>  

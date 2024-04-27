@@ -28,7 +28,7 @@
          toggleCartVisibility();
      });
    // Add item to cart via AJAX
-   function addToCart(productId, action) {
+   function modifyCart(productId, action) {
         // Make an AJAX request to the servlet
         var xhr = new XMLHttpRequest();
         xhr.open("POST", "GestioneCarrelloController?action="+action, true);

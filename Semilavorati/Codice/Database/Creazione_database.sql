@@ -121,7 +121,7 @@ CREATE TABLE Ordine(
 CodiceOrdine int AUTO_INCREMENT NOT NULL,
 Stato enum('Richiesta_effettuata', 'In_lavorazione', 'Spedito', 'Preparazione_incompleta') NOT NULL,
 email varchar(50) NOT NULL,
-IndirizzoSpedizione int NOT NULL,
+IndirizzoSpedizione varchar(200) NOT NULL,
 TipoSpedizione enum('Spedizione_standard', 'Spedizione_assicurata', 'Spedizione_prime') NOT NULL,
 DataOrdine date NOT NULL,
 OraOrdine time NOT NULL,

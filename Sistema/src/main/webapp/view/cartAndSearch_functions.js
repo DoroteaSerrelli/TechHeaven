@@ -30,8 +30,13 @@
    // Add item to cart via AJAX
    function modifyCart(productId, action) {
         // Make an AJAX request to the servlet
+        var outputMessage= "";
+        var quantity;
+        var quantityInput = document.getElementById("prod_quantità_"+ productId); // Append productId here);
+        if(quantityInput===null) quantity=1;
+        else quantity = quantityInput.value;
         var xhr = new XMLHttpRequest();
-        xhr.open("POST", "GestioneCarrelloController?action="+action, true);
+        xhr.open("POST", "GestioneCarrelloController?action="+action +"&prod_quantità="+ encodeURIComponent(quantity), true);
         xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
@@ -41,15 +46,17 @@
                     // Request completed successfully
                     // Reload cart section
                     reloadCartSection();
-                    // Display notification
-                    displayNotification("Item added to cart successfully!");
+                    // Display notification               
+                    outputMessage = "Item added to cart successfully!";
+                } 
                 } else {
-                    // Error handling
+                    // Handle error response from server
+                    outputMessage ="Item already in cart. Cannot add duplicate items.";              
                 }
-            }
+            displayNotification(outputMessage);
         };
         // Send the request with product ID as a parameter
-        xhr.send("productId=" + encodeURIComponent(productId));
+        xhr.send("productId=" + encodeURIComponent(productId) );
     }
     // Function to reload cart section using AJAX
     function reloadCartSection() {

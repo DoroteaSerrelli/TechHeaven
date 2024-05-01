@@ -4,6 +4,7 @@
     Author     : raffy
 --%>
 
+<%@page import="java.lang.String"%>
 <%@page import="java.util.Set"%>
 <%@page import="java.util.HashSet"%>
 <%@page import="application.NavigazioneService.ProxyProdotto"%>
@@ -61,8 +62,14 @@
                         </div>
                         <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
                             <img class="cart" src="${pageContext.request.contextPath}/view/img/icon_carrello2.png">
-                        </a>
-                        <div id="error"></div>
+                        </a>                           
+                        <div id="error">
+                            <% String errormsg="";
+                                errormsg= (String)request.getSession().getAttribute("error");
+                                if(errormsg==null) errormsg="";                                                       
+                            %>
+                            <%=errormsg%>
+                        </div>
                     </div>                    
              <%}%>
               </div>

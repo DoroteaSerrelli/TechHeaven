@@ -70,20 +70,24 @@
         <jsp:include page="common/header.jsp"  flush="true"/>
         <div class="section-p1">
             <form name="client" method="post" action="ReimpostaPasswordController">           
-            <div class="row">
-                <div class="input-wrapper">
-                    <p>  *Username: </p>  
-                    <input type="text" name="username" onchange="validateUsername()" required>
-                </div>   
-                <div class="input-wrapper">
-                    <p> *Email: </p>
-                    <input type="text" name="email" onchange="validateEmail()" required>
+                <div class="row">
+                    <div class="input-wrapper">
+                        <p>  *Username: </p>  
+                        <input type="text" name="username" onchange="validateUsername()" required>
+                    </div>
                 </div>
-            </div>
-                <div class="input-wrapper">
-                    <p> *Nuova Password: </p>
-                    <input type="text" name="password" onchange="validatePassword()" required>
-                </div>
+                <div class="row">
+                    <div class="input-wrapper">
+                        <p> *Email: </p>
+                        <input type="text" name="email" onchange="validateEmail()" required>
+                    </div>
+               </div>
+                <div class="row">
+                    <div class="input-wrapper">
+                        <p> *Nuova Password: </p>
+                        <input type="text" name="password" onchange="validatePassword()" required>
+                    </div>
+                </div>    
                 <div class="input-wrapper"> 
                     <input value="Submit" type="submit" class="confirm_button" name="submit" onclick="return validate()">                
                 </div>                                  

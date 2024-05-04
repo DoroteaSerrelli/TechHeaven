@@ -20,12 +20,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 /*FORM DI REGISTRAZIONE*/
 .section-p1{
     padding: 40px 80px;
-    text-align: center;
+    text-align: center;   
 }
-form {
+form {  
   display: inline-block; /* Keeps the form from stretching to full width */
-  text-align: left; /* Resets the text alignment for form elements */
+  text-align: left; /* Resets the text alignment for form elements */   
+  
+  padding-left: 50px;
+  padding-right: 50px;
+  border: 1px solid #41A0F2;
+  border-bottom-color: transparent;
 }
+
 .center {
   display: flex;
   justify-content: center;
@@ -34,8 +40,8 @@ form {
 }
 .row {
   display: flex;
-  justify-content: space-between; /* Distribute space evenly between inputs */
-  
+  justify-content: space-between; /* Distribute space evenly between inputs */  
+  padding: 10px;
 }
 .input-wrapper {
   flex-basis: 40%; /* Adjust width as needed */
@@ -44,6 +50,9 @@ form {
 }
 .input-wrapper p{
     width: 200px;
+}
+.input-wrapper input{
+    font-size: 15px;
 }
 
 .confirm_button{
@@ -55,6 +64,22 @@ form {
     border-radius: 30%;
     border-top-color: #6A5FB3;
     border-bottom-color: #F28C44;
+}
+/*ERROR MESSAGE STILE**/
+.errormsg .valid{
+    padding: 10px;
+    margin-top: 10px;
+    background-color:  #ccffcc;
+    border: 1px solid #41A0F2;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 30px;  
+}
+.errormsg .invalid{
+    background-color: #ffe6e6; 
+    border: dotted #ff6666;
+    word-wrap: break-word;
+    padding: 10px;
 }
 /*FORM DI REGISTRAZIONE*/
 /*PULSANTE SUBMIT SEARCH*/
@@ -855,7 +880,7 @@ footer .copyright{
             text-align: left; /* Resets the text alignment for form elements */
             
             flex-direction:  column;
-            
+            padding: 0px;
         }
         .center {
             display: table-column;
@@ -866,10 +891,35 @@ footer .copyright{
         .row {
             width: 50%;
             justify-content: space-between; /* Distribute space evenly between inputs */
+            border-right-color: transparent;
         }
         .input-wrapper {
             margin-right: 30%;
-           
+        }
+        .input-wrapper.reg_form input{
+            width: 98%;            
+        }
+        .input-wrapper.reg_form .confirm_button{
+            width: 80%;            
+        }        
+        .errormsg {
+            width: 80%; /* Adjust the width as needed */
+            max-width: 300px; /* Adjust the maximum width as needed */
+            word-wrap: break-word; /* Enable text wrapping */
         }
         
+        /*<<<<<<AUTENTICAZIONE ALLINEAMENTO CAMPI>>>**/
+        .login-container .row{
+            display: flex;
+     
+            justify-content: center; /* Center vertically */
+            align-items: center; /* Center horizontally */
+        }
+        .login-container  .input-wrapper{
+            margin-right: 10px;
+            margin-left: 80%;
+        }
+        .login-container .confirm_button{
+            width: 120px;
+        }
 }

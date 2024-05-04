@@ -42,8 +42,8 @@
             </ul>  
             <ul id="categories">            
                 <li><a href="NavigazioneController?search_type=menu&keyword=TELEFONIA">Telefonia</a></li> 
-                <li><a href="NavigazioneController?search_type=menu&keyword=GRANDI_ELETTRODOMESTICI">TV e Video</a></li> 
-                <li><a href="NavigazioneController?search_type=menu&keyword=PRODOTTI_ELETTRONICA">Informatica</a></li>
+                <li><a href="NavigazioneController?search_type=menu&keyword=GRANDI_ELETTRODOMESTICI">Grandi Elettrodomestici</a></li> 
+                <li><a href="NavigazioneController?search_type=menu&keyword=PRODOTTI_ELETTRONICA">Prodotti Elettronica</a></li>
                 <li><a href="NavigazioneController?search_type=menu&keyword=PICCOLI_ELETTRODOMESTICI">Piccoli Elettrodomestici</a></li>
            </ul> 
                 <ul id="search_section">

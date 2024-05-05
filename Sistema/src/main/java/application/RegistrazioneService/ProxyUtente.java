@@ -2,7 +2,10 @@ package application.RegistrazioneService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import application.GestioneOrdiniService.ProxyOrdine;
 import storage.AutenticazioneDAO.UtenteDAODataSource;
+import storage.GestioneOrdiniDAO.OrdineDAODataSource;
 
 /**
  * La classe permette di controllare l'accesso ad un oggetto della classe Utente, 
@@ -15,13 +18,27 @@ import storage.AutenticazioneDAO.UtenteDAODataSource;
  * Dopo la delega, viene creato l'oggetto Utente e caricato in memoria.
  * @see application.RegistrazioneService.ObjectUtente
  * @see application.RegistrazioneService.Utente
+ * @see application.GestioneOrdiniService.ProxyOrdine
  * 
  * @author Dorotea Serrelli
  * */
 
 public class ProxyUtente extends ObjectUtente{
 	
+	/**
+	 * realUtente : il riferimento ad un oggetto di tipo Utente
+	 * al quale delegare la gestione di operazioni che coinvolgono
+	 * informazioni strettamente personali dell'utente,
+	 * esclusi ruoli, username e password.
+	 * */
 	private Utente realUtente;
+	
+	/**
+	 * proxyOrdini : il riferimento ad una collezione di oggetti
+	 * di tipo ProxyOrdine per memorizzare le informazioni essenziali degli
+	 * ordini effettuati dall'utente presso il negozio online.
+	 * */
+	private ArrayList<ProxyOrdine> proxyOrdini;
 	
 	/**
 	 * Costruttore di classe per creare un oggetto ProxyUtente noti username, password e ruoli associati.
@@ -55,9 +72,30 @@ public class ProxyUtente extends ObjectUtente{
 				Utente real = userDao.doRetrieveFullUserByKey(username);
 				realUtente = real;
 			} catch (SQLException e) {
-				System.out.println("Errore nel recupero del profilo e degli ordini dell'utente");
+				System.out.println("Errore nel recupero del profilo dell'utente");
 			}
 		}
 		return realUtente;
+	}
+	
+	/**
+	 * Il metodo fornisce il riferimento alle informazioni essenziali
+	 * degli ordini effettuati dall'utente.
+	 * Se non è presente questo riferimento, allora si crea tale oggetto e se ne mantiene in memoria
+	 * il riferimento.
+	 * @return una collezione di oggetti di tipo ProxyOrdine che contiene gli
+	 * ordini fatti dall'utente presso il negozio online.
+	 * */
+	public ArrayList<ProxyOrdine> mostraOrdiniUtente() {
+		if(proxyOrdini == null) {
+			OrdineDAODataSource orderDao = new OrdineDAODataSource();
+			try {
+				ArrayList<ProxyOrdine> proxyOrders = (ArrayList<ProxyOrdine>) orderDao.doRetrieveOrderToUser(username, password);
+				proxyOrdini = proxyOrders;
+			} catch (SQLException e) {
+				System.out.println("Errore nel recupero degli ordini dell'utente");
+			}
+		}
+		return proxyOrdini;
 	}
 }

@@ -16,6 +16,9 @@ import storage.GestioneOrdiniDAO.OrdineDAODataSource;
  * ProxyUtente ha un riferimento ad un oggetto Utente, in modo che tutte le richieste legate alla manipolazione dei dati personali
  * (accesso area riservata, modifica dati personali, check-out carrello, ...), vengono delegate a Utente.
  * Dopo la delega, viene creato l'oggetto Utente e caricato in memoria.
+ * ProxyUtente, inoltre, ha un riferimento ad una collezione di riferimenti di tipo ProxyOrdine,
+ * in modo che si conoscano le informazioni essenziali degli ordini effettuati dall'utente.
+ * 
  * @see application.RegistrazioneService.ObjectUtente
  * @see application.RegistrazioneService.Utente
  * @see application.GestioneOrdiniService.ProxyOrdine

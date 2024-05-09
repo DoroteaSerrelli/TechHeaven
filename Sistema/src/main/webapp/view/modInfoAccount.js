@@ -1,3 +1,25 @@
+function openUpdateBar() {
+  document.getElementById("update_bar").style.left = "0";
+  
+}
+
+function closeUpdateBar() {
+  document.getElementById("update_bar").style.left = "-100%";
+}
+
+function showUpdateForm(field) {
+    // Hide all update forms
+    var updateForms = document.querySelectorAll('.row[id^="update"]');
+    updateForms.forEach(function(form) {
+        form.style.display = 'none';
+    });
+
+    // Show the selected update form
+    var selectedForm = document.getElementById('update' + field.charAt(0).toUpperCase() + field.slice(1));
+    if (selectedForm) {
+        selectedForm.style.display = 'block';
+    }
+}
 
 function showNewAddressForm() {
     // Show the hidden input fields for adding a new address

@@ -1,0 +1,58 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 9-mag-2024, 18.58.46
+    Author     : raffy
+*/
+.update_bar {
+    position: absolute; /* Fix the position of the sidebar */
+    top: 30%; /* Align the sidebar to the top of the page */
+    left: 0; /* Align the sidebar to the left side of the page */
+    width: 200px; /* Set the width of the sidebar */
+    height: 60%; /* Make the sidebar take up the full height of the page */
+    background-color: #f4f4f4; /* Background color of the sidebar */
+    padding: 20px; /* Add some padding to the sidebar content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+}
+
+.update_bar ul {
+    list-style-type: none; /* Remove the default bullet points */
+    padding: 0; /* Remove any default padding */
+    margin: 0; /* Remove any default margin */
+    
+}
+
+.update_bar li {
+    margin-bottom: 10px; /* Add some space between each list item */
+}
+
+.update_bar a {
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Set link color */
+}
+
+.update_bar a:hover {
+    color: #555; /* Change link color on hover */
+}
+
+
+@media only screen and (max-width:799px){
+    .update_bar{
+        width: 100px; /* Set the width of the sidebar */    
+    }
+    
+}
+
+@media (max-width:477px){
+     .update_bar {
+        position: fixed;
+        left: -100%; /* Hide the sidebar off-screen by default */   
+        background-color: #f4f4f4;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 999; /* Ensure the sidebar is above other content */
+        transition: left 0.3s ease; /* Add a smooth transition effect */
+    }
+}

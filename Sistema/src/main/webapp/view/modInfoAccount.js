@@ -1,11 +1,21 @@
-// Add event listener to the toggle button
-    const toggleButton = document.getElementById('editInfoButton');
-    const editEmailInput = document.getElementById('editEmailInput');
-    const editPhoneInput = document.getElementById('editPhoneInput');
-    const editConfirmInput = document.getElementById('editConfirmInput');
 
-    toggleButton.addEventListener('click', () => {
-      editEmailInput.style.display = editEmailInput.style.display === 'none' ? 'block' : 'none';
-      editPhoneInput.style.display = editPhoneInput.style.display === 'none' ? 'block' : 'none';
-      editConfirmInput.style.display = editConfirmInput.style.display === 'none' ? 'block' : 'none';
-    });
+function showNewAddressForm() {
+    // Show the hidden input fields for adding a new address
+    var addressForm_inputs = document.getElementById("new-address");
+    // Set the action parameter to the desired value
+    var updateAddressForm = document.getElementById("updateAddressForm"); 
+    updateAddressForm.action = "UpdateAddressController?action=AddIndirizzo";
+    
+    addressForm_inputs.style.display = addressForm_inputs.style.display === 'none' ? 'block' : 'none';
+    
+}
+
+function submitForms() {
+    // Submit both forms when the Update button is clicked
+    var updtInfoform = document.getElementById("updateInfoForm");
+    var updtAddrform = document.getElementById("updateAddressForm");
+    // Check if form elements are valid
+    updtInfoform.submit();
+    updtAddrform.submit();
+}
+

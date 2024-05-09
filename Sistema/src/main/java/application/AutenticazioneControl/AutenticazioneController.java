@@ -71,8 +71,18 @@ public class AutenticazioneController extends HttpServlet {
         } catch (SQLException ex) {
             Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
         }
-        // Forward to the JSP page
-        request.getRequestDispatcher("AreaRiservata.jsp").forward(request, response);
+         // Check if an action parameter is present and not empty
+        String action = request.getParameter("action");
+        if (action != null && !action.isEmpty()) {
+            // Forward to updateUserInfo.jsp if action is specified
+            if (action.equals("updateUserInfo")) {
+                request.getRequestDispatcher("updateUserInfo.jsp").forward(request, response);
+            }
+            // Add other actions if needed
+        } else {
+            // Forward to the default page (e.g., AreaRiservata.jsp) if no action is specified
+            request.getRequestDispatcher("AreaRiservata.jsp").forward(request, response);
+        }
     }
 
     /**

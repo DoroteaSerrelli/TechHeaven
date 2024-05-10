@@ -330,14 +330,17 @@ public class Cliente {
 	 * Se non è presente questo riferimento, allora si crea tale oggetto e se ne mantiene in memoria
 	 * il riferimento.
 	 * 
+	 * @param page rappresenta il numero di pagina desiderato
+	 * @param perPage indica il numero di elementi per pagina
+	 * 
 	 * @return una collezione di oggetti di tipo ProxyOrdine che contiene gli
 	 * ordini fatti dall'utente presso il negozio online.
 	 * */
-	public ArrayList<ProxyOrdine> mostraOrdiniCliente() {
+	public ArrayList<ProxyOrdine> mostraOrdiniCliente(int page, int perPage) {
 		if(proxyOrdini == null) {
 			OrdineDAODataSource orderDao = new OrdineDAODataSource();
 			try {
-				ArrayList<ProxyOrdine> proxyOrders = (ArrayList<ProxyOrdine>) orderDao.doRetrieveOrderToUser(email, "DATAORDINE");
+				ArrayList<ProxyOrdine> proxyOrders = (ArrayList<ProxyOrdine>) orderDao.doRetrieveOrderToUser(email, "DATAORDINE", page, perPage);
 				proxyOrdini = proxyOrders;
 			} catch (SQLException e) {
 				System.out.println("Errore nel recupero degli ordini del cliente\n");

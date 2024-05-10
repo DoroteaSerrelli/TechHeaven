@@ -162,6 +162,9 @@ public class Carrello {
 		for(ItemCarrello i : prodotti) {
 			price += i.getPrezzo()*i.getQuantita();
 		}
+				
 		return Math.round(price*100.00)/100.00;
 	}
+	
+	
 }

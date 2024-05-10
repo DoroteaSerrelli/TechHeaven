@@ -119,11 +119,10 @@ FOREIGN KEY(Prodotto) REFERENCES Prodotto(CodiceProdotto)
 
 CREATE TABLE Ordine(
 CodiceOrdine int AUTO_INCREMENT NOT NULL,
-Stato enum('Richiesta effettuata', 'In lavorazione', 'Spedito', 'Preparazione incompleta') NOT NULL,
+Stato enum('Richiesta_effettuata', 'In_lavorazione', 'Spedito', 'Preparazione_incompleta') NOT NULL,
 email varchar(50) NOT NULL,
-IndirizzoSpedizione int NOT NULL,
-TipoSpedizione enum('Spedizione standard', 'Spedizione assicurata', 'Spedizione prime') NOT NULL,
-TipoConsegna enum('Domicilio', 'Punto di ritiro', 'Priority') NOT NULL,
+IndirizzoSpedizione varchar(200) NOT NULL,
+TipoSpedizione enum('Spedizione_standard', 'Spedizione_assicurata', 'Spedizione_prime') NOT NULL,
 DataOrdine date NOT NULL,
 OraOrdine time NOT NULL,
 

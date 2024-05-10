@@ -20,12 +20,18 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 /*FORM DI REGISTRAZIONE*/
 .section-p1{
     padding: 40px 80px;
-    text-align: center;
+    text-align: center;   
 }
-form {
+form {  
   display: inline-block; /* Keeps the form from stretching to full width */
-  text-align: left; /* Resets the text alignment for form elements */
+  text-align: left; /* Resets the text alignment for form elements */   
+  
+  padding-left: 50px;
+  padding-right: 50px;
+  border: 1px solid #41A0F2;
+  border-bottom-color: transparent;
 }
+
 .center {
   display: flex;
   justify-content: center;
@@ -34,8 +40,8 @@ form {
 }
 .row {
   display: flex;
-  justify-content: space-between; /* Distribute space evenly between inputs */
-  
+  justify-content: space-between; /* Distribute space evenly between inputs */  
+  padding: 10px;
 }
 .input-wrapper {
   flex-basis: 40%; /* Adjust width as needed */
@@ -44,6 +50,9 @@ form {
 }
 .input-wrapper p{
     width: 200px;
+}
+.input-wrapper input{
+    font-size: 15px;
 }
 
 .confirm_button{
@@ -56,7 +65,52 @@ form {
     border-top-color: #6A5FB3;
     border-bottom-color: #F28C44;
 }
+/*ERROR MESSAGE STILE**/
+.errormsg .valid{
+    padding: 10px;
+    margin-top: 10px;
+    background-color:  #ccffcc;
+    border: 1px solid #41A0F2;
+    border-radius: 5px;
+    text-align: center;
+    font-size: 30px;  
+}
+.errormsg .invalid{
+    background-color: #ffe6e6; 
+    border: dotted #ff6666;
+    word-wrap: break-word;
+    padding: 10px;
+}
 /*FORM DI REGISTRAZIONE*/
+/*PULSANTE SUBMIT SEARCH*/
+#search_section{
+    list-style-type: none;
+    
+}
+#search_section li .search{
+    border: none; 
+    background: none; 
+    padding: 0; 
+    cursor: pointer;
+}
+#search_section input[type="text"]{
+    border: none; /* Remove default border */
+    border-radius: 20px; /* Adjust border radius to make it rounder */
+    padding: 5px; /* Add padding for better appearance */
+    background-color: rgba(255, 255, 255, 0.5); /* Set background color with transparency */
+}
+/*ABOUT US SEZIONE
+#about h2{
+    color: #4FAA69;
+    margin-right: 20%;
+    margin-left: 20px;
+}
+#about .row{
+    background-image:  url("../view/img/4.png");
+    background-repeat: no-repeat;
+    height: 40%;
+}
+/*ABOUT US SEZIONE*/
 
 .section-m1{
     margin: 40px 80px;
@@ -68,8 +122,10 @@ body{
 
 h1{
     font-family: serif;
-    font-size: 15pt;
+    font-size: 30pt;
     line-height: 64px;
+    color: #1d428a;
+    margin-left: 20px;
 }
 h2{
     color:  #B5CEFF;
@@ -199,9 +255,24 @@ Che setteremò per incollonare il testo al centro.
     background-color: rgb(160,211,242)
 }
 
+/*CARRELLO SEZIONE prodotti mini preview*/
+/* Style for the checkout link */
 #carrello a {
     color: #ba9823;
+    
 }
+
+/* Style for the cart items container */
+#carrelloroba {
+    margin-top: 10px;
+}
+
+/* Style for each individual cart item */
+.cart-item {
+    border-bottom: 1px solid #ccc; /* Add a border between each item */
+    padding: 5px 0;
+}
+/*CARRELLO SEZIONE prodotti mini preview*/
 
 /*Sto "targettando" la lista linkata all'interno della barra di navigazione'
 SUPERCLASSE di tutti gli elementi che vengono sotto anche la sottolineatura*/
@@ -257,36 +328,58 @@ Sto modificando le caratteristiche DELLA SOTTOLINEATURA che apparirà sotto i li
 }
 
 
+/*RISULTATI DI RICERCA STYLE*/
 #product1{
     text-align: center;
 }
 #product1 h2{
-	color: #1d428a;
+    color: #1d428a;
 }
 #product1 p{
-	color: #4B608A;
+    color: #4B608A;
 }
+/*
+    color: #222F4A;*/
 #product1 h3{
-	color: #222F4A;
+    color: #1d428a;
 }
+/*display: flex; justify-content: flex-end;
+    padding-top: 20px; flex-wrap: wrap;
+    margin: 0 -5px;*/
 
 
-#product1 .pro-container{
+.container {
     display: flex;
-    justify-content: space-between;
-    padding-top: 20px;
-    flex-wrap: wrap;
+}
+.search_results {
+    flex: 1; /* Allow main content to expand and fill remaining space */
+    padding: 20px;
+}
+.sidebar {
+    flex: 0 0 250px; /* Set a fixed width for the sidebar */
+    background-color: #f0f0f0; /* Sidebar background color */
+    padding: 20px;
+}
+/*grid-template-columns: repeat(3, 1fr); Display three items per row */
+#product1 .pro-container{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /*Create responsive grid with minimum item width of 250px*/
+    gap: 40px; /* Add gap between grid items */
+    justify-content: flex-end   
 } 
-
+/*
+ min-width: 250px;
+   margin: 15px 0;    
+   padding: 10px 12px;
+     
+*/
 #product1 .pro{
-    width: 23%;
-    min-width: 250px;
-    padding: 10px 12px;
+    margin: 0 5px;
+    padding: 20px;
     border: 1px solid burlywood;
     border-radius: 25px;
     cursor: pointer;
     box-shadow: 20px 20px 30px rgba(0,0,0,0.02);
-    margin: 15px 0;    
     transition: 0.2s ease;
     position: relative;
 }
@@ -323,8 +416,8 @@ Sto modificando le caratteristiche DELLA SOTTOLINEATURA che apparirà sotto i li
     
 }
 #product1 .pro .cart{
-    width: 40px;
-    height: 40px;
+    width: 25px;
+    height: 25px;
     line-height: 40px;
     border-radius: 50px;
     background-color: #e8f6ea;
@@ -341,6 +434,18 @@ Sto modificando le caratteristiche DELLA SOTTOLINEATURA che apparirà sotto i li
     font-weight: 700;
     color: goldenrod;
 }
+
+#pagination{
+    text-align: center; 
+    margin: 5px;
+    padding: 10px;
+}
+#pagination a{
+    text-decoration: none;
+    margin-right: 15px;
+    font-size: 30px;
+}
+/*MODO IN CUI SONO ORGANIZZATI I PRODOTTI*/
 
 #banner{
     display: flex;
@@ -535,13 +640,13 @@ footer .follow .icon{
     display: flex;
     justify-content: space-between;
 }
-footer .follow .icon i:hover, footer a:hover{
+footer .follow img i:hover, footer a:hover{
 	color: #F2CB50;
 	padding-right: 4px;
 	cursor: pointer;
 }
 footer .install img{
-	margin: 10px 0 15px 0;	
+	margin: 5px 0 5px 0;	
 }
 footer .follow img {
   background-color: rgb(80, 104, 242);  
@@ -695,7 +800,16 @@ footer .copyright{
 	}
 }
 @media (max-width:477px){
-    
+        .container {
+        flex-direction: column; /* Stack sidebar and main content vertically */
+        }
+        .sidebar {
+            flex: 0 0 100%; /* Full width for sidebar */
+        }
+        #product1 {
+        grid-template-columns: repeat(2, 1fr); /* Two items per row for smaller screens */
+        }
+        
 	#header{
 		padding: 10px 30px;
  	}
@@ -766,7 +880,7 @@ footer .copyright{
             text-align: left; /* Resets the text alignment for form elements */
             
             flex-direction:  column;
-            
+            padding: 0px;
         }
         .center {
             display: table-column;
@@ -777,10 +891,35 @@ footer .copyright{
         .row {
             width: 50%;
             justify-content: space-between; /* Distribute space evenly between inputs */
+            border-right-color: transparent;
         }
         .input-wrapper {
             margin-right: 30%;
-           
+        }
+        .input-wrapper.reg_form input{
+            width: 98%;            
+        }
+        .input-wrapper.reg_form .confirm_button{
+            width: 80%;            
+        }        
+        .errormsg {
+            width: 80%; /* Adjust the width as needed */
+            max-width: 300px; /* Adjust the maximum width as needed */
+            word-wrap: break-word; /* Enable text wrapping */
         }
         
+        /*<<<<<<AUTENTICAZIONE ALLINEAMENTO CAMPI>>>**/
+        .login-container .row{
+            display: flex;
+     
+            justify-content: center; /* Center vertically */
+            align-items: center; /* Center horizontally */
+        }
+        .login-container  .input-wrapper{
+            margin-right: 10px;
+            margin-left: 80%;
+        }
+        .login-container .confirm_button{
+            width: 120px;
+        }
 }

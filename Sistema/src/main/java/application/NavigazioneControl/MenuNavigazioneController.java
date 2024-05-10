@@ -5,13 +5,10 @@
 package application.NavigazioneControl;
 
 import application.NavigazioneService.NavigazioneServiceImpl;
-import application.NavigazioneService.Prodotto;
-import application.NavigazioneService.ProxyProdotto;
+import application.NavigazioneService.ObjectProdotto.Categoria;
 import application.NavigazioneService.SearchResult;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author raffy
  */
-@WebServlet(name = "BarraRicercaController", urlPatterns = {"/BarraRicercaController"})
-public class BarraRicercaController extends HttpServlet {
+@WebServlet(name = "MenuNavigazioneController", urlPatterns = {"/MenuNavigazioneController"})
+public class MenuNavigazioneController extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,15 +32,14 @@ public class BarraRicercaController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-           
+            throws ServletException, IOException {      
           int page = 1;
           String searched_prod = request.getParameter("keyword");
        // Check if productIdString is null or empty
         if (searched_prod == null || searched_prod.isEmpty()) {
         // Handle the case where id parameter is missing
         // For example, you could return an error response or redirect the user
-            response.sendRedirect("index.jsp");
+            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "ID parameter is missing");
             return;
         }  
         try {
@@ -51,10 +47,10 @@ public class BarraRicercaController extends HttpServlet {
             page = Integer.parseInt( 
                 request.getParameter("page")); 
         
-        SearchResult searchResult = PaginationUtils.performPagination(new NavigazioneServiceImpl(), searched_prod, page, 10,"bar");
+        SearchResult searchResult = PaginationUtils.performPagination(new NavigazioneServiceImpl(), searched_prod, page, 10,"menu");
 
         PaginationUtils.setPaginationAttributes(request, searchResult, searched_prod, 10);
-        request.setAttribute("search_type", "bar");
+        request.setAttribute("search_type", "menu");
             // Forward the request to the JSP page
             request.getRequestDispatcher("searchResults.jsp").forward(request, response);
           

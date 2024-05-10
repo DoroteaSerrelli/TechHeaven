@@ -168,43 +168,43 @@
     <body>
         <link rel="stylesheet" href="common/style.css">
         <jsp:include page="common/header.jsp"  flush="true"/>
-         <div class="section-p1"><form name="client" method="post" action="/RegistrazioneController">           
+        <div class="section-p1"><form name="client" method="post" action="RegistrazioneController">           
             <div class="row">
-                <div class="input-wrapper">
+                <div class="input-wrapper reg_form">
                     <p>  *Name: </p>  
                     <input type="text" name="name" onchange="validateName()" required>
                 </div>   
-                <div class="input-wrapper">
+                <div class="input-wrapper reg_form">
                     <p> *Surname: </p>
                     <input type="text" name="surname" onchange="validateSurname()" required>
                 </div>
             </div>  
             <div class="row">     
-                 <div class="input-wrapper">             
+                 <div class="input-wrapper reg_form">             
                     <p>  *Address Road: </p>
                     <input id="road" type="text" name="road" onchange="validateAddress()"required>
                  </div>    
-                 <div class="input-wrapper">                           
+                 <div class="input-wrapper reg_form">                           
                     <p> *Civic Number: </p>
                     <input id="cv" type="text" name="cv" onchange="validateAddress()"required>
                  </div>
             </div>  
             <div class="row">
-                 <div class="input-wrapper">                      
+                 <div class="input-wrapper reg_form">                      
                     <p>  *Address City: </p>
                     <input id="city" type="text" name="city" onchange="validateAddress()"required>
                  </div> 
-               <div class="input-wrapper">            
+               <div class="input-wrapper reg_form">            
                     <p>  *CAP: </p>
                     <input id="cap" type="text" name="cap" onchange="validateAddress()"required>
               </div>               
             </div>
             <div class="row">
-                <div class="input-wrapper">             
+                <div class="input-wrapper reg_form">             
                     <p>  *Province: </p>
                     <input id="province" type="text" name="province" onchange="validateAddress()"required>
               </div>
-                 <div class="input-wrapper">             
+                 <div class="input-wrapper reg_form">             
                     <p>  *Sex: </p>
                     <select name="sesso" required>
                         <option value="M">Male</option> 
@@ -213,27 +213,27 @@
                 </div>
             </div>
             <div class="row"> 
-                <div class="input-wrapper">             
+                <div class="input-wrapper reg_form">             
                     <p> *E-mail: </p>
                     <input type="text" name="email" onchange="validateEmail()" required>
                 </div>
-                <div class="input-wrapper">
+                <div class="input-wrapper reg_form">
                     <p>  *Phone Number: </p>
                     <input type="text" name="phoneNumber" onchange="validatePhoneNumber()" required>
                 </div>
             </div>
             <div class="row"> 
-                 <div class="input-wrapper">              
+                 <div class="input-wrapper reg_form">              
                     <p>  *Username: </p>
                     <input type="text" name="username" onchange="validateUsername()" required>
                 </div>
-                <div class="input-wrapper">             
+                <div class="input-wrapper reg_form">             
                     <p>  *Password: </p>
                     <input type="text" name="password" onchange="validatePassword()" required>
                 </div>              
             </div>  
                  
-             <div class="input-wrapper"> 
+             <div class="input-wrapper reg_form"> 
                  <input value="Submit" type="submit" class="confirm_button" name="submit" onclick="return validate()">
              </div>
            <div class="errormsg">

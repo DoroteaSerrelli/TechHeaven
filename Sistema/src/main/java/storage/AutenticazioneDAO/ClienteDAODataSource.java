@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -67,7 +69,7 @@ public class ClienteDAODataSource{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Cliente dto = new Cliente("", "", "", null, "", null);
+		Cliente dto = new Cliente("", "", "", null, "", new ArrayList<>());
 
 		String selectSQL = "SELECT * FROM " + ClienteDAODataSource.TABLE_NAME + " WHERE EMAIL = ?";
 

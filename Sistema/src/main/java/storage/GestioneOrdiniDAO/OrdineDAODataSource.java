@@ -1,0 +1,654 @@
+package storage.GestioneOrdiniDAO;
+
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.LinkedList;
+
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import javax.sql.DataSource;
+
+import application.GestioneCarrelloService.ItemCarrello;
+import application.GestioneOrdiniService.Ordine;
+import application.GestioneOrdiniService.ProxyOrdine;
+import application.RegistrazioneService.Cliente;
+import storage.AutenticazioneDAO.ClienteDAODataSource;
+
+/**
+ * @author Dorotea Serrelli
+ * */
+public class OrdineDAODataSource {
+	private static DataSource ds;
+
+	static {
+		try {
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+
+			ds = (DataSource) envCtx.lookup("jdbc/techheaven");
+
+		} catch (NamingException e) {
+			System.out.println("Error:" + e.getMessage());
+		}
+	}
+
+	private static final String TABLE_NAME = "ordine";
+
+	public synchronized void doSave(Ordine order) throws SQLException {
+		//creare ordine
+		
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		String insertOrderSQL = "INSERT INTO " + OrdineDAODataSource.TABLE_NAME
+				+ " (CODICEORDINE, STATO, EMAIL, INDIRIZZOSPEDIZIONE, TIPOSPEDIZIONE, DATAORDINE, ORAORDINE) VALUES (?, ?, ?, ?, ?, ?, ?)";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(insertOrderSQL);
+			preparedStatement.setInt(1, order.getCodiceOrdine());
+			preparedStatement.setString(2, order.getStatoAsString());
+			preparedStatement.setString(3, order.getAcquirente().getEmail());
+			preparedStatement.setString(4, order.getSpedizioneAsString());
+			preparedStatement.setDate(5, java.sql.Date.valueOf(order.getData()));
+			preparedStatement.setTime(6, java.sql.Time.valueOf(order.getOra()));
+			
+			preparedStatement.executeUpdate();
+
+			connection.setAutoCommit(false);
+			connection.commit();
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		
+		//associare ordine a prodotti
+		
+		String insertOrderProductsSQL = "INSERT INTO Composizione_Ordine(ORDINE, PRODOTTO, QUANTITàACQUISTATA, PREZZOACQUISTATO) VALUES (?, ?, ?, ?)";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(insertOrderProductsSQL);
+			for(ItemCarrello i : order.getProdotti()) {
+				preparedStatement.setInt(1, order.getCodiceOrdine());
+				preparedStatement.setInt(2, i.getCodiceProdotto());
+				preparedStatement.setInt(3, i.getQuantita());
+				preparedStatement.setFloat(4, i.getPrezzo());
+
+				preparedStatement.executeUpdate();
+			}
+			connection.setAutoCommit(false);
+			connection.commit();
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+
+	}
+
+	public synchronized ProxyOrdine doRetrieveProxyByKey(int IDOrdine) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		ProxyOrdine dto = new ProxyOrdine();
+
+		String selectSQL = "SELECT * FROM " + OrdineDAODataSource.TABLE_NAME + " WHERE CODICEORDINE = ?";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setInt(1, IDOrdine);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				dto.setCodiceOrdine(rs.getInt("CODICEORDINE"));
+				dto.setStatoAsString(rs.getString("STATO"));
+				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
+				dto.setSpedizioneAsString(rs.getString("TIPOSPEDIZIONE"));
+				dto.setData(rs.getDate("DATAORDINE").toLocalDate());
+				dto.setOra((rs.getTime("ORAORDINE")).toLocalTime());
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return dto;
+	}
+	
+	
+	public synchronized Ordine doRetrieveFullOrderByKey(int IDOrdine) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		Ordine dto = new Ordine();
+
+		String selectSQL = "SELECT * FROM " + OrdineDAODataSource.TABLE_NAME + " WHERE CODICEORDINE = ?";
+		
+		//dati da ordine
+		
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setInt(1, IDOrdine);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			
+			while (rs.next()) {
+				dto.setCodiceOrdine(rs.getInt("CODICEORDINE"));
+				dto.setStatoAsString(rs.getString("STATO"));
+				ClienteDAODataSource clientDAO = new ClienteDAODataSource();
+				Cliente client = clientDAO.doRetrieveByKey(rs.getString("EMAIL"));
+				dto.setAcquirente(client);
+				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
+				dto.setSpedizioneAsString(rs.getString("TIPOSPEDIZIONE"));
+				dto.setData(rs.getDate("DATAORDINE").toLocalDate());
+				dto.setOra((rs.getTime("ORAORDINE")).toLocalTime());
+				
+				//dati da composizione ordine
+				dto.setProdotti(doRetrieveAllOrderProducts(IDOrdine));
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}		
+		
+		return dto;
+	}
+	
+	public synchronized ArrayList<ItemCarrello> doRetrieveAllOrderProducts(int IDOrdine) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		ArrayList<ItemCarrello> prodotti = new ArrayList<>();
+
+		String selectSQL = "SELECT * FROM COMPOSIZIONE_ORDINE INNER JOIN PRODOTTO "
+				+ "ON COMPOSIZIONE_ORDINE.PRODOTTO = PRODOTTO.CODICEPRODOTTO "
+				+ "WHERE CODICEORDINE = ?";
+		
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setInt(1, IDOrdine);
+
+			ResultSet rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				ItemCarrello dto = new ItemCarrello();
+				
+				dto.setCodiceProdotto(rs.getInt("CODICEPRODOTTO"));
+				dto.setNomeProdotto(rs.getString("NOMEPRODOTTO"));
+				dto.setPrezzo(rs.getFloat("PREZZOACQUISTATO"));
+				dto.setQuantita(rs.getInt("QUANTITàACQUISTATA"));
+				dto.setCategoria(rs.getString("CATEGORIA"));
+				dto.setModello(rs.getString("MODELLO"));
+				dto.setMarca(rs.getString("MARCA"));
+				
+				prodotti.add(dto);
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return prodotti;
+	}
+
+	public synchronized boolean doDelete(int IDOrdine) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		int result = 0;
+
+		String deleteSQL = "DELETE FROM " + OrdineDAODataSource.TABLE_NAME + " WHERE CODICEORDINE = ?";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(deleteSQL);
+			preparedStatement.setInt(1, IDOrdine);
+
+			result = preparedStatement.executeUpdate();
+			connection.setAutoCommit(false);
+			connection.commit();
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return (result != 0);
+	}
+
+	public synchronized Collection<ProxyOrdine> doRetrieveAll(String order, int page, int perPage) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		Collection<ProxyOrdine> ordini = new LinkedList<>();
+		
+		String selectSQL = "SELECT * FROM " + OrdineDAODataSource.TABLE_NAME;
+	    String countSQL = "SELECT COUNT(*) FROM " + OrdineDAODataSource.TABLE_NAME;
+		
+		if (order != null && !order.equals("")) {
+			selectSQL += " ORDER BY " + order;	//ordinamento degli ordini
+			countSQL += " ORDER BY " + order;
+		}
+		
+		int totalRecords;
+	    int totalPages;
+		
+		try {
+			connection = ds.getConnection();
+			try {
+	    		// Recupera il numero totale di record
+	    		preparedStatement = connection.prepareStatement(countSQL);
+	    		ResultSet rs = preparedStatement.executeQuery();
+	    		rs.next();
+	    		totalRecords = rs.getInt(1);
+
+	    		// Calcola il numero totale di pagine
+	    		totalPages = (int) Math.ceil((double) totalRecords / perPage);
+	    	}finally {
+	    		try {
+	    			if (preparedStatement != null)
+	    				preparedStatement.close();
+	    		} finally {
+	    			if (connection != null)
+	    				connection.close();
+	    		}
+	    	}
+	        // Verifica se la pagina richiesta è valida
+	        if (page > totalPages) {
+	            page = totalPages;
+	        }
+
+	        // Esegui la query con LIMIT e OFFSET
+	        int offset = (page - 1) * perPage;
+	        selectSQL += " LIMIT ? OFFSET ?";
+	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement.setInt(1, perPage);
+	        preparedStatement.setInt(2, offset);
+
+	        // Recupera i record paginati
+	        ResultSet rs = preparedStatement.executeQuery();
+
+			
+			while (rs.next()) {
+				ProxyOrdine dto = new ProxyOrdine();
+				dto.setCodiceOrdine(rs.getInt("CODICEORDINE"));
+				dto.setStatoAsString(rs.getString("STATO"));
+				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
+				dto.setSpedizioneAsString(rs.getString("TIPOSPEDIZIONE"));
+				dto.setData(rs.getDate("DATAORDINE").toLocalDate());
+				dto.setOra((rs.getTime("ORAORDINE")).toLocalTime());
+				
+				ordini.add(dto);
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return ordini;
+	}
+	
+	public synchronized Collection<ProxyOrdine> doRetrieveOrderToShip(String order, int page, int perPage) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		Collection<ProxyOrdine> ordini = new LinkedList<>();
+
+		String selectSQL = "SELECT * FROM " + OrdineDAODataSource.TABLE_NAME 
+				+ " WHERE STATO = 'RICHIESTA_EFFETTUATA' OR STATO = 'PREPARAZIONE_INCOMPLETA'";
+	    String countSQL = "SELECT COUNT(*) FROM " + OrdineDAODataSource.TABLE_NAME
+	    		+ " WHERE STATO = 'RICHIESTA_EFFETTUATA' OR STATO = 'PREPARAZIONE_INCOMPLETA'";
+
+		if (order != null && !order.equals("")) {
+			selectSQL += " ORDER BY " + order;	//ordinamento degli ordini
+			countSQL += " ORDER BY " + order;
+		}
+		
+		int totalRecords;
+	    int totalPages;
+		
+		try {
+			connection = ds.getConnection();
+			try {
+	    		// Recupera il numero totale di record
+	    		preparedStatement = connection.prepareStatement(countSQL);
+	    		ResultSet rs = preparedStatement.executeQuery();
+	    		rs.next();
+	    		totalRecords = rs.getInt(1);
+
+	    		// Calcola il numero totale di pagine
+	    		totalPages = (int) Math.ceil((double) totalRecords / perPage);
+	    	}finally {
+	    		try {
+	    			if (preparedStatement != null)
+	    				preparedStatement.close();
+	    		} finally {
+	    			if (connection != null)
+	    				connection.close();
+	    		}
+	    	}
+	        // Verifica se la pagina richiesta è valida
+	        if (page > totalPages) {
+	            page = totalPages;
+	        }
+
+	        // Esegui la query con LIMIT e OFFSET
+	        int offset = (page - 1) * perPage;
+	        selectSQL += " LIMIT ? OFFSET ?";
+	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement.setInt(1, perPage);
+	        preparedStatement.setInt(2, offset);
+
+	        // Recupera i record paginati
+	        ResultSet rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				ProxyOrdine dto = new ProxyOrdine();
+				dto.setCodiceOrdine(rs.getInt("CODICEORDINE"));
+				dto.setStatoAsString(rs.getString("STATO"));
+				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
+				dto.setSpedizioneAsString(rs.getString("TIPOSPEDIZIONE"));
+				dto.setData(rs.getDate("DATAORDINE").toLocalDate());
+				dto.setOra((rs.getTime("ORAORDINE")).toLocalTime());
+				
+				ordini.add(dto);
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return ordini;
+	}
+	
+
+	public synchronized Collection<ProxyOrdine> doRetrieveOrderToUser(String email, String order, int page, int perPage) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		Collection<ProxyOrdine> ordini = new LinkedList<>();
+
+		String selectSQL = "SELECT * FROM " + OrdineDAODataSource.TABLE_NAME 
+				+ " WHERE EMAIL = ?";
+		
+		String countSQL = "SELECT COUNT(*) FROM " + OrdineDAODataSource.TABLE_NAME
+				+ " WHERE EMAIL = ?";
+
+		if (order != null && !order.equals("")) {
+			selectSQL += " ORDER BY " + order;	//ordinamento degli ordini
+			countSQL += " ORDER BY " + order;
+		}
+		
+		int totalRecords;
+	    int totalPages;
+		
+		try {
+			connection = ds.getConnection();
+			try {
+	    		// Recupera il numero totale di record
+	    		preparedStatement = connection.prepareStatement(countSQL);
+	    		preparedStatement.setString(1, email);
+	    		ResultSet rs = preparedStatement.executeQuery();
+	    		rs.next();
+	    		totalRecords = rs.getInt(1);
+
+	    		// Calcola il numero totale di pagine
+	    		totalPages = (int) Math.ceil((double) totalRecords / perPage);
+	    	}finally {
+	    		try {
+	    			if (preparedStatement != null)
+	    				preparedStatement.close();
+	    		} finally {
+	    			if (connection != null)
+	    				connection.close();
+	    		}
+	    	}
+	        // Verifica se la pagina richiesta è valida
+	        if (page > totalPages) {
+	            page = totalPages;
+	        }
+
+	        // Esegui la query con LIMIT e OFFSET
+	        int offset = Math.max(0, (page - 1) * perPage);
+	        selectSQL += " LIMIT ? OFFSET ?";
+	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement.setString(1, email);
+	        preparedStatement.setInt(2, perPage);
+	        preparedStatement.setInt(3, offset);
+
+	        // Recupera i record paginati
+	        ResultSet rs = preparedStatement.executeQuery();
+	        			
+			while (rs.next()) {
+				ProxyOrdine dto = new ProxyOrdine();
+				dto.setCodiceOrdine(rs.getInt("CODICEORDINE"));
+				dto.setStatoAsString(rs.getString("STATO"));
+				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
+				dto.setSpedizioneAsString(rs.getString("TIPOSPEDIZIONE"));
+				dto.setData(rs.getDate("DATAORDINE").toLocalDate());
+				dto.setOra((rs.getTime("ORAORDINE")).toLocalTime());
+				
+				ordini.add(dto);
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return ordini;
+	}
+	
+	
+	public synchronized Collection<ProxyOrdine> doRetrieveOrderShipped(String order, int page, int perPage) throws SQLException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		Collection<ProxyOrdine> ordini = new LinkedList<>();
+
+		String selectSQL = "SELECT * FROM " + OrdineDAODataSource.TABLE_NAME 
+				+ " WHERE STATO = 'SPEDITO'";
+		
+		String countSQL = "SELECT COUNT(*) FROM " + OrdineDAODataSource.TABLE_NAME + " WHERE STATO = 'SPEDITO'";
+		
+		if (order != null && !order.equals("")) {
+			selectSQL += " ORDER BY " + order;	//ordinamento degli ordini
+			countSQL += " ORDER BY " + order;
+		}
+		
+		int totalRecords;
+	    int totalPages;
+		
+		try {
+			connection = ds.getConnection();
+			try {
+	    		// Recupera il numero totale di record
+	    		preparedStatement = connection.prepareStatement(countSQL);
+	    		ResultSet rs = preparedStatement.executeQuery();
+	    		rs.next();
+	    		totalRecords = rs.getInt(1);
+
+	    		// Calcola il numero totale di pagine
+	    		totalPages = (int) Math.ceil((double) totalRecords / perPage);
+	    	}finally {
+	    		try {
+	    			if (preparedStatement != null)
+	    				preparedStatement.close();
+	    		} finally {
+	    			if (connection != null)
+	    				connection.close();
+	    		}
+	    	}
+	        // Verifica se la pagina richiesta è valida
+	        if (page > totalPages) {
+	            page = totalPages;
+	        }
+
+	        // Esegui la query con LIMIT e OFFSET
+	        int offset = (page - 1) * perPage;
+	        selectSQL += " LIMIT ? OFFSET ?";
+	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement.setInt(1, perPage);
+	        preparedStatement.setInt(2, offset);
+
+	        // Recupera i record paginati
+	        ResultSet rs = preparedStatement.executeQuery();
+			
+			while (rs.next()) {
+				ProxyOrdine dto = new ProxyOrdine();
+				dto.setCodiceOrdine(rs.getInt("CODICEORDINE"));
+				dto.setStatoAsString(rs.getString("STATO"));
+				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
+				dto.setSpedizioneAsString(rs.getString("TIPOSPEDIZIONE"));
+				dto.setData(rs.getDate("DATAORDINE").toLocalDate());
+				dto.setOra((rs.getTime("ORAORDINE")).toLocalTime());
+				
+				ordini.add(dto);
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return ordini;
+	}
+	
+	public synchronized Collection<ProxyOrdine> doRetrieveOrderForDate(int page, int perPage, Date startDate, Date endDate) throws SQLException {
+	    Connection connection = null;
+	    PreparedStatement preparedStatement = null;
+
+	    Collection<ProxyOrdine> ordini = new LinkedList<>();
+
+	    String selectSQL = "SELECT * FROM " + OrdineDAODataSource.TABLE_NAME + " WHERE (DATAORDINE BETWEEN ? AND ?)";
+	    String countSQL = "SELECT COUNT(*) FROM " + OrdineDAODataSource.TABLE_NAME + "WHERE (DATAORDINE BETWEEN ? AND ?)";
+	    
+	    selectSQL += " ORDER BY DATAORDINE"; //ordinare gli ordini per data
+        countSQL += " ORDER BY DATAORDINE";
+	    
+        int totalRecords;
+	    int totalPages;
+        
+	    try {
+	        connection = ds.getConnection();
+	        try {
+	    		// Recupera il numero totale di record
+	    		preparedStatement = connection.prepareStatement(countSQL);
+	    		preparedStatement.setDate(1, startDate);
+		        preparedStatement.setDate(2, endDate);
+	    		ResultSet rs = preparedStatement.executeQuery();
+	    		rs.next();
+	    		totalRecords = rs.getInt(1);
+
+	    		// Calcola il numero totale di pagine
+	    		totalPages = (int) Math.ceil((double) totalRecords / perPage);
+	    	}finally {
+	    		try {
+	    			if (preparedStatement != null)
+	    				preparedStatement.close();
+	    		} finally {
+	    			if (connection != null)
+	    				connection.close();
+	    		}
+	    	}
+	        // Verifica se la pagina richiesta è valida
+	        if (page > totalPages) {
+	            page = totalPages;
+	        }
+
+	        // Esegui la query con LIMIT e OFFSET
+	        int offset = Math.max(0, (page - 1) * perPage);
+	        selectSQL += " LIMIT ? OFFSET ?";
+	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement.setDate(1, startDate);
+	        preparedStatement.setDate(2, endDate);
+	        preparedStatement.setInt(3, perPage);
+	        preparedStatement.setInt(4, offset);
+
+	        // Recupera i record paginati
+	        ResultSet rs = preparedStatement.executeQuery();
+	       
+	        while (rs.next()) {
+	        	ProxyOrdine dto = new ProxyOrdine();
+				dto.setCodiceOrdine(rs.getInt("CODICEORDINE"));
+				dto.setStatoAsString(rs.getString("STATO"));
+				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
+				dto.setSpedizioneAsString(rs.getString("TIPOSPEDIZIONE"));
+				dto.setData(rs.getDate("DATAORDINE").toLocalDate());
+				dto.setOra((rs.getTime("ORAORDINE")).toLocalTime());
+				
+				ordini.add(dto);
+	        }
+
+	    } finally {
+	        try {
+	            if (preparedStatement != null)
+	                preparedStatement.close();
+	        } finally {
+	            if (connection != null)
+	                connection.close();
+	        }
+	    }
+	    return ordini;
+	}
+
+}

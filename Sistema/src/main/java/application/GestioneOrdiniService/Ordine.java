@@ -1,120 +1,98 @@
 package application.GestioneOrdiniService;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
+import java.util.ArrayList;
 
+import application.GestioneCarrelloService.ItemCarrello;
 import application.RegistrazioneService.Cliente;
-import application.RegistrazioneService.Indirizzo;
 
-public class Ordine {
+/**
+ * La classe rappresenta il concetto di ordine commissionato dal cliente presso il negozio online.
+ * 
+ * @author Dorotea Serrelli
+ * */
+
+public class Ordine extends ObjectOrdine{
 	
-	public enum Stato{
-		Richiesta_effettuata,
-		In_lavorazione,
-		Spedito,
-		Preparazione_incompleta
-	}
-	
-	public enum TipoSpedizione{
-		Spedizione_standard,
-		Spedizione_assicurata,
-		Spedizione_prime
-	}
-	
-	public enum TipoConsegna{
-		Domicilio,
-		Punto_ritiro,
-		Priority
-	}
-	
-	private int CodiceOrdine;
-	private Stato stato;
+	/**
+	 * acquirente : è il committente dell'ordine.
+	 * 
+	 * @see application.RegistrazioneService.Cliente
+	 * */
 	private Cliente acquirente;
-	private Indirizzo indirizzoSpedizione;
-	private TipoConsegna consegna;
-	private TipoSpedizione spedizione;
-	private LocalDate data;
-	private LocalTime ora;
 	
-	public Ordine(int codice, Stato stato, Cliente cliente, Indirizzo indirizzo, TipoConsegna consegna, TipoSpedizione spedizione) {
-		CodiceOrdine = codice;
-		this.stato = stato;
-		acquirente = cliente;
-		indirizzoSpedizione = indirizzo;
-		this.consegna = consegna;
-		this.spedizione = spedizione;
-		data = LocalDate.now();
-		ora = LocalTime.now();
-	}
-
-	public int getCodiceOrdine() {
-		return CodiceOrdine;
-	}
-
-	public void setCodiceOrdine(int codiceOrdine) {
-		CodiceOrdine = codiceOrdine;
-	}
-
-	public Stato getStato() {
-		return stato;
-	}
-
-	public void setStato(Stato stato) {
-		this.stato = stato;
-	}
-
+	/**
+	 * prodotti : i prodotti, e le relative quantità, acquistati
+	 * dall'utente, costituenti l'ordine, richiesti
+	 * 
+	 * @see application.GestioneCarrelloService.ItemCarrello
+	 * */
+	private ArrayList<ItemCarrello> prodotti;
+	
+	/**
+	 * Il metodo fornisce le informazioni generali del committente
+	 * @return il profilo dell'utente richiedente l'ordine
+	 * */
 	public Cliente getAcquirente() {
 		return acquirente;
 	}
-
+	
+	/**
+	 * Il metodo imposta le informazioni generali del committente
+	 * @param client: il profilo del cliente richiedente l'ordine
+	 * */
 	public void setAcquirente(Cliente client) {
 		this.acquirente = client;
 	}
-
-	public Indirizzo getIndirizzoSpedizione() {
-		return indirizzoSpedizione;
+	
+	/**
+	 * Il metodo fornisce i prodotti presenti nell'ordine
+	 * 
+	 * @return i prodotti dell'ordine
+	 * */
+	public ArrayList<ItemCarrello> getProdotti() {
+		return prodotti;
 	}
-
-	public void setIndirizzoSpedizione(Indirizzo indirizzoSpedizione) {
-		this.indirizzoSpedizione = indirizzoSpedizione;
+	
+	/**
+	 * Il metodo imposta l'insieme di prodotti utili per 
+	 * la creazione dell'ordine
+	 * 
+	 * @param prodotti i prodotti da inserire nell'ordine
+	 * */
+	public void setProdotti(ArrayList<ItemCarrello> prodotti) {
+		this.prodotti = prodotti;
 	}
-
-	public TipoConsegna getConsegna() {
-		return consegna;
+	
+	/**
+	 * Il metodo restituisce una stringa contenente le informazioni 
+	 * essenziali sui prodotti presenti nell'ordine.
+	 * Tale metodo viene utilizzato per il metodo 
+	 * @see application.GestioneOrdiniService.Ordine.toString()
+	 * al fine di stampare le referenze dell' ordine.
+	 * 
+	 * @return le informazioni dei prodotti acquistati
+	 * */
+	private String prodottiOrdiniString() {
+		String str = "";
+		for(ItemCarrello i : prodotti) 
+			str = str.concat(i.toString().concat("\n"));
+		
+		return str;
 	}
-
-	public void setConsegna(TipoConsegna consegna) {
-		this.consegna = consegna;
-	}
-
-	public TipoSpedizione getSpedizione() {
-		return spedizione;
-	}
-
-	public void setSpedizione(TipoSpedizione spedizione) {
-		this.spedizione = spedizione;
-	}
-
-	public LocalDate getData() {
-		return data;
-	}
-
-	public void setData(LocalDate data) {
-		this.data = data;
-	}
-
-	public LocalTime getOra() {
-		return ora;
-	}
-
-	public void setOra(LocalTime ora) {
-		this.ora = ora;
-	}
-
+	
+	/**
+	 * Il metodo restituisce una stringa contenente le referenze sull'ordine
+	 * del cliente e le informazioni 
+	 * essenziali sui prodotti presenti nell'ordine, facendo uso del un metodo helper
+	 * @see application.GestioneOrdiniService.Ordine.prodottiOrdiniString().
+	 * 
+	 * @return le informazioni sull'ordine e sui suoi prodotti 
+	 * in formato stringa
+	 * */
 	@Override
 	public String toString() {
-		return "Ordine [CodiceOrdine=" + CodiceOrdine + ", stato=" + stato + ", cliente=" + acquirente.toStringNominativo() + ", consegna="
-				+ consegna + ", spedizione=" + spedizione + ", data=" + data + ", ora=" + ora + "]";
+		return super.toString() + ", cliente=" + acquirente.getNome() + " " + acquirente.getCognome() + 
+				"Prodotti acquistati:\n" + this.prodottiOrdiniString() + "]";
 	}
 	
 }

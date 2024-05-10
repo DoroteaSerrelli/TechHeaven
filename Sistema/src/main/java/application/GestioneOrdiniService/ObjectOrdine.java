@@ -77,7 +77,7 @@ public abstract class ObjectOrdine {
 	 * indirizzoSpedizione : l'indirizzo di spedizione specificato dall'utente in fase di check-out dell'ordine,
 	 * al fine di recapitare il pacco.
 	 * */
-	private Indirizzo indirizzoSpedizione;
+	private String indirizzoSpedizione;
 	
 	/**
 	 * spedizione : la tipologia di spediziondal negozio
@@ -123,7 +123,7 @@ public abstract class ObjectOrdine {
 	protected ObjectOrdine(int codice, Stato stato, Indirizzo indirizzoSpedizione, TipoSpedizione spedizione) {
 		codiceOrdine = codice;
 		this.stato = stato;
-		this.indirizzoSpedizione = indirizzoSpedizione;
+		this.indirizzoSpedizione = indirizzoSpedizione.toString();
 		this.spedizione = spedizione;
 		data = LocalDate.now();
 		ora = LocalTime.now();
@@ -200,7 +200,7 @@ public abstract class ObjectOrdine {
 	 * @return l'indirizzo di spedizione fornito dall'utente per far
 	 * recapitare l'ordine
 	 * */
-	public Indirizzo getIndirizzoSpedizione() {
+	public String getIndirizzoSpedizione() {
 		return indirizzoSpedizione;
 	}
 	
@@ -210,8 +210,18 @@ public abstract class ObjectOrdine {
 	 * recapitare l'ordine
 	 * */
 	public void setIndirizzoSpedizione(Indirizzo indirizzoSpedizione) {
+		this.indirizzoSpedizione = indirizzoSpedizione.toString();
+	}
+	
+	/**
+	 * Il metodo imposta l'indirizzo di spedizione per un ordine.
+	 * @param indirizzoSpedizione: l'indirizzo di spedizione fornito dall'utente per far
+	 * recapitare l'ordine, in formato stringa
+	 * */
+	public void setIndirizzoSpedizioneString(String indirizzoSpedizione) {
 		this.indirizzoSpedizione = indirizzoSpedizione;
 	}
+	
 	
 	/**
 	 * Il metodo fornisce la tipologia di spedizione da applicare all'ordine.

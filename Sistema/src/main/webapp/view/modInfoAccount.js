@@ -7,7 +7,7 @@ function closeUpdateBar() {
   document.getElementById("update_bar").style.left = "-100%";
 }
 
-function showUpdateForm(field) {
+function showUpdateForm(field, action) {
     // Hide all update forms
     var updateForms = document.querySelectorAll('.row[id^="update"]');
     updateForms.forEach(function(form) {
@@ -18,6 +18,26 @@ function showUpdateForm(field) {
     var selectedForm = document.getElementById('update' + field.charAt(0).toUpperCase() + field.slice(1));
     if (selectedForm) {
         selectedForm.style.display = 'block';
+        // Change action attribute of the form based on selection
+        if(field==='address'){
+            switch(action){
+                case 'addAddress':
+                    document.getElementById('updateInfoForm').action = 'UpdateAddressController?action=AddIndirizzo';
+                    break;
+                case 'modifyAddress':
+                    document.getElementById('updateInfoForm').action = 'UpdateAddressController?action=UpdateIndirizzo';
+                    break;
+                case 'deleteAddress':
+                    document.getElementById('updateInfoForm').action = 'UpdateAddressController?action=RemoveIndirizzo';
+                    break;
+                default:
+                    document.getElementById('updateInfoForm').action = 'UpdateProfileController';
+                    break;    
+            }
+        }
+        else{
+            document.getElementById('updateInfoForm').action = 'UpdateProfileController';
+        }
     }
 }
 
@@ -35,9 +55,9 @@ function showNewAddressForm() {
 function submitForms() {
     // Submit both forms when the Update button is clicked
     var updtInfoform = document.getElementById("updateInfoForm");
-    var updtAddrform = document.getElementById("updateAddressForm");
+   // var updtAddrform = document.getElementById("updateAddressForm");
     // Check if form elements are valid
     updtInfoform.submit();
-    updtAddrform.submit();
+   // updtAddrform.submit();
 }
 

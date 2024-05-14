@@ -12,6 +12,19 @@
 <%@page import="application.RegistrazioneService.Utente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
+ <%           
+    ProxyUtente u = (ProxyUtente) request.getSession().getAttribute("user");
+
+    //I checks li faccio nella servlet questa parte qui è inutile           
+    if (u==null || u.getUsername().equals("")) {
+       response.sendRedirect("Autenticazione.jsp");
+       return ;
+   }
+   else {           
+    Utente real_user = u.mostraUtente();
+    AutenticazioneController servlet = new AutenticazioneController();
+    servlet.loadUserAddresses(request);
+%> 
 <html>
     <head>
         <title>TechHeaven</title>
@@ -22,15 +35,7 @@
    <body>
         <link rel="stylesheet" href="common/style.css">
        <jsp:include page="common/header.jsp"  flush="true"/>
-       <% 
-            AutenticazioneController servlet = new AutenticazioneController();
-            servlet.loadUserAddresses(request);                       
-            if (request.getSession().getAttribute("user") == null) {
-            response.sendRedirect("Autenticazione.jsp");
-        } else {
-            ProxyUtente u = (ProxyUtente) request.getSession().getAttribute("user");
-            Utente real_user = u.mostraUtente();
-       %> 
+       
         <jsp:include page="roleSelector.jsp"  flush="true"/>
         <div id="product1">               
             <h2>Dettagli Utente</h2><a href="AutenticazioneController?action=updateUserInfo"><img src="${pageContext.request.contextPath}/view/img/modificaInfoAccount.png"></a>

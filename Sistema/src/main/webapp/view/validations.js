@@ -152,4 +152,45 @@
         return true;		
         }		
     } 
+    
+    function validateForm() {
+        var isValid= false ;
+        // Clear hidden email field if it exists
+        var emailField = document.getElementById('updateEmail');
+        if (emailField.style.display === 'none') {
+            document.getElementById('email').value = '';
+        }
+
+        // Clear hidden phone number field if it exists
+        var phoneField = document.getElementById('updateTelefono');
+        if (phoneField.style.display === 'none') {
+            document.getElementById('phoneNumber').value = '';
+        }
+
+        // Check if email field is visible, then validate
+        if (emailField.style.display !== 'none') {
+            isValid= validateEmail();
+            
+        }
+
+        // Check if phone number field is visible, then validate
+        if (phoneField.style.display !== 'none') {
+            isValid= validatePhoneNumber();
+        }
+        
+        var addressField = document.getElementById('updateAddress');
+        // Check if phone number field is visible, then validate
+        if (addressField.style.display !== 'none') {
+            isValid= validateAddress();
+        }
+        
+        // Add any additional validation logic here
+
+        // If both email and phone number are valid, submit the form
+        if (isValid) {
+            document.getElementById("updateInfoForm").submit();
+        } else {
+            // Handle validation failure, e.g., display error messages
+        }
+    }
 

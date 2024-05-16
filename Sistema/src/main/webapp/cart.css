@@ -1,0 +1,63 @@
+.pro-img img{
+    width: 30%;
+    height: 30%;
+}
+
+.details{
+    display: flex;
+    flex-direction: row;
+    
+}
+
+#showpr #emptycart{
+    margin-left: 30px;
+    border-left: 1px solid; /* You can adjust the border width and color */
+    border-bottom: 1px solid; /* You can adjust the border width and color */
+    padding: 10px; /* Optional: Add some padding to the div */
+    border-left-color:  #F2CB50;
+    border-bottom-color:  #00B86F;
+    align-content: center;
+    
+}
+
+#showpr table td img{
+    padding: 0;
+    justify-content:  space-between;
+    object-fit: contain;
+}
+
+#showpr h1{
+    text-align: left;
+    font-size: 32px;
+}
+
+#showpr h3{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#showpr p{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#showpr {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+#showpr .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start ;
+    width: 100%;
+}
+
+#complete_order{
+    align-self:  flex-end;
+}
+
+#showpr .item-carrello{
+    border-bottom: 1px solid #00B86F;
+}

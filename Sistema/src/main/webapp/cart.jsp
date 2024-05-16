@@ -3,7 +3,7 @@
 <%@page import="application.GestioneCarrelloService.Carrello"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
     <head>
         <title>TechHeaven</title>
         <meta charset="UTF-8">
@@ -32,6 +32,7 @@
             carrello.totalAmount();
         %>
         <div id="complete_order">
+            <h1>Totale provvisorio:</h1> 
             <h3><%=String.format("%.2f", carrello.totalAmount())%>€</h3>
             <a href="complete_order.jsp">Click here to proceed with the order</a>
         </div>

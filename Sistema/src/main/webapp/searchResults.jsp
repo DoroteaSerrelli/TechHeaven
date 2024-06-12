@@ -58,7 +58,7 @@
                     %>
                     
                     <div class="pro">
-                        <img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt"/>
+                        <img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';"/>
                         <div class="des">
                             <h3><%=product.getNomeProdotto()%></h3>
                             <span><%=product.getMarca()%></span>

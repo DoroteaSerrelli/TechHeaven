@@ -17,6 +17,7 @@ import application.RegistrazioneService.Cliente;
 import application.RegistrazioneService.Ruolo;
 import application.RegistrazioneService.Utente;
 import application.RegistrazioneService.Indirizzo;
+import application.RegistrazioneService.ProxyUtente;
 
 public class UtenteDAODataSource{
 	
@@ -250,11 +251,14 @@ public class UtenteDAODataSource{
 		}
 		return user;
 	}
-
-	public Utente doRetrieveProxyUserByKey(String username) throws SQLException {
+	
+	/*
+	 * Questo metodo restituisce le informazioni essenziali di un utente: username e password, in base al suo username.
+	 * */
+	public ProxyUtente doRetrieveProxyUserByKey(String username) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		Utente user = new Utente("", "", null);
+		ProxyUtente user = new ProxyUtente("", "", null);
 		String selectSQL = "SELECT * FROM " + UtenteDAODataSource.TABLE_NAME + " WHERE USERNAME = ?";
 		try {
 			connection = ds.getConnection();	

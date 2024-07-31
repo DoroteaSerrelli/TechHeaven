@@ -50,7 +50,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 	@Override
 	public ProxyUtente login(String username, String password) throws SQLException, UtenteInesistenteException {
 		UtenteDAODataSource userDAO = new UtenteDAODataSource();
-		Utente userReal;
+		ProxyUtente userReal;
 		if((userReal = userDAO.doRetrieveProxyUserByKey(username)) == null)
 			throw new UtenteInesistenteException("Username o password non valide");
 		else {

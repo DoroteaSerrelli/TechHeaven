@@ -111,7 +111,7 @@ public class RoleAccessFilter implements Filter {
         ProxyUtente user = (ProxyUtente) httpRequest.getSession().getAttribute("user");
         if (user == null) {
             // User is not logged in, redirect to login page
-            httpResponse.sendRedirect("Autenticazione.jsp");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/Autenticazione.jsp"); // Redirect to login page
             return;
         }
         

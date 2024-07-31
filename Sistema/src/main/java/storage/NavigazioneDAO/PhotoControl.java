@@ -13,6 +13,9 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Properties;
+import org.apache.commons.dbcp2.BasicDataSource;
+import storage.AutenticazioneDAO.ClienteDAODataSource;
 
 /**
  * La classe consente di effettuare le operazioni di caricamento, recupero, aggiunta e rimozione
@@ -24,19 +27,28 @@ import java.sql.ResultSet;
  * */
 
 public class PhotoControl {
-	
-	private static DataSource ds;
-
+	private static BasicDataSource ds;
 	static {
-		try {
+                try{
+		    InputStream propsInput = ClienteDAODataSource.class.getResourceAsStream("/config.properties");
+                    Properties pr = new Properties();
+                    pr.load(propsInput);              
+                    String username = pr.getProperty("DB_USER");
+                    String password = pr.getProperty("DB_PASSWORD");      
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+                          BasicDataSource basicDataSource = new BasicDataSource();
+                   basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
+                   basicDataSource.setUrl("jdbc:mysql://localhost:3306/techheaven?useSSL=false&amp&serverTimezone=UTC");
+                   basicDataSource.setUsername(username);
+                   basicDataSource.setPassword(password);        
+                // Set the configured data source
+                    ds = basicDataSource;
+                  
 
-			ds = (DataSource) envCtx.lookup("jdbc/techheaven");
-
-		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
-		}
+		} catch (NamingException | IOException e) {
+                 System.out.println("Error:" + e.getMessage());
+            }
 	}
 	
 	/**
@@ -92,7 +104,7 @@ public class PhotoControl {
 		PreparedStatement stmt = null;
 		try {
 			con = ds.getConnection();
-			stmt = con.prepareStatement("UPDATE prodotto SET TOPIMAGE = ? WHERE CODICEPRODOTTO = ?");
+			stmt = con.prepareStatement("UPDATE prodotto SET TOPIMMAGINE = ? WHERE CODICEPRODOTTO = ?");
 			try {
 				stmt.setBinaryStream(1, photo, photo.available());
 				stmt.setInt(2, idP);	

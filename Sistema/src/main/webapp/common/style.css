@@ -390,8 +390,11 @@ Sto modificando le caratteristiche DELLA SOTTOLINEATURA che apparirà sotto i li
 
 #product1 .pro img{
     width: 50%;
+    height: auto;
+    margin: 5px;
+    object-fit: contain;
     border-radius: 20px;
-    
+    border-bottom-color: lightcoral;
 }
 
 #product1 .pro .des{
@@ -507,7 +510,7 @@ gli assegniamo entrambe le classi ma cambiamo l'immagine di background*/
     justify-content: center;
     align-items: center;
 	text-align: center;
-    background-image: url("../img/2.png");
+    background-image: url("../view/img/1.png");
     width: 50%;
     height: 40vh;
     background-size: cover;
@@ -516,7 +519,7 @@ gli assegniamo entrambe le classi ma cambiamo l'immagine di background*/
 }
 
 #sm-banner .banner-box2{
-	 background-image: url("img/2.png");
+	 background-image: url("../view/img/2.png");
    
 }
 #sm-banner h4{

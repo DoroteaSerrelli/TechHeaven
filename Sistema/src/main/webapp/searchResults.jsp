@@ -4,6 +4,8 @@
     Author     : raffy
 --%>
 
+<%@page import="java.util.Base64"%>
+<%@page import="application.NavigazioneService.NavigazioneServiceImpl"%>
 <%@page import="java.lang.String"%>
 <%@page import="java.util.Set"%>
 <%@page import="java.util.HashSet"%>
@@ -49,9 +51,14 @@
         <div class="search_results">
         <section id="product1">      
             <div class="pro-container"> 
-                <% for (ProxyProdotto product : products) { %>                     
+                <% 
+                    for (ProxyProdotto product : products) { %>
+                    <%                        
+                        
+                    %>
+                    
                     <div class="pro">
-                       <img src="" alt="alt">
+                        <img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';"/>
                         <div class="des">
                             <h3><%=product.getNomeProdotto()%></h3>
                             <span><%=product.getMarca()%></span>
@@ -65,7 +72,7 @@
                         </a>                           
                         <div id="error">
                             <% String errormsg="";
-                                errormsg= (String)request.getSession().getAttribute("error");
+                                errormsg= (String)request.getAttribute("error");
                                 if(errormsg==null) errormsg="";                                                       
                             %>
                             <%=errormsg%>

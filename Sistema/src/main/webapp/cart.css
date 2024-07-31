@@ -1,0 +1,98 @@
+.pro-img img{
+    width: 30%;
+    height: 30%;
+}
+
+.details{
+    display: flex;
+    flex-direction: row;
+    
+}
+
+#showpr #emptycart{
+    margin-left: 30px;
+    border-left: 1px solid; /* You can adjust the border width and color */
+    border-bottom: 1px solid; /* You can adjust the border width and color */
+    padding: 10px; /* Optional: Add some padding to the div */
+    border-left-color:  #F2CB50;
+    border-bottom-color:  #00B86F;
+    align-content: center;
+    
+}
+
+#showpr table td img{
+    padding: 0;
+    justify-content:  space-between;
+    object-fit: contain;
+}
+
+#showpr h1{
+    text-align: left;
+    font-size: 32px;
+}
+
+#showpr h3{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#showpr p{
+    font-weight: bold;
+    font-size: 20px;
+}
+
+#showpr {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-right: 33%; /* Add padding to the right side to accommodate the sidebar */
+}
+
+#showpr .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#complete_order{
+    align-self:  flex-end;
+}
+
+#showpr .item-carrello{
+    border-bottom: 1px solid #00B86F;
+}
+
+#showpr #complete_order{
+    position: fixed; /* Fix the position of the sidebar */
+    top: 40%; /* Align the sidebar to the top of the page */
+    right: 0; /* Align the sidebar to the left side of the page */
+    width: 30%; /* Set the width of the sidebar */
+    height: 40%; /* Make the sidebar take up the full height of the page */
+    background-color: #f4f4f4; /* Background color of the sidebar */
+    padding: 20px; /* Add some padding to the sidebar content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+    transform: translateY(-50%); /* Center vertically */
+}
+
+@media (max-width:477px){
+    #showpr #complete_order {
+        top: auto;
+        right: auto;
+        bottom: 0;
+        padding: 10px; /* Reduce padding for smaller screens */
+        right: 10px;
+        width: 90%;
+    }
+    #showpr #complete_order h1{
+        font-size: 1.5em; /* Adjust font size for smaller screens */
+        margin-bottom: 10px; /* Add some bottom margin for better spacing */
+        overflow-wrap: break-word; /* Allow long words to break and wrap */
+        width: 100%;
+        text-align: left;
+    }
+    
+    #showpr .row{
+        width: 100%;
+    }
+}   

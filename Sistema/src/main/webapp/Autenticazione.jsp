@@ -11,43 +11,7 @@
        <title>Autenticazione</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script>
-            function validate(){
-		if(!validateUsername() || !validatePassword()) return false;
-            }
-            function validateUsername(){
-		let n= document.forms["client"]["name"].value;
-		var pattern="^[A-Za-z]{5,}$";
-		if(!n.match(pattern)){
-                    document.getElementById("error").innerHTML="Name must have alphabet characters only";
-                    error.classList.remove("valid");
-                    error.classList.add("invalid");				
-                return false;
-		}
-		else{
-                    document.getElementById("error").innerHTML="OK";	
-                    error.classList.remove("invalid");									
-                    error.classList.add("valid");	
-                return true;					
-		}		
-            }
-            function validatePassword(){
-		let n= document.forms["client"]["surname"].value;
-		var pattern= /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{5,}$/;
-		if(!n.match(pattern)){
-                    document.getElementById("error").innerHTML="must have alphabet characters only";
-                    error.classList.remove("valid");
-                    error.classList.add("invalid");
-		return false;
-		}
-		else{
-                    document.getElementById("error").innerHTML="OK";	
-                    error.classList.remove("invalid");									
-                    error.classList.add("valid");	
-		return true;		
-		}		
-            }
-        </script>
+        <script src="${pageContext.request.contextPath}/view/validations.js"></script>
     </head>
     <body>
         <link rel="stylesheet" href="common/style.css">
@@ -86,14 +50,14 @@
                         </div>
                     </div>    
                 <div class="errormsg">
-                    <p id="error"></p>
-                     <% 
-                        String err = (String)request.getSession().getAttribute("error");
-                        if (err != null && !err.isEmpty()) {
-                     %>
-                    <%=err%>               
-                    <% } %>
-                </div> 
+                <p id="error"></p>
+                 <% 
+                    String err = (String)request.getSession().getAttribute("error");
+                    if (err != null && !err.isEmpty()) {
+                 %>
+                <%=err%>               
+                <% } %>
+            </div> 
                 </form>
             </div>    
          </div>

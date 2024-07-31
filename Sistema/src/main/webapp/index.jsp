@@ -1,3 +1,8 @@
+<%@page import="application.NavigazioneService.ProxyProdotto"%>
+<%@page import="java.util.Collection"%>
+<%
+    Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) application.getAttribute("products");
+%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,25 +49,20 @@
                 <h2>Featured Product</h2>
                 <p>Some of our featured products include:</p>
                 <div class="pro-container">
+                    <% for (ProxyProdotto product : products) { %>       
                     <div class="pro">
                         <img src="alt" alt="alt">
                         <div class="des">
-                            <span>Lindt</span>
-                            <h5 id="pr_name">Gold Bunny Latte 200g</h5>
-                            <div class="star">
-                                <i class="fa-solid fa-star" ></i>
-                                <i class="fa-solid fa-star" ></i>
-                                <i class="fa-solid fa-star" ></i>
-                                <i class="fa-solid fa-star" ></i>                                
-                                <i class="fa-solid fa-star" ></i>
-                            </div>
-                            <h4>4,95€</h4>
+                            <span><%=product.getMarca()%></span>
+                            <h5 id="pr_name"><%=product.getNomeProdotto()%></h5>                           
+                            <h4><%=product.getPrezzo()%>€</h4>
                             </div>
                         <a href="Shop">                           
                             <i class="fa-solid fa-cart-plus cart">                                 
                             </i>
                         </a>
-                    </div>                                        
+                    </div>
+                    <%}%>
             </section> 
             <section id="banner">
                 <h4>Buy a laptop today</h4>
@@ -133,13 +133,13 @@
                 <div class= "banner-box">
 		<h4>crazy deals</h4>
 		<h2> Buy 1 get 1 free</h2>
-		<span>The best quality chocolate is on sale at ChockyMaker</span>
+		<span>The best quality tech is on sale at TechHeaven</span>
 		<button class="minbanner"> Learn More </button>
                 </div>
                 <div class= "banner-box banner-box2">
                     <h4>summer</h4>
                     <h2> Upcoming season</h2>
-                    <span>Fresh offers available on sale at ChockyMaker</span>
+                    <span>Fresh offers available on sale at TechHeaven</span>
                     <button class="minbanner"> Learn More </button>
                 </div>
             </section>	

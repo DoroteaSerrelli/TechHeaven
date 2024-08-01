@@ -1,5 +1,5 @@
 <div style="display: flex; justify-content: center; align-items: center; border-bottom:2px solid gray">
-        <img id="logo" src="./src/main/webapp/images/logo.png" alt="" style="padding: 20px; width: 45%; height: 45%;">
+        <img id="logo" src="./img/logo.png" alt="" style="padding: 20px; width: 45%; height: 45%;">
 </div>
 
 # TechHeaven

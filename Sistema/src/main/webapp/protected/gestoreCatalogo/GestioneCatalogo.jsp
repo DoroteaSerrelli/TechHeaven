@@ -71,7 +71,7 @@
                          </table> 
                        <div id="pagination"></div>
             </section>
-                </section>
+                
                 <section id="addProductForm" class="form-section hidden">
                     <!-- Your form for adding a new product -->
                     <h2>Aggiungi un nuovo prodotto</h2>
@@ -91,9 +91,7 @@
                     <h2>Modifica caratteristiche prodotto</h2>
                     <p>Form content for modifying product properties...</p>
                 </section>
-            </section>    
-        </div>
-    </div>
+            </section>             
        <div id="dynamicContent">
            <form action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
                <label>ID del prodotto:</label>

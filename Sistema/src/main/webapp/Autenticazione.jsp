@@ -28,7 +28,7 @@
                 <div class="row">
                     <div class="input-wrapper">
                         <p> *Password: </p>
-                        <input type="text" name="password" onchange="validatePassword()" required>
+                        <input type="password" name="password" onchange="validatePassword()" required>
                     </div>
                 </div>  
                 <div class="row">     

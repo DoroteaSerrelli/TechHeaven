@@ -6,22 +6,24 @@ package application.AutenticazioneControl;
  */
 
 
-import application.AutenticazioneService.AutenticazioneException;
-import application.AutenticazioneService.AutenticazioneServiceImpl;
-import application.RegistrazioneService.Indirizzo;
-import application.RegistrazioneService.ProxyUtente;
-import application.RegistrazioneService.Ruolo;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import application.AutenticazioneService.AutenticazioneException;
+import application.AutenticazioneService.AutenticazioneServiceImpl;
+import application.RegistrazioneService.Indirizzo;
+import application.RegistrazioneService.ProxyUtente;
+import application.RegistrazioneService.Ruolo;
 import storage.AutenticazioneDAO.IndirizzoDAODataSource;
 
 @WebServlet(name = "AutenticazioneController", urlPatterns = {"/AutenticazioneController"})
@@ -77,7 +79,7 @@ public class AutenticazioneController extends HttpServlet {
             // Forward to updateUserInfo.jsp if action is specified
             if (action.equals("updateUserInfo")) {
                 request.getRequestDispatcher("updateUserInfo.jsp").forward(request, response);
-            }
+            }           
             // Add other actions if needed
         } else {
             // Forward to the default page (e.g., AreaRiservata.jsp) if no action is specified
@@ -100,6 +102,15 @@ public class AutenticazioneController extends HttpServlet {
             throws ServletException, IOException {
         
         try {
+            String action = request.getParameter("action");
+            if (action != null && !action.isEmpty()) {           
+                if(action.equals("logout")){
+                    request.getSession().invalidate();// Invalidate the session
+                    response.sendRedirect("Autenticazione.jsp"); 
+                    return;
+                }
+            }
+            
             String username = request.getParameter("username");
             String password = request.getParameter("password");
             
@@ -116,18 +127,18 @@ public class AutenticazioneController extends HttpServlet {
                     System.out.println(r.getNomeRuolo());
                 }
                 
-                request.getRequestDispatcher("AreaRiservata.jsp").forward(request, response);
+                request.getRequestDispatcher("AreaRiservata.jsp").forward(request,response);
             } else {
                 // Authentication failed
                 response.sendRedirect("Autenticazione.jsp?error=true");
             }
         } catch (SQLException ex) {
             Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
-            request.getSession().setAttribute("error", ex);
+            request.setAttribute("error", "password o username non corrette");
             response.sendRedirect("Autenticazione.jsp?error=true");
         } catch (AutenticazioneException.UtenteInesistenteException ex) {
             Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
-            request.getSession().setAttribute("error", ex);
+            request.setAttribute("error",  "password o username non corrette");
             response.sendRedirect("Autenticazione.jsp?error=true");
         }
         }
@@ -145,7 +156,8 @@ public class AutenticazioneController extends HttpServlet {
         if (u != null) {
             IndirizzoDAODataSource indDAO = new IndirizzoDAODataSource();
             ArrayList<Indirizzo> indirizzi = indDAO.doRetrieveAll("Indirizzo.via", u.getUsername());
-            request.setAttribute("Indirizzi", indirizzi);
+            request.setAttribute("Indirizzi", indirizzi); 
+
         }
     }
-    }
+}

@@ -34,9 +34,13 @@
     </head>    
    <body>
         <link rel="stylesheet" href="common/style.css">
-       <jsp:include page="common/header.jsp"  flush="true"/>
-       
-        <jsp:include page="roleSelector.jsp"  flush="true"/>
+       <jsp:include page="common/header.jsp"  flush="true"/>              
+       <jsp:include page="roleSelector.jsp"  flush="true"/>
+        
+       <form action="AutenticazioneController?action=logout" method = "POST">
+            <button class="confirm_button" type="submit">Logout</button>
+       </form>
+
         <div id="product1">               
             <h2>Dettagli Utente</h2><a href="AutenticazioneController?action=updateUserInfo"><img src="${pageContext.request.contextPath}/view/img/modificaInfoAccount.png"></a>
             <ul>

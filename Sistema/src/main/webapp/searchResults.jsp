@@ -14,12 +14,16 @@
 <%@page import="application.NavigazioneService.Prodotto"%>
 <%
     Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) request.getAttribute("products");
+   
+    if(products==null ||products.isEmpty()){ %>
+    <h4>Nessun prodotto trovato con la keyword: <%=request.getAttribute("keyword")%></h4>
+    <%}
     int totalPages = (int) request.getAttribute("totalPages");
     String keyword = (String) request.getAttribute("keyword");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="it">
    <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Product Search Results</title>
@@ -69,7 +73,10 @@
                         </div>
                         <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
                             <img class="cart" src="${pageContext.request.contextPath}/view/img/icon_carrello2.png">
-                        </a>                           
+                        </a>
+                        <a href="GestioneWishlistController?action=addtowishlist">
+                            <img  src="${pageContext.request.contextPath}/view/img/icon_wishlist.png" style="margin: 1px; width: 25px; height: 25px">
+                        </a>
                         <div id="error">
                             <% String errormsg="";
                                 errormsg= (String)request.getAttribute("error");

@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
+import storage.WishlistDAO.WishlistDAODataSource;
 
 /**
  *
@@ -59,18 +60,13 @@ public class GestioneWishlistController extends HttpServlet {
                 switch (action) {
                     case "viewwishlist":
                     {
-                       try {
-                            Wishlist w = gws.recuperaWishlist(user);
-                            request.getSession().setAttribute("Wishlist", w);                                    
-                        } catch (SQLException ex) {
-                            Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                        Wishlist w = createNewWishlistIfNotExists(request, user);
+                        request.getSession().setAttribute("Wishlist", w);                                    
                     }
                     break;    
                     case "addtowishlist":        
                        try { 
-                           Wishlist w = (Wishlist)request.getSession().getAttribute("Wishlist");
-                           if(w==null) w= gws.recuperaWishlist(user);
+                           Wishlist w = createNewWishlistIfNotExists(request, user);
                             // Parse request parameters
                             int productId = parseProductId(request.getParameter("productId"));
                             ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);                                                              
@@ -86,8 +82,7 @@ public class GestioneWishlistController extends HttpServlet {
    
                     case "removefromwishlist":
                         try { 
-                           Wishlist w = (Wishlist)request.getSession().getAttribute("Wishlist");
-                           if(w==null) w= gws.recuperaWishlist(user);
+                           Wishlist w = createNewWishlistIfNotExists(request, user);
                             // Parse request parameters
                             int productId = parseProductId(request.getParameter("productId"));
                             ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);                                                              
@@ -108,8 +103,36 @@ public class GestioneWishlistController extends HttpServlet {
                         response.getWriter().println("Invalid action");
                 }
             }
-            response.sendRedirect("wishlist.jsp");
     }
+     /**
+      * Questo metodo tenta di recuperare la Wishlist dalla sessione nel caso in
+      * cui questa sia nulla, cerca di recuperarla dal DB se nel database non è presente
+      * e viene lanciata l'eccezione che segnala la non presenza della wishlist relativa
+      * a quell'utente ne crea una nuova e restituisce la wishlist risultante.
+      * @param request
+      * @param user
+      * @return la wishlist relativa all'utente.
+      */
+    private Wishlist createNewWishlistIfNotExists(HttpServletRequest request, ProxyUtente user){
+        try {
+            WishlistDAODataSource wdao = new WishlistDAODataSource();
+            Wishlist w = (Wishlist)request.getSession().getAttribute("Wishlist");
+            if(w==null){
+                w = gws.recuperaWishlist(user);
+            }
+            return w;
+        } catch (SQLException ex) {
+            try {
+                Wishlist w =  new Wishlist(user);
+                WishlistDAODataSource wdao = new WishlistDAODataSource();
+                wdao.doSaveWishlist(w);
+                return w;
+            } catch (SQLException ex1) {
+                Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+        }
+        return null;
+    } 
     private int parseProductId(String pid) {
         if (pid != null && !pid.isEmpty()) {
             return Integer.parseInt(pid);

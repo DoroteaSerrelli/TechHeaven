@@ -39,7 +39,11 @@ public class OrdineDAODataSource {
 	}
 
 	private static final String TABLE_NAME = "ordine";
-
+	
+	/**
+	 * Il metodo crea un ordine e lo memorizza nel DB.
+	 * @param order : l'ordine da salvare
+	 * **/
 	public synchronized void doSave(Ordine order) throws SQLException {
 		//creare ordine
 		
@@ -99,9 +103,15 @@ public class OrdineDAODataSource {
 					connection.close();
 			}
 		}
-
 	}
-
+	
+	/**
+	 * Il metodo recupera dal DB le caratteristiche peculiari di un ordine 
+	 * a partire dal suo codice identificativo.
+	 * @param IDOrdine : l'ordine da cercare nel DB
+	 * @return dto : le informazioni essenziali dell'ordine cercato
+	 * **/
+	
 	public synchronized ProxyOrdine doRetrieveProxyByKey(int IDOrdine) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -138,7 +148,12 @@ public class OrdineDAODataSource {
 		return dto;
 	}
 	
-	
+	/**
+	 * Il metodo recupera dal DB tutte le caratteristiche di un ordine 
+	 * a partire dal suo codice identificativo.
+	 * @param IDOrdine : l'ordine da cercare nel DB
+	 * @return dto : tutte le informazioni dell'ordine cercato
+	 * **/
 	public synchronized Ordine doRetrieveFullOrderByKey(int IDOrdine) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -185,6 +200,12 @@ public class OrdineDAODataSource {
 		return dto;
 	}
 	
+	/**
+	 * Il metodo recupera dal DB i prodotti che compongono un ordine, a partire dal 
+	 * a partire dal suo codice identificativo.
+	 * @param IDOrdine : l'ordine da cercare nel DB
+	 * @return prodotti : le informazioni essenziali dei prodotti dell'ordine cercato
+	 * **/
 	public synchronized ArrayList<ItemCarrello> doRetrieveAllOrderProducts(int IDOrdine) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -227,7 +248,12 @@ public class OrdineDAODataSource {
 		}
 		return prodotti;
 	}
-
+	
+	/**
+	 * Il metodo elimina un ordine memorizzato nel DB.
+	 * @param IDOrdine : l'ordine da eliminare
+	 * @return 1 se l'ordine è stato eliminato; 0 altrimenti.
+	 * **/
 	public synchronized boolean doDelete(int IDOrdine) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -256,7 +282,18 @@ public class OrdineDAODataSource {
 		}
 		return (result != 0);
 	}
-
+	
+	/**
+	 * Il metodo recupera dal DB tutti gli ordini commissionati al negozio online,
+	 * utilizzando il meccanismo della paginazione degli elementi estratti
+	 * dal DB.
+	 * @param order: l'ordinamento con cui si organizzano gli ordini recuperati dal DB
+	 * @param page : il numero di pagina
+	 * @param perPage : il numero di ordini da inserire per ogni record/pagina
+	 * 
+	 * @return ordini : le informazioni essenziali degli ordini 
+	 * 					(da spedire, in preparazione, evasi) commissionati al negozio online
+	 * **/
 	public synchronized Collection<ProxyOrdine> doRetrieveAll(String order, int page, int perPage) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -334,6 +371,18 @@ public class OrdineDAODataSource {
 		return ordini;
 	}
 	
+	/**
+	 * Il metodo recupera dal DB tutti gli ordini commissionati al negozio online,
+	 * che devono essere ancora spediti, 
+	 * utilizzando il meccanismo della paginazione degli elementi estratti
+	 * dal DB.
+	 * @param order: l'ordinamento con cui si organizzano gli ordini recuperati dal DB
+	 * @param page : il numero di pagina
+	 * @param perPage : il numero di ordini da inserire per ogni record/pagina
+	 * 
+	 * @return ordini : le informazioni essenziali degli ordini 
+	 * 					(da spedire, in preparazione) commissionati al negozio online
+	 * **/
 	public synchronized Collection<ProxyOrdine> doRetrieveOrderToShip(String order, int page, int perPage) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -412,7 +461,19 @@ public class OrdineDAODataSource {
 		return ordini;
 	}
 	
-
+	/**
+	 * Il metodo recupera dal DB tutti gli ordini commissionati da un particolare
+	 * utente al negozio online,
+	 * utilizzando il meccanismo della paginazione degli elementi estratti
+	 * dal DB.
+	 * @param email : l'email dell'utente per il quale si stanno ricercando gli ordini commissionati
+	 * @param order: l'ordinamento con cui si organizzano gli ordini recuperati dal DB
+	 * @param page : il numero di pagina
+	 * @param perPage : il numero di ordini da inserire per ogni record/pagina
+	 * 
+	 * @return ordini : le informazioni essenziali degli ordini commissionati da un utente
+	 * 					al negozio online
+	 * **/
 	public synchronized Collection<ProxyOrdine> doRetrieveOrderToUser(String email, String order, int page, int perPage) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -494,7 +555,18 @@ public class OrdineDAODataSource {
 		return ordini;
 	}
 	
-	
+	/**
+	 * Il metodo recupera dal DB tutti gli ordini commissionati al negozio online,
+	 * che sono stati già spediti, 
+	 * utilizzando il meccanismo della paginazione degli elementi estratti
+	 * dal DB.
+	 * @param order: l'ordinamento con cui si organizzano gli ordini recuperati dal DB
+	 * @param page : il numero di pagina
+	 * @param perPage : il numero di ordini da inserire per ogni record/pagina
+	 * 
+	 * @return ordini : le informazioni essenziali degli ordini 
+	 * 					già spediti dal negozio online
+	 * **/
 	public synchronized Collection<ProxyOrdine> doRetrieveOrderShipped(String order, int page, int perPage) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -573,6 +645,20 @@ public class OrdineDAODataSource {
 		return ordini;
 	}
 	
+	/**
+	 * Il metodo recupera dal DB tutti gli ordini commissionati al negozio online 
+	 * entro un intervallo di tempo (espresso in date),
+	 * utilizzando il meccanismo della paginazione degli elementi estratti
+	 * dal DB.
+	 * @param startDate : la data di inizio per la quale si stanno ricercando gli ordini commissionati
+	 * @param endDate : la data di fine per la quale si stanno ricercando gli ordini commissionati
+	 * @param order: l'ordinamento con cui si organizzano gli ordini recuperati dal DB
+	 * @param page : il numero di pagina
+	 * @param perPage : il numero di ordini da inserire per ogni record/pagina
+	 * 
+	 * @return ordini : le informazioni essenziali degli ordini commissionati da un utente
+	 * 					al negozio online
+	 * **/
 	public synchronized Collection<ProxyOrdine> doRetrieveOrderForDate(int page, int perPage, Date startDate, Date endDate) throws SQLException {
 	    Connection connection = null;
 	    PreparedStatement preparedStatement = null;

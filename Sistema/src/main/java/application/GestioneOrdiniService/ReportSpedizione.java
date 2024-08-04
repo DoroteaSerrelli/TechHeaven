@@ -12,6 +12,18 @@ public class ReportSpedizione {
 	private ObjectOrdine ordine;
 	
 	/**
+	 * Costruttore di classe di default.
+	 * */
+	public ReportSpedizione() {
+		this.numeroReport = -1;
+		this.corriere = null;
+		this.imballaggio = null;
+		this.ordine = null;
+		this.dataSpedizione = null;
+		this.oraSpedizione = null;
+	}
+	
+	/**
 	 * Metodo costruttore della classe
 	 * 
 	 * @param numeroReport : è il numero del report di spedizione
@@ -31,7 +43,8 @@ public class ReportSpedizione {
 		this.dataSpedizione = LocalDate.now();
 		this.oraSpedizione = LocalTime.now();
 	}
-	
+
+
 	/**
 	 * Il metodo fornisce il numero del report di spedizione
 	 * @return il codice identificativo del report

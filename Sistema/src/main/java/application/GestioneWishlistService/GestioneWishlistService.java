@@ -24,12 +24,29 @@ public interface GestioneWishlistService {
 	 * Questo metodo si occupa di fornire la wishlist di un utente.
 	 * 
 	 * @param user : il proprietario della wishlist
+	 * 
 	 * @return la wishlist del proprietario
+	 * 
 	 * @throws SQLException 
 	 * */
 	
 	public Wishlist recuperaWishlist(ProxyUtente user) throws SQLException;
 	
+	/**
+	 * Questo metodo si occupa di fornire una wishlist di un utente.
+	 * Per la realizzazione corrente del sistema software, l'utente può creare
+	 * una sola wishlist.
+	 * Per implementazioni future si può pensare di creare più wishlist per lo stesso
+	 * utente.
+	 * 
+	 * @param user : il proprietario della wishlist
+	 * @param id : l'identificativo della wishlist
+	 * 
+	 * @return la wishlist con identificativo id del proprietario user
+	 * 
+	 * @throws SQLException 
+	 * */
+	public Wishlist recuperaWishlist(ProxyUtente user, int id) throws SQLException;
 	
 	/**
 	 * Questo metodo si occupa di fornire l'elenco dei prodotti
@@ -38,7 +55,9 @@ public interface GestioneWishlistService {
 	 * 
 	 * @param user : il proprietario della wishlist
 	 * @param wishes: la wishlist
+	 * 
 	 * @return l'insieme dei prodotti nella wishlist
+	 * 
 	 * @throws SQLException 
 	 * */
 	
@@ -47,10 +66,13 @@ public interface GestioneWishlistService {
 	/**
 	 * Questo metodo si occupa di aggiungere un prodotto
 	 * nella wishlist.
+	 * 
 	 * @param wishes : la wishlist
 	 * @param user : il proprietario della wishlist
 	 * @param prod : il prodotto da aggiungere alla wishlist
+	 * 
 	 * @return la wishlist contenente il nuovo prodotto
+	 * 
 	 * @throws SQLException 
 	 * */
 	
@@ -59,11 +81,13 @@ public interface GestioneWishlistService {
 	/**
 	 * Questo metodo si occupa di rimuovere un prodotto
 	 * dalla wishlist.
+	 * 
 	 * @param wishes : la wishlist dell'utente
 	 * @param user : il proprietario della wishlist
 	 * @param prod : il prodotto da rimuovere dalla wishlist
 	 * 
 	 * @return la wishlist priva del prodotto rimosso
+	 * 
 	 * @throws SQLException 
 	 * */
 	

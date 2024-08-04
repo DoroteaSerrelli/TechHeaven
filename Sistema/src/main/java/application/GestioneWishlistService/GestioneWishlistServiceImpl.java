@@ -23,6 +23,9 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 	
 	/**
 	 * Il metodo si occupa di fornire la wishlist di un utente.
+	 * Tale metodo è usato nel caso in cui il sistema software
+	 * non prevede la creazione di più di una wishlist
+	 * ad utente.
 	 * 
 	 * @param user : il proprietario della wishlist
 	 * @return la wishlist del proprietario
@@ -36,7 +39,31 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 		WishlistDAODataSource dao = new WishlistDAODataSource();
 		Wishlist ws = new Wishlist(user);
 		if(dao.doRetrieveWishlistByKey(user) != null) {
-			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAll("", ws));
+			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAllWishes("", ws));
+			ws.setProdotti(products);
+			return ws;	
+		}
+		return null;
+	}
+	
+	/**
+	 * Il metodo si occupa di fornire la wishlist, identificata da un codice,
+	 * di un utente.
+	 * 
+	 * @param user : il proprietario della wishlist
+	 * @param id : l'identificativo della wishlist
+	 * 
+	 * @return la wishlist del proprietario
+	 * 
+	 * @throws SQLException relativa al recupero dei dati dal database per 
+	 * 		   costruire la wishlist dell'utente user
+	 * */
+	@Override
+	public Wishlist recuperaWishlist(ProxyUtente user, int id) throws SQLException {
+		WishlistDAODataSource dao = new WishlistDAODataSource();
+		Wishlist ws = new Wishlist(user, id);
+		if(dao.doRetrieveWishlistByKey(user, id) != null) {
+			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAllWishes("", ws));
 			ws.setProdotti(products);
 			return ws;	
 		}
@@ -58,8 +85,8 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 	public ArrayList<ProxyProdotto> visualizzaWishlist(Wishlist wishes, ProxyUtente user) throws SQLException {
 		WishlistDAODataSource dao = new WishlistDAODataSource();
 		Wishlist ws;
-		if((ws = dao.doRetrieveWishlistByKey(user)) != null) {
-			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAll("", ws));
+		if((ws = dao.doRetrieveWishlistByKey(user, wishes.getId())) != null) {
+			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAllWishes("", ws));
 			wishes.setProdotti(products);
 			return wishes.getProdotti();	
 		}
@@ -89,7 +116,7 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 		else {
 			dao.doSaveProduct(prod, wishes);
 			Wishlist newWishes = dao.doRetrieveWishlistByKey(user);
-			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAll("", newWishes));
+			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAllWishes("", newWishes));
 			newWishes.setProdotti(products);
 			return newWishes;
 		}
@@ -119,7 +146,7 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 		else {
 			dao.doDeleteProduct(prod.getCodiceProdotto(), wishes);
 			Wishlist newWishes = dao.doRetrieveWishlistByKey(user);
-			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAll("", newWishes));
+			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAllWishes("", newWishes));
 			newWishes.setProdotti(products);
 			return newWishes;
 		}

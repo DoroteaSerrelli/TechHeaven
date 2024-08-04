@@ -26,6 +26,16 @@ public class Wishlist {
 	private ProxyUtente utente;
 	
 	/**
+	 * L'identificativo della wishlist dell'utente proprietario.
+	 * Per la realizzazione corrente del sistema software, l'utente può creare
+	 * una sola wishlist.
+	 * Per implementazioni future si può pensare di creare più wishlist per lo stesso
+	 * utente.
+	 * 
+	 * */
+	private int id;
+
+	/**
 	 * I prodotti che l'utente vorrebbe acquistare in un
 	 * secondo momento.
 	 * @see application.NavigazioneService.ProxyProdotto
@@ -42,15 +52,28 @@ public class Wishlist {
 	}
 	
 	/**
+	 * Costruttore di classe di default per una wishlist vuota
+	 * @param user l'utente 
+	 * @param id : identificativo della wishlist
+	 * */
+	public Wishlist(ProxyUtente user, int id) {
+		this.utente = user;
+		this.id = id;
+		this.prodotti = new ArrayList<>();
+	}
+	
+	/**
 	 * Costruttore di classe
 	 * @param user l'utente
+	 * @param id : l'identificativo della wishlist
 	 * @param products i prodotti desiderati dall'utente (non è possibile creare una wishlist vuota)
 	 * @throws WishlistVuotaException 
 	 * */
-	public Wishlist(ProxyUtente user, ArrayList<ProxyProdotto> products) throws WishlistVuotaException {
+	public Wishlist(ProxyUtente user, int id, ArrayList<ProxyProdotto> products) throws WishlistVuotaException {
 		this.utente = user;
 		if(products.isEmpty())
 			throw new WishlistVuotaException("La wishlist e\' vuota.");
+		this.id = id;
 		this.prodotti = products;
 	}
 	
@@ -63,11 +86,28 @@ public class Wishlist {
 	}
 	
 	/**
+	 * Questo metodo imposta il codice identificativo della wishlist
+	 * @param id: il codice univoco della wishlist.
+	 * */
+	public void setId(int id) {
+		this.id = id;
+	}
+	
+		
+	/**
 	 * Questo metodo imposta la lista dei prodotti desiderati dall'utente
 	 * @param products i prodotti che l'utente desidera o vorrebbe acquistare in un secondo momento
 	 * */
 	public void setProdotti(ArrayList<ProxyProdotto> products) {
 		this.prodotti = products;
+	}
+	
+	/**
+	 * Questo metodo fornisce il codice identificativo della wishlist
+	 * @return id della wishlist.
+	 * */
+	public int getId() {
+		return id;
 	}
 	
 	/**

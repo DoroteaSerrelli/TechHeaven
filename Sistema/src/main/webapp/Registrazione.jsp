@@ -78,7 +78,7 @@
                 </div>
                 <div class="input-wrapper reg_form">             
                     <p>  *Password: </p>
-                    <input type="text" name="password" oninput="validatePassword()" required>
+                    <input type="password" name="password" oninput="validatePassword()" required>
                 </div>              
             </div>  
                  

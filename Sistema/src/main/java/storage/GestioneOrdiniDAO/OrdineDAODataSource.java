@@ -16,6 +16,7 @@ import javax.sql.DataSource;
 
 import application.GestioneCarrelloService.ItemCarrello;
 import application.GestioneOrdiniService.Ordine;
+import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 import application.GestioneOrdiniService.ProxyOrdine;
 import application.RegistrazioneService.Cliente;
 import storage.AutenticazioneDAO.ClienteDAODataSource;
@@ -153,8 +154,9 @@ public class OrdineDAODataSource {
 	 * a partire dal suo codice identificativo.
 	 * @param IDOrdine : l'ordine da cercare nel DB
 	 * @return dto : tutte le informazioni dell'ordine cercato
+	 * @throws OrdineVuotoException 
 	 * **/
-	public synchronized Ordine doRetrieveFullOrderByKey(int IDOrdine) throws SQLException {
+	public synchronized Ordine doRetrieveFullOrderByKey(int IDOrdine) throws SQLException, OrdineVuotoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -736,5 +738,4 @@ public class OrdineDAODataSource {
 	    }
 	    return ordini;
 	}
-
 }

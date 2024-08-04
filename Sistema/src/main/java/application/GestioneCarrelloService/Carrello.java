@@ -166,5 +166,4 @@ public class Carrello {
 		return Math.round(price*100.00)/100.00;
 	}
 	
-	
 }

@@ -71,4 +71,14 @@ public interface GestioneCarrelloService {
 	
 	public Carrello decrementaQuantitaNelCarrello(Carrello cart, ItemCarrello item, int quantity) throws ProdottoNulloException, CarrelloVuotoException, ProdottoNonPresenteException, QuantitaProdottoException;
 	
+	/**
+	 * Questo metodo fornisce il servizio di svuotamento
+	 * del carrello.
+	 * @param cart : il carrello da svuotare
+	 * @return il carrello vuoto
+	 * @throws ProdottoNulloException 
+	 * @throws CarrelloVuotoException 
+	 * @throws ProdottoNonPresenteException 
+	 * **/
+	public Carrello svuotaCarrello(Carrello cart) throws ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException;
 }

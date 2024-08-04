@@ -1,6 +1,7 @@
 package application.GestioneCarrelloService;
 
 import java.util.Collection;
+import java.util.ArrayList;
 
 import application.GestioneCarrelloService.CarrelloException.CarrelloVuotoException;
 import application.GestioneCarrelloService.CarrelloException.ProdottoNonPresenteException;
@@ -82,6 +83,25 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 			throw new QuantitaProdottoException("La quantita\' specificata è superiore rispetto alla quantita\' del prodotto " + item.getNomeProdotto() + " nel carrello.");
 		else
 			cart.updateProductQuantity(item, quantity);
+		return cart;
+	}
+	
+	/**
+	 * Questo metodo implementa il servizio di svuotamento
+	 * del carrello.
+	 * @param cart : il carrello da svuotare
+	 * @return il carrello vuoto
+	 * @throws ProdottoNulloException 
+	 * @throws CarrelloVuotoException 
+	 * @throws ProdottoNonPresenteException 
+	 * **/
+	@Override
+	public Carrello svuotaCarrello(Carrello cart) throws ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException {
+		if(cart == null || cart.getNumProdotti() == 0)
+			return cart;
+		ArrayList<ItemCarrello> products = (ArrayList<ItemCarrello>) cart.getProducts();
+		for(ItemCarrello i : products)
+			cart.deleteProduct(i);
 		return cart;
 	}
 }

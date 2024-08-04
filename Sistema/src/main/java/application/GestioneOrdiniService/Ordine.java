@@ -3,7 +3,9 @@ package application.GestioneOrdiniService;
 import java.util.ArrayList;
 
 import application.GestioneCarrelloService.ItemCarrello;
+import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 import application.RegistrazioneService.Cliente;
+import application.RegistrazioneService.Indirizzo;
 
 /**
  * La classe rappresenta il concetto di ordine commissionato dal cliente presso il negozio online.
@@ -28,6 +30,37 @@ public class Ordine extends ObjectOrdine{
 	 * */
 	private ArrayList<ItemCarrello> prodotti;
 	
+	/**
+	 * Costruttore della classe di default.
+	 * */
+	public Ordine() {
+		super();
+		this.acquirente = null;
+		this.prodotti = null;
+	}
+	
+	/**
+	 * Costruttore della classe.
+	 * @param codice : l'identificativo numerico dell'ordine;
+	 * @param stato : lo stato dell'ordine;
+	 * @param indirizzoSpedizione : l'indirizzo di spedizione scelto dal committente;
+	 * @param spedizione : la tipologia di spedizione scelta dall'utente.
+	 * @param acquirente : il cliente che commissiona l'ordine
+	 * @param prodotti : i prodotti acquistati dal cliente
+	 * 
+	 * @return un oggetto di tipo Ordine.
+	 * @throws OrdineVuotoException per gestire un ordine che non ha prodotti al suo interno
+	 * */
+	
+	
+	public Ordine(int codice, Stato stato, Indirizzo indirizzoSpedizione, TipoSpedizione spedizione, Cliente acquirente, ArrayList<ItemCarrello> prodotti) throws OrdineVuotoException {
+		super(codice, stato, indirizzoSpedizione, spedizione);
+		this.acquirente = acquirente;
+		if(prodotti == null || prodotti.size() == 0)
+			throw new OrdineVuotoException("L'ordine non contiene prodotti!");
+		this.prodotti = prodotti;
+	}
+
 	/**
 	 * Il metodo fornisce le informazioni generali del committente
 	 * @return il profilo dell'utente richiedente l'ordine
@@ -58,8 +91,11 @@ public class Ordine extends ObjectOrdine{
 	 * la creazione dell'ordine
 	 * 
 	 * @param prodotti i prodotti da inserire nell'ordine
+	 * @throws OrdineVuotoException 
 	 * */
-	public void setProdotti(ArrayList<ItemCarrello> prodotti) {
+	public void setProdotti(ArrayList<ItemCarrello> prodotti) throws OrdineVuotoException {
+		if(prodotti == null || prodotti.size() == 0)
+			throw new OrdineVuotoException("L'insieme dei prodotti fornito e\' vuoto.");
 		this.prodotti = prodotti;
 	}
 	

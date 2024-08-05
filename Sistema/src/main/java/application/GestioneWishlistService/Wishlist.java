@@ -7,8 +7,10 @@ import application.NavigazioneService.ProxyProdotto;
 import application.RegistrazioneService.ProxyUtente;
 
 /**
- * Classe che esprime il concetto 'wishlist': si occupa di operazioni volte 
- * a manipolare la lista dei desideri ed i suoi prodotti.
+ * Classe che esprime il concetto di wishlist o "lista di desideri".
+ * Essa contiene le informazioni relative alla wishlist: identificativo, 
+ * riferimento all'utente proprietario, i prodotti che l'utente 
+ * vorrebbe acquistare in un secondo momento presso l'e-commerce.
  * 
  * @see java.application.GestioneWishlistService.GestioneWishlistService
  * @see java.application.GestioneWishlistService.GestioneWishlistServiceImpl

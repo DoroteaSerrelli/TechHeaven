@@ -20,17 +20,6 @@ import application.RegistrazioneService.ProxyUtente;
 
 public interface GestioneWishlistService {
 	
-	/**
-	 * Questo metodo si occupa di fornire la wishlist di un utente.
-	 * 
-	 * @param user : il proprietario della wishlist
-	 * 
-	 * @return la wishlist del proprietario
-	 * 
-	 * @throws SQLException 
-	 * */
-	
-	public Wishlist recuperaWishlist(ProxyUtente user) throws SQLException;
 	
 	/**
 	 * Questo metodo si occupa di fornire una wishlist di un utente.

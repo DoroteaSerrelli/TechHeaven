@@ -20,32 +20,7 @@ import storage.WishlistDAO.WishlistDAODataSource;
  * */
 
 public class GestioneWishlistServiceImpl implements GestioneWishlistService{
-	
-	/**
-	 * Il metodo si occupa di fornire la wishlist di un utente.
-	 * Tale metodo è usato nel caso in cui il sistema software
-	 * non prevede la creazione di più di una wishlist
-	 * ad utente.
-	 * 
-	 * @param user : il proprietario della wishlist
-	 * @return la wishlist del proprietario
-	 * 
-	 * @throws SQLException relativa al recupero dei dati dal database per 
-	 * 		   costruire la wishlist dell'utente user
-	 * */
-	
-	@Override
-	public Wishlist recuperaWishlist(ProxyUtente user) throws SQLException {
-		WishlistDAODataSource dao = new WishlistDAODataSource();
-		Wishlist ws = new Wishlist(user);
-		if(dao.doRetrieveWishlistByKey(user) != null) {
-			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAllWishes("", ws));
-			ws.setProdotti(products);
-			return ws;	
-		}
-		return null;
-	}
-	
+		
 	/**
 	 * Il metodo si occupa di fornire la wishlist, identificata da un codice,
 	 * di un utente.
@@ -115,7 +90,7 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 			throw new ProdottoPresenteException("Il prodotto selezionato e\' gia\' presente nella wishlist!");
 		else {
 			dao.doSaveProduct(prod, wishes);
-			Wishlist newWishes = dao.doRetrieveWishlistByKey(user);
+			Wishlist newWishes = dao.doRetrieveWishlistByKey(user, wishes.getId());
 			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAllWishes("", newWishes));
 			newWishes.setProdotti(products);
 			return newWishes;
@@ -145,7 +120,7 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 			throw new ProdottoNonPresenteException("Il prodotto selezionato non e\' presente nella wishlist!");
 		else {
 			dao.doDeleteProduct(prod.getCodiceProdotto(), wishes);
-			Wishlist newWishes = dao.doRetrieveWishlistByKey(user);
+			Wishlist newWishes = dao.doRetrieveWishlistByKey(user, wishes.getId());
 			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAllWishes("", newWishes));
 			newWishes.setProdotti(products);
 			return newWishes;

@@ -12,6 +12,8 @@ import application.RegistrazioneService.ProxyUtente;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -70,9 +72,8 @@ public class GestioneWishlistController extends HttpServlet {
                             // Parse request parameters
                             int productId = parseProductId(request.getParameter("productId"));
                             ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);   
-                            System.out.println(productId);
                             
-                            gws.aggiungiProdottoInWishlist(w, prodotto, user);
+                            w = gws.aggiungiProdottoInWishlist(w, prodotto, user);
                             request.getSession().setAttribute("Wishlist", w);
                             
                         } catch (WishlistException.ProdottoPresenteException ex) {
@@ -90,8 +91,11 @@ public class GestioneWishlistController extends HttpServlet {
                             // Parse request parameters
                             int productId = parseProductId(request.getParameter("productId"));
                             System.out.println(productId);
-                            ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);                                                              
-                            gws.rimuoviDallaWishlist(w, user, prodotto);
+                            ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);   
+                            
+                            w = gws.rimuoviDallaWishlist(w, user, prodotto);
+                            request.getSession().setAttribute("Wishlist", w);
+                           
                         } catch (WishlistException.ProdottoNonPresenteException ex) {
                             Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (WishlistException.ProdottoNulloException ex) {
@@ -130,9 +134,18 @@ public class GestioneWishlistController extends HttpServlet {
             }
             if(check_user_wishlist==0){
                 w =  new Wishlist(user);
+                w.setId(check_user_wishlist+1);
                 wdao.doSaveWishlist(w);
             }
-            else w = wdao.doRetrieveWishlistByKey(user);
+            else {
+                Collection<Wishlist> wishlists = wdao.doRetrieveAllWishesUser("",user);
+                if (!wishlists.isEmpty()) {
+                    Iterator<Wishlist> iterator = wishlists.iterator();
+                    if (iterator.hasNext()) {
+                        w = iterator.next();
+                    }
+                }
+            }         
             return w;
         } catch (SQLException ex) {
            Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);

@@ -130,22 +130,22 @@ public class GestioneWishlistController extends HttpServlet {
             Wishlist w = (Wishlist)request.getSession().getAttribute("Wishlist");
             int check_user_wishlist =0;
             if(w==null){
-                check_user_wishlist = wdao.getWishlistCount(user);              
-            }
-            if(check_user_wishlist==0){
-                w =  new Wishlist(user);
-                w.setId(check_user_wishlist+1);
-                wdao.doSaveWishlist(w);
-            }
-            else {
-                Collection<Wishlist> wishlists = wdao.doRetrieveAllWishesUser("",user);
-                if (!wishlists.isEmpty()) {
-                    Iterator<Wishlist> iterator = wishlists.iterator();
-                    if (iterator.hasNext()) {
-                        w = iterator.next();
+                check_user_wishlist = wdao.getWishlistCount(user); 
+                if(check_user_wishlist==0){
+                    w =  new Wishlist(user);
+                    w.setId(check_user_wishlist+1);
+                    wdao.doSaveWishlist(w);
+                }
+                else{
+                     Collection<Wishlist> wishlists = wdao.doRetrieveAllWishesUser("",user);
+                    if (!wishlists.isEmpty()) {
+                        Iterator<Wishlist> iterator = wishlists.iterator();
+                        if (iterator.hasNext()) {
+                            w = iterator.next();
+                        }
                     }
                 }
-            }         
+            }                 
             return w;
         } catch (SQLException ex) {
            Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);

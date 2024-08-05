@@ -69,8 +69,12 @@ public class GestioneWishlistController extends HttpServlet {
                            Wishlist w = createNewWishlistIfNotExists(request, user);
                             // Parse request parameters
                             int productId = parseProductId(request.getParameter("productId"));
-                            ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);                                                              
+                            ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);   
+                            System.out.println(productId);
+                            
                             gws.aggiungiProdottoInWishlist(w, prodotto, user);
+                            request.getSession().setAttribute("Wishlist", w);
+                            
                         } catch (WishlistException.ProdottoPresenteException ex) {
                             Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
                         } catch (WishlistException.ProdottoNulloException ex) {
@@ -85,6 +89,7 @@ public class GestioneWishlistController extends HttpServlet {
                            Wishlist w = createNewWishlistIfNotExists(request, user);
                             // Parse request parameters
                             int productId = parseProductId(request.getParameter("productId"));
+                            System.out.println(productId);
                             ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);                                                              
                             gws.rimuoviDallaWishlist(w, user, prodotto);
                         } catch (WishlistException.ProdottoNonPresenteException ex) {
@@ -103,6 +108,8 @@ public class GestioneWishlistController extends HttpServlet {
                         response.getWriter().println("Invalid action");
                 }
             }
+        String contextPath = request.getContextPath();
+        response.sendRedirect(contextPath + "/wishlist.jsp");
     }
      /**
       * Questo metodo tenta di recuperare la Wishlist dalla sessione nel caso in
@@ -117,19 +124,19 @@ public class GestioneWishlistController extends HttpServlet {
         try {
             WishlistDAODataSource wdao = new WishlistDAODataSource();
             Wishlist w = (Wishlist)request.getSession().getAttribute("Wishlist");
+            int check_user_wishlist =0;
             if(w==null){
-                w = gws.recuperaWishlist(user);
+                check_user_wishlist = wdao.getWishlistCount(user);              
             }
+            if(check_user_wishlist==0){
+                w =  new Wishlist(user);
+                wdao.doSaveWishlist(w);
+            }
+            else w = wdao.doRetrieveWishlistByKey(user);
             return w;
         } catch (SQLException ex) {
-            try {
-                Wishlist w =  new Wishlist(user);
-                WishlistDAODataSource wdao = new WishlistDAODataSource();
-                wdao.doSaveWishlist(w);
-                return w;
-            } catch (SQLException ex1) {
-                Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex1);
-            }
+           Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
+           System.out.println(ex.getMessage());
         }
         return null;
     } 

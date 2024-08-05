@@ -74,7 +74,7 @@
                         <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
                             <img class="cart" src="${pageContext.request.contextPath}/view/img/icon_carrello2.png">
                         </a>
-                        <a href="GestioneWishlistController?action=addtowishlist">
+                        <a href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
                             <img  src="${pageContext.request.contextPath}/view/img/icon_wishlist.png" style="margin: 1px; width: 25px; height: 25px">
                         </a>
                         <div id="error">

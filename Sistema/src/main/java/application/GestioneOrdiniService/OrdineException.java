@@ -44,5 +44,21 @@ private static final long serialVersionUID = 1L;
 			super(message);
 		}
 	}
+	
+	/**
+	 * Classe statica per gestire l'errore di spedizione di un ordine non ancora pronto
+	 * ossia avente stato "Spedito"
+	 * */
+	public static class ErroreSpedizioneOrdineException extends OrdineException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public ErroreSpedizioneOrdineException(String message) {
+			super(message);
+		}
+	}
 
 }

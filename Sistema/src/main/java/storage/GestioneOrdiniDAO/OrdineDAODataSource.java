@@ -16,8 +16,10 @@ import javax.sql.DataSource;
 
 import application.GestioneCarrelloService.ItemCarrello;
 import application.GestioneOrdiniService.Ordine;
+import application.GestioneOrdiniService.OrdineException.ErroreSpedizioneOrdineException;
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 import application.GestioneOrdiniService.ProxyOrdine;
+import application.GestioneOrdiniService.ReportSpedizione;
 import application.RegistrazioneService.Cliente;
 import storage.AutenticazioneDAO.ClienteDAODataSource;
 
@@ -43,6 +45,10 @@ public class OrdineDAODataSource {
 	
 	/**
 	 * Il metodo crea un ordine e lo memorizza nel DB.
+	 * Questo metodo viene utilizzato quando l'ordine non e\' stato ancora
+	 * preparato per la spedizione.
+	 * In tal caso, consultare il metodo @see storage.OrdineDAODataSource.doSaveToShip
+	 * 
 	 * @param order : l'ordine da salvare
 	 * **/
 	public synchronized void doSave(Ordine order) throws SQLException {
@@ -104,6 +110,38 @@ public class OrdineDAODataSource {
 					connection.close();
 			}
 		}
+		
+		//TO DO: associare ordine a pagamento!
+	}
+	
+	/**
+	 * Il metodo crea un ordine già spedito e lo memorizza nel DB.
+	 * 
+	 * @param order : l'ordine con status "Spedito" da salvare
+	 * @param report : il report di spedizione da associare all'ordine spedito
+	 * @throws ErroreSpedizioneOrdineException per gestire la memorizzazione di un ordine spedito,
+	 * che ancora non è in tale stato
+	 * **/
+	public synchronized void doSaveToShip(Ordine order, ReportSpedizione report) throws SQLException, ErroreSpedizioneOrdineException {
+		
+		if(!order.getStatoAsString().equals("SPEDITO"))
+			throw new ErroreSpedizioneOrdineException("Non e\' possibile completare l'operazione perche\' l'ordine non ha lo stato \"Spedito\"");
+		//recupero pagamento
+		//rimuovere l'ordine preesistente
+		if(!doDelete(order.getCodiceOrdine())) {
+			System.out.println("L'ordine non esiste!");
+			return;
+		}
+		//creare l'ordine
+		doSave(order);
+		
+		//TO DO: associare il pagamento all'ordine (prima di rimuovere ordine fare
+		//Recupero dell'oggetto Pagamento)
+		
+		//creare report di spedizione da associare all'ordine
+		
+		ReportDAODataSource reportDAO = new ReportDAODataSource();
+		reportDAO.doSave(report);
 	}
 	
 	/**

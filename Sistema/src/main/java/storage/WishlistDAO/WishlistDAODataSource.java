@@ -88,6 +88,10 @@ public class WishlistDAODataSource{
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, user.getUsername());
+			
+			ResultSet rs = preparedStatement.executeQuery();
+			if (rs.next())
+				count = rs.getInt(1);
 
 		} finally {
 			try {
@@ -98,10 +102,6 @@ public class WishlistDAODataSource{
 					connection.close();
 			}
 		}
-			ResultSet rs = preparedStatement.executeQuery();
-			if (rs.next()) {
-				count = rs.getInt(1);
-			}
 
 		return count;
 	}
@@ -141,40 +141,6 @@ public class WishlistDAODataSource{
 	}
 
 
-
-	/**
-	 * Questo metodo verifica la presenza di una wishlist per un utente.
-	 * @param user : l'utente
-	 * @return la wishlist dell'utente
-	 * */
-	public synchronized Wishlist doRetrieveWishlistByKey(ProxyUtente user) throws SQLException {
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-		Wishlist dto = new Wishlist(user);
-		String selectSQL = "SELECT * FROM " + WishlistDAODataSource.TABLE_NAME + " WHERE UTENTE = ?";
-		try {
-			connection = ds.getConnection();	
-			preparedStatement = connection.prepareStatement(selectSQL);
-			preparedStatement.setString(1, user.getUsername());
-			ResultSet rs = preparedStatement.executeQuery();
-			while (rs.next()) {
-				if(rs.getString("UTENTE").equals(user.getUsername()))
-					dto.setUtente(user);
-			}
-		} finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} finally {
-				if (connection != null)
-					connection.close();
-			}
-		}
-		ArrayList<ProxyProdotto> temp = new ArrayList<> (doRetrieveAllWishes("", dto));
-		dto.setProdotti(temp);
-
-		return dto;
-	}
 
 	/**
 	 * Questo metodo verifica la presenza di una particolare 
@@ -344,7 +310,7 @@ public class WishlistDAODataSource{
 
 				dto.setCodiceProdotto(rs.getInt("CODICEPRODOTTO"));
 				dto.setNomeProdotto(rs.getString("NOME"));
-				dto.setTopDescrizione(rs.getString("TOP_DESCRIZIONE"));
+				dto.setTopDescrizione(rs.getString("TOPDESCRIZIONE"));
 				dto.setPrezzo(rs.getFloat("PREZZO"));
 				dto.setCategoria(rs.getString("CATEGORIA"));
 				dto.setMarca(rs.getString("MARCA"));
@@ -441,10 +407,10 @@ public class WishlistDAODataSource{
 			preparedStatement.setInt(3, IDProduct);
 			ResultSet rs = preparedStatement.executeQuery();
 
-			while (rs.next()) {
+			if (rs.next()) {
 				dto.setCodiceProdotto(rs.getInt("CODICEPRODOTTO"));
 				dto.setNomeProdotto(rs.getString("NOME"));
-				dto.setTopDescrizione(rs.getString("TOP_DESCRIZIONE"));
+				dto.setTopDescrizione(rs.getString("TOPDESCRIZIONE"));
 				dto.setPrezzo(rs.getFloat("PREZZO"));
 				dto.setCategoria(rs.getString("CATEGORIA"));
 				dto.setMarca(rs.getString("MARCA"));

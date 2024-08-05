@@ -22,7 +22,7 @@
         <div id="showpr" class="section-p1">
         <%
             Wishlist wishlist; 
-            wishlist = (Wishlist) request.getSession().getAttribute("wishlist");
+            wishlist = (Wishlist) request.getSession().getAttribute("Wishlist");
             if(wishlist==null){
         %>
             <div id="emptycart">

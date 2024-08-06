@@ -37,7 +37,7 @@ public class GestioneOrdiniServiceImpl implements GestioneOrdiniService{
 	@Override
 	public ArrayList<ProxyOrdine> visualizzaOrdiniEvasi(int page, int perPage) throws SQLException {
 		OrdineDAODataSource dao = new OrdineDAODataSource();
-		ArrayList<ProxyOrdine> ordini = new ArrayList<> (dao.doRetrieveOrderShipped(null, 0, 0));
+		ArrayList<ProxyOrdine> ordini = new ArrayList<> (dao.doRetrieveOrderShipped(null, page, perPage));
 		return ordini;
 	}
 	
@@ -53,7 +53,7 @@ public class GestioneOrdiniServiceImpl implements GestioneOrdiniService{
 	@Override
 	public ArrayList<ProxyOrdine> visualizzaOrdiniDaEvadere(int page, int perPage) throws SQLException {
 		OrdineDAODataSource dao = new OrdineDAODataSource();
-		ArrayList<ProxyOrdine> ordini = new ArrayList<> (dao.doRetrieveOrderToShip(null, 0, 0));
+		ArrayList<ProxyOrdine> ordini = new ArrayList<> (dao.doRetrieveOrderToShip(null, page, perPage));
 		return ordini;
 	}
 	

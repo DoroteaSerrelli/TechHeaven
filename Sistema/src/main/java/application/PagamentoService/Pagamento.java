@@ -49,7 +49,6 @@ public abstract class Pagamento {
 	 * */
 	private float importo;
 	
-	
 	/**
 	 * Costruttore di default della classe.
 	 * */

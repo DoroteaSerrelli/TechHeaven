@@ -254,7 +254,7 @@ public class OrdineDAODataSource {
 
 		String selectSQL = "SELECT * FROM COMPOSIZIONE_ORDINE INNER JOIN PRODOTTO "
 				+ "ON COMPOSIZIONE_ORDINE.PRODOTTO = PRODOTTO.CODICEPRODOTTO "
-				+ "WHERE CODICEORDINE = ?";
+				+ "WHERE ORDINE = ?";
 		
 		try {
 			connection = ds.getConnection();

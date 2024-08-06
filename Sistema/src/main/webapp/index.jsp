@@ -1,15 +1,18 @@
 <%@page import="application.NavigazioneService.ProxyProdotto"%>
 <%@page import="java.util.Collection"%>
 <%
-    Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) application.getAttribute("products");
+    Collection<ProxyProdotto> telefoni = (Collection<ProxyProdotto>) application.getAttribute("telefoni");
+    Collection<ProxyProdotto> gr_elettr = (Collection<ProxyProdotto>) application.getAttribute("gr_elettr");
+    
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <title>TechHeaven</title>
+         <link rel="favicon.ico" href="${pageContext.request.contextPath}/view/img/favicon.ico" type="image/x-icon">        
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">         
     </head>
     <body>
         <link rel="stylesheet" href="common/style.css">
@@ -49,20 +52,23 @@
                 <h2>Featured Product</h2>
                 <p>Some of our featured products include:</p>
                 <div class="pro-container">
-                    <% for (ProxyProdotto product : products) { %>       
+                <%if(telefoni!=null && !telefoni.isEmpty()){%>                                        
+                    <% for (ProxyProdotto product : telefoni) { %>       
                     <div class="pro">
-                        <img src="alt" alt="alt">
+                        <img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';"
+                         style="width: 80px; height: 80px"/>
                         <div class="des">
                             <span><%=product.getMarca()%></span>
                             <h5 id="pr_name"><%=product.getNomeProdotto()%></h5>                           
                             <h4><%=product.getPrezzo()%>€</h4>
                             </div>
-                        <a href="Shop">                           
-                            <i class="fa-solid fa-cart-plus cart">                                 
-                            </i>
+                        <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
+                            <img class="cart" src="${pageContext.request.contextPath}/view/img/icon_carrello2.png">
                         </a>
                     </div>
-                    <%}%>
+                    <%} 
+                }%>
+                </div>     
             </section> 
             <section id="banner">
                 <h4>Buy a laptop today</h4>
@@ -73,61 +79,23 @@
                 <h2>Summer Arrival</h2>
                 <p>Keep up with our summer products:</p>
                 <div class="pro-container">
-                    <div class="pro">
-                        <img src="img/prodotti/pralineLindt.jpg" alt="alt">
-                        <div class="des">
-                            <span>Lindt</span>
-                            <h5>Praline assortite 316gr</h5>
-                            <div class="star">
-                                <i class="fa-solid fa-star" ></i>
-                                <i class="fa-solid fa-star" ></i>
-                                <i class="fa-solid fa-star" ></i>
-                                <i class="fa-solid fa-star" ></i>                                
-                                <i class="fa-solid fa-star" ></i>
-                            </div>
-                            <h4>10,38€</h4>
-                            </div>
-                        <a href="Shop">
-                            <i class="fa-solid fa-cart-plus cart"></i>
-                        </a>
-                    </div>                   
-                <div class="pro">
-                        <img src="img/prodotti/pralineMilka.jpg" alt="alt">
-                        <div class="des">
-                            <span>Milka</span>
-                            <h5>Praline al cioccolato 92gr</h5>
-                            <div class="star">
-                                <i class="fa-solid fa-star" ></i>
-                                <i class="fa-solid fa-star" ></i>
-                                <i class="fa-solid fa-star" ></i>
-                                <i class="fa-solid fa-star" ></i>                                
-                                <i class="fa-solid fa-star" ></i>
-                            </div>
-                            <h4>3,29€</h4>
-                            </div>
-                        <a href="Shop" >
-                            <i class="fa-solid fa-cart-plus cart"></i>
-                        </a>
-                    </div>    
-                <div class="pro">
-                        <img src="img/prodotti/gelatokinderpinguino.png" alt="alt">
-                        <div class="des">
-                            <span>Kinder</span>
-                            <h5>Pinguì gelato cioccolato 120gr</h5>
-                            <div class="star">
-                                <i class="fa-solid fa-star" ></i>
-                                <i class="fa-solid fa-star" ></i>
-                                <i class="fa-solid fa-star" ></i>
-                                <i class="fa-solid fa-star" ></i>                                
-                                <i class="fa-solid fa-star" ></i>
-                            </div>
-                            <h4>2,15€ (17,27 €/kg)</h4>
-                            </div>
-                        <a href="Shop" >
-                            <i class="fa-solid fa-cart-plus cart"></i>
-                        </a>
-                    </div>                   
-                </div>                             
+                    <%if (gr_elettr!=null && !gr_elettr.isEmpty()){%>                                      
+                        <% for (ProxyProdotto product : gr_elettr) { %>       
+                       <div class="pro">
+                           <img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';"
+                            style="width: 80px; height: 80px"/>
+                           <div class="des">
+                               <span><%=product.getMarca()%></span>
+                               <h5 id="pr_name"><%=product.getNomeProdotto()%></h5>                           
+                               <h4><%=product.getPrezzo()%>€</h4>
+                               </div>
+                           <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
+                               <img class="cart" src="${pageContext.request.contextPath}/view/img/icon_carrello2.png">
+                           </a>                                       
+                       </div> 
+                   <%}
+                    } %>
+                </div>       
             </section> 
             <section id="sm-banner" class="section-p1">
                 <div class= "banner-box">

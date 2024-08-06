@@ -27,7 +27,16 @@ public class NewServletListener implements ServletContextListener {
         //PaginationUtils.setPaginationAttributes(request, searchResult, categoria, 10);
 
         // Storing searchResult in ServletContext for later retrieval
-        sce.getServletContext().setAttribute("products", searchResult.getProducts());
+        sce.getServletContext().setAttribute("telefoni", searchResult.getProducts());
+        
+        //DOPPIO FETCH ???? PAGINA INIZIALE
+        categoria = "GRANDI_ELETTRODOMESTICI"; 
+        System.out.println("SONO QUIx2");
+        searchResult = PaginationUtils.performPagination(new NavigazioneServiceImpl(), categoria, 1, 6, "menu");
+        
+        // Storing searchResult in ServletContext for later retrieval
+        sce.getServletContext().setAttribute("gr_elettr", searchResult.getProducts());
+        
     }
 
     @Override

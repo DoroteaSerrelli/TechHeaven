@@ -200,7 +200,7 @@ public class WishlistDAODataSource{
 			doSaveWishlist(ws);
 		}
 
-		String insertSQL = "INSERT INTO COMPOSIZIONE_WISHLIST(UTENTE, IDWISHLIST, PRODOTTO) VALUES (?, ?, ?);";
+		String insertSQL = "INSERT INTO COMPOSIZIONE_WISHLIST(UTENTE, WISHLIST, PRODOTTO) VALUES (?, ?, ?);";
 
 		try {
 			connection = ds.getConnection();
@@ -247,7 +247,7 @@ public class WishlistDAODataSource{
 
 		int result = 0;
 
-		String deleteSQL = "DELETE FROM COMPOSIZIONE_WISHLIST WHERE (UTENTE = ? AND IDWISHLIST =? AND CODICEPRODOTTO = ?)";
+		String deleteSQL = "DELETE FROM COMPOSIZIONE_WISHLIST WHERE (UTENTE = ? AND WISHLIST =? AND PRODOTTO = ?)";
 
 		try {
 			connection = ds.getConnection();
@@ -285,12 +285,12 @@ public class WishlistDAODataSource{
 
 		Collection<ProxyProdotto> products = new LinkedList<>();
 
-		String selectSQL = "SELECT * FROM (" + WishlistDAODataSource.TABLE_NAME + " INNER JOIN COMPOSIZIONE_WISHLIST)"
-				+ " INNER JOIN PRODOTTO "
-				+ "WHERE WISHLIST.UTENTE = ? AND IDWISHLIST = ? AND "
-				+ "COMPOSIZIONE_WISHLIST.WISHLIST = " + WishlistDAODataSource.TABLE_NAME + ".IDWISHLIST"
+		String selectSQL = "SELECT * FROM (" + WishlistDAODataSource.TABLE_NAME + " INNER JOIN COMPOSIZIONE_WISHLIST ON " 
+		        +"COMPOSIZIONE_WISHLIST.WISHLIST = " + WishlistDAODataSource.TABLE_NAME + ".IDWISHLIST"
 				+ " AND COMPOSIZIONE_WISHLIST.UTENTE = " + WishlistDAODataSource.TABLE_NAME + ".UTENTE"
-				+ " AND COMPOSIZIONE_WISHLIST.PRODOTTO = PRODOTTO.CODICEPRODOTTO";
+				+ ") INNER JOIN PRODOTTO ON "
+		        + "COMPOSIZIONE_WISHLIST.PRODOTTO = PRODOTTO.CODICEPRODOTTO "
+				+ "WHERE WISHLIST.UTENTE = ? AND WISHLIST.IDWISHLIST = ? ";
 
 
 		if (order != null && !order.equals("")) { //ordine sui prodotti da recuperare
@@ -392,13 +392,13 @@ public class WishlistDAODataSource{
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ProxyProdotto dto = new ProxyProdotto();
-		String selectSQL = "SELECT * FROM (" + WishlistDAODataSource.TABLE_NAME + " INNER JOIN COMPOSIZIONE_WISHLIST)"
-				+ " INNER JOIN PRODOTTO "
-				+ "WHERE WISHLIST.UTENTE = ? AND IDWISHLIST = ? AND CODICEPRODOTTO = ? "
-				+ " AND COMPOSIZIONE_WISHLIST.WISHLIST = " + WishlistDAODataSource.TABLE_NAME + ".IDWISHLIST"
-				+ " AND COMPOSIZIONE_WISHLIST.UTENTE = " + WishlistDAODataSource.TABLE_NAME + ".UTENTE"
-				+ " AND COMPOSIZIONE_WISHLIST.PRODOTTO = PRODOTTO.CODICEPRODOTTO";
-
+		String selectSQL = "SELECT * FROM " + WishlistDAODataSource.TABLE_NAME + " "
+                + "INNER JOIN COMPOSIZIONE_WISHLIST ON " + WishlistDAODataSource.TABLE_NAME + ".IDWISHLIST = COMPOSIZIONE_WISHLIST.WISHLIST "
+                + "AND " + WishlistDAODataSource.TABLE_NAME + ".UTENTE = COMPOSIZIONE_WISHLIST.UTENTE "
+                + "INNER JOIN PRODOTTO ON COMPOSIZIONE_WISHLIST.PRODOTTO = PRODOTTO.CODICEPRODOTTO "
+                + "WHERE " + WishlistDAODataSource.TABLE_NAME + ".UTENTE = ? "
+                + "AND " + WishlistDAODataSource.TABLE_NAME + ".IDWISHLIST = ? "
+                + "AND PRODOTTO.CODICEPRODOTTO = ?";
 		try {
 			connection = ds.getConnection();	
 			preparedStatement = connection.prepareStatement(selectSQL);

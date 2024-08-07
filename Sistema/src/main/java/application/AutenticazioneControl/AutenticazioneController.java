@@ -113,7 +113,7 @@ public class AutenticazioneController extends HttpServlet {
             
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-            
+            String ruolo = request.getParameter("ruolo");
             ProxyUtente result;
             result = loginService.login(username, password);
             if (result!=null) {
@@ -123,13 +123,33 @@ public class AutenticazioneController extends HttpServlet {
                 
                 ArrayList<Ruolo> ruoli;
                 ruoli = result.getRuoli();
-                for(Ruolo r: ruoli){
+                for(Ruolo r: ruoli){ 
                     System.out.println(r.getNomeRuolo());
+                    if(r.getNomeRuolo().equals(ruolo)){
+                        switch(ruolo){
+                            case "Cliente": 
+                                response.sendRedirect("AreaRiservata.jsp");
+                                return;                                                          
+                            case "GestoreOrdini": 
+                                response.sendRedirect("protected/gestoreOrdini/GestioneOrdini.jsp");
+                                return;                                
+                            case "GestoreCatalogo":                                
+                                response.sendRedirect("protected/gestorecatalogo/GestioneCatalogo.jsp");
+                                return;  
+                            default:
+                                // Handle unexpected role cases if needed
+                                request.setAttribute("error","Ruolo scelto non corrispondente ai ruoli del utente");
+                                request.getRequestDispatcher("Autenticazione.jsp").forward(request, response);
+                                break;    
+                        }
+                        break;
+                    } 
                 }
-                
-                request.getRequestDispatcher("AreaRiservata.jsp").forward(request,response);
+                request.setAttribute("error","Ruolo scelto non corrispondente ai ruoli del utente");
+                request.getRequestDispatcher("Autenticazione.jsp").forward(request, response);
             } else {
                 // Authentication failed
+                request.setAttribute("error","Username o Password errati");                               
                 response.sendRedirect("Autenticazione.jsp?error=true");
             }
         } catch (SQLException ex) {

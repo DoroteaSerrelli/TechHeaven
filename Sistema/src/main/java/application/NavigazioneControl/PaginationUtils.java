@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
@@ -27,12 +28,19 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class PaginationUtils {
     public static SearchResult performPagination(NavigazioneServiceImpl productService, String keyword, int page, int resultsPerPage, String searchType) {
-        if (searchType.equals("bar")) {
-        return productService.ricercaProdottoBar(keyword, page);
+        SearchResult res = new SearchResult();
+        List<ProxyProdotto> results;
+        if (searchType.equals("bar")) {           
+            results = productService.ricercaProdottoBar(keyword);
+            res.setProducts(results);
+            res.setTotalRecords(results.size());
+            return res;
         
     } else if (searchType.equals("menu")) {
-        
-        return productService.ricercaProdottoMenu(Categoria.valueOf(keyword), page);
+          results = productService.ricercaProdottoMenu(Categoria.valueOf(keyword));
+          res.setProducts(results);
+          res.setTotalRecords(results.size());
+          return res;
     } else {
         // Handle unknown search types or throw an exception
         throw new IllegalArgumentException("Invalid search type: " + searchType);

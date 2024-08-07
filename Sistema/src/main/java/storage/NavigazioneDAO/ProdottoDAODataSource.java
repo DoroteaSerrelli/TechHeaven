@@ -249,7 +249,7 @@ public class ProdottoDAODataSource{
 	    
 	    int totalRecords;
 	    int totalPages;
-	    
+	    Connection connection2 = null;
 	    try {
 	    	connection = ds.getConnection();
 	    	try {
@@ -274,6 +274,7 @@ public class ProdottoDAODataSource{
 	        if (page > totalPages) {
 	            page = totalPages;
 	        }
+		connection2 = ds.getConnection();    
 
 	        // Esegui la query con LIMIT e OFFSET
 	        int offset = (page - 1) * perPage;
@@ -308,8 +309,8 @@ public class ProdottoDAODataSource{
 	            if (preparedStatement != null)
 	                preparedStatement.close();
 	        } finally {
-	            if (connection != null)
-	                connection.close();
+	            if (connection2 != null)
+	                connection2.close();
 	        }
 	    }
 	    return products;
@@ -386,7 +387,7 @@ public class ProdottoDAODataSource{
 	    
 	    int totalRecords;
 	    int totalPages;
-	    
+	    Connection connection2 = null;
 	    try {
 	    	connection = ds.getConnection();
 	    	try {
@@ -411,6 +412,7 @@ public class ProdottoDAODataSource{
 	        if (page > totalPages) {
 	            page = totalPages;
 	        }
+		connection2 = ds.getConnection();   
 
 	        // Esegui la query con LIMIT e OFFSET
 	        int offset = (page - 1) * perPage;
@@ -445,8 +447,8 @@ public class ProdottoDAODataSource{
 	            if (preparedStatement != null)
 	                preparedStatement.close();
 	        } finally {
-	            if (connection != null)
-	                connection.close();
+	            if (connection2 != null)
+	                connection2.close();
 	        }
 	    }
 	    return products;
@@ -477,7 +479,7 @@ public class ProdottoDAODataSource{
 	    
 	    int totalRecords;
 	    int totalPages;
-		
+	    Connection connection2 = null;	
 	    try {
 	    	connection = ds.getConnection();
 	    	try {
@@ -502,7 +504,8 @@ public class ProdottoDAODataSource{
 	        if (page > totalPages) {
 	            page = totalPages;
 	        }
-
+		connection2 = ds.getConnection();
+			
 	        // Esegui la query con LIMIT e OFFSET
 	        int offset = (page - 1) * perPage;
 	        selectSQL += " LIMIT ? OFFSET ?";
@@ -536,8 +539,8 @@ public class ProdottoDAODataSource{
 	            if (preparedStatement != null)
 	                preparedStatement.close();
 	        } finally {
-	            if (connection != null)
-	                connection.close();
+	            if (connection2 != null)
+	                connection2.close();
 	        }
 	    }
 	    return products;
@@ -576,7 +579,7 @@ public class ProdottoDAODataSource{
 	    
 	    int totalRecords;
 	    int totalPages;
-
+	    Connection connection2 = null;	
 	    try {
 	    	connection = ds.getConnection();
 	    	try {
@@ -606,7 +609,8 @@ public class ProdottoDAODataSource{
 	        if (page > totalPages) {
 	            page = totalPages;
 	        }
-
+		connection2 = ds.getConnection();    
+		
 	        // Esegui la query con LIMIT e OFFSET
 	        int offset = Math.max(0, (page - 1) * perPage);
 	        selectSQL += " LIMIT ? OFFSET ?";
@@ -645,8 +649,8 @@ public class ProdottoDAODataSource{
 	            if (preparedStatement != null)
 	                preparedStatement.close();
 	        } finally {
-	            if (connection != null)
-	                connection.close();
+	            if (connection2 != null)
+	                connection2.close();
 	        }
 	    }
 	    return products;

@@ -324,26 +324,28 @@ public abstract class ObjectProdotto {
 	 * Imposta la sottocategoria di appartenenza del prodotto
 	 * @param subCategory la sottocategoria del prodotto espressa come stringa
 	 * */
-	
 	public void setSottocategoria(String subcategory) {
-	    switch (subcategory.toUpperCase()) {
-	        case "TABLET":
-	        	this.sottocategoria = Sottocategoria.TABLET;
-	            break;
-	        case "SMARTPHONE":
-	        	this.sottocategoria = Sottocategoria.SMARTPHONE;
-	            break;
-	        case "PC":
-	            this.sottocategoria = Sottocategoria.PC;
-	            break;
-	        case "SMARTWATCH":
-	            this.sottocategoria = Sottocategoria.SMARTWATCH;
-	            break;
-	        default:
-	        	throw new IllegalArgumentException("Le sottocategorie ammissibili sono:"
-		        		+ "\n- TABLET e SMARTPHONE per la categoria TELEFONIA;"
-		        		+ "\n- PC e SMARTWATCH per la categoria PRODOTTI ELETTRONICA.");
-	    }
+            if(subcategory==null) this.sottocategoria = null;
+            else{
+                switch (subcategory.toUpperCase()) {
+                    case "TABLET":
+                            this.sottocategoria = Sottocategoria.TABLET;
+                        break;
+                    case "SMARTPHONE":
+                            this.sottocategoria = Sottocategoria.SMARTPHONE;
+                        break;
+                    case "PC":
+                        this.sottocategoria = Sottocategoria.PC;
+                        break;
+                    case "SMARTWATCH":
+                        this.sottocategoria = Sottocategoria.SMARTWATCH;
+                        break;
+                    default:
+                            throw new IllegalArgumentException("Le sottocategorie ammissibili sono:"
+                                            + "\n- TABLET e SMARTPHONE per la categoria TELEFONIA;"
+                                            + "\n- PC e SMARTWATCH per la categoria PRODOTTI ELETTRONICA.");
+                }
+            }    
 	}
 	
 	/**

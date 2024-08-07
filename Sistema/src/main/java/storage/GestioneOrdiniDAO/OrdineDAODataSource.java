@@ -336,6 +336,7 @@ public class OrdineDAODataSource {
 	 * **/
 	public synchronized Collection<ProxyOrdine> doRetrieveAll(String order, int page, int perPage) throws SQLException {
 		Connection connection = null;
+		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;
 
 		Collection<ProxyOrdine> ordini = new LinkedList<>();
@@ -377,13 +378,15 @@ public class OrdineDAODataSource {
 	        }
 
 	        // Esegui la query con LIMIT e OFFSET
+	        connection2 = ds.getConnection();
 	        int offset = (page - 1) * perPage;
 	        selectSQL += " LIMIT ? OFFSET ?";
-	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement = connection2.prepareStatement(selectSQL);
 	        preparedStatement.setInt(1, perPage);
 	        preparedStatement.setInt(2, offset);
 
 	        // Recupera i record paginati
+	       
 	        ResultSet rs = preparedStatement.executeQuery();
 
 			
@@ -404,8 +407,8 @@ public class OrdineDAODataSource {
 				if (preparedStatement != null)
 					preparedStatement.close();
 			} finally {
-				if (connection != null)
-					connection.close();
+				if (connection2 != null)
+					connection2.close();
 			}
 		}
 		return ordini;
@@ -425,6 +428,7 @@ public class OrdineDAODataSource {
 	 * **/
 	public synchronized Collection<ProxyOrdine> doRetrieveOrderToShip(String order, int page, int perPage) throws SQLException {
 		Connection connection = null;
+		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;
 
 		Collection<ProxyOrdine> ordini = new LinkedList<>();
@@ -468,9 +472,10 @@ public class OrdineDAODataSource {
 	        }
 
 	        // Esegui la query con LIMIT e OFFSET
+	        connection2 = ds.getConnection();
 	        int offset = (page - 1) * perPage;
 	        selectSQL += " LIMIT ? OFFSET ?";
-	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement = connection2.prepareStatement(selectSQL);
 	        preparedStatement.setInt(1, perPage);
 	        preparedStatement.setInt(2, offset);
 
@@ -494,8 +499,8 @@ public class OrdineDAODataSource {
 				if (preparedStatement != null)
 					preparedStatement.close();
 			} finally {
-				if (connection != null)
-					connection.close();
+				if (connection2 != null)
+					connection2.close();
 			}
 		}
 		return ordini;
@@ -516,6 +521,7 @@ public class OrdineDAODataSource {
 	 * **/
 	public synchronized Collection<ProxyOrdine> doRetrieveOrderToUser(String email, String order, int page, int perPage) throws SQLException {
 		Connection connection = null;
+		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;
 
 		Collection<ProxyOrdine> ordini = new LinkedList<>();
@@ -561,9 +567,10 @@ public class OrdineDAODataSource {
 	        }
 
 	        // Esegui la query con LIMIT e OFFSET
+	        connection2 = ds.getConnection();
 	        int offset = Math.max(0, (page - 1) * perPage);
 	        selectSQL += " LIMIT ? OFFSET ?";
-	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement = connection2.prepareStatement(selectSQL);
 	        preparedStatement.setString(1, email);
 	        preparedStatement.setInt(2, perPage);
 	        preparedStatement.setInt(3, offset);
@@ -588,8 +595,8 @@ public class OrdineDAODataSource {
 				if (preparedStatement != null)
 					preparedStatement.close();
 			} finally {
-				if (connection != null)
-					connection.close();
+				if (connection2 != null)
+					connection2.close();
 			}
 		}
 		return ordini;
@@ -609,6 +616,7 @@ public class OrdineDAODataSource {
 	 * **/
 	public synchronized Collection<ProxyOrdine> doRetrieveOrderShipped(String order, int page, int perPage) throws SQLException {
 		Connection connection = null;
+		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;
 
 		Collection<ProxyOrdine> ordini = new LinkedList<>();
@@ -652,9 +660,10 @@ public class OrdineDAODataSource {
 	        }
 
 	        // Esegui la query con LIMIT e OFFSET
+	        connection2 = ds.getConnection();
 	        int offset = (page - 1) * perPage;
 	        selectSQL += " LIMIT ? OFFSET ?";
-	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement = connection2.prepareStatement(selectSQL);
 	        preparedStatement.setInt(1, perPage);
 	        preparedStatement.setInt(2, offset);
 
@@ -678,8 +687,8 @@ public class OrdineDAODataSource {
 				if (preparedStatement != null)
 					preparedStatement.close();
 			} finally {
-				if (connection != null)
-					connection.close();
+				if (connection2 != null)
+					connection2.close();
 			}
 		}
 		return ordini;
@@ -701,6 +710,7 @@ public class OrdineDAODataSource {
 	 * **/
 	public synchronized Collection<ProxyOrdine> doRetrieveOrderForDate(int page, int perPage, Date startDate, Date endDate) throws SQLException {
 	    Connection connection = null;
+	    Connection connection2 = null;
 	    PreparedStatement preparedStatement = null;
 
 	    Collection<ProxyOrdine> ordini = new LinkedList<>();
@@ -742,9 +752,10 @@ public class OrdineDAODataSource {
 	        }
 
 	        // Esegui la query con LIMIT e OFFSET
+	        connection2 = ds.getConnection();
 	        int offset = Math.max(0, (page - 1) * perPage);
 	        selectSQL += " LIMIT ? OFFSET ?";
-	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement = connection2.prepareStatement(selectSQL);
 	        preparedStatement.setDate(1, startDate);
 	        preparedStatement.setDate(2, endDate);
 	        preparedStatement.setInt(3, perPage);
@@ -770,8 +781,8 @@ public class OrdineDAODataSource {
 	            if (preparedStatement != null)
 	                preparedStatement.close();
 	        } finally {
-	            if (connection != null)
-	                connection.close();
+	            if (connection2 != null)
+	                connection2.close();
 	        }
 	    }
 	    return ordini;

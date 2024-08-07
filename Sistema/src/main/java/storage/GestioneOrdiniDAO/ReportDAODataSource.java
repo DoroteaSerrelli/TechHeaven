@@ -184,6 +184,7 @@ public class ReportDAODataSource {
 	 * **/
 	public synchronized Collection<ReportSpedizione> doRetrieveAll(String order, int page, int perPage) throws SQLException {
 		Connection connection = null;
+		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;
 
 		Collection<ReportSpedizione> reports = new LinkedList<>();
@@ -225,9 +226,10 @@ public class ReportDAODataSource {
 	        }
 
 	        // Esegui la query con LIMIT e OFFSET
+	        connection2 = ds.getConnection();
 	        int offset = (page - 1) * perPage;
 	        selectSQL += " LIMIT ? OFFSET ?";
-	        preparedStatement = connection.prepareStatement(selectSQL);
+	        preparedStatement = connection2.prepareStatement(selectSQL);
 	        preparedStatement.setInt(1, perPage);
 	        preparedStatement.setInt(2, offset);
 
@@ -253,8 +255,8 @@ public class ReportDAODataSource {
 				if (preparedStatement != null)
 					preparedStatement.close();
 			} finally {
-				if (connection != null)
-					connection.close();
+				if (connection2 != null)
+					connection2.close();
 			}
 		}
 		return reports;

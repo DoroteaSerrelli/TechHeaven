@@ -14,6 +14,7 @@ import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProxyProdotto;
 import application.NavigazioneService.SearchResult;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Level;
@@ -41,11 +42,13 @@ public class PaginationUtils {
         return catalogoService.visualizzaCatalogo(page, resultsPerPage);      
     }
     
-    public static Collection<ProxyOrdine> performPagination(GestioneOrdiniServiceImpl ordiniService, int page, int resultsPerPage, String action) {
+    public static Collection<ProxyOrdine> performPagination(GestioneOrdiniServiceImpl ordiniService, int page, int resultsPerPage, String action) throws SQLException {
         if(action.matches("fetch_da_spedire")){
-           return ordiniService.visualizzaOrdinidaSpedire(page, resultsPerPage); 
+           return ordiniService.visualizzaOrdiniDaEvadere(page, resultsPerPage); 
         }   
-        else return ordiniService.visualizzaOrdiniSpediti(page, resultsPerPage);
+        else if(action.matches("fetch_spediti"))
+            return ordiniService.visualizzaOrdiniEvasi(page, resultsPerPage);
+        else return null;
     }
     
     public static void setPaginationAttributes(HttpServletRequest request, SearchResult searchResult, String keyword, int resultsPerPage) {

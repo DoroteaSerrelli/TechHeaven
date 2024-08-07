@@ -78,42 +78,51 @@ public class GestioneOrdiniController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //Visualizza prodotti selezionato forse il retrieve lo faccio con ajax <._.>
-        int page = 1;
-        
         try{
-         if (request.getParameter("page") != null) 
-            page = Integer.parseInt( 
-                request.getParameter("page")); 
-        } catch(Exception e) {
-           Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, e);
-           page=1;
+            //Visualizza prodotti selezionato forse il retrieve lo faccio con ajax <._.>
+            int page = 1;
+            String action = "fetch_da_spedire";
+            try{
+                if (request.getParameter("page") != null)
+                    page = Integer.parseInt(
+                            request.getParameter("page"));
+                if(request.getParameter("action") != null){
+                    action = request.getParameter("action");
+                }
+            } catch(Exception e) {
+                Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, e);
+                page=1;
+            }
+            
+            // Perform pagination and fetch products for the requested page
+            Collection<ProxyOrdine> orders_to_send= PaginationUtils.performPagination(new GestioneOrdiniServiceImpl(), page, pr_pagina,action);
+            
+            int totalPages = (int) Math.ceil((double) orders_to_send.size() / pr_pagina);
+            // Set content type to JSON
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            
+            // Create a response object to hold products and total pages
+            Map<String, Object> responseData = new HashMap<>();
+            responseData.put("orders", orders_to_send);
+            responseData.put("totalPages", totalPages);
+            
+            // Convert response object to JSON
+            GsonBuilder gsonBuilder = new GsonBuilder(); // Using Gson for JSON conversion
+            gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateAdapter());
+            gsonBuilder.registerTypeAdapter(LocalTime.class, new LocalTimeAdapter());
+            
+            Gson gson = gsonBuilder.create();
+            String jsonResponse = gson.toJson(responseData);
+            
+            // Write JSON response
+            PrintWriter out = response.getWriter();
+            out.print(jsonResponse);
+            out.flush();
+            
+        } catch(SQLException ex) {
+           Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
        }
-         // Perform pagination and fetch products for the requested page
-        Collection<ProxyOrdine> orders_to_send= PaginationUtils.performPagination(new GestioneOrdiniServiceImpl(), page, pr_pagina,"fetch_da_spedire");
-       
-        int totalPages = (int) Math.ceil((double) orders_to_send.size() / pr_pagina);
-        // Set content type to JSON
-        response.setContentType("application/json");
-        response.setCharacterEncoding("UTF-8");
-
-        // Create a response object to hold products and total pages
-        Map<String, Object> responseData = new HashMap<>();
-        responseData.put("orders", orders_to_send);
-        responseData.put("totalPages", totalPages);
-        
-        // Convert response object to JSON
-        GsonBuilder gsonBuilder = new GsonBuilder(); // Using Gson for JSON conversion
-        gsonBuilder.registerTypeAdapter(LocalDate.class, new LocalDateAdapter());
-        gsonBuilder.registerTypeAdapter(LocalTime.class, new LocalTimeAdapter());
-        
-        Gson gson = gsonBuilder.create();
-        String jsonResponse = gson.toJson(responseData);
-
-        // Write JSON response
-        PrintWriter out = response.getWriter();
-        out.print(jsonResponse);
-        out.flush();
         
     }
 
@@ -129,25 +138,6 @@ public class GestioneOrdiniController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {   
-        if(request.getParameter("action").matches("addPhoto")){      
-            // Retrieve the file part from the request
-           Part filePart = request.getPart("file"); // "file" is the name attribute in the form   
-
-           int prod_id = Integer.parseInt(request.getParameter("prod_id"));
-
-           if (filePart != null) {
-               try {
-                   // Get the input stream of the uploaded file
-                   InputStream fileContent = filePart.getInputStream();
-                   PhotoControl.updateTopImage(prod_id, fileContent);
-                   response.sendRedirect("protected/gestoreCatalogo/GestioneCatalogo.jsp");
-               } catch (SQLException ex) {
-                   Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
-                   System.out.println(ex.getMessage());
-               }
-
-           }
-        }
         
      }
     

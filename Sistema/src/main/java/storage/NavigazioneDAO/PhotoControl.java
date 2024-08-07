@@ -13,9 +13,6 @@ import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.Properties;
-import org.apache.commons.dbcp2.BasicDataSource;
-import storage.AutenticazioneDAO.ClienteDAODataSource;
 
 /**
  * La classe consente di effettuare le operazioni di caricamento, recupero, aggiunta e rimozione
@@ -27,36 +24,27 @@ import storage.AutenticazioneDAO.ClienteDAODataSource;
  * */
 
 public class PhotoControl {
-	private static BasicDataSource ds;
+	private static DataSource ds;
+
 	static {
-                try{
-		    InputStream propsInput = ClienteDAODataSource.class.getResourceAsStream("/config.properties");
-                    Properties pr = new Properties();
-                    pr.load(propsInput);              
-                    String username = pr.getProperty("DB_USER");
-                    String password = pr.getProperty("DB_PASSWORD");      
+		try {
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context) initCtx.lookup("java:comp/env");
-                          BasicDataSource basicDataSource = new BasicDataSource();
-                   basicDataSource.setDriverClassName("com.mysql.cj.jdbc.Driver");
-                   basicDataSource.setUrl("jdbc:mysql://localhost:3306/techheaven?useSSL=false&amp&serverTimezone=UTC");
-                   basicDataSource.setUsername(username);
-                   basicDataSource.setPassword(password);        
-                // Set the configured data source
-                    ds = basicDataSource;
-                  
 
-		} catch (NamingException | IOException e) {
-                 System.out.println("Error:" + e.getMessage());
-            }
+			ds = (DataSource) envCtx.lookup("jdbc/stepup");
+
+		} catch (NamingException e) {
+			System.out.println("Error:" + e.getMessage());
+		}
 	}
+	
 	
 	/**
 	 * Il metodo effettua il recupero dell'immagine di presentazione di un prodotto dal database.
 	 * @param id è il codice univoco del prodotto
 	 * @return bt l'immagine di presentazione del prodotto
 	 * */
-	public synchronized static byte[] loadTopImage(int id) throws SQLException {
+	public static synchronized byte[] loadTopImage(int id) throws SQLException {
 		
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -67,14 +55,14 @@ public class PhotoControl {
 		try {
 			
 			connection = ds.getConnection();
-			String sql = "SELECT TOPIMAGE FROM prodotto WHERE CODICEPRODOTTO = ?";
+			String sql = "SELECT TOPIMMAGINE FROM prodotto WHERE CODICEPRODOTTO = ?";
 			stmt = connection.prepareStatement(sql);
 			
 			stmt.setInt(1, id);
 			rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				bt = rs.getBytes("TOPIMAGE");
+				bt = rs.getBytes("TOPIMMAGINE");
 			}
 
 		} catch (SQLException sqlException) {
@@ -99,7 +87,7 @@ public class PhotoControl {
 	 * @param idP è l'identificativo numerico del prodotto
 	 * @param photo è l'immagine di presentazione da associare al prodotto con codice idP
 	 * */
-	public synchronized static void updateTopImage(int idP, InputStream photo) throws SQLException {
+	public static synchronized void updateTopImage(int idP, InputStream photo) throws SQLException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
@@ -135,7 +123,7 @@ public class PhotoControl {
 	 * del prodotto
 	 * @return bt l'immagine di dettaglio, con codice idI, del prodotto con codice idP
 	 * */
-	public synchronized static byte[] loadPhotoOfGallery(int idP, int idI) throws SQLException {
+	public static synchronized byte[] loadPhotoOfGallery(int idP, int idI) throws SQLException {
 
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -180,7 +168,7 @@ public class PhotoControl {
 	 * @param idP è il codice del prodotto
 	 * @return photos gli identificativi delle immagini di dettaglio del prodotto con codice idP
 	 * */
-	public synchronized static LinkedList<Integer> loadPhotoGallery(int idP) throws SQLException {
+	public static synchronized LinkedList<Integer> loadPhotoGallery(int idP) throws SQLException {
 
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -224,7 +212,7 @@ public class PhotoControl {
 	 * @param idP l'identificativo numerico del prodotto
 	 * @param photo l'immagine di dettaglio da memorizzare
 	 * */
-	public synchronized static void addPhotoInGallery(int idP, InputStream photo) throws SQLException {
+	public static synchronized void addPhotoInGallery(int idP, InputStream photo) throws SQLException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
@@ -258,7 +246,7 @@ public class PhotoControl {
 	 * @param idP l'identificativo numerico del prodotto
 	 * @param idI il codice dell'immagine di dettaglio da rimuovere
 	 * */
-	public synchronized static void deletePhotoInGallery(int idP, int idI) throws SQLException {
+	public static synchronized void deletePhotoInGallery(int idP, int idI) throws SQLException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {

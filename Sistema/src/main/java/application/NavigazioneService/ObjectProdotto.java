@@ -322,7 +322,7 @@ public abstract class ObjectProdotto {
 	public void setSottocategoria(String subcategory) {
 		if(this.sottocategoria == null) {
 			this.sottocategoria = null;
-			return;
+			return; 
 		}
 	    switch (subcategory.toUpperCase()) {
 	        case "TABLET":
@@ -404,6 +404,10 @@ public abstract class ObjectProdotto {
 		return inCatalogo;
 	}
 	
+	/**
+	 * Il metodo permette di comprendere se un dato prodotto è presente nel catalogo.
+	 * @return 1 se è presente il prodotto nel catalogo; 0 altrimenti.
+	 * */
 	public int isInCatalogoInt() {
 		return inCatalogo? 1 : 0;
 	}
@@ -425,6 +429,11 @@ public abstract class ObjectProdotto {
 		return inVetrina;
 	}
 	
+	/**
+	 * Il metodo permette di comprendere se un dato prodotto è presente nella vetrina del negozio
+	 * come rappresentante dei prodotti della propria categoria di appartenenza.
+	 * @return 1 se è presente il rappresentante della categoria di appartenenza; 0 altrimenti.
+	 * */
 	public int isInVetrinaInt() {
 		return inVetrina? 1 : 0;
 	}
@@ -438,7 +447,9 @@ public abstract class ObjectProdotto {
 		this.inVetrina = inVetrina;
 	}
 
-
+	/**
+	 * Il metodo fornisce in formato stringa le caratteristiche associate al prodotto.
+	 * */
 	@Override
 	public String toString() {
 		return "Prodotto [CodiceProdotto=" + codiceProdotto + ", NomeProdotto=" + nomeProdotto + ", Prezzo=" + prezzo

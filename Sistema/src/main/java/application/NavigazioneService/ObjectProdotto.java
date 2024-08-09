@@ -305,18 +305,12 @@ public abstract class ObjectProdotto {
 	}
 	
 	/**
-	 * Imposta la sottocategoria di appartenenza del prodotto
-	 * @param sottocategoria la categoria del prodotto
-	 * */
-	public void setSottocategoria(Sottocategoria sottocategoria) {
-		this.sottocategoria = sottocategoria;
-	}
-	
-	/**
 	 * Fornisce la sottocategoria di appartenenza del prodotto sottoforma di stringa.
 	 * @return la sottocategoria del prodotto
 	 * */
 	public String getSottocategoriaAsString() {
+		if(this.sottocategoria == null)
+			return "";
 		return sottocategoria.toString();
 	}
 	
@@ -326,6 +320,10 @@ public abstract class ObjectProdotto {
 	 * */
 	
 	public void setSottocategoria(String subcategory) {
+		if(this.sottocategoria == null) {
+			this.sottocategoria = null;
+			return;
+		}
 	    switch (subcategory.toUpperCase()) {
 	        case "TABLET":
 	        	this.sottocategoria = Sottocategoria.TABLET;
@@ -339,8 +337,11 @@ public abstract class ObjectProdotto {
 	        case "SMARTWATCH":
 	            this.sottocategoria = Sottocategoria.SMARTWATCH;
 	            break;
+	        case "":
+	        	this.sottocategoria = null;
+	        	break;
 	        default:
-	        	throw new IllegalArgumentException("Le sottocategorie ammissibili sono:"
+	        	throw new IllegalArgumentException("Se specificata, le sottocategorie ammissibili per un prodotto sono:"
 		        		+ "\n- TABLET e SMARTPHONE per la categoria TELEFONIA;"
 		        		+ "\n- PC e SMARTWATCH per la categoria PRODOTTI ELETTRONICA.");
 	    }

@@ -52,7 +52,7 @@ public abstract class Pagamento {
 	/**
 	 * Costruttore di default della classe.
 	 * */
-	public Pagamento() {
+	protected Pagamento() {
 		this.codicePagamento = -1;
 		this.ordine = null;
 		this.importo = 0;
@@ -71,7 +71,7 @@ public abstract class Pagamento {
 	 * 			data corrente, ora corrente.
 	 * */
 	
-	public Pagamento(int codicePagamento, Ordine ordine, float importo) {
+	protected Pagamento(int codicePagamento, Ordine ordine, float importo) {
 		this.codicePagamento = codicePagamento;
 		this.ordine = ordine;
 		this.importo = importo;

@@ -43,10 +43,7 @@
                 <img src="image?productId=<%= p.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';"/>
                 <p><%=p.getNomeProdotto()+" "%> <%=p.getMarca()%></p>
                         <h3><%=p.getPrezzo()%>€</h3>
-            </div>
-            <div class="row item-carrello">
-                <p>Quantità: <%=p.getQuantita()%></p>                           
-            </div>       
+            </div>     
             <% }
             %> 
             

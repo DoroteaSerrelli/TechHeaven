@@ -4,6 +4,7 @@
     Author     : raffy
 --%>
 
+<%@page import="model.Prodotto"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -12,16 +13,27 @@
         <title>Product Details</title>
     </head>
     <body>
-         <link rel="stylesheet" href="style.css">
+         <link rel="stylesheet" href="style.css">         
+         <link rel="stylesheet" href="cart.css">
         <jsp:include page="header.jsp"  flush="true"/>
-        <h1>Product Detail</h1>
-        <c:if test="${not empty Prodotto}">
-            <h2>${Prodotto.name}</h2>
-            <p>Description: ${Prodotto.description}</p>
-            <p>Price: ${Prodotto.price}</p>
-        </c:if>
-        <c:if test="${empty Prodotto}">
-            <p>Product not found</p>
-        </c:if>
+        <h2>Product Detail</h2>
+        <%
+            if (request.getAttribute("prodotto") == null) {
+                out.println("Prodotto non trovato");
+            } else {
+            // If product is not null, retrieve it from the session
+            Prodotto prod = (Prodotto) request.getAttribute("prodotto");
+            // Now you can print the properties of the product
+        %>
+        <div class="pro-img">    
+            <img src="view/img/fono.jpg" alt="Product Image"></div>   
+        <div class="details">
+            <h2>Nome: <%= prod.getNome()%></h2>
+            <p>Description: <%= prod.getTop_descrizione()%></p>
+            <p>Price: <%= prod.getPrezzo()%></p>
+           <%
+              }
+           %> 
+       </div>
     </body>
 </html>

@@ -41,14 +41,14 @@
                 </a>                     
             </ul>  
             <ul id="categories">            
-                <li><a href="NavigazioneController?search_type=menu&keyword=TELEFONIA">Telefonia</a></li> 
-                <li><a href="NavigazioneController?search_type=menu&keyword=GRANDI_ELETTRODOMESTICI">Grandi Elettrodomestici</a></li> 
-                <li><a href="NavigazioneController?search_type=menu&keyword=PRODOTTI_ELETTRONICA">Prodotti Elettronica</a></li>
-                <li><a href="NavigazioneController?search_type=menu&keyword=PICCOLI_ELETTRODOMESTICI">Piccoli Elettrodomestici</a></li>
+                <li><a href="${pageContext.request.contextPath}/NavigazioneController?search_type=menu&keyword=TELEFONIA">Telefonia</a></li> 
+                <li><a href="${pageContext.request.contextPath}/NavigazioneController?search_type=menu&keyword=GRANDI_ELETTRODOMESTICI">Grandi Elettrodomestici</a></li> 
+                <li><a href="${pageContext.request.contextPath}/NavigazioneController?search_type=menu&keyword=PRODOTTI_ELETTRONICA">Prodotti Elettronica</a></li>
+                <li><a href="${pageContext.request.contextPath}/NavigazioneController?search_type=menu&keyword=PICCOLI_ELETTRODOMESTICI">Piccoli Elettrodomestici</a></li>
            </ul> 
                 <ul id="search_section">
                     <li>
-                    <form id="searchForm" method="post" action="NavigazioneController?search_type=bar" onsubmit="return validateSearch()">
+                    <form id="searchForm" method="post" action="${pageContext.request.contextPath}/NavigazioneController?search_type=bar" onsubmit="return validateSearch()">
                         <button class="search" type="submit">
                             <img src="${pageContext.request.contextPath}/view/img/search.png" width="30" height="30" alt="Search">
                         </button>
@@ -59,13 +59,13 @@
         </div>
          <div id="carrello" > 
              <div id="carrelloroba">
-             <a href="cart.jsp">Mosttra il Carrello</a>
+             <a href="${pageContext.request.contextPath}/cart.jsp">Mosttra il Carrello</a>
              <br>
                 <%
                     if(request.getSession().getAttribute("usercart")==null);
                     else{
                         Carrello cart = (Carrello)request.getSession().getAttribute("usercart"); 
-                        for(ItemCarrello p: cart.getProducts()){            
+                        for(ItemCarrello p: cart.getProducts()){  
                 %>
                 <div class="cart-item">
                     <img src="data:image/jpg;base64, <%=p.getTopImmagine()%>" alt="alt">

@@ -94,6 +94,7 @@
                 <% for (Indirizzo indirizzo : indirizzi) { %>
              <p>Via: <%= indirizzo.getVia() %> <%= indirizzo.getNumCivico() %></p>
              <p><%= indirizzo.getCap() %> <%= indirizzo.getCitta() %> (<%= indirizzo.getProvincia() %>)</p>    
+
             <% } %>
             <% } else { %>
                 <p>No address available.</p>

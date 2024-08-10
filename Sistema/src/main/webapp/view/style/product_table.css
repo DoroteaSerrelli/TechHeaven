@@ -30,16 +30,3 @@ th, td {
     text-align: left;
 }
 
-
-
-/* Card Layout Styling */
-.order-card {
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 10px;
-    background: #f9f9f9;
-}
-
-
-

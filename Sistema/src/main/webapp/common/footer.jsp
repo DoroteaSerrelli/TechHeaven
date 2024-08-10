@@ -37,7 +37,7 @@
             </div>
             <div class="col"> 
 		<h4>About</h4>
-		<a href="${pageContext.request.contextPath}/about.jsp">About us</a>
+		<a href="#">About us</a>
 		<a href="#">Delivery Information</a>
 		<a href="#">Privacy Policy</a>
 		<a href="#">Terms & Conditions</a>				
@@ -55,15 +55,11 @@
 		<h4> Install App </h4>
 		<p>From App Store or Google Play</p>
 		<div class="row">
-                    <img src="${pageContext.request.contextPath}/view/img/logos/app store.png" width="40" height="40" alt="alt">
-                    <img src="${pageContext.request.contextPath}/view/img/logos/google play store.png" width="40" height="40" alt="alt">
-            	</div>
-                <p>Secure Payment Gateways </p>
-                <div class="row">               
-                    <img src="${pageContext.request.contextPath}/view/img/logos/master card.png" alt="alt">
-                    <img src="${pageContext.request.contextPath}/view/img/logos/visa.png" alt="alt">
-                    <img src="${pageContext.request.contextPath}/view/img/logos/maestro.png" alt="alt">	
-                </div>
+                    <img src="img/logo/app store.png" alt="alt">
+                    <img src="img/logo/google play store.png" alt="alt">
+                    <p>Secure Payment Gateways </p>
+                    <img src="img/logo/Prepagate.png" alt="alt">
+		</div>
 	    </div>
             <div class="copyright">
                 <p>&copy 2024, TechHeavenSRL etc - Website TechHeaven</p>

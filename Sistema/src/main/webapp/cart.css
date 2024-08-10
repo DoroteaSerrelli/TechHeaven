@@ -71,7 +71,7 @@
     height: 40%; /* Make the sidebar take up the full height of the page */
     background-color: #f4f4f4; /* Background color of the sidebar */
     padding: 20px; /* Add some padding to the sidebar content */
-    box-shadow: 0 0 10px rgba(160, 148, 242, 1.5); /* Add a subtle shadow effect */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
     transform: translateY(-50%); /* Center vertically */
 }
 

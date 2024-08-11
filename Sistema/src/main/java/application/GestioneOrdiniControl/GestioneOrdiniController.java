@@ -4,9 +4,12 @@
  */
 package application.GestioneOrdiniControl;
 
+import application.GestioneCarrelloService.ItemCarrello;
 import application.GestioneCatalogoService.GestioneCatalogoServiceImpl;
 import application.GestioneOrdiniService.GestioneOrdiniServiceImpl;
+import application.GestioneOrdiniService.ObjectOrdine;
 import application.GestioneOrdiniService.Ordine;
+import application.GestioneOrdiniService.OrdineException;
 import application.GestioneOrdiniService.ProxyOrdine;
 import application.NavigazioneControl.PaginationUtils;
 import com.google.gson.Gson;
@@ -30,6 +33,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
+import storage.GestioneOrdiniDAO.OrdineDAODataSource;
 import storage.NavigazioneDAO.PhotoControl;
 
 /**
@@ -49,6 +53,14 @@ public class GestioneOrdiniController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private GestioneOrdiniServiceImpl gos;
+    private OrdineDAODataSource odao;
+    @Override
+    public void init() throws ServletException {
+        // Initialize any services or resources needed by the servlet
+        odao = new OrdineDAODataSource();
+        gos = new GestioneOrdiniServiceImpl();
+    }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -138,7 +150,37 @@ public class GestioneOrdiniController extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {   
-        
+            
+            String action = request.getParameter("action");
+            System.out.println(action);
+            // Se action -> accept_order posta a true Setto lo stato dell'ordine in lavorazione e 
+            // chiamo il Dispatcher della pagina fill_order_details.jsp per inserire le informazioni
+            // sull'ordine i.e.(Aggiungere gli item richieste dall'ordine, la ditta di spedizione ecc...)          
+            if(action.equals("accept_order")){
+                try {
+                    int orderID = Integer.parseInt(request.getParameter("orderId"));
+                    System.out.println("ORDER_ID :"+orderID);
+                    
+                    ArrayList<ItemCarrello> order_products = odao.doRetrieveAllOrderProducts(orderID);
+                    Ordine selected_ordine = odao.doRetrieveFullOrderByKey(orderID);
+                    selected_ordine.setStato(ObjectOrdine.Stato.In_lavorazione);                   
+                    request.setAttribute("selected_ordine", selected_ordine);
+                    request.setAttribute("order_products", order_products);
+                    
+                    // Recover the context path
+                    String contextPath = request.getContextPath();
+                    request.getRequestDispatcher(contextPath+"/protected/gestoreOrdini/fill_order_details.jsp").forward(request, response);
+                } catch (SQLException ex) {
+                    Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (OrdineException.OrdineVuotoException ex) {
+                    Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            
+            }
+            
+            // Altrimenti mi occupo delle richieste di approvigionamento relativi ad un prodotto.           
+            else{
+            }
      }
     
     /**

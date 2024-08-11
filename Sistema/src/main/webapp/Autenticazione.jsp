@@ -52,7 +52,7 @@
                 <div class="errormsg">
                 <p id="error"></p>
                  <% 
-                    String err = (String)request.getSession().getAttribute("error");
+                    String err = (String)request.getAttribute("error");
                     if (err != null && !err.isEmpty()) {
                  %>
                 <%=err%>               

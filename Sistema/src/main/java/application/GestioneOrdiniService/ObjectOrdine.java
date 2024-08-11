@@ -317,4 +317,33 @@ public abstract class ObjectOrdine {
 				+ ", tipo di spedizione=" + spedizione + ", indirizzo di spedizione: \n" + indirizzoSpedizione.toString()
 				+ "\n Data e ora commissione=" + data + ", " + ora + "]";
 	}
+	
+	/**
+	 * Il metodo crea un nuovo oggetto `ObjectOrdine` con gli stessi valori
+	 * degli attributi di questo oggetto. Si tratta di una copia profonda, ovvero anche gli
+	 * oggetti contenuti all'interno vengono clonati, evitando di condividere riferimenti.
+	 *
+	 * @return Una nuova istanza di `ObjectOrdine` che rappresenta una copia esatta di questo oggetto.
+	 * @throws AssertionError Se il metodo `clone()` di `Object` lancia una eccezione inaspettata.
+	 */
+	
+	public ObjectOrdine clone() {
+	    try {
+	        ObjectOrdine clone = (ObjectOrdine) super.clone();
+	        // Copia profonda degli attributi
+	        
+	        clone.stato = this.stato;
+	        clone.indirizzoSpedizione = new String(this.indirizzoSpedizione); // Copia della stringa
+	        clone.spedizione = this.spedizione;
+	        clone.data = this.data;
+	        clone.ora = this.ora;
+	        clone.codiceOrdine = this.codiceOrdine;
+	        
+	        return clone;
+	    } catch (CloneNotSupportedException e) {
+	    	
+	        throw new AssertionError();
+	    }
+	}
+	
 }

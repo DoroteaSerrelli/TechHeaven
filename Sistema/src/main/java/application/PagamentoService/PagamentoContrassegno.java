@@ -35,8 +35,21 @@ public class PagamentoContrassegno extends Pagamento {
 	 * 			data corrente, ora corrente.
 	 * */
 	
-
 	public PagamentoContrassegno(int codicePagamento, Ordine ordine, float importo) {
 		super(codicePagamento, ordine, importo);
 	}
+	
+	/**
+	 * Crea una copia profonda dell'oggetto PagamentoContrassegno.
+	 * 
+	 * Dato che questa classe non introduce nuovi attributi rispetto alla classe base,
+	 * la clonazione viene delegata alla classe padre.
+	 *
+	 * @return Una copia profonda dell'oggetto PagamentoContrassegno.
+	 * @throws RuntimeException se si verifica un errore durante la clonazione.
+	 */
+	public PagamentoContrassegno clone() {
+	    return (PagamentoContrassegno) super.clone();
+	}
+
 }

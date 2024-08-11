@@ -105,4 +105,23 @@ public class PagamentoCartaCredito extends Pagamento{
 				+ ", Data Pagamento =" + getDataPagamento() + ", Ora Pagamento=" + getOraPagamento()
 				+ ", Importo totale (prodotti + spedizione)=" + getImporto() + "]";
 	}
+	
+	/**
+	 * Il metodo crea una copia profonda dell'oggetto PagamentoCartaCredito.
+	 *
+	 * @return Una copia profonda dell'oggetto PagamentoCartaCredito.
+	 * 
+	 */
+	
+	@Override
+	public PagamentoCartaCredito clone() {
+	    PagamentoCartaCredito clone = null;
+	    clone = (PagamentoCartaCredito) super.clone();
+	    
+		// Copia degli attributi specifici di PagamentoCartaCredito
+		clone.titolare = this.titolare;
+		clone.numeroCarta = this.numeroCarta;
+	    return clone;
+	}
+
 }

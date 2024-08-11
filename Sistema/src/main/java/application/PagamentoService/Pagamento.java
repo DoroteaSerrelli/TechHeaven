@@ -18,7 +18,7 @@ import application.GestioneOrdiniService.Ordine;
  * @author Dorotea Serrelli
  * */
 
-public abstract class Pagamento {
+public abstract class Pagamento implements Cloneable {
 	
 	/**
 	 * Il codice univoco per identificare un'operazione 
@@ -173,5 +173,25 @@ public abstract class Pagamento {
 		return "Pagamento [codicePagamento=" + codicePagamento + ", ordine n.=" + ordine.getCodiceOrdine() + " effettuato da : " + ordine.getAcquirente().toString()+ "\n dataPagamento="
 				+ dataPagamento + ", oraPagamento=" + oraPagamento + ", importo=" + importo + "]";
 	}
+	
+	/**
+	 * Il metodo crea una copia profonda dell'oggetto Pagamento.
+	 *
+	 * @return Una copia profonda dell'oggetto Pagamento.
+	 * @throws RuntimeException se si verifica un errore durante la clonazione.
+	 */
+	@Override
+    public Pagamento clone() {
+        Pagamento clone = null;
+        try {
+            clone = (Pagamento) super.clone();
+            if (ordine != null) {
+                clone.ordine = ordine.clone();
+            }
+        } catch (CloneNotSupportedException e) {
+            throw new RuntimeException("Clonazione non supportata per Pagamento", e);
+        }
+        return clone;
+    }
 	
 }

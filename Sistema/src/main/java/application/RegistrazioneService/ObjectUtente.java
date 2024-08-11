@@ -188,7 +188,32 @@ public abstract class ObjectUtente {
 		ruoli.add(r);
 		return ruoli;
 	}
-
+	
+	/**
+	 * Il metodo crea una copia esatta di questo oggetto ObjectUtente: crea un nuovo oggetto ObjectUtente 
+	 * con gli stessi valori degli attributi di questo oggetto. 
+	 * Si tratta di una copia profonda, ovvero anche
+	 * l'elenco dei ruoli viene clonato per evitare di condividere riferimenti con l'oggetto originale.
+	 *
+	 * @return Una nuova istanza di ObjectUtente che rappresenta una copia esatta di questo oggetto.
+	 * @throws AssertionError Se il metodo `clone()` di `Object` lancia un'eccezione inaspettata.
+	 * 
+	 */
+	
+	public ObjectUtente clone() {
+	    try {
+	        ObjectUtente clone = (ObjectUtente) super.clone();
+	        clone.username = this.username;
+	        clone.password = this.password;
+	        clone.ruoli = new ArrayList<>();
+	        for (Ruolo ruolo : ruoli) {
+	            clone.ruoli.add(ruolo);
+	        }
+	        return clone;
+	    } catch (CloneNotSupportedException e) {
+	        throw new AssertionError();
+	    }
+	}
 }
 
 

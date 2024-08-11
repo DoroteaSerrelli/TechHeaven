@@ -71,4 +71,20 @@ public class ProxyOrdine extends ObjectOrdine{
 		}
 		return ordinativo;
 	}
+	
+	/**
+	 * Il metodo crea una copia profonda dell'oggetto ProxyOrdine.
+	 *
+	 * @return Una copia profonda dell'oggetto ProxyOrdine.
+	 */
+	
+	public ProxyOrdine clone() {
+	    ProxyOrdine clone = null;
+	    clone = (ProxyOrdine) super.clone();
+		if (ordinativo != null) {
+		    clone.ordinativo = ordinativo.clone();
+		}
+	    return clone;
+	}
+
 }

@@ -131,4 +131,17 @@ public class Ordine extends ObjectOrdine{
 				"Prodotti acquistati:\n" + this.prodottiOrdiniString() + "]";
 	}
 	
+	public Ordine clone() {
+	    Ordine clone = (Ordine) super.clone();
+	    
+		// Copia profonda degli attributi
+		clone.acquirente = acquirente.clone(); 
+		clone.prodotti = new ArrayList<>();
+		
+		for (ItemCarrello item : prodotti) {
+		    clone.prodotti.add(item.clone()); 
+		}
+		return clone;
+	}
+
 }

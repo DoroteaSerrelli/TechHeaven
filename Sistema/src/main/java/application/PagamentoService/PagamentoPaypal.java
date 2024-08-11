@@ -33,8 +33,22 @@ public class PagamentoPaypal extends Pagamento {
 	 * 			data corrente, ora corrente.
 	 * */
 	
-
 	public PagamentoPaypal(int codicePagamento, Ordine ordine, float importo) {
 		super(codicePagamento, ordine, importo);
 	}
+	
+	/**
+	 * Il metodo crea una copia profonda dell'oggetto PagamentoPaypal.
+	 * 
+	 * Dato che questa classe non introduce nuovi attributi rispetto alla classe base,
+	 * la clonazione viene delegata alla classe padre.
+	 *
+	 * @return Una copia profonda dell'oggetto PagamentoPaypal.
+	 * @throws RuntimeException se si verifica un errore durante la clonazione.
+	 */
+	
+	public PagamentoPaypal clone() {
+	    return (PagamentoPaypal) super.clone();
+	}
+
 }

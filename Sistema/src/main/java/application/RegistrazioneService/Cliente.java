@@ -385,4 +385,30 @@ public class Cliente {
 	public String toStringNominativo() {
 		return "Cliente [Nome = " + nome + ", Cognome = " + cognome + "]";
 	}
+	
+	/**
+	 * Il metodo crea un nuovo oggetto Cliente che è una copia indipendente
+	 * dell'oggetto originale. Sia gli attributi primitivi che gli oggetti contenuti
+	 * negli ArrayList (Indirizzi e ProxyOrdini) vengono copiati in modo profondo,
+	 * garantendo che le modifiche apportate alla copia non influenzino l'oggetto originale.
+	 *
+	 * @return Una copia profonda dell'oggetto Cliente.
+	 */
+
+	public Cliente clone() {
+	    Cliente clone = new Cliente(this.email, this.nome, this.cognome, this.sex, this.telefono, new ArrayList<>());
+	    
+	    // Copia profonda dell'ArrayList di indirizzi
+	    clone.indirizzi = new ArrayList<>();
+	    for (Indirizzo indirizzo : this.indirizzi) {
+	        clone.indirizzi.add(indirizzo.clone());
+	    }
+	    
+	    // Copia profonda dell'ArrayList di proxyOrdini (se necessario)
+	    clone.proxyOrdini  = new ArrayList<>();
+	    for (ProxyOrdine proxyOrdine : this.proxyOrdini) {
+	        clone.proxyOrdini.add(proxyOrdine.clone());
+	    }
+	    return clone;
+	}
 }

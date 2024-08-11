@@ -162,7 +162,7 @@ public class PagamentoDAODataSource {
 	 * online con la carta di credito, e lo memorizza nel DB.
 	 * @param payment : il pagamento con carta di credito da salvare
 	 * **/
-	public synchronized void doSaveCartaCredito(PagamentoCartaCredito payment) throws SQLException {
+	public synchronized void doSaveCard(PagamentoCartaCredito payment) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 

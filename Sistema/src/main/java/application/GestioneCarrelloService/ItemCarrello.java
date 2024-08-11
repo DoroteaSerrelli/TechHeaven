@@ -9,7 +9,11 @@ import application.NavigazioneService.*;
  * @author Dorotea Serrelli
  * */
 public class ItemCarrello extends Prodotto{
-
+	
+	/**
+	 * Il numero di pezzi di un prodotto da acquistare.
+	 * */
+	
 	private int quantitàAcquisto = 0;
 
 	/**
@@ -23,6 +27,7 @@ public class ItemCarrello extends Prodotto{
 	
 	/**
 	 * Il metodo fornisce il numero di pezzi del prodotto scelto.
+	 * @return la quantità di un prodotto
 	 * */
 	@Override
 	public int getQuantita() {
@@ -31,9 +36,27 @@ public class ItemCarrello extends Prodotto{
 	
 	/**
 	 * Il metodo imposta il numero di pezzi del prodotto scelto.
+	 * @param quantity : quantità di un prodotto
 	 * */
 	@Override
 	public void setQuantita(int quantity) {
 		this.quantitàAcquisto = quantity;
+	}
+	
+	/**
+	 * Il metodo crea una copia dell'oggetto ItemCarrello.
+	 *
+	 * @return Una copia dell'oggetto ItemCarrello.
+	 * @throws RuntimeException se si verifica un errore durante la clonazione.
+	 */
+	
+	public ItemCarrello clone() {
+	    ItemCarrello clone = null;
+	    try {
+	        clone = (ItemCarrello) super.clone();
+	    } catch (CloneNotSupportedException e) {
+	        throw new RuntimeException("Clonazione non supportata per ItemCarrello", e);
+	    }
+	    return clone;
 	}
 }

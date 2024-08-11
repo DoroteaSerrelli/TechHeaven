@@ -167,9 +167,7 @@ public class GestioneOrdiniController extends HttpServlet {
                     request.setAttribute("selected_ordine", selected_ordine);
                     request.setAttribute("order_products", order_products);
                     
-                    // Recover the context path
-                    String contextPath = request.getContextPath();
-                    request.getRequestDispatcher(contextPath+"/protected/gestoreOrdini/fill_order_details.jsp").forward(request, response);
+                    request.getRequestDispatcher("/protected/gestoreOrdini/fill_order_details.jsp").forward(request, response);
                 } catch (SQLException ex) {
                     Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (OrdineException.OrdineVuotoException ex) {

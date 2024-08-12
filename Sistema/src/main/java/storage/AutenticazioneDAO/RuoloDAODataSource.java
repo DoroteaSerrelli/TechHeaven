@@ -14,6 +14,17 @@ import javax.sql.DataSource;
 import application.RegistrazioneService.Ruolo;
 import application.RegistrazioneService.Utente;
 
+/**
+ * Questa classe implementa il Data Access Object (DAO) per l'entità Ruolo nel database.
+ * Si occupa della gestione delle operazioni CRUD (Create, Read, Update, Delete) 
+ * relative ai ruoli degli utenti.
+ *
+ * La classe utilizza una connessione a un DataSource ottenuto tramite JNDI per accedere 
+ * al database.
+ * 
+ * @author Dorotea Serrelli
+ */
+
 public class RuoloDAODataSource{
 	
 	private static DataSource ds;
@@ -32,9 +43,14 @@ public class RuoloDAODataSource{
 	
 	private static final String TABLE_NAME = "ruolo";
 	
-	/*
-	 * Questo metodo memorizza nel database un nuovo utente con un ruolo associato.
-	 * */
+	/**
+     * Il metodo memorizza nel database un nuovo ruolo associato ad un utente.
+     *
+     * @param user_account : L'utente a cui associare il ruolo
+     * @param role : Il ruolo da associare
+     * 
+     * @throws SQLException - Lanciata in caso di errori di accesso al database
+     */
 	public synchronized void doSave(Utente user_account, Ruolo role) throws SQLException {
 
 		Connection connection = null;
@@ -68,10 +84,15 @@ public class RuoloDAODataSource{
 	}
 
 
-	/*
-	 * Questo metodo rimuove tutti i ruoli associati ad un utente.
-	 * Ciò si verifica quando l'utente viene rimosso dal sistema.
-	 * */
+	/**
+     * Il metodo rimuove tutti i ruoli associati ad un utente.
+     * Viene utilizzato quando l'utente viene eliminato dal sistema.
+     *
+     * @param username : nome utente dell'utente da cui eliminare i ruoli
+     * @return true se l'operazione è andata a buon fine, false altrimenti
+     * 
+     * @throws SQLException - Lanciata in caso di errori di accesso al database
+     */
 	public boolean doDelete(String username) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -100,11 +121,17 @@ public class RuoloDAODataSource{
 	}
 	
 	
-	/*
-	 * Questo metodo rimuove un ruolo associato ad un utente.
-	 * Se l'utente possiede un solo ruolo associato, allora si eseguirà il 
-	 * metodo doDelete(String username) della classe RuoloDAODataSource.
-	 * */
+	/**
+     * Il metodo rimuove un ruolo specifico associato ad un utente.
+     * Se l'utente possiede un solo ruolo associato, allora viene rimosso anche l'utente dal sistema
+     * tramite il metodo doDelete(String username).
+     *
+     * @param username : Lo username dell'utente da cui eliminare il ruolo
+     * @param role : Il ruolo da eliminare
+     * 
+     * @return true se l'operazione è andata a buon fine, false altrimenti
+     * @throws SQLException - Lanciata in caso di errori di accesso al database
+     */
 	public boolean doDelete(String username, Ruolo role) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -142,9 +169,15 @@ public class RuoloDAODataSource{
 		return (result != 0);
 	}
 
-	/*
-	 * Questo metodo restituisce l'insieme dei ruoli associati ad un utente.
-	 * */
+	/**
+	 * Il metodo recupera e restituisce l'insieme dei ruoli associati ad un utente specificato dallo username.
+	 *
+	 * @param username : il nome utente dell'utente di cui si vogliono recuperare i ruoli
+	 * @return Una collezione (ArrayList) contenente i ruoli dell'utente. Se nessun ruolo è associato all'utente,
+	 *         verrà restituita una lista vuota.
+	 *         
+	 * @throws SQLException - Lanciata in caso di errori di accesso al database
+	 */
 	public ArrayList<Ruolo> doRetrieveByKey(String username) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -170,9 +203,14 @@ public class RuoloDAODataSource{
 		return roles;
 	}
 
-	/*
-	 * Questo metodo fornisce tutti gli utenti che hanno un determinato ruolo role.
-	 * */
+	/**
+	 * Il metodo recupera e restituisce una collezione di utenti che possiedono un determinato ruolo.
+	 *
+	 * @param role : Il ruolo da ricercare tra gli utenti
+	 * @return Una collezione (Collection) contenente gli utenti che possiedono il ruolo specificato. 
+	 *         Se nessun utente possiede tale ruolo, verrà restituita una lista vuota.
+	 * @throws SQLException - Lanciata in caso di errori di accesso al database
+	 */
 	public Collection<Utente> doRetrieveAllRoleUser(Ruolo role) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;

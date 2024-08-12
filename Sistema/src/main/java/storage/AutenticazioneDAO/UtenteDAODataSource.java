@@ -19,6 +19,14 @@ import application.RegistrazioneService.Utente;
 import application.RegistrazioneService.Indirizzo;
 import application.RegistrazioneService.ProxyUtente;
 
+/**
+ * Questa classe di data access object (DAO) gestisce le operazioni CRUD (Create, Read, Update, Delete) 
+ * sugli utenti nel database.
+ * 
+ * Utilizzando un DataSource ottenuto tramite JNDI, la classe si connette al database e interagisce 
+ * con la tabella "utente" per memorizzare, recuperare, aggiornare ed eliminare utenti.
+ */
+
 public class UtenteDAODataSource{
 	
 	private static DataSource ds;
@@ -38,9 +46,12 @@ public class UtenteDAODataSource{
 	private static final String TABLE_NAME = "utente";
 	
 	
-	/*
-	 * Questo metodo memorizza nel database un nuovo utente.
-	 * */
+	/**
+     * Il metodo memorizza un nuovo utente nel database.
+     * 
+     * @param user_account : l'oggetto Utente contenente i dati dell'utente da memorizzare.
+     * @throws SQLException Lancia un' eccezione SQLException in caso di errori con il database.
+     */
 	public synchronized void doSave(Utente user_account) throws SQLException {
 
 		Connection connection = null;
@@ -96,9 +107,14 @@ public class UtenteDAODataSource{
 		
 	}
 
-	/*
-	 * Questo metodo rimuove un utente dal database.
-	 * */
+	/**
+     * Il metodo rimuove un utente dal database in base al suo username.
+     * 
+     * @param username : il nome utente dell'utente da eliminare.
+     * @return Restituisce true se l'eliminazione ha avuto successo, false altrimenti.
+     * 
+     * @throws SQLException Lancia un' eccezione SQLException in caso di errori con il database.
+     */
 	public synchronized boolean doDelete(String username) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -126,21 +142,27 @@ public class UtenteDAODataSource{
 		return (result != 0);
 	}
 	
-	/*
-	 * RESET DELLA PASSWORD
-	 * */
+	/**
+	 * Il metodo permette di resettare la password di un utente.
+	 * 
+	 * @param username : username dell'utente per cui si vuole effettuare il reset della password.
+	 * @param password : la nuova password dell'utente.
+	 * 
+	 * @throws SQLException Lancia un'eccezione `SQLException` in caso di errori con il database.
+	 */
 	public synchronized void doResetPassword(String username, String password) throws SQLException {
 
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
 		String insertUserSQL = "UPDATE " + UtenteDAODataSource.TABLE_NAME
-				+ " SET USERPASSWORD = " + password + " WHERE USERNAME = ?;";
+				+ " SET USERPASSWORD = ? WHERE USERNAME = ?;";
 
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(insertUserSQL);
-			preparedStatement.setString(1, username);
+			preparedStatement.setString(1, password);
+			preparedStatement.setString(2, username);
 
 			if(preparedStatement.executeUpdate() == 0) {
 				System.out.println("Errore nella reimpostazione della password dell'utente "+ username 
@@ -160,10 +182,16 @@ public class UtenteDAODataSource{
 		}
 	}
 
-	/*
-	 * Questo metodo fornisce tutti gli utenti del sistema e li ordina in base
-	 * al criterio orderCriterion.
-	 * */
+	/**
+	 * Il metodo recupera tutti gli utenti presenti nel database e li restituisce in una collezione.
+	 * Gli utenti possono essere ordinati in base a un criterio specificato dal parametro `orderCriterion`.
+	 * 
+	 * @param orderCriterion : il criterio di ordinamento (es. "USERNAME", "EMAIL").
+	 *                         Può essere nullo se non si desidera ordinare gli utenti.
+	 * @return Restituisce una collezione di oggetti `Utente` contenenti tutti gli utenti del sistema.
+	 * 
+	 * @throws SQLException Lancia un'eccezione `SQLException` in caso di errori con il database.
+	 */
 	public synchronized Collection<Utente> doRetrieveAll(String orderCriterion) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -205,9 +233,18 @@ public class UtenteDAODataSource{
 		return users;
 	}
 	
-	/*
-	 * Questo metodo restituisce un utente in base al suo username.
-	 * */
+	/**
+	 * Il metodo recupera le informazioni complete di 
+	 * un utente specifico dal database, in base al suo username.
+	 * @see application.RegistrazioneService.Utente
+	 * @see application.RegistrazioneService.ProxyUtente
+	 * 
+	 * @param username : username dell'utente da recuperare.
+	 * @return Restituisce un oggetto `Utente` contenente tutte le informazioni dell'utente specificato,
+	 *         oppure un oggetto `Utente` vuoto se l'utente non viene trovato.
+	 * 
+	 * @throws SQLException Lancia un'eccezione `SQLException` in caso di errori con il database.
+	 */
 	public synchronized Utente doRetrieveFullUserByKey(String username) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -231,12 +268,6 @@ public class UtenteDAODataSource{
 				ArrayList<Indirizzo> indirizzi = addressDao.doRetrieveAll("IDINDIRIZZO", username);
 				profilo.setIndirizzi(indirizzi);
 				
-				/*
-				 * Recupero degli ordini
-				 * */
-				
-				
-				
 				user.setProfile(profilo);
 				
 			}
@@ -252,9 +283,16 @@ public class UtenteDAODataSource{
 		return user;
 	}
 	
-	/*
-	 * Questo metodo restituisce le informazioni essenziali di un utente: username e password, in base al suo username.
-	 * */
+	/**
+	 * Il metodo recupera le informazioni essenziali di un utente (username e password) 
+	 * in base allo username fornito.
+	 * 
+	 * @param username : username dell'utente di cui si vogliono recuperare le informazioni.
+	 * @return Restituisce un oggetto ProxyUtente contenente username e password dell'utente, 
+	 * 			oppure un oggetto ProxyUtente vuoto se l'utente non viene trovato.
+	 * 
+	 * @throws SQLException Lancia un' eccezione SQLException in caso di errori con il database.
+	 */
 	public ProxyUtente doRetrieveProxyUserByKey(String username) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;

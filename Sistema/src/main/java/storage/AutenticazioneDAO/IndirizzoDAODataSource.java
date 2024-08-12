@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -13,6 +14,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import application.RegistrazioneService.Indirizzo;
+
 
 
 public class IndirizzoDAODataSource {
@@ -36,55 +38,68 @@ public class IndirizzoDAODataSource {
 	public synchronized void doSave(Indirizzo address, String username) throws SQLException {
 
 		Connection connection = null;
-	    PreparedStatement preparedStatement = null;
+		PreparedStatement preparedStatement = null;
 
-	    String insertSQL = "INSERT INTO " + IndirizzoDAODataSource.TABLE_NAME
-	            + "(IDINDIRIZZO, VIA, NUMCIVICO, CITTA, CAP, PROVINCIA) VALUES (?, ?, ?, ?, ?, ?)";
+		String insertSQL = "INSERT INTO " + IndirizzoDAODataSource.TABLE_NAME
+				+ "(IDINDIRIZZO, VIA, NUMCIVICO, CITTA, CAP, PROVINCIA) VALUES (?, ?, ?, ?, ?, ?)";
 
-	    try {
-	        connection = ds.getConnection();
-	        connection.setAutoCommit(false);
-	        preparedStatement = connection.prepareStatement(insertSQL);
-	        preparedStatement.setInt(1, address.getIDIndirizzo());
-	        preparedStatement.setString(2, address.getVia());
-	        preparedStatement.setString(3, address.getNumCivico());
-	        preparedStatement.setString(4, address.getCitta());
-	        preparedStatement.setString(5, address.getCap());
-	        preparedStatement.setString(6, address.getProvincia());
+		try {
+			connection = ds.getConnection();
+			connection.setAutoCommit(false);
 
-	        preparedStatement.executeUpdate();
+			preparedStatement = connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
+			preparedStatement.setString(1, address.getVia());
+			preparedStatement.setString(2, address.getNumCivico());
+			preparedStatement.setString(3, address.getCitta());
+			preparedStatement.setString(4, address.getCap());
+			preparedStatement.setString(5, address.getProvincia());
+			preparedStatement.executeUpdate();
 
-	        connection.commit();
-	    } finally {
-	        try {
-	            if (preparedStatement != null)
-	                preparedStatement.close();
-	        } finally {
-	            if (connection != null)
-	                connection.close();
-	        }
-	    }
+			// Recupera l'ID generato
+			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				int generatedID = generatedKeys.getInt(1);
+				address.setIDIndirizzo(generatedID);  // Imposta l'ID generato sull'oggetto address
+				System.out.println("Debug Indirizzo ID:" + generatedID);
+			} else {
+				throw new SQLException("Errore creazione indirizzo, non è possibile recuperare l'ultimo ID generato.");
+			}
 
-	    String insertSQL2 = "INSERT INTO POSSIEDE_INDIRIZZO(UTENTE, INDIRIZZO) VALUES (?, ?)";
+			// Secondo insert
+			String insertSQL2 = "INSERT INTO POSSIEDE_INDIRIZZO(UTENTE, INDIRIZZO) VALUES (?, ?)";
+			preparedStatement.close(); // Chiudi il preparedStatement precedente
+			preparedStatement = connection.prepareStatement(insertSQL2);
+			preparedStatement.setString(1, username);
+			preparedStatement.setInt(2, address.getIDIndirizzo());
+			preparedStatement.executeUpdate();
 
-	    try {
-	        connection = ds.getConnection();
-	        preparedStatement = connection.prepareStatement(insertSQL2);
-	        preparedStatement.setString(1, username);
-	        preparedStatement.setInt(2, address.getIDIndirizzo());
-	        preparedStatement.executeUpdate();
+			connection.commit();
+		} catch (SQLException e) {
+			if (connection != null) {
+				try {
+					connection.rollback();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+				}
+			}
+			e.printStackTrace();
+		} finally {
+			if (preparedStatement != null) {
+				try {
+					preparedStatement.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (connection != null) {
+				try {
+					connection.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 
-	        connection.setAutoCommit(false);
-	        connection.commit();
-	    } finally {
-	        try {
-	            if (preparedStatement != null)
-	                preparedStatement.close();
-	        } finally {
-	            if (connection != null)
-	                connection.close();
-	        }
-	    }	
 	}
 
 
@@ -156,7 +171,7 @@ public class IndirizzoDAODataSource {
 		}
 		return (result != 0);
 	}
-	
+
 	/*
 	 * Questo metodo rimuove un indirizzo dal database.
 	 * */
@@ -178,7 +193,7 @@ public class IndirizzoDAODataSource {
 			if(risultato.next()) {
 				result = 1;
 			}
-			
+
 		} finally {
 			try {
 				if (preparedStatement != null)
@@ -188,19 +203,19 @@ public class IndirizzoDAODataSource {
 					connection.close();
 			}
 		}
-		
+
 		if(result == 1) {
 			String deleteSQL = "DELETE FROM "+IndirizzoDAODataSource.TABLE_NAME+ " WHERE (IDINDIRIZZO = ?)";
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(deleteSQL);
 			preparedStatement.setInt(1, IDIndirizzo);
-			
+
 			result = preparedStatement.executeUpdate();
 		}
-		
+
 		return (result != 0);
 	}
-	
+
 	/*
 	 * Questo metodo rimuove un indirizzo dalla rubrica degli indirizzi dell'utente.
 	 * */
@@ -214,7 +229,7 @@ public class IndirizzoDAODataSource {
 				+ "SET VIA = ?, NUMCIVICO = ?, CITTA = ?, CAP = ?, PROVINCIA = ?"
 				+ " WHERE (" +
 				IndirizzoDAODataSource.TABLE_NAME + ".idIndirizzo = POSSIEDE_INDIRIZZO.indirizzo)"
-						+ "AND (UTENTE = ? AND INDIRIZZO = ?)";
+				+ "AND (UTENTE = ? AND INDIRIZZO = ?)";
 
 		try {
 			connection = ds.getConnection();
@@ -240,8 +255,8 @@ public class IndirizzoDAODataSource {
 		}
 		return (result != 0);
 	}
-	
-	
+
+
 	public synchronized ArrayList<Indirizzo> doRetrieveAll(String orderCriterion, String username) throws SQLException {	//lista degli indirizzi dell'utente
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -286,7 +301,7 @@ public class IndirizzoDAODataSource {
 		}
 		return addresses;
 	}
-	
+
 	public synchronized ArrayList<Indirizzo> doRetrieveAll(String username) throws SQLException {	//lista degli indirizzi dell'utente
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;

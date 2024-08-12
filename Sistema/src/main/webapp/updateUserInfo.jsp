@@ -77,12 +77,12 @@
             </div>
             <input value="Update" type="button" class="confirm_button" name="update" onclick="validateForm()" >           
         </form>     
-            <p id="error"></p>
+            <p id="error">
              <% 
-                String err = (String)request.getSession().getAttribute("error");
+                String err = (String)request.getAttribute("error");
                 if (err != null && !err.isEmpty()) {
              %>
-            <%=err%>               
+            <%=err%>   </p>            
             <% } %>      
             <%  
                 if (request.getSession().getAttribute("user") == null) {

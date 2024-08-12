@@ -6,11 +6,13 @@ package application.AutenticazioneControl;
 
 import application.AutenticazioneService.AutenticazioneException;
 import application.AutenticazioneService.AutenticazioneServiceImpl;
+import application.RegistrazioneService.Indirizzo;
 import application.RegistrazioneService.ProxyUtente;
 import application.RegistrazioneService.Utente;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -43,11 +45,11 @@ public class UpdateProfileController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {       
+            throws ServletException, IOException { 
         try { 
             String updated_email = (String)request.getParameter("email");
             String updated_tel =   (String)request.getParameter("telefono");
-            
+                        
             ProxyUtente user = getUser(request);
             ProxyUtente updated_user = user;
             
@@ -70,20 +72,20 @@ public class UpdateProfileController extends HttpServlet {
             request.getSession().setAttribute("user", updated_user);
             request.getRequestDispatcher("AreaRiservata.jsp").forward(request, response);      
             
-        }catch(SQLException e){
-           Logger.getLogger(UpdateProfileController.class.getName()).log(Level.SEVERE, null, e);      
-        } catch (AutenticazioneException.FormatoEmailException ex) {
-            Logger.getLogger(UpdateProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AutenticazioneException.ProfiloInesistenteException ex) {
-            Logger.getLogger(UpdateProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AutenticazioneException.EmailEsistenteException ex) {
-            Logger.getLogger(UpdateProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AutenticazioneException.TelefonoEsistenteException ex) {
-            Logger.getLogger(UpdateProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AutenticazioneException.FormatoTelefonoException ex) {
-            Logger.getLogger(UpdateProfileController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AutenticazioneException.InformazioneDaModificareException ex) {
-            Logger.getLogger(UpdateProfileController.class.getName()).log(Level.SEVERE, null, ex);
+        }catch(SQLException | AutenticazioneException.FormatoEmailException | AutenticazioneException.ProfiloInesistenteException | AutenticazioneException.EmailEsistenteException | AutenticazioneException.TelefonoEsistenteException | AutenticazioneException.FormatoTelefonoException | AutenticazioneException.InformazioneDaModificareException e){
+            try {
+                Logger.getLogger(UpdateProfileController.class.getName()).log(Level.SEVERE, null, e);
+                String errormsg = "Errore durante la modifica delle informazioni";
+                request.setAttribute("error", errormsg);
+                //Retrieve address after update failure to allow the user to see them and update them 
+                // If needed.
+                AutenticazioneController cont = new AutenticazioneController();
+                cont.loadUserAddresses(request);
+                request.getRequestDispatcher("updateUserInfo.jsp").forward(request, response);
+            } catch (SQLException ex) {
+                Logger.getLogger(UpdateProfileController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           
         }
     }
     

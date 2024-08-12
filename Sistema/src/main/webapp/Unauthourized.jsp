@@ -13,14 +13,14 @@
         <link rel="stylesheet" href="common/style.css">
     </head>
     <body>
-        <div class="section-p1">
+        <div class="section-p1" style="padding-bottom: 20%;">
             <h1>403 - Non autorizzato</h1>      
             <p>Spiacente, non ha i permessi necessari per accedere a questa pagina.</p>
             <p>Se credi che questo sia un errore, perfavore contatta l'amministratore di sistema.</p>
             <p><a href="/TechHeaven">Ritorna alla pagina iniziale</a> oppure <a href="mailto:support@example.com">Contattaci per aiuto</a></p>
-        </div>    
-        <footer style="padding: 10px; justify-content: center; align-content: center">
-            <p style="font-size: 16px">&copy 2024, TechHeavenSRL etc - Website TechHeaven. Tutti i diritti riservati.</p>            
-        </footer>
+        </div>          
     </body>
+    <footer style="padding-top:5%; padding-bottom: 6%; justify-content: center; align-content: center">
+         <p style="font-size: 18px">&copy 2024, TechHeavenSRL etc - Website TechHeaven. Tutti i diritti riservati.</p>            
+    </footer>
 </html>

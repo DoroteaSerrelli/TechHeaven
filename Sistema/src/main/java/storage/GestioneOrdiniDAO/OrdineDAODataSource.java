@@ -274,8 +274,8 @@ public class OrdineDAODataSource {
 			while (rs.next()) {
 				ItemCarrello dto = new ItemCarrello();
 				
-				dto.setCodiceProdotto(rs.getInt("CODICEPRODOTTO"));
-				dto.setNomeProdotto(rs.getString("NOMEPRODOTTO"));
+				dto.setCodiceProdotto(rs.getInt("PRODOTTO"));
+				dto.setNomeProdotto(rs.getString("NOME"));
 				dto.setPrezzo(rs.getFloat("PREZZOACQUISTATO"));
 				dto.setQuantita(rs.getInt("QUANTITàACQUISTATA"));
 				dto.setCategoria(rs.getString("CATEGORIA"));

@@ -86,9 +86,9 @@ public class Cliente {
 	public static boolean checkValidate(String email, String nome, String cognome, Sesso sex, String telefono,
 			Indirizzo indirizzo) {
 		
-		String emailPattern = "/^\\S+@\\S+\\.\\S+$/";
+		String emailPattern = "^[\\w]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
 		String nomeCognomePattern = "^[A-Za-z\s]+$";
-		String telefonoPattern = "^([0-9]{3}-[0-9]{3}-[0-9]{4})$";
+		String telefonoPattern = "^[0-9]{3}-[0-9]{3}-[0-9]{4}$";
 		
 		if(!email.matches(emailPattern) || !nome.matches(nomeCognomePattern) || !cognome.matches(nomeCognomePattern)
 				|| !telefono.matches(telefonoPattern) || sex == null)
@@ -115,7 +115,7 @@ public class Cliente {
 	 * @return true se l'email è scritta nel formato corretto; false altrimenti.
 	 * */
 	public static boolean checkValidateEmail(String email) {
-		String emailPattern = "/^\\S+@\\S+\\.\\S+$/";
+		String emailPattern = "^[\\w]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
 		return email.matches(emailPattern);
 	}
 	
@@ -129,7 +129,7 @@ public class Cliente {
 	 * @return true se il numero di telefono è scritto nel formato corretto; false altrimenti.
 	 * */
 	public static boolean checkValidateTelefono(String telefono) {
-		String telefonoPattern = "^([0-9]{3}-[0-9]{3}-[0-9]{4})$";
+		String telefonoPattern = "^[0-9]{3}-[0-9]{3}-[0-9]{4}$";
 		return telefono.matches(telefonoPattern);
 	}
 	

@@ -46,7 +46,7 @@ public class RuoloDAODataSource{
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(insertUserRoleSQL);
-			preparedStatement.setString(1, user_account.getProfile().getEmail());
+			preparedStatement.setString(1, user_account.getUsername());
 			preparedStatement.setString(2, role.getNomeRuolo());
 			
 

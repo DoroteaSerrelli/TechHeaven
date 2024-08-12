@@ -123,7 +123,7 @@ public class RoleAccessFilter implements Filter {
         boolean hasCatalogManagerRole = checkUserRole(user, rolesToCheck);
         if (!hasCatalogManagerRole) {
             // User does not have the required role, redirect to unauthorized page
-            httpResponse.sendRedirect("Unauthorized.jsp");
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/Unauthourized.jsp"); 
             return;
         }
         

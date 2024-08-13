@@ -8,9 +8,14 @@ import application.GestioneCarrelloService.Carrello;
 import application.GestioneCarrelloService.CarrelloException.CarrelloVuotoException;
 import application.GestioneCarrelloService.CarrelloException.ProdottoNonPresenteException;
 import application.GestioneCarrelloService.CarrelloException.ProdottoNulloException;
+import application.GestioneOrdiniService.OrdineException.ErroreSpedizioneOrdineException;
+import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
+import application.PagamentoService.Pagamento;
+import application.PagamentoService.PagamentoException.ModalitaAssenteException;
 import application.RegistrazioneService.ProxyUtente;
 import storage.GestioneOrdiniDAO.OrdineDAODataSource;
 import storage.AutenticazioneDAO.UtenteDAODataSource;
+import storage.NavigazioneDAO.*;
 
 /**
  * Questa classe fornisce un'implementazione concreta dei servizi per la gestione degli ordini.
@@ -60,30 +65,66 @@ public class GestioneOrdiniServiceImpl implements GestioneOrdiniService{
 	/**
 	 * Il metodo implementa il servizio di commissione (o creazione) di un ordine
 	 * fatto dal cliente verso il negozio online.
-	 * @param ordine : l'ordine dell'utente, contenente almeno un prodotto
-	 * 					da acquistare
+	 * 
 	 * @param user : l'utente che intende acquistare
+	 * @param cart : il carrello dell'utente contenente i prodotti da acquistare
+	 * @param order : l'ordine effettuato dall'utente, contenente almeno un prodotto 
+	 * 					acquistato, da memorizzare
+	 * @param payment : il pagamento associato all'ordine order
+	 * 
+	 * @return il carrello dell'utente cart svuotato
+	 * 
 	 * @throws SQLException 
 	 * @throws ProdottoNulloException 
 	 * @throws CarrelloVuotoException 
 	 * @throws ProdottoNonPresenteException 
+	 * @throws ModalitaAssenteException 
+	 * @throws OrdineVuotoException 
 	 * **/
 	@Override
-	public Carrello commissionaOrdine(Carrello cart, Ordine ordine, ProxyUtente user) throws SQLException, ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException{
+	public <T extends Pagamento> Carrello commissionaOrdine(Carrello cart, Ordine order, T payment, ProxyUtente user) throws SQLException, ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException, OrdineVuotoException, ModalitaAssenteException{
 		OrdineDAODataSource dao = new OrdineDAODataSource();
 		UtenteDAODataSource userDao = new UtenteDAODataSource();
 		if(userDao.doRetrieveProxyUserByKey(user.getUsername()) == null)
 			System.out.println("Errore utente!");
-		dao.doSave(ordine);
+		dao.doSave(order, payment);
 		GestioneCarrelloService gestioneCarrelloService = new GestioneCarrelloServiceImpl();
 
 	    return gestioneCarrelloService.svuotaCarrello(cart);
 	}
-
+	
+	
+	/**
+	 * Il metodo implementa il servizio di preparazione di un ordine, commissionato
+	 * da un cliente verso il negozio online, alla spedizione.
+	 * 
+	 * @param order : l'ordine da evadere
+	 * @param report : il report di spedizione
+	 * 
+	 * @throws SQLException 
+	 * @throws ModalitaAssenteException 
+	 * @throws OrdineVuotoException 
+	 * @throws ErroreSpedizioneOrdineException 
+	 * 
+	 * **/
+	
 	@Override
-	public void preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) {
+	public void preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException {
+		//Si imposta lo stato dell'ordine in 'SPEDITO'
+		order.setStatoAsString("SPEDITO");
 		
+		//Aggiornamento ordine nel Database
+		OrdineDAODataSource orderDao = new OrdineDAODataSource();
+		orderDao.doSaveToShip(order, report);
 		
+		//Aggiornamento delle quantità dei prodotti ordinati in magazzino
+		ArrayList<ItemCarrello> orderedProducts = order.getProdotti();
+		ProdottoDAODataSource productDao = new ProdottoDAODataSource();
+		for(ItemCarrello item : orderedProducts) {
+			//recupero numero scorte in magazzino per quel prodotto
+			int quantity = (productDao.doRetrieveCompleteByKey(item.getCodiceProdotto())).getQuantita();
+			//aggiornamento quantità
+			productDao.updateQuantity(0, quantity - item.getQuantita());
+		}
 	}
-
 }

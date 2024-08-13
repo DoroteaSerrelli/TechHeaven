@@ -7,6 +7,10 @@ import application.GestioneCarrelloService.Carrello;
 import application.GestioneCarrelloService.CarrelloException.CarrelloVuotoException;
 import application.GestioneCarrelloService.CarrelloException.ProdottoNonPresenteException;
 import application.GestioneCarrelloService.CarrelloException.ProdottoNulloException;
+import application.GestioneOrdiniService.OrdineException.ErroreSpedizioneOrdineException;
+import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
+import application.PagamentoService.Pagamento;
+import application.PagamentoService.PagamentoException.ModalitaAssenteException;
 import application.RegistrazioneService.ProxyUtente;
 
 /**
@@ -42,29 +46,42 @@ public interface GestioneOrdiniService {
 	 * **/
 	public ArrayList<ProxyOrdine> visualizzaOrdiniDaEvadere(int page, int perPage) throws SQLException;
 	
+	
 	/**
 	 * Il metodo esprime il servizio di commissione (o creazione) di un ordine
 	 * fatto dal cliente verso il negozio online.
-	 * @param cart : il carrello del cliente
-	 * @param ordine : l'ordine contenente i prodotti del carrello
-	 * 					da acquistare
+	 * 
 	 * @param user : l'utente che intende acquistare
-	 * @return il carrello svuotato
+	 * @param cart : il carrello dell'utente contenente i prodotti da acquistare
+	 * @param order : l'ordine effettuato dall'utente, contenente almeno un prodotto 
+	 * 					acquistato, da memorizzare
+	 * @param payment : il pagamento associato all'ordine order
+	 * 
+	 * @return il carrello dell'utente cart svuotato
 	 * 
 	 * @throws SQLException 
 	 * @throws ProdottoNulloException 
 	 * @throws CarrelloVuotoException 
 	 * @throws ProdottoNonPresenteException 
+	 * @throws ModalitaAssenteException 
+	 * @throws OrdineVuotoException 
 	 * **/
-	
-	public Carrello commissionaOrdine(Carrello cart, Ordine ordine, ProxyUtente user) throws SQLException, ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException;
+	public <T extends Pagamento> Carrello commissionaOrdine(Carrello cart, Ordine order, T payment, ProxyUtente user)
+			throws SQLException, ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException, OrdineVuotoException, ModalitaAssenteException;
 	
 	/**
 	 * Il metodo esprime il servizio di preparazione di un ordine, commissionato
 	 * da un cliente verso il negozio online, alla spedizione.
+	 * 
 	 * @param order : l'ordine da evadere
 	 * @param report : il report di spedizione
 	 * 
+	 * @throws SQLException 
+	 * @throws ModalitaAssenteException 
+	 * @throws OrdineVuotoException 
+	 * @throws ErroreSpedizioneOrdineException 
+	 * 
 	 * **/
-	public void preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report);
+	public void preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException;
+
 }

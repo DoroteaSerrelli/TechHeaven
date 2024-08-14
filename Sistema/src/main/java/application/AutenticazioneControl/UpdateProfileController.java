@@ -50,7 +50,14 @@ public class UpdateProfileController extends HttpServlet {
             String updated_email = (String)request.getParameter("email");
             String updated_tel =   (String)request.getParameter("telefono");
                         
+            //Retrieves the user from the session.
             ProxyUtente user = getUser(request);
+            
+            //If the user is null sends a redirect to login page.
+            if(user==null) {
+                response.sendRedirect("Autenticazione.jsp");
+                return;
+            }
             ProxyUtente updated_user = user;
             
             //Check if the email and phone number is the same one as before;

@@ -99,6 +99,12 @@ public class UpdateAddressController extends HttpServlet {
             Indirizzo target_ind = new Indirizzo(via, numCivico, citta, cap, provincia);
             
             ProxyUtente user = getUser(request);
+            //If the user is null sends a redirect to login page.
+            if(user==null) {
+                response.sendRedirect("Autenticazione.jsp");
+                return;
+            }
+            
             ProxyUtente updated_user = user;
             
             //Check if the email and phone number is the same one as before;

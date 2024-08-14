@@ -16,6 +16,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     padding: 20px; /* Add some padding to the sidebar content */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
 }
+.delete_button{
+    margin: 10px;
+    background-color: #F28C44;
+    border-radius: 30%;
+    width: 50px;
+}
 
 .update_bar ul {
     list-style-type: none; /* Remove the default bullet points */

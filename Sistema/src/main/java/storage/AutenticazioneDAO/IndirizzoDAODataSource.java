@@ -225,11 +225,10 @@ public class IndirizzoDAODataSource {
 
 		int result = 0;
 
-		String updateSQL = "UPDATE POSSIEDE_INDIRIZZO INNER JOIN INDIRIZZO"
+		String updateSQL = "UPDATE POSSIEDE_INDIRIZZO INNER JOIN INDIRIZZO ON"
+				+ IndirizzoDAODataSource.TABLE_NAME + ".idIndirizzo = POSSIEDE_INDIRIZZO.indirizzo"
 				+ "SET VIA = ?, NUMCIVICO = ?, CITTA = ?, CAP = ?, PROVINCIA = ?"
-				+ " WHERE (" +
-				IndirizzoDAODataSource.TABLE_NAME + ".idIndirizzo = POSSIEDE_INDIRIZZO.indirizzo)"
-				+ "AND (UTENTE = ? AND INDIRIZZO = ?)";
+				+ " WHERE (POSSIEDE_INDIRIZZO.UTENTE = ? AND POSSIEDE_INDIRIZZO.INDIRIZZO = ?)";
 
 		try {
 			connection = ds.getConnection();
@@ -264,8 +263,9 @@ public class IndirizzoDAODataSource {
 		ArrayList<Indirizzo> addresses = new ArrayList<>();
 
 		String primaryKeyAddressTable = "idIndirizzo";
-		String selectSQL = "SELECT * FROM (" + IndirizzoDAODataSource.TABLE_NAME + " INNER JOIN POSSIEDE_INDIRIZZO) "
-				+ "WHERE UTENTE = ? AND " + IndirizzoDAODataSource.TABLE_NAME + "." + primaryKeyAddressTable + " = POSSIEDE_INDIRIZZO.INDIRIZZO";
+		String selectSQL = "SELECT * FROM " + IndirizzoDAODataSource.TABLE_NAME + " INNER JOIN POSSIEDE_INDIRIZZO ON  "
+				+ IndirizzoDAODataSource.TABLE_NAME + "." + primaryKeyAddressTable + " = POSSIEDE_INDIRIZZO.INDIRIZZO "
+				+ "WHERE POSSIEDE_INDIRIZZO.UTENTE = ?";
 
 		if (orderCriterion != null && !orderCriterion.equals("")) {
 			selectSQL += " ORDER BY " + orderCriterion;
@@ -308,8 +308,9 @@ public class IndirizzoDAODataSource {
 
 		ArrayList<Indirizzo> addresses = new ArrayList<>();
 		String primaryKeyAddressTable = "idIndirizzo";
-		String selectSQL = "SELECT * FROM (" + IndirizzoDAODataSource.TABLE_NAME + " INNER JOIN POSSIEDE_INDIRIZZO) "
-				+ "WHERE UTENTE = ? AND " + IndirizzoDAODataSource.TABLE_NAME + "." + primaryKeyAddressTable + " = POSSIEDE_INDIRIZZO.INDIRIZZO";
+		String selectSQL = "SELECT * FROM " + IndirizzoDAODataSource.TABLE_NAME + " INNER JOIN POSSIEDE_INDIRIZZO ON  "
+				+ IndirizzoDAODataSource.TABLE_NAME + "." + primaryKeyAddressTable + " = POSSIEDE_INDIRIZZO.INDIRIZZO "
+				+ "WHERE POSSIEDE_INDIRIZZO.UTENTE = ?";
 
 		try {
 			connection = ds.getConnection();

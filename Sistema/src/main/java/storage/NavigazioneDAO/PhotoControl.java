@@ -31,7 +31,7 @@ public class PhotoControl {
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
-			ds = (DataSource) envCtx.lookup("jdbc/stepup");
+			ds = (DataSource) envCtx.lookup("jdbc/techheaven");
 
 		} catch (NamingException e) {
 			System.out.println("Error:" + e.getMessage());

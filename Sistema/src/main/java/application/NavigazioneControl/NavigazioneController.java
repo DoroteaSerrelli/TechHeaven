@@ -5,11 +5,8 @@
 package application.NavigazioneControl;
 
 import application.NavigazioneService.NavigazioneServiceImpl;
-import application.NavigazioneService.Prodotto;
-import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +17,7 @@ import javax.servlet.http.HttpServletResponse;
  *
  * @author raffy
  */
-@WebServlet(name = "NavigazioneController", urlPatterns = {"/NavigazioneController"})
+@WebServlet(name = "NavigazioneController", urlPatterns = {"/NavigazioneController","/TechHeaven"})
 public class NavigazioneController extends HttpServlet {
     private static final long serialVersionUID = 1L; 
     
@@ -51,9 +48,6 @@ public class NavigazioneController extends HttpServlet {
             String categoria = (String)request.getParameter("keyword"); 
             request.setAttribute("keyword", categoria);
             request.getRequestDispatcher("/MenuNavigazioneController").forward(request, response);
-        }
-        else{
-            response.sendError(1,"No search type selected");
         }
     }
 

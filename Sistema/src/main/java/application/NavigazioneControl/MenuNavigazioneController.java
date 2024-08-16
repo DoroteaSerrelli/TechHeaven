@@ -6,7 +6,6 @@ package application.NavigazioneControl;
 
 import application.NavigazioneService.NavigazioneServiceImpl;
 import application.NavigazioneService.ObjectProdotto.Categoria;
-import application.NavigazioneService.SearchResult;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -32,7 +31,7 @@ public class MenuNavigazioneController extends HttpServlet {
      * @throws IOException if an I/O error occurs
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {      
+            throws ServletException, IOException {       
           int page = 1;
           String searched_prod = request.getParameter("keyword");
        // Check if productIdString is null or empty

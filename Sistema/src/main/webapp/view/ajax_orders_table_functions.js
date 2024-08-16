@@ -13,7 +13,7 @@
     }
 }
 function fetchProducts(page, action) {
-    const url = `/TechHeaven/GestioneOrdiniController?page=`+page+'&action='+action;
+    const url = `${window.contextPath}/GestioneOrdiniController?page=`+page+'&action='+action;
     console.log('Fetching URL:', url); // Debug URL
 
     $.ajax({
@@ -36,7 +36,7 @@ function fetchProducts(page, action) {
             const row1 = $('<tr></tr>');
             // Create the acceptCell          
             const acceptCell = $('<td></td>').html(
-                '<form action="/TechHeaven/GestioneOrdiniController?action=accept_order" method="POST">' +
+                '<form action="'+window.contextPath+'/GestioneOrdiniController?action=accept_order" method="POST">' +
                 '<input type="hidden" name="orderId" value="' + order.codiceOrdine + '">' +
                 '<input type="submit" value="Accetta">' +
                 '</form>'

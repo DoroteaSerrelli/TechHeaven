@@ -15,6 +15,10 @@
         <link rel="stylesheet" href="../../view/style/product_table.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="${pageContext.request.contextPath}/view/ajax_orders_table_functions.js"></script>
+        <script type="text/javascript">
+            // Define the context path as a global variable
+            window.contextPath = '<%= request.getContextPath() %>';
+        </script>
     </head>    
     <body>     
        <jsp:include page="../../common/header.jsp"  flush="true"/>

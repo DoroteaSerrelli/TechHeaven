@@ -7,7 +7,6 @@ package application.NavigazioneControl;
 import application.NavigazioneService.NavigazioneServiceImpl;
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProxyProdotto;
-import application.NavigazioneService.SearchResult;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;

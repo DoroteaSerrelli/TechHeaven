@@ -5,7 +5,6 @@
 package application.NavigazioneControl;
 
 import application.NavigazioneService.NavigazioneServiceImpl;
-import application.NavigazioneService.SearchResult;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 

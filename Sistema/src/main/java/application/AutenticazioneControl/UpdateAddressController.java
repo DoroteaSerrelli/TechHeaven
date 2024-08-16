@@ -112,12 +112,16 @@ public class UpdateAddressController extends HttpServlet {
             
             switch(action){
                 case "UpdateIndirizzo":
+                    int id_indirizzo = Integer.parseInt(request.getParameter("addressIndex"));
+                    target_ind.setIDIndirizzo(id_indirizzo);
                     updated_user= as.updateAddressBook(user, "AGGIORNARE-INDIRIZZO", target_ind);
                 break; 
                 case "AddIndirizzo":
                     updated_user= as.updateAddressBook(user, "AGGIUNGERE-INDIRIZZO", target_ind);
                 break; 
                 case "RemoveIndirizzo":
+                    id_indirizzo = Integer.parseInt(request.getParameter("addressIndex"));
+                    target_ind.setIDIndirizzo(id_indirizzo);
                     updated_user= as.updateAddressBook(user, "RIMUOVERE-INDIRIZZO", target_ind);
                 break; 
                 default:
@@ -126,21 +130,23 @@ public class UpdateAddressController extends HttpServlet {
                 
             }
             request.getSession().setAttribute("user", updated_user);
-            request.getRequestDispatcher("AreaRiservata.jsp").forward(request, response);      
+            response.sendRedirect("AreaRiservata.jsp");      
             
             
-        } catch (AutenticazioneException.UtenteInesistenteException ex) {
-            Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AutenticazioneException.IndirizzoEsistenteException ex) {
-            Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AutenticazioneException.FormatoIndirizzoException ex) {
-            Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
-            Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AutenticazioneException.ModificaIndirizzoException ex) {
-            Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AutenticazioneException.InformazioneDaModificareException ex) {
-            Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (AutenticazioneException.UtenteInesistenteException | AutenticazioneException.IndirizzoEsistenteException | AutenticazioneException.FormatoIndirizzoException | SQLException | AutenticazioneException.ModificaIndirizzoException | AutenticazioneException.InformazioneDaModificareException ex) {
+            try {
+                Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex);
+                String errormsg = "Errore durante la modifica delle informazioni";
+                request.setAttribute("error", errormsg);
+                //Retrieve address after update failure to allow the user to see them and update them 
+                // If needed.
+                AutenticazioneController cont = new AutenticazioneController();
+                cont.loadUserAddresses(request);
+                request.getRequestDispatcher("updateUserInfo.jsp").forward(request, response);
+            } catch (SQLException ex1) {
+                Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex1);
+            }
+            
         }
             
             

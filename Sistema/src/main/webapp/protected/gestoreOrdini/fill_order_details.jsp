@@ -15,7 +15,10 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Fill Order Infos Page</title>
+        <script src="${pageContext.request.contextPath}/view/validations.js"></script>
+        
         <%
             Ordine selected_ordine = (Ordine) request.getAttribute("selected_ordine");
             if(selected_ordine==null){
@@ -36,22 +39,43 @@
             <h4><%=selected_ordine.getSpedizioneAsString()%></h4>
             <h4><%=selected_ordine.getAcquirente()%></h4>
         </div>       
-        <h4>Informazioni di spedizione:</h4>
-        <form class="form">                
-            <p>Lista Prodotti E Relative Quantità Richieste:</p>
-            <% for (ItemCarrello item : order_products){%>
-            <div class="input-wrapper row">  
-                <input type="range" name="item_amount" min="<%=item.getQuantita()%>" max="<%= order_products_available.get(item.getCodiceProdotto())%>">                      
-            </div>
-          <%}%>  
-            <div class="input-wrapper">  
-                <p>Inserisci informazioni sull'imballaggio:</p>
-                <input type="textarea" name="Imballaggio" oninput="validateName()" required>
-            </div>
-            <div class="input-wrapper">  
-                <p>Inserisci informazioni sull'azienda di spedizioni:</p>
-                <input type="textarea" name="Corriere" oninput="validateName()" required>
-            </div>
-        </form>
+        <div class="section-p1">
+            <h4>Informazioni di spedizione:</h4>
+            <form class="reg_form">                
+                <p>Lista Prodotti E Relative Quantità Richieste:</p>
+                <% for (ItemCarrello item : order_products){%>
+                <div class="input-wrapper row">                  
+                    <input type="range" id="item_amount" name="item_amount" min="<%=item.getQuantita()%>" max="<%= order_products_available.get(item.getCodiceProdotto())%>">
+                    <span id="range_value"><%=item.getQuantita()%></span>
+                </div>
+              <%}%>  
+                <div class="input-wrapper">  
+                    <p>Inserisci informazioni sull'imballaggio:</p>
+                    <textarea name="Imballaggio" rows="4" cols="50" oninput="validateName" required></textarea>
+                </div>
+                <div class="input-wrapper">  
+                    <p>Inserisci informazioni sull'azienda di spedizioni:</p>
+                    <input type="textarea" name="Corriere" oninput="validateName()" required>
+                </div>
+            </form>
+        </div>       
+        <script>
+            document.addEventListener('DOMContentLoaded', (event) => {
+            // Get the range input element and the span where the value will be displayed
+            const rangeInput = document.getElementById('item_amount');
+            const rangeValue = document.getElementById('range_value');
+
+            // Function to update the value display
+            function updateRangeValue() {
+                rangeValue.textContent = rangeInput.value;
+            }
+
+            // Initialize the display with the current value
+            updateRangeValue();
+
+            // Add an event listener to update the value when the slider is moved
+            rangeInput.addEventListener('input', updateRangeValue);
+        });
+        </script>
     </body>
 </html>

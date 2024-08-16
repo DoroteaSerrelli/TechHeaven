@@ -225,8 +225,8 @@ public class IndirizzoDAODataSource {
 
 		int result = 0;
 
-		String updateSQL = "UPDATE POSSIEDE_INDIRIZZO INNER JOIN INDIRIZZO ON"
-				+ IndirizzoDAODataSource.TABLE_NAME + ".idIndirizzo = POSSIEDE_INDIRIZZO.indirizzo"
+		String updateSQL = "UPDATE POSSIEDE_INDIRIZZO INNER JOIN INDIRIZZO ON "
+				+ IndirizzoDAODataSource.TABLE_NAME + ".idIndirizzo = POSSIEDE_INDIRIZZO.indirizzo "
 				+ "SET VIA = ?, NUMCIVICO = ?, CITTA = ?, CAP = ?, PROVINCIA = ?"
 				+ " WHERE (POSSIEDE_INDIRIZZO.UTENTE = ? AND POSSIEDE_INDIRIZZO.INDIRIZZO = ?)";
 

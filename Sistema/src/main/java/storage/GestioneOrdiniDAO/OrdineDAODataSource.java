@@ -20,9 +20,7 @@ import application.GestioneOrdiniService.OrdineException.ErroreSpedizioneOrdineE
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 import application.GestioneOrdiniService.ProxyOrdine;
 import application.GestioneOrdiniService.ReportSpedizione;
-import application.PagamentoService.Pagamento;
 import application.PagamentoService.PagamentoException.ModalitaAssenteException;
-import application.PagamentoService.PagamentoFactory;
 import application.RegistrazioneService.Cliente;
 import storage.AutenticazioneDAO.ClienteDAODataSource;
 
@@ -57,7 +55,7 @@ public class OrdineDAODataSource {
 	 * @throws OrdineVuotoException 
 	 * @throws CloneNotSupportedException 
 	 * **/
-	public synchronized void doSave(Ordine order, Pagamento payment) throws SQLException, OrdineVuotoException, ModalitaAssenteException, CloneNotSupportedException {
+	public synchronized void doSave(Ordine order) throws SQLException, OrdineVuotoException, ModalitaAssenteException, CloneNotSupportedException {
 		//creare ordine
 		
 		Connection connection = null;
@@ -116,10 +114,7 @@ public class OrdineDAODataSource {
 					connection.close();
 			}
 		}
-		
-		//associare ordine a pagamento
-		
-		PagamentoFactory.createPagamentoToSave(payment);
+
 	}
 	
 	/**
@@ -133,20 +128,18 @@ public class OrdineDAODataSource {
 	 * @throws OrdineVuotoException 
 	 * @throws CloneNotSupportedException 
 	 * **/
-	public synchronized <T extends Pagamento> void doSaveToShip(Ordine order, ReportSpedizione report) throws SQLException, ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, CloneNotSupportedException {
+	public synchronized void doSaveToShip(Ordine order, ReportSpedizione report) throws SQLException, ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, CloneNotSupportedException {
 		
 		if(!order.getStatoAsString().equals("SPEDITO"))
 			throw new ErroreSpedizioneOrdineException("Non e\' possibile completare l'operazione perche\' l'ordine non ha lo stato \"Spedito\"");
-		//recupero pagamento
-		Pagamento paymentExistent = PagamentoFactory.createPagamentoOrdine(order.getCodiceOrdine());
 		
 		//rimuovere l'ordine preesistente (per CASCADE viene rimosso anche l'oggetto Pagamento)
 		if(!doDelete(order.getCodiceOrdine())) {
 			System.out.println("L'ordine non esiste!");
 			return;
 		}
-		//creare l'ordine e associare il pagamento all'ordine 
-		doSave(order, paymentExistent);
+		//creare l'ordine
+		doSave(order);
 		
 		//creare report di spedizione da associare all'ordine
 		

@@ -15,6 +15,7 @@ import application.PagamentoService.PagamentoException.ModalitaAssenteException;
 import application.RegistrazioneService.ProxyUtente;
 import storage.GestioneOrdiniDAO.OrdineDAODataSource;
 import storage.AutenticazioneDAO.UtenteDAODataSource;
+import application.PagamentoService.*;
 import storage.NavigazioneDAO.*;
 
 /**
@@ -29,7 +30,7 @@ import storage.NavigazioneDAO.*;
  * */
 
 public class GestioneOrdiniServiceImpl implements GestioneOrdiniService{
-	
+
 	/**
 	 * Il metodo implementa il servizio di recupero degli ordini evasi
 	 * dal negozio online.
@@ -45,7 +46,7 @@ public class GestioneOrdiniServiceImpl implements GestioneOrdiniService{
 		ArrayList<ProxyOrdine> ordini = new ArrayList<> (dao.doRetrieveOrderShipped(null, page, perPage));
 		return ordini;
 	}
-	
+
 	/**
 	 * Il metodo implementa il servizio di recupero degli ordini commissionati
 	 * al negozio online ma non ancora spediti.
@@ -61,7 +62,7 @@ public class GestioneOrdiniServiceImpl implements GestioneOrdiniService{
 		ArrayList<ProxyOrdine> ordini = new ArrayList<> (dao.doRetrieveOrderToShip(null, page, perPage));
 		return ordini;
 	}
-	
+
 	/**
 	 * Il metodo implementa il servizio di commissione (o creazione) di un ordine
 	 * fatto dal cliente verso il negozio online.
@@ -80,20 +81,26 @@ public class GestioneOrdiniServiceImpl implements GestioneOrdiniService{
 	 * @throws ProdottoNonPresenteException 
 	 * @throws ModalitaAssenteException 
 	 * @throws OrdineVuotoException 
+	 * @throws CloneNotSupportedException 
 	 * **/
 	@Override
-	public <T extends Pagamento> Carrello commissionaOrdine(Carrello cart, Ordine order, T payment, ProxyUtente user) throws SQLException, ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException, OrdineVuotoException, ModalitaAssenteException{
+	public <T extends Pagamento> Carrello commissionaOrdine(Carrello cart, Ordine order, T payment, ProxyUtente user) throws SQLException, ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException, OrdineVuotoException, ModalitaAssenteException, CloneNotSupportedException{
 		OrdineDAODataSource dao = new OrdineDAODataSource();
 		UtenteDAODataSource userDao = new UtenteDAODataSource();
 		if(userDao.doRetrieveProxyUserByKey(user.getUsername()) == null)
 			System.out.println("Errore utente!");
-		dao.doSave(order, payment);
+		dao.doSave(order);
+
+		//effettua il pagamento
+		PagamentoService gestionePagamentoService = new PagamentoServiceImpl();
+		gestionePagamentoService.effettuaPagamento(payment);
+
 		GestioneCarrelloService gestioneCarrelloService = new GestioneCarrelloServiceImpl();
 
-	    return gestioneCarrelloService.svuotaCarrello(cart);
+		return gestioneCarrelloService.svuotaCarrello(cart);
 	}
-	
-	
+
+
 	/**
 	 * Il metodo implementa il servizio di preparazione di un ordine, commissionato
 	 * da un cliente verso il negozio online, alla spedizione.
@@ -105,18 +112,26 @@ public class GestioneOrdiniServiceImpl implements GestioneOrdiniService{
 	 * @throws ModalitaAssenteException 
 	 * @throws OrdineVuotoException 
 	 * @throws ErroreSpedizioneOrdineException 
+	 * @throws CloneNotSupportedException 
 	 * 
 	 * **/
-	
+
 	@Override
-	public void preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException {
+	public void preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException, CloneNotSupportedException {
 		//Si imposta lo stato dell'ordine in 'SPEDITO'
 		order.setStatoAsString("SPEDITO");
-		
+
+		//Ritrovare il pagamento dell'ordine
+		Pagamento payment = PagamentoServiceImpl.createPagamentoOrdine(order.getCodiceOrdine());
+
 		//Aggiornamento ordine nel Database
 		OrdineDAODataSource orderDao = new OrdineDAODataSource();
 		orderDao.doSaveToShip(order, report);
-		
+
+		//Reinserire il pagamento (il metodo doSaveToShip rimuove il pagamento per aggiornare lo stato dell'ordine)
+		PagamentoService gestionePagamentoService = new PagamentoServiceImpl();
+		gestionePagamentoService.effettuaPagamento(payment);
+
 		//Aggiornamento delle quantità dei prodotti ordinati in magazzino
 		ArrayList<ItemCarrello> orderedProducts = order.getProdotti();
 		ProdottoDAODataSource productDao = new ProdottoDAODataSource();

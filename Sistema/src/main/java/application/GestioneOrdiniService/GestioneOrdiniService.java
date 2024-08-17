@@ -65,9 +65,10 @@ public interface GestioneOrdiniService {
 	 * @throws ProdottoNonPresenteException 
 	 * @throws ModalitaAssenteException 
 	 * @throws OrdineVuotoException 
+	 * @throws CloneNotSupportedException 
 	 * **/
 	public <T extends Pagamento> Carrello commissionaOrdine(Carrello cart, Ordine order, T payment, ProxyUtente user)
-			throws SQLException, ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException, OrdineVuotoException, ModalitaAssenteException;
+			throws SQLException, ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException, OrdineVuotoException, ModalitaAssenteException, CloneNotSupportedException;
 	
 	/**
 	 * Il metodo esprime il servizio di preparazione di un ordine, commissionato
@@ -80,8 +81,9 @@ public interface GestioneOrdiniService {
 	 * @throws ModalitaAssenteException 
 	 * @throws OrdineVuotoException 
 	 * @throws ErroreSpedizioneOrdineException 
+	 * @throws CloneNotSupportedException 
 	 * 
 	 * **/
-	public void preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException;
+	public void preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException, CloneNotSupportedException;
 
 }

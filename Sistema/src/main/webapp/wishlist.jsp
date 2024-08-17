@@ -24,13 +24,10 @@
         <%
             Wishlist wishlist; 
             wishlist = (Wishlist) request.getSession().getAttribute("Wishlist");
-            if(wishlist==null){
-                response.sendRedirect("GestioneWishlistController?action=viewwishlist");
-            }
             if(wishlist.getProdotti().isEmpty()){
         %>
             <div id="emptycart">
-                <h4>La tua wishlist è vuoto!</h4>
+                <h4>La tua wishlist è vuota!</h4>
                 <p>Inserisci uno dei nostri prodotti per mantenerti aggiornato sulle novità!</p>
             </div>
             

@@ -22,9 +22,9 @@
         <div>              
             <ul id="navbar">
                 <li><a class="active" href="${pageContext.request.contextPath}/">Home</a></li> 
-                <li><a href="Shop">Shop</a></li> 
                 <li><a href="${pageContext.request.contextPath}/Autenticazione">Login</a></li> 
                 <li><a href="${pageContext.request.contextPath}/Registrazione">Register</a></li> 
+                <li><a href="${pageContext.request.contextPath}/GestioneWishlistController?action=viewwishlist"><img src="${pageContext.request.contextPath}/view/img/icon_wishlist.png" height="30" width="30"></a></li>
                 <li><a href="${pageContext.request.contextPath}/AreaRiservata"><img src="${pageContext.request.contextPath}/view/img/icon_user.png" height="30" width="30"></a></li>
                                             
                 <li><a id="lg-bag">

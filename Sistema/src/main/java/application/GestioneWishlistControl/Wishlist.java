@@ -55,6 +55,10 @@ public class Wishlist extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        if(request.getSession().getAttribute("Wishlist")==null){
+           response.sendRedirect("GestioneWishlistController?action=viewwishlist");
+           return;
+        }
         String errormsg = (String)request.getSession().getAttribute("errormsg");
         //Controllo se so sono avvenuti errori e nel caso visualizzo il messaggio
         // salvandolo come attributo, e lo elimino dagli attributi di sessione.

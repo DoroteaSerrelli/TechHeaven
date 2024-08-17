@@ -17,7 +17,7 @@ import application.PagamentoService.PagamentoCartaCredito;
 import application.PagamentoService.PagamentoContrassegno;
 import application.PagamentoService.PagamentoException.ModalitaAssenteException;
 import application.PagamentoService.PagamentoPaypal;
-import application.PagamentoService.PagamentoFactory;
+import application.PagamentoService.PagamentoServiceImpl;
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 
 /**
@@ -360,7 +360,7 @@ public class PagamentoDAODataSource {
 	 */
 
 	public synchronized <T extends Pagamento> T doRetrievePaymentByOrder(Class<T> paymentClass, int IDOrdine) throws SQLException, OrdineVuotoException, ModalitaAssenteException {
-		Pagamento payment = PagamentoFactory.createPagamentoOrdine(IDOrdine);
+		Pagamento payment = PagamentoServiceImpl.createPagamentoOrdine(IDOrdine);
 
 		// Si verifica se l'oggetto restituito è una sottoclasse di Pagamento
 		if (!paymentClass.isInstance(payment)) {
@@ -536,7 +536,7 @@ public class PagamentoDAODataSource {
 	 */
 
 	public synchronized <T extends Pagamento> T doRetrievePaymentByKey(Class<T> paymentClass, int IDPagamento) throws SQLException, OrdineVuotoException, ModalitaAssenteException {
-		Pagamento payment = PagamentoFactory.createPagamento(IDPagamento);
+		Pagamento payment = PagamentoServiceImpl.createPagamento(IDPagamento);
 
 		// Si verifica se l'oggetto restituito è una sottoclasse di Pagamento
 		if (!paymentClass.isInstance(payment)) {
@@ -626,7 +626,7 @@ public class PagamentoDAODataSource {
 
 
 			while (rs.next()) {
-				Pagamento pagamento = PagamentoFactory.createPagamento(rs.getInt("CODICEPAGAMENTO"));
+				Pagamento pagamento = PagamentoServiceImpl.createPagamento(rs.getInt("CODICEPAGAMENTO"));
 				pagamenti.add(pagamento);
 			}
 		} finally {

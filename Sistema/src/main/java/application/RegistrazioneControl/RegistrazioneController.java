@@ -9,8 +9,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import application.RegistrazioneService.Cliente;
 import application.RegistrazioneService.Indirizzo;
+import application.RegistrazioneService.ProxyUtente;
 import application.RegistrazioneService.RegistrazioneServiceImpl;
 import application.RegistrazioneService.Utente;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import storage.AutenticazioneDAO.IndirizzoDAODataSource;
 
 @WebServlet(name = "RegistrazioneController", urlPatterns = {"/RegistrazioneController"})
 public class RegistrazioneController extends HttpServlet {
@@ -72,11 +79,19 @@ public class RegistrazioneController extends HttpServlet {
        String provincia= request.getParameter("province");
        String sesso= request.getParameter("sesso");
        Indirizzo indirizzo = new Indirizzo(via, cv, citta, cap, provincia);
-       Utente u= reg.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.valueOf(sesso), telefono, indirizzo);
-       if(u==null)  {response.sendRedirect("Registrazione.jsp");}
+       ProxyUtente u= reg.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.valueOf(sesso), telefono, indirizzo);
+       if(u==null)  {response.sendRedirect("Registrazione");}
        else{
-       request.getSession().setAttribute("user", u);
-       request.getRequestDispatcher("AreaRiservata.jsp").forward(request, response);}
+           IndirizzoDAODataSource indDAO = new IndirizzoDAODataSource();
+           try {
+               ArrayList <Indirizzo> indirizzi = indDAO.doRetrieveAll("Indirizzo.via", u.getUsername());        
+               request.getSession().setAttribute("user", u);
+               request.setAttribute("Indirizzi",indirizzi);
+               response.sendRedirect("AreaRiservata");
+           } catch (SQLException ex) {
+               Logger.getLogger(RegistrazioneController.class.getName()).log(Level.SEVERE, null, ex);
+           }
+       }
     }
 
     /**

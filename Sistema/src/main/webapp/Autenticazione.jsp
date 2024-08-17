@@ -46,7 +46,7 @@
                         <input value="Submit" type="submit" class="confirm_button" name="submit" onclick="return validate()">                
                         </div>
                         <div class="input-wrapper">
-                            <button class="confirm_button"><a href="resetPassword.jsp">Reimposta password</a></button>                           
+                            <button class="confirm_button"><a href="resetPassword">Reimposta password</a></button>                           
                         </div>
                     </div>    
                 <div class="errormsg">

@@ -17,7 +17,7 @@
 
     //I checks li faccio nella servlet questa parte qui è inutile           
     if (u==null || u.getUsername().equals("")) {
-       response.sendRedirect("Autenticazione.jsp");
+       response.sendRedirect("Autenticazione");
        return ;
    }
    else {           

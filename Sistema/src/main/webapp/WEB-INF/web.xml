@@ -145,6 +145,14 @@
         <url-pattern>/AreaRiservata</url-pattern>
     </servlet-mapping> 
     <servlet>
+        <servlet-name>resetPasswordServlet</servlet-name>
+        <jsp-file>/resetPassword.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>resetPasswordServlet</servlet-name>
+        <url-pattern>/resetPassword</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>AutenticazioneServlet</servlet-name>
         <jsp-file>/Autenticazione.jsp</jsp-file>
     </servlet>

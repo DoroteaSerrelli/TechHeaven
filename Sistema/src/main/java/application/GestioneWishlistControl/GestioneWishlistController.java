@@ -53,7 +53,7 @@ public class GestioneWishlistController extends HttpServlet {
                response.sendRedirect("Autenticazione");
                return ;
            }
-            
+            request.getSession().setAttribute("errormsg", null);                           
             String action = request.getParameter("action");
             if (action == null) {
                 // Default action or error handling
@@ -63,7 +63,6 @@ public class GestioneWishlistController extends HttpServlet {
                     case "viewwishlist":
                     {
                         Wishlist w = createNewWishlistIfNotExists(request, user);
-                        request.getSession().setAttribute("Wishlist", w);                                    
                     }
                     break;    
                     case "addtowishlist":        
@@ -76,15 +75,13 @@ public class GestioneWishlistController extends HttpServlet {
                             w = gws.aggiungiProdottoInWishlist(w, prodotto, user);
                             request.getSession().setAttribute("Wishlist", w);
                             
-                        } catch (WishlistException.ProdottoPresenteException ex) {
+                        } catch (WishlistException.ProdottoPresenteException | WishlistException.ProdottoNulloException | SQLException ex) {
                             Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (WishlistException.ProdottoNulloException ex) {
-                            Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (SQLException ex) {
-                            Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                        }                      
+                            request.getSession().setAttribute("errormsg", "Item già Presente nella Wishlist");
+                            response.sendRedirect("Wishlist");
+                            return;
+                        }
                     break;   
-   
                     case "removefromwishlist":
                         try { 
                            Wishlist w = createNewWishlistIfNotExists(request, user);
@@ -96,16 +93,14 @@ public class GestioneWishlistController extends HttpServlet {
                             w = gws.rimuoviDallaWishlist(w, user, prodotto);
                             request.getSession().setAttribute("Wishlist", w);
                            
-                        } catch (WishlistException.ProdottoNonPresenteException ex) {
+                        } catch (WishlistException.ProdottoNonPresenteException | WishlistException.ProdottoNulloException | SQLException | WishlistException.WishlistVuotaException ex) {
                             Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (WishlistException.ProdottoNulloException ex) {
-                            Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (SQLException ex) {
-                            Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                        } catch (WishlistException.WishlistVuotaException ex) {
-                        Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+                            request.getSession().setAttribute("errormsg", "Rimozione Item Fallita");
+                            response.sendRedirect("Wishlist");
+                            return;
+                        }
                     break;    
+    
     
                     // Handle other actions...
                     default:
@@ -113,7 +108,7 @@ public class GestioneWishlistController extends HttpServlet {
                 }
             }
         String contextPath = request.getContextPath();
-        response.sendRedirect(contextPath + "/wishlist");
+        response.sendRedirect(contextPath + "/Wishlist");
     }
      /**
       * Questo metodo tenta di recuperare la Wishlist dalla sessione nel caso in
@@ -145,7 +140,8 @@ public class GestioneWishlistController extends HttpServlet {
                         }
                     }
                 }
-            }                 
+            }
+            request.getSession().setAttribute("Wishlist", w);
             return w;
         } catch (SQLException ex) {
            Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);

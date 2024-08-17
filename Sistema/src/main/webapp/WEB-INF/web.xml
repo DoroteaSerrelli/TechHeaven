@@ -29,6 +29,10 @@
         <servlet-name>AreaRiservata</servlet-name>
         <servlet-class>application.AutenticazioneControl.AreaRiservata</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Wishlist</servlet-name>
+        <servlet-class>application.GestioneWishlistControl.Wishlist</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MenuNavigazioneController</servlet-name>
         <url-pattern>/MenuNavigazioneController</url-pattern>
@@ -56,6 +60,10 @@
     <servlet-mapping>
         <servlet-name>AreaRiservata</servlet-name>
         <url-pattern>/AreaRiservata</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Wishlist</servlet-name>
+        <url-pattern>/Wishlist</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -182,14 +190,6 @@
     <servlet-mapping>
         <servlet-name>updateUserInfoServlet</servlet-name>
         <url-pattern>/updateUserInfo</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>wishlistServlet</servlet-name>
-        <jsp-file>/wishlist.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>wishlistServlet</servlet-name>
-        <url-pattern>/wishlist</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>GestioneOrdiniServlet</servlet-name>

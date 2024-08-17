@@ -16,6 +16,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="common/style.css">
         <link rel="stylesheet" href="cart.css">
+        
     </head>
     <body>
         <jsp:include page="common/header.jsp"  flush="true"/>              
@@ -24,6 +25,9 @@
             Wishlist wishlist; 
             wishlist = (Wishlist) request.getSession().getAttribute("Wishlist");
             if(wishlist==null){
+                response.sendRedirect("GestioneWishlistController?action=viewwishlist");
+            }
+            if(wishlist.getProdotti().isEmpty()){
         %>
             <div id="emptycart">
                 <h4>La tua wishlist è vuoto!</h4>
@@ -33,12 +37,20 @@
         <%
             } else {  
         %>
+        <div class="errormsg">         
+             <% 
+                String err = (String)request.getAttribute("error");
+                if (err != null && !err.isEmpty()) {
+             %>
+            <p id="error" class="invalid"><%=err%></p>               
+            <% } %>
+        </div>        
         <h1>Wishlist</h1>
             <%
                 ArrayList <ProxyProdotto> ItemWishlist = wishlist.getProdotti();
                 for(ProxyProdotto p: ItemWishlist){                         
             %>            
-        
+            <a href="GestioneWishlistController?action=removefromwishlist&productId=<%=p.getCodiceProdotto()%>"><button class="delete_button">Remove</button></a>
             <div class="row">			
                 <img src="image?productId=<%= p.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';"/>
                 <p><%=p.getNomeProdotto()+" "%> <%=p.getMarca()%></p>

@@ -6,6 +6,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Created on : 9-mag-2024, 18.58.46
     Author     : raffy
 */
+.delete_button{
+    margin: 10px;
+    background-color: #F28C44;
+    border-radius: 30%;
+    width: 50px;
+}
 .update_bar {
     position: absolute; /* Fix the position of the sidebar */
     top: 25%; /* Align the sidebar to the top of the page */
@@ -15,12 +21,6 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     background-color: #f4f4f4; /* Background color of the sidebar */
     padding: 20px; /* Add some padding to the sidebar content */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
-}
-.delete_button{
-    margin: 10px;
-    background-color: #F28C44;
-    border-radius: 30%;
-    width: 50px;
 }
 
 .update_bar ul {

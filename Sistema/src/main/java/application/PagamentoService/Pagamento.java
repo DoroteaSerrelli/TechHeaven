@@ -181,7 +181,7 @@ public abstract class Pagamento implements Cloneable {
 	 * @throws RuntimeException se si verifica un errore durante la clonazione.
 	 */
 	@Override
-    public Pagamento clone() {
+    public Pagamento clone() throws CloneNotSupportedException {
         Pagamento clone = null;
         try {
             clone = (Pagamento) super.clone();

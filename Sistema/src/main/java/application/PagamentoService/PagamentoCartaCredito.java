@@ -114,7 +114,7 @@ public class PagamentoCartaCredito extends Pagamento{
 	 */
 	
 	@Override
-	public PagamentoCartaCredito clone() {
+	public PagamentoCartaCredito clone() throws CloneNotSupportedException{
 	    PagamentoCartaCredito clone = null;
 	    clone = (PagamentoCartaCredito) super.clone();
 	    

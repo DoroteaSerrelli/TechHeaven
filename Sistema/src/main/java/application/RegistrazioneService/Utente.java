@@ -87,8 +87,8 @@ public class Utente extends ObjectUtente{
 	 * @return Una copia profonda dell'oggetto Utente.
 	 * @throws RuntimeException se si verifica un errore durante la clonazione.
 	 */
-	
-	public Utente clone() {
+	@Override
+	public Utente clone() throws CloneNotSupportedException{
 	    Utente clone = null;
 	    clone = (Utente) super.clone();
 		clone.profile = profile.clone();

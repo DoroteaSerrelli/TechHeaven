@@ -49,8 +49,9 @@ public class Ruolo {
 	 * @return Una nuova istanza di `Ruolo` identica a questa.
 	 * @throws AssertionError Se il metodo `clone()` di `Object` lancia un'eccezione inaspettata.
 	 */
-
-	public Ruolo clone() {
+	
+	@Override
+	public Ruolo clone() throws CloneNotSupportedException{
 		try {
 			return (Ruolo) super.clone();
 		} catch (CloneNotSupportedException e) {

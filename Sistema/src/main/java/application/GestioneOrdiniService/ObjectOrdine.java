@@ -326,8 +326,8 @@ public abstract class ObjectOrdine {
 	 * @return Una nuova istanza di `ObjectOrdine` che rappresenta una copia esatta di questo oggetto.
 	 * @throws AssertionError Se il metodo `clone()` di `Object` lancia una eccezione inaspettata.
 	 */
-	
-	public ObjectOrdine clone() {
+	@Override
+	public ObjectOrdine clone() throws CloneNotSupportedException{
 	    try {
 	        ObjectOrdine clone = (ObjectOrdine) super.clone();
 	        // Copia profonda degli attributi

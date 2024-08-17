@@ -46,8 +46,8 @@ public class PagamentoPaypal extends Pagamento {
 	 * @return Una copia profonda dell'oggetto PagamentoPaypal.
 	 * @throws RuntimeException se si verifica un errore durante la clonazione.
 	 */
-	
-	public PagamentoPaypal clone() {
+	@Override
+	public PagamentoPaypal clone() throws CloneNotSupportedException{
 	    return (PagamentoPaypal) super.clone();
 	}
 

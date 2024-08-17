@@ -48,7 +48,8 @@ public class PagamentoContrassegno extends Pagamento {
 	 * @return Una copia profonda dell'oggetto PagamentoContrassegno.
 	 * @throws RuntimeException se si verifica un errore durante la clonazione.
 	 */
-	public PagamentoContrassegno clone() {
+	@Override
+	public PagamentoContrassegno clone() throws CloneNotSupportedException{
 	    return (PagamentoContrassegno) super.clone();
 	}
 

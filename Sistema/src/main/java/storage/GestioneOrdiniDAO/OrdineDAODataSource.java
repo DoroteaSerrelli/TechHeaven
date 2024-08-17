@@ -55,8 +55,9 @@ public class OrdineDAODataSource {
 	 * @param order : l'ordine da salvare
 	 * @throws ModalitaAssenteException 
 	 * @throws OrdineVuotoException 
+	 * @throws CloneNotSupportedException 
 	 * **/
-	public synchronized void doSave(Ordine order, Pagamento payment) throws SQLException, OrdineVuotoException, ModalitaAssenteException {
+	public synchronized void doSave(Ordine order, Pagamento payment) throws SQLException, OrdineVuotoException, ModalitaAssenteException, CloneNotSupportedException {
 		//creare ordine
 		
 		Connection connection = null;
@@ -130,8 +131,9 @@ public class OrdineDAODataSource {
 	 * che ancora non è in tale stato
 	 * @throws ModalitaAssenteException 
 	 * @throws OrdineVuotoException 
+	 * @throws CloneNotSupportedException 
 	 * **/
-	public synchronized <T extends Pagamento> void doSaveToShip(Ordine order, ReportSpedizione report) throws SQLException, ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException {
+	public synchronized <T extends Pagamento> void doSaveToShip(Ordine order, ReportSpedizione report) throws SQLException, ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, CloneNotSupportedException {
 		
 		if(!order.getStatoAsString().equals("SPEDITO"))
 			throw new ErroreSpedizioneOrdineException("Non e\' possibile completare l'operazione perche\' l'ordine non ha lo stato \"Spedito\"");

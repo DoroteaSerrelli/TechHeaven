@@ -49,8 +49,8 @@ public class ItemCarrello extends Prodotto{
 	 * @return Una copia dell'oggetto ItemCarrello.
 	 * @throws RuntimeException se si verifica un errore durante la clonazione.
 	 */
-	
-	public ItemCarrello clone() {
+	@Override
+	public ItemCarrello clone() throws CloneNotSupportedException{
 	    ItemCarrello clone = null;
 	    try {
 	        clone = (ItemCarrello) super.clone();

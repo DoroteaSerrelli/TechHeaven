@@ -97,9 +97,10 @@ public class PagamentoFactory {
      * @throws OrdineVuotoException se l'ordine associato al pagamento è vuoto
      * @throws SQLException se si verifica un errore di accesso al database
      * @throws ModalitaAssenteException se la modalità di pagamento non è supportata
+	 * @throws CloneNotSupportedException 
      */
 	
-	public static <T extends Pagamento> Pagamento createPagamentoToSave(T payment) throws OrdineVuotoException, SQLException, ModalitaAssenteException {
+	public static <T extends Pagamento> Pagamento createPagamentoToSave(T payment) throws OrdineVuotoException, SQLException, ModalitaAssenteException, CloneNotSupportedException {
 	    PagamentoDAODataSource dao = new PagamentoDAODataSource();
 
 	    if (payment instanceof PagamentoContrassegno) {

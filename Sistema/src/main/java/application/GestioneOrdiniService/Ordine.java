@@ -131,7 +131,21 @@ public class Ordine extends ObjectOrdine{
 				"Prodotti acquistati:\n" + this.prodottiOrdiniString() + "]";
 	}
 	
-	public Ordine clone() {
+	/**
+	 * Clona l'oggetto Ordine creando una copia profonda.
+	 * 
+	 * Questa implementazione garantisce che tutti gli attributi dell'oggetto,
+	 * inclusi gli oggetti annidati come `acquirente` e gli elementi della lista `prodotti`,
+	 * vengano copiati in modo indipendente, evitando così di condividere riferimenti
+	 * con l'oggetto originale.
+	 * 
+	 * @return Una nuova istanza di `Ordine` che rappresenta una copia esatta dell'oggetto originale.
+	 * @throws CloneNotSupportedException Se la classe o una delle classi degli attributi
+	 *         non supporta l'operazione di clonazione.
+	 */
+	
+	@Override
+	public Ordine clone() throws CloneNotSupportedException{
 	    Ordine clone = (Ordine) super.clone();
 	    
 		// Copia profonda degli attributi

@@ -252,8 +252,8 @@ public class Indirizzo {
 	 * @return Una copia dell'oggetto Indirizzo.
 	 * @throws AssertionError Se si verifica un'eccezione CloneNotSupportedException
 	 */
-	
-	public Indirizzo clone() {
+	@Override
+	public Indirizzo clone() throws CloneNotSupportedException{
 	    try {
 	        return (Indirizzo) super.clone();
 	    } catch (CloneNotSupportedException e) {

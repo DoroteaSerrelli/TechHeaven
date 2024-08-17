@@ -77,8 +77,8 @@ public class ProxyOrdine extends ObjectOrdine{
 	 *
 	 * @return Una copia profonda dell'oggetto ProxyOrdine.
 	 */
-	
-	public ProxyOrdine clone() {
+	@Override
+	public ProxyOrdine clone() throws CloneNotSupportedException{
 	    ProxyOrdine clone = null;
 	    clone = (ProxyOrdine) super.clone();
 		if (ordinativo != null) {

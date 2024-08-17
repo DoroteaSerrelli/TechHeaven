@@ -394,8 +394,8 @@ public class Cliente {
 	 *
 	 * @return Una copia profonda dell'oggetto Cliente.
 	 */
-
-	public Cliente clone() {
+	@Override
+	public Cliente clone() throws CloneNotSupportedException {
 	    Cliente clone = new Cliente(this.email, this.nome, this.cognome, this.sex, this.telefono, new ArrayList<>());
 	    
 	    // Copia profonda dell'ArrayList di indirizzi

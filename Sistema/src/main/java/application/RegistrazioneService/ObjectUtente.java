@@ -199,8 +199,8 @@ public abstract class ObjectUtente {
 	 * @throws AssertionError Se il metodo `clone()` di `Object` lancia un'eccezione inaspettata.
 	 * 
 	 */
-	
-	public ObjectUtente clone() {
+	@Override
+	public ObjectUtente clone() throws CloneNotSupportedException{
 	    try {
 	        ObjectUtente clone = (ObjectUtente) super.clone();
 	        clone.username = this.username;

@@ -8,7 +8,7 @@ import application.GestioneCatalogoService.GestioneCatalogoServiceImpl;
 import application.NavigazioneControl.PaginationUtils;
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProxyProdotto;
-import application.NavigazioneService.SearchResult;
+import application.NavigazioneControl.SearchResult;
 import com.google.gson.Gson;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -134,7 +134,7 @@ public class GestioneCatalogoController extends HttpServlet {
                    // Get the input stream of the uploaded file
                    InputStream fileContent = filePart.getInputStream();
                    PhotoControl.updateTopImage(prod_id, fileContent);
-                   response.sendRedirect("protected/gestoreCatalogo/GestioneCatalogo.jsp");
+                   response.sendRedirect("GestioneCatalogo");
                } catch (SQLException ex) {
                    Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
                    System.out.println(ex.getMessage());

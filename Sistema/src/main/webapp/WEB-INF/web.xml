@@ -25,6 +25,10 @@
         <servlet-name>GestioneWishlistController</servlet-name>
         <servlet-class>application.GestioneWishlistControl.GestioneWishlistController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AreaRiservata</servlet-name>
+        <servlet-class>application.AutenticazioneControl.AreaRiservata</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>MenuNavigazioneController</servlet-name>
         <url-pattern>/MenuNavigazioneController</url-pattern>
@@ -48,6 +52,10 @@
     <servlet-mapping>
         <servlet-name>GestioneWishlistController</servlet-name>
         <url-pattern>/GestioneWishlistController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AreaRiservata</servlet-name>
+        <url-pattern>/AreaRiservata</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -134,16 +142,7 @@
         <filter-name>RoleAccessFilter</filter-name>
         <url-pattern>/fill_order_details</url-pattern>
     </filter-mapping>
-    
     <!-- Lista .jsp Pagine Percorso + Mapping -->
-   <servlet>
-        <servlet-name>AreaRiservataServlet</servlet-name>
-        <jsp-file>/AreaRiservata.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>AreaRiservataServlet</servlet-name>
-        <url-pattern>/AreaRiservata</url-pattern>
-    </servlet-mapping> 
     <servlet>
         <servlet-name>resetPasswordServlet</servlet-name>
         <jsp-file>/resetPassword.jsp</jsp-file>
@@ -159,7 +158,7 @@
     <servlet-mapping>
         <servlet-name>AutenticazioneServlet</servlet-name>
         <url-pattern>/Autenticazione</url-pattern>
-    </servlet-mapping> 
+    </servlet-mapping>
     <servlet>
         <servlet-name>cartServlet</servlet-name>
         <jsp-file>/cart.jsp</jsp-file>
@@ -167,7 +166,7 @@
     <servlet-mapping>
         <servlet-name>cartServlet</servlet-name>
         <url-pattern>/cart</url-pattern>
-    </servlet-mapping> 
+    </servlet-mapping>
     <servlet>
         <servlet-name>RegistrazioneServlet</servlet-name>
         <jsp-file>/Registrazione.jsp</jsp-file>
@@ -175,7 +174,7 @@
     <servlet-mapping>
         <servlet-name>RegistrazioneServlet</servlet-name>
         <url-pattern>/Registrazione</url-pattern>
-    </servlet-mapping> 
+    </servlet-mapping>
     <servlet>
         <servlet-name>updateUserInfoServlet</servlet-name>
         <jsp-file>/updateUserInfo.jsp</jsp-file>
@@ -183,6 +182,14 @@
     <servlet-mapping>
         <servlet-name>updateUserInfoServlet</servlet-name>
         <url-pattern>/updateUserInfo</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>wishlistServlet</servlet-name>
+        <jsp-file>/wishlist.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>wishlistServlet</servlet-name>
+        <url-pattern>/wishlist</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>GestioneOrdiniServlet</servlet-name>
@@ -216,8 +223,6 @@
         <servlet-name>UnauthourizedServlet</servlet-name>
         <url-pattern>/Unauthourized</url-pattern>
     </servlet-mapping>
-     
-       
     <!-- 
 	<security-constraint>
 		<web-resource-collection>

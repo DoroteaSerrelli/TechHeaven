@@ -12,6 +12,7 @@ import application.GestioneOrdiniService.Ordine;
 import application.GestioneOrdiniService.OrdineException;
 import application.GestioneOrdiniService.ProxyOrdine;
 import application.NavigazioneControl.PaginationUtils;
+import application.NavigazioneService.ProxyProdotto;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
@@ -35,6 +36,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import storage.GestioneOrdiniDAO.OrdineDAODataSource;
 import storage.NavigazioneDAO.PhotoControl;
+import storage.NavigazioneDAO.ProdottoDAODataSource;
 
 /**
  *
@@ -55,11 +57,13 @@ public class GestioneOrdiniController extends HttpServlet {
      */
     private GestioneOrdiniServiceImpl gos;
     private OrdineDAODataSource odao;
+    private ProdottoDAODataSource pdao;
     @Override
     public void init() throws ServletException {
         // Initialize any services or resources needed by the servlet
         odao = new OrdineDAODataSource();
         gos = new GestioneOrdiniServiceImpl();
+        pdao = new ProdottoDAODataSource();
     }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -165,9 +169,16 @@ public class GestioneOrdiniController extends HttpServlet {
                     Ordine selected_ordine = odao.doRetrieveFullOrderByKey(orderID);
                     selected_ordine.setStato(ObjectOrdine.Stato.In_lavorazione);                   
                     request.setAttribute("selected_ordine", selected_ordine);
-                    request.setAttribute("order_products", order_products);
                     
-                    request.getRequestDispatcher("/protected/gestoreOrdini/fill_order_details.jsp").forward(request, response);
+                    HashMap hs = new HashMap();
+                    for(ItemCarrello item : order_products){
+                        ProxyProdotto pr = pdao.doRetrieveProxyByKey(item.getCodiceProdotto());
+                        hs.put(item.getCodiceProdotto(),  pr.getQuantita());                    
+                    }
+                    request.setAttribute("order_products", order_products);                  
+                    request.setAttribute("order_products_available", hs);                    
+                    
+                    request.getRequestDispatcher("fill_order_details").forward(request, response);
                 } catch (SQLException ex) {
                     Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (OrdineException.OrdineVuotoException ex) {

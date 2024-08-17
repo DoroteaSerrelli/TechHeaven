@@ -50,7 +50,7 @@ public class GestioneWishlistController extends HttpServlet {
             
             ProxyUtente user = (ProxyUtente) request.getSession().getAttribute("user");              
             if (user==null || user.getUsername().equals("")) {
-               response.sendRedirect("Autenticazione.jsp");
+               response.sendRedirect("Autenticazione");
                return ;
            }
             
@@ -113,7 +113,7 @@ public class GestioneWishlistController extends HttpServlet {
                 }
             }
         String contextPath = request.getContextPath();
-        response.sendRedirect(contextPath + "/wishlist.jsp");
+        response.sendRedirect(contextPath + "/wishlist");
     }
      /**
       * Questo metodo tenta di recuperare la Wishlist dalla sessione nel caso in

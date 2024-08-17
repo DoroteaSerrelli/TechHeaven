@@ -101,7 +101,7 @@ public class UpdateAddressController extends HttpServlet {
             ProxyUtente user = getUser(request);
             //If the user is null sends a redirect to login page.
             if(user==null) {
-                response.sendRedirect("Autenticazione.jsp");
+                response.sendRedirect("Autenticazione");
                 return;
             }
             
@@ -122,6 +122,8 @@ public class UpdateAddressController extends HttpServlet {
                 case "RemoveIndirizzo":
                     id_indirizzo = Integer.parseInt(request.getParameter("addressIndex"));
                     target_ind.setIDIndirizzo(id_indirizzo);
+                    System.out.println("ID:"+target_ind.getIDIndirizzo());
+                    
                     updated_user= as.updateAddressBook(user, "RIMUOVERE-INDIRIZZO", target_ind);
                 break; 
                 default:
@@ -130,7 +132,7 @@ public class UpdateAddressController extends HttpServlet {
                 
             }
             request.getSession().setAttribute("user", updated_user);
-            response.sendRedirect("AreaRiservata.jsp");      
+            response.sendRedirect("AreaRiservata");      
             
             
         } catch (AutenticazioneException.UtenteInesistenteException | AutenticazioneException.IndirizzoEsistenteException | AutenticazioneException.FormatoIndirizzoException | SQLException | AutenticazioneException.ModificaIndirizzoException | AutenticazioneException.InformazioneDaModificareException ex) {
@@ -142,7 +144,7 @@ public class UpdateAddressController extends HttpServlet {
                 // If needed.
                 AutenticazioneController cont = new AutenticazioneController();
                 cont.loadUserAddresses(request);
-                request.getRequestDispatcher("updateUserInfo.jsp").forward(request, response);
+                request.getRequestDispatcher("updateUserInfo").forward(request, response);
             } catch (SQLException ex1) {
                 Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex1);
             }

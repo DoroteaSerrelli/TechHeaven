@@ -17,33 +17,38 @@
         <title>TechHeaven</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../../common/style.css">
-        <link rel="stylesheet" href="../../view/style/catalog_options.css">
-        <link rel="stylesheet" href="../../view/style/product_table.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/common/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_options.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js"></script>
+        <script type="text/javascript">
+            // Define the context path as a global variable
+            window.contextPath = '<%= request.getContextPath() %>';
+        </script>
     </head>    
     <body>     
-       <jsp:include page="../../common/header.jsp"  flush="true"/>
-       <jsp:include page="../../roleSelector.jsp"  flush="true"/>      
+       <jsp:include page="${pageContext.request.contextPath}/common/header.jsp"  flush="true"/>
+       <jsp:include page="${pageContext.request.contextPath}/roleSelector.jsp"  flush="true"/>      
         <aside class="options_sidebar hidden" id="options_sidebar">
             <!-- Sidebar will be populated by JavaScript -->
         </aside>
         <main class="main-content" id="mainContent">
             <section id="centerMenu" class="center-menu">
                 <div class="fe-box" id="viewProducts" onclick="moveToSidebar('viewProducts', 'viewProductsForm')">
-                    <img src="../../view/img/listaprodotto.png" alt="Visualizza Prodotti">
+                    <img src="${pageContext.request.contextPath}/view/img/listaprodotto.png" alt="Visualizza Prodotti">
                     <h6>Visualizza Prodotti</h6>
                 </div>
                     <div class="fe-box" id="addProduct" onclick="moveToSidebar('addProduct', 'addProductForm')">
-                        <img src="../../view/img/addprodotto.png" alt="Aggiungi un nuovo prodotto">
+                        <img src="${pageContext.request.contextPath}/view/img/addprodotto.png" alt="Aggiungi un nuovo prodotto">
                         <h6>Aggiungi un nuovo prodotto</h6>
                     </div>
                     <div class="fe-box" id="removeProduct" onclick="moveToSidebar('removeProduct', 'removeProductForm')">
-                        <img src="../../view/img/removeprodotto.png" alt="Elimina un prodotto">
+                        <img src="${pageContext.request.contextPath}/view/img/removeprodotto.png" alt="Elimina un prodotto">
                         <h6>Elimina un prodotto</h6>
                     </div>
                     <div class="fe-box" id="modifyProperties" onclick="moveToSidebar('modifyProperties', 'modifyPropertiesForm')">
-                        <img src="../../view/img/modproperties.png" alt="Modifica caratteristiche prodotto">
+                        <img src="${pageContext.request.contextPath}/view/img/modproperties.png" alt="Modifica caratteristiche prodotto">
                         <h6>Modifica caratteristiche prodotto</h6>
                     </div>
                 </section>
@@ -100,104 +105,7 @@
            </form>
            
        </div>
-                    <script>
-           $(document).ready(function() {
-    const page = 1; // Example page number
-
-    $('#viewProducts').click(function() {
-        fetchProducts(page); // Fetch the first page of products initially
-    });
-
-    function fetchProducts(page) {
-        const url = `/TechHeaven/GestioneCatalogoController?page=`+page;
-        console.log('Fetching URL:', url); // Debug URL
-
-        $.ajax({
-            url: url,
-            method: 'GET',
-            contentType: 'application/json',
-            success: function(data) {
-                console.log('Received Data:', data); // Verify data structure
-
-                // Handle and display the products and pagination
-                const products = data.products;
-                const totalPages = data.totalPages;
-                const table = $('#showpr');
-
-                table.html(`
-                    <tr>
-                        <th><strong>Image</strong></th>
-                        <th><strong>Nome</strong></th>
-                        <th><strong>Marca</strong></th>
-                        <th><strong>TopDescr</strong></th>
-                        <th><strong>Prezzo</strong></th>
-                    </tr>
-                `);
-
-               table.html(`
-            <tr>
-                <th><strong>Image</strong></th>
-                <th><strong>Nome</strong></th>
-                <th><strong>Marca</strong></th>
-                <th><strong>TopDescr</strong></th>
-                <th><strong>Prezzo</strong></th>
-            </tr>
-        `);
-
-                products.forEach(product => {
-                    const row = $('<tr></tr>');
-                     
-                    const imgSrc = `${pageContext.request.contextPath}/image?productId=`+product.codiceProdotto;
-                    console.log(`Image URL: ${imgSrc}`); // Log the image URL to check
-
-                    const imgCell = $('<td></td>').append(
-                    $('<img>').attr('src', imgSrc)
-                              .attr('alt', 'alt')
-                              .on('error', function() { 
-                                  this.onerror = null; // Prevent infinite loop
-                                  this.src = `${pageContext.request.contextPath}/view/img/placeholder.png`; 
-                              })
-                    );
-                    const nomeCell = $('<td></td>').append(
-                        $('<h3></h3>').text(product.nomeProdotto)
-                    );
-
-                    const marcaCell = $('<td></td>').append(
-                        $('<span></span>').text(product.marca)
-                    );
-
-                    const descrCell = $('<td></td>').append(
-                        $('<h5></h5>').text(product.topDescrizione)
-                    );
-
-                    const prezzoCell = $('<td></td>').append(
-                        $('<h4></h4>').text(product.prezzo+"€")
-                    );
-
-                    row.append(imgCell, nomeCell, marcaCell, descrCell, prezzoCell);
-                    table.append(row);
-                });
-
-                // Update pagination
-                const pagination = $('#pagination');
-                pagination.html('');
-                for (let i = 1; i <= totalPages; i++) {
-                    const link = $(`<a href="#">${i}</a>`);
-                    link.click(function(e) {
-                        e.preventDefault();
-                        fetchProducts(i);
-                    });
-                    pagination.append(link);
-                }
-                },
-                error: function(xhr, status, error) {
-                    console.error('Error fetching data:', error);
-                }
-                    });
-                }
-            });
-            </script>
        <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script>        
-    <jsp:include page="../../common/footer.jsp"  flush="true"/>       
+    <jsp:include page="${pageContext.request.contextPath}/common/footer.jsp"  flush="true"/>       
     </body>
 </html>

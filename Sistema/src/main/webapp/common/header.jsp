@@ -21,11 +21,11 @@
            <a href="#"> <img src="${pageContext.request.contextPath}\view\img\logo.png" height="100" width="100" class="logo" alt="alt"/></a>
         <div>              
             <ul id="navbar">
-                <li><a class="active" href="${pageContext.request.contextPath}/index.jsp">Home</a></li> 
+                <li><a class="active" href="${pageContext.request.contextPath}/">Home</a></li> 
                 <li><a href="Shop">Shop</a></li> 
-                <li><a href="${pageContext.request.contextPath}/Autenticazione.jsp">Login</a></li> 
-                <li><a href="${pageContext.request.contextPath}/Registrazione.jsp">Register</a></li> 
-                <li><a href="${pageContext.request.contextPath}/AreaRiservata.jsp"><img src="${pageContext.request.contextPath}/view/img/icon_user.png" height="30" width="30"></a></li>
+                <li><a href="${pageContext.request.contextPath}/Autenticazione">Login</a></li> 
+                <li><a href="${pageContext.request.contextPath}/Registrazione">Register</a></li> 
+                <li><a href="${pageContext.request.contextPath}/AreaRiservata"><img src="${pageContext.request.contextPath}/view/img/icon_user.png" height="30" width="30"></a></li>
                                             
                 <li><a id="lg-bag">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="30" height="30">

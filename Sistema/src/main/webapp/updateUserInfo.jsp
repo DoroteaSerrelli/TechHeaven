@@ -108,14 +108,7 @@
                 </div>
                 <input value="Update" type="button" class="confirm_button" name="update" onclick="validateForm()" >           
             </form>
-        </div>        
-            <p id="error">
-             <% 
-                String err = (String)request.getAttribute("error");
-                if (err != null && !err.isEmpty()) {
-             %>
-            <%=err%>   </p>            
-            <% } %>      
+        </div>                   
             <%  
                 if (request.getSession().getAttribute("user") == null) {
                     out.println("");
@@ -125,7 +118,17 @@
             </div>
             <% } %>
         <script src="view/modInfoAccount.js?ts=<%= System.currentTimeMillis() %>"></script>  
-    </div>     
+    </div>
+    <div class="errormsg" style="text-align:center">
+        <p id="error">
+            <% 
+               String err = (String)request.getAttribute("error");
+               if (err != null && !err.isEmpty()) {
+            %>
+           <%=err%>           
+           <% } %>    
+        </p>     
+    </div>
     <jsp:include page="common/footer.jsp" flush="true"/>   
     </body>
 </html>

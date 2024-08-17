@@ -78,12 +78,12 @@ public class AutenticazioneController extends HttpServlet {
         if (action != null && !action.isEmpty()) {
             // Forward to updateUserInfo.jsp if action is specified
             if (action.equals("updateUserInfo")) {
-                request.getRequestDispatcher("updateUserInfo.jsp").forward(request, response);
+                 request.getRequestDispatcher("updateUserInfo").forward(request, response);
             }           
             // Add other actions if needed
         } else {
             // Forward to the default page (e.g., AreaRiservata.jsp) if no action is specified
-            request.getRequestDispatcher("AreaRiservata.jsp").forward(request, response);
+            request.getRequestDispatcher("AreaRiservata").forward(request, response);
         }
     }
 
@@ -106,14 +106,14 @@ public class AutenticazioneController extends HttpServlet {
             if (action != null && !action.isEmpty()) {           
                 if(action.equals("logout")){
                     request.getSession().invalidate();// Invalidate the session
-                    response.sendRedirect("Autenticazione.jsp"); 
+                    response.sendRedirect("Autenticazione"); 
                     return;
                 }
             }
             
             String username = request.getParameter("username");
             String password = request.getParameter("password");
-            
+            String ruolo = request.getParameter("ruolo");
             ProxyUtente result;
             result = loginService.login(username, password);
             if (result!=null) {
@@ -123,23 +123,43 @@ public class AutenticazioneController extends HttpServlet {
                 
                 ArrayList<Ruolo> ruoli;
                 ruoli = result.getRuoli();
-                for(Ruolo r: ruoli){
+                for(Ruolo r: ruoli){ 
                     System.out.println(r.getNomeRuolo());
+                    if(r.getNomeRuolo().equals(ruolo)){
+                        switch(ruolo){
+                            case "Cliente": 
+                                response.sendRedirect("AreaRiservata");
+                                return;                                                          
+                            case "GestoreOrdini": 
+                                response.sendRedirect(request.getContextPath() +"/GestioneOrdini");
+                                return;                                
+                            case "GestoreCatalogo":                                
+                                response.sendRedirect(request.getContextPath() +"/GestioneCatalogo");
+                                return;  
+                            default:
+                                // Handle unexpected role cases if needed
+                                request.setAttribute("error","Ruolo scelto non corrispondente ai ruoli del utente");
+                                request.getRequestDispatcher("Autenticazione").forward(request, response);
+                                break;    
+                        }
+                        break;
+                    } 
                 }
-                
-                request.getRequestDispatcher("AreaRiservata.jsp").forward(request,response);
+                request.setAttribute("error","Ruolo scelto non corrispondente ai ruoli del utente");
+                request.getRequestDispatcher("Autenticazione").forward(request, response);
             } else {
                 // Authentication failed
-                response.sendRedirect("Autenticazione.jsp?error=true");
+                request.setAttribute("error","Username o Password errati");                               
+                response.sendRedirect("Autenticazione?error=true");
             }
         } catch (SQLException ex) {
             Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
             request.setAttribute("error", "password o username non corrette");
-            response.sendRedirect("Autenticazione.jsp?error=true");
+            response.sendRedirect("Autenticazione?error=true");
         } catch (AutenticazioneException.UtenteInesistenteException ex) {
             Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
             request.setAttribute("error",  "password o username non corrette");
-            response.sendRedirect("Autenticazione.jsp?error=true");
+            response.sendRedirect("Autenticazione?error=true");
         }
         }
       /**

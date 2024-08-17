@@ -55,7 +55,7 @@ public class UpdateProfileController extends HttpServlet {
             
             //If the user is null sends a redirect to login page.
             if(user==null) {
-                response.sendRedirect("Autenticazione.jsp");
+                response.sendRedirect("Autenticazione");
                 return;
             }
             ProxyUtente updated_user = user;
@@ -64,7 +64,7 @@ public class UpdateProfileController extends HttpServlet {
             Utente real_user = user.mostraUtente();
             if( real_user.getProfile().getEmail().equals(updated_email) || real_user.getProfile().getTelefono().equals(updated_tel)){
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.sendRedirect("AreaRiservata.jsp");
+                response.sendRedirect("AreaRiservata");
                 return;
             }
             
@@ -77,7 +77,7 @@ public class UpdateProfileController extends HttpServlet {
             }
                          
             request.getSession().setAttribute("user", updated_user);
-            request.getRequestDispatcher("AreaRiservata.jsp").forward(request, response);      
+            request.getRequestDispatcher("AreaRiservata").forward(request, response);      
             
         }catch(SQLException | AutenticazioneException.FormatoEmailException | AutenticazioneException.ProfiloInesistenteException | AutenticazioneException.EmailEsistenteException | AutenticazioneException.TelefonoEsistenteException | AutenticazioneException.FormatoTelefonoException | AutenticazioneException.InformazioneDaModificareException e){
             try {
@@ -88,7 +88,7 @@ public class UpdateProfileController extends HttpServlet {
                 // If needed.
                 AutenticazioneController cont = new AutenticazioneController();
                 cont.loadUserAddresses(request);
-                request.getRequestDispatcher("updateUserInfo.jsp").forward(request, response);
+                request.getRequestDispatcher("updateUserInfo").forward(request, response);
             } catch (SQLException ex) {
                 Logger.getLogger(UpdateProfileController.class.getName()).log(Level.SEVERE, null, ex);
             }

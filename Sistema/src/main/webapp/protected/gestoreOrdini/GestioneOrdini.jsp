@@ -10,9 +10,9 @@
         <title>TechHeaven</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="../../common/style.css">
-        <link rel="stylesheet" href="../../view/style/catalog_options.css">
-        <link rel="stylesheet" href="../../view/style/product_table.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/common/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_options.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="${pageContext.request.contextPath}/view/ajax_orders_table_functions.js"></script>
         <script type="text/javascript">
@@ -21,23 +21,23 @@
         </script>
     </head>    
     <body>     
-       <jsp:include page="../../common/header.jsp"  flush="true"/>
-       <jsp:include page="../../roleSelector.jsp"  flush="true"/>      
+       <jsp:include page="${pageContext.request.contextPath}/common/header.jsp"  flush="true"/>
+       <jsp:include page="${pageContext.request.contextPath}/roleSelector.jsp"  flush="true"/>      
         <aside class="options_sidebar hidden" id="options_sidebar">
             <!-- Sidebar will be populated by JavaScript -->
         </aside>
         <main class="main-content" id="mainContent">
             <section id="centerMenu" class="center-menu">
                 <div class="fe-box" id="viewOrders" onclick="moveToSidebar('viewOrders', 'viewOrdersForm'); fetchProducts(1, 'fetch_da_spedire')">
-                    <img src="../../view/img/ordinidaspedire.png" alt="Visualizza Ordini Clienti">
+                    <img src="${pageContext.request.contextPath}/view/img/ordinidaspedire.png" alt="Visualizza Ordini Clienti">
                     <h6>Visualizza Ordini Da Spedire</h6>
                 </div>
                     <div class="fe-box" id="viewSentOrders" onclick="moveToSidebar('viewSentOrders', 'viewOrdersForm'); fetchProducts(1, 'fetch_spediti')">
-                        <img src="../../view/img/ordinispediti.png" alt="Visualizza Ordini Spediti">
+                        <img src="${pageContext.request.contextPath}/view/img/ordinispediti.png" alt="Visualizza Ordini Spediti">
                         <h6>Visualizza Ordini Spediti</h6>
                     </div>
                     <div class="fe-box" id="supplyingRequest" onclick="moveToSidebar('supplyingRequest', 'supplyingRequestForm')">
-                        <img src="../../view/img/apprrovigionamento.png" alt="Elimina un prodotto">
+                        <img src="${pageContext.request.contextPath}/view/img/apprrovigionamento.png" alt="Elimina un prodotto">
                         <h6>Approvigionamento</h6>
                     </div>
                 </section>
@@ -102,6 +102,6 @@
             </section>             
            
        <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script>        
-    <jsp:include page="../../common/footer.jsp"  flush="true"/>
+    <jsp:include page="${pageContext.request.contextPath}/common/footer.jsp"  flush="true"/>
     </body>
 </html>

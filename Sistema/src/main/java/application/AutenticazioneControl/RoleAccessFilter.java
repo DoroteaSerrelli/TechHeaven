@@ -111,7 +111,7 @@ public class RoleAccessFilter implements Filter {
         ProxyUtente user = (ProxyUtente) httpRequest.getSession().getAttribute("user");
         if (user == null) {
             // User is not logged in, redirect to login page
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/Autenticazione.jsp"); // Redirect to login page
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/Autenticazione"); // Redirect to login page
             return;
         }
         
@@ -123,7 +123,7 @@ public class RoleAccessFilter implements Filter {
         boolean hasCatalogManagerRole = checkUserRole(user, rolesToCheck);
         if (!hasCatalogManagerRole) {
             // User does not have the required role, redirect to unauthorized page
-            httpResponse.sendRedirect(httpRequest.getContextPath() + "/Unauthourized.jsp"); 
+            httpResponse.sendRedirect(httpRequest.getContextPath() + "/Unauthourized"); 
             return;
         }
         

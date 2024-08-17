@@ -6,15 +6,15 @@ function redirectToRolePage(selectElement) {
     switch (selectedRole) {
         case 'Cliente':
             console.log('Redirecting to Cliente'); // Debug line
-            window.location.assign(contextPath + '/AreaRiservata.jsp');
+            window.location.assign(contextPath + '/AreaRiservata');
             break;
         case 'GestoreOrdini':
             console.log('Redirecting to GestoreOrdini'); // Debug line
-            window.location.assign(contextPath + '/protected/gestoreOrdini/GestioneOrdini.jsp');
+            window.location.assign(contextPath + '/GestioneOrdini');
             break;
         case 'GestoreCatalogo':
             console.log('Redirecting to GestoreCatalogo'); // Debug line
-            window.location.assign(contextPath + '/protected/gestoreCatalogo/GestioneCatalogo.jsp');
+            window.location.assign(contextPath + '/GestioneCatalogo');
             break;
         // Add more cases for other roles as needed
         default:

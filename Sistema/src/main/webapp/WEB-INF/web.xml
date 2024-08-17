@@ -161,6 +161,14 @@
         <url-pattern>/Autenticazione</url-pattern>
     </servlet-mapping> 
     <servlet>
+        <servlet-name>cartServlet</servlet-name>
+        <jsp-file>/cart.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cartServlet</servlet-name>
+        <url-pattern>/cart</url-pattern>
+    </servlet-mapping> 
+    <servlet>
         <servlet-name>RegistrazioneServlet</servlet-name>
         <jsp-file>/Registrazione.jsp</jsp-file>
     </servlet>

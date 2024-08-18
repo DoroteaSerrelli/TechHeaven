@@ -60,10 +60,14 @@ public class NavigazioneController extends HttpServlet {
         // dei risultati che si occuperà di Paginare il risultato della Ricerca.
         String searchType = request.getParameter("search_type");
         if(searchType!=null && searchType.contains("bar")){                   
-            searchResult = PaginationUtils.performPagination(new NavigazioneServiceImpl(), keyword, page, 10,"bar");             
+            searchResult = PaginationUtils.performPagination(new NavigazioneServiceImpl(), keyword, page, 10,"bar");
+            request.getSession().setAttribute("search_type", searchType);
+            
         }
         else if(searchType != null && searchType.contains("menu")){
-            searchResult = PaginationUtils.performPagination(new NavigazioneServiceImpl(), keyword, page, 10,"menu");                
+            searchResult = PaginationUtils.performPagination(new NavigazioneServiceImpl(), keyword, page, 10,"menu");
+            request.getSession().setAttribute("search_type", searchType);
+            
         }
         else if (searchType==null){
             response.sendRedirect("index.jsp");

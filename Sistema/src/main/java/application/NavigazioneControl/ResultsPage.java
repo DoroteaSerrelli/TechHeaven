@@ -63,7 +63,8 @@ public class ResultsPage extends HttpServlet {
         }
         String keyword = (String) request.getSession().getAttribute("keyword");
         PaginationUtils.setPaginationAttributes(request, searchResult, keyword, 10);
-        
+        request.getSession().getAttribute("search_type");
+            
         // Forward to JSP
         request.getRequestDispatcher("searchResults.jsp").forward(request, response);
         

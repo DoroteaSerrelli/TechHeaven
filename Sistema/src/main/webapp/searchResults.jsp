@@ -95,7 +95,7 @@
         <% if (totalPages > 1) { %>
             <% for (int pager = 1; pager <= totalPages; pager++) { %>
                 <%
-                    String pageUrl = "NavigazioneController?page=" + pager + "&keyword=" + keyword + "&search_type="+request.getAttribute("search_type");
+                    String pageUrl = "NavigazioneController?page=" + pager + "&keyword=" + keyword + "&search_type="+request.getSession().getAttribute("search_type");
                 %>
                 <a href="<%= pageUrl %>"><%=pager%></a>
             <% } %>

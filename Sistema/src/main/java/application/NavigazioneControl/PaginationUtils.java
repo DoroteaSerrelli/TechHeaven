@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
+import storage.NavigazioneDAO.ProdottoDAODataSource;
 
 /**
  *
@@ -27,23 +28,35 @@ import javax.servlet.http.HttpServletRequest;
  */
 public class PaginationUtils {
     public static SearchResult performPagination(NavigazioneServiceImpl productService, String keyword, int page, int resultsPerPage, String searchType) {
+        ProdottoDAODataSource pdao = new ProdottoDAODataSource();
         SearchResult res = new SearchResult();
         List<ProxyProdotto> results;
-        if (searchType.equals("bar")) {           
-            results = productService.ricercaProdottoBar(keyword);
-            res.setProducts(results);
-            res.setTotalRecords(results.size());
-            return res;
-        
-    } else if (searchType.equals("menu")) {
-          results = productService.ricercaProdottoMenu(Categoria.valueOf(keyword));
-          res.setProducts(results);
-          res.setTotalRecords(results.size());
-          return res;
-    } else {
-        // Handle unknown search types or throw an exception
-        throw new IllegalArgumentException("Invalid search type: " + searchType);
-     }
+        switch (searchType) {
+            case "bar" -> {
+                try {
+                    results = productService.ricercaProdottoBar(keyword, page, resultsPerPage);
+                    res.setProducts(results);
+                    res.setTotalRecords(pdao.getTotalRecords("NOME"));
+                    return res;
+                } catch (SQLException ex) {
+                    Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            case "menu" -> {
+                try {
+                    results = productService.ricercaProdottoMenu(Categoria.valueOf(keyword), page, resultsPerPage);
+                    res.setProducts(results);
+                    res.setTotalRecords(pdao.getTotalRecords("NOME"));
+                    return res;
+                } catch (SQLException ex) {
+                    Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+
+            default -> // Handle unknown search types or throw an exception
+                throw new IllegalArgumentException("Invalid search type: " + searchType);
+        }
+        return null;
     }
     public static Collection<Prodotto> performPagination(GestioneCatalogoServiceImpl catalogoService, int page, int resultsPerPage) {
         return catalogoService.visualizzaCatalogo(page, resultsPerPage);      

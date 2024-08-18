@@ -4,25 +4,18 @@
  */
 package application.NavigazioneControl;
 
-import application.NavigazioneService.NavigazioneServiceImpl;
-import application.NavigazioneService.Prodotto;
-import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.List;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
  *
- * @author raffy
+ * @author raffa
  */
-@WebServlet(name = "BarraRicercaController", urlPatterns = {"/BarraRicercaController"})
-public class BarraRicercaController extends HttpServlet {
+public class ResultsPage extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -35,30 +28,19 @@ public class BarraRicercaController extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-           
-          int page = 1;
-          String searched_prod = request.getParameter("keyword");
-       // Check if productIdString is null or empty
-        if (searched_prod == null || searched_prod.isEmpty()) {
-        // Handle the case where id parameter is missing
-        // For example, you could return an error response or redirect the user
-            response.sendRedirect("index.jsp");
-            return;
-        }  
-        try {
-            if (request.getParameter("page") != null) 
-            page = Integer.parseInt( 
-                request.getParameter("page")); 
-        
-        SearchResult searchResult = PaginationUtils.performPagination(new NavigazioneServiceImpl(), searched_prod, page, 10,"bar");
-
-        PaginationUtils.setPaginationAttributes(request, searchResult, searched_prod, 10);
-        request.setAttribute("search_type", "bar");
-            // Forward the request to the JSP page
-            request.getRequestDispatcher("searchResults.jsp").forward(request, response);
-          
+        response.setContentType("text/html;charset=UTF-8");
+        try ( PrintWriter out = response.getWriter()) {
+            /* TODO output your page here. You may use following sample code. */
+            out.println("<!DOCTYPE html>");
+            out.println("<html>");
+            out.println("<head>");
+            out.println("<title>Servlet ResultsPage</title>");            
+            out.println("</head>");
+            out.println("<body>");
+            out.println("<h1>Servlet ResultsPage at " + request.getContextPath() + "</h1>");
+            out.println("</body>");
+            out.println("</html>");
         }
-        catch(NumberFormatException bn){}
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
@@ -73,7 +55,21 @@ public class BarraRicercaController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        SearchResult searchResult = (SearchResult) request.getSession().getAttribute("searchResult");
+        if(searchResult==null){
+            String keyword = (String) request.getParameter("keyword");
+            response.sendRedirect("NavigazioneController?keyword="+keyword);
+            return;
+        }
+        String keyword = (String) request.getSession().getAttribute("keyword");
+        PaginationUtils.setPaginationAttributes(request, searchResult, keyword, 10);
+        
+        // Forward to JSP
+        request.getRequestDispatcher("searchResults.jsp").forward(request, response);
+        
+        //Clear Session Attributes
+        //request.getSession().removeAttribute("searchResult");
+        //request.getSession().removeAttribute("keyword");
     }
 
     /**

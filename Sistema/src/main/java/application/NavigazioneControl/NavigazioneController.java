@@ -36,19 +36,42 @@ public class NavigazioneController extends HttpServlet {
         /*
             Servlet per LA visualizzazione e paginazione dei risultati.
         */
-        if(request.getParameter("search_type").contains("bar")){
-            String keyword = (String)request.getAttribute("keyword");
-            
-            request.setAttribute("keyword", keyword);
-            //Setto la prima pagina della ricerca e la inoltro al Controller che effettua
-            //la ricerca.
-            request.getRequestDispatcher("/BarraRicercaController").forward(request, response);            
+        String keyword = (String)request.getParameter("keyword");
+        if (keyword == null || keyword.isEmpty()) {
+        // Handle the case where id parameter is missing
+        // For example, you could return an error response or redirect the user
+        System.out.println("keyword");
+            response.sendRedirect("index.jsp");
+            return;
+        }  
+        int page = 1;
+        try {
+            if (request.getParameter("page") != null) 
+            page = Integer.parseInt( 
+                request.getParameter("page")); 
+        }catch(NumberFormatException e){
+            page=1;
+        }    
+        SearchResult searchResult= null;
+        // L'utility di Paginazione effettua la ricerca per tipo di Ricerca (barra - menu)
+        // e compila il tutto in una classe searchResult che incapsula
+        // i risultati della ricerca e il numero di risultati trovati.
+        // Questi vengono passati al termine dell'elaborazione alla servlet 
+        // dei risultati che si occuperà di Paginare il risultato della Ricerca.
+        String searchType = request.getParameter("search_type");
+        if(searchType!=null && searchType.contains("bar")){                   
+            searchResult = PaginationUtils.performPagination(new NavigazioneServiceImpl(), keyword, page, 10,"bar");             
         }
-        else if(request.getParameter("search_type").contains("menu")){
-            String categoria = (String)request.getParameter("keyword"); 
-            request.setAttribute("keyword", categoria);
-            request.getRequestDispatcher("/MenuNavigazioneController").forward(request, response);
+        else if(searchType != null && searchType.contains("menu")){
+            searchResult = PaginationUtils.performPagination(new NavigazioneServiceImpl(), keyword, page, 10,"menu");                
         }
+        else if (searchType==null){
+            response.sendRedirect("index.jsp");
+            return;
+        }
+        request.getSession().setAttribute("searchResult", searchResult);
+        request.getSession().setAttribute("keyword", keyword);
+        response.sendRedirect("/ResultsPage");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

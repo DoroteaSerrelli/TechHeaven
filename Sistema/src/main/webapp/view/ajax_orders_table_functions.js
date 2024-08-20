@@ -3,6 +3,41 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
  */
 
+ function toggleSidebar(){
+    var options_sidebar = document.getElementById("options_sidebar"); 
+    if(options_sidebar.classList.contains("visible")){
+        options_sidebar.classList.remove("visible");         
+    }
+    else{
+        options_sidebar.classList.add("visible");
+    }
+ }
+
+function filterProducts() {
+    // Get the value from the input field and convert it to lowercase
+    var input = document.getElementById("productFilter");
+    var filter = input.value.toLowerCase();
+    
+    // Get the table and all its rows
+    var table = document.getElementById("showpr");
+    var tr = table.getElementsByTagName("tr");
+
+    // Loop through all table rows (starting from the second row because the first is the header)
+    for (var i = 1; i < tr.length; i++) {
+        // Get the product name from the third column (index 2)
+        var td = tr[i].getElementsByClassName("productName")[0];
+        if (td) {
+            var txtValue = td.textContent || td.innerText;
+            // If the product name contains the filter text, display the row, otherwise hide it
+            if (txtValue.toLowerCase().indexOf(filter) > -1) {
+                tr[i].style.display = "";
+            } else {
+                tr[i].style.display = "none";
+            }
+        }       
+    }
+}
+
  function toggleView() {
     if (window.innerWidth <= 768) {
         $('#table-container').hide();
@@ -12,7 +47,7 @@
         $('#card-container').hide();
     }
 }
-function fetchProducts(page, action) {
+function fetchOrders(page, action) {
     const url = `${window.contextPath}/GestioneOrdiniController?page=`+page+'&action='+action;
     console.log('Fetching URL:', url); // Debug URL
 
@@ -41,10 +76,11 @@ function fetchProducts(page, action) {
                 '<input type="submit" value="Accetta">' +
                 '</form>'
             ); 
+            
             const codiceCell = $('<td></td>').text(order.codiceOrdine);
             const statoCell = $('<td></td>').text(order.stato);
             const indirizzoSpCell = $('<td></td>').text(order.indirizzoSpedizione);
-            row1.append(acceptCell,codiceCell, statoCell, indirizzoSpCell);
+            row1.append(codiceCell, statoCell, indirizzoSpCell, acceptCell);
             $('#showpr tbody').append(row1);
 
             const row2 = $('<tr></tr>');

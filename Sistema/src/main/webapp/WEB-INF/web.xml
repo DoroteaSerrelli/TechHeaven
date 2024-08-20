@@ -37,6 +37,14 @@
         <servlet-name>ResultsPage</servlet-name>
         <servlet-class>application.NavigazioneControl.ResultsPage</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>GestioneApprovigionamentiController</servlet-name>
+        <servlet-class>application.GestioneApprovigionamentiControl.GestioneApprovigionamentiController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Approvigionamento</servlet-name>
+        <servlet-class>application.GestioneApprovigionamentiControl.Approvigionamento</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GestioneCarrelloController</servlet-name>
         <url-pattern>/GestioneCarrelloController</url-pattern>
@@ -68,6 +76,14 @@
     <servlet-mapping>
         <servlet-name>ResultsPage</servlet-name>
         <url-pattern>/ResultsPage</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>GestioneApprovigionamentiController</servlet-name>
+        <url-pattern>/GestioneApprovigionamentiController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Approvigionamento</servlet-name>
+        <url-pattern>/Approvigionamento</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

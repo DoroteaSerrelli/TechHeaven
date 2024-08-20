@@ -14,7 +14,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_options.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="${pageContext.request.contextPath}/view/ajax_orders_table_functions.js"></script>
+        <script src="${pageContext.request.contextPath}/view/ajax_orders_table_functions.js?ts=<%= System.currentTimeMillis() %>"></script>
         <script type="text/javascript">
             // Define the context path as a global variable
             window.contextPath = '<%= request.getContextPath() %>';
@@ -28,17 +28,22 @@
         </aside>
         <main class="main-content" id="mainContent">
             <section id="centerMenu" class="center-menu">
-                <div class="fe-box" id="viewOrders" onclick="moveToSidebar('viewOrders', 'viewOrdersForm'); fetchProducts(1, 'fetch_da_spedire')">
+                <div class="fe-box" id="viewOrders" onclick="moveToSidebar('viewOrders', 'viewOrdersForm'); fetchOrders(1, 'fetch_da_spedire')">
                     <img src="${pageContext.request.contextPath}/view/img/ordinidaspedire.png" alt="Visualizza Ordini Clienti">
-                    <h6>Visualizza Ordini Da Spedire</h6>
+                    <h5>Visualizza Ordini Da Spedire</h5>
                 </div>
-                    <div class="fe-box" id="viewSentOrders" onclick="moveToSidebar('viewSentOrders', 'viewOrdersForm'); fetchProducts(1, 'fetch_spediti')">
+                    <div class="fe-box" id="viewSentOrders" onclick="moveToSidebar('viewSentOrders', 'viewOrdersForm'); fetchOrders(1, 'fetch_spediti')">
                         <img src="${pageContext.request.contextPath}/view/img/ordinispediti.png" alt="Visualizza Ordini Spediti">
-                        <h6>Visualizza Ordini Spediti</h6>
+                        <h5>Visualizza Ordini Spediti</h5>
+                    </div>
+                    <div class="fe-box" id="supplyingRequests">
+                        <a href="GestioneApprovigionamentiController?action=viewList&&page=1"><img src="${pageContext.request.contextPath}/view/img/supplyrequests.png" alt="Richieste Approvigionamento"></a>
+                        <h5>Richieste Approvigionamento</h5>
                     </div>
                     <div class="fe-box" id="supplyingRequest" onclick="moveToSidebar('supplyingRequest', 'supplyingRequestForm')">
-                        <img src="${pageContext.request.contextPath}/view/img/apprrovigionamento.png" alt="Elimina un prodotto">
-                        <h6>Approvigionamento</h6>
+                        <a href="GestioneApprovigionamentiController?action=viewProductList&page=1"><img src="${pageContext.request.contextPath}/view/img/apprrovigionamento.png" alt="Approvigionamento">
+                        </a>
+                        <h5>Approvigionamento</h5>
                     </div>
                 </section>
            </main>
@@ -79,25 +84,35 @@
                          
                        <div id="pagination"></div>
             </section>
-                
-                <section id="addProductForm" class="form-section hidden">
-                    <!-- Your form for adding a new product -->
-                    <h2>Visualizza Ordini Spediti</h2>
-                    <form>
-                        <label for="productName">Nome prodotto:</label>
-                        <input type="text" id="productName" name="productName">
-                        <button type="submit">Aggiungi</button>
-                    </form>
-                </section>
-                <section id="removeProductForm" class="form-section hidden">
-                    <!-- Your form for removing a product -->
-                    <h2>Elimina un prodotto</h2>
-                    <p>Form content for removing a product...</p>
-                </section>
                 <section id="supplyingRequestForm" class="form-section hidden">
-                    <!-- Your form for modifying product properties -->
-                    <h2>Modifica caratteristiche prodotto</h2>
-                    <p>Form content for modifying product properties...</p>
+                    <form action="GestioneApprovigionamentiController" method="post">
+                        <div class="row">
+                            <div class="input-wrapper"> 
+                                <p>Inserisci L'ID Del Prodotto Da Rifornire</p>  
+                                <input type="number" name="product_id">
+                            </div>
+                            <div class="input-wrapper"> 
+                                <p>Inserisci La Quantità Da Richiedere</p>                             
+                                <input type="number" name="quantity">
+                            </div>    
+                        </div>    
+                        <div class="row">
+                            <div class="input-wrapper"> 
+                                <p>Inserisci Il Fornitore:</p>
+                                <input type="text" name="fornitore">
+                            </div>
+                            <div class="input-wrapper"> 
+                                <p>Inserisci L'Email Del Fornitore:</p>
+                                <input type="text" name="email_fornitore">
+                            </div>    
+                        </div>
+                        <div class="row">
+                            <div class="input-wrapper">
+                                <p>Inserisci Una Descrizione Dettagliata Della Richiesta:</p>
+                                <textarea rows="4" cols="20" name="descrizione"></textarea>
+                            </div>    
+                        </div>   
+                    </form>
                 </section>
             </section>             
            

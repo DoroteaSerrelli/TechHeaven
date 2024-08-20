@@ -37,6 +37,64 @@ function filterProducts() {
         }       
     }
 }
+function showSupplyForm(productId) {
+    // Hide all rows except the one clicked
+    var rows = document.querySelectorAll("#showpr tr");
+    rows.forEach(function(row) {
+        if (row.id !== "row-" + productId) {
+            row.style.display = "none";
+        }
+    });
+    
+    // Get the specific row that was clicked
+    var row = document.getElementById("row-" + productId);
+    
+    if(row){
+        // Create the form element
+        var form = document.getElementById("supplyingRequestForm");
+        form.setAttribute("method", "post");
+        form.setAttribute("action", "/GestioneApprovigionamentiController"); // Change this to your actual form handler URL
+
+        // Example fields for the form
+        form.innerHTML = `
+            <h1>Supply Request for Product ID: ${productId}</h1>
+            <div class="row">                            
+            <div class="input-wrapper"> 
+                <p>Inserisci La Quantità Da Richiedere</p>                             
+                <input type="number" name="quantity" required>
+            </div>    
+            </div>    
+            <div class="row">
+                <div class="input-wrapper"> 
+                    <p>Inserisci Il Fornitore:</p>
+                    <input type="text" name="fornitore" required>
+                     <p>Inserisci L'Email Del Fornitore:</p>
+                    <input type="text" name="email_fornitore" required>
+                </div>
+            </div>
+            <div class="row">
+                <div class="input-wrapper">
+                    <p>Inserisci Una Descrizione Dettagliata Della Richiesta:</p>
+                    <textarea rows="4" cols="20" name="descrizione"></textarea>
+                </div>    
+            </div>
+            <input type="hidden" name="product_id" value="${productId}">
+            <button class="confirm_button" type="submit">Submit Request</button>
+            <button type="button" onclick="cancelSupplyRequest()">Anulla Richiesta</button>
+        `;
+        
+        form.style.display = "block"; // Ensure the form is visible
+    }
+}
+
+function cancelSupplyRequest() {
+    // Show the table again
+    document.getElementById("showpr").style.display = "table";
+    
+    // Optionally, reload the page to reset the row to its original state
+    location.reload();
+}
+
 
  function toggleView() {
     if (window.innerWidth <= 768) {

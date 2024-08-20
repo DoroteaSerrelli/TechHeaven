@@ -1,0 +1,42 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 20 ago 2024, 17:45:41
+    Author     : raffa
+*/
+
+#supplyingRequestForm{
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    width: 60%;
+    justify-content: center;
+    margin: 0 auto;
+    display: flex;
+}
+
+#supplyingRequest .row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between flex items */
+    margin-bottom: 20px;
+}
+
+#supplyingRequestForm .input-wrapper{
+    flex: 1; /* Allow flex items to grow and shrink as needed */
+    min-width: 200px; /* Minimum width of each input-wrapper */
+}
+
+/* Styles for mobile screens */
+@media (max-width: 480px) {
+    #supplyingRequestForm{     
+        width: 100%;
+    }
+    #supplyingRequestForm .input-wrapper{      
+        width: 60%;
+        padding: 0px;
+        
+    }
+}

@@ -16,6 +16,7 @@
         <title>Approvigionamento</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/common/style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/extra_manager_style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_options.css">
         <script src="${pageContext.request.contextPath}/view/ajax_orders_table_functions.js?ts=<%= System.currentTimeMillis() %>"></script>       
         <%
@@ -28,6 +29,13 @@
         %>
     </head>
     <body>
+        <div id="error">
+            <% String errormsg="";
+                errormsg= (String)request.getAttribute("error");
+                if(errormsg==null) errormsg="";                                                       
+            %>
+            <h4><%=errormsg%></h4>
+        </div>
         <aside class="options_sidebar visible" id="options_sidebar">
             <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>     
             <div class="fe-box" id="viewOrders">
@@ -76,7 +84,7 @@
                     <%                        
                         
                     %>
-            <tr>
+            <tr id="row-<%= product.getCodiceProdotto() %>">
                 <td>  
                     <h3><%=product.getCodiceProdotto()%></h3>
                 </td>
@@ -86,17 +94,13 @@
                     <h3><%=product.getNomeProdotto()%></h3>
                 </td>  
              <!--   <td><span><%//=product.getMarca()%></span></td>  -->
-                <td><%= product.getQuantita()%></td>    
+                <td><%= product.getQuantita()%> <button class="confirm_button" onclick="showSupplyForm('<%= product.getCodiceProdotto() %>')">Rifornisci</button></td>    
             </tr>
        <%}%>
         </table>
-       <div id="error">
-            <% String errormsg="";
-                errormsg= (String)request.getAttribute("error");
-                if(errormsg==null) errormsg="";                                                       
-            %>
-            <%=errormsg%>
-        </div>
+        <form id="supplyingRequestForm" class="">
+            <input id="product_id" type="hidden" name="product_id" value="">
+        </form>           
         <jsp:include page="${pageContext.request.contextPath}/common/footer.jsp"  flush="true"/>
     </body>
 </html>

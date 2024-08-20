@@ -84,37 +84,7 @@
                          
                        <div id="pagination"></div>
             </section>
-                <section id="supplyingRequestForm" class="form-section hidden">
-                    <form action="GestioneApprovigionamentiController" method="post">
-                        <div class="row">
-                            <div class="input-wrapper"> 
-                                <p>Inserisci L'ID Del Prodotto Da Rifornire</p>  
-                                <input type="number" name="product_id">
-                            </div>
-                            <div class="input-wrapper"> 
-                                <p>Inserisci La Quantità Da Richiedere</p>                             
-                                <input type="number" name="quantity">
-                            </div>    
-                        </div>    
-                        <div class="row">
-                            <div class="input-wrapper"> 
-                                <p>Inserisci Il Fornitore:</p>
-                                <input type="text" name="fornitore">
-                            </div>
-                            <div class="input-wrapper"> 
-                                <p>Inserisci L'Email Del Fornitore:</p>
-                                <input type="text" name="email_fornitore">
-                            </div>    
-                        </div>
-                        <div class="row">
-                            <div class="input-wrapper">
-                                <p>Inserisci Una Descrizione Dettagliata Della Richiesta:</p>
-                                <textarea rows="4" cols="20" name="descrizione"></textarea>
-                            </div>    
-                        </div>   
-                    </form>
-                </section>
-            </section>             
+        </section>             
            
        <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script>        
     <jsp:include page="${pageContext.request.contextPath}/common/footer.jsp"  flush="true"/>

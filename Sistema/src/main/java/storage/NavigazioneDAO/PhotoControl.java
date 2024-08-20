@@ -37,15 +37,15 @@ public class PhotoControl {
 			System.out.println("Error:" + e.getMessage());
 		}
 	}
-	
-	
+
+
 	/**
 	 * Il metodo effettua il recupero dell'immagine di presentazione di un prodotto dal database.
 	 * @param id è il codice univoco del prodotto
 	 * @return bt l'immagine di presentazione del prodotto
 	 * */
 	public static synchronized byte[] loadTopImage(int id) throws SQLException {
-		
+
 		Connection connection = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -53,11 +53,11 @@ public class PhotoControl {
 		byte[] bt = null;
 
 		try {
-			
+
 			connection = ds.getConnection();
 			String sql = "SELECT TOPIMMAGINE FROM prodotto WHERE CODICEPRODOTTO = ?";
 			stmt = connection.prepareStatement(sql);
-			
+
 			stmt.setInt(1, id);
 			rs = stmt.executeQuery();
 
@@ -68,7 +68,7 @@ public class PhotoControl {
 		} catch (SQLException sqlException) {
 			System.out.println(sqlException);
 		} 
-			finally {
+		finally {
 			try {
 				if (stmt != null)
 					stmt.close();
@@ -81,7 +81,7 @@ public class PhotoControl {
 		}
 		return bt;
 	}
-	
+
 	/**
 	 * Il metodo consente il caricamento nel databse dell'immagine di presentazione del prodotto.
 	 * @param idP è l'identificativo numerico del prodotto
@@ -114,7 +114,7 @@ public class PhotoControl {
 			}
 		}
 	}
-	
+
 	/**
 	 * Il metodo consente di recuperare una particolare immagine di dettaglio di un prodotto,
 	 * memorizzata nel database.
@@ -161,7 +161,7 @@ public class PhotoControl {
 		}
 		return bt;
 	}
-	
+
 	/**
 	 * Il metodo consente di recuperare tutte le immagini di dettaglio di un prodotto,
 	 * memorizzate nel database, in termini di identificativi numerici.
@@ -185,9 +185,9 @@ public class PhotoControl {
 			stmt.setInt(1, idP);
 			rs = stmt.executeQuery();
 
-		    while (rs.next()) {
-		      photos.add(rs.getInt("CODICEIMMAGINE"));
-		    }
+			while (rs.next()) {
+				photos.add(rs.getInt("CODICEIMMAGINE"));
+			}
 
 		} catch (SQLException sqlException) {
 			System.out.println(sqlException);
@@ -205,7 +205,7 @@ public class PhotoControl {
 		}
 		return photos;
 	}
-	
+
 	/**
 	 * Il metodo consente di memorizzare una foto di dettaglio del prodotto nella galleria
 	 * di immagini di dettaglio nel database.
@@ -239,7 +239,7 @@ public class PhotoControl {
 			}
 		}
 	}
-	
+
 	/**
 	 * Il metodo consente di rimuovere una foto di dettaglio del prodotto dalla galleria
 	 * di immagini di dettaglio nel database.
@@ -268,5 +268,49 @@ public class PhotoControl {
 					con.close();
 			}
 		}
+	}
+
+	/**
+	 * Il metodo consente di recuperare il codice di una foto di dettaglio del prodotto dalla galleria
+	 * di immagini di dettaglio nel database.
+	 * @param idP l'identificativo numerico del prodotto
+	 * @param photo l'immagine di dettaglio da recuperare
+	 * @throws IOException 
+	 * */
+	public static synchronized int retrievePhotoInGallery(int idP, InputStream photo) throws SQLException, IOException {
+
+		Connection connection = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+		int photoId = -1;
+
+		try {
+			connection = ds.getConnection();
+			stmt = connection.prepareStatement("SELECT FROM immagine_di_dettaglio WHERE (PRODOTTO = ? AND CONTENUTO = ?)");
+			stmt.setInt(1, idP);
+			stmt.setBinaryStream(2, photo, photo.available());
+			rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				photoId = rs.getInt("CODICEIMMAGINE");
+			}
+
+		} catch (SQLException sqlException) {
+			System.out.println(sqlException);
+
+		} finally {
+			try {
+				if (stmt != null)
+					stmt.close();
+			} catch (SQLException sqlException) {
+				System.out.println(sqlException);
+
+			} finally {
+				if (connection != null) 
+					connection.close();
+			}
+		}
+
+		return photoId;
 	}
 }

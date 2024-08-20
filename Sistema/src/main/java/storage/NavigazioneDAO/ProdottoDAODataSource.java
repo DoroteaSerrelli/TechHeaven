@@ -15,6 +15,8 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import application.NavigazioneService.Prodotto;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 
 /**
@@ -94,8 +96,10 @@ public class ProdottoDAODataSource{
 	 * Il metodo permette di recuperare le informazioni di un prodotto, eccetto la descrizione dettagliata,
 	 * l'immagine di presentazione e la galleria di immagini di dettaglio.
 	 * @param IDProduct è il prodotto da recuperare nella base di dati
+	 * @throws SottocategoriaProdottoException 
+	 * @throws CategoriaProdottoException 
 	 * */
-	public synchronized ProxyProdotto doRetrieveProxyByKey(int IDProduct) throws SQLException {
+	public synchronized ProxyProdotto doRetrieveProxyByKey(int IDProduct) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -141,8 +145,10 @@ public class ProdottoDAODataSource{
 	 * incluse: descrizione dettagliata, immagine di presentazione e 
 	 * galleria di immagini di dettaglio.
 	 * @param IDProduct è il prodotto da recuperare nella base di dati
+	 * @throws SottocategoriaProdottoException 
+	 * @throws CategoriaProdottoException 
 	 * */
-	public synchronized Prodotto doRetrieveCompleteByKey(int IDProduct) throws SQLException {
+	public synchronized Prodotto doRetrieveCompleteByKey(int IDProduct) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -232,9 +238,11 @@ public class ProdottoDAODataSource{
 	 * @param page rappresenta il numero di pagina desiderato
 	 * @param perPage indica il numero di elementi per pagina
 	 * @return products i prodotti presenti nel database ordinati per order
+	 * @throws SottocategoriaProdottoException 
+	 * @throws CategoriaProdottoException 
 	 * */
 
-	public synchronized Collection<ProxyProdotto> doRetrieveAll(String order, int page, int perPage) throws SQLException {
+	public synchronized Collection<ProxyProdotto> doRetrieveAll(String order, int page, int perPage) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;
@@ -371,8 +379,10 @@ public class ProdottoDAODataSource{
 	 * @param page rappresenta il numero di pagina desiderato
 	 * @param perPage indica il numero di elementi per pagina
 	 * @return products i prodotti rimossi dal catalogo ordinati per order
+	 * @throws SottocategoriaProdottoException 
+	 * @throws CategoriaProdottoException 
 	 * */
-	public synchronized Collection<ProxyProdotto> doRetrieveAllDeleted(String order, int page, int perPage) throws SQLException {
+	public synchronized Collection<ProxyProdotto> doRetrieveAllDeleted(String order, int page, int perPage) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;
@@ -465,8 +475,10 @@ public class ProdottoDAODataSource{
 	 * @param page rappresenta il numero di pagina desiderato
 	 * @param perPage indica il numero di elementi per pagina
 	 * @return products i prodotti del catalogo ordinati per order
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
 	 * */
-	public synchronized Collection<ProxyProdotto> doRetrieveAllExistent(String order, int page, int perPage) throws SQLException {
+	public synchronized Collection<ProxyProdotto> doRetrieveAllExistent(String order, int page, int perPage) throws SQLException, CategoriaProdottoException, SottocategoriaProdottoException {
 		Connection connection = null;
 		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;
@@ -562,8 +574,10 @@ public class ProdottoDAODataSource{
 	 * @param perPage indica il numero di elementi per pagina
 	 * 
 	 * @return products i prodotti del catalogo ordinati per order
+	 * @throws SottocategoriaProdottoException 
+	 * @throws CategoriaProdottoException 
 	 * */
-	public synchronized Collection<ProxyProdotto> searching(String order, String searchTerm, int page, int perPage) throws SQLException {
+	public synchronized Collection<ProxyProdotto> searching(String order, String searchTerm, int page, int perPage) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;
@@ -662,6 +676,109 @@ public class ProdottoDAODataSource{
 		}
 		return products;
 	}
+	
+	/**
+	 * Il metodo recupera le informazioni dei prodotti nel catalogo che appartengono alla categoria
+	 * richiesta. Viene effettuata la paginazione dei risultati ottenuti.
+	 * 
+	 * @param category è la categoria di ricerca
+	 * @param order è l'ordine con il quale mostrare i prodotti
+	 * @param page rappresenta il numero di pagina desiderato
+	 * @param perPage indica il numero di elementi per pagina
+	 * 
+	 * @return products i prodotti del catalogo ordinati per order
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
+	 * */
+	public synchronized Collection<ProxyProdotto> searchingByCategory(String order, String category, int page, int perPage) throws SQLException, CategoriaProdottoException, SottocategoriaProdottoException {
+		Connection connection = null;
+		Connection connection2 = null;
+		PreparedStatement preparedStatement = null;
+
+		Collection<ProxyProdotto> products = new LinkedList<>();
+
+		String selectSQL = "SELECT * FROM " + ProdottoDAODataSource.TABLE_NAME + 
+				" WHERE INCATALOGO = 1 AND (CATEGORIA LIKE ?)";
+
+		String countSQL = "SELECT COUNT(*) FROM " + ProdottoDAODataSource.TABLE_NAME + " WHERE INCATALOGO = 1 AND (CATEGORIA LIKE ?)";
+
+		if (order != null && !order.equals("")) {
+			selectSQL += " ORDER BY " + order; //ordinare i prodotti per nome
+			countSQL += " ORDER BY " + order;
+		}
+
+		int totalRecords;
+		int totalPages;
+		
+		try {
+			connection = ds.getConnection();
+			try {
+				// Recupera il numero totale di record
+				preparedStatement = connection.prepareStatement(countSQL);
+				preparedStatement.setString(1, "%" + category + "%");
+				
+				ResultSet rs = preparedStatement.executeQuery();
+				rs.next();
+				totalRecords = rs.getInt(1);
+
+				// Calcola il numero totale di pagine
+				totalPages = (int) Math.ceil((double) totalRecords / perPage);
+			}finally {
+				try {
+					if (preparedStatement != null)
+						preparedStatement.close();
+				} finally {
+					if (connection != null)
+						connection.close();
+				}
+			}
+			// Verifica se la pagina richiesta è valida
+			if (page > totalPages) {
+				page = totalPages;
+			}
+			    
+
+			// Esegui la query con LIMIT e OFFSET
+			connection2 = ds.getConnection();
+			int offset = Math.max(0, (page - 1) * perPage);
+			selectSQL += " LIMIT ? OFFSET ?";
+			preparedStatement = connection2.prepareStatement(selectSQL);
+			preparedStatement.setString(1, "%" + category + "%");
+			preparedStatement.setInt(2, perPage);
+			preparedStatement.setInt(3, offset);
+
+			// Recupera i record paginati
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				ProxyProdotto dto = new ProxyProdotto();
+
+				dto.setCodiceProdotto(rs.getInt("CODICEPRODOTTO"));
+				dto.setNomeProdotto(rs.getString("NOME"));
+				dto.setTopDescrizione(rs.getString("TOPDESCRIZIONE"));
+				dto.setCategoria(rs.getString("CATEGORIA"));
+				dto.setSottocategoria(rs.getString("SOTTOCATEGORIA"));
+				dto.setPrezzo(rs.getFloat("PREZZO"));
+				dto.setMarca(rs.getString("MARCA"));
+				dto.setModello(rs.getString("MODELLO"));
+				dto.setQuantita(rs.getInt("QUANTITà"));
+				dto.setInCatalogo(rs.getInt("INCATALOGO") == 1 ? true : false);
+				dto.setInVetrina(rs.getInt("INVETRINA") == 1 ? true : false);
+
+				products.add(dto);
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection2 != null)
+					connection2.close();
+			}
+		}
+		return products;
+	}
 
 	/**
 	 * Il metodo permette di modificare le seguenti informazioni associate ad un prodotto del catalogo:
@@ -680,6 +797,9 @@ public class ProdottoDAODataSource{
 
 		if(campo.equals("TOPDESCRIZIONE")) {
 			updateSQL +=  " SET TOPDESCRIZIONE = ? WHERE CODICEPRODOTTO = ?";
+		}
+		if(campo.equals("MODELLO")) {
+			updateSQL +=  " SET MODELLO = ? WHERE CODICEPRODOTTO = ?";
 		}
 		if(campo.equals("DETTAGLI")) {
 			updateSQL +=  " SET DETTAGLI = ? WHERE CODICEPRODOTTO = ?";

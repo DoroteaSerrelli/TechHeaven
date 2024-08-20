@@ -9,6 +9,8 @@ import application.GestioneCarrelloService.CarrelloException.ProdottoNonPresente
 import application.GestioneCarrelloService.CarrelloException.ProdottoNulloException;
 import application.GestioneOrdiniService.OrdineException.ErroreSpedizioneOrdineException;
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 import application.PagamentoService.Pagamento;
 import application.PagamentoService.PagamentoException.ModalitaAssenteException;
 import application.RegistrazioneService.ProxyUtente;
@@ -82,8 +84,10 @@ public interface GestioneOrdiniService {
 	 * @throws OrdineVuotoException 
 	 * @throws ErroreSpedizioneOrdineException 
 	 * @throws CloneNotSupportedException 
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
 	 * 
 	 * **/
-	public void preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException, CloneNotSupportedException;
+	public void preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException, CloneNotSupportedException, SottocategoriaProdottoException, CategoriaProdottoException;
 
 }

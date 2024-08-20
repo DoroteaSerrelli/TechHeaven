@@ -19,6 +19,7 @@ import application.PagamentoService.PagamentoException.ModalitaAssenteException;
 import application.PagamentoService.PagamentoPaypal;
 import application.PagamentoService.PagamentoServiceImpl;
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 
 /**
  * @author: Dorotea Serrelli
@@ -202,9 +203,10 @@ public class PagamentoDAODataSource {
 	 * 
 	 * @param IDOrdine : l'ordine
 	 * @return il pagamento in contrassegno relativo all'ordine con codice IDOrdine 
+	 * @throws CategoriaProdottoException 
 	 * **/
 
-	public synchronized PagamentoContrassegno doRetrieveCashByOrder(int IDOrdine) throws SQLException, OrdineVuotoException {
+	public synchronized PagamentoContrassegno doRetrieveCashByOrder(int IDOrdine) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -250,9 +252,10 @@ public class PagamentoDAODataSource {
 	 * 
 	 * @param IDOrdine : l'ordine
 	 * @return il pagamento con Paypal relativo all'ordine con codice IDOrdine 
+	 * @throws CategoriaProdottoException 
 	 * **/
 
-	public synchronized PagamentoPaypal doRetrievePaypalByOrder(int IDOrdine) throws SQLException, OrdineVuotoException {
+	public synchronized PagamentoPaypal doRetrievePaypalByOrder(int IDOrdine) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -298,9 +301,10 @@ public class PagamentoDAODataSource {
 	 * 
 	 * @param IDOrdine : l'ordine
 	 * @return il pagamento con carta di credito relativo all'ordine con codice IDOrdine 
+	 * @throws CategoriaProdottoException 
 	 * **/
 
-	public synchronized PagamentoCartaCredito doRetrieveCardByOrder(int IDOrdine) throws SQLException, OrdineVuotoException {
+	public synchronized PagamentoCartaCredito doRetrieveCardByOrder(int IDOrdine) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -357,9 +361,10 @@ public class PagamentoDAODataSource {
 	 * @throws SQLException se si verifica un errore di accesso al database
 	 * @throws OrdineVuotoException se l'ordine specificato non esiste
 	 * @throws ModalitaAssenteException se il tipo di pagamento richiesto non è supportato
+	 * @throws CategoriaProdottoException 
 	 */
 
-	public synchronized <T extends Pagamento> T doRetrievePaymentByOrder(Class<T> paymentClass, int IDOrdine) throws SQLException, OrdineVuotoException, ModalitaAssenteException {
+	public synchronized <T extends Pagamento> T doRetrievePaymentByOrder(Class<T> paymentClass, int IDOrdine) throws SQLException, OrdineVuotoException, ModalitaAssenteException, CategoriaProdottoException {
 		Pagamento payment = PagamentoServiceImpl.createPagamentoOrdine(IDOrdine);
 
 		// Si verifica se l'oggetto restituito è una sottoclasse di Pagamento
@@ -378,8 +383,9 @@ public class PagamentoDAODataSource {
 	 * 
 	 * @param IDPayment : il codice identificativo del pagamento in contanti
 	 * @return il pagamento in contrassegno avente codice IDPayment 
+	 * @throws CategoriaProdottoException 
 	 * **/
-	public synchronized PagamentoContrassegno doRetrieveCashByKey(int IDPayment) throws SQLException, OrdineVuotoException {
+	public synchronized PagamentoContrassegno doRetrieveCashByKey(int IDPayment) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -427,8 +433,9 @@ public class PagamentoDAODataSource {
 	 * 
 	 * @param IDPayment : il codice identificativo del pagamento Paypal
 	 * @return il pagamento Paypal avente codice IDPayment 
+	 * @throws CategoriaProdottoException 
 	 * **/
-	public synchronized PagamentoPaypal doRetrievePaypalByKey(int IDPayment) throws SQLException, OrdineVuotoException {
+	public synchronized PagamentoPaypal doRetrievePaypalByKey(int IDPayment) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -475,8 +482,9 @@ public class PagamentoDAODataSource {
 	 * 
 	 * @param IDPayment : il codice identificativo del pagamento con carta di credito
 	 * @return il pagamento con carta di credito avente codice IDPayment 
+	 * @throws CategoriaProdottoException 
 	 * **/
-	public synchronized PagamentoCartaCredito doRetrieveCardByKey(int IDPayment) throws SQLException, OrdineVuotoException {
+	public synchronized PagamentoCartaCredito doRetrieveCardByKey(int IDPayment) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -533,9 +541,10 @@ public class PagamentoDAODataSource {
 	 * @throws SQLException se si verifica un errore di accesso al database
 	 * @throws OrdineVuotoException se l'ordine associato al pagamento non esiste
 	 * @throws ModalitaAssenteException se il tipo di pagamento richiesto non è supportato
+	 * @throws CategoriaProdottoException 
 	 */
 
-	public synchronized <T extends Pagamento> T doRetrievePaymentByKey(Class<T> paymentClass, int IDPagamento) throws SQLException, OrdineVuotoException, ModalitaAssenteException {
+	public synchronized <T extends Pagamento> T doRetrievePaymentByKey(Class<T> paymentClass, int IDPagamento) throws SQLException, OrdineVuotoException, ModalitaAssenteException, CategoriaProdottoException {
 		Pagamento payment = PagamentoServiceImpl.createPagamento(IDPagamento);
 
 		// Si verifica se l'oggetto restituito è una sottoclasse di Pagamento
@@ -559,8 +568,9 @@ public class PagamentoDAODataSource {
 	 * @throws SQLException se si verifica un errore di accesso al database
 	 * @throws OrdineVuotoException se si verifica un errore durante il recupero dell'ordine associato al pagamento 
 	 * @throws ModalitaAssenteException se il tipo di pagamento richiesto non è supportato
+	 * @throws CategoriaProdottoException 
 	 */
-	public synchronized List<Pagamento> doRetrieveAllPayments(String order, int page, int perPage) throws SQLException, OrdineVuotoException, ModalitaAssenteException {
+	public synchronized List<Pagamento> doRetrieveAllPayments(String order, int page, int perPage) throws SQLException, OrdineVuotoException, ModalitaAssenteException, CategoriaProdottoException {
 		List<Pagamento> pagamenti = new LinkedList<>();
 
 		Connection connection = null;

@@ -1,6 +1,9 @@
 package application.NavigazioneService;
 
 import java.sql.SQLException;
+
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
 
 /**
@@ -89,8 +92,10 @@ public class ProxyProdotto extends ObjectProdotto{
 	 * Se non è presente questo riferimento, allora si crea tale oggetto e se ne mantiene in memoria
 	 * il riferimento.
 	 * @return l'oggetto Prodotto che possiede le informazioni relative al prodotto
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
 	 * */
-	public Prodotto mostraProdotto() {
+	public Prodotto mostraProdotto() throws SottocategoriaProdottoException, CategoriaProdottoException {
 		if(realProdotto == null) {
 			ProdottoDAODataSource productDao = new ProdottoDAODataSource();
 			try {

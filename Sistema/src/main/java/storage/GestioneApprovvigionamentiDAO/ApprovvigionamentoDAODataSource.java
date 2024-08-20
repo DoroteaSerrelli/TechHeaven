@@ -12,6 +12,8 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamento;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.DescrizioneDettaglioException;
@@ -92,8 +94,10 @@ private static final String TABLE_NAME = "richiesta_fornitura";
 	 * @throws DescrizioneDettaglioException 
 	 * @throws QuantitaProdottoException 
 	 * @throws ProdottoVendibileException 
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
 	 * **/
-	public synchronized RichiestaApprovvigionamento doRetrieveReportByOrder(int IDProdotto) throws SQLException, FornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException {
+	public synchronized RichiestaApprovvigionamento doRetrieveReportByOrder(int IDProdotto) throws SQLException, FornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -143,8 +147,10 @@ private static final String TABLE_NAME = "richiesta_fornitura";
 	 * @throws DescrizioneDettaglioException 
 	 * @throws QuantitaProdottoException 
 	 * @throws ProdottoVendibileException 
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
 	 * **/
-	public synchronized RichiestaApprovvigionamento doRetrieveReportByKey(int IDSupplyRequest) throws SQLException, OrdineVuotoException, FornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException {
+	public synchronized RichiestaApprovvigionamento doRetrieveReportByKey(int IDSupplyRequest) throws SQLException, OrdineVuotoException, FornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -198,8 +204,10 @@ private static final String TABLE_NAME = "richiesta_fornitura";
 	 * @throws DescrizioneDettaglioException 
 	 * @throws QuantitaProdottoException 
 	 * @throws ProdottoVendibileException 
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
 	 * **/
-	public synchronized Collection<RichiestaApprovvigionamento> doRetrieveAll(String order, int page, int perPage) throws SQLException, FornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException {
+	public synchronized Collection<RichiestaApprovvigionamento> doRetrieveAll(String order, int page, int perPage) throws SQLException, FornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;

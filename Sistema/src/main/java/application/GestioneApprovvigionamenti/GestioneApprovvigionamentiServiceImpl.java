@@ -7,6 +7,8 @@ import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoExcepti
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.FornitoreException;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.ProdottoVendibileException;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.QuantitaProdottoException;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 import storage.GestioneApprovvigionamentiDAO.*;
 
 public class GestioneApprovvigionamentiServiceImpl implements GestioneApprovvigionamentiService {
@@ -25,10 +27,12 @@ public class GestioneApprovvigionamentiServiceImpl implements GestioneApprovvigi
 	 * @throws QuantitaProdottoException 
 	 * @throws DescrizioneDettaglioException 
 	 * @throws FornitoreException 
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
 	 * */
 	
 	@Override
-	public Collection<RichiestaApprovvigionamento> visualizzaRichiesteFornitura(int page, int perPage) throws FornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SQLException {
+	public Collection<RichiestaApprovvigionamento> visualizzaRichiesteFornitura(int page, int perPage) throws FornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
 		ApprovvigionamentoDAODataSource supplyDao = new ApprovvigionamentoDAODataSource();
 		return supplyDao.doRetrieveAll(null, page, perPage);
 	}

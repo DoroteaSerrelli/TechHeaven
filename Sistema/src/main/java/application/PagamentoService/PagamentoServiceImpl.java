@@ -3,6 +3,7 @@ package application.PagamentoService;
 import java.sql.SQLException;
 
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.PagamentoService.PagamentoException.ModalitaAssenteException;
 import storage.GestioneOrdiniDAO.*;
 
@@ -66,9 +67,10 @@ public class PagamentoServiceImpl implements PagamentoService{
 	 * @throws OrdineVuotoException se l'ordine non esiste
 	 * @throws SQLException se si verifica un errore di accesso al database
 	 * @throws ModalitaAssenteException se non esiste una modalità di pagamento associata all'ordine
+	 * @throws CategoriaProdottoException 
 	 */
 
-	public static Pagamento createPagamentoOrdine(int IDOrdine) throws OrdineVuotoException, SQLException, ModalitaAssenteException {
+	public static Pagamento createPagamentoOrdine(int IDOrdine) throws OrdineVuotoException, SQLException, ModalitaAssenteException, CategoriaProdottoException {
 		PagamentoDAODataSource dao = new PagamentoDAODataSource();
 
 		PagamentoContrassegno pagamentoContrassegno = dao.doRetrieveCashByOrder(IDOrdine);
@@ -101,9 +103,10 @@ public class PagamentoServiceImpl implements PagamentoService{
 	 * @throws OrdineVuotoException se l'ordine associato al pagamento non esiste
 	 * @throws SQLException se si verifica un errore di accesso al database
 	 * @throws ModalitaAssenteException se non esiste una modalità di pagamento associata al pagamento
+	 * @throws CategoriaProdottoException 
 	 */
 
-	public static Pagamento createPagamento(int IDPayment) throws OrdineVuotoException, SQLException, ModalitaAssenteException {
+	public static Pagamento createPagamento(int IDPayment) throws OrdineVuotoException, SQLException, ModalitaAssenteException, CategoriaProdottoException {
 		PagamentoDAODataSource dao = new PagamentoDAODataSource();
 
 		PagamentoContrassegno pagamentoContrassegno = dao.doRetrieveCashByKey(IDPayment);

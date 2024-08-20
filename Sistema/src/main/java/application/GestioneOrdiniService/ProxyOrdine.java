@@ -3,6 +3,7 @@ package application.GestioneOrdiniService;
 import java.sql.SQLException;
 
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.RegistrazioneService.Indirizzo;
 import storage.GestioneOrdiniDAO.OrdineDAODataSource;
 
@@ -58,8 +59,9 @@ public class ProxyOrdine extends ObjectOrdine{
 	 * il riferimento.
 	 * @return l'oggetto Utente che possiede le informazioni personali dell'utente
 	 * @throws OrdineVuotoException 
+	 * @throws CategoriaProdottoException 
 	 * */
-	public Ordine mostraOrdine() throws OrdineVuotoException {
+	public Ordine mostraOrdine() throws OrdineVuotoException, CategoriaProdottoException {
 		if(ordinativo == null) {
 			OrdineDAODataSource orderDao = new OrdineDAODataSource();
 			try {

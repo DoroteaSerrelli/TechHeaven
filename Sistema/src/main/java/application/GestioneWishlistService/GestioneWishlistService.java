@@ -6,6 +6,7 @@ import application.GestioneWishlistService.WishlistException.ProdottoNonPresente
 import application.GestioneWishlistService.WishlistException.ProdottoNulloException;
 import application.GestioneWishlistService.WishlistException.ProdottoPresenteException;
 import application.GestioneWishlistService.WishlistException.WishlistVuotaException;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 import application.RegistrazioneService.ProxyUtente;
 
@@ -34,8 +35,9 @@ public interface GestioneWishlistService {
 	 * @return la wishlist con identificativo id del proprietario user
 	 * 
 	 * @throws SQLException 
+	 * @throws CategoriaProdottoException 
 	 * */
-	public Wishlist recuperaWishlist(ProxyUtente user, int id) throws SQLException;
+	public Wishlist recuperaWishlist(ProxyUtente user, int id) throws SQLException, CategoriaProdottoException;
 	
 	/**
 	 * Questo metodo si occupa di fornire l'elenco dei prodotti
@@ -48,9 +50,10 @@ public interface GestioneWishlistService {
 	 * @return l'insieme dei prodotti nella wishlist
 	 * 
 	 * @throws SQLException 
+	 * @throws CategoriaProdottoException 
 	 * */
 	
-	public ArrayList<ProxyProdotto> visualizzaWishlist(Wishlist wishes, ProxyUtente user) throws SQLException;
+	public ArrayList<ProxyProdotto> visualizzaWishlist(Wishlist wishes, ProxyUtente user) throws SQLException, CategoriaProdottoException;
 	
 	/**
 	 * Questo metodo si occupa di aggiungere un prodotto
@@ -63,9 +66,10 @@ public interface GestioneWishlistService {
 	 * @return la wishlist contenente il nuovo prodotto
 	 * 
 	 * @throws SQLException 
+	 * @throws CategoriaProdottoException 
 	 * */
 	
-	public Wishlist aggiungiProdottoInWishlist(Wishlist wishes, ProxyProdotto prod, ProxyUtente user) throws ProdottoPresenteException, ProdottoNulloException, SQLException;
+	public Wishlist aggiungiProdottoInWishlist(Wishlist wishes, ProxyProdotto prod, ProxyUtente user) throws ProdottoPresenteException, ProdottoNulloException, SQLException, CategoriaProdottoException;
 	
 	/**
 	 * Questo metodo si occupa di rimuovere un prodotto
@@ -78,8 +82,9 @@ public interface GestioneWishlistService {
 	 * @return la wishlist priva del prodotto rimosso
 	 * 
 	 * @throws SQLException 
+	 * @throws CategoriaProdottoException 
 	 * */
 	
-	public Wishlist rimuoviDallaWishlist(Wishlist wishes, ProxyUtente user, ProxyProdotto prod) throws ProdottoNonPresenteException, WishlistVuotaException, ProdottoNulloException, SQLException;
+	public Wishlist rimuoviDallaWishlist(Wishlist wishes, ProxyUtente user, ProxyProdotto prod) throws ProdottoNonPresenteException, WishlistVuotaException, ProdottoNulloException, SQLException, CategoriaProdottoException;
 
 }

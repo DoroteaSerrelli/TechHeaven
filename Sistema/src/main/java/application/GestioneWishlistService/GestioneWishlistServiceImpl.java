@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import application.GestioneWishlistService.WishlistException.ProdottoNonPresenteException;
 import application.GestioneWishlistService.WishlistException.ProdottoPresenteException;
 import application.GestioneWishlistService.WishlistException.WishlistVuotaException;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 import application.RegistrazioneService.ProxyUtente;
 import storage.WishlistDAO.WishlistDAODataSource;
@@ -32,9 +33,10 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 	 * 
 	 * @throws SQLException relativa al recupero dei dati dal database per 
 	 * 		   costruire la wishlist dell'utente user
+	 * @throws CategoriaProdottoException 
 	 * */
 	@Override
-	public Wishlist recuperaWishlist(ProxyUtente user, int id) throws SQLException {
+	public Wishlist recuperaWishlist(ProxyUtente user, int id) throws SQLException, CategoriaProdottoException {
 		WishlistDAODataSource dao = new WishlistDAODataSource();
 		Wishlist ws = new Wishlist(user, id);
 		if(dao.doRetrieveWishlistByKey(user, id) != null) {
@@ -55,9 +57,10 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 	 * 
 	 * @throws SQLException relativa al recupero dei dati dal database per 
 	 * 		   costruire la wishlist dell'utente user
+	 * @throws CategoriaProdottoException 
 	 * */
 	@Override
-	public ArrayList<ProxyProdotto> visualizzaWishlist(Wishlist wishes, ProxyUtente user) throws SQLException {
+	public ArrayList<ProxyProdotto> visualizzaWishlist(Wishlist wishes, ProxyUtente user) throws SQLException, CategoriaProdottoException {
 		WishlistDAODataSource dao = new WishlistDAODataSource();
 		Wishlist ws;
 		if((ws = dao.doRetrieveWishlistByKey(user, wishes.getId())) != null) {
@@ -79,11 +82,12 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 	 * 
 	 * @throws SQLException per gestire eccezione dovuta al recupero del prodotto prod nel database,
 	 * 						utile per verificare se prod è già nella wishlist wishes.
+	 * @throws CategoriaProdottoException 
 	 * */
 	@Override
 	public Wishlist aggiungiProdottoInWishlist(Wishlist wishes, ProxyProdotto prod, ProxyUtente user)
 			throws ProdottoPresenteException,
-			application.GestioneWishlistService.WishlistException.ProdottoNulloException, SQLException {
+			application.GestioneWishlistService.WishlistException.ProdottoNulloException, SQLException, CategoriaProdottoException {
 		
 		WishlistDAODataSource dao = new WishlistDAODataSource();
 		if(dao.doRetrieveProductByKey(prod.getCodiceProdotto(), wishes) != null)
@@ -108,12 +112,13 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 	 * @return la wishlist priva del prodotto rimosso
 	 * @throws SQLException per gestire eccezione dovuta al recupero del prodotto prod nel database,
 	 * 						utile per verificare se prod è presente nella wishlist wishes. 
+	 * @throws CategoriaProdottoException 
 	 * */
 
 	@Override
 	public Wishlist rimuoviDallaWishlist(Wishlist wishes, ProxyUtente user, ProxyProdotto prod)
 			throws application.GestioneWishlistService.WishlistException.ProdottoNonPresenteException,
-			WishlistVuotaException, application.GestioneWishlistService.WishlistException.ProdottoNulloException, SQLException {
+			WishlistVuotaException, application.GestioneWishlistService.WishlistException.ProdottoNulloException, SQLException, CategoriaProdottoException {
 		
 		WishlistDAODataSource dao = new WishlistDAODataSource();
 		if(dao.doRetrieveProductByKey(prod.getCodiceProdotto(), wishes) == null)

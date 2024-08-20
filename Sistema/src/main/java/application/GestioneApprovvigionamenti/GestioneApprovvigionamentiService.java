@@ -7,6 +7,8 @@ import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoExcepti
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.FornitoreException;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.ProdottoVendibileException;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.QuantitaProdottoException;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 
 /**
  * Servizi legati all'approvvigionamento dei prodotti dell'e-commerce
@@ -35,9 +37,11 @@ public interface GestioneApprovvigionamentiService {
 	 * @throws QuantitaProdottoException 
 	 * @throws DescrizioneDettaglioException 
 	 * @throws FornitoreException 
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
 	 * */
 	
-	public Collection<RichiestaApprovvigionamento> visualizzaRichiesteFornitura(int page, int perPage) throws FornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SQLException;
+	public Collection<RichiestaApprovvigionamento> visualizzaRichiesteFornitura(int page, int perPage) throws FornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SQLException, SottocategoriaProdottoException, CategoriaProdottoException;
 	
 	/**
 	 * Il metodo rappresenta il servizio di visualizzazione delle richieste 

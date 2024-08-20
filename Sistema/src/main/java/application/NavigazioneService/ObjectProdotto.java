@@ -1,5 +1,8 @@
 package application.NavigazioneService;
 
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
+
 /**
  * Questa classe astratta è la classe client del design pattern Proxy
  * utilizzato per l'accesso e la gestione delle operazioni sull'oggetto Prodotto.
@@ -276,8 +279,9 @@ public abstract class ObjectProdotto {
 	/**
 	 * Imposta la categoria di appartenenza del prodotto
 	 * @param categoria la categoria del prodotto espressa come stringa
+	 * @throws CategoriaProdottoException 
 	 * */
-	public void setCategoria(String category) {
+	public void setCategoria(String category) throws CategoriaProdottoException {
 	    switch (category.toUpperCase()) {
 	        case "TELEFONIA":
 	            this.categoria = Categoria.TELEFONIA;
@@ -292,7 +296,7 @@ public abstract class ObjectProdotto {
 	            this.categoria = Categoria.GRANDI_ELETTRODOMESTICI;
 	            break;
 	        default:
-	            throw new IllegalArgumentException("Le categorie ammissibili sono TELEFONIA, PRODOTTI ELETTRONICA, GRANDI ELETTRODOMESTICI, PICCOLI ELETTRODOMESTICI");
+	            throw new CategoriaProdottoException("Le categorie ammissibili sono TELEFONIA, PRODOTTI ELETTRONICA, GRANDI ELETTRODOMESTICI, PICCOLI ELETTRODOMESTICI");
 	    }
 	}
 	
@@ -317,9 +321,10 @@ public abstract class ObjectProdotto {
 	/**
 	 * Imposta la sottocategoria di appartenenza del prodotto
 	 * @param subCategory la sottocategoria del prodotto espressa come stringa
+	 * @throws SottocategoriaProdottoException 
 	 * */
 	
-	public void setSottocategoria(String subcategory) {
+	public void setSottocategoria(String subcategory) throws SottocategoriaProdottoException {
 		if(this.sottocategoria == null) {
 			this.sottocategoria = null;
 			return; 
@@ -341,7 +346,7 @@ public abstract class ObjectProdotto {
 	        	this.sottocategoria = null;
 	        	break;
 	        default:
-	        	throw new IllegalArgumentException("Se specificata, le sottocategorie ammissibili per un prodotto sono:"
+	        	throw new SottocategoriaProdottoException("Se specificata, le sottocategorie ammissibili per un prodotto sono:"
 		        		+ "\n- TABLET e SMARTPHONE per la categoria TELEFONIA;"
 		        		+ "\n- PC e SMARTWATCH per la categoria PRODOTTI ELETTRONICA.");
 	    }

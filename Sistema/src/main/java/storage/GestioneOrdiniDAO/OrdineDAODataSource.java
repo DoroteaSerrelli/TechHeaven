@@ -20,6 +20,7 @@ import application.GestioneOrdiniService.OrdineException.ErroreSpedizioneOrdineE
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 import application.GestioneOrdiniService.ProxyOrdine;
 import application.GestioneOrdiniService.ReportSpedizione;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.PagamentoService.PagamentoException.ModalitaAssenteException;
 import application.RegistrazioneService.Cliente;
 import storage.AutenticazioneDAO.ClienteDAODataSource;
@@ -196,8 +197,9 @@ public class OrdineDAODataSource {
 	 * @param IDOrdine : l'ordine da cercare nel DB
 	 * @return dto : tutte le informazioni dell'ordine cercato
 	 * @throws OrdineVuotoException 
+	 * @throws CategoriaProdottoException 
 	 * **/
-	public synchronized Ordine doRetrieveFullOrderByKey(int IDOrdine) throws SQLException, OrdineVuotoException {
+	public synchronized Ordine doRetrieveFullOrderByKey(int IDOrdine) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -248,8 +250,9 @@ public class OrdineDAODataSource {
 	 * a partire dal suo codice identificativo.
 	 * @param IDOrdine : l'ordine da cercare nel DB
 	 * @return prodotti : le informazioni essenziali dei prodotti dell'ordine cercato
+	 * @throws CategoriaProdottoException 
 	 * **/
-	public synchronized ArrayList<ItemCarrello> doRetrieveAllOrderProducts(int IDOrdine) throws SQLException {
+	public synchronized ArrayList<ItemCarrello> doRetrieveAllOrderProducts(int IDOrdine) throws SQLException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 

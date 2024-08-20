@@ -14,6 +14,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import application.GestioneWishlistService.Wishlist;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 import application.RegistrazioneService.ProxyUtente;
 
@@ -150,8 +151,9 @@ public class WishlistDAODataSource{
 	 * @param id : identificativo della wishlist
 	 * 
 	 * @return la wishlist con codice id dell'utente
+	 * @throws CategoriaProdottoException 
 	 * */
-	public synchronized Wishlist doRetrieveWishlistByKey(ProxyUtente user, int id) throws SQLException {
+	public synchronized Wishlist doRetrieveWishlistByKey(ProxyUtente user, int id) throws SQLException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		Wishlist dto = new Wishlist(user);
@@ -189,8 +191,9 @@ public class WishlistDAODataSource{
 	 * @param product : il prodotto da aggiungere
 	 * @param ws : la wishlist
 	 * @return la wishlist con il prodotto product aggiunto
+	 * @throws CategoriaProdottoException 
 	 * */
-	public synchronized void doSaveProduct(ProxyProdotto product, Wishlist ws) throws SQLException {
+	public synchronized void doSaveProduct(ProxyProdotto product, Wishlist ws) throws SQLException, CategoriaProdottoException {
 
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -232,9 +235,10 @@ public class WishlistDAODataSource{
 	 * @param IDProduct : il codice del prodotto da rimuovere
 	 * @param ws : la wishlist nella quale rimuovere il prodotto
 	 * @return la wishlist con il prodotto di codice IDProduct rimosso 
+	 * @throws CategoriaProdottoException 
 	 * */
 
-	public synchronized Wishlist doDeleteProduct(int IDProduct, Wishlist ws) throws SQLException {
+	public synchronized Wishlist doDeleteProduct(int IDProduct, Wishlist ws) throws SQLException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -278,8 +282,9 @@ public class WishlistDAODataSource{
 	 * @param order : l'ordine con cui si visualizzano i prodotti recuperati dal DB
 	 * @param ws : la wishlist per la quale visualizzare i prodotti
 	 * @return i prodotti memorizzati nella wishlist
+	 * @throws CategoriaProdottoException 
 	 * */
-	public synchronized Collection<ProxyProdotto> doRetrieveAllWishes(String order, Wishlist ws) throws SQLException {
+	public synchronized Collection<ProxyProdotto> doRetrieveAllWishes(String order, Wishlist ws) throws SQLException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -339,8 +344,9 @@ public class WishlistDAODataSource{
 	 * @param order : l'ordine con cui si visualizzano i prodotti recuperati dal DB
 	 * @param user : l'utente
 	 * @return le wishlist dell'utente user
+	 * @throws CategoriaProdottoException 
 	 * */
-	public synchronized Collection<Wishlist> doRetrieveAllWishesUser(String order, ProxyUtente user) throws SQLException {
+	public synchronized Collection<Wishlist> doRetrieveAllWishesUser(String order, ProxyUtente user) throws SQLException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -387,8 +393,9 @@ public class WishlistDAODataSource{
 	 * @param ws : la wishlist
 	 * @return il prodotto con codice IDProduct presente nella wishlist ws; altrimenti
 	 * restituisce un puntatore ad un oggetto nullo
+	 * @throws CategoriaProdottoException 
 	 * */
-	public synchronized ProxyProdotto doRetrieveProductByKey(int IDProduct, Wishlist ws) throws SQLException {
+	public synchronized ProxyProdotto doRetrieveProductByKey(int IDProduct, Wishlist ws) throws SQLException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 		ProxyProdotto dto = new ProxyProdotto();

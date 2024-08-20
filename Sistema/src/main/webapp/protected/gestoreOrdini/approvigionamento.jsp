@@ -63,13 +63,12 @@
                 <% } %>
             <% } %>
         </div>
-        <table id="showpr">
+        <table id="showpr" style="width: 80%; margin: 0 auto">
             <tr>
                 <th><strong>Codice Prodotto</strong></th><!-- Codice Prodotto -->
                 <th><strong>Image</strong></th><!-- Immagine -->
                 <th><strong>Nome</strong></th><!-- Nome prodotto -->
-                <th><strong>Marca</strong></th><!-- Marca -->
-                <th><strong>Prezzo</strong></th><!-- Prezzo -->              
+                <!-- <th><strong>Marca</strong></th> Marca -->             
                 <th><strong>Quantità Residua</strong></th><!-- Amount Left In Store -->
             </tr> 
              <% 
@@ -83,11 +82,10 @@
                 </td>
                 <td><img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';"/>
                 </td>
-                <td class="productName">  
+                <td class="productName" style="width: 25%;">  
                     <h3><%=product.getNomeProdotto()%></h3>
                 </td>  
-                <td><span><%=product.getMarca()%></span></td>  
-                <td><strong><h3><%=product.getPrezzo()%>€</h3></strong></td>
+             <!--   <td><span><%//=product.getMarca()%></span></td>  -->
                 <td><%= product.getQuantita()%></td>    
             </tr>
        <%}%>

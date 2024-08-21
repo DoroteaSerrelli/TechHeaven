@@ -5,6 +5,48 @@
     function validate(){
         if(!validateEmail() || !validateName() || !validateSurname() || !validateAddress() || !validatePhoneNumber() || !validatePassword()) return false;
     }
+    
+    function validateSupplyRequestForm(){
+        if(!validateCompanyName() || !validateCompanyEmail()) return false;
+    }   
+    function validateCompanyName(){
+        let n= document.forms["supplyingRequestForm"]["fornitore"].value;
+        var nominativoPattern = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/;
+        
+        var error = document.getElementById("errormsg");        
+        if(!n.match(nominativoPattern)){
+            error.innerHTML="Company name must be a sequence of letters, numbers and eventually spaces";
+            error.classList.remove("valid");
+            error.classList.add("invalid");				
+        return false;
+        }
+        else{
+            error.innerHTML="OK";
+            error.classList.remove("invalid");									
+            error.classList.add("valid");	
+        return true;					
+        }
+        
+    }
+    function validateCompanyEmail(){
+        let n= document.forms["supplyingRequestForm"]["email_fornitore"].value;
+        var emailPattern = /^[\w]+@[\w.-]+\.[a-zA-Z]{2,}$/;
+        var error = document.getElementById("errormsg");               
+        if(!n.match(emailPattern)){
+            error.innerHTML="Email must be in the form ____@____.___";
+            error.classList.remove("valid");
+            error.classList.add("invalid");				
+        return false;
+        }
+        else{
+            error.innerHTML="OK";
+            error.classList.remove("invalid");									
+            error.classList.add("valid");	
+        return true;					
+        }
+        
+    }
+    
     function validateEmail(){
         let n= document.forms["client"]["email"].value;
         var pattern=/^\S+@\S+\.\S+$/;

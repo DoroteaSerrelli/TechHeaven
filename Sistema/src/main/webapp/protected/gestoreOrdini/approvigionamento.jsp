@@ -18,7 +18,9 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/extra_manager_style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_options.css">
-        <script src="${pageContext.request.contextPath}/view/ajax_orders_table_functions.js?ts=<%= System.currentTimeMillis() %>"></script>       
+        <script src="${pageContext.request.contextPath}/view/ajax_orders_table_functions.js?ts=<%= System.currentTimeMillis() %>"></script> 
+        <script src="${pageContext.request.contextPath}/view/validations.js?ts=<%= System.currentTimeMillis() %>"></script> 
+        
         <%
             Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) request.getAttribute("products");
             if(products==null ||products.isEmpty()){ %>

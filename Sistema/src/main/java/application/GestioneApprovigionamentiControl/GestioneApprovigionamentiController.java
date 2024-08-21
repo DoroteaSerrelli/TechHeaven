@@ -123,9 +123,11 @@ public class GestioneApprovigionamentiController extends HttpServlet {
         String fornitore = request.getParameter("fornitore");
         String email_fornitore = request.getParameter("email_fornitore");
         String descrizione = request.getParameter("descrizione");
-        
+        System.out.println(fornitore);
         RichiestaApprovvigionamento supply = new RichiestaApprovvigionamento(fornitore, email_fornitore, descrizione, quantity, prodotto);
         gas.effettuaRichiestaApprovvigionamento(supply);
+        request.getSession().setAttribute("error", "Richiesta Approvigionamento Avvenuta Con Successo!");            
+        response.sendRedirect("Approvigionamento");
         } catch (NumberFormatException e) {
             // Handle invalid number format
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Product ID format.");

@@ -67,9 +67,9 @@ function showSupplyForm(productId) {
             <div class="row">
                 <div class="input-wrapper"> 
                     <p>Inserisci Il Fornitore:</p>
-                    <input type="text" name="fornitore" required>
+                    <input type="text" name="fornitore" oninput="validateCompanyName()" required>
                      <p>Inserisci L'Email Del Fornitore:</p>
-                    <input type="text" name="email_fornitore" required>
+                    <input type="text" name="email_fornitore" oninput="validateCompanyEmail()" required>
                 </div>
             </div>
             <div class="row">
@@ -78,8 +78,11 @@ function showSupplyForm(productId) {
                     <textarea rows="4" cols="20" name="descrizione"></textarea>
                 </div>    
             </div>
+            <div class="errormsg">
+               <h3 id="errormsg" style="color: #6f6fc9"></h3> 
+            </div>
             <input type="hidden" name="product_id" value="${productId}">
-            <button class="confirm_button" type="submit">Submit Request</button>
+            <button class="confirm_button" type="submit" onclick="return validateSupplyRequestForm()">Submit Request</button>
             <button type="button" onclick="cancelSupplyRequest()">Anulla Richiesta</button>
         `;
         

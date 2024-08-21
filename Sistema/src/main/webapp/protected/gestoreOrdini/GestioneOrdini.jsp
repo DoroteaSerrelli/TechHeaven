@@ -37,7 +37,7 @@
                         <h5>Visualizza Ordini Spediti</h5>
                     </div>
                     <div class="fe-box" id="supplyingRequests">
-                        <a href="GestioneApprovigionamentiController?action=viewList&&page=1"><img src="${pageContext.request.contextPath}/view/img/supplyrequests.png" alt="Richieste Approvigionamento"></a>
+                        <a href="GestioneApprovigionamentiController?action=viewList&page=1"><img src="${pageContext.request.contextPath}/view/img/supplyrequests.png" alt="Richieste Approvigionamento"></a>
                         <h5>Richieste Approvigionamento</h5>
                     </div>
                     <div class="fe-box" id="supplyingRequest" onclick="moveToSidebar('supplyingRequest', 'supplyingRequestForm')">

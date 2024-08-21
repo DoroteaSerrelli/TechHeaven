@@ -1,0 +1,79 @@
+<%-- 
+    Document   : richiesteApprovigionamento
+    Created on : 21 ago 2024, 16:11:35
+    Author     : raffa
+--%>
+
+<%@page import="application.GestioneApprovvigionamenti.RichiestaApprovvigionamento"%>
+<%@page import="java.util.Collection"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Richieste Approvigionamento</title>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/common/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/extra_manager_style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_options.css">
+        <script src="${pageContext.request.contextPath}/view/ajax_orders_table_functions.js?ts=<%= System.currentTimeMillis() %>"></script> 
+        
+        <%
+            Collection<RichiestaApprovvigionamento> requests = (Collection<RichiestaApprovvigionamento>) request.getAttribute("supply_requests");
+            if(requests==null ||requests.isEmpty()){ %>
+            <h4>Nessun richiesta trovata%></h4>
+            <%}
+            int pagen = (int) request.getAttribute("page");
+           
+        %>
+    </head>
+    <body>
+        <jsp:include page="${pageContext.request.contextPath}/common/header.jsp"  flush="true"/>
+        <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>
+        <input type="text" id="productFilter" onkeyup="filterProducts()" placeholder="Search for request by company name...">
+        <jsp:include page="${pageContext.request.contextPath}/protected/gestoreOrdini/toolbar.jsp"  flush="true"/>
+        
+        <!-- Search Input Field -->
+        <div id="pagination">
+            <%// if (totalPages > 1) { %>
+                <%// for (int pager = 1; pager <= totalPages; pager++) { %>
+                    <%
+                        int previous_page = pagen-1;
+                        int next_page = pagen+1;
+                        
+                        String prevpageUrl = "GestioneApprovigionamentiController?page=" + previous_page + "&action=viewList";
+                        String nextpageUrl = "GestioneApprovigionamentiController?page=" + next_page + "&action=viewList";        
+                    %>
+                    <a href="<%= prevpageUrl %>"><img src="${pageContext.request.contextPath}/view/img/arrow_back.png"></a>
+                    <a href="<%= nextpageUrl %>"><img src="${pageContext.request.contextPath}/view/img/arrow_forward.png"></a>
+                <%  %>
+            <%  %>
+        </div>
+        <table id="showpr" style="width: 80%; margin: 0 auto">
+            <tr>
+                <th><strong>Codice Richiesta</strong></th><!-- Codice Richesta -->
+                <th><strong>Nominativo Fornitore</strong></th><!-- Nominativo Fornitore -->
+                <th><strong>Email Fornitore</strong></th><!-- Nome prodotto -->
+                <!-- <th><strong>Marca</strong></th> Marca -->             
+                <th><strong>Descrizione</strong></th><!-- Descrizione dettagliata richiesta approvigionamento -->
+            </tr> 
+             <% 
+                    for (RichiestaApprovvigionamento rquest : requests) { %>
+                    <%                        
+                        
+                    %>
+            <tr id="row-<%= rquest.getCodiceRifornimento() %>">
+                <td class="productName">  
+                    <h3><%=rquest.getFornitore()%></h3>
+                </td>               
+                <td>  
+                    <h3><%=rquest.getEmailFornitore()%></h3>
+                </td>  
+                <td><span><%=rquest.getQuantitaRifornimento()%></span></td>  
+                <td><%= rquest.getDescrizione()%></td>    
+            </tr>
+       <%}%>
+        </table>      
+    </body>
+</html>

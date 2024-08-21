@@ -4,6 +4,7 @@
  */
 package application.GestioneApprovigionamentiControl;
 
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamento;
 import application.NavigazioneControl.PaginationUtils;
 import application.NavigazioneControl.SearchResult;
 import application.NavigazioneService.ProxyProdotto;
@@ -69,9 +70,16 @@ public class Approvigionamento extends HttpServlet {
         String error = (String)request.getSession().getAttribute("error");
         request.getSession().removeAttribute("error");
         request.setAttribute("error", error);
-     
-        request.getRequestDispatcher("protected/gestoreOrdini/approvigionamento.jsp").forward(request, response);
         
+        Collection<RichiestaApprovvigionamento> supply_requests = (Collection<RichiestaApprovvigionamento>) request.getSession().getAttribute("supply_requests");
+        if(request.getSession().getAttribute("action").equals("viewProductList"))
+            request.getRequestDispatcher("protected/gestoreOrdini/approvigionamento.jsp").forward(request, response);
+        else{
+            request.setAttribute("supply_requests", supply_requests);  
+            int page = (int)request.getSession().getAttribute("page");
+            request.setAttribute("page", page);
+            request.getRequestDispatcher("protected/gestoreOrdini/richiesteApprovigionamento.jsp").forward(request, response);
+        }
     }
 
     /**

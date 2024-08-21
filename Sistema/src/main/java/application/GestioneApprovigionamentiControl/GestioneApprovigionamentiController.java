@@ -41,6 +41,8 @@ public class GestioneApprovigionamentiController extends HttpServlet {
             throws ServletException, IOException {
        String action = request.getParameter("action");
        int page = Integer.parseInt(request.getParameter("page"));
+       request.getSession().setAttribute("action", action);
+       
         if(action!=null && action.equals("viewProductList")){
            try {
                Collection <ProxyProdotto> all_products_list = pdao.doRetrieveAll(null, page, perPage);
@@ -59,6 +61,7 @@ public class GestioneApprovigionamentiController extends HttpServlet {
            try {
                Collection<RichiestaApprovvigionamento> supply_requests = gas.visualizzaRichiesteFornitura(page, perPage);
                request.getSession().setAttribute("supply_requests", supply_requests);
+               request.getSession().setAttribute("page", page);
                response.sendRedirect("Approvigionamento");
            } catch (RichiestaApprovvigionamentoException.FornitoreException | RichiestaApprovvigionamentoException.DescrizioneDettaglioException | RichiestaApprovvigionamentoException.QuantitaProdottoException | RichiestaApprovvigionamentoException.ProdottoVendibileException | SQLException ex) {
                Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);

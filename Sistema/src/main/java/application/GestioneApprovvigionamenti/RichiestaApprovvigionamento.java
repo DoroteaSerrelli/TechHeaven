@@ -125,13 +125,13 @@ public class RichiestaApprovvigionamento {
 
 		this.codice = codice;
 
-		if(checkValidateNominativo(fornitore))
+		if(!checkValidateNominativo(fornitore))
 			throw new FornitoreException("Il nominativo del fornitore non e\' espresso nel formato corretto.\n"
 					+ "Il nominativo deve essere una sequenza di lettere, spazi ed, eventualmente, numeri.");
 		else
 			this.fornitore = fornitore;
 
-		if(checkValidateEmail(emailFornitore))
+		if(!checkValidateEmail(emailFornitore))
 			throw new FornitoreException("L'email del fornitore non e\' espressa nel formato corretto.\n"
 					+ "L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com).");
 		else
@@ -182,13 +182,13 @@ public class RichiestaApprovvigionamento {
 	public RichiestaApprovvigionamento(String fornitore, String emailFornitore, String descrizione,
 			int quantità, ProxyProdotto prodotto) throws FornitoreException, QuantitaProdottoException, DescrizioneDettaglioException, ProdottoVendibileException {
 
-		if(checkValidateNominativo(fornitore))
+		if(!checkValidateNominativo(fornitore))
 			throw new FornitoreException("Il nominativo del fornitore non e\' espresso nel formato corretto.\n"
 					+ "Il nominativo deve essere una sequenza di lettere, spazi ed, eventualmente, numeri.");
 		else
 			this.fornitore = fornitore;
 
-		if(checkValidateEmail(emailFornitore))
+		if(!checkValidateEmail(emailFornitore))
 			throw new FornitoreException("L'email del fornitore non e\' espressa nel formato corretto.\n"
 					+ "L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com).");
 		else
@@ -248,7 +248,7 @@ public class RichiestaApprovvigionamento {
 	 * @throws FornitoreException 
 	 */
 	public void setFornitore(String fornitore) throws FornitoreException {
-		if(checkValidateNominativo(fornitore))
+		if(!checkValidateNominativo(fornitore))
 			throw new FornitoreException("Il nominativo del fornitore non e\' espresso nel formato corretto.\n"
 					+ "Il nominativo deve essere una sequenza di lettere, spazi ed, eventualmente, numeri.");
 		else
@@ -273,7 +273,7 @@ public class RichiestaApprovvigionamento {
 	 * @throws FornitoreException 
 	 */
 	public void setEmailFornitore(String emailFornitore) throws FornitoreException {
-		if(checkValidateEmail(emailFornitore))
+		if(!checkValidateEmail(emailFornitore))
 			throw new FornitoreException("L'email del fornitore non e\' espressa nel formato corretto.\n"
 					+ "L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com).");
 		else
@@ -368,7 +368,4 @@ public class RichiestaApprovvigionamento {
 				+ emailFornitore + ", descrizione=" + descrizione + ", quantità=" + quantità + ", prodotto=" + prodotto
 				+ "]";
 	}
-
-
-
 }

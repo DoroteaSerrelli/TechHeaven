@@ -12,7 +12,9 @@ import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -42,34 +44,135 @@ public class GestioneApprovigionamentiController extends HttpServlet {
        String action = request.getParameter("action");
        int page = Integer.parseInt(request.getParameter("page"));
        request.getSession().setAttribute("action", action);
+       request.getSession().setAttribute("page", page);
+        // Fetch the previosly_fetched_page being the last page retrieved in the flow of instruction:
+        // nextPageItems = > (if page==previous nextPage) I don't need to retrieve the items from the db
+        // as I already have them available inside the session.
+       int previoslyFetchedPage = getSessionAttributeAsInt(request, "previosly_fetched_page", 0);
        
         if(action!=null && action.equals("viewProductList")){
            try {
-               Collection <ProxyProdotto> all_products_list = pdao.doRetrieveAll(null, page, perPage);
-               SearchResult sr = new SearchResult();
-               sr.setProducts(all_products_list);
-               sr.setTotalRecords(pdao.getTotalRecords(null));
-               request.getSession().setAttribute("all_pr_list", sr);
+               Collection <ProxyProdotto> currentPageResults;
+               Collection <ProxyProdotto> nextPageResults;
+               if(page==previoslyFetchedPage){                 
+                   currentPageResults = getSessionCollection(request, "nextPageResults", ProxyProdotto.class);
+                   request.getSession().setAttribute("products", currentPageResults);              
+               }
+               else {
+                   currentPageResults = pdao.doRetrieveAll(null, page, perPage);
+                   request.getSession().setAttribute("products", currentPageResults);                  
+               }               
+               nextPageResults = pdao.doRetrieveAll(null, page, perPage);
+               request.getSession().setAttribute("nextPageResults", nextPageResults);
+               
+               request.getSession().setAttribute("previosly_fetched_page", page+1);
+               
+               boolean hasNextPage = checkIfItsTheSamePage (currentPageResults, nextPageResults, ProxyProdotto.class);   
+                            
+               request.getSession().setAttribute("hasNextPage", hasNextPage);
                response.sendRedirect("Approvigionamento");
            } catch (SQLException ex) {
                Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
                request.getSession().setAttribute("error", "Recupero Prodotti Fallito");
+           } catch (Exception ex) {
+               Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
            }
         }
                
        if(action!=null && action.equals("viewList")){
-           try {
-               Collection<RichiestaApprovvigionamento> supply_requests = gas.visualizzaRichiesteFornitura(page, perPage);
-               request.getSession().setAttribute("supply_requests", supply_requests);
-               request.getSession().setAttribute("page", page);
+           try {                                                    
+                // Use a generic method to get the collection
+                Collection<RichiestaApprovvigionamento> supplyRequests;
+                Collection <RichiestaApprovvigionamento> nextPageResults;
+               
+               if(page==previoslyFetchedPage){                 
+                   //Datas about the current supply_request gets stored to compare it with the next Page data to make sure it's not
+                   //the same page being fetched, and disabling navigation control.
+                   supplyRequests = getSessionCollection(request, "nextPageResults", RichiestaApprovvigionamento.class);
+                  // Handle the case where the session attribute is null               
+                   // Store the current page data in the session that being the previously fetched that in this case.
+                   request.getSession().setAttribute("supply_requests", supplyRequests);              
+               }
+               else {
+                   //I need to retrieve the data for supply_requests from the db othervise.
+                   supplyRequests = gas.visualizzaRichiesteFornitura(page, perPage);
+                   request.getSession().setAttribute("supply_requests", supplyRequests);                  
+               }               
+               
+               //Retrieving the nextPage data from the db and setting it as nextPageResults:
+               nextPageResults = gas.visualizzaRichiesteFornitura(page, perPage);
+               request.getSession().setAttribute("nextPageResults", nextPageResults);
+               
+               //Setting the previosly_fetched page attribute inside the session to the value of nextPage. 
+               request.getSession().setAttribute("previosly_fetched_page", page+1);
+               
+               //Verifico se le pagine sono identiche in caso affermativo il valore viene settato a false.
+               // Impedendo nella jsp la navigazione alla prossima pagina.          
+               // Get current and next page items
+               boolean hasNextPage = checkIfItsTheSamePage (supplyRequests, nextPageResults, RichiestaApprovvigionamento.class);   
+                            
+               request.getSession().setAttribute("hasNextPage", hasNextPage);
+               
                response.sendRedirect("Approvigionamento");
            } catch (RichiestaApprovvigionamentoException.FornitoreException | RichiestaApprovvigionamentoException.DescrizioneDettaglioException | RichiestaApprovvigionamentoException.QuantitaProdottoException | RichiestaApprovvigionamentoException.ProdottoVendibileException | SQLException ex) {
                Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
                request.getSession().setAttribute("error", ex);
                //Servlet DO-GET GestioneOrdini TO-DO:
                response.sendRedirect("GestioneOrdini");
+           } catch (Exception ex) {
+               Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
            }
        }
+    }
+    
+    // Utility method to retrieve session attribute as an Integer with a default value if null.
+    private int getSessionAttributeAsInt(HttpServletRequest request, String attributeName, int defaultValue) {
+        Integer value = (Integer) request.getSession().getAttribute(attributeName);
+        return value != null ? value : defaultValue;
+    }
+    
+    @SuppressWarnings("unchecked")
+    private <T> Collection<T> getSessionCollection(HttpServletRequest request, String attributeName, Class<T> type) {
+        Collection<T> collection = (Collection<T>) request.getSession().getAttribute(attributeName);
+        if (collection == null) {
+            collection = new ArrayList<>();
+        }
+        return collection;
+    }
+    private Integer getId(Object item, Class<?> clazz) throws Exception {
+        // Dynamically determine the method based on the class type
+        String methodName = clazz == RichiestaApprovvigionamento.class ? "getCodiceRifornimento" : "getCodiceProdotto";
+        java.lang.reflect.Method method = clazz.getMethod(methodName);
+        Object result = method.invoke(item);
+        return result != null ? (Integer) result : null;
+    }
+    
+    //Metodo che verifica se sto osservando la stessa pagina
+    private  <T> boolean checkIfItsTheSamePage(Collection <T> currentPageItems, Collection <T> nextPageItems, Class<T> clazz) throws Exception{       
+        Integer currentPageItemId = 1;
+        Integer nextPageItemId = 1;
+        // Using Generic Types to avoid redundant code we retrieve the first item of each Collection.
+        // Extract the first item from each collection (changes based on the action attribute)
+        T firstCurrentPageItem = currentPageItems.isEmpty() ? null : currentPageItems.iterator().next();
+        T firstNextPageItem = nextPageItems.isEmpty() ? null : nextPageItems.iterator().next();
+
+        ///We retrieve the first item identifier based on the Collection class.
+        if (firstCurrentPageItem != null) {
+        currentPageItemId = getId(firstCurrentPageItem, clazz);
+        }
+
+        if (firstNextPageItem != null) {
+            nextPageItemId = getId(firstNextPageItem, clazz);
+        }      
+        // Debugging: Print IDs
+        System.out.println("Current Page Item ID: " + currentPageItemId);
+        System.out.println("Next Page Item ID: " + nextPageItemId);
+
+        // Check if the first item ID of the next page is the same as the first item ID of the current page
+        boolean isSameAsCurrentPage = currentPageItemId != null && currentPageItemId.equals(nextPageItemId);
+
+        // Set hasNextPage based on whether nextPageItems is empty or has the same first item ID as currentPageItems
+        return nextPageItems != null && !nextPageItems.isEmpty() && !isSameAsCurrentPage;
     }
     
     private ProdottoDAODataSource pdao;

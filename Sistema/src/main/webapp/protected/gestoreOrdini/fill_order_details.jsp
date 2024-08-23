@@ -20,12 +20,12 @@
         <script src="${pageContext.request.contextPath}/view/validations.js"></script>
         
         <%
-            Ordine selected_ordine = (Ordine) request.getAttribute("selected_ordine");
+            Ordine selected_ordine = (Ordine) request.getSession().getAttribute("selected_ordine");
             if(selected_ordine==null){
                 response.sendRedirect("GestioneOrdini.jsp");
                 return;
             }
-            ArrayList<ItemCarrello> order_products = (ArrayList<ItemCarrello>) request.getAttribute("order_products");
+            ArrayList<ItemCarrello> order_products = (ArrayList<ItemCarrello>) request.getSession().getAttribute("order_products");
             HashMap order_products_available = (HashMap) request.getAttribute("order_products_available");
         %>
     </head>
@@ -41,23 +41,31 @@
         </div>       
         <div class="section-p1">
             <h4>Informazioni di spedizione:</h4>
-            <form class="reg_form">                
+            <form class="reg_form" action="GestioneOrdiniController?action=complete_order" method="post">
                 <p>Lista Prodotti E Relative Quantità Richieste:</p>
                 <% for (ItemCarrello item : order_products){%>
-                <div class="input-wrapper row">                  
-                    <input type="range" id="item_amount" name="item_amount" min="<%=item.getQuantita()%>" max="<%= order_products_available.get(item.getCodiceProdotto())%>">
-                    <span id="range_value"><%=item.getQuantita()%></span>
+                <div class="row">
+                    <h2><%= item.getCodiceProdotto()%></h2>
+                    <h3><%= item.getNomeProdotto()%></h3>
+                    <img src="image?productId=<%= item.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';"/>
+                </div>
+                <p id="range_value"><%=item.getQuantita()%></p>
+                <div class="input-wrapper row">     
+                    <input type="hidden" name="product_id[]" value="<%=item.getCodiceProdotto()%>">
+                    <input type="range" id="item_amount" name="item_amount[]" min="<%=item.getQuantita()%>" max="<%= order_products_available.get(item.getCodiceProdotto())%>">         
                 </div>
               <%}%>  
                 <div class="input-wrapper">  
                     <p>Inserisci informazioni sull'imballaggio:</p>
-                    <textarea name="Imballaggio" rows="4" cols="50" oninput="validateName" required></textarea>
+                    <textarea name="Imballaggio" rows="4" cols="50" required></textarea>
                 </div>
                 <div class="input-wrapper">  
                     <p>Inserisci informazioni sull'azienda di spedizioni:</p>
-                    <input type="textarea" name="Corriere" oninput="validateName()" required>
+                    <textarea name="Corriere" rows="4" cols="50" required></textarea>
                 </div>
+                <button class="confirm_button" type="submit">Conferma Preparazione Ordine</button>
             </form>
+                <a href="GestioneOrdiniController?action=incomplete_order"<button class="confirm_button" type="submit">Anulla Preparazione Ordine</button></a>    
         </div>       
         <script>
             document.addEventListener('DOMContentLoaded', (event) => {
@@ -78,4 +86,5 @@
         });
         </script>
     </body>
-</html>
+</html> 
+			

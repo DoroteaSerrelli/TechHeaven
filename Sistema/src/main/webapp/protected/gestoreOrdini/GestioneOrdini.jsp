@@ -3,6 +3,8 @@
     Created on : 2 ago 2024, 15:09:57
     Author     : raffa
 --%>
+<%@page import="java.util.ArrayList"%>
+<%@page import="java.util.Collection"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -19,6 +21,15 @@
             // Define the context path as a global variable
             window.contextPath = '<%= request.getContextPath() %>';
         </script>
+        <%
+            System.out.println("Setting previosly_fetched_page to 0 in JSP");
+            request.getSession().setAttribute("previosly_fetched_page", 0);
+            Collection<?> nextPageResults = (Collection<?>) session.getAttribute("nextPageResults");
+            if (nextPageResults == null) {
+                session.setAttribute("nextPageResults", new ArrayList<>());
+            }
+        %>
+
     </head>    
     <body>     
        <jsp:include page="${pageContext.request.contextPath}/common/header.jsp"  flush="true"/>

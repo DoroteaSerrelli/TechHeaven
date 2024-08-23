@@ -45,8 +45,16 @@
                         String prevpageUrl = "GestioneApprovigionamentiController?page=" + previous_page + "&action=viewList";
                         String nextpageUrl = "GestioneApprovigionamentiController?page=" + next_page + "&action=viewList";        
                     %>
-                    <a href="<%= prevpageUrl %>"><img src="${pageContext.request.contextPath}/view/img/arrow_back.png"></a>
-                    <a href="<%= nextpageUrl %>"><img src="${pageContext.request.contextPath}/view/img/arrow_forward.png"></a>
+                    <% if(pagen>1){%>
+                        <h2>Pagina Precedente: <%=previous_page%></h2>  
+                        <a href="<%= prevpageUrl %>"><img src="${pageContext.request.contextPath}/view/img/arrow_back.png"></a>
+                    <%}%>    
+                    <% if ((boolean) request.getAttribute("hasNextPage")) { %>
+                        <h2>Pagina Successiva: <%=previous_page%></h2>
+                        <a href="<%= nextpageUrl %>"><img src="${pageContext.request.contextPath}/view/img/arrow_forward.png"></a>
+                    <% } else { %>
+                        <img src="${pageContext.request.contextPath}/view/img/arrow_forward_disabled.png">
+                    <% } %>
                 <%  %>
             <%  %>
         </div>

@@ -61,25 +61,38 @@ public class Approvigionamento extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SearchResult all_products_list= (SearchResult)request.getSession().getAttribute("all_pr_list");
-        if(all_products_list==null || all_products_list.getProducts().isEmpty()){
-            response.sendRedirect("GestioneApprovigionamentiController?action=viewProductList&page=1");
-            return;
+        
+        if(request.getSession().getAttribute("action").equals("viewProductList")){
+            //Checking if the value if the user accesses Approvigionamento directly.
+            if(request.getSession().getAttribute("products")==null){
+                response.sendRedirect("GestioneApprovigionamentiController?action=viewProductList&page=1");
+                return;
+            }
+            Collection<ProxyProdotto> all_products_list = (Collection<ProxyProdotto>) request.getSession().getAttribute("products");
+            request.setAttribute("all_pr_list", all_products_list);
+            int page = (int)request.getSession().getAttribute("page");
+            request.setAttribute("page", page);
+            boolean hasNextPage = (boolean)request.getSession().getAttribute("hasNextPage");
+            request.setAttribute("hasNextPage", hasNextPage);
+            request.getRequestDispatcher("protected/gestoreOrdini/approvigionamento.jsp").forward(request, response);
+        }     
+        else{
+            if(request.getSession().getAttribute("supply_requests")==null){
+                response.sendRedirect("GestioneApprovigionamentiController?action=viewList&page=1");
+                return;
+            }
+            Collection<RichiestaApprovvigionamento> supply_requests = (Collection<RichiestaApprovvigionamento>) request.getSession().getAttribute("supply_requests");        
+            request.setAttribute("supply_requests", supply_requests);   
+            int page = (int)request.getSession().getAttribute("page");
+            request.setAttribute("page", page);
+            boolean hasNextPage = (boolean)request.getSession().getAttribute("hasNextPage");
+            request.setAttribute("hasNextPage", hasNextPage);
+            request.getRequestDispatcher("protected/gestoreOrdini/richiesteApprovigionamento.jsp").forward(request, response);
         }
-        PaginationUtils.setPaginationAttributes(request, all_products_list,perPage);
         String error = (String)request.getSession().getAttribute("error");
         request.getSession().removeAttribute("error");
         request.setAttribute("error", error);
-        
-        Collection<RichiestaApprovvigionamento> supply_requests = (Collection<RichiestaApprovvigionamento>) request.getSession().getAttribute("supply_requests");
-        if(request.getSession().getAttribute("action").equals("viewProductList"))
-            request.getRequestDispatcher("protected/gestoreOrdini/approvigionamento.jsp").forward(request, response);
-        else{
-            request.setAttribute("supply_requests", supply_requests);  
-            int page = (int)request.getSession().getAttribute("page");
-            request.setAttribute("page", page);
-            request.getRequestDispatcher("protected/gestoreOrdini/richiesteApprovigionamento.jsp").forward(request, response);
-        }
+              
     }
 
     /**

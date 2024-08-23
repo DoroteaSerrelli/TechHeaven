@@ -22,12 +22,11 @@
         <script src="${pageContext.request.contextPath}/view/validations.js?ts=<%= System.currentTimeMillis() %>"></script> 
         
         <%
-            Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) request.getAttribute("products");
+            Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) request.getAttribute("all_pr_list");
             if(products==null ||products.isEmpty()){ %>
-            <h4>Nessun prodotto trovato con la keyword: <%=request.getAttribute("keyword")%></h4>
+            <h4>Nessun prodotto trovato.</h4>
             <%}
-            int totalPages = (int) request.getAttribute("totalPages");
-           
+           int pagen = (int) request.getAttribute("page");
         %>
     </head>
     <body>
@@ -43,15 +42,29 @@
         <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>
         <!-- Search Input Field -->
         <input type="text" id="productFilter" onkeyup="filterProducts()" placeholder="Search for products by name...">
+        <!-- Search Input Field -->
         <div id="pagination">
-            <% if (totalPages > 1) { %>
-                <% for (int pager = 1; pager <= totalPages; pager++) { %>
+            <%// if (totalPages > 1) { %>
+                <%// for (int pager = 1; pager <= totalPages; pager++) { %>
                     <%
-                        String pageUrl = "GestioneApprovigionamentiController?page=" + pager + "&action=viewProductList";
+                        int previous_page = pagen-1;
+                        int next_page = pagen+1;
+                        
+                        String prevpageUrl = "GestioneApprovigionamentiController?page=" + previous_page + "&action=viewProductList";
+                        String nextpageUrl = "GestioneApprovigionamentiController?page=" + next_page + "&action=viewProductList";        
                     %>
-                    <a href="<%= pageUrl %>"><%=pager%></a>
-                <% } %>
-            <% } %>
+                    <% if(pagen>1){%>
+                        <h2>Pagina Precedente: <%=previous_page%></h2>  
+                        <a href="<%= prevpageUrl %>"><img src="${pageContext.request.contextPath}/view/img/arrow_back.png"></a>
+                    <%}%>    
+                    <% if ((boolean) request.getAttribute("hasNextPage")) { %>
+                        <h2>Pagina Successiva: <%=previous_page%></h2>
+                        <a href="<%= nextpageUrl %>"><img src="${pageContext.request.contextPath}/view/img/arrow_forward.png"></a>
+                    <% } else { %>
+                        <img src="${pageContext.request.contextPath}/view/img/arrow_forward_disabled.png">
+                    <% } %>
+                <%  %>
+            <%  %>
         </div>
         <table id="showpr" style="width: 80%; margin: 0 auto">
             <tr>

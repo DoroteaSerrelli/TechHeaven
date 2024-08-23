@@ -162,6 +162,10 @@
         <filter-name>RoleAccessFilter</filter-name>
         <url-pattern>/fill_order_details</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>RoleAccessFilter</filter-name>
+        <url-pattern>/GestioneApprovigionamentiController</url-pattern>
+    </filter-mapping>
     <!-- Lista .jsp Pagine Percorso + Mapping -->
     <servlet>
         <servlet-name>resetPasswordServlet</servlet-name>

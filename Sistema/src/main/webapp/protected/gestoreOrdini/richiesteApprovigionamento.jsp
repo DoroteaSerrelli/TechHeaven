@@ -35,29 +35,8 @@
         <jsp:include page="${pageContext.request.contextPath}/protected/gestoreOrdini/toolbar.jsp"  flush="true"/>
         
         <!-- Search Input Field -->
-        <div id="pagination">
-            <%// if (totalPages > 1) { %>
-                <%// for (int pager = 1; pager <= totalPages; pager++) { %>
-                    <%
-                        int previous_page = pagen-1;
-                        int next_page = pagen+1;
-                        
-                        String prevpageUrl = "GestioneApprovigionamentiController?page=" + previous_page + "&action=viewList";
-                        String nextpageUrl = "GestioneApprovigionamentiController?page=" + next_page + "&action=viewList";        
-                    %>
-                    <% if(pagen>1){%>
-                        <h2>Pagina Precedente: <%=previous_page%></h2>  
-                        <a href="<%= prevpageUrl %>"><img src="${pageContext.request.contextPath}/view/img/arrow_back.png"></a>
-                    <%}%>    
-                    <% if ((boolean) request.getAttribute("hasNextPage")) { %>
-                        <h2>Pagina Successiva: <%=previous_page%></h2>
-                        <a href="<%= nextpageUrl %>"><img src="${pageContext.request.contextPath}/view/img/arrow_forward.png"></a>
-                    <% } else { %>
-                        <img src="${pageContext.request.contextPath}/view/img/arrow_forward_disabled.png">
-                    <% } %>
-                <%  %>
-            <%  %>
-        </div>
+        <!-- Pagination links -->
+        <jsp:include page="${pageContext.request.contextPath}/common/pagination.jsp"  flush="true"/>   
         <table id="showpr" style="width: 80%; margin: 0 auto">
             <tr>
                 <th><strong>Codice Richiesta</strong></th><!-- Codice Richesta -->

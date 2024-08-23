@@ -4,8 +4,10 @@
  */
 package application.NavigazioneControl;
 
+import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -55,14 +57,15 @@ public class ResultsPage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        SearchResult searchResult = (SearchResult) request.getSession().getAttribute("searchResult");
+        Collection<ProxyProdotto> searchResult = (Collection<ProxyProdotto>) request.getSession().getAttribute("products");
         if(searchResult==null){
             String keyword = (String) request.getParameter("keyword");
             response.sendRedirect("NavigazioneController?keyword="+keyword);
             return;
         }
         String keyword = (String) request.getSession().getAttribute("keyword");
-        PaginationUtils.setPaginationAttributes(request, searchResult, keyword, 10);
+        request.setAttribute("keyword", keyword);
+   //     PaginationUtils.setPaginationAttributes(request, searchResult, keyword, 10);
         request.getSession().getAttribute("search_type");
             
         // Forward to JSP

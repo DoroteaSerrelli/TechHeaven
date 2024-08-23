@@ -5,7 +5,9 @@
 package application.NavigazioneControl;
 
 import application.NavigazioneService.NavigazioneServiceImpl;
+import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
+import java.util.Collection;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -20,7 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "NavigazioneController", urlPatterns = {"/NavigazioneController","/TechHeaven"})
 public class NavigazioneController extends HttpServlet {
     private static final long serialVersionUID = 1L; 
-    
+     private int perPage=10;
     public NavigazioneController() { super(); } 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -52,27 +54,20 @@ public class NavigazioneController extends HttpServlet {
         }catch(NumberFormatException e){
             page=1;
         }    
-        SearchResult searchResult= null;
+        Collection <ProxyProdotto> searchResult= null;
+        request.getSession().setAttribute("keyword", keyword);
         // L'utility di Paginazione effettua la ricerca per tipo di Ricerca (barra - menu)
         // e compila il tutto in una classe searchResult che incapsula
         // i risultati della ricerca e il numero di risultati trovati.
         // Questi vengono passati al termine dell'elaborazione alla servlet 
         // dei risultati che si occuperà di Paginare il risultato della Ricerca.
         String searchType = request.getParameter("search_type");
-        if(searchType!=null && searchType.contains("bar")){                   
-            searchResult = PaginationUtils.performPagination(new NavigazioneServiceImpl(), keyword, page, 10,"bar");
-            request.getSession().setAttribute("search_type", searchType);
-            
-        }
-        else if(searchType != null && searchType.contains("menu")){
-            searchResult = PaginationUtils.performPagination(new NavigazioneServiceImpl(), keyword, page, 10,"menu");
-            request.getSession().setAttribute("search_type", searchType);
-            
-        }
-        else if (searchType==null){
+        if (searchType==null){
             response.sendRedirect("index.jsp");
             return;
         }
+        PaginationUtils pu = new PaginationUtils();
+        pu.paginateSearchedProducts(request, page, perPage);
         request.getSession().setAttribute("searchResult", searchResult);
         request.getSession().setAttribute("keyword", keyword);
         response.sendRedirect("/ResultsPage");

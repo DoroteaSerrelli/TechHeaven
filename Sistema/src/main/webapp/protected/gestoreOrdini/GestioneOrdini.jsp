@@ -51,7 +51,7 @@
                         <a href="GestioneApprovigionamentiController?action=viewList&page=1"><img src="${pageContext.request.contextPath}/view/img/supplyrequests.png" alt="Richieste Approvigionamento"></a>
                         <h5>Richieste Approvigionamento</h5>
                     </div>
-                    <div class="fe-box" id="supplyingRequest" onclick="moveToSidebar('supplyingRequest', 'supplyingRequestForm')">
+                    <div class="fe-box" id="supplyingRequest">
                         <a href="GestioneApprovigionamentiController?action=viewProductList&page=1"><img src="${pageContext.request.contextPath}/view/img/apprrovigionamento.png" alt="Approvigionamento">
                         </a>
                         <h5>Approvigionamento</h5>

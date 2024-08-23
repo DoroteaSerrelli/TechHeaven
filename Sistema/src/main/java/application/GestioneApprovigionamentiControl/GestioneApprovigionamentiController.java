@@ -7,6 +7,7 @@ package application.GestioneApprovigionamentiControl;
 import application.GestioneApprovvigionamenti.GestioneApprovvigionamentiServiceImpl;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamento;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException;
+import application.NavigazioneControl.PaginationUtils;
 import application.NavigazioneControl.SearchResult;
 import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
@@ -50,14 +51,14 @@ public class GestioneApprovigionamentiController extends HttpServlet {
         // Fetch the previosly_fetched_page being the last page retrieved in the flow of instruction:
         // nextPageItems = > (if page==previous nextPage) I don't need to retrieve the items from the db
         // as I already have them available inside the session.
-       int previoslyFetchedPage = getSessionAttributeAsInt(request, "previosly_fetched_page", 0);
+       int previoslyFetchedPage = pu.getSessionAttributeAsInt(request, "previosly_fetched_page", 0);
        
         if(action!=null && action.equals("viewProductList")){
            try {
                Collection <ProxyProdotto> currentPageResults;
                Collection <ProxyProdotto> nextPageResults;
                if(page==previoslyFetchedPage){                 
-                   currentPageResults = getSessionCollection(request, "nextPageResults", ProxyProdotto.class);
+                   currentPageResults = pu.getSessionCollection(request, "nextPageResults", ProxyProdotto.class);
                    request.getSession().setAttribute("products", currentPageResults);              
                }
                else {
@@ -69,7 +70,7 @@ public class GestioneApprovigionamentiController extends HttpServlet {
                
                request.getSession().setAttribute("previosly_fetched_page", page+1);
                
-               boolean hasNextPage = checkIfItsTheSamePage (currentPageResults, nextPageResults, ProxyProdotto.class);   
+               boolean hasNextPage = pu.checkIfItsTheSamePage (currentPageResults, nextPageResults, ProxyProdotto.class);   
                             
                request.getSession().setAttribute("hasNextPage", hasNextPage);
                response.sendRedirect("Approvigionamento");
@@ -90,7 +91,7 @@ public class GestioneApprovigionamentiController extends HttpServlet {
                if(page==previoslyFetchedPage){                 
                    //Datas about the current supply_request gets stored to compare it with the next Page data to make sure it's not
                    //the same page being fetched, and disabling navigation control.
-                   supplyRequests = getSessionCollection(request, "nextPageResults", RichiestaApprovvigionamento.class);
+                   supplyRequests = pu.getSessionCollection(request, "nextPageResults", RichiestaApprovvigionamento.class);
                   // Handle the case where the session attribute is null               
                    // Store the current page data in the session that being the previously fetched that in this case.
                    request.getSession().setAttribute("supply_requests", supplyRequests);              
@@ -111,7 +112,7 @@ public class GestioneApprovigionamentiController extends HttpServlet {
                //Verifico se le pagine sono identiche in caso affermativo il valore viene settato a false.
                // Impedendo nella jsp la navigazione alla prossima pagina.          
                // Get current and next page items
-               boolean hasNextPage = checkIfItsTheSamePage (supplyRequests, nextPageResults, RichiestaApprovvigionamento.class);   
+               boolean hasNextPage = pu.checkIfItsTheSamePage (supplyRequests, nextPageResults, RichiestaApprovvigionamento.class);   
                             
                request.getSession().setAttribute("hasNextPage", hasNextPage);
                
@@ -146,63 +147,15 @@ public class GestioneApprovigionamentiController extends HttpServlet {
         return action;
     }
     
-    // Utility method to retrieve session attribute as an Integer with a default value if null.
-    private int getSessionAttributeAsInt(HttpServletRequest request, String attributeName, int defaultValue) {
-        Integer value = (Integer) request.getSession().getAttribute(attributeName);
-        return value != null ? value : defaultValue;
-    }
-    
-    @SuppressWarnings("unchecked")
-    private <T> Collection<T> getSessionCollection(HttpServletRequest request, String attributeName, Class<T> type) {
-        Collection<T> collection = (Collection<T>) request.getSession().getAttribute(attributeName);
-        if (collection == null) {
-            collection = new ArrayList<>();
-        }
-        return collection;
-    }
-    private Integer getId(Object item, Class<?> clazz) throws Exception {
-        // Dynamically determine the method based on the class type
-        String methodName = clazz == RichiestaApprovvigionamento.class ? "getCodiceRifornimento" : "getCodiceProdotto";
-        java.lang.reflect.Method method = clazz.getMethod(methodName);
-        Object result = method.invoke(item);
-        return result != null ? (Integer) result : null;
-    }
-    
-    //Metodo che verifica se sto osservando la stessa pagina
-    private  <T> boolean checkIfItsTheSamePage(Collection <T> currentPageItems, Collection <T> nextPageItems, Class<T> clazz) throws Exception{       
-        Integer currentPageItemId = 1;
-        Integer nextPageItemId = 1;
-        // Using Generic Types to avoid redundant code we retrieve the first item of each Collection.
-        // Extract the first item from each collection (changes based on the action attribute)
-        T firstCurrentPageItem = currentPageItems.isEmpty() ? null : currentPageItems.iterator().next();
-        T firstNextPageItem = nextPageItems.isEmpty() ? null : nextPageItems.iterator().next();
-
-        ///We retrieve the first item identifier based on the Collection class.
-        if (firstCurrentPageItem != null) {
-        currentPageItemId = getId(firstCurrentPageItem, clazz);
-        }
-
-        if (firstNextPageItem != null) {
-            nextPageItemId = getId(firstNextPageItem, clazz);
-        }      
-        // Debugging: Print IDs
-        System.out.println("Current Page Item ID: " + currentPageItemId);
-        System.out.println("Next Page Item ID: " + nextPageItemId);
-
-        // Check if the first item ID of the next page is the same as the first item ID of the current page
-        boolean isSameAsCurrentPage = currentPageItemId != null && currentPageItemId.equals(nextPageItemId);
-
-        // Set hasNextPage based on whether nextPageItems is empty or has the same first item ID as currentPageItems
-        return nextPageItems != null && !nextPageItems.isEmpty() && !isSameAsCurrentPage;
-    }
-    
     private ProdottoDAODataSource pdao;
     private GestioneApprovvigionamentiServiceImpl gas;
+    private PaginationUtils pu;
     @Override
     public void init() throws ServletException {
         // Initialize any services or resources needed by the servlet
         gas = new GestioneApprovvigionamentiServiceImpl();
         pdao = new ProdottoDAODataSource();
+        pu = new PaginationUtils();
     }
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

@@ -58,7 +58,7 @@
                         <a href="<%= prevpageUrl %>"><img src="${pageContext.request.contextPath}/view/img/arrow_back.png"></a>
                     <%}%>    
                     <% if ((boolean) request.getAttribute("hasNextPage")) { %>
-                        <h2>Pagina Successiva: <%=previous_page%></h2>
+                        <h2>Pagina Successiva: <%=next_page%></h2>
                         <a href="<%= nextpageUrl %>"><img src="${pageContext.request.contextPath}/view/img/arrow_forward.png"></a>
                     <% } else { %>
                         <img src="${pageContext.request.contextPath}/view/img/arrow_forward_disabled.png">

@@ -63,6 +63,7 @@
                 <th><strong>Codice Richiesta</strong></th><!-- Codice Richesta -->
                 <th><strong>Nominativo Fornitore</strong></th><!-- Nominativo Fornitore -->
                 <th><strong>Email Fornitore</strong></th><!-- Nome prodotto -->
+                <th><strong>Quantità Rifornimento</strong></th><!-- Quantità Richiesta Rifornimento -->
                 <!-- <th><strong>Marca</strong></th> Marca -->             
                 <th><strong>Descrizione</strong></th><!-- Descrizione dettagliata richiesta approvigionamento -->
             </tr> 
@@ -72,6 +73,7 @@
                         
                     %>
             <tr id="row-<%= rquest.getCodiceRifornimento() %>">
+                <td><%= rquest.getCodiceRifornimento() %></td> 
                 <td class="productName">  
                     <h3><%=rquest.getFornitore()%></h3>
                 </td>               
@@ -82,6 +84,7 @@
                 <td><%= rquest.getDescrizione()%></td>    
             </tr>
        <%}%>
-        </table>      
+        </table> 
+        
     </body>
 </html>

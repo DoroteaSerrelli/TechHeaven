@@ -41,7 +41,9 @@ public class GestioneApprovigionamentiController extends HttpServlet {
     private int perPage=50;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-       String action = request.getParameter("action");
+        String action = retrieveActionAndDetectChanges(request);
+        // Continue with your logic
+       
        int page = Integer.parseInt(request.getParameter("page"));
        request.getSession().setAttribute("action", action);
        request.getSession().setAttribute("page", page);
@@ -62,7 +64,7 @@ public class GestioneApprovigionamentiController extends HttpServlet {
                    currentPageResults = pdao.doRetrieveAll(null, page, perPage);
                    request.getSession().setAttribute("products", currentPageResults);                  
                }               
-               nextPageResults = pdao.doRetrieveAll(null, page, perPage);
+               nextPageResults = pdao.doRetrieveAll(null, page+1, perPage);
                request.getSession().setAttribute("nextPageResults", nextPageResults);
                
                request.getSession().setAttribute("previosly_fetched_page", page+1);
@@ -100,7 +102,7 @@ public class GestioneApprovigionamentiController extends HttpServlet {
                }               
                
                //Retrieving the nextPage data from the db and setting it as nextPageResults:
-               nextPageResults = gas.visualizzaRichiesteFornitura(page, perPage);
+               nextPageResults = gas.visualizzaRichiesteFornitura(page+1, perPage);
                request.getSession().setAttribute("nextPageResults", nextPageResults);
                
                //Setting the previosly_fetched page attribute inside the session to the value of nextPage. 
@@ -123,6 +125,25 @@ public class GestioneApprovigionamentiController extends HttpServlet {
                Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
            }
        }
+    }
+    // This method retrieve the parameter action and last_action from the session that keeps track
+    // of the last selected action if they are different this means the user selected something different
+    // and I need to reset session attributes related to the other action to avoid trobules with pagination.
+    private String retrieveActionAndDetectChanges(HttpServletRequest request){
+        String action = request.getParameter("action");
+        String lastAction = (String) request.getSession().getAttribute("last_action");
+
+        if (lastAction == null || !lastAction.equals(action)) {
+            // Action has changed, reset all session attributes related to pagination
+            request.getSession().removeAttribute("previosly_fetched_page");
+            request.getSession().removeAttribute("nextPageResults");
+            request.getSession().removeAttribute("supply_requests");
+            request.getSession().removeAttribute("hasNextPage");
+        }
+
+        // Update the session with the current action
+        request.getSession().setAttribute("last_action", action);
+        return action;
     }
     
     // Utility method to retrieve session attribute as an Integer with a default value if null.

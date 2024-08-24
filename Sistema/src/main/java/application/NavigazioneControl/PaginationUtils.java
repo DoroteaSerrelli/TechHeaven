@@ -69,12 +69,8 @@ public class PaginationUtils {
     }  
     
     NavigazioneService navi_service = new NavigazioneServiceImpl();
-    public void paginateSearchedProducts(HttpServletRequest request, int page, int resultsPerPage){
-       //searchType ---> pseudo_action 
-       String searchType = (String)request.getSession().getAttribute("search_type");             
-       request.getSession().setAttribute("searchType", searchType);
-       String keyword = (String)request.getSession().getAttribute("keyword");
-       
+    public void paginateSearchedProducts(HttpServletRequest request, int page, int resultsPerPage,String keyword, String searchType){
+       //searchType ---> pseudo_action                 
        request.getSession().setAttribute("page", page);
         // Fetch the previosly_fetched_page being the last page retrieved in the flow of instruction:
         // nextPageItems = > (if page==previous nextPage) I don't need to retrieve the items from the db
@@ -104,9 +100,9 @@ public class PaginationUtils {
                
                request.getSession().setAttribute("previosly_fetched_page", page+1);
                
-               boolean hasNextPage = checkIfItsTheSamePage (currentPageResults, nextPageResults, ProxyProdotto.class);   
-                            
+               boolean hasNextPage = checkIfItsTheSamePage (currentPageResults, nextPageResults, ProxyProdotto.class);                               
                request.getSession().setAttribute("hasNextPage", hasNextPage);
+               request.getSession().setAttribute("keyword", keyword);
            } catch (SQLException ex) {
                Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
                request.getSession().setAttribute("error", "Recupero Prodotti Fallito");
@@ -162,6 +158,24 @@ public class PaginationUtils {
 
         // Set hasNextPage based on whether nextPageItems is empty or has the same first item ID as currentPageItems
         return nextPageItems != null && !nextPageItems.isEmpty() && !isSameAsCurrentPage;
+    }
+    
+    // This method retrieve the parameter action and last_action from the session that keeps track
+    // of the last selected action if they are different this means the user selected something different
+    // and I need to reset session attributes related to the other action to avoid trobules with pagination.
+    public void detectActionChanges(HttpServletRequest request, String action){
+        String lastAction = (String) request.getSession().getAttribute("last_action");
+
+        if (lastAction == null || !lastAction.equals(action)) {
+            // Action has changed, reset all session attributes related to pagination
+            request.getSession().removeAttribute("previosly_fetched_page");
+            request.getSession().removeAttribute("nextPageResults");
+            request.getSession().removeAttribute("products");
+            request.getSession().removeAttribute("hasNextPage");
+        }
+
+        // Update the session with the current action
+        request.getSession().setAttribute("last_action", action);
     }
 }
 

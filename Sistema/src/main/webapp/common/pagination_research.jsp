@@ -22,8 +22,8 @@
                         int previous_page = pagen-1;
                         int next_page = pagen+1;
                         
-                        String prevpageUrl = "NavigazioneController?page=" + previous_page + "&searchType="+searchType+"&keyword="+keyword;
-                        String nextpageUrl = "NavigazioneController?page=" + next_page + "&searchType="+searchType+"&keyword="+keyword;        
+                        String prevpageUrl = "NavigazioneController?page=" + previous_page + "&search_type="+searchType+"&keyword="+keyword;
+                        String nextpageUrl = "NavigazioneController?page=" + next_page + "&search_type="+searchType+"&keyword="+keyword;        
                     %>
                     <% if(pagen>1){%>
                         <h2>Pagina Precedente: <%=previous_page%></h2>  

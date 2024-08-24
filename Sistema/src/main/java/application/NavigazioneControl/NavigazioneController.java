@@ -42,9 +42,11 @@ public class NavigazioneController extends HttpServlet {
         if (keyword == null || keyword.isEmpty()) {
         // Handle the case where id parameter is missing
         // For example, you could return an error response or redirect the user
-        System.out.println("keyword");
-            response.sendRedirect("index.jsp");
-            return;
+            if(keyword==null){
+                System.out.println("keyword");
+                response.sendRedirect("index.jsp");
+                return;
+            }
         }  
         int page = 1;
         try {
@@ -54,22 +56,26 @@ public class NavigazioneController extends HttpServlet {
         }catch(NumberFormatException e){
             page=1;
         }    
-        Collection <ProxyProdotto> searchResult= null;
         request.getSession().setAttribute("keyword", keyword);
+        
         // L'utility di Paginazione effettua la ricerca per tipo di Ricerca (barra - menu)
         // e compila il tutto in una classe searchResult che incapsula
         // i risultati della ricerca e il numero di risultati trovati.
         // Questi vengono passati al termine dell'elaborazione alla servlet 
         // dei risultati che si occuperà di Paginare il risultato della Ricerca.
-        String searchType = request.getParameter("search_type");
-        if (searchType==null){
+        PaginationUtils pu = new PaginationUtils();
+        String searchType = request.getParameter("search_type");        
+        request.getSession().setAttribute("search_type",searchType);
+        
+        if(searchType==null){
+            System.out.println("SONO QUIIIII");
             response.sendRedirect("index.jsp");
             return;
+            
         }
-        PaginationUtils pu = new PaginationUtils();
-        pu.paginateSearchedProducts(request, page, perPage);
-        request.getSession().setAttribute("searchResult", searchResult);
-        request.getSession().setAttribute("keyword", keyword);
+        pu.detectActionChanges(request, searchType);
+        
+        pu.paginateSearchedProducts(request, page, perPage, keyword, searchType);
         response.sendRedirect("/ResultsPage");
     }
 

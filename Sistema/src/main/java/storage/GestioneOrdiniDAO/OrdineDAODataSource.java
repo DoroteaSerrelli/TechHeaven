@@ -58,7 +58,7 @@ public class OrdineDAODataSource {
 	 * **/
 	public synchronized void doSave(Ordine order) throws SQLException, OrdineVuotoException, ModalitaAssenteException, CloneNotSupportedException {
 		//creare ordine
-		
+		Connection connection2 = null;
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -94,8 +94,8 @@ public class OrdineDAODataSource {
 		String insertOrderProductsSQL = "INSERT INTO Composizione_Ordine(ORDINE, PRODOTTO, QUANTITàACQUISTATA, PREZZOACQUISTATO) VALUES (?, ?, ?, ?)";
 
 		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(insertOrderProductsSQL);
+			connection2 = ds.getConnection();
+			preparedStatement = connection2.prepareStatement(insertOrderProductsSQL);
 			for(ItemCarrello i : order.getProdotti()) {
 				preparedStatement.setInt(1, order.getCodiceOrdine());
 				preparedStatement.setInt(2, i.getCodiceProdotto());
@@ -111,8 +111,8 @@ public class OrdineDAODataSource {
 				if (preparedStatement != null)
 					preparedStatement.close();
 			} finally {
-				if (connection != null)
-					connection.close();
+				if (connection2 != null)
+					connection2.close();
 			}
 		}
 

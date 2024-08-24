@@ -104,8 +104,8 @@ public class OrdineDAODataSource {
 
 				preparedStatement.executeUpdate();
 			}
-			connection.setAutoCommit(false);
-			connection.commit();
+			connection2.setAutoCommit(false);
+			connection2.commit();
 		} finally {
 			try {
 				if (preparedStatement != null)

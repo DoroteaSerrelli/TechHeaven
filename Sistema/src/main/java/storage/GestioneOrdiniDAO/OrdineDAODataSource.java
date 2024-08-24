@@ -131,7 +131,7 @@ public class OrdineDAODataSource {
 	 * **/
 	public synchronized void doSaveToShip(Ordine order, ReportSpedizione report) throws SQLException, ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, CloneNotSupportedException {
 		
-		if(!order.getStatoAsString().equals("SPEDITO"))
+		if(!order.getStatoAsString().equals("Spedito"))
 			throw new ErroreSpedizioneOrdineException("Non e\' possibile completare l'operazione perche\' l'ordine non ha lo stato \"Spedito\"");
 		
 		//rimuovere l'ordine preesistente (per CASCADE viene rimosso anche l'oggetto Pagamento)

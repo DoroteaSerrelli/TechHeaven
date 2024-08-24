@@ -53,6 +53,8 @@
                     // Handle error response from server
                     outputMessage ="Item already in cart. Cannot add duplicate items.";              
                 }
+                // After the cart section is reloaded, re-bind range input events
+                rebindRangeInputs();
             displayNotification(outputMessage);
         };
         // Send the request with product ID as a parameter
@@ -74,4 +76,19 @@
     function validateSearch() {
         var searchInput = document.getElementById("searchInput").value.trim();
         return searchInput.length !== 0;
-    }
+    }    
+    
+   document.addEventListener('DOMContentLoaded', (event) => {
+    // Event delegation for all range inputs
+    document.body.addEventListener('input', function(event) {
+        if (event.target.matches('input[type="range"][id^="prod_quantità_"]')) {
+            const rangeInput = event.target;
+            const productCode = rangeInput.id.split('_')[2];
+            const rangeValue = document.querySelector(`#range_value_${productCode}`);
+            
+            if (rangeValue) {
+                rangeValue.textContent = rangeInput.value;
+            }
+        }
+    });
+});

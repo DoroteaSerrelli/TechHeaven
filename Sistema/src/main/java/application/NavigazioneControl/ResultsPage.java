@@ -8,6 +8,7 @@ import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
+import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -69,7 +70,16 @@ public class ResultsPage extends HttpServlet {
         request.getSession().getAttribute("search_type");
         request.setAttribute("page",(int)request.getSession().getAttribute("page"));
         request.setAttribute("hasNextPage", request.getSession().getAttribute("hasNextPage"));
-        // Forward to JSP
+        
+        /// Retrieving the product_left in stock amount to use for the range between 1 and max_amount left in stock - 80% (?)
+        // you could theoretically change the amount based on how many max you want the user to have, documentation states that
+        // it has to be max amount available.
+        HashMap hs = new HashMap();
+        for(ProxyProdotto item : searchResult){
+            hs.put(item.getCodiceProdotto(),  item.getQuantita());                    
+        }
+        request.getSession().setAttribute("products_available_inStock", hs); 
+        // Forward to JSPorder_products_available
         request.getRequestDispatcher("searchResults.jsp").forward(request, response);
         
         //Clear Session Attributes

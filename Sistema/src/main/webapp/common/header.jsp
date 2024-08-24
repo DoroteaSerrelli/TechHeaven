@@ -1,4 +1,5 @@
 
+<%@page import="java.util.HashMap"%>
 <%@page import="application.GestioneCarrelloService.ItemCarrello"%>
 <%@page import="application.GestioneCarrelloService.GestioneCarrelloServiceImpl"%>
 <%@page import="application.NavigazioneService.Prodotto"%>
@@ -13,7 +14,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous"></script> 
     <script src="${pageContext.request.contextPath}/view/navi_script.js"></script>
     
-    <script src="${pageContext.request.contextPath}/view/cartAndSearch_functions.js"></script>
+    <script src="${pageContext.request.contextPath}/view/cartAndSearch_functions.js?ts=<%= System.currentTimeMillis() %>"></script>
     
     </head>    
        <link rel="stylesheet" href="${pageContext.request.contextPath}/common/style.css"> 
@@ -65,6 +66,7 @@
                     if(request.getSession().getAttribute("usercart")==null);
                     else{
                         Carrello cart = (Carrello)request.getSession().getAttribute("usercart"); 
+                        HashMap products_available_inStock = (HashMap) request.getSession().getAttribute("products_available_inStock"); 
                         for(ItemCarrello p: cart.getProducts()){  
                 %>
                 <div class="cart-item">
@@ -77,11 +79,14 @@
                             <path fill="#2DA0F2" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
                         </svg>
                     </a>
-                     <% if (p.getQuantita()>= 1) { %>
+                     <% if (p.getQuantita() >= 1) { %>
                         <!-- Show modify link if quantity is more than one -->
-                        <input type="text" name="prod_quantità" id="prod_quantità_<%= p.getCodiceProdotto() %>">
-                            <a href="#" onclick="modifyCart(<%=p.getCodiceProdotto()%>,'updateQuantità')">Update Quantity</a>         
-                        <% } %>    
+                        <p id="range_value_<%= p.getCodiceProdotto() %>" style="color: goldenrod"><%= p.getQuantita() %></p>
+                        <div class="input-wrapper row">                                
+                            <input type="range" id="prod_quantità_<%= p.getCodiceProdotto() %>" name="prod_quantità" min="1" max="<%= products_available_inStock.get(p.getCodiceProdotto()) %>">         
+                        </div>
+                        <a href="#" onclick="modifyCart(<%= p.getCodiceProdotto() %>, 'updateQuantità')">Update Quantity</a>         
+                    <% } %>  
                 </div>
                <% }}%>
              </div>  

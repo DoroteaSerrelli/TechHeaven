@@ -71,9 +71,11 @@ public class OrdineDAODataSource {
 			preparedStatement.setInt(1, order.getCodiceOrdine());
 			preparedStatement.setString(2, order.getStatoAsString());
 			preparedStatement.setString(3, order.getAcquirente().getEmail());
-			preparedStatement.setString(4, order.getSpedizioneAsString());
-			preparedStatement.setDate(5, java.sql.Date.valueOf(order.getData()));
-			preparedStatement.setTime(6, java.sql.Time.valueOf(order.getOra()));
+			preparedStatement.setString(4, order.getIndirizzoSpedizione());
+			preparedStatement.setString(5, order.getSpedizioneAsString());
+			preparedStatement.setDate(6, java.sql.Date.valueOf(order.getData()));
+			preparedStatement.setTime(7, java.sql.Time.valueOf(order.getOra()));
+			
 			
 			preparedStatement.executeUpdate();
 

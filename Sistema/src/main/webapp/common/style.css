@@ -13,6 +13,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     font-family: serif;
 }
 
+/*WARNING VALIDAZIONE PER INPUT TROPPO LUNGO PER LE TEXTAREA*/
+ .warning {
+    color: red;
+    font-size: 12px;
+    display: none;
+  }
+
 #username{
     margin-bottom: 20px;
 }

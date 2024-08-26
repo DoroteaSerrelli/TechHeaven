@@ -17,7 +17,6 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Fill Order Infos Page</title>
-        <script src="${pageContext.request.contextPath}/view/validations.js"></script>
         
         <%
             Ordine selected_ordine = (Ordine) request.getSession().getAttribute("selected_ordine");
@@ -41,7 +40,7 @@
         </div>       
         <div class="section-p1">
             <h4>Informazioni di spedizione:</h4>
-            <form class="reg_form" action="GestioneOrdiniController?action=complete_order" method="post">
+            <form id="fill_order_form" class="reg_form" action="GestioneOrdiniController?action=complete_order" method="post">
                 <p>Lista Prodotti E Relative Quantità Richieste:</p>
                 <% for (ItemCarrello item : order_products){%>
                 <div class="row">
@@ -57,16 +56,24 @@
               <%}%>  
                 <div class="input-wrapper">  
                     <p>Inserisci informazioni sull'imballaggio:</p>
-                    <textarea name="Imballaggio" rows="4" cols="50" required></textarea>
+                    <textarea id="Imballaggio" name="Imballaggio" rows="4" cols="50" required></textarea>
+                    <span id="charCountImballaggio">0/100</span> <!-- Added for character count -->
+                    <span id="charWarningImballaggio" class="warning">Character limit exceeded!</span><br><br>
                 </div>
                 <div class="input-wrapper">  
                     <p>Inserisci informazioni sull'azienda di spedizioni:</p>
-                    <textarea name="Corriere" rows="4" cols="50" required></textarea>
+                    <textarea id="Corriere" name="Corriere" rows="4" cols="50" required></textarea>
+                    <span id="charCountCorriere">0/60</span> <!-- Added for character count -->
+                    <span id="charWarningCorriere" class="warning">Character limit exceeded!</span><br><br>
                 </div>
                 <button class="confirm_button" type="submit">Conferma Preparazione Ordine</button>
             </form>
                 <a href="GestioneOrdiniController?action=incomplete_order"<button class="confirm_button" type="submit">Anulla Preparazione Ordine</button></a>    
-        </div>       
+        </div>
+                <div class="errormsg">
+                    <p id="error"></p>                  
+                </div>         
+                
         <script>
             document.addEventListener('DOMContentLoaded', (event) => {
             // Get the range input element and the span where the value will be displayed
@@ -85,6 +92,7 @@
             rangeInput.addEventListener('input', updateRangeValue);
         });
         </script>
+        <script src="${pageContext.request.contextPath}/view/validations.js"></script>
     </body>
 </html> 
 			

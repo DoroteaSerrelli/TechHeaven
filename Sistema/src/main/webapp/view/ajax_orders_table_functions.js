@@ -131,25 +131,30 @@ function fetchOrders(page, action) {
             // Table rows
             const row1 = $('<tr></tr>');
             // Create the acceptCell          
-            const acceptCell = $('<td></td>').html(
-                '<form action="'+window.contextPath+'/GestioneOrdiniController?action=accept_order" method="POST">' +
-                '<input type="hidden" name="orderId" value="' + order.codiceOrdine + '">' +
-                '<input type="submit" value="Accetta">' +
-                '</form>'
-            ); 
-            
+            // Create the accept button cell
+             // Only add the accept button if the order status is not "Sent"
+                if (order.stato !== 'Spedito') {
+                    const acceptCell = $('<td></td>').html(
+                        '<form action="'+window.contextPath+'/GestioneOrdiniController?action=accept_order" method="POST">' +
+                        '<input type="hidden" name="orderId" value="' + order.codiceOrdine + '">' +
+                        '<input type="submit" value="Accetta">' +
+                        '</form>'
+                    );
+                    row1.append(acceptCell);
+                }
             const codiceCell = $('<td></td>').text(order.codiceOrdine);
             const statoCell = $('<td></td>').text(order.stato);
             const indirizzoSpCell = $('<td></td>').text(order.indirizzoSpedizione);
-            row1.append(codiceCell, statoCell, indirizzoSpCell, acceptCell);
-            $('#showpr tbody').append(row1);
-
-            const row2 = $('<tr></tr>');
             const tipoSpCell = $('<td></td>').text(order.spedizione);
             const dataCell = $('<td></td>').text(order.data);
             const oraCell = $('<td></td>').text(order.ora);
-            row2.append(tipoSpCell, dataCell, oraCell);
-            $('#showpr tbody').append(row2);
+            row1.append(codiceCell, statoCell, indirizzoSpCell, tipoSpCell, dataCell, oraCell);
+            $('#showpr tbody').append(row1);
+
+        //    const row2 = $('<tr></tr>');
+            
+           // row2.append(tipoSpCell, dataCell, oraCell);
+           // $('#showpr tbody').append(row2);
 
         // Card layout
         const card = $(

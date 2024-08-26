@@ -11,8 +11,12 @@ import application.GestioneOrdiniService.ObjectOrdine;
 import application.GestioneOrdiniService.Ordine;
 import application.GestioneOrdiniService.OrdineException;
 import application.GestioneOrdiniService.ProxyOrdine;
+import application.GestioneOrdiniService.ReportSpedizione;
 import application.NavigazioneControl.PaginationUtils;
+import application.NavigazioneService.ProdottoException;
 import application.NavigazioneService.ProxyProdotto;
+import application.PagamentoService.PagamentoException;
+import application.RegistrazioneService.Cliente;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import java.io.IOException;
@@ -97,13 +101,16 @@ public class GestioneOrdiniController extends HttpServlet {
         try{
             //Visualizza prodotti selezionato forse il retrieve lo faccio con ajax <._.>
             int page = 1;
-            String action = "fetch_da_spedire";
+            PaginationUtils pu = new PaginationUtils ();
+            String action = "";
             try{
                 if (request.getParameter("page") != null)
                     page = Integer.parseInt(
                             request.getParameter("page"));
                 if(request.getParameter("action") != null){
                     action = request.getParameter("action");
+                    pu.detectActionChanges(request, action);
+                    
                 }
             } catch(Exception e) {
                 Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, e);
@@ -111,8 +118,15 @@ public class GestioneOrdiniController extends HttpServlet {
             }
             
             // Perform pagination and fetch products for the requested page
-            Collection<ProxyOrdine> orders_to_send= PaginationUtils.performPagination(new GestioneOrdiniServiceImpl(), page, pr_pagina,action);
-            
+            Collection<ProxyOrdine> orders_to_send = (Collection<ProxyOrdine>) request.getSession().getAttribute("products");
+            if (orders_to_send == null) {
+                // If the list is not in the session, fetch it again
+                orders_to_send = PaginationUtils.performPagination(
+                    new GestioneOrdiniServiceImpl(), page, pr_pagina, action);
+
+                // Store it in the session for future requests
+                request.getSession().setAttribute("products", orders_to_send);
+            }
             int totalPages = (int) Math.ceil((double) orders_to_send.size() / pr_pagina);
             // Set content type to JSON
             response.setContentType("application/json");
@@ -166,30 +180,103 @@ public class GestioneOrdiniController extends HttpServlet {
                     System.out.println("ORDER_ID :"+orderID);
                     
                     ArrayList<ItemCarrello> order_products = odao.doRetrieveAllOrderProducts(orderID);
-                    Ordine selected_ordine = odao.doRetrieveFullOrderByKey(orderID);
-                    selected_ordine.setStato(ObjectOrdine.Stato.In_lavorazione);                   
-                    request.setAttribute("selected_ordine", selected_ordine);
+                    ProxyOrdine proxy_ordine = odao.doRetrieveProxyByKey(orderID);
+                    
+                    proxy_ordine.setStato(ObjectOrdine.Stato.In_lavorazione);
+                    request.getSession().setAttribute("proxy_ordine", proxy_ordine);
+                    request.getSession().setAttribute("selected_ordine", proxy_ordine.mostraOrdine());
                     
                     HashMap hs = new HashMap();
                     for(ItemCarrello item : order_products){
                         ProxyProdotto pr = pdao.doRetrieveProxyByKey(item.getCodiceProdotto());
                         hs.put(item.getCodiceProdotto(),  pr.getQuantita());                    
                     }
-                    request.setAttribute("order_products", order_products);                  
+                    request.getSession().setAttribute("order_products", order_products);                  
                     request.setAttribute("order_products_available", hs);                    
                     
                     request.getRequestDispatcher("fill_order_details").forward(request, response);
-                } catch (SQLException ex) {
-                    Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (OrdineException.OrdineVuotoException ex) {
+                } catch (SQLException | OrdineException.OrdineVuotoException | ProdottoException.CategoriaProdottoException ex) {
                     Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             
             }
-            
-            // Altrimenti mi occupo delle richieste di approvigionamento relativi ad un prodotto.           
-            else{
+            else if(action.equals("complete_order")){             
+                try {
+                    ArrayList <ItemCarrello> carrello = (ArrayList <ItemCarrello>)request.getSession().getAttribute("order_products");
+                    String[] productIds = request.getParameterValues("product_id");
+                    String[] itemAmounts = request.getParameterValues("item_amount");
+                    if (productIds != null && itemAmounts != null) {
+                        boolean errorOccurred = false;
+        
+                        // Process each product in the order
+                        for (int i = 0; i < productIds.length; i++) {
+                            String productId = productIds[i];
+                            int quantity = Integer.parseInt(itemAmounts[i]);
+
+                            // Find the corresponding product in the cart
+                            ItemCarrello item = carrello.stream()
+                                .filter(c -> String.valueOf(c.getCodiceProdotto()).equals(productId))
+                                .findFirst()
+                                .orElse(null);
+
+                        if (item != null) {
+                            // Validate the quantity
+                            if (quantity < item.getQuantita()) {
+                                request.setAttribute("error", "La quantità non può essere inferiore alla quantità richiesta per il prodotto " + item.getNomeProdotto());
+                                errorOccurred = true;
+                                break;
+                            }
+                            // Update the item's quantity to be shipped
+                            item.setQuantita(quantity);
+                        }
+                        }
+                        if (errorOccurred) {
+                            request.getRequestDispatcher("GestioneOrdini.jsp").forward(request, response);
+                            return;
+                        }
+                    } 
+                    
+                    String imballaggio = request.getParameter("Imballaggio");
+                    String corriere = request.getParameter("Corriere");
+                                      
+                    Ordine order= (Ordine)request.getSession().getAttribute("selected_ordine");
+                    ProxyOrdine order_proxy = (ProxyOrdine)request.getSession().getAttribute("proxy_ordine");
+                    
+                    order_proxy.setStato(ObjectOrdine.Stato.Spedito);
+                    order.setStato(ObjectOrdine.Stato.Spedito);
+                    order.setProdotti(carrello);
+                    
+                    ReportSpedizione report = new ReportSpedizione(order_proxy.getCodiceOrdine(), corriere, imballaggio, order_proxy);          
+                
+                    
+                    gos.preparazioneSpedizioneOrdine(order, report);
+                    request.getSession().setAttribute("error", "Ordine Spedito Con Successo!");
+                    
+                    request.getSession().removeAttribute("proxy_ordine");                    
+                    request.getSession().removeAttribute("selected_ordine");
+                    request.getSession().removeAttribute("order_products");
+                    
+                    response.sendRedirect("GestioneOrdini");                 
+                    
+                } catch(IOException | NumberFormatException | SQLException e){} catch (OrdineException.ErroreSpedizioneOrdineException | OrdineException.OrdineVuotoException | PagamentoException.ModalitaAssenteException | CloneNotSupportedException ex) {
+                    Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println(ex);
+                  //  request.getRequestDispatcher("fill_order_details").forward(request, response);
+                  //  request.setAttribute("error","C'è stato un errore durante la preparazione dell'ordine");
+                    request.getSession().removeAttribute("selected_ordine");
+                    
+                } catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException ex) {
+                    Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
+                    System.out.println(ex);
+                }
             }
+            else{
+                Ordine ordine = (Ordine)request.getSession().getAttribute("selected_ordine");
+                ordine.setStato(ObjectOrdine.Stato.Preparazione_incompleta);
+                request.getSession().removeAttribute("selected_ordine");
+                request.getSession().removeAttribute("order_products");
+                response.sendRedirect("GestioneOrdini");  
+            }   
      }
     
     /**

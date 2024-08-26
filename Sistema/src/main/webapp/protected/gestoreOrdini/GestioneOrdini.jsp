@@ -57,8 +57,7 @@
                         <h5>Approvigionamento</h5>
                     </div>
                 </section>
-           </main>
-                
+           </main>            
                  <section id="forms">
                     <section id="viewOrdersForm" class="form-section hidden">
                         <h2>Visualizza Prodotti</h2>
@@ -69,12 +68,9 @@
                                         <th><strong>Codice</strong></th>
                                         <th><strong>Stato</strong></th>
                                         <th><strong>IndirizzoSpedizione</strong></th>
-                                    </tr>
-                                    <tr class="header-row-2">
                                         <th><strong>TipoSpedizione</strong></th>
                                         <th><strong>DataOrdine</strong></th>
                                         <th><strong>OraOrdine</strong></th>
-                                    </tr>
                                 </thead>
                                 <tbody>                                                                 
                                     <!-- Rows will be added here -->
@@ -95,8 +91,7 @@
                          
                        <div id="pagination"></div>
             </section>
-        </section>             
-           
+        </section>                       
        <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script>        
     <jsp:include page="${pageContext.request.contextPath}/common/footer.jsp"  flush="true"/>
     </body>

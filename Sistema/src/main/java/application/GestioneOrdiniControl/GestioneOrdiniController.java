@@ -62,12 +62,14 @@ public class GestioneOrdiniController extends HttpServlet {
     private GestioneOrdiniServiceImpl gos;
     private OrdineDAODataSource odao;
     private ProdottoDAODataSource pdao;
+    private PaginationUtils pu;
     @Override
     public void init() throws ServletException {
         // Initialize any services or resources needed by the servlet
         odao = new OrdineDAODataSource();
         gos = new GestioneOrdiniServiceImpl();
         pdao = new ProdottoDAODataSource();
+        pu = new PaginationUtils();
     }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -98,36 +100,43 @@ public class GestioneOrdiniController extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        try{
             //Visualizza prodotti selezionato forse il retrieve lo faccio con ajax <._.>
             int page = 1;
-            PaginationUtils pu = new PaginationUtils ();
             String action = "";
+            String status = "Richiesta_effettuata";
             try{
                 if (request.getParameter("page") != null)
                     page = Integer.parseInt(
                             request.getParameter("page"));
                 if(request.getParameter("action") != null){
                     action = request.getParameter("action");
-                    pu.detectActionChanges(request, action);
-                    
+                    if (!action.equals("incomplete_order")) 
+                        pu.detectActionChanges(request, action);                  
                 }
             } catch(Exception e) {
                 Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, e);
                 page=1;
             }
-            
             // Perform pagination and fetch products for the requested page
-            Collection<ProxyOrdine> orders_to_send = (Collection<ProxyOrdine>) request.getSession().getAttribute("products");
-            if (orders_to_send == null) {
-                // If the list is not in the session, fetch it again
-                orders_to_send = PaginationUtils.performPagination(
-                    new GestioneOrdiniServiceImpl(), page, pr_pagina, action);
-
-                // Store it in the session for future requests
-                request.getSession().setAttribute("products", orders_to_send);
+            //Collection<ProxyOrdine> orders_to_send = (Collection<ProxyOrdine>) request.getSession().getAttribute("products");
+            Ordine ordine = new Ordine();
+            if(action.equals("incomplete_order")){
+                ordine = (Ordine)request.getSession().getAttribute("selected_ordine");
+                request.getSession().removeAttribute("selected_ordine");   
+                status = "Preparazione_incompleta";
+                action = "fetch_da_spedire";
             }
-            int totalPages = (int) Math.ceil((double) orders_to_send.size() / pr_pagina);
+            Collection <ProxyOrdine> orders_to_send = new ArrayList();
+            try {
+                orders_to_send = paginateOrders(request, page, action);
+            } catch (Exception ex) {
+                Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+           
+            if(status.equals("Preparazione_incompleta"))
+                updateOrderStatusInList(orders_to_send, ordine, status);
+
+            
             // Set content type to JSON
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
@@ -135,7 +144,7 @@ public class GestioneOrdiniController extends HttpServlet {
             // Create a response object to hold products and total pages
             Map<String, Object> responseData = new HashMap<>();
             responseData.put("orders", orders_to_send);
-            responseData.put("totalPages", totalPages);
+            responseData.put("hasNextPage", request.getSession().getAttribute("hasNextPage"));
             
             // Convert response object to JSON
             GsonBuilder gsonBuilder = new GsonBuilder(); // Using Gson for JSON conversion
@@ -150,9 +159,7 @@ public class GestioneOrdiniController extends HttpServlet {
             out.print(jsonResponse);
             out.flush();
             
-        } catch(SQLException ex) {
-           Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
-       }
+       
         
     }
 
@@ -164,7 +171,7 @@ public class GestioneOrdiniController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private static int pr_pagina = 50;       
+    private static int pr_pagina = 4;       
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {   
@@ -205,36 +212,12 @@ public class GestioneOrdiniController extends HttpServlet {
                     ArrayList <ItemCarrello> carrello = (ArrayList <ItemCarrello>)request.getSession().getAttribute("order_products");
                     String[] productIds = request.getParameterValues("product_id");
                     String[] itemAmounts = request.getParameterValues("item_amount");
-                    if (productIds != null && itemAmounts != null) {
-                        boolean errorOccurred = false;
-        
-                        // Process each product in the order
-                        for (int i = 0; i < productIds.length; i++) {
-                            String productId = productIds[i];
-                            int quantity = Integer.parseInt(itemAmounts[i]);
-
-                            // Find the corresponding product in the cart
-                            ItemCarrello item = carrello.stream()
-                                .filter(c -> String.valueOf(c.getCodiceProdotto()).equals(productId))
-                                .findFirst()
-                                .orElse(null);
-
-                        if (item != null) {
-                            // Validate the quantity
-                            if (quantity < item.getQuantita()) {
-                                request.setAttribute("error", "La quantità non può essere inferiore alla quantità richiesta per il prodotto " + item.getNomeProdotto());
-                                errorOccurred = true;
-                                break;
-                            }
-                            // Update the item's quantity to be shipped
-                            item.setQuantita(quantity);
-                        }
-                        }
-                        if (errorOccurred) {
-                            request.getRequestDispatcher("GestioneOrdini.jsp").forward(request, response);
-                            return;
-                        }
-                    } 
+                    // Validate cart quantities
+                    boolean validQuantities = validateCartQuantities(carrello, productIds, itemAmounts, request);
+                    if (!validQuantities) {
+                        request.getRequestDispatcher("GestioneOrdini.jsp").forward(request, response);
+                        return;
+                    }      
                     
                     String imballaggio = request.getParameter("Imballaggio");
                     String corriere = request.getParameter("Corriere");
@@ -270,15 +253,78 @@ public class GestioneOrdiniController extends HttpServlet {
                     System.out.println(ex);
                 }
             }
-            else{
-                Ordine ordine = (Ordine)request.getSession().getAttribute("selected_ordine");
-                ordine.setStato(ObjectOrdine.Stato.Preparazione_incompleta);
-                request.getSession().removeAttribute("selected_ordine");
-                request.getSession().removeAttribute("order_products");
-                response.sendRedirect("GestioneOrdini");  
-            }   
+          
      }
+    // This method handles retrieve and pagination of current_page results while also giving back the Order Collection for
+    // the current page.
+    private Collection<ProxyOrdine> paginateOrders(HttpServletRequest request, int page, String action) throws SQLException, Exception{
+        Collection <ProxyOrdine> currentPageResults;
+        Collection <ProxyOrdine> nextPageResults;
+        int previoslyFetchedPage = pu.getSessionAttributeAsInt(request, "previosly_fetched_page", 0);
+            if(page==previoslyFetchedPage){                 
+                currentPageResults = pu.getSessionCollection(request, "nextPageResults", ProxyOrdine.class);
+                request.getSession().setAttribute("products", currentPageResults);              
+            }
+            else {
+                currentPageResults = PaginationUtils.performPagination(
+                 new GestioneOrdiniServiceImpl(), page, pr_pagina, action);
+                request.getSession().setAttribute("products", currentPageResults);                  
+            }     
+            nextPageResults = PaginationUtils.performPagination(
+                 new GestioneOrdiniServiceImpl(), page+1, pr_pagina, action);
+            
+            request.getSession().setAttribute("nextPageResults", nextPageResults);
+            request.getSession().setAttribute("previosly_fetched_page", page+1);
+            
+            boolean hasNextPage = pu.checkIfItsTheSamePage (currentPageResults, nextPageResults, ProxyOrdine.class);   
+            request.getSession().setAttribute("hasNextPage", hasNextPage);
+            return currentPageResults;
+    }
     
+    
+    // This method validates the quantities picked by the order_manager and return true if every quantity was correct.
+    private boolean validateCartQuantities(ArrayList<ItemCarrello> carrello, String[] productIds, String[] itemAmounts, HttpServletRequest request) {
+        if (productIds != null && itemAmounts != null) {
+                        boolean errorOccurred = false;    
+            // Process each product in the order
+            for (int i = 0; i < productIds.length; i++) {
+                String productId = productIds[i];
+                int quantity = Integer.parseInt(itemAmounts[i]);
+
+                // Find the corresponding product in the cart
+                ItemCarrello item = carrello.stream()
+                    .filter(c -> String.valueOf(c.getCodiceProdotto()).equals(productId))
+                    .findFirst()
+                    .orElse(null);
+
+                if (item != null) {
+                    // Validate the quantity
+                    if (quantity < item.getQuantita()) {
+                        request.setAttribute("error", "La quantità non può essere inferiore alla quantità richiesta per il prodotto " + item.getNomeProdotto());
+                        errorOccurred = true;
+                        break;
+                    }
+                    // Update the item's quantity to be shipped
+                    item.setQuantita(quantity);
+                }
+            }      
+        } 
+        return true;
+    }
+    
+    // This method updates the order status inside the Order retrieved to a set one passed as a parameter.
+    // as a well as its own status.
+    private void updateOrderStatusInList(Collection<ProxyOrdine> orders, Ordine ordineToUpdate, String newStatus) {
+        ordineToUpdate.setStato(ObjectOrdine.Stato.valueOf(newStatus));
+        for (ProxyOrdine proxyOrdine : orders) {
+            if (proxyOrdine.getCodiceOrdine() == ordineToUpdate.getCodiceOrdine()) {
+                // Temporarily update the status of this order
+                proxyOrdine.setStato(ObjectOrdine.Stato.valueOf(newStatus));
+                break; // Exit loop once the order is found and updated
+            }
+        }
+    }
+
     /**
      * Returns a short description of the servlet.
      *

@@ -23,7 +23,7 @@
         </script>
         <%
             System.out.println("Setting previosly_fetched_page to 0 in JSP");
-            request.getSession().setAttribute("previosly_fetched_page", 0);
+           // request.getSession().setAttribute("previosly_fetched_page", 0);
             Collection<?> nextPageResults = (Collection<?>) session.getAttribute("nextPageResults");
             if (nextPageResults == null) {
                 session.setAttribute("nextPageResults", new ArrayList<>());
@@ -33,7 +33,8 @@
     </head>    
     <body>     
        <jsp:include page="${pageContext.request.contextPath}/common/header.jsp"  flush="true"/>
-       <jsp:include page="${pageContext.request.contextPath}/roleSelector.jsp"  flush="true"/>      
+       <jsp:include page="${pageContext.request.contextPath}/roleSelector.jsp"  flush="true"/>    
+       <div id="pagination"></div>
         <aside class="options_sidebar hidden" id="options_sidebar">
             <!-- Sidebar will be populated by JavaScript -->
         </aside>

@@ -109,6 +109,7 @@ function cancelSupplyRequest() {
     }
 }
 function fetchOrders(page, action) {
+    console.log(action);
     const url = `${window.contextPath}/GestioneOrdiniController?page=`+page+'&action='+action;
     console.log('Fetching URL:', url); // Debug URL
 
@@ -122,7 +123,7 @@ function fetchOrders(page, action) {
             // Handle and display the products and pagination
             const orders = data.orders;
             console.log(orders);
-            const totalPages = data.totalPages;
+            const hasNextPage = data.hasNextPage;
             // Clear both containers
             $('#showpr tbody').html('');
             $('#card-container').html('');
@@ -170,28 +171,71 @@ function fetchOrders(page, action) {
 
         $('#card-container').append(card);                    
         });                       
-
-            // Update pagination
-            const pagination = $('#pagination');
-            pagination.html('');
-            for (let i = 1; i <= totalPages; i++) {
-                const link = $(`<a href="#">${i}</a>`);
-                link.click(function(e) {
-                    e.preventDefault();
-                    fetchProducts(i,action);
-                });
-                pagination.append(link);
-            }
-            },
-            error: function(xhr, status, error) {
-                console.error('Error fetching data:', error);
-            }
-                });
-            }
+        
+        // Update pagination
+        updatePagination(page, action, hasNextPage); // Ensure pagination is updated with new data
+    },
+        error: function(xhr, status, error) {
+        console.error('Error fetching data:', error);
+        }
+    });
+}   
     $(document).ready(function() {
         const page = 1; // Example page number
         // Attach the resize event listener
+        const action = sessionStorage.getItem('action');
+        if (action) {
+            sessionStorage.removeItem('action');
+            moveToSidebar('viewOrders', 'viewOrdersForm');
+            fetchOrders(1, action);
+        } else {
+            moveToSidebar('viewOrders', 'viewOrdersForm');
+            fetchOrders(1, 'fetch_da_spedire');
+        }
         $(window).resize(function() {
             toggleView();
         });
     });
+  
+  function updatePagination (currentPage, action, hasNextPage) {
+        const paginationDiv = document.getElementById('pagination');
+        paginationDiv.innerHTML = ''; // Clear previous pagination
+
+        // Add Previous Page Button
+        if (currentPage > 1) {
+            var previousPage = currentPage - 1;
+            const prevButton = document.createElement('a');
+            prevButton.innerHTML = '<img src="' + window.contextPath + '/view/img/arrow_back.png" alt="Previous Page">';
+            prevButton.addEventListener('click', function(event) {
+                event.preventDefault(); // Prevent default link behavior
+                fetchOrders(previousPage, action); // Fetch previous page
+            });
+            paginationDiv.appendChild(prevButton);
+
+            const prevText = document.createElement('h2');
+            prevText.textContent = 'Pagina Precedente: ' + previousPage;
+            paginationDiv.appendChild(prevText);
+        }
+
+        // Add Next Page Button
+    if (hasNextPage) {
+        var nextPage = currentPage + 1;
+        const nextButton = document.createElement('a');
+        nextButton.innerHTML = '<img src="' + window.contextPath + '/view/img/arrow_forward.png" alt="Next Page">';
+        nextButton.addEventListener('click', function(event) {
+            event.preventDefault(); // Prevent default link behavior
+            fetchOrders(nextPage, action); // Fetch next page
+        });
+        paginationDiv.appendChild(nextButton);
+
+        const nextText = document.createElement('h2');
+        nextText.textContent = 'Pagina Successiva: ' + nextPage;
+        paginationDiv.appendChild(nextText);
+    } else {
+        const nextDisabled = document.createElement('img');
+        nextDisabled.src = window.contextPath + '/view/img/arrow_forward_disabled.png';
+        nextDisabled.alt = 'No Next Page';
+        paginationDiv.appendChild(nextDisabled);
+    }
+}
+        

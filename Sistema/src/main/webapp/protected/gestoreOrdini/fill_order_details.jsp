@@ -67,8 +67,8 @@
                     <span id="charWarningCorriere" class="warning">Character limit exceeded!</span><br><br>
                 </div>
                 <button class="confirm_button" type="submit">Conferma Preparazione Ordine</button>
-            </form>
-                <a href="GestioneOrdiniController?action=incomplete_order"<button class="confirm_button" type="submit">Anulla Preparazione Ordine</button></a>    
+            </form><!--<a href="GestioneOrdiniController?action=incomplete_order" >-->
+                 <button onclick="setActionAndRedirect('incomplete_order')" class="confirm_button" type="submit">Annulla Preparazione Ordine</button></a>    
         </div>
                 <div class="errormsg">
                     <p id="error"></p>                  
@@ -92,6 +92,12 @@
             rangeInput.addEventListener('input', updateRangeValue);
         });
         </script>
+        <script>
+            function setActionAndRedirect(action) {
+                sessionStorage.setItem('action', action); // Store action in session storage
+                window.location.href = 'GestioneOrdini'; // Redirect to the main page
+            }
+    </script>
         <script src="${pageContext.request.contextPath}/view/validations.js"></script>
     </body>
 </html> 

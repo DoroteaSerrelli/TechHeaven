@@ -199,9 +199,9 @@ public class GestioneOrdiniController extends HttpServlet {
                         hs.put(item.getCodiceProdotto(),  pr.getQuantita());                    
                     }
                     request.getSession().setAttribute("order_products", order_products);                  
-                    request.setAttribute("order_products_available", hs);                    
+                    request.getSession().setAttribute("order_products_available", hs);                    
                     
-                    request.getRequestDispatcher("fill_order_details").forward(request, response);
+                    response.sendRedirect("fill_order_details");
                 } catch (SQLException | OrdineException.OrdineVuotoException | ProdottoException.CategoriaProdottoException ex) {
                     Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
                 }
@@ -215,7 +215,7 @@ public class GestioneOrdiniController extends HttpServlet {
                     // Validate cart quantities
                     boolean validQuantities = validateCartQuantities(carrello, productIds, itemAmounts, request);
                     if (!validQuantities) {
-                        request.getRequestDispatcher("GestioneOrdini.jsp").forward(request, response);
+                        request.getRequestDispatcher("GestioneOrdini").forward(request, response);
                         return;
                     }      
                     
@@ -231,7 +231,6 @@ public class GestioneOrdiniController extends HttpServlet {
                     
                     ReportSpedizione report = new ReportSpedizione(order_proxy.getCodiceOrdine(), corriere, imballaggio, order_proxy);          
                 
-                    
                     gos.preparazioneSpedizioneOrdine(order, report);
                     request.getSession().setAttribute("error", "Ordine Spedito Con Successo!");
                     
@@ -245,12 +244,13 @@ public class GestioneOrdiniController extends HttpServlet {
                     Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex);
                   //  request.getRequestDispatcher("fill_order_details").forward(request, response);
-                  //  request.setAttribute("error","C'è stato un errore durante la preparazione dell'ordine");
+                    request.getSession().setAttribute("error","C'è stato un errore durante la preparazione dell'ordine");                 
                     request.getSession().removeAttribute("selected_ordine");
                     
                 } catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException ex) {
                     Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex);
+                    request.getSession().setAttribute("error","C'è stato un errore durante la preparazione dell'ordine"); 
                 }
             }
           

@@ -83,7 +83,8 @@
                         </div>
                         <div id="error">
                             <% String errormsg="";
-                                errormsg= (String)request.getAttribute("error");
+                                errormsg= (String)request.getSession().getAttribute("error");
+                                request.getSession().removeAttribute("error");
                                 if(errormsg==null) errormsg="";                                                       
                             %>
                             <%=errormsg%>

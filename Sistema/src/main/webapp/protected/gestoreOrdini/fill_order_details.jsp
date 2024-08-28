@@ -25,7 +25,7 @@
                 return;
             }
             ArrayList<ItemCarrello> order_products = (ArrayList<ItemCarrello>) request.getSession().getAttribute("order_products");
-            HashMap order_products_available = (HashMap) request.getAttribute("order_products_available");
+            HashMap order_products_available = (HashMap) request.getSession().getAttribute("order_products_available");
         %>
     </head>
     <body>
@@ -66,7 +66,7 @@
                     <span id="charCountCorriere">0/60</span> <!-- Added for character count -->
                     <span id="charWarningCorriere" class="warning">Character limit exceeded!</span><br><br>
                 </div>
-                <button class="confirm_button" type="submit">Conferma Preparazione Ordine</button>
+                <button class="confirm_button" onClick="setActionForOrderSent()" type="submit">Conferma Preparazione Ordine</button>
             </form><!--<a href="GestioneOrdiniController?action=incomplete_order" >-->
                  <button onclick="setActionAndRedirect('incomplete_order')" class="confirm_button" type="submit">Annulla Preparazione Ordine</button></a>    
         </div>
@@ -96,6 +96,10 @@
             function setActionAndRedirect(action) {
                 sessionStorage.setItem('action', action); // Store action in session storage
                 window.location.href = 'GestioneOrdini'; // Redirect to the main page
+            }
+            function setActionForOrderSent() {
+                sessionStorage.setItem('action', 'fetch_spediti'); // Store the 'order_sent' action
+               // window.location.href = 'GestioneOrdini'; // Redirect to the main page
             }
     </script>
         <script src="${pageContext.request.contextPath}/view/validations.js"></script>

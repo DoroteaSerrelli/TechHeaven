@@ -14,7 +14,7 @@ import application.RegistrazioneService.Indirizzo;
  * @author Dorotea Serrelli
  * */
 
-public abstract class ObjectOrdine {
+public abstract class ObjectOrdine implements Cloneable{
 	
 	/**
 	 * L'enum Stato permette di identificare lo stato di elaborazione dell'ordine.

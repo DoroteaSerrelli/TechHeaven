@@ -9,7 +9,7 @@ package application.RegistrazioneService;
  * @see application.RegistrazioneService.ObjectUtente
  */
 
-public class Utente extends ObjectUtente{
+public class Utente extends ObjectUtente implements Cloneable{
 	
 	/**
 	 * Riferimento al profilo dell'utente, contenente le informazioni

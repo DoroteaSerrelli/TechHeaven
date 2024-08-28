@@ -17,7 +17,7 @@ import storage.GestioneOrdiniDAO.OrdineDAODataSource;
  * @author Dorotea Serrelli
  * */
 
-public class Cliente {
+public class Cliente implements Cloneable{
 	
 	/**
 	 * La classe enum Sesso rappresenta il concetto di genere

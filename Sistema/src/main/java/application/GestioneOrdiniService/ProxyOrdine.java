@@ -24,7 +24,7 @@ import storage.GestioneOrdiniDAO.OrdineDAODataSource;
  * @author Dorotea Serrelli
  * */
 
-public class ProxyOrdine extends ObjectOrdine{
+public class ProxyOrdine extends ObjectOrdine implements Cloneable{
 	
 	/**
 	 * ordine : riferimento all'ordine effettivo commissionato al negozio online.

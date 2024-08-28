@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * @author Dorotea Serrelli
  * */
 
-public abstract class ObjectUtente {
+public abstract class ObjectUtente implements Cloneable{
 
 	/**
 	 * Username : il nome utente che identifica univocamente l'utente
@@ -215,26 +215,3 @@ public abstract class ObjectUtente {
 	    }
 	}
 }
-
-
-/*
- * 
- * // Creazione del proxy
-ProxyUtente proxyUtente = new ProxyUtente(username, password, ruoli);
-
-// Verifica dell'accesso a una pagina
-if (proxyUtente.hasAccess("AreaRiservata")) {
-    // Caricamento dell'oggetto Utente completo
-    Utente utente = Utente.load(username);
-
-    // Visualizzazione delle informazioni dell'utente
-    System.out.println(utente.toString());
-} else {
-    // Utente non autorizzato
-    System.out.println("Accesso negato!");
-}
-
- * 
- * 
- * 
- * */

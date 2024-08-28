@@ -16,7 +16,7 @@ import application.GestioneOrdiniService.Ordine;
  * @author Dorotea Serrelli
  * */
 
-public class PagamentoCartaCredito extends Pagamento{
+public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 	
 	/**
 	 * Il titolare della carta di credito

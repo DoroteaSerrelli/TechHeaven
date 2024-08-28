@@ -10,7 +10,7 @@ package application.RegistrazioneService;
  * 
  * */
 
-public class Ruolo {
+public class Ruolo implements Cloneable{
 	/**
 	 * Il nome del ruolo associato ad un individuo.
 	 * */

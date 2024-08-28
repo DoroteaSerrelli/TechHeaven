@@ -13,7 +13,7 @@ import application.RegistrazioneService.Indirizzo;
  * @author Dorotea Serrelli
  * */
 
-public class Ordine extends ObjectOrdine{
+public class Ordine extends ObjectOrdine implements Cloneable{
 	
 	/**
 	 * acquirente : è il committente dell'ordine.

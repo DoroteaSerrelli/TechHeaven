@@ -7,7 +7,7 @@ package application.RegistrazioneService;
  * @author Dorotea Serrelli
  */
 
-public class Indirizzo {
+public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Identificativo dell'indirizzo postale.

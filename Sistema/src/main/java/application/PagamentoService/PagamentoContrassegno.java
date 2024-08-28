@@ -14,7 +14,7 @@ import application.GestioneOrdiniService.Ordine;
  * @author Dorotea Serrelli
  * */
 
-public class PagamentoContrassegno extends Pagamento {
+public class PagamentoContrassegno extends Pagamento implements Cloneable{
 
 	/**
 	 * Costruttore di default di classe.

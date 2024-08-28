@@ -8,7 +8,7 @@ import application.NavigazioneService.*;
  * 
  * @author Dorotea Serrelli
  * */
-public class ItemCarrello extends Prodotto{
+public class ItemCarrello extends Prodotto implements Cloneable{
 	
 	/**
 	 * Il numero di pezzi di un prodotto da acquistare.

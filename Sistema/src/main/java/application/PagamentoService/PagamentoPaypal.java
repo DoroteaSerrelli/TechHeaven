@@ -13,7 +13,7 @@ import application.GestioneOrdiniService.Ordine;
  * @author Dorotea Serrelli
  * */
 
-public class PagamentoPaypal extends Pagamento {
+public class PagamentoPaypal extends Pagamento implements Cloneable{
 	/**
 	 * Costruttore di default di classe.
 	 * */

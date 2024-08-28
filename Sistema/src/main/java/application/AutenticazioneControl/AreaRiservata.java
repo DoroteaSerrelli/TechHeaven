@@ -36,19 +36,22 @@ public class AreaRiservata extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AddressRetrieval</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AddressRetrieval at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        ProxyUtente u = (ProxyUtente) request.getSession().getAttribute("user");
+        if (u==null || u.getUsername().equals("")) {
+           response.sendRedirect("Autenticazione");
+           return;
+        }    
+        // Retrieve data from request or session if needed
+        ArrayList<Indirizzo> indirizzi = (ArrayList<Indirizzo>) request.getAttribute("Indirizzi");
+        if(indirizzi==null){
+            try {
+                loadUserAddresses(request, u);
+            } catch (SQLException ex) {
+                Logger.getLogger(AreaRiservata.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+        // Forward to JSP
+        request.getRequestDispatcher("AreaRiservata.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

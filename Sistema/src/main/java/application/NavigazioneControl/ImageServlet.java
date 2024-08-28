@@ -4,6 +4,7 @@
  */
 package application.NavigazioneControl;
 
+import application.NavigazioneService.ProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -59,6 +60,10 @@ public class ImageServlet extends HttpServlet {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND);
             }
         } catch (SQLException ex) {
+            Logger.getLogger(ImageServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProdottoException.SottocategoriaProdottoException ex) {
+            Logger.getLogger(ImageServlet.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProdottoException.CategoriaProdottoException ex) {
             Logger.getLogger(ImageServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

@@ -204,6 +204,8 @@ public class GestioneOrdiniController extends HttpServlet {
                     response.sendRedirect("fill_order_details");
                 } catch (SQLException | OrdineException.OrdineVuotoException | ProdottoException.CategoriaProdottoException ex) {
                     Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ProdottoException.SottocategoriaProdottoException ex) {
+                    Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             
             }

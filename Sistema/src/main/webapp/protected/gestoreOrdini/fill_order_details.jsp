@@ -101,8 +101,19 @@
                 sessionStorage.setItem('action', 'fetch_spediti'); // Store the 'order_sent' action
                // window.location.href = 'GestioneOrdini'; // Redirect to the main page
             }
+            // Attach validation to form submit
+        document.getElementById('fill_order_form').addEventListener('submit', function(event) {
+            if (!validateForm()) {
+                event.preventDefault(); // Prevent form submission
+                alert('Please correct the errors in the form before submitting.');
+            }
+        });
+    // Adding validation to different textareas with different character limits
+    addCharacterLimitValidation('Corriere', 'charCountCorriere', 'charWarningCorriere', 60);
+    addCharacterLimitValidation('Imballaggio', 'charCountImballaggio', 'charWarningImballaggio', 100);
+
     </script>
-        <script src="${pageContext.request.contextPath}/view/validations.js"></script>
+        <script src="${pageContext.request.contextPath}/view/validate_fill_order.js?ts=<%= System.currentTimeMillis() %>"></script>
     </body>
 </html> 
 			

@@ -53,7 +53,8 @@
                 <p>Some of our featured products include:</p>
                 <div class="pro-container">
                 <%if(telefoni!=null && !telefoni.isEmpty()){%>                                        
-                    <% for (ProxyProdotto product : telefoni) { %>       
+                    <% for (ProxyProdotto product : telefoni) { 
+                        if(product.isInVetrina()){%>       
                     <div class="pro">
                         <img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';"
                          style="width: 80px; height: 80px"/>
@@ -67,6 +68,7 @@
                         </a>
                     </div>
                     <%} 
+                    }
                 }%>
                 </div>     
             </section> 

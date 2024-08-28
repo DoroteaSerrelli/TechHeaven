@@ -13,12 +13,11 @@
 <%@page import="java.util.Collection"%>
 <%@page import="application.NavigazioneService.Prodotto"%>
 <%
-    Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) request.getAttribute("products");
+    Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) request.getSession().getAttribute("products");
    
     if(products==null ||products.isEmpty()){ %>
     <h4>Nessun prodotto trovato con la keyword: <%=request.getAttribute("keyword")%></h4>
     <%}
-    int totalPages = (int) request.getAttribute("totalPages");
     String keyword = (String) request.getAttribute("keyword");
 %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -53,6 +52,8 @@
             %>    
         </div>
         <div class="search_results">
+               <!-- Pagination links -->
+            <jsp:include page="${pageContext.request.contextPath}/common/pagination_research.jsp"  flush="true"/> 
         <section id="product1">      
             <div class="pro-container"> 
                 <% 
@@ -90,17 +91,6 @@
         </section>
         </div>
     </div>      
-    <!-- Pagination links -->
-    <div id="pagination">
-        <% if (totalPages > 1) { %>
-            <% for (int pager = 1; pager <= totalPages; pager++) { %>
-                <%
-                    String pageUrl = "NavigazioneController?page=" + pager + "&keyword=" + keyword + "&search_type="+request.getSession().getAttribute("search_type");
-                %>
-                <a href="<%= pageUrl %>"><%=pager%></a>
-            <% } %>
-        <% } %>
-    </div>
     <jsp:include page="common/footer.jsp"  flush="true"/> 
     </body>
 </html>

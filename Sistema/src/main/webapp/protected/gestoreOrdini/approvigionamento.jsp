@@ -19,7 +19,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/extra_manager_style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_options.css">
         <script src="${pageContext.request.contextPath}/view/ajax_orders_table_functions.js?ts=<%= System.currentTimeMillis() %>"></script> 
-        <script src="${pageContext.request.contextPath}/view/validations.js?ts=<%= System.currentTimeMillis() %>"></script> 
+        <script src="${pageContext.request.contextPath}/view/validate_fill_order.js?ts=<%= System.currentTimeMillis() %>"></script> 
         
         <%
             Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) request.getAttribute("all_pr_list");

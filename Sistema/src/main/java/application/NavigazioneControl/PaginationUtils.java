@@ -14,6 +14,7 @@ import application.NavigazioneService.NavigazioneService;
 import application.NavigazioneService.NavigazioneServiceImpl;
 import application.NavigazioneService.ObjectProdotto.Categoria;
 import application.NavigazioneService.Prodotto;
+import application.NavigazioneService.ProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -37,17 +38,28 @@ public class PaginationUtils {
         List<ProxyProdotto> results;
         switch (searchType) {
             case "bar" -> {
-                results = productService.ricercaProdottoBar(keyword, page, resultsPerPage);
-                return results;
+                try {
+                    results = productService.ricercaProdottoBar(keyword, page, resultsPerPage);
+                    return results;
+                } catch (ProdottoException.SottocategoriaProdottoException ex) {
+                    Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ProdottoException.CategoriaProdottoException ex) {
+                    Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
+                }
                 
             }
+
             case "menu" -> {
                 try {
                     results = productService.ricercaProdottoMenu(Categoria.valueOf(keyword), page, resultsPerPage);
                     return results;
                 } catch (SQLException ex) {
                     Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                } catch (ProdottoException.CategoriaProdottoException ex) {
+                Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ProdottoException.SottocategoriaProdottoException ex) {
+                Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
+            }
             }
 
             default -> // Handle unknown search types or throw an exception
@@ -55,8 +67,13 @@ public class PaginationUtils {
         }
         return null;
     }
-    public static Collection<Prodotto> performPagination(GestioneCatalogoServiceImpl catalogoService, int page, int resultsPerPage) {
-        return catalogoService.visualizzaCatalogo(page, resultsPerPage);      
+    public static Collection<ProxyProdotto> performPagination(GestioneCatalogoServiceImpl catalogoService, int page, int resultsPerPage) {
+        try {      
+            return catalogoService.visualizzaCatalogo(page, resultsPerPage);
+        } catch (SQLException | ProdottoException.CategoriaProdottoException | ProdottoException.SottocategoriaProdottoException ex) {
+            Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return null;
     }
     
     public static Collection<ProxyOrdine> performPagination(GestioneOrdiniServiceImpl ordiniService, int page, int resultsPerPage, String action) throws SQLException {
@@ -127,7 +144,17 @@ public class PaginationUtils {
     }
     public Integer getId(Object item, Class<?> clazz) throws Exception {
         // Dynamically determine the method based on the class type
-        String methodName = clazz == RichiestaApprovvigionamento.class ? "getCodiceRifornimento" : "getCodiceProdotto";
+        // Determine the method name based on the class type
+        String methodName;
+        if (clazz == ProxyProdotto.class) {
+            methodName = "getCodiceProdotto";
+        } else if (clazz == ProxyOrdine.class) {
+            methodName = "getCodiceOrdine";
+        } else if (clazz == RichiestaApprovvigionamento.class) {
+            methodName = "getCodiceRifornimento";
+        } else {
+            throw new IllegalArgumentException("Unsupported class type: " + clazz.getName());
+        }      
         java.lang.reflect.Method method = clazz.getMethod(methodName);
         Object result = method.invoke(item);
         return result != null ? (Integer) result : null;

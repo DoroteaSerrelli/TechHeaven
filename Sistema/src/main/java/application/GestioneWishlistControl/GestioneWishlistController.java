@@ -7,6 +7,7 @@ package application.GestioneWishlistControl;
 import application.GestioneWishlistService.GestioneWishlistServiceImpl;
 import application.GestioneWishlistService.Wishlist;
 import application.GestioneWishlistService.WishlistException;
+import application.NavigazioneService.ProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 import application.RegistrazioneService.ProxyUtente;
 import java.io.IOException;
@@ -80,8 +81,13 @@ public class GestioneWishlistController extends HttpServlet {
                             request.getSession().setAttribute("errormsg", "Item già Presente nella Wishlist");
                             response.sendRedirect("Wishlist");
                             return;
-                        }
+                        } catch (ProdottoException.SottocategoriaProdottoException ex) {
+                        Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ProdottoException.CategoriaProdottoException ex) {
+                        Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     break;   
+   
                     case "removefromwishlist":
                         try { 
                            Wishlist w = createNewWishlistIfNotExists(request, user);
@@ -98,8 +104,13 @@ public class GestioneWishlistController extends HttpServlet {
                             request.getSession().setAttribute("errormsg", "Rimozione Item Fallita");
                             response.sendRedirect("Wishlist");
                             return;
-                        }
+                        } catch (ProdottoException.SottocategoriaProdottoException ex) {
+                        Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
+                    } catch (ProdottoException.CategoriaProdottoException ex) {
+                        Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
                     break;    
+    
     
     
                     // Handle other actions...
@@ -132,13 +143,19 @@ public class GestioneWishlistController extends HttpServlet {
                     wdao.doSaveWishlist(w);
                 }
                 else{
-                     Collection<Wishlist> wishlists = wdao.doRetrieveAllWishesUser("",user);
-                    if (!wishlists.isEmpty()) {
+                     Collection<Wishlist> wishlists;
+                    try {
+                        wishlists = wdao.doRetrieveAllWishesUser("",user);
+                        if (!wishlists.isEmpty()) {
                         Iterator<Wishlist> iterator = wishlists.iterator();
                         if (iterator.hasNext()) {
                             w = iterator.next();
                         }
                     }
+                    } catch (ProdottoException.CategoriaProdottoException ex) {
+                        Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                    
                 }
             }
             request.getSession().setAttribute("Wishlist", w);

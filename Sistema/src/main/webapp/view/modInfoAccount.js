@@ -47,7 +47,7 @@ function deleteAddress(index) {
     document.getElementById('updateAddress').style.display = 'none';
     
     // Hide the mod info input form button
-    document.getElementById('conf_button').style.display = 'none';
+   // document.getElementById('conf_button').style.display = 'none';
     
     
     // Use the find function to get the address object based on the ID

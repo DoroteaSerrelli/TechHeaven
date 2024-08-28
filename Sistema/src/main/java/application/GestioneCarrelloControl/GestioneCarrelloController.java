@@ -9,6 +9,7 @@ import application.GestioneCarrelloService.CarrelloException;
 import application.GestioneCarrelloService.GestioneCarrelloServiceImpl;
 import application.GestioneCarrelloService.ItemCarrello;
 import application.NavigazioneService.Prodotto;
+import application.NavigazioneService.ProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -102,6 +103,10 @@ public class GestioneCarrelloController extends HttpServlet {
             Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CarrelloException.ProdottoNulloException ex) {
             Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProdottoException.SottocategoriaProdottoException ex) {
+            Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProdottoException.CategoriaProdottoException ex) {
+            Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
         } 
     }
     
@@ -147,6 +152,10 @@ public class GestioneCarrelloController extends HttpServlet {
                 Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
             } catch (CarrelloException.QuantitaProdottoException ex) {
                 Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ProdottoException.SottocategoriaProdottoException ex) {
+                Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (ProdottoException.CategoriaProdottoException ex) {
+                Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -183,6 +192,10 @@ public class GestioneCarrelloController extends HttpServlet {
         } catch (CarrelloException.CarrelloVuotoException ex) {
             Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (CarrelloException.ProdottoNonPresenteException ex) {
+            Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProdottoException.SottocategoriaProdottoException ex) {
+            Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProdottoException.CategoriaProdottoException ex) {
             Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

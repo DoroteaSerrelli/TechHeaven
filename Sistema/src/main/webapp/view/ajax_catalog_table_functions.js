@@ -81,17 +81,8 @@ $(document).ready(function() {
                     table.append(row);
                 });
 
-    // Update pagination
-    const pagination = $('#pagination');
-    pagination.html('');
-    for (let i = 1; i <= totalPages; i++) {
-        const link = $(`<a href="#">${i}</a>`);
-        link.click(function(e) {
-            e.preventDefault();
-            fetchProducts(i);
-        });
-        pagination.append(link);
-    }
+     // Update pagination
+     updatePagination(page, action, hasNextPage); // Ensure pagination is updated with new data
     },
     error: function(xhr, status, error) {
         console.error('Error fetching data:', error);
@@ -99,3 +90,4 @@ $(document).ready(function() {
         });
     }
 });
+

@@ -15,7 +15,7 @@
     <title>Update Information</title>
     <link rel="stylesheet" href="common/style.css">
     <link rel="stylesheet" href="common/update_user_info_bar.css">
-    <script src="${pageContext.request.contextPath}/view/validations.js"></script>
+    <script src="${pageContext.request.contextPath}/view/validations.js?ts=<%=System.currentTimeMillis()%>"></script>
     <!-- Include any necessary scripts -->
     <script>
         // Initialize addresses array

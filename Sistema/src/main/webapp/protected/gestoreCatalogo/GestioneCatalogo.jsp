@@ -21,7 +21,9 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_options.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js"></script>
+         <script src="${pageContext.request.contextPath}/view/pagination.js"></script>        
+       
+        <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js"></script>      
         <script type="text/javascript">
             // Define the context path as a global variable
             window.contextPath = '<%= request.getContextPath() %>';

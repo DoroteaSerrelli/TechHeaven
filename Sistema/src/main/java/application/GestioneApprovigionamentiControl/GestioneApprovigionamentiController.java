@@ -9,6 +9,7 @@ import application.GestioneApprovvigionamenti.RichiestaApprovvigionamento;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException;
 import application.NavigazioneControl.PaginationUtils;
 import application.NavigazioneControl.SearchResult;
+import application.NavigazioneService.ProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -215,6 +216,10 @@ public class GestioneApprovigionamentiController extends HttpServlet {
             Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
             request.getSession().setAttribute("error", "Richiesta approvigionamento non valida, c'è stato un errore.");
             response.sendRedirect("Approvigionamento");
+        } catch (ProdottoException.SottocategoriaProdottoException ex) {
+            Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ProdottoException.CategoriaProdottoException ex) {
+            Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

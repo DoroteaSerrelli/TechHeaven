@@ -22,8 +22,6 @@
    }
    else {           
     Utente real_user = u.mostraUtente();
-    AutenticazioneController servlet = new AutenticazioneController();
-    servlet.loadUserAddresses(request);
 %> 
 <html>
     <head>

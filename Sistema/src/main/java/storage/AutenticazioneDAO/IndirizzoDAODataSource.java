@@ -48,11 +48,12 @@ public class IndirizzoDAODataSource {
 			connection.setAutoCommit(false);
 
 			preparedStatement = connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
-			preparedStatement.setString(1, address.getVia());
-			preparedStatement.setString(2, address.getNumCivico());
-			preparedStatement.setString(3, address.getCitta());
-			preparedStatement.setString(4, address.getCap());
-			preparedStatement.setString(5, address.getProvincia());
+			preparedStatement.setInt(1, address.getIDIndirizzo());
+			preparedStatement.setString(2, address.getVia());
+			preparedStatement.setString(3, address.getNumCivico());
+			preparedStatement.setString(4, address.getCitta());
+			preparedStatement.setString(5, address.getCap());
+			preparedStatement.setString(6, address.getProvincia());
 			preparedStatement.executeUpdate();
 
 			// Recupera l'ID generato

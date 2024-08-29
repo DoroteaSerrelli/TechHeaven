@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="${pageContext.request.contextPath}/view/ajax_orders_table_functions.js?ts=<%= System.currentTimeMillis() %>"></script>
+        <script src="${pageContext.request.contextPath}/view/pagination.js?ts=<%= System.currentTimeMillis() %>"></script>      
         <script type="text/javascript">
             // Define the context path as a global variable
             window.contextPath = '<%= request.getContextPath() %>';

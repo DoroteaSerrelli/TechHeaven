@@ -122,6 +122,7 @@ public class UpdateAddressController extends HttpServlet {
                 case "RemoveIndirizzo":
                     id_indirizzo = Integer.parseInt(request.getParameter("addressIndex"));
                     target_ind.setIDIndirizzo(id_indirizzo);
+                    
                     System.out.println("ID:"+target_ind.getIDIndirizzo());
                     
                     updated_user= as.updateAddressBook(user, "RIMUOVERE-INDIRIZZO", target_ind);
@@ -139,7 +140,7 @@ public class UpdateAddressController extends HttpServlet {
             try {
                 Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex);
                 String errormsg = "Errore durante la modifica delle informazioni";
-                request.setAttribute("error", errormsg);
+                request.getSession().setAttribute("error", errormsg);
                 //Retrieve address after update failure to allow the user to see them and update them 
                 // If needed.
                 AutenticazioneController cont = new AutenticazioneController();

@@ -15,7 +15,19 @@ import javax.sql.DataSource;
 
 import application.RegistrazioneService.Indirizzo;
 
-
+/**
+ * 
+ * Classe DAO per la gestione degli indirizzi di un utente.
+ * Questa classe implementa le operazioni CRUD (Create, Read, Update, Delete)
+ * per gli indirizzi di un cliente memorizzati nel database relazionale.
+ * 
+ * @see application.RegistrazioneService.Indirizzo
+ * @see application.RegistrazioneService.Utente
+ * @see application.RegistrazioneService.ProxyUtente
+ * 
+ * 
+ * @author Dorotea Serrelli
+ * */
 
 public class IndirizzoDAODataSource {
 	private static DataSource ds;
@@ -34,6 +46,15 @@ public class IndirizzoDAODataSource {
 	}
 
 	private static final String TABLE_NAME = "indirizzo";
+
+
+	/**
+	 * Questo metodo salva un indirizzo nel database e lo associa all'utente specificato tramite username.
+	 * 
+	 * @param address : l'indirizzo da salvare
+	 * @param username : il nome utente dell'utente a cui associare l'indirizzo
+	 * @throws SQLException : in caso di errore durante l'accesso al database
+	 * */
 
 	public synchronized void doSave(Indirizzo address, String username) throws SQLException {
 
@@ -68,7 +89,7 @@ public class IndirizzoDAODataSource {
 
 			// Secondo insert
 			String insertSQL2 = "INSERT INTO POSSIEDE_INDIRIZZO(UTENTE, INDIRIZZO) VALUES (?, ?)";
-			preparedStatement.close(); // Chiudi il preparedStatement precedente
+			preparedStatement.close();
 			preparedStatement = connection.prepareStatement(insertSQL2);
 			preparedStatement.setString(1, username);
 			preparedStatement.setInt(2, address.getIDIndirizzo());
@@ -103,7 +124,16 @@ public class IndirizzoDAODataSource {
 
 	}
 
-
+	
+	/**
+	 * Questo metodo recupera un indirizzo dal database filtrando per l'ID dell'indirizzo e l'username dell'utente a cui è associato.
+	 * @param IDIndirizzo : L'identificativo dell'indirizzo da recuperare
+	 * @param username : il nome utente dell'utente a cui è associato l'indirizzo
+	 * 
+	 * @return L'oggetto Indirizzo recuperato dal database, oppure un oggetto vuoto se l'indirizzo non viene trovato
+	 * @throws SQLException Lanciata in caso di errore durante l'accesso al database
+	 * */
+	
 	public synchronized Indirizzo doRetrieveByKey(int IDIndirizzo, String username) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -141,9 +171,17 @@ public class IndirizzoDAODataSource {
 		return dto;
 	}
 
-	/*
-	 * Questo metodo rimuove un indirizzo dalla rubrica degli indirizzi dell'utente.
+	/**
+	 * Questo metodo rimuove un indirizzo (identificato dall'ID) dalla rubrica degli indirizzi dell'utente (identificato da username).
+	 * 
+	 * @param IDIndirizzo : L'identificativo dell'indirizzo da eliminare
+	 * @param username : il nome utente dell'utente a cui è associato l'indirizzo
+	 * 
+	 * @return true se l'indirizzo è stato eliminato con successo, false altrimenti
+	 * @throws SQLException Lanciata in caso di errore durante l'accesso al database
+	 * 
 	 * */
+	
 	public synchronized boolean doDeleteAddress(int IDIndirizzo, String username) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -173,9 +211,15 @@ public class IndirizzoDAODataSource {
 		return (result != 0);
 	}
 
-	/*
+	/**
 	 * Questo metodo rimuove un indirizzo dal database.
+	 * 
+	 * @param IDIndirizzo: L'identificativo dell'indirizzo da eliminare
+	 * @return true se l'indirizzo è stato eliminato con successo, false altrimenti
+	 * 
+	 * @throws SQLException Lanciata in caso di errore durante l'accesso al database
 	 * */
+	
 	public synchronized boolean doDelete(int IDIndirizzo) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -217,8 +261,14 @@ public class IndirizzoDAODataSource {
 		return (result != 0);
 	}
 
-	/*
-	 * Questo metodo rimuove un indirizzo dalla rubrica degli indirizzi dell'utente.
+	/**
+	 * Questo metodo aggiorna un indirizzo presente nella rubrica degli indirizzi dell'utente,
+	 * filtrando per l'ID dell'indirizzo e lo username dell'utente a cui è associato.
+	 * @param newAddress : l'indirizzo contenente i dati aggiornati
+	 * @param username : il nome utente dell'utente a cui è associato l'indirizzo
+	 * 
+	 * @return true se l'indirizzo è stato aggiornato con successo, false altrimenti
+	 * @throws SQLException Lanciata in caso di errore durante l'accesso al database
 	 * */
 	public synchronized boolean doUpdateAddress(Indirizzo newAddress, String username) throws SQLException {
 		Connection connection = null;
@@ -255,7 +305,17 @@ public class IndirizzoDAODataSource {
 		}
 		return (result != 0);
 	}
-
+	
+	/**
+	 * Questo metodo recupera tutti gli indirizzi associati ad un utente specificato tramite username. 
+	 * È possibile specificare un criterio di ordinamento tramite il parametro orderCriterion.
+	 * 
+	 * @param orderCriterion : il criterio di ordinamento (può essere vuota)
+	 * @param username : il nome utente dell'utente a cui sono associati gli indirizzi
+	 * 
+	 * @return Una lista di indirizzi associati all'utente username recuperati dal database
+	 * @throws SQLException Lanciata in caso di errore durante l'accesso al database
+	 * */
 
 	public synchronized ArrayList<Indirizzo> doRetrieveAll(String orderCriterion, String username) throws SQLException {	//lista degli indirizzi dell'utente
 		Connection connection = null;
@@ -271,47 +331,6 @@ public class IndirizzoDAODataSource {
 		if (orderCriterion != null && !orderCriterion.equals("")) {
 			selectSQL += " ORDER BY " + orderCriterion;
 		}
-
-		try {
-			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(selectSQL);
-			preparedStatement.setString(1, username);
-
-			ResultSet rs = preparedStatement.executeQuery();
-
-			while (rs.next()) {
-				Indirizzo dto = new Indirizzo(-1, "", "", "", "", "");
-
-				dto.setIDIndirizzo(rs.getInt("IDINDIRIZZO"));
-				dto.setVia(rs.getString("VIA"));
-				dto.setNumCivico(rs.getString("NUMCIVICO"));
-				dto.setCitta(rs.getString("CITTA"));
-				dto.setCap(rs.getString("CAP"));
-				dto.setProvincia(rs.getString("PROVINCIA"));
-				addresses.add(dto);
-			}
-
-		} finally {
-			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
-			} finally {
-				if (connection != null)
-					connection.close();
-			}
-		}
-		return addresses;
-	}
-
-	public synchronized ArrayList<Indirizzo> doRetrieveAll(String username) throws SQLException {	//lista degli indirizzi dell'utente
-		Connection connection = null;
-		PreparedStatement preparedStatement = null;
-
-		ArrayList<Indirizzo> addresses = new ArrayList<>();
-		String primaryKeyAddressTable = "idIndirizzo";
-		String selectSQL = "SELECT * FROM " + IndirizzoDAODataSource.TABLE_NAME + " INNER JOIN POSSIEDE_INDIRIZZO ON  "
-				+ IndirizzoDAODataSource.TABLE_NAME + "." + primaryKeyAddressTable + " = POSSIEDE_INDIRIZZO.INDIRIZZO "
-				+ "WHERE POSSIEDE_INDIRIZZO.UTENTE = ?";
 
 		try {
 			connection = ds.getConnection();

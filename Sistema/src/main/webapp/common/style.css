@@ -19,6 +19,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     font-size: 12px;
     display: none;
   }
+/*SELEZIONE MODIFICA INFO PERSONALI CAMPI*/
+.selected {
+    background-color: #e0f7fa; /* Light blue background */
+    color: #00796b; /* Dark teal text */
+    font-weight: bold;
+}
+
 
 #username{
     margin-bottom: 20px;

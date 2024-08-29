@@ -19,26 +19,42 @@ function showUpdateForm(field, action) {
     if (selectedForm) {
         selectedForm.style.display = 'block';
         // Change action attribute of the form based on selection
+        var clickedOptionId;
         if(field==='address'){
             switch(action){
-                case 'addAddress':
+                case 'addAddress':                    
+                    document.getElementById('conf_button').value = "Add Address";
                     document.getElementById('updateInfoForm').action = 'UpdateAddressController?action=AddIndirizzo';
+                    clickedOptionId = 'addAddress'; // Set the correct ID for highlighting
                     break;
                 case 'modifyAddress':                    
                     if(addresses.length > 0){
                         loadAddress(addresses[0].id);
                     }
+                    document.getElementById('conf_button').value = "Modify Address";
                     document.getElementById('updateInfoForm').action = 'UpdateAddressController?action=UpdateIndirizzo';
+                    clickedOptionId = 'modifyAddress'; // Set the correct ID for highlighting
                     break;               
                 default:
-                    document.getElementById('conf_button').style.display = 'block';                    
+                    document.getElementById('conf_button').value = "Modify Email-Tel";
                     document.getElementById('updateInfoForm').action = 'UpdateProfileController';
                     break;    
             }
         }
         else{
+            clickedOptionId = field; // For non-address fields, use the field directly
+            document.getElementById('conf_button').value = "Modify Email-Tel";
             document.getElementById('updateInfoForm').action = 'UpdateProfileController';
         }
+        // Highlight the selected option
+        var options = document.querySelectorAll('.update_bar ul li a');
+        options.forEach(function(option) {
+            option.classList.remove('selected');
+        });
+
+        // Add 'selected' class to the clicked option
+        var clickedOption = document.querySelector('#' + clickedOptionId);
+        clickedOption.classList.add('selected');
     }
 }
  
@@ -46,9 +62,7 @@ function deleteAddress(index) {
     // Hide the address input form
     document.getElementById('updateAddress').style.display = 'none';
     
-    // Hide the mod info input form button
-   // document.getElementById('conf_button').style.display = 'none';
-    
+    // Hide the mod info input form button    
     
     // Use the find function to get the address object based on the ID
     var address = addresses.find(addr => String(addr.id) === String(index));

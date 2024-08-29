@@ -59,10 +59,10 @@
     </div>
     <div class="update_bar" id="update_bar">       
         <ul>           
-            <li><a href="#" onclick="showUpdateForm('email')">Update Email</a></li>
-            <li><a href="#" onclick="showUpdateForm('telefono')">Update Phone Number</a></li>
-            <li><a href="#" onclick="showUpdateForm('address', 'addAddress')">Add Address</a></li>
-            <li><a href="#" onclick="showUpdateForm('address', 'modifyAddress')">Modify Address</a></li>
+            <li><a id="email" href="#" onclick="showUpdateForm('email')">Update Email</a></li>
+            <li><a id="telefono" href="#" onclick="showUpdateForm('telefono')">Update Phone Number</a></li>
+            <li><a id="addAddress" href="#" onclick="showUpdateForm('address', 'addAddress')">Add Address</a></li>
+            <li><a id="modifyAddress" href="#" onclick="showUpdateForm('address', 'modifyAddress')">Modify Address</a></li>
             <li><a href="#" id="close" onClick="closeUpdateBar()">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24">
                     <path fill="#2DA0F2" d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41z"/>
@@ -106,7 +106,7 @@
                         <input type="text" name="newProvincia" id="province" placeholder="Provincia" oninput="validateAddress()">
                     </div>                
                 </div>
-                <input value="Update" type="button" class="confirm_button" name="update" onclick="validateForm()" >           
+                <input id="conf_button" value="Update" type="button" class="confirm_button" name="update" onclick="validateForm()" >           
             </form>
         </div>                   
             <%  

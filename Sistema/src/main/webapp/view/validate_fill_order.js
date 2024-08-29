@@ -92,3 +92,15 @@ function validateForm() {
 
     return isValid;
 }
+
+// Attach validation to form submit
+document.getElementById('fill_order_form').addEventListener('submit', function(event) {
+    if (!validateForm()) {
+        event.preventDefault(); // Prevent form submission
+        alert('Please correct the errors in the form before submitting.');
+    }
+});
+
+// Initialize validations
+addCharacterLimitValidation('Imballaggio', 'charCountImballaggio', 'charWarningImballaggio', 100);
+addCharacterLimitValidation('Corriere', 'charCountCorriere', 'charWarningCorriere', 60);

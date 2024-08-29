@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -18,7 +19,15 @@ import application.NavigazioneService.ProdottoException.CategoriaProdottoExcepti
 import application.NavigazioneService.ProxyProdotto;
 import application.RegistrazioneService.ProxyUtente;
 
-
+/**
+ * Classe DAO per la gestione di una wishlist.
+ * Questa classe implementa le operazioni CRUD (Create, Read, Update, Delete)
+ * per le wishlist di un cliente memorizzate nel database relazionale.
+ * @see application.GestioneWishlistService.Wishlist
+ * @see application.GestioneWishlistService.WishlistException
+ * 
+ * @author Dorotea Serrelli
+ * */
 public class WishlistDAODataSource{
 	private static DataSource ds;
 
@@ -49,12 +58,22 @@ public class WishlistDAODataSource{
 
 		try {
 			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(insertSQL);
+			preparedStatement = connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
 			preparedStatement.setString(1, ws.getUtente() .getUsername());
 			preparedStatement.setInt(2, ws.getId());
 
 			if(preparedStatement.executeUpdate() == 0) {
 				System.out.println("Errore creazione wishlist");
+			}
+
+			// Recupera l'ID generato
+			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				int generatedID = generatedKeys.getInt(1);
+				ws.setId(generatedID);  // Imposta l'ID generato
+				System.out.println("Debug wishlist ID:" + generatedID);
+			} else {
+				throw new SQLException("Errore creazione wishlist, non è possibile recuperare l'ultimo ID generato.");
 			}
 
 		} finally {
@@ -68,7 +87,7 @@ public class WishlistDAODataSource{
 		}
 
 	}
-	
+
 	/**
 	 * Questo metodo fornisce il numero di wishlist che l'utente possiede.
 	 * 
@@ -76,20 +95,20 @@ public class WishlistDAODataSource{
 	 * @return il numero di wishlist di cui l'utente user è
 	 * 			proprietario
 	 * */
-	
+
 	public synchronized int getWishlistCount(ProxyUtente user) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		
+
 		String query = "SELECT COUNT(*) FROM WISHLIST WHERE UTENTE = ?";
 
 		int count = 0;
-		
+
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(query);
 			preparedStatement.setString(1, user.getUsername());
-			
+
 			ResultSet rs = preparedStatement.executeQuery();
 			if (rs.next())
 				count = rs.getInt(1);
@@ -291,10 +310,10 @@ public class WishlistDAODataSource{
 		Collection<ProxyProdotto> products = new LinkedList<>();
 
 		String selectSQL = "SELECT * FROM (" + WishlistDAODataSource.TABLE_NAME + " INNER JOIN COMPOSIZIONE_WISHLIST ON " 
-		        +"COMPOSIZIONE_WISHLIST.WISHLIST = " + WishlistDAODataSource.TABLE_NAME + ".IDWISHLIST"
+				+"COMPOSIZIONE_WISHLIST.WISHLIST = " + WishlistDAODataSource.TABLE_NAME + ".IDWISHLIST"
 				+ " AND COMPOSIZIONE_WISHLIST.UTENTE = " + WishlistDAODataSource.TABLE_NAME + ".UTENTE"
 				+ ") INNER JOIN PRODOTTO ON "
-		        + "COMPOSIZIONE_WISHLIST.PRODOTTO = PRODOTTO.CODICEPRODOTTO "
+				+ "COMPOSIZIONE_WISHLIST.PRODOTTO = PRODOTTO.CODICEPRODOTTO "
 				+ "WHERE WISHLIST.UTENTE = ? AND WISHLIST.IDWISHLIST = ? ";
 
 
@@ -352,7 +371,7 @@ public class WishlistDAODataSource{
 
 		Collection<Wishlist> wishlistes = new LinkedList<>();
 
-		String selectSQL = "SELECT * FROM " + WishlistDAODataSource.TABLE_NAME + "WHERE UTENTE = ? ";
+		String selectSQL = "SELECT * FROM " + WishlistDAODataSource.TABLE_NAME + " WHERE UTENTE = ? ";
 
 
 		if (order != null && !order.equals("")) { //ordine sui prodotti da recuperare
@@ -398,14 +417,14 @@ public class WishlistDAODataSource{
 	public synchronized ProxyProdotto doRetrieveProductByKey(int IDProduct, Wishlist ws) throws SQLException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-		ProxyProdotto dto = new ProxyProdotto();
+		ProxyProdotto dto = null;
 		String selectSQL = "SELECT * FROM " + WishlistDAODataSource.TABLE_NAME + " "
-                + "INNER JOIN COMPOSIZIONE_WISHLIST ON " + WishlistDAODataSource.TABLE_NAME + ".IDWISHLIST = COMPOSIZIONE_WISHLIST.WISHLIST "
-                + "AND " + WishlistDAODataSource.TABLE_NAME + ".UTENTE = COMPOSIZIONE_WISHLIST.UTENTE "
-                + "INNER JOIN PRODOTTO ON COMPOSIZIONE_WISHLIST.PRODOTTO = PRODOTTO.CODICEPRODOTTO "
-                + "WHERE " + WishlistDAODataSource.TABLE_NAME + ".UTENTE = ? "
-                + "AND " + WishlistDAODataSource.TABLE_NAME + ".IDWISHLIST = ? "
-                + "AND PRODOTTO.CODICEPRODOTTO = ?";
+				+ "INNER JOIN COMPOSIZIONE_WISHLIST ON " + WishlistDAODataSource.TABLE_NAME + ".IDWISHLIST = COMPOSIZIONE_WISHLIST.WISHLIST "
+				+ "AND " + WishlistDAODataSource.TABLE_NAME + ".UTENTE = COMPOSIZIONE_WISHLIST.UTENTE "
+				+ "INNER JOIN PRODOTTO ON COMPOSIZIONE_WISHLIST.PRODOTTO = PRODOTTO.CODICEPRODOTTO "
+				+ "WHERE " + WishlistDAODataSource.TABLE_NAME + ".UTENTE = ? "
+				+ "AND " + WishlistDAODataSource.TABLE_NAME + ".IDWISHLIST = ? "
+				+ "AND PRODOTTO.CODICEPRODOTTO = ?";
 		try {
 			connection = ds.getConnection();	
 			preparedStatement = connection.prepareStatement(selectSQL);
@@ -415,6 +434,7 @@ public class WishlistDAODataSource{
 			ResultSet rs = preparedStatement.executeQuery();
 
 			if (rs.next()) {
+				dto = new ProxyProdotto();
 				dto.setCodiceProdotto(rs.getInt("CODICEPRODOTTO"));
 				dto.setNomeProdotto(rs.getString("NOME"));
 				dto.setTopDescrizione(rs.getString("TOPDESCRIZIONE"));

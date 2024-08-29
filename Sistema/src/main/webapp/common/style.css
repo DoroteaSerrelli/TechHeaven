@@ -25,6 +25,11 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     color: #00796b; /* Dark teal text */
     font-weight: bold;
 }
+.selected-address {
+    background-color: #f0f8ff; /* Light blue background */
+    border-left: 4px solid #2DA0F2; /* Blue border on the left */
+    padding-left: 10px; /* Adjust padding for the border */
+}
 
 
 #username{

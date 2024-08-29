@@ -31,6 +31,11 @@ function showUpdateForm(field, action) {
                     if(addresses.length > 0){
                         loadAddress(addresses[0].id);
                     }
+                    // Show the arrow for the first address
+                    var firstArrow = document.getElementById('arrow_' + addresses[0].id);
+                    if (firstArrow) {
+                        firstArrow.style.display = 'inline';
+                    }
                     document.getElementById('conf_button').value = "Modify Address";
                     document.getElementById('updateInfoForm').action = 'UpdateAddressController?action=UpdateIndirizzo';
                     clickedOptionId = 'modifyAddress'; // Set the correct ID for highlighting
@@ -103,4 +108,29 @@ function loadAddress(index) {
     
     // Update the form action with the selected address index for modification
     document.getElementById('updateInfoForm').action = `UpdateAddressController?action=UpdateIndirizzo&addressIndex=${index}`;
+    
+    // Hide all arrows and remove highlighting from all addresses
+    var arrows = document.querySelectorAll('.arrow');
+    var addressItems = document.querySelectorAll('.address-item');
+    
+    arrows.forEach(function(arrow) {
+        arrow.style.display = 'none';
+    });
+
+    addressItems.forEach(function(item) {
+        item.classList.remove('selected-address');
+    });
+    
+    // Show the arrow and highlight the selected address
+    var selectedArrow = document.getElementById('arrow_' + index);
+    var selectedAddressItem = document.getElementById('address_' + index);
+    
+    if (selectedArrow) {
+        selectedArrow.style.display = 'inline';
+    }
+    
+    if (selectedAddressItem) {
+        selectedAddressItem.classList.add('selected-address');
+    }
+    
 }

@@ -23,7 +23,9 @@
         <% 
             ArrayList<Indirizzo> indirizzi = (ArrayList<Indirizzo>)request.getAttribute("Indirizzi");
             if (indirizzi != null && !indirizzi.isEmpty()) {
-                for (Indirizzo indirizzo : indirizzi) { %>
+                for (Indirizzo indirizzo : indirizzi) { 
+                int indirizzoID = indirizzo.getIDIndirizzo(); %>  
+                    
                     addresses.push({
                         id: '<%= indirizzo.getIDIndirizzo() %>',
                         via: '<%= indirizzo.getVia() %>',
@@ -36,13 +38,16 @@
                     // Generate HTML for displaying addresses
                     document.addEventListener('DOMContentLoaded', function() {
                         var addressList = document.getElementById('addressList');
-                        var addressHTML = '<p onclick="loadAddress(\'' + '<%= indirizzo.getIDIndirizzo() %>' + '\')">' +
-                            'Via: <%= indirizzo.getVia() %> <%= indirizzo.getNumCivico() %>' +
+                        var addressHTML = '<div class="address-item" id="address_'+ '<%= indirizzoID %>' + '">' +
+                                '<p onclick="loadAddress(\'' + '<%= indirizzoID %>' + '\')">' +
+                          '<img class="arrow" id="arrow_' + <%= indirizzoID %> + '" src="view/img/modif_arrow.png" style="display:none;" />' 
+                          +'Via: <%= indirizzo.getVia() %> <%= indirizzo.getNumCivico() %>' +
                             '</p>' +
                             '<p>' +
                             '<%= indirizzo.getCap() %> <%= indirizzo.getCitta() %> (<%= indirizzo.getProvincia() %>)' +
                             '<button class="delete_button" onclick="deleteAddress(\'' + '<%= indirizzo.getIDIndirizzo() %>' + '\')">Delete</button>' +
-                            '</p>';
+                            '</p>'+
+                        '</div>';
                         addressList.innerHTML += addressHTML;
                     });
             <% } 

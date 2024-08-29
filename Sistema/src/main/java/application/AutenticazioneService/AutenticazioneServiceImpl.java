@@ -175,7 +175,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 				throw new UtenteInesistenteException("Errore nel recupero delle informazioni relative"
 						+ "all'utente");
 			else {
-				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll(user.getUsername());
+				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll("", user.getUsername());
 				if(addresses.contains(updatedData))
 					throw new IndirizzoEsistenteException("Indirizzo inserito già associato all'utente");
 				else {
@@ -189,11 +189,12 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 		}
 
 		if(information.equalsIgnoreCase("RIMUOVERE-INDIRIZZO")) {
+			System.out.println("SONO QUI A RIMUOVERE");
 			if(userDAO.doRetrieveFullUserByKey(user.getUsername()) == null)
 				throw new UtenteInesistenteException("Errore nel recupero delle informazioni relative"
 						+ "all'utente");
 			else {
-				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll(user.getUsername());
+				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll("", user.getUsername());
 				if(!addresses.contains(updatedData))
 					throw new ModificaIndirizzoException("Indirizzo inserito non associato all'utente");
 				else {
@@ -211,7 +212,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 				throw new UtenteInesistenteException("Errore nel recupero delle informazioni relative"
 						+ "all'utente");
 			else {
-				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll(user.getUsername());
+				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll("", user.getUsername());
 				for(Indirizzo search_ind: addresses){
 					if(search_ind.getIDIndirizzo() == updatedData.getIDIndirizzo()){
 						if(!Indirizzo.checkValidate(updatedData))

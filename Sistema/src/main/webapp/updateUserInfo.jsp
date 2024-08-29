@@ -122,7 +122,7 @@
     <div class="errormsg" style="text-align:center">
         <p id="error">
             <% 
-               String err = (String)request.getSession().getAttribute("error");
+               String err = (String)request.getAttribute("error");
                if (err != null && !err.isEmpty()) {
             %>
            <%=err%>           

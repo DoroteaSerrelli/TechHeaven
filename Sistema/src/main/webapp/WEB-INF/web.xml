@@ -45,6 +45,10 @@
         <servlet-name>Approvigionamento</servlet-name>
         <servlet-class>application.GestioneApprovigionamentiControl.Approvigionamento</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>UpdateUserInfo</servlet-name>
+        <servlet-class>application.AutenticazioneControl.UpdateUserInfo</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GestioneCarrelloController</servlet-name>
         <url-pattern>/GestioneCarrelloController</url-pattern>
@@ -84,6 +88,10 @@
     <servlet-mapping>
         <servlet-name>Approvigionamento</servlet-name>
         <url-pattern>/Approvigionamento</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateUserInfo</servlet-name>
+        <url-pattern>/UpdateUserInfo</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>
@@ -198,14 +206,6 @@
     <servlet-mapping>
         <servlet-name>RegistrazioneServlet</servlet-name>
         <url-pattern>/Registrazione</url-pattern>
-    </servlet-mapping>
-    <servlet>
-        <servlet-name>updateUserInfoServlet</servlet-name>
-        <jsp-file>/updateUserInfo.jsp</jsp-file>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>updateUserInfoServlet</servlet-name>
-        <url-pattern>/updateUserInfo</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>GestioneOrdiniServlet</servlet-name>

@@ -137,18 +137,13 @@ public class UpdateAddressController extends HttpServlet {
             
             
         } catch (AutenticazioneException.UtenteInesistenteException | AutenticazioneException.IndirizzoEsistenteException | AutenticazioneException.FormatoIndirizzoException | SQLException | AutenticazioneException.ModificaIndirizzoException | AutenticazioneException.InformazioneDaModificareException ex) {
-            try {
-                Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex);
-                String errormsg = "Errore durante la modifica delle informazioni";
-                request.getSession().setAttribute("error", errormsg);
-                //Retrieve address after update failure to allow the user to see them and update them 
-                // If needed.
-                AutenticazioneController cont = new AutenticazioneController();
-                cont.loadUserAddresses(request);
-                request.getRequestDispatcher("updateUserInfo").forward(request, response);
-            } catch (SQLException ex1) {
-                Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex1);
-            }
+            
+            Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex);
+            String errormsg = "Errore durante la modifica delle informazioni";
+            request.getSession().setAttribute("error", ex.getMessage());
+            //Retrieve address after update failure to allow the user to see them and update them 
+            // If needed.
+            response.sendRedirect("UpdateUserInfo");          
             
         }
             

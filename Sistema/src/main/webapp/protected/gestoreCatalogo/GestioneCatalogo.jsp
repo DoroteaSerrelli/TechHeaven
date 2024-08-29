@@ -12,7 +12,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>
-<html>
+<html lang="it">
     <head>
         <title>TechHeaven</title>
         <meta charset="UTF-8">
@@ -20,10 +20,12 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/common/style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_options.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_form.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-         <script src="${pageContext.request.contextPath}/view/pagination.js"></script>        
+        
+        <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js"></script>            
+        <script src="${pageContext.request.contextPath}/view/pagination.js"></script>        
        
-        <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js"></script>      
         <script type="text/javascript">
             // Define the context path as a global variable
             window.contextPath = '<%= request.getContextPath() %>';
@@ -31,11 +33,15 @@
     </head>    
     <body>     
        <jsp:include page="${pageContext.request.contextPath}/common/header.jsp"  flush="true"/>
-       <jsp:include page="${pageContext.request.contextPath}/roleSelector.jsp"  flush="true"/>      
+       <jsp:include page="${pageContext.request.contextPath}/roleSelector.jsp"  flush="true"/>
         <aside class="options_sidebar hidden" id="options_sidebar">
+           <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>        
+           
             <!-- Sidebar will be populated by JavaScript -->
-        </aside>
+        </aside>      
         <main class="main-content" id="mainContent">
+              <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>                       
+ 
             <section id="centerMenu" class="center-menu">
                 <div class="fe-box" id="viewProducts" onclick="moveToSidebar('viewProducts', 'viewProductsForm')">
                     <img src="${pageContext.request.contextPath}/view/img/listaprodotto.png" alt="Visualizza Prodotti">
@@ -54,10 +60,11 @@
                         <h6>Modifica caratteristiche prodotto</h6>
                     </div>
                 </section>
-           </main>
+           </main>           
                 
-                 <section id="forms">
+                <section id="forms">                     
                     <section id="viewProductsForm" class="form-section hidden">
+                        <div id="pagination"></div>   
                         <h2>Visualizza Prodotti</h2>
                          <table id="showpr">
                              <tr><th><strong>Image</strong></th><!-- Immagine -->
@@ -77,13 +84,69 @@
                          </table> 
                        <div id="pagination"></div>
             </section>
-                
                 <section id="addProductForm" class="form-section hidden">
                     <!-- Your form for adding a new product -->
                     <h2>Aggiungi un nuovo prodotto</h2>
-                    <form>
-                        <label for="productName">Nome prodotto:</label>
-                        <input type="text" id="productName" name="productName">
+                    <form action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
+                        <div class="form-group">                    
+                            <label for="productID"> ID Prodotto </label>
+                            <input type="number" id="number" name="productId">
+                            <label for="productName">Nome Prodotto:</label>
+                            <input type="text" id="productName" name="productName">
+                        </div>
+                        <div class="form-group">
+                            <label for="TopDescrizione">Top Descrizione:</label>
+                            <textarea name="topDescrizione" rows="5" cols="40"></textarea>
+                            <label for="Dettagli">Dettagli:</label>
+                            <textarea name="dettagli" rows="5" cols="40"></textarea>
+                        </div>   
+                        <div class="form-group">
+                            <label for="prezzo">Prezzo:</label>                       
+                            <input type="text" name="price">
+                        </div>
+                        <div class="form-group">
+                            <select name="categoria">
+                                <option value="GRANDI_ELETTRODOMESTICI">Grandi Elettrodomestici</option>
+                                <option value="PICCOLI_ELETTRODOMESTICI">Piccoli Elettrodomestici</option>
+                                <option value="TELEFONIA">Telefonia</option>
+                                <option value="PRODOTTI_ELETTRONICA">Prodotti Elettronica</option>                            
+                            </select>
+                            <select name="sottocategoria">
+                                <option value="null">Nessuna Sottocategoria</option>
+                                <option value="TABLET">Tablet</option>
+                                <option value="SMARTPHONE">Smartphone</option>
+                                <option value="PC">PC</option>
+                                <option value="SMARTWATCH">Smartwatch</option>                               
+                            </select>
+                        </div>    
+                        <div class="form-group">
+                            <label for="marca">Marca:</label>
+                            <input type="text" id="marca" name="marca">
+                        </div>
+                        <div class="form-group">
+                            <label for="modello">Modello:</label>
+                            <input type="text" id="modello" name="modello">
+                        </div>
+                        <div class="form-group">
+                            <label for="inVetrina">In Vetrina:</label>
+                            <input type="checkbox" id="inVetrina" name="inVetrina" value="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="inCatalogo">In Catalogo:</label>
+                            <input type="checkbox" id="inCatalogo" name="inCatalogo" value="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="quantità">Quantità:</label>
+                            <input type="number" id="quantità" name="quantità">
+                        </div>
+                        <div class="form-group">
+                            <label for="prod_id">ID del prodotto:</label>
+                            <input type="text" id="prod_id" name="prod_id">
+                        </div>
+                        <div class="form-group">
+                            <label for="file">Immagine:</label>
+                            <input type="file" id="file" name="file" accept="image/*">
+                        </div>
                         <button type="submit">Aggiungi</button>
                     </form>
                 </section>
@@ -99,13 +162,14 @@
                 </section>
             </section>             
        <div id="dynamicContent">
-           <form action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
+           <!-- comment
+           <form action="/GestioneCatalogoController" method="post" enctype="multipart/form-data">
                <label>ID del prodotto:</label>
                <input type="text" name="prod_id"/>
                <input type="file" name="file" accept="image/*"/>
                <input type="submit" class="confirm_button" value="Upload"/>
            </form>
-           
+            -->
        </div>
        <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script>        
     <jsp:include page="${pageContext.request.contextPath}/common/footer.jsp"  flush="true"/>       

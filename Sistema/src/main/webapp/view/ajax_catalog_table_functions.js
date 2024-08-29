@@ -4,6 +4,16 @@
  */
 
 
+function toggleSidebar(){
+    var options_sidebar = document.getElementById("options_sidebar"); 
+    if(options_sidebar.classList.contains("visible")){
+        options_sidebar.classList.remove("visible");         
+    }
+    else{
+        options_sidebar.classList.add("visible");
+    }
+ }
+
 $(document).ready(function() {
     const page = 1; // Example page number
 
@@ -24,7 +34,7 @@ $(document).ready(function() {
 
                 // Handle and display the products and pagination
                 const products = data.products;
-                const totalPages = data.totalPages;
+                const hasNextPage = data.hasNextPage;
                 const table = $('#showpr');
 
                 table.html(`
@@ -80,7 +90,7 @@ $(document).ready(function() {
                     row.append(imgCell, nomeCell, marcaCell, descrCell, prezzoCell);
                     table.append(row);
                 });
-
+            var action="";        
      // Update pagination
      updatePagination(page, action, hasNextPage); // Ensure pagination is updated with new data
     },

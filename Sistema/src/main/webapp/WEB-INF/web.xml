@@ -164,7 +164,28 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>RoleAccessFilter</filter-name>
+        <url-pattern>/protected/gestoreCatalogo/GestioneCatalogo.jsp</url-pattern>
+    </filter-mapping>
+    <!--Gestore Ordini Filtro Pattern Url  -->
+    <filter-mapping>
+        <filter-name>RoleAccessFilter</filter-name>
         <url-pattern>/GestioneOrdini</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>RoleAccessFilter</filter-name>
+        <url-pattern>/protected/gestoreOrdini/GestioneOrdini.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>RoleAccessFilter</filter-name>
+        <url-pattern>/protected/gestoreOrdini/approvigionamento.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>RoleAccessFilter</filter-name>
+        <url-pattern>/protected/gestoreOrdini/fill_order_details.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>RoleAccessFilter</filter-name>
+        <url-pattern>/protected/gestoreOrdini/richiesteApprovigionamento.jsp</url-pattern>
     </filter-mapping>
     <filter-mapping>
         <filter-name>RoleAccessFilter</filter-name>
@@ -174,6 +195,7 @@
         <filter-name>RoleAccessFilter</filter-name>
         <url-pattern>/GestioneApprovigionamentiController</url-pattern>
     </filter-mapping>
+    <!-- Fine Gestore Ordini Filtro Pattern Url  -->
     <!-- Lista .jsp Pagine Percorso + Mapping -->
     <servlet>
         <servlet-name>resetPasswordServlet</servlet-name>

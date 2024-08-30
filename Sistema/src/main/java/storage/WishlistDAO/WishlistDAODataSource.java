@@ -4,7 +4,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
@@ -47,42 +46,50 @@ public class WishlistDAODataSource{
 
 	/**
 	 * Crea una wishlist per l'utente.
+	 * 
 	 * @param ws : la wishlist da aggiungere nel DB
 	 * */
 	public synchronized void doSaveWishlist(Wishlist ws) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-
-		String insertSQL = "INSERT INTO " + WishlistDAODataSource.TABLE_NAME
-				+ " (UTENTE, IDWISHLIST) VALUES (?, ?);";
+		int newId = 0;
 
 		try {
 			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(insertSQL, Statement.RETURN_GENERATED_KEYS);
-			preparedStatement.setString(1, ws.getUtente() .getUsername());
-			preparedStatement.setInt(2, ws.getId());
+			// Determina il codice ID dell'ultima wishlist generata per l'utente
+			int maxIdSQL = getWishlistCount(ws.getUtente());
 
-			if(preparedStatement.executeUpdate() == 0) {
+			
+			String insertSQL = "INSERT INTO " + WishlistDAODataSource.TABLE_NAME + " (UTENTE, IDWISHLIST) VALUES (?, ?)";
+			preparedStatement = connection.prepareStatement(insertSQL);
+			preparedStatement.setString(1, ws.getUtente().getUsername());
+			preparedStatement.setInt(2, newId);
+
+			if (preparedStatement.executeUpdate() == 0) {
 				System.out.println("Errore creazione wishlist");
-			}
-
-			// Recupera l'ID generato
-			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
-			if (generatedKeys.next()) {
-				int generatedID = generatedKeys.getInt(1);
-				ws.setId(generatedID);  // Imposta l'ID generato
-				System.out.println("Debug wishlist ID:" + generatedID);
 			} else {
-				throw new SQLException("Errore creazione wishlist, non è possibile recuperare l'ultimo ID generato.");
+				ws.setId(maxIdSQL+1);  // Imposta ID nella wishlist
+				System.out.println("Wishlist created with ID: " + newId);
 			}
 
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+			
 		} finally {
+			
 			try {
-				if (preparedStatement != null)
-					preparedStatement.close();
+				if (preparedStatement != null) preparedStatement.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
 			} finally {
-				if (connection != null)
-					connection.close();
+				if (connection != null) {
+					try {
+						connection.close();
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
 			}
 		}
 

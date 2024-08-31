@@ -106,7 +106,7 @@ public class AutenticazioneController extends HttpServlet {
             if (action != null && !action.isEmpty()) {           
                 if(action.equals("logout")){
                     request.getSession().invalidate();// Invalidate the session
-                    response.sendRedirect("Autenticazione"); 
+                    response.sendRedirect(request.getContextPath() +"Autenticazione"); 
                     return;
                 }
             }
@@ -128,7 +128,7 @@ public class AutenticazioneController extends HttpServlet {
                     if(r.getNomeRuolo().equals(ruolo)){
                         switch(ruolo){
                             case "Cliente": 
-                                response.sendRedirect("AreaRiservata");
+                                response.sendRedirect(request.getContextPath() +"AreaRiservata");
                                 return;                                                          
                             case "GestoreOrdini": 
                                 response.sendRedirect(request.getContextPath() +"/GestioneOrdini");
@@ -138,28 +138,24 @@ public class AutenticazioneController extends HttpServlet {
                                 return;  
                             default:
                                 // Handle unexpected role cases if needed
-                                request.setAttribute("error","Ruolo scelto non corrispondente ai ruoli del utente");
+                                request.getSession().setAttribute("error","Ruolo scelto non corrispondente ai ruoli del utente");
                                 request.getRequestDispatcher("Autenticazione").forward(request, response);
                                 break;    
                         }
                         break;
                     } 
                 }
-                request.setAttribute("error","Ruolo scelto non corrispondente ai ruoli del utente");
+                request.getSession().setAttribute("error","Ruolo scelto non corrispondente ai ruoli del utente");
                 request.getRequestDispatcher("Autenticazione").forward(request, response);
             } else {
                 // Authentication failed
-                request.setAttribute("error","Username o Password errati");                               
-                response.sendRedirect("Autenticazione?error=true");
+                request.getSession().setAttribute("error","Username o Password Errati");                               
+                response.sendRedirect(request.getContextPath() +"Autenticazione");
             }
-        } catch (SQLException ex) {
+        } catch (SQLException | AutenticazioneException.UtenteInesistenteException ex) {
             Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("error", "password o username non corrette");
-            response.sendRedirect("Autenticazione?error=true");
-        } catch (AutenticazioneException.UtenteInesistenteException ex) {
-            Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
-            request.setAttribute("error",  "password o username non corrette");
-            response.sendRedirect("Autenticazione?error=true");
+            request.getSession().setAttribute("error", "Username o Password Errati");
+            response.sendRedirect(request.getContextPath() +"Autenticazione");
         }
         }
       /**

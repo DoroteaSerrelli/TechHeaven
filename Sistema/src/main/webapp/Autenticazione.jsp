@@ -11,7 +11,6 @@
        <title>Autenticazione</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="${pageContext.request.contextPath}/view/validations.js"></script>
     </head>
     <body>
         <link rel="stylesheet" href="common/style.css">
@@ -22,13 +21,13 @@
                 <div class="row">
                     <div class="input-wrapper">
                         <p>  *Username: </p>  
-                        <input type="text" name="username" onchange="validateUsername()" required>
+                        <input type="text" name="username" required>
                     </div>
                 </div>
                 <div class="row">
                     <div class="input-wrapper">
                         <p> *Password: </p>
-                        <input type="password" name="password" onchange="validatePassword()" required>
+                        <input type="password" name="password" required>
                     </div>
                 </div>  
                 <div class="row">     
@@ -49,14 +48,14 @@
                             <button class="confirm_button"><a href="resetPassword">Reimposta password</a></button>                           
                         </div>
                     </div>    
-                <div class="errormsg">
-                <p id="error"></p>
+                <div class="errormsg">                   
                  <% 
-                    String err = (String)request.getAttribute("error");
+                    String err = (String)request.getSession().getAttribute("error");
                     if (err != null && !err.isEmpty()) {
                  %>
-                <%=err%>               
-                <% } %>
+                 <p id="error" class="error invalid"><%=err%></p>               
+                <% request.getSession().removeAttribute("error");
+                    } %>
             </div> 
                 </form>
             </div>    

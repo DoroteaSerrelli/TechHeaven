@@ -53,7 +53,10 @@
         </div>
         <div class="search_results">
                <!-- Pagination links -->
-            <jsp:include page="${pageContext.request.contextPath}/common/pagination_research.jsp"  flush="true"/> 
+            <jsp:include page="${pageContext.request.contextPath}/common/pagination_research.jsp"  flush="true"/>
+            <div class="errormsg">                                             
+                <p id="error" class="error"></p>                                        
+            </div> 
         <section id="product1">      
             <div class="pro-container"> 
                 <% 
@@ -77,14 +80,7 @@
                         </a>
                         <a href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
                             <img  src="${pageContext.request.contextPath}/view/img/icon_wishlist.png" style="margin: 1px; width: 25px; height: 25px">
-                        </a>
-                        <div id="error">
-                            <% String errormsg="";
-                                errormsg= (String)request.getAttribute("error");
-                                if(errormsg==null) errormsg="";                                                       
-                            %>
-                            <%=errormsg%>
-                        </div>
+                        </a>                                              
                     </div>                    
              <%}%>
               </div>

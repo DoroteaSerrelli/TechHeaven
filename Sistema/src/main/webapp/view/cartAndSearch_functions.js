@@ -45,17 +45,30 @@
                     // You can handle the response here if needed
                     // Request completed successfully
                     // Reload cart section
-                    reloadCartSection();
+                 //   reloadCartSection();
                     // Display notification               
-                    outputMessage = "Item added to cart successfully!";
+                   
+                    // Parse the JSON response
+                    var response = JSON.parse(xhr.responseText);
+
+                    // Handle the response here
+                    var outputMessage = response.message; // Retrieve the message from the response
+                    var status = response.status; // Retrieve the status from the response
+
+                    // Optionally reload cart section or take other actions based on status
+                    reloadCartSection();
+                    
+                    // Display notification
+                    displayNotification(outputMessage, status);
+                  
                 } 
                 } else {
                     // Handle error response from server
                     outputMessage ="Item already in cart. Cannot add duplicate items.";              
                 }
                 // After the cart section is reloaded, re-bind range input events
-                rebindRangeInputs();
-            displayNotification(outputMessage);
+                //rebindRangeInputs();
+          //  displayNotification(outputMessage);
         };
         // Send the request with product ID as a parameter
         xhr.send("productId=" + encodeURIComponent(productId) );
@@ -67,9 +80,23 @@
     }
 
     // Function to display notification
-    function displayNotification(message) {
+    function displayNotification(message, status) {
         // Implement your notification display logic here
-        document.getElementById("error").innerHTML = message; // Example: Show an alert message
+        var error = document.getElementById("error");
+        error.innerHTML = message; // Example: Show an alert message
+        //
+        // Define the classes you want to toggle between
+        const classesToRemove = ["valid", "invalid"];
+        
+        // Remove any existing class that matches the ones in classesToRemove
+        classesToRemove.forEach(function(className) {
+            if (error.classList.contains(className)) {
+                error.classList.remove(className);
+            }
+        });
+        
+        // Add the new status class
+        error.classList.add(status);
     }
 
     // Validate search input

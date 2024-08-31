@@ -4,6 +4,8 @@
     Author     : raffy
 --%>
 
+<%@page import="java.net.URLEncoder"%>
+<%@page import="com.google.gson.Gson"%>
 <%@page import="java.util.Base64"%>
 <%@page import="application.NavigazioneService.NavigazioneServiceImpl"%>
 <%@page import="java.lang.String"%>
@@ -66,21 +68,29 @@
                     %>
                     
                     <div class="pro">
-                        <img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';"/>
-                        <div class="des">
-                            <h3><%=product.getNomeProdotto()%></h3>
-                            <span><%=product.getMarca()%></span>
-                            <h5><%=product.getTopDescrizione()%></h5>
-                            <div class="star">                              
-                            </div>
-                            <h4><%=product.getPrezzo()%>€</h4>
-                        </div>
-                        <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
-                            <img class="cart" src="${pageContext.request.contextPath}/view/img/icon_carrello2.png">
+                        <%
+                            String productJson = new Gson().toJson(product);
+                            String encodedProductJson = URLEncoder.encode(productJson, "UTF-8");
+                        %>
+                        <a href="${pageContext.request.contextPath}/ProductInfos?product=<%= encodedProductJson %>">
+                            <img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" 
+                                onclick="this.closest('form').submit();"  
+                                onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';" />
                         </a>
-                        <a href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
-                            <img  src="${pageContext.request.contextPath}/view/img/icon_wishlist.png" style="margin: 1px; width: 25px; height: 25px">
-                        </a>                                              
+                            <div class="des">
+                                <h3><%=product.getNomeProdotto()%></h3>
+                                <span><%=product.getMarca()%></span>
+                                <h5><%=product.getTopDescrizione()%></h5>
+                                <div class="star">                              
+                                </div>
+                                <h4><%=product.getPrezzo()%>€</h4>
+                            </div>
+                            <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
+                                <img class="cart" src="${pageContext.request.contextPath}/view/img/icon_carrello2.png">
+                            </a>
+                            <a href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
+                                <img  src="${pageContext.request.contextPath}/view/img/icon_wishlist.png" style="margin: 1px; width: 25px; height: 25px">
+                            </a>    
                     </div>                    
              <%}%>
               </div>

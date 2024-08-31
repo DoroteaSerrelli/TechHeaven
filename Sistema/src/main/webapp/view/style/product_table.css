@@ -40,6 +40,57 @@ th, td {
     background: #f9f9f9;
 }
 
+/* Product Details Styling: */
+/* Container for Product Page */
+.product-image img {
+    max-width: 100%;
+    border-radius: 8px;
+}
+
+/* Styling the Product Details Section */
+.product-details {
+    margin-left: 30px;
+    flex: 1; /* Makes sure this section takes up the remaining space */
+}
+.product-page {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-actions a {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+.add-to-cart {
+    background-color: #28a745;
+    color: white;
+}
+
+.add-to-cart:hover {
+    background-color: #218838;
+}
+
+.add-to-wishlist {
+    background-color: #ffc107;
+    color: white;
+}
+
+.add-to-wishlist:hover {
+    background-color: #e0a800;
+}
+.add-to-wishlist img{
+    width: 50%;
+    height: 50%;
+}
 
 /* Styles for mobile screens */
 @media (max-width: 480px) {

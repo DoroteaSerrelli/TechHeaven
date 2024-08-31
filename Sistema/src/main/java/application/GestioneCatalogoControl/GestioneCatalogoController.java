@@ -187,13 +187,14 @@ public class GestioneCatalogoController extends HttpServlet {
             }
         // Retrieve the file part from the request
        Part filePart = request.getPart("file"); // "file" is the name attribute in the form   
-       String product_id = (String) request.getParameter("prod_id");
+       String product_id = (String) request.getParameter("productId");
        int prod_id = 1;
        if(product_id!=null) {
-            prod_id = Integer.parseInt(request.getParameter("prod_id"));
+            prod_id = Integer.parseInt(product_id);
        }
        else {
            request.getSession().setAttribute("error", "ID Inserito non Valido");
+           System.out.println("ID inserito non valido");
            response.sendRedirect(request.getContextPath() + "/GestioneCatalogo");
            return;
        }
@@ -206,7 +207,7 @@ public class GestioneCatalogoController extends HttpServlet {
                 InputStream fileContent = filePart.getInputStream();
                 PhotoControl.updateTopImage(prod_id, fileContent);
             }
-            response.sendRedirect(request.getContextPath() + "/GestioneCatalogoController");
+            response.sendRedirect(request.getContextPath() + "/GestioneCatalogo");
         } catch (SQLException ex) {
             Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
@@ -214,6 +215,7 @@ public class GestioneCatalogoController extends HttpServlet {
         }    catch (CatalogoException.ProdottoInCatalogoException | ProdottoException.CategoriaProdottoException | ProdottoException.SottocategoriaProdottoException ex) {
                  Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
                  request.getSession().setAttribute("error", ex.getMessage());
+                 System.out.println(ex.getMessage());
              }
     }      
                                                

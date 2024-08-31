@@ -38,7 +38,7 @@ public class AreaRiservata extends HttpServlet {
             throws ServletException, IOException {
         ProxyUtente u = (ProxyUtente) request.getSession().getAttribute("user");
         if (u==null || u.getUsername().equals("")) {
-           response.sendRedirect("Autenticazione");
+           response.sendRedirect(request.getContextPath() +"Autenticazione");
            return;
         }    
         // Retrieve data from request or session if needed
@@ -68,7 +68,7 @@ public class AreaRiservata extends HttpServlet {
             throws ServletException, IOException {
         ProxyUtente u = (ProxyUtente) request.getSession().getAttribute("user");
         if (u==null || u.getUsername().equals("")) {
-           response.sendRedirect("Autenticazione");
+           response.sendRedirect(request.getContextPath() + "Autenticazione");
            return;
         }    
         // Retrieve data from request or session if needed

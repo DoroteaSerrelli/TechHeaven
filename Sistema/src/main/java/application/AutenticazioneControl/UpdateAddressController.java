@@ -101,7 +101,7 @@ public class UpdateAddressController extends HttpServlet {
             ProxyUtente user = getUser(request);
             //If the user is null sends a redirect to login page.
             if(user==null) {
-                response.sendRedirect("Autenticazione");
+                response.sendRedirect(request.getContextPath() + "Autenticazione");
                 return;
             }
             
@@ -133,7 +133,7 @@ public class UpdateAddressController extends HttpServlet {
                 
             }
             request.getSession().setAttribute("user", updated_user);
-            response.sendRedirect("AreaRiservata");      
+            response.sendRedirect(request.getContextPath() + "AreaRiservata");      
             
             
         } catch (AutenticazioneException.UtenteInesistenteException | AutenticazioneException.IndirizzoEsistenteException | AutenticazioneException.FormatoIndirizzoException | SQLException | AutenticazioneException.ModificaIndirizzoException | AutenticazioneException.InformazioneDaModificareException ex) {
@@ -143,7 +143,7 @@ public class UpdateAddressController extends HttpServlet {
             request.getSession().setAttribute("error", ex.getMessage());
             //Retrieve address after update failure to allow the user to see them and update them 
             // If needed.
-            response.sendRedirect("UpdateUserInfo");          
+            response.sendRedirect(request.getContextPath() + "UpdateUserInfo");          
             
         }
             

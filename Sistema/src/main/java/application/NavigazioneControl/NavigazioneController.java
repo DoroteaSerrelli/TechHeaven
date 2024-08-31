@@ -44,7 +44,7 @@ public class NavigazioneController extends HttpServlet {
         // For example, you could return an error response or redirect the user
             if(keyword==null){
                 System.out.println("keyword");
-                response.sendRedirect("index.jsp");
+                response.sendRedirect(request.getContextPath() + "index.jsp");
                 return;
             }
         }  
@@ -69,7 +69,7 @@ public class NavigazioneController extends HttpServlet {
         
         if(searchType==null){
             System.out.println("SONO QUIIIII");
-            response.sendRedirect("index.jsp");
+            response.sendRedirect(request.getContextPath() + "index.jsp");
             return;
             
         }

@@ -4,11 +4,15 @@
  */
 package application.GestioneCatalogoControl;
 
+import application.GestioneCatalogoService.CatalogoException;
 import application.GestioneCatalogoService.GestioneCatalogoServiceImpl;
 import application.NavigazioneControl.PaginationUtils;
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProxyProdotto;
 import application.NavigazioneControl.SearchResult;
+import application.NavigazioneService.ObjectProdotto.Categoria;
+import application.NavigazioneService.ObjectProdotto.Sottocategoria;
+import application.NavigazioneService.ProdottoException;
 import com.google.gson.Gson;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -158,29 +162,62 @@ public class GestioneCatalogoController extends HttpServlet {
     private static int pr_pagina = 50;       
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {   
-        if(request.getParameter("action").matches("addPhoto")){      
-            // Retrieve the file part from the request
-           Part filePart = request.getPart("file"); // "file" is the name attribute in the form   
-
-           int prod_id = Integer.parseInt(request.getParameter("prod_id"));
-
-           if (filePart != null) {
-               try {
-                   // Get the input stream of the uploaded file
-                   InputStream fileContent = filePart.getInputStream();
-                   PhotoControl.updateTopImage(prod_id, fileContent);
-                   response.sendRedirect("GestioneCatalogo");
-               } catch (SQLException ex) {
-                   Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
-                   System.out.println(ex.getMessage());
-               }
-
-           }
-        }
-        
-     }
-    
+        throws ServletException, IOException { 
+            String productName = request.getParameter("productName");
+            String topDescrizione = request.getParameter("topDescrizione");
+            String dettagli = request.getParameter("dettagli");
+            float price = Float.parseFloat(request.getParameter("price"));
+            String categoria = request.getParameter("categoria");
+            String marca = request.getParameter("marca");
+            String modello = request.getParameter("modello");            
+            //Devo controllare se la stringa corrisponde a nessuna categoria e assegnare null.
+            String sottocategoria = request.getParameter("sottocategoria");
+            Sottocategoria s_categoria;
+            if(sottocategoria.equals("null")) s_categoria= null;
+            else s_categoria = Sottocategoria.valueOf(sottocategoria);
+                    
+            String inVetrinaParam = request.getParameter("inVetrina");
+            boolean inVetrina = "true".equals(inVetrinaParam);
+            String inCatalogoParam = request.getParameter("inCatalogo");
+            boolean inCatalogo = "true".equals(inCatalogoParam);
+            String quantity = (String) request.getParameter("quantità");
+            int quantità = 1;
+            if(quantity!=null){
+                quantità = Integer.parseInt(request.getParameter("quantità"));
+            }
+        // Retrieve the file part from the request
+       Part filePart = request.getPart("file"); // "file" is the name attribute in the form   
+       String product_id = (String) request.getParameter("prod_id");
+       int prod_id = 1;
+       if(product_id!=null) {
+            prod_id = Integer.parseInt(request.getParameter("prod_id"));
+       }
+       else {
+           request.getSession().setAttribute("error", "ID Inserito non Valido");
+           response.sendRedirect(request.getContextPath() + "/GestioneCatalogo");
+           return;
+       }
+       Prodotto product = new Prodotto(prod_id, productName, topDescrizione, dettagli, price, Categoria.valueOf(categoria),
+               s_categoria, marca, modello, quantità, inCatalogo, inVetrina);                   
+       try {
+            gcs.aggiuntaProdottoInCatalogo(product, 1, pr_pagina);
+            if (filePart != null) {
+                // Get the input stream of the uploaded file
+                InputStream fileContent = filePart.getInputStream();
+                PhotoControl.updateTopImage(prod_id, fileContent);
+            }
+            response.sendRedirect(request.getContextPath() + "/GestioneCatalogoController");
+        } catch (SQLException ex) {
+            Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+            request.getSession().setAttribute("error", ex.getMessage());
+        }    catch (CatalogoException.ProdottoInCatalogoException | ProdottoException.CategoriaProdottoException | ProdottoException.SottocategoriaProdottoException ex) {
+                 Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
+                 request.getSession().setAttribute("error", ex.getMessage());
+             }
+    }      
+                                               
+                            
     /**
      * Returns a short description of the servlet.
      *

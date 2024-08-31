@@ -63,7 +63,7 @@ public class ResultsPage extends HttpServlet {
         Collection<ProxyProdotto> searchResult = (Collection<ProxyProdotto>) request.getSession().getAttribute("products");
         if(searchResult==null){
             String keyword = (String) request.getParameter("keyword");
-            response.sendRedirect(request.getContextPath() + "NavigazioneController?keyword="+keyword);
+            response.sendRedirect(request.getContextPath() + "/NavigazioneController?keyword="+keyword);
             return;
         }
         String keyword = (String) request.getSession().getAttribute("keyword");

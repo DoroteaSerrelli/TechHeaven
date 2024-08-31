@@ -21,7 +21,7 @@
         <%
             Ordine selected_ordine = (Ordine) request.getSession().getAttribute("selected_ordine");
             if(selected_ordine==null){
-                response.sendRedirect("GestioneOrdini.jsp");
+                response.sendRedirect(request.getContextPath() + "/GestioneOrdini.jsp");
                 return;
             }
             ArrayList<ItemCarrello> order_products = (ArrayList<ItemCarrello>) request.getSession().getAttribute("order_products");

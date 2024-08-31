@@ -55,7 +55,7 @@ public class UpdateProfileController extends HttpServlet {
             
             //If the user is null sends a redirect to login page.
             if(user==null) {
-                response.sendRedirect(request.getContextPath() + "Autenticazione");
+                response.sendRedirect(request.getContextPath() + "/Autenticazione");
                 return;
             }
             ProxyUtente updated_user = user;
@@ -64,7 +64,7 @@ public class UpdateProfileController extends HttpServlet {
             Utente real_user = user.mostraUtente();
             if( real_user.getProfile().getEmail().equals(updated_email) || real_user.getProfile().getTelefono().equals(updated_tel)){
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                response.sendRedirect(request.getContextPath() + "AreaRiservata");
+                response.sendRedirect(request.getContextPath() + "/AreaRiservata");
                 return;
             }
             

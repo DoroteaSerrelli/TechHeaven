@@ -22,7 +22,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_form.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        
+        <script src="${pageContext.request.contextPath}/view/validations_catalog_manager.js"></script> 
         <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js"></script>            
         <script src="${pageContext.request.contextPath}/view/pagination.js"></script>        
        
@@ -32,6 +32,7 @@
         </script>
     </head>    
     <body>     
+        <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->
        <jsp:include page="${pageContext.request.contextPath}/common/header.jsp"  flush="true"/>
        <jsp:include page="${pageContext.request.contextPath}/roleSelector.jsp"  flush="true"/>
         <aside class="options_sidebar hidden" id="options_sidebar">
@@ -138,11 +139,7 @@
                         <div class="form-group">
                             <label for="quantità">Quantità:</label>
                             <input type="number" id="quantità" name="quantità">
-                        </div>
-                        <div class="form-group">
-                            <label for="prod_id">ID del prodotto:</label>
-                            <input type="text" id="prod_id" name="prod_id">
-                        </div>
+                        </div>                     
                         <div class="form-group">
                             <label for="file">Immagine:</label>
                             <input type="file" id="file" name="file" accept="image/*">

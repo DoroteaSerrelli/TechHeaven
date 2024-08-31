@@ -80,14 +80,14 @@ public class RegistrazioneController extends HttpServlet {
        String sesso= request.getParameter("sesso");
        Indirizzo indirizzo = new Indirizzo(via, cv, citta, cap, provincia);
        ProxyUtente u= reg.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.valueOf(sesso), telefono, indirizzo);
-       if(u==null)  {response.sendRedirect(request.getContextPath() + "Registrazione");}
+       if(u==null)  {response.sendRedirect(request.getContextPath() + "/Registrazione");}
        else{
            IndirizzoDAODataSource indDAO = new IndirizzoDAODataSource();
            try {
                ArrayList <Indirizzo> indirizzi = indDAO.doRetrieveAll("Indirizzo.via", u.getUsername());        
                request.getSession().setAttribute("user", u);
                request.setAttribute("Indirizzi",indirizzi);
-               response.sendRedirect(request.getContextPath() + "AreaRiservata");
+               response.sendRedirect(request.getContextPath() + "/AreaRiservata");
            } catch (SQLException ex) {
                Logger.getLogger(RegistrazioneController.class.getName()).log(Level.SEVERE, null, ex);
            }

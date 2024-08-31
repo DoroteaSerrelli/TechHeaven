@@ -78,7 +78,7 @@ public class AutenticazioneController extends HttpServlet {
         if (action != null && !action.isEmpty()) {
             // Forward to updateUserInfo.jsp if action is specified
             if (action.equals("updateUserInfo")) {
-                 response.sendRedirect(request.getContextPath() + "UpdateUserInfo");
+                 response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
             }           
             // Add other actions if needed
         } else {
@@ -106,7 +106,7 @@ public class AutenticazioneController extends HttpServlet {
             if (action != null && !action.isEmpty()) {           
                 if(action.equals("logout")){
                     request.getSession().invalidate();// Invalidate the session
-                    response.sendRedirect(request.getContextPath() +"Autenticazione"); 
+                    response.sendRedirect(request.getContextPath() + "/Autenticazione"); 
                     return;
                 }
             }
@@ -128,7 +128,7 @@ public class AutenticazioneController extends HttpServlet {
                     if(r.getNomeRuolo().equals(ruolo)){
                         switch(ruolo){
                             case "Cliente": 
-                                response.sendRedirect(request.getContextPath() +"AreaRiservata");
+                                response.sendRedirect(request.getContextPath() +"/AreaRiservata");
                                 return;                                                          
                             case "GestoreOrdini": 
                                 response.sendRedirect(request.getContextPath() +"/GestioneOrdini");
@@ -150,12 +150,12 @@ public class AutenticazioneController extends HttpServlet {
             } else {
                 // Authentication failed
                 request.getSession().setAttribute("error","Username o Password Errati");                               
-                response.sendRedirect(request.getContextPath() +"Autenticazione");
+                response.sendRedirect(request.getContextPath() + "/Autenticazione");
             }
         } catch (SQLException | AutenticazioneException.UtenteInesistenteException ex) {
             Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
             request.getSession().setAttribute("error", "Username o Password Errati");
-            response.sendRedirect(request.getContextPath() +"Autenticazione");
+            response.sendRedirect(request.getContextPath() + "/Autenticazione");
         }
         }
       /**

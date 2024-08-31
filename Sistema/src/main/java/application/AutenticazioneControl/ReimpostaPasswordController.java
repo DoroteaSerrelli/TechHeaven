@@ -89,7 +89,7 @@ public class ReimpostaPasswordController extends HttpServlet {
             String password = request.getParameter("password");
             
             loginService.resetPassword(username, email, password);
-            response.sendRedirect(request.getContextPath() + "Autenticazione");
+            response.sendRedirect(request.getContextPath() + "/Autenticazione");
         } catch (SQLException ex) {
             Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (AutenticazioneException.UtenteInesistenteException ex) {

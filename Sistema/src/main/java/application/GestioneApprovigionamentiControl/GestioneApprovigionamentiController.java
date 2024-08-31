@@ -74,7 +74,7 @@ public class GestioneApprovigionamentiController extends HttpServlet {
                boolean hasNextPage = pu.checkIfItsTheSamePage (currentPageResults, nextPageResults, ProxyProdotto.class);   
                             
                request.getSession().setAttribute("hasNextPage", hasNextPage);
-               response.sendRedirect(request.getContextPath() + "Approvigionamento");
+               response.sendRedirect(request.getContextPath() + "/Approvigionamento");
            } catch (SQLException ex) {
                Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
                request.getSession().setAttribute("error", "Recupero Prodotti Fallito");
@@ -117,12 +117,12 @@ public class GestioneApprovigionamentiController extends HttpServlet {
                             
                request.getSession().setAttribute("hasNextPage", hasNextPage);
                
-               response.sendRedirect(request.getContextPath() + "Approvigionamento");
+               response.sendRedirect(request.getContextPath() + "/Approvigionamento");
            } catch (RichiestaApprovvigionamentoException.FornitoreException | RichiestaApprovvigionamentoException.DescrizioneDettaglioException | RichiestaApprovvigionamentoException.QuantitaProdottoException | RichiestaApprovvigionamentoException.ProdottoVendibileException | SQLException ex) {
                Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
                request.getSession().setAttribute("error", ex);
                //Servlet DO-GET GestioneOrdini TO-DO:
-               response.sendRedirect(request.getContextPath() + "GestioneOrdini");
+               response.sendRedirect(request.getContextPath() + "/GestioneOrdini");
            } catch (Exception ex) {
                Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
            }
@@ -198,7 +198,7 @@ public class GestioneApprovigionamentiController extends HttpServlet {
             int quantity = Integer.parseInt(request.getParameter("quantity"));
             if(productId <=0 || quantity<=0) {
                 request.getSession().setAttribute("error", "ID o Quantità non può essere inferiore a 1");
-                response.sendRedirect(request.getContextPath() + "GestioneOrdini");
+                response.sendRedirect(request.getContextPath() + "/GestioneOrdini");
             }
         
         String fornitore = request.getParameter("fornitore");
@@ -208,14 +208,14 @@ public class GestioneApprovigionamentiController extends HttpServlet {
         RichiestaApprovvigionamento supply = new RichiestaApprovvigionamento(fornitore, email_fornitore, descrizione, quantity, prodotto);
         gas.effettuaRichiestaApprovvigionamento(supply);
         request.getSession().setAttribute("error", "Richiesta Approvigionamento Avvenuta Con Successo!");            
-        response.sendRedirect(request.getContextPath() + "Approvigionamento");
+        response.sendRedirect(request.getContextPath() + "/Approvigionamento");
         } catch (NumberFormatException e) {
             // Handle invalid number format
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Product ID format.");
         } catch (SQLException | RichiestaApprovvigionamentoException.FornitoreException | RichiestaApprovvigionamentoException.QuantitaProdottoException | RichiestaApprovvigionamentoException.DescrizioneDettaglioException | RichiestaApprovvigionamentoException.ProdottoVendibileException ex) {
             Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
             request.getSession().setAttribute("error", "Richiesta approvigionamento non valida, c'è stato un errore.");
-            response.sendRedirect(request.getContextPath() + "Approvigionamento");
+            response.sendRedirect(request.getContextPath() + "/Approvigionamento");
         } catch (ProdottoException.SottocategoriaProdottoException ex) {
             Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
         } catch (ProdottoException.CategoriaProdottoException ex) {

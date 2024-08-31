@@ -51,7 +51,7 @@ public class GestioneWishlistController extends HttpServlet {
             
             ProxyUtente user = (ProxyUtente) request.getSession().getAttribute("user");              
             if (user==null || user.getUsername().equals("")) {
-               response.sendRedirect(request.getContextPath() + "Autenticazione");
+               response.sendRedirect(request.getContextPath() + "/Autenticazione");
                return ;
            }
             request.getSession().setAttribute("errormsg", null);                           
@@ -79,7 +79,7 @@ public class GestioneWishlistController extends HttpServlet {
                         } catch (WishlistException.ProdottoPresenteException | WishlistException.ProdottoNulloException | SQLException ex) {
                             Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
                             request.getSession().setAttribute("errormsg", "Item già Presente nella Wishlist");
-                            response.sendRedirect(request.getContextPath() + "Wishlist");
+                            response.sendRedirect(request.getContextPath() + "/Wishlist");
                             return;
                         } catch (ProdottoException.SottocategoriaProdottoException ex) {
                         Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
@@ -102,7 +102,7 @@ public class GestioneWishlistController extends HttpServlet {
                         } catch (WishlistException.ProdottoNonPresenteException | WishlistException.ProdottoNulloException | SQLException | WishlistException.WishlistVuotaException ex) {
                             Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
                             request.getSession().setAttribute("errormsg", "Rimozione Item Fallita");
-                            response.sendRedirect(request.getContextPath() + "Wishlist");
+                            response.sendRedirect(request.getContextPath() + "/Wishlist");
                             return;
                         } catch (ProdottoException.SottocategoriaProdottoException ex) {
                         Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);

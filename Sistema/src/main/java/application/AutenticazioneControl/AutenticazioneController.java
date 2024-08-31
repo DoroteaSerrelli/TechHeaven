@@ -78,7 +78,7 @@ public class AutenticazioneController extends HttpServlet {
         if (action != null && !action.isEmpty()) {
             // Forward to updateUserInfo.jsp if action is specified
             if (action.equals("updateUserInfo")) {
-                 response.sendRedirect("UpdateUserInfo");
+                 response.sendRedirect(request.getContextPath() + "UpdateUserInfo");
             }           
             // Add other actions if needed
         } else {

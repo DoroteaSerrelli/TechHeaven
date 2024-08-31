@@ -16,8 +16,17 @@
         <div id="showpr" class="section-p1">
         <%
             Carrello carrello; 
-            carrello = (Carrello) request.getSession().getAttribute("usercart");
-            if(carrello==null || carrello.getProducts().isEmpty()){
+            carrello = (Carrello) request.getSession().getAttribute("usercart");%>
+            <div class="errormsg">                   
+                 <% 
+                    String err = (String)request.getSession().getAttribute("error");
+                    if (err != null && !err.isEmpty()) {
+                 %>
+                 <p id="error" class="error invalid"><%=err%></p>               
+                <% request.getSession().removeAttribute("error");
+                    } %>
+            </div>
+           <% if(carrello==null || carrello.getProducts().isEmpty()){
         %>
             <div id="emptycart">
                 <h4>Il tuo carrello è vuoto!</h4>

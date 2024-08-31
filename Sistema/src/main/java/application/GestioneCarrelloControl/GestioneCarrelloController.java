@@ -73,7 +73,7 @@ public class GestioneCarrelloController extends HttpServlet {
                 }
             }
     }
-    public void aggiungiAlCarrello(HttpServletRequest request, HttpServletResponse response){
+    public void aggiungiAlCarrello(HttpServletRequest request, HttpServletResponse response) throws IOException{
             ItemCarrello inCart = null;
             try{
                  // Parse request parameters
@@ -97,20 +97,14 @@ public class GestioneCarrelloController extends HttpServlet {
                     
                 request.getSession().setAttribute("usercart", cart);
                 
-        } catch (SQLException ex) {
+        } catch (SQLException | CarrelloException.ProdottoPresenteException | CarrelloException.ProdottoNulloException | ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException ex) {
             Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CarrelloException.ProdottoPresenteException ex) {
-            Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CarrelloException.ProdottoNulloException ex) {
-            Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ProdottoException.SottocategoriaProdottoException ex) {
-            Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ProdottoException.CategoriaProdottoException ex) {
-            Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
+            request.getSession().setAttribute("error", ex.getMessage());
+            response.sendRedirect(request.getContextPath() + "/cart");
         } 
     }
     
-    public void updateQuantità(HttpServletRequest request, HttpServletResponse response){
+    public void updateQuantità(HttpServletRequest request, HttpServletResponse response) throws IOException{
         int productId = parseProductId(request.getParameter("productId"));
         int quantità = parseQuantity(request.getParameter("prod_quantità"));
         
@@ -140,22 +134,10 @@ public class GestioneCarrelloController extends HttpServlet {
                 }
                 ///Carrello svuotoTemp = new Carrello();
                 request.getSession().setAttribute("usercart", cart);                
-            } catch (CarrelloException.ProdottoNulloException ex) {
+            } catch (CarrelloException.ProdottoNulloException | CarrelloException.ProdottoPresenteException | SQLException | CarrelloException.CarrelloVuotoException | CarrelloException.ProdottoNonPresenteException | CarrelloException.QuantitaProdottoException | ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException ex) {
                 Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (CarrelloException.ProdottoPresenteException ex) {
-                Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (SQLException ex) {
-                Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (CarrelloException.CarrelloVuotoException ex) {
-                Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (CarrelloException.ProdottoNonPresenteException ex) {
-                Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (CarrelloException.QuantitaProdottoException ex) {
-                Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ProdottoException.SottocategoriaProdottoException ex) {
-                Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ProdottoException.CategoriaProdottoException ex) {
-                Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
+                request.getSession().setAttribute("error", ex.getMessage());
+                response.sendRedirect(request.getContextPath() + "/cart");
             }
         }
     }
@@ -185,17 +167,7 @@ public class GestioneCarrelloController extends HttpServlet {
                 }
                 request.getSession().setAttribute("usercart", cart);
 
-        } catch (SQLException ex) {
-            Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CarrelloException.ProdottoNulloException ex) {
-            Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CarrelloException.CarrelloVuotoException ex) {
-            Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CarrelloException.ProdottoNonPresenteException ex) {
-            Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ProdottoException.SottocategoriaProdottoException ex) {
-            Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ProdottoException.CategoriaProdottoException ex) {
+        } catch (SQLException | CarrelloException.ProdottoNulloException | CarrelloException.CarrelloVuotoException | CarrelloException.ProdottoNonPresenteException | ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException ex) {
             Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

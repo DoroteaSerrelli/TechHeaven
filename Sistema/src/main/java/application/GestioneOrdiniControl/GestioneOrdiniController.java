@@ -201,10 +201,8 @@ public class GestioneOrdiniController extends HttpServlet {
                     request.getSession().setAttribute("order_products", order_products);                  
                     request.getSession().setAttribute("order_products_available", hs);                    
                     
-                    response.sendRedirect("fill_order_details");
-                } catch (SQLException | OrdineException.OrdineVuotoException | ProdottoException.CategoriaProdottoException ex) {
-                    Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ProdottoException.SottocategoriaProdottoException ex) {
+                    response.sendRedirect(request.getContextPath() + "fill_order_details");
+                } catch (SQLException | OrdineException.OrdineVuotoException | ProdottoException.CategoriaProdottoException | ProdottoException.SottocategoriaProdottoException ex) {
                     Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             
@@ -240,7 +238,7 @@ public class GestioneOrdiniController extends HttpServlet {
                     request.getSession().removeAttribute("selected_ordine");
                     request.getSession().removeAttribute("order_products");
                     
-                    response.sendRedirect("GestioneOrdini");                 
+                    response.sendRedirect(request.getContextPath() + "GestioneOrdini");                 
                     
                 } catch(IOException | NumberFormatException | SQLException e){} catch (OrdineException.ErroreSpedizioneOrdineException | OrdineException.OrdineVuotoException | PagamentoException.ModalitaAssenteException | CloneNotSupportedException ex) {
                     Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, ex);

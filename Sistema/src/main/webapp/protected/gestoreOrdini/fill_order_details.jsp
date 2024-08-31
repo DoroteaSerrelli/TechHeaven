@@ -95,7 +95,11 @@
         <script>
             function setActionAndRedirect(action) {
                 sessionStorage.setItem('action', action); // Store action in session storage
-                window.location.href = 'GestioneOrdini'; // Redirect to the main page
+                // Get the context path from the current URL
+                var contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
+
+                // Redirect to the main page with the context path
+                window.location.href = contextPath + '/GestioneOrdini';
             }
             function setActionForOrderSent() {
                 sessionStorage.setItem('action', 'fetch_spediti'); // Store the 'order_sent' action

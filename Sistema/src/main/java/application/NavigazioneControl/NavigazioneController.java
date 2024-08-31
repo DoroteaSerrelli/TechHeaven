@@ -76,7 +76,8 @@ public class NavigazioneController extends HttpServlet {
         pu.detectActionChanges(request, searchType);
         
         pu.paginateSearchedProducts(request, page, perPage, keyword, searchType);
-        response.sendRedirect("/ResultsPage");
+        response.sendRedirect(request.getContextPath() + "/ResultsPage");
+
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

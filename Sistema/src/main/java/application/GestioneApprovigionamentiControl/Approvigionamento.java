@@ -65,7 +65,7 @@ public class Approvigionamento extends HttpServlet {
         if(request.getSession().getAttribute("action").equals("viewProductList")){
             //Checking if the value if the user accesses Approvigionamento directly.
             if(request.getSession().getAttribute("products")==null){
-                response.sendRedirect("GestioneApprovigionamentiController?action=viewProductList&page=1");
+                response.sendRedirect(request.getContextPath() + "GestioneApprovigionamentiController?action=viewProductList&page=1");
                 return;
             }
             Collection<ProxyProdotto> all_products_list = (Collection<ProxyProdotto>) request.getSession().getAttribute("products");
@@ -78,7 +78,7 @@ public class Approvigionamento extends HttpServlet {
         }     
         else{
             if(request.getSession().getAttribute("supply_requests")==null){
-                response.sendRedirect("GestioneApprovigionamentiController?action=viewList&page=1");
+                response.sendRedirect(request.getContextPath() + "GestioneApprovigionamentiController?action=viewList&page=1");
                 return;
             }
             Collection<RichiestaApprovvigionamento> supply_requests = (Collection<RichiestaApprovvigionamento>) request.getSession().getAttribute("supply_requests");        

@@ -286,13 +286,13 @@ public abstract class ObjectProdotto {
 	        case "TELEFONIA":
 	            this.categoria = Categoria.TELEFONIA;
 	            break;
-	        case "PRODOTTI_ELETTRONICA":
+	        case "PRODOTTI_ELETTRONICA", "PRODOTTI ELETTRONICA" :
 	            this.categoria = Categoria.PRODOTTI_ELETTRONICA;
 	            break;
-	        case "PICCOLI_ELETTRODOMESTICI":
+	        case "PICCOLI_ELETTRODOMESTICI", "PICCOLI ELETTRODOMESTICI":
 	            this.categoria = Categoria.PICCOLI_ELETTRODOMESTICI;
 	            break;
-	        case "GRANDI_ELETTRODOMESTICI":
+	        case "GRANDI_ELETTRODOMESTICI", "GRANDI ELETTRODOMESTICI":
 	            this.categoria = Categoria.GRANDI_ELETTRODOMESTICI;
 	            break;
 	        default:
@@ -325,7 +325,7 @@ public abstract class ObjectProdotto {
 	 * */
 	
 	public void setSottocategoria(String subcategory) throws SottocategoriaProdottoException {
-		if(this.sottocategoria == null) {
+		if(subcategory == null) {
 			this.sottocategoria = null;
 			return; 
 		}

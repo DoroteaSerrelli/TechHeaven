@@ -1,5 +1,5 @@
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(1, 'Apple Watch SE', 'Apple Watch SE GPS Cassa 40mm in Alluminio Galassia con Cinturino Sport Galassia - S/M ha tutto per farsi amare!
 Modi efficaci per restare in contatto con chi vuoi. Più info sott’occhio quando ti alleni. Funzioni innovative per la salute e la sicurezza. 
 E abbinamenti di casse e cinturini a impatto ambientale neutro. 
@@ -14,13 +14,13 @@ Apple Watch SE ha tutto quello che ti serve, a un prezzo che amerai.',
 
 
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(2, 'Samsung Galaxy Watch6', 'Samsung Galaxy Watch6 Smartwatch Analisi del Sonno Ghiera Touch in Alluminio 40mm Graphite è pensato per monitorare e migliorare il benessere di tutti i giorni. Con le analisi approfondite e le rilevazioni della qualità del sonno Galaxy Watch6 ti aiuta a capire meglio il tuo corpo e le abitudini del riposo, supportandoti durante la giornata con alleneamenti pensati su misura per la tua salute.', 
 'Misura la composizione corporea con BioActiveSensor e tieni traccia dei tuoi progressi con oltre 90 differenti tipi di allenamento. Lo smartwatch, inoltre, rileva e notifica quando la frequenza cardiaca è alta o bassa.
 La cornice ora più sottile offre uno schermo più ampio, in modo da poter controllare con un solo sguardo tutti i dati relativi all\'allenamento o alla salute. Accoppia l\'orologio con uno smartphone Samsung Galaxy, accedi ai dati di benessere con l\'app Samsung Health e scatta foto di gruppo controllando la fotocamera dello smartphone da lontano.', 229.00, 'Prodotti elettronica', 'Smartwatch', 'Samsung', 'Galaxy Watch6', 1, 1, '', 102);
 
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(3, 'Xiaomi Redmi Note 13', 'Xiaomi Redmi Note 13 presenta un design veramente raffinato: le montature sottili infatti, aggiungono stile ed eleganza; inoltre, i suoi bordi piatti facilitano una presa precisa e confortevole.
 Lo straordinario display AMOLED, avente una frequenza di aggiornamento fino a 120Hz, garantisce che sia i video che i giochi appaiano fluidi. 
 Redmi Note 13 sfoggia una serie di fotocamere d\'élite, con un impressionante sensore principale fino a 108 MP. Questa combinazione garantisce immagini nitide anche se catturate da lontano.', 
@@ -38,7 +38,7 @@ Caratteristiche tecniche:
 - Colore : Nero', 229.90, 'Telefonia', 'Smartphone', 'Xiaomi', 'Redmi Note 13', 1, 1, '', 180);
 
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(4, 'Oppo A38', 'OPPO A38 4G offre un\'esperienza audio di alto livello, grazie alla presenza del doppio speaker stereo, dotato di tecnologia Ultra Volume Mode, che permette di alzare il volume di ciò che stiamo ascoltando fino al 300% (200% in chiamata).
 OPPO A38 4G offre prestazioni in grado di supportare anche gli utilizzi più intensivi, l’espansione della memoria RAM da 4GB (espandibile fino a 8) combinata alla potenza hardware/software garantiscono fluidità costante e velocità d’esecuzione. L’ampio display LCD da 6,56 pollici, con refresh rate a 90Hz rende qualsiasi contenuto immersivo e coinvolgente, ottimizzando l’efficienza energetica.',
 'OPPO A38 4G è dotato di una doppia fotocamera in alta risoluzione (Primaria 50MP, Profondità 2MP). Grazie alla presenza dell’ AI, gli scatti saranno sempre ottimizzati, anche nelle condizioni più complesse. Inoltre la fotocamera di profondità da 2MP, rende le foto in modalità ritratto ancora più dettagliate e d’impatto.
@@ -55,7 +55,7 @@ Caratteristiche tecniche:
 
 
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(5, 'Lenovo IdeaCentre 3', 'Il desktop IdeaCentre 3 (AMD) è un modello tower compatto progettato con un elegante chassis grigio minerale che si adatta perfettamente a qualsiasi ambiente della casa. Offre le straordinarie prestazioni dei processori AMD Ryzen™ e vanta una scheda grafica integrata, grande capacità di memoria e storage e numerose porte, per soddisfare le esigenze di elaborazione quotidiane.',
 '- Lo chassis ultra compatto da 7,4 litri si adatta a qualsiasi ambiente per risparmiare spazio
 - Ricco di potenza, con CPU fino a Intel® di dodicesima generazione
@@ -65,7 +65,7 @@ VALUES(5, 'Lenovo IdeaCentre 3', 'Il desktop IdeaCentre 3 (AMD) è un modello to
 
 
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(6, 'Acer NITRO 50 N50-650 Tower', 'Dalle tonalità nere e accattivanti, è un PC da gaming predefinito e rifinito per offrire le massime prestazioni grazie al processore Intel® Core™ di 13a generazione, alla scheda grafica NVIDIA® GeForce RTX™ serie 40 e allo storage velocissimo per tutte le esigenze di caricamento.',
 'Gioca, riproduci in streaming e progetta come un professionista con il processore Intel® Core™ di 13a generazione e la nuova architettura ibrida ad alte prestazioni.
 Se associato al router giusto, il nuovissimo standard Wi-Fi 6E ti offre accesso alla massima velocità.
@@ -80,7 +80,7 @@ Caratteristiche specifiche:
 
 
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(7, 'Dyson Supersonic asciuga capelli', 'Asciugatura rapida senza danni da calore: Dyson Supersonic il phon che rivoluziona l\'asciugatura. Rapido, sicuro e adatto a tutti i tipi di capelli. Scopri la rivoluzione dello styling senza danni da calore.',
 'Caratteristiche specifiche:
 - Velocità motore: 110000 Giri/min;
@@ -95,7 +95,7 @@ VALUES(7, 'Dyson Supersonic asciuga capelli', 'Asciugatura rapida senza danni da
 
 
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(8, 'Rowenta DW6330 Eco Intelligence Ferro da stiro', 'Con uno straordinario livello di prestazioni ed efficienza energetica, Rowenta Eco Intelligence offre fantastici risultati di stiratura risparmiando fino al 30% di energia*, con un design ecologico composto da materiale riciclato fino al 30%.',
 'Caratteristiche specifiche:
 - Tipo: Ferro da stiro a secco e a vapore;
@@ -105,7 +105,7 @@ VALUES(8, 'Rowenta DW6330 Eco Intelligence Ferro da stiro', 'Con uno straordinar
 
 
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(9, 'Ariete Handy Force - Scopa Elettrica con filo', 'Handy Force Ariete 2761 è la scopa elettrica con filo leggera e maneggevole, che si trasforma facilmente in un pratico aspirabriciole portatile per la pulizia di tutti gli ambienti e gli angoli della casa.
 La scopa elettrica con filo è potente e ideale per la pulizia di pavimenti di ogni genere, tappeti e moquette, grazie alla tecnologia ciclonica senza sacco, che consente di aspirare anche lo sporco più ostinato.',
 'Con una sola mossa la scopa elettrica Handy Force si trasforma in un aspirabriciole portatile con beccuccio perfetto per la pulizia di angoli e fessure difficili da raggiungere, mensole e piani.
@@ -114,14 +114,14 @@ ma anche semplicissima da pulire: il serbatoio infatti può essere svuotato in u
 
 
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(10, 'Bosch Lavatrice a carica frontale', 'Lavatrice silenziosa ed efficiente, con motore EcoSilence Drive e sistema di riconoscimento del carico ActiveWater.',
 '- Capacità : 7kg.
 - AcquaStop : protezione antiallagamento', 319.90, 'Grandi elettrodomestici', '', 'Bosch', 'WAE20037IT Serie 2', 1, 1, '', 112);
 
 
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(11, 'Ignis frigorifero con congelatore', 'Questo elettrodomestico elegante e alla moda non è solo un piacere per gli occhi, ma anche una potenza di innovazione e tecnologia. 
 Con il suo interno spazioso, avrai un sacco di spazio per conservare tutti i tuoi cibi e bevande preferiti. Esso dispone di ripiani regolabili, in modo da poter personalizzare lo spazio in base alle tue esigenze.
 Inoltre, grazie al suo sistema di raffreddamento avanzato, puoi essere sicuro che il tuo cibo rimarrà fresco e delizioso più a lungo.',
@@ -139,7 +139,7 @@ Inoltre, grazie al suo sistema di raffreddamento avanzato, puoi essere sicuro ch
 
 
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(12, 'HP 15s-fq5040nl', 'Un laptop leggero, perfetto per il lavoro e il divertimento ovunque.
 Lavora e divertiti, ovunque ti portino i tuoi impegni e le tue passioni, grazie al laptop HP da 15,6" con un design leggero e una durata prolungata della batteria. Goditi il comfort di uno schermo antisfarfallio e sfrutta le prestazioni affidabili del processore Intel® Core™.
 In più, è realizzato pensando all\'ambiente, con registrazione EPEAT® Silver e certificazione ENERGY STAR®.',
@@ -153,7 +153,7 @@ In più, è realizzato pensando all\'ambiente, con registrazione EPEAT® Silver 
 
 
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(13, 'Amazfit T-Rex 2', 'Smartwatch robusto per attività all\'aperto con GPS.', 
 '- Super resistente dentro e fuori
 - Conquista l\'inesplorato : resistente a bassissime temperature;
@@ -161,7 +161,7 @@ VALUES(13, 'Amazfit T-Rex 2', 'Smartwatch robusto per attività all\'aperto con 
 
 
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(14, 'Samsung Galaxy Tab A7 Lite', 'Tutto l\'intrattenimento dei tuoi film e giochi preferiti su un ampio display da 8,7 pollici. Il sottilissimo spessore delle cornici offre un rapporto schermo-corpo più elevato senza aumentare le dimensioni del tablet, e la sua forma compatta evita l\'affaticamento delle mani, anche dopo ore di gioco.', 
 '- Dimensioni schermo: 8.7''
 - Capacità memoria interna: 64  GB;
@@ -172,7 +172,7 @@ VALUES(14, 'Samsung Galaxy Tab A7 Lite', 'Tutto l\'intrattenimento dei tuoi film
 
 
 INSERT INTO prodotto(CODICEPRODOTTO, NOME, TOPDESCRIZIONE, DETTAGLI, PREZZO, CATEGORIA, SOTTOCATEGORIA,
-MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMAGE, QUANTITà) 
+MARCA, MODELLO, INCATALOGO, INVETRINA, TOPIMMAGINE, QUANTITà) 
 VALUES(15, 'Lenovo Tab M11', 'Esperienza di gioco straordinaria e apprendimento smarter.', 
 '- Dimensioni schermo: 11'';
 - Capacità memoria interna: 128 GB;

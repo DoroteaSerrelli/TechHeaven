@@ -23,7 +23,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_form.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="${pageContext.request.contextPath}/view/validations_catalog_manager.js"></script> 
-        <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js"></script>            
+        <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>            
         <script src="${pageContext.request.contextPath}/view/pagination.js"></script>        
        
         <script type="text/javascript">
@@ -42,7 +42,6 @@
         </aside>      
         <main class="main-content" id="mainContent">
               <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>                       
- 
             <section id="centerMenu" class="center-menu">
                 <div class="fe-box" id="viewProducts" onclick="moveToSidebar('viewProducts', 'viewProductsForm')">
                     <img src="${pageContext.request.contextPath}/view/img/listaprodotto.png" alt="Visualizza Prodotti">
@@ -52,11 +51,11 @@
                         <img src="${pageContext.request.contextPath}/view/img/addprodotto.png" alt="Aggiungi un nuovo prodotto">
                         <h6>Aggiungi un nuovo prodotto</h6>
                     </div>
-                    <div class="fe-box" id="removeProduct" onclick="moveToSidebar('removeProduct', 'removeProductForm')">
+                    <div class="fe-box" id="removeProduct" onclick="moveToSidebar('viewProducts', 'viewProductsForm');">
                         <img src="${pageContext.request.contextPath}/view/img/removeprodotto.png" alt="Elimina un prodotto">
                         <h6>Elimina un prodotto</h6>
                     </div>
-                    <div class="fe-box" id="modifyProperties" onclick="moveToSidebar('modifyProperties', 'modifyPropertiesForm')">
+                    <div class="fe-box" id="modifyProperties" onclick="moveToSidebar('viewProducts', 'viewProductsForm');">
                         <img src="${pageContext.request.contextPath}/view/img/modproperties.png" alt="Modifica caratteristiche prodotto">
                         <h6>Modifica caratteristiche prodotto</h6>
                     </div>
@@ -68,7 +67,9 @@
                         <div id="pagination"></div>   
                         <h2>Visualizza Prodotti</h2>
                          <table id="showpr">
-                             <tr><th><strong>Image</strong></th><!-- Immagine -->
+                             <tr>
+                                 <th><strong>#</strong></th>
+                                 <th><strong>Image</strong></th><!-- Immagine -->
                                  <th><strong>Nome</strong></th><!-- Nome prodotto -->
                                  <th><strong>Marca</strong></th><!-- Marca -->
                                  <th><strong>TopDescr</strong></th><!-- Top Descrizione -->
@@ -87,7 +88,7 @@
             </section>
                 <section id="addProductForm" class="form-section hidden">
                     <!-- Your form for adding a new product -->
-                    <h2>Aggiungi un nuovo prodotto</h2>
+                    <h2 id="changeable">Aggiungi un nuovo prodotto</h2>
                     <form action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
                         <div class="form-group">                    
                             <label for="productID"> ID Prodotto </label>

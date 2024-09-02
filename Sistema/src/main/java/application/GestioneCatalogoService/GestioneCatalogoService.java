@@ -164,7 +164,7 @@ public interface GestioneCatalogoService {
 	 * 
 	 * */
 	
-	public Collection<ProxyProdotto> aggiornamentoPrezzoProdotto(Prodotto product, int price, int page, int perPage) throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, PrezzoProdottoException;
+	public Collection<ProxyProdotto> aggiornamentoPrezzoProdotto(Prodotto product, float price, int page, int perPage) throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, PrezzoProdottoException;
 	
 	
 	/**

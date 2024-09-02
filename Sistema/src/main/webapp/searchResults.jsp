@@ -14,6 +14,26 @@
 <%@page import="application.NavigazioneService.ProxyProdotto"%>
 <%@page import="java.util.Collection"%>
 <%@page import="application.NavigazioneService.Prodotto"%>
+<script>
+    function submitProductDetails(productJson) {
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `${window.contextPath}/ProductInfos`;
+
+        // Create a textarea to hold JSON data
+        const textarea = document.createElement('textarea');
+        textarea.name = 'product';
+        textarea.style.display = 'none'; // Hide the textarea
+        textarea.value = productJson; // Assign JSON data to the textarea
+
+        form.appendChild(textarea);
+
+        // Append the form to the body and submit it
+        document.body.appendChild(form);
+        form.submit();
+
+    }              
+ </script> 
 <%
     Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) request.getSession().getAttribute("products");
    
@@ -72,11 +92,11 @@
                             String productJson = new Gson().toJson(product);
                             String encodedProductJson = URLEncoder.encode(productJson, "UTF-8");
                         %>
-                        <a href="${pageContext.request.contextPath}/ProductInfos?product=<%= encodedProductJson %>">
+                      <!-- pageContext.request.contextPath <a href="/ProductInfos?product=<// encodedProductJson %>"> </a>-->
                             <img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" 
-                                onclick="this.closest('form').submit();"  
+                                onclick="submitProductDetails('<%= URLEncoder.encode(productJson, "UTF-8") %>');" 
                                 onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';" />
-                        </a>
+                        
                             <div class="des">
                                 <h3><%=product.getNomeProdotto()%></h3>
                                 <span><%=product.getMarca()%></span>
@@ -96,7 +116,7 @@
               </div>
         </section>
         </div>
-    </div>      
+    </div> 
     <jsp:include page="common/footer.jsp"  flush="true"/> 
     </body>
 </html>

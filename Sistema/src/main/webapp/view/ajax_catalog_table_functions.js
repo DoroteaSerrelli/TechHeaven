@@ -6,7 +6,59 @@
 function enableModify(){
     $('#addProductForm input[name="productId"]').attr('readonly', false);
     $('#addProductForm input[name="productName"]').attr('readonly', false);
+    $('#addProductForm input[name="marca"]').attr('readonly', false);
+    $('#addProductForm input[name="price"]').attr('readonly', false);
+    
+    $('#addProductForm textarea[name="topDescrizione"]').attr('readonly', false);
+    $('#addProductForm textarea[name="dettagli"]').attr('readonly', false);
 }
+
+function disableModify(){
+    $('#addProductForm input[name="productId"]').attr('readonly', true);
+    $('#addProductForm input[name="productName"]').attr('readonly', true);
+    $('#addProductForm input[name="marca"]').attr('readonly', true);
+    $('#addProductForm input[name="price"]').attr('readonly', true);
+    
+    $('#addProductForm textarea[name="topDescrizione"]').attr('readonly', true);
+    $('#addProductForm textarea[name="dettagli"]').attr('readonly', true);
+}
+
+function populateFields(product){
+    $('#addProductForm input[name="productId"]').val(product.codiceProdotto);
+    $('#addProductForm input[name="productName"]').val(product.nomeProdotto);
+    $('#addProductForm input[name="marca"]').val(product.marca);
+    $('#addProductForm input[name="price"]').val(product.prezzo);
+    
+    $('#addProductForm textarea[name="topDescrizione"]').val(product.topDescrizione);
+    $('#addProductForm textarea[name="dettagli"]').val(product.dettagli); 
+}
+
+function fetchProductFullInfos(product, action) {
+    const productJson = JSON.stringify(product);
+    
+    $.ajax({
+        url: `${window.contextPath}/ProductInfos`,
+        method: 'POST',
+        data: {
+            product: productJson,
+            action: 'retrieveInfosForUpdate'
+        },
+        success: function(response) {
+            console.log('Product details:', response);
+            const productDetails = response;
+            
+            if (action === 'modify') {
+                openModifyForm(productDetails);
+            } else if (action === 'delete') {
+                openDeleteForm(productDetails);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching product details:', error);
+        }
+    });
+}
+
 
 function openModifyForm(product) {
     $('#addProductForm').removeClass('hidden');
@@ -17,8 +69,7 @@ function openModifyForm(product) {
     $('#changeable').html("Modify Product Informations");
     
     enableModify();
-    $('#addProductForm input[name="productId"]').val(product.codiceProdotto);
-    $('#addProductForm input[name="productName"]').val(product.nomeProdotto);
+    populateFields(product);
     // Set other fields as needed
 
     $('#addProductForm').attr('action', `${window.contextPath}/GestioneCatalogoController?action=updateProduct`);
@@ -32,8 +83,8 @@ function openDeleteForm(product) {
     
     $('#changeable').html("Delete Product - Verify Deletion");
     
-    $('#addProductForm input[name="productId"]').val(product.codiceProdotto).attr('readonly', true);
-    $('#addProductForm input[name="productName"]').val(product.nomeProdotto).attr('readonly', true);
+    disableModify();
+    populateFields(product);
     // Set other fields as needed and make them readonly
 
     $('#addProductForm').attr('action', `${window.contextPath}/GestioneCatalogoController?action=deleteProduct`);
@@ -97,11 +148,7 @@ function toggleSidebar(){
 
                         actionButton.on('click', function() {
                              console.log('Button clicked! Action:', capturedAction);
-                            if (capturedAction === 'delete') {
-                                openDeleteForm(product);
-                            } else if (capturedAction === 'modify') {
-                                openModifyForm(product);
-                            }
+                            fetchProductFullInfos(product, capturedAction);
                         });
 
                         actionCell.append(actionButton);

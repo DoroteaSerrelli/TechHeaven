@@ -49,10 +49,27 @@ public class ProductInfos extends HttpServlet {
                  Gson gson = new Gson();
                  ProxyProdotto proxy_prod = gson.fromJson(productJson, ProxyProdotto.class);
                  Prodotto selected_prod = ns.visualizzaProdotto(proxy_prod);
-                 // Process product object
-                 request.setAttribute("product", selected_prod);
-                 RequestDispatcher dispatcher = request.getRequestDispatcher("/productDetails.jsp");
-                 dispatcher.forward(request, response);
+                 
+                 // Checks whetever or not the action is set up or not this way it can give back
+                 // product's full details to Catalog Manager Form for further Elaborations.
+                 if(request.getParameter("action")!=null){
+                    String action = request.getParameter("action");
+                    if(action.equals("retrieveInfosForUpdate")){
+                        String jsonResponse = gson.toJson(selected_prod);
+                         response.setContentType("application/json"); // Ensure content type is set to JSON
+                        // Write JSON response
+                        PrintWriter out = response.getWriter();
+                        out.print(jsonResponse);
+                        out.flush();                      
+                        
+                    }
+                 }
+                 else{
+                    // Process product object
+                    request.setAttribute("product", selected_prod);
+                    RequestDispatcher dispatcher = request.getRequestDispatcher("/productDetails.jsp");
+                    dispatcher.forward(request, response);
+                 }
              } catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException ex) {
                  Logger.getLogger(ProductInfos.class.getName()).log(Level.SEVERE, null, ex);
                  response.sendRedirect(request.getContextPath() + "/index");

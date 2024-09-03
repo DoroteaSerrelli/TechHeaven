@@ -57,7 +57,7 @@
     <!-- Display search results here -->
     <div class="container">
         <div class="sidebar">
-            <h2>Categorie:</h2>
+            <h2>Brands:</h2>
            <% 
             Set<String> uniqueBrands = new HashSet<>();
             for (ProxyProdotto product : products) { 

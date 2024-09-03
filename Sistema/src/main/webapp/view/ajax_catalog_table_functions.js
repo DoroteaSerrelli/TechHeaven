@@ -4,33 +4,61 @@
  */
 
 function enableModify(){
-    $('#addProductForm input[name="productId"]').attr('readonly', false);
-    $('#addProductForm input[name="productName"]').attr('readonly', false);
-    $('#addProductForm input[name="marca"]').attr('readonly', false);
-    $('#addProductForm input[name="price"]').attr('readonly', false);
+    $('#modifyPropertiesForm input[name="productId"]').attr('readonly', false);
+    $('#modifyPropertiesForm input[name="productName"]').attr('readonly', false);
+    $('#modifyPropertiesForm input[name="marca"]').attr('readonly', false);
+    $('#modifyPropertiesForm input[name="price"]').attr('readonly', false);
+    $('#modifyPropertiesForm input[name="modello"]').attr('readonly', false);
+    $('#modifyPropertiesForm input[name="quantità"]').attr('readonly', false);
     
-    $('#addProductForm textarea[name="topDescrizione"]').attr('readonly', false);
-    $('#addProductForm textarea[name="dettagli"]').attr('readonly', false);
+    //Textareas
+    $('#modifyPropertiesForm textarea[name="topDescrizione"]').attr('readonly', false);
+    $('#modifyPropertiesForm textarea[name="dettagli"]').attr('readonly', false);
+    //Selects
+    $('#modifyPropertiesForm select[name="categoria"]').removeAttr('disabled');
+    $('#modifyPropertiesForm select[name="sottocategoria"]').removeAttr('disabled');
+    //Checkboxes
+    $('#modifyPropertiesForm input[name="inVetrina"]').removeAttr('disabled');
+    $('#modifyPropertiesForm input[name="inCatalogo"]').removeAttr('disabled');
 }
 
 function disableModify(){
-    $('#addProductForm input[name="productId"]').attr('readonly', true);
-    $('#addProductForm input[name="productName"]').attr('readonly', true);
-    $('#addProductForm input[name="marca"]').attr('readonly', true);
-    $('#addProductForm input[name="price"]').attr('readonly', true);
+    $('#modifyPropertiesForm input[name="productId"]').attr('readonly', true);
+    $('#modifyPropertiesForm input[name="productName"]').attr('readonly', true);
+    $('#modifyPropertiesForm input[name="marca"]').attr('readonly', true);
+    $('#modifyPropertiesForm input[name="price"]').attr('readonly', true);
+    $('#modifyPropertiesForm input[name="modello"]').attr('readonly', true);
+    $('#modifyPropertiesForm input[name="quantità"]').attr('readonly', true);
     
-    $('#addProductForm textarea[name="topDescrizione"]').attr('readonly', true);
-    $('#addProductForm textarea[name="dettagli"]').attr('readonly', true);
+    //Textareas
+    $('#modifyPropertiesForm textarea[name="topDescrizione"]').attr('readonly', true);
+    $('#modifyPropertiesForm textarea[name="dettagli"]').attr('readonly', true);
+    //Selects
+    $('#modifyPropertiesForm select[name="categoria"]').attr('disabled', true);
+    $('#modifyPropertiesForm select[name="sottocategoria"]').attr('disabled', true);
+    //Checkboxes
+    $('#modifyPropertiesForm input[name="inVetrina"]').attr('disabled', true);
+    $('#modifyPropertiesForm input[name="inCatalogo"]').attr('disabled', true);
 }
 
 function populateFields(product){
-    $('#addProductForm input[name="productId"]').val(product.codiceProdotto);
-    $('#addProductForm input[name="productName"]').val(product.nomeProdotto);
-    $('#addProductForm input[name="marca"]').val(product.marca);
-    $('#addProductForm input[name="price"]').val(product.prezzo);
+    $('#modifyPropertiesForm input[name="productId"]').val(product.codiceProdotto);
+    $('#modifyPropertiesForm input[name="productName"]').val(product.nomeProdotto);
+    $('#modifyPropertiesForm input[name="marca"]').val(product.marca);
+    $('#modifyPropertiesForm input[name="price"]').val(product.prezzo);
+    $('#modifyPropertiesForm input[name="modello"]').val(product.modello);
+    $('#modifyPropertiesForm input[name="quantità"]').val(product.quantita);
     
-    $('#addProductForm textarea[name="topDescrizione"]').val(product.topDescrizione);
-    $('#addProductForm textarea[name="dettagli"]').val(product.dettagli); 
+    $('#modifyPropertiesForm textarea[name="topDescrizione"]').val(product.topDescrizione);
+    $('#modifyPropertiesForm textarea[name="dettagli"]').val(product.dettagli); 
+    
+    $('#modifyPropertiesForm select[name="categoria"]').val(product.categoria);
+    $('#modifyPropertiesForm select[name="sottocategoria"]').val(product.sottocategoria);
+    
+    // Example for a checkbox
+    $('#modifyPropertiesForm input[name="inVetrina"]').prop('checked', product.inVetrina);
+    $('#modifyPropertiesForm input[name="inCatalogo"]').prop('checked', product.inCatalogo);
+    
 }
 
 function fetchProductFullInfos(product, action) {
@@ -59,12 +87,27 @@ function fetchProductFullInfos(product, action) {
     });
 }
 
+function unHideAllInfoGroups(){
+    $('#productDetailsGroup').removeClass('hidden');
+    $('#descriptionGroup').removeClass('hidden');
+    $('#pricingGroup').removeClass('hidden');
+    $('#categoryGroup').removeClass('hidden');
+    
+}
+
+function hideAllInfoGroups(){
+    $('#productDetailsGroup').addClass('hidden');
+    $('#descriptionGroup').addClass('hidden');
+    $('#pricingGroup').addClass('hidden');
+    $('#categoryGroup').addClass('hidden');
+    
+}
 
 function openModifyForm(product) {
-    $('#addProductForm').removeClass('hidden');
+    $('#addProductForm').addClass('hidden');
     $('#viewProductsForm').addClass('hidden');
     $('#removeProductForm').addClass('hidden');
-    $('#modifyPropertiesForm').addClass('hidden');
+    $('#modifyPropertiesForm').removeClass('hidden');
     
     $('#changeable').html("Modify Product Informations");
     
@@ -72,14 +115,14 @@ function openModifyForm(product) {
     populateFields(product);
     // Set other fields as needed
 
-    $('#addProductForm').attr('action', `${window.contextPath}/GestioneCatalogoController?action=updateProduct`);
+    $('#modifyPropertiesForm').attr('action', `${window.contextPath}/GestioneCatalogoController?action=updateProduct`);
 }
 
 function openDeleteForm(product) {
-    $('#addProductForm').removeClass('hidden');
+    $('#addProductForm').addClass('hidden');
     $('#viewProductsForm').addClass('hidden');
     $('#removeProductForm').addClass('hidden');
-    $('#modifyPropertiesForm').addClass('hidden');
+    $('#modifyPropertiesForm').removeClass('hidden');
     
     $('#changeable').html("Delete Product - Verify Deletion");
     
@@ -87,7 +130,7 @@ function openDeleteForm(product) {
     populateFields(product);
     // Set other fields as needed and make them readonly
 
-    $('#addProductForm').attr('action', `${window.contextPath}/GestioneCatalogoController?action=deleteProduct`);
+    $('#modifyPropertiesForm').attr('action', `${window.contextPath}/GestioneCatalogoController?action=deleteProduct`);
 }
 
 
@@ -204,18 +247,108 @@ $(document).ready(function() {
     });
      // Event handler for deleting products
     $('#removeProduct').click(function() {
+        unHideAllInfoGroups();
         fetchProducts(initialPage, 'delete'); // Fetch products with delete action
     });
 
     // Event handler for modifying products
     $('#modifyProperties').click(function() {
+        hideAllInfoGroups();
         fetchProducts(initialPage, 'modify'); // Fetch products with modify action
     });
     
     // Event handler for adding products
     $('#addProduct').click(function() {
-        $('#changeable').html("Aggiungi un nuovo prodotto");
         enableModify();
     });
     
+});
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    // Toggle group visibility based on checkbox selection
+    document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
+        checkbox.addEventListener('change', function() {
+            const group = this.parentElement.querySelector('div');
+            if (this.checked) {
+                group.classList.remove('hidden');
+            } else {
+                group.classList.add('hidden');
+            }
+        });
+    });
+});
+
+document.getElementById('submitBtn').addEventListener('click', function(e) {
+    const form = document.getElementById('productForm');
+    const formData = new FormData(form);
+    const modifiedData = {};
+
+    // Check and add Product Details Group
+    if (document.getElementById('productDetailsCheckbox').checked) {
+        const productId = formData.get('productId');
+        const productName = formData.get('productName');
+        const marca = formData.get('marca');
+        const modello = formData.get('modello');
+
+        if (productId && productName && marca && modello) {
+            modifiedData['productDetails'] = {
+                productId,
+                productName,
+                marca,
+                modello
+            };
+        }
+    }
+
+    // Check and add Description Group
+    if (document.getElementById('descriptionCheckbox').checked) {
+        const topDescrizione = formData.get('topDescrizione');
+        const dettagli = formData.get('dettagli');
+
+        if (topDescrizione && dettagli) {
+            modifiedData['descriptions'] = {
+                topDescrizione,
+                dettagli
+            };
+        }
+    }
+
+    // Check and add Pricing Group
+    if (document.getElementById('pricingCheckbox').checked) {
+        const price = formData.get('price');
+
+        if (price) {
+            modifiedData['pricing'] = { price };
+        }
+    }
+
+    // Check and add Category Group
+    if (document.getElementById('categoryCheckbox').checked) {
+        const categoria = formData.get('categoria');
+        const sottocategoria = formData.get('sottocategoria');
+
+        if (categoria && sottocategoria) {
+            modifiedData['category'] = {
+                categoria,
+                sottocategoria
+            };
+        }
+    }
+
+    // Final Validation before submission
+    if (Object.keys(modifiedData).length > 0) {
+        const jsonData = JSON.stringify(modifiedData);
+        
+        // Add jsonData to a hidden input field, or you can use AJAX to send this data
+        const hiddenInput = document.createElement('input');
+        hiddenInput.type = 'hidden';
+        hiddenInput.name = 'modifiedData';
+        hiddenInput.value = jsonData;
+        form.appendChild(hiddenInput);
+        
+        form.submit(); // Submit the form with the modified data
+    } else {
+        alert('Please make sure to modify at least one section and ensure all fields are filled correctly.');
+    }
 });

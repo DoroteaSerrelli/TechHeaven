@@ -94,14 +94,21 @@ public class GestioneCatalogoController extends HttpServlet {
             try{
                 if (request.getParameter("page") != null)
                     page = Integer.parseInt(
-                            request.getParameter("page"));
+                            request.getParameter("page"));               
             } catch(Exception e) {
                 Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, e);
                 page=1;
-            }
+            }      
             
             Collection <ProxyProdotto> products = paginateProducts(request, page);
+            //Creating an HashMap to record products subcategories...:_:
+            Map <Integer, String> products_subcategories = new HashMap<>();
+            for(ProxyProdotto prod : products){
+                products_subcategories.put(prod.getCodiceProdotto(), prod.getSottocategoriaAsString());
+            }
+            request.getSession().setAttribute("products_subcategories", products_subcategories);
             
+            request.getSession().setAttribute("", page);
             // Set content type to JSON
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
@@ -199,15 +206,25 @@ public class GestioneCatalogoController extends HttpServlet {
            return;
        }
        Prodotto product = new Prodotto(prod_id, productName, topDescrizione, dettagli, price, Categoria.valueOf(categoria),
-               s_categoria, marca, modello, quantità, inCatalogo, inVetrina);                   
+               s_categoria, marca, modello, quantità, inCatalogo, inVetrina);     
+       
+       //Retrieves the Action the Servlet needs to do With the Retrieved Products Information
        try {
-            gcs.aggiuntaProdottoInCatalogo(product, 1, pr_pagina);
-            if (filePart != null) {
-                // Get the input stream of the uploaded file
-                InputStream fileContent = filePart.getInputStream();
-                PhotoControl.updateTopImage(prod_id, fileContent);
-            }
-            response.sendRedirect(request.getContextPath() + "/GestioneCatalogo");
+           String action = request.getParameter("action");
+           if(action==null || action.isEmpty()){
+                gcs.aggiuntaProdottoInCatalogo(product, 1, pr_pagina);
+                if (filePart != null) {
+                    // Get the input stream of the uploaded file
+                    InputStream fileContent = filePart.getInputStream();
+                    PhotoControl.updateTopImage(prod_id, fileContent);
+                }  
+           }   
+           else if(action.equals("updateProduct")){
+           
+               
+           }
+           response.sendRedirect(request.getContextPath() + "/GestioneCatalogo");
+          
         } catch (SQLException ex) {
             Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
@@ -219,7 +236,54 @@ public class GestioneCatalogoController extends HttpServlet {
              }
     }      
                                                
-                            
+    private void updateProductInfos(Prodotto prod, HttpServletRequest request, HttpServletRequest response){
+        try {
+            String modifiedDataJson = request.getParameter("modifiedData");
+            if (modifiedDataJson != null && !modifiedDataJson.isEmpty()) {
+                // Parse the JSON string to a Map or custom object
+                Gson gson = new Gson();
+                Map<String, Map<String, String>> modifiedData = gson.fromJson(modifiedDataJson, Map.class);
+                // Iterate over the map and handle each group accordingly
+                if (modifiedData.containsKey("productDetails")) {
+                    Map<String, String> productDetails = modifiedData.get("productDetails");
+                    // Update product details in the database
+                }
+
+                if (modifiedData.containsKey("descriptions")) {
+                    Map<String, String> descriptions = modifiedData.get("descriptions");
+                    // Update descriptions in the database
+                }
+
+                // Repeat for other groups
+
+                // After processing, redirect or send a response back
+               // response.sendRedirect("success.jsp");
+            } else {
+                // Handle the case where no modifications were made
+               // response.sendRedirect("error.jsp");
+            }
+            
+            gcs.aggiornamentoDisponibilitàProdotto(prod, prod.getQuantita(), 1, pr_pagina);
+            gcs.aggiornamentoPrezzoProdotto(prod, prod.getPrezzo(), 1, pr_pagina);
+            gcs.aggiornamentoProdottoInVetrina(prod, prod.isInVetrinaInt(), 1, pr_pagina);
+            gcs.aggiornamentoSpecificheProdotto(prod, "DESCRIZIONE_EVIDENZA", prod.getTopDescrizione(), 1, pr_pagina);
+            gcs.aggiornamentoSpecificheProdotto(prod, "DESCRIZIONE_DETTAGLIATA", prod.getDettagli(), 1, pr_pagina);
+            gcs.aggiornamentoSpecificheProdotto(prod, "MODELLO", prod.getModello(), 1, pr_pagina);
+            gcs.aggiornamentoSpecificheProdotto(prod, "MARCA", prod.getMarca(), 1, pr_pagina);
+            gcs.aggiornamentoSpecificheProdotto(prod, "CATEGORIA", prod.getCategoriaAsString(), 1, pr_pagina);
+            gcs.aggiornamentoSpecificheProdotto(prod, "SOTTOCATEGORIA", prod.getSottocategoriaAsString(), 1, pr_pagina);
+            
+            
+            
+        } catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | ProdottoException.QuantitaProdottoException | ProdottoException.PrezzoProdottoException ex) {
+            Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CatalogoException.ProdottoAggiornatoException ex) {
+            Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (CatalogoException.ErroreSpecificaAggiornamentoException ex) {
+            Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+    }                        
     /**
      * Returns a short description of the servlet.
      *

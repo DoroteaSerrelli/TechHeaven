@@ -23,7 +23,6 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_form.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="${pageContext.request.contextPath}/view/validations_catalog_manager.js"></script> 
-        <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>            
         <script src="${pageContext.request.contextPath}/view/pagination.js"></script>        
        
         <script type="text/javascript">
@@ -88,7 +87,7 @@
             </section>
                 <section id="addProductForm" class="form-section hidden">
                     <!-- Your form for adding a new product -->
-                    <h2 id="changeable">Aggiungi un nuovo prodotto</h2>
+                    <h2>Aggiungi un nuovo prodotto</h2>
                     <form action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
                         <div class="form-group">                    
                             <label for="productID"> ID Prodotto </label>
@@ -154,10 +153,79 @@
                     <p>Form content for removing a product...</p>
                 </section>
                 <section id="modifyPropertiesForm" class="form-section hidden">
-                    <!-- Your form for modifying product properties -->
-                    <h2>Modifica caratteristiche prodotto</h2>
-                    <p>Form content for modifying product properties...</p>
-                </section>
+                    <h2 id="changeable">Modifica Prodotto</h2>
+                    <form id="productForm" action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
+                        <!-- Product Details Group -->
+                        <div class="form-group">
+                            <label for="productID">ID Prodotto</label>
+                            <input type="number" id="productId" name="productId">
+                            <input type="checkbox" id="productDetailsCheckbox" name="productDetailsCheckbox">
+                            <label for="productDetailsCheckbox">Update Product Details</label>
+                            <div id="productDetailsGroup">                              
+                                <label for="productName">Nome Prodotto</label>
+                                <input type="text" id="productName" name="productName">
+                                <label for="marca">Marca</label>
+                                <input type="text" id="marca" name="marca">
+                                <label for="modello">Modello</label>
+                                <input type="text" id="modello" name="modello">
+                            </div>
+                        </div>
+
+                    <!-- Description Group -->
+                    <div class="form-group">
+                        <input type="checkbox" id="descriptionCheckbox" name="descriptionCheckbox">
+                        <label for="descriptionCheckbox">Update Descriptions</label>
+                        <div id="descriptionGroup" class="hidden">
+                            <label for="TopDescrizione">Top Descrizione</label>
+                            <textarea name="topDescrizione" rows="5" cols="40"></textarea>
+                            <label for="Dettagli">Dettagli</label>
+                            <textarea name="dettagli" rows="5" cols="40"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Pricing Group -->
+                    <div class="form-group">
+                        <input type="checkbox" id="pricingCheckbox" name="pricingCheckbox">
+                        <label for="pricingCheckbox">Update Pricing</label>
+                        <div id="pricingGroup" class="hidden">
+                            <label for="prezzo">Prezzo</label>
+                            <input type="text" name="price">
+                        </div>
+                    </div>
+
+                    <!-- Category Group -->
+                    <div class="form-group">
+                        <input type="checkbox" id="categoryCheckbox" name="categoryCheckbox">
+                        <label for="categoryCheckbox">Update Category</label>
+                        <div id="categoryGroup" class="hidden">
+                            <label for="categoria">Categoria</label>
+                            <select name="categoria">
+                                <option value="GRANDI_ELETTRODOMESTICI">Grandi Elettrodomestici</option>
+                                <option value="PICCOLI_ELETTRODOMESTICI">Piccoli Elettrodomestici</option>
+                                <option value="TELEFONIA">Telefonia</option>
+                                <option value="PRODOTTI_ELETTRONICA">Prodotti Elettronica</option>
+                            </select>
+                            <label for="sottocategoria">Sottocategoria</label>
+                            <select name="sottocategoria">
+                                <option value="null">Nessuna Sottocategoria</option>
+                                <option value="TABLET">Tablet</option>
+                                <option value="SMARTPHONE">Smartphone</option>
+                                <option value="PC">PC</option>
+                                <option value="SMARTWATCH">Smartwatch</option>
+                            </select>
+                        </div>
+                        </div>
+
+                        <!-- Image and Other Details -->
+                        <div class="form-group">
+                            <label for="quantità">Quantità</label>
+                            <input type="number" id="quantità" name="quantità">
+                            <label for="file">Immagine</label>
+                            <input type="file" id="file" name="file" accept="image/*"> 
+                        </div>
+                            <button id="submitBtn" type="submit">Update</button>
+                        </form>
+                    </section>                    
             </section>             
        <div id="dynamicContent">
            <!-- comment
@@ -169,7 +237,8 @@
            </form>
             -->
        </div>
-       <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script>        
+       <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script> 
+       <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>                    
     <jsp:include page="${pageContext.request.contextPath}/common/footer.jsp"  flush="true"/>       
     </body>
 </html>

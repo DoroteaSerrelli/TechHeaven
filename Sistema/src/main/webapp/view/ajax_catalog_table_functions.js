@@ -4,8 +4,8 @@
  */
 
 function enableModify(){
-    $('#modifyPropertiesForm input[name="productId"]').attr('readonly', false);
-    $('#modifyPropertiesForm input[name="productName"]').attr('readonly', false);
+    $('#modifyPropertiesForm input[name="productId"]').attr('disabled', true);
+    $('#modifyPropertiesForm input[name="productName"]').attr('readonly', true);
     $('#modifyPropertiesForm input[name="marca"]').attr('readonly', false);
     $('#modifyPropertiesForm input[name="price"]').attr('readonly', false);
     $('#modifyPropertiesForm input[name="modello"]').attr('readonly', false);
@@ -61,6 +61,25 @@ function populateFields(product){
     
 }
 
+function addOriginalProductDetailsToForm(productDetails) {
+    const form = document.getElementById('productForm');
+    
+    // Serialize the original product details to JSON
+    const originalProductJson = JSON.stringify(productDetails);
+    
+    // Check if the hidden input already exists
+    let hiddenOriginalProduct = document.querySelector('input[name="originalProductDetails"]');
+    if (!hiddenOriginalProduct) {
+        hiddenOriginalProduct = document.createElement('input');
+        hiddenOriginalProduct.type = 'hidden';
+        hiddenOriginalProduct.name = 'originalProductDetails';
+        form.appendChild(hiddenOriginalProduct);
+    }
+    
+    // Set the value of the hidden input to the JSON string
+    hiddenOriginalProduct.value = originalProductJson;
+}
+
 function fetchProductFullInfos(product, action) {
     const productJson = JSON.stringify(product);
     
@@ -79,7 +98,9 @@ function fetchProductFullInfos(product, action) {
                 openModifyForm(productDetails);
             } else if (action === 'delete') {
                 openDeleteForm(productDetails);
-            }
+            }    
+            // Adding original product details as hidden input field
+            addOriginalProductDetailsToForm(productDetails);
         },
         error: function(xhr, status, error) {
             console.error('Error fetching product details:', error);
@@ -112,10 +133,10 @@ function openModifyForm(product) {
     $('#changeable').html("Modify Product Informations");
     
     enableModify();
-    populateFields(product);
+    populateFields(product);   
     // Set other fields as needed
 
-    $('#modifyPropertiesForm').attr('action', `${window.contextPath}/GestioneCatalogoController?action=updateProduct`);
+    $('#productForm').attr('action', `${window.contextPath}/ModifyProductsInCatalog`);
 }
 
 function openDeleteForm(product) {
@@ -130,7 +151,7 @@ function openDeleteForm(product) {
     populateFields(product);
     // Set other fields as needed and make them readonly
 
-    $('#modifyPropertiesForm').attr('action', `${window.contextPath}/GestioneCatalogoController?action=deleteProduct`);
+    $('#productForm').attr('action', `${window.contextPath}/GestioneCatalogoController?action=deleteProduct`);
 }
 
 
@@ -280,20 +301,21 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.getElementById('submitBtn').addEventListener('click', function(e) {
+    e.preventDefault(); // Prevent the default form submission
     const form = document.getElementById('productForm');
     const formData = new FormData(form);
+    
     const modifiedData = {};
-
+    const productId = formData.get('productId');
+    
     // Check and add Product Details Group
     if (document.getElementById('productDetailsCheckbox').checked) {
-        const productId = formData.get('productId');
         const productName = formData.get('productName');
         const marca = formData.get('marca');
         const modello = formData.get('modello');
 
-        if (productId && productName && marca && modello) {
+        if (productName && marca && modello) {
             modifiedData['productDetails'] = {
-                productId,
                 productName,
                 marca,
                 modello
@@ -305,7 +327,6 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
     if (document.getElementById('descriptionCheckbox').checked) {
         const topDescrizione = formData.get('topDescrizione');
         const dettagli = formData.get('dettagli');
-
         if (topDescrizione && dettagli) {
             modifiedData['descriptions'] = {
                 topDescrizione,
@@ -338,16 +359,25 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
 
     // Final Validation before submission
     if (Object.keys(modifiedData).length > 0) {
-        const jsonData = JSON.stringify(modifiedData);
-        
-        // Add jsonData to a hidden input field, or you can use AJAX to send this data
-        const hiddenInput = document.createElement('input');
-        hiddenInput.type = 'hidden';
-        hiddenInput.name = 'modifiedData';
-        hiddenInput.value = jsonData;
-        form.appendChild(hiddenInput);
-        
-        form.submit(); // Submit the form with the modified data
+        const jsonData = JSON.stringify({
+            modifiedData: modifiedData,
+            originalProductDetails: JSON.parse(document.querySelector('input[name="originalProductDetails"]').value),
+            productId: productId
+        });
+        console.log('JSON Data to be sent:', jsonData);
+        // Submit the form after preparing all the data
+        $.ajax({
+            url: form.action,
+            method: 'POST',
+            contentType: 'application/json',
+            data: jsonData,
+            success: function(response) {
+                console.log('Data successfully sent:', response);
+            },
+            error: function(xhr, status, error) {
+                console.error('Error sending data:', error);
+            }
+        });
     } else {
         alert('Please make sure to modify at least one section and ensure all fields are filled correctly.');
     }

@@ -219,9 +219,9 @@ public class GestioneCatalogoController extends HttpServlet {
                     PhotoControl.updateTopImage(prod_id, fileContent);
                 }  
            }   
-           else if(action.equals("updateProduct")){
-           
-               
+           else if(action.equals("deleteProduct")){
+               //Creazione Proxy In caso di Cancellazione
+              // gcs.rimozioneProdottoDaCatalogo(product, prod_id, pr_pagina);
            }
            response.sendRedirect(request.getContextPath() + "/GestioneCatalogo");
           
@@ -236,54 +236,7 @@ public class GestioneCatalogoController extends HttpServlet {
              }
     }      
                                                
-    private void updateProductInfos(Prodotto prod, HttpServletRequest request, HttpServletRequest response){
-        try {
-            String modifiedDataJson = request.getParameter("modifiedData");
-            if (modifiedDataJson != null && !modifiedDataJson.isEmpty()) {
-                // Parse the JSON string to a Map or custom object
-                Gson gson = new Gson();
-                Map<String, Map<String, String>> modifiedData = gson.fromJson(modifiedDataJson, Map.class);
-                // Iterate over the map and handle each group accordingly
-                if (modifiedData.containsKey("productDetails")) {
-                    Map<String, String> productDetails = modifiedData.get("productDetails");
-                    // Update product details in the database
-                }
-
-                if (modifiedData.containsKey("descriptions")) {
-                    Map<String, String> descriptions = modifiedData.get("descriptions");
-                    // Update descriptions in the database
-                }
-
-                // Repeat for other groups
-
-                // After processing, redirect or send a response back
-               // response.sendRedirect("success.jsp");
-            } else {
-                // Handle the case where no modifications were made
-               // response.sendRedirect("error.jsp");
-            }
-            
-            gcs.aggiornamentoDisponibilitàProdotto(prod, prod.getQuantita(), 1, pr_pagina);
-            gcs.aggiornamentoPrezzoProdotto(prod, prod.getPrezzo(), 1, pr_pagina);
-            gcs.aggiornamentoProdottoInVetrina(prod, prod.isInVetrinaInt(), 1, pr_pagina);
-            gcs.aggiornamentoSpecificheProdotto(prod, "DESCRIZIONE_EVIDENZA", prod.getTopDescrizione(), 1, pr_pagina);
-            gcs.aggiornamentoSpecificheProdotto(prod, "DESCRIZIONE_DETTAGLIATA", prod.getDettagli(), 1, pr_pagina);
-            gcs.aggiornamentoSpecificheProdotto(prod, "MODELLO", prod.getModello(), 1, pr_pagina);
-            gcs.aggiornamentoSpecificheProdotto(prod, "MARCA", prod.getMarca(), 1, pr_pagina);
-            gcs.aggiornamentoSpecificheProdotto(prod, "CATEGORIA", prod.getCategoriaAsString(), 1, pr_pagina);
-            gcs.aggiornamentoSpecificheProdotto(prod, "SOTTOCATEGORIA", prod.getSottocategoriaAsString(), 1, pr_pagina);
-            
-            
-            
-        } catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | ProdottoException.QuantitaProdottoException | ProdottoException.PrezzoProdottoException ex) {
-            Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CatalogoException.ProdottoAggiornatoException ex) {
-            Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (CatalogoException.ErroreSpecificaAggiornamentoException ex) {
-            Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-        
-    }                        
+                       
     /**
      * Returns a short description of the servlet.
      *

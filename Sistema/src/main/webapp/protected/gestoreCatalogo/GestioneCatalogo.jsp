@@ -227,15 +227,12 @@
                         </form>
                     </section>                    
             </section>             
-       <div id="dynamicContent">
-           <!-- comment
-           <form action="/GestioneCatalogoController" method="post" enctype="multipart/form-data">
-               <label>ID del prodotto:</label>
-               <input type="text" name="prod_id"/>
-               <input type="file" name="file" accept="image/*"/>
-               <input type="submit" class="confirm_button" value="Upload"/>
-           </form>
-            -->
+       <div class="errormsg">
+           <%
+              String error = (String)request.getAttribute("error");
+              if(error == null) error="";
+           %>
+           <h2><%=error%></h2>
        </div>
        <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script> 
        <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>                    

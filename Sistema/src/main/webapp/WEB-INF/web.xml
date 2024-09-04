@@ -49,6 +49,14 @@
         <servlet-name>UpdateUserInfo</servlet-name>
         <servlet-class>application.AutenticazioneControl.UpdateUserInfo</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProductInfos</servlet-name>
+        <servlet-class>application.NavigazioneControl.ProductInfos</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ModifyProductsInCatalog</servlet-name>
+        <servlet-class>application.GestioneCatalogoControl.ModifyProductsInCatalog</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>GestioneCarrelloController</servlet-name>
         <url-pattern>/GestioneCarrelloController</url-pattern>
@@ -92,6 +100,14 @@
     <servlet-mapping>
         <servlet-name>UpdateUserInfo</servlet-name>
         <url-pattern>/UpdateUserInfo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductInfos</servlet-name>
+        <url-pattern>/ProductInfos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModifyProductsInCatalog</servlet-name>
+        <url-pattern>/ModifyProductsInCatalog</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>index.jsp</welcome-file>

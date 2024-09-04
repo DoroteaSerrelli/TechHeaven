@@ -90,7 +90,7 @@ public class GestioneCatalogoController extends HttpServlet {
             throws ServletException, IOException {
         try{
             //Visualizza prodotti selezionato forse il retrieve lo faccio con ajax <._.>
-            int page = 1;            
+            int page = 1;        
             try{
                 if (request.getParameter("page") != null)
                     page = Integer.parseInt(
@@ -108,7 +108,7 @@ public class GestioneCatalogoController extends HttpServlet {
             }
             request.getSession().setAttribute("products_subcategories", products_subcategories);
             
-            request.getSession().setAttribute("", page);
+            request.getSession().setAttribute("page", page);
             // Set content type to JSON
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");

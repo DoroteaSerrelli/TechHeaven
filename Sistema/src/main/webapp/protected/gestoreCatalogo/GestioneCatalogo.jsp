@@ -23,8 +23,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_form.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
         <script src="${pageContext.request.contextPath}/view/validations_catalog_manager.js"></script> 
-        <script src="${pageContext.request.contextPath}/view/pagination.js"></script>        
-       
+        <script src="${pageContext.request.contextPath}/view/pagination.js"></script>       
         <script type="text/javascript">
             // Define the context path as a global variable
             window.contextPath = '<%= request.getContextPath() %>';
@@ -54,11 +53,12 @@
                         <img src="${pageContext.request.contextPath}/view/img/removeprodotto.png" alt="Elimina un prodotto">
                         <h6>Elimina un prodotto</h6>
                     </div>
-                    <div class="fe-box" id="modifyProperties" onclick="moveToSidebar('viewProducts', 'viewProductsForm');">
-                        <img src="${pageContext.request.contextPath}/view/img/modproperties.png" alt="Modifica caratteristiche prodotto">
+                    <div class="fe-box" id="modifyProperties">
+                        <a href="${pageContext.request.contextPath}/ModifyProductsInCatalog?action=modify" > <img src="${pageContext.request.contextPath}/view/img/modproperties.png" alt="Modifica caratteristiche prodotto"> </a>
                         <h6>Modifica caratteristiche prodotto</h6>
                     </div>
                 </section>
+              
            </main>           
                 
                 <section id="forms">                     
@@ -152,88 +152,20 @@
                     <h2>Elimina un prodotto</h2>
                     <p>Form content for removing a product...</p>
                 </section>
-                <section id="modifyPropertiesForm" class="form-section hidden">
-                    <h2 id="changeable">Modifica Prodotto</h2>
-                    <form id="productForm" action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
-                        <!-- Product Details Group -->
-                        <div class="form-group">
-                            <label for="productID">ID Prodotto</label>
-                            <input type="number" id="productId" name="productId">
-                            <input type="checkbox" id="productDetailsCheckbox" name="productDetailsCheckbox">
-                            <label for="productDetailsCheckbox">Update Product Details</label>
-                            <div id="productDetailsGroup">                              
-                                <label for="productName">Nome Prodotto</label>
-                                <input type="text" id="productName" name="productName">
-                                <label for="marca">Marca</label>
-                                <input type="text" id="marca" name="marca">
-                                <label for="modello">Modello</label>
-                                <input type="text" id="modello" name="modello">
-                            </div>
-                        </div>
-
-                    <!-- Description Group -->
-                    <div class="form-group">
-                        <input type="checkbox" id="descriptionCheckbox" name="descriptionCheckbox">
-                        <label for="descriptionCheckbox">Update Descriptions</label>
-                        <div id="descriptionGroup" class="hidden">
-                            <label for="TopDescrizione">Top Descrizione</label>
-                            <textarea name="topDescrizione" rows="5" cols="40"></textarea>
-                            <label for="Dettagli">Dettagli</label>
-                            <textarea name="dettagli" rows="5" cols="40"></textarea>
-                        </div>
-                    </div>
-
-                    <!-- Pricing Group -->
-                    <div class="form-group">
-                        <input type="checkbox" id="pricingCheckbox" name="pricingCheckbox">
-                        <label for="pricingCheckbox">Update Pricing</label>
-                        <div id="pricingGroup" class="hidden">
-                            <label for="prezzo">Prezzo</label>
-                            <input type="text" name="price">
-                        </div>
-                    </div>
-
-                    <!-- Category Group -->
-                    <div class="form-group">
-                        <input type="checkbox" id="categoryCheckbox" name="categoryCheckbox">
-                        <label for="categoryCheckbox">Update Category</label>
-                        <div id="categoryGroup" class="hidden">
-                            <label for="categoria">Categoria</label>
-                            <select name="categoria">
-                                <option value="GRANDI_ELETTRODOMESTICI">Grandi Elettrodomestici</option>
-                                <option value="PICCOLI_ELETTRODOMESTICI">Piccoli Elettrodomestici</option>
-                                <option value="TELEFONIA">Telefonia</option>
-                                <option value="PRODOTTI_ELETTRONICA">Prodotti Elettronica</option>
-                            </select>
-                            <label for="sottocategoria">Sottocategoria</label>
-                            <select name="sottocategoria">
-                                <option value="null">Nessuna Sottocategoria</option>
-                                <option value="TABLET">Tablet</option>
-                                <option value="SMARTPHONE">Smartphone</option>
-                                <option value="PC">PC</option>
-                                <option value="SMARTWATCH">Smartwatch</option>
-                            </select>
-                        </div>
-                        </div>
-
-                        <!-- Image and Other Details -->
-                        <div class="form-group">
-                            <label for="quantità">Quantità</label>
-                            <input type="number" id="quantità" name="quantità">
-                            <label for="file">Immagine</label>
-                            <input type="file" id="file" name="file" accept="image/*"> 
-                        </div>
-                            <button id="submitBtn" type="submit">Update</button>
-                        </form>
-                    </section>                    
-            </section>             
-       <div class="errormsg">
-           <%
-              String error = (String)request.getAttribute("error");
-              if(error == null) error="";
-           %>
-           <h2><%=error%></h2>
+        </section>                     
+       <div class="errormsg"> 
+           <p id="updateMessage"></p>
        </div>
+        <script>
+            $(document).ready(function() {
+                const outputMessage = sessionStorage.getItem('outputMessage');
+                console.log('Output message:', outputMessage); // Log the output message
+                const errorElement = document.getElementById('updateMessage');
+                console.log('Error element found:', errorElement); // Check if element is found
+                errorElement.innerHTML = outputMessage;
+                sessionStorage.removeItem('outputMessage');
+            });
+        </script>                
        <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script> 
        <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>                    
     <jsp:include page="${pageContext.request.contextPath}/common/footer.jsp"  flush="true"/>       

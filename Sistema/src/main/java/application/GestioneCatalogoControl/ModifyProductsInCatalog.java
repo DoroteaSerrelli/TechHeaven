@@ -6,6 +6,7 @@ package application.GestioneCatalogoControl;
 
 import application.GestioneCatalogoService.CatalogoException;
 import application.GestioneCatalogoService.GestioneCatalogoServiceImpl;
+import application.NavigazioneControl.PaginationUtils;
 import application.NavigazioneService.NavigazioneServiceImpl;
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProdottoException;
@@ -15,6 +16,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -75,7 +77,17 @@ public class ModifyProductsInCatalog extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action;
+        PaginationUtils pu = new PaginationUtils();
+        if(request.getSession().getAttribute("action") != null){
+            action = (String)request.getSession().getAttribute("action");
+            pu.detectActionChanges(request, action);
+        }
+        else if(request.getParameter("action") != null){
+            action = request.getParameter("action");
+            request.getSession().setAttribute("action", action);
+        }
+        response.sendRedirect(request.getContextPath()+"/protected/gestoreCatalogo/UpdateProductInfos.jsp");
     }
 
     /**
@@ -119,14 +131,18 @@ public class ModifyProductsInCatalog extends HttpServlet {
 
         
         // Call the method to update product information
-        updateProductInfos(modifiedData, originalProductDetails, request, response);
+        String jsonResponse = updateProductInfos(modifiedData, originalProductDetails, request, response);
+        // Set response content type and encoding
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        response.getWriter().write(jsonResponse);
     }
 
-    private void updateProductInfos(JsonObject modifiedDataJson, JsonObject originalProductJson, HttpServletRequest request, HttpServletResponse response) 
+    private String updateProductInfos(JsonObject modifiedDataJson, JsonObject originalProductJson, HttpServletRequest request, HttpServletResponse response) 
         throws IOException {
         String outputMessage = "";
         Gson gson = new Gson();
-
+        Map<String, String> responseMap = new HashMap<>();
         // Deserialize the original product JSON into a Prodotto object
         Prodotto originalProduct = null;
         if (originalProductJson != null && !originalProductJson.isJsonNull()) {
@@ -165,20 +181,16 @@ public class ModifyProductsInCatalog extends HttpServlet {
                         Logger.getLogger(ModifyProductsInCatalog.class.getName()).log(Level.SEVERE, null, ex);
                     }
                 } catch (NumberFormatException e) {
-                    request.setAttribute("error", "Invalid price format.");
-                    response.sendRedirect(request.getContextPath() + "/GestioneCatalogo");
-                    return;
+                    request.setAttribute("error", "Invalid price format.");                    
                 }
             }
         }
-
-        // Optionally set the output message to request attribute and forward to a JSP
-        request.setAttribute("outputMessage", outputMessage);
-        try {
-            request.getRequestDispatcher("/GestioneCatalogo.jsp").forward(request, response);
-        } catch (ServletException ex) {
-            Logger.getLogger(ModifyProductsInCatalog.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        // Create a map to store JSON response
+        responseMap.put("message", outputMessage);
+        responseMap.put("redirectUrl", request.getContextPath() + "/GestioneCatalogo");
+        
+        // Convert map to JSON string using GSON
+        return gson.toJson(responseMap);
     }
 
 

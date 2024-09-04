@@ -361,8 +361,7 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
     if (Object.keys(modifiedData).length > 0) {
         const jsonData = JSON.stringify({
             modifiedData: modifiedData,
-            originalProductDetails: JSON.parse(document.querySelector('input[name="originalProductDetails"]').value),
-            productId: productId
+            originalProductDetails: JSON.parse(document.querySelector('input[name="originalProductDetails"]').value)
         });
         console.log('JSON Data to be sent:', jsonData);
         // Submit the form after preparing all the data
@@ -372,13 +371,25 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
             contentType: 'application/json',
             data: jsonData,
             success: function(response) {
-                console.log('Data successfully sent:', response);
+                // Assuming the response is a JSON object with message and redirectUrl
+                console.log(response);
+                // Store the message in sessionStorage or localStorage
+                sessionStorage.setItem('outputMessage', response.message);
+
+                // Redirect to the provided URL
+                window.location.href = response.redirectUrl;
             },
             error: function(xhr, status, error) {
-                console.error('Error sending data:', error);
+                // Assuming the response is a JSON object with message and redirectUrl
+                // Store the message in sessionStorage or localStorage
+                sessionStorage.setItem('outputMessage', xhr.message);
+
+                // Redirect to the provided URL
+                window.location.href = xhr.redirectUrl;
             }
         });
     } else {
         alert('Please make sure to modify at least one section and ensure all fields are filled correctly.');
     }
 });
+  

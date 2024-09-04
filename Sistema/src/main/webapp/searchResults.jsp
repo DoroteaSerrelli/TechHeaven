@@ -4,6 +4,9 @@
     Author     : raffy
 --%>
 
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
+<%@page import="java.text.DecimalFormat"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="java.util.Base64"%>
@@ -75,7 +78,7 @@
         </div>
         <div class="search_results">
                <!-- Pagination links -->
-            <jsp:include page="${pageContext.request.contextPath}/common/pagination_research.jsp"  flush="true"/>
+            <jsp:include page="common/pagination_research.jsp"  flush="true"/>
             <div class="errormsg">                                             
                 <p id="error" class="error"></p>                                        
             </div> 
@@ -100,10 +103,20 @@
                             <div class="des">
                                 <h3><%=product.getNomeProdotto()%></h3>
                                 <span><%=product.getMarca()%></span>
-                                <h5><%=product.getTopDescrizione()%></h5>
                                 <div class="star">                              
                                 </div>
-                                <h4><%=product.getPrezzo()%>€</h4>
+                                <%
+                                    double prezzo = product.getPrezzo();
+                                       // Optionally, specify a particular currency
+                                     // Create a NumberFormat instance for currency formatting
+                                        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+
+                                        // Optionally, specify a particular currency
+                                        currencyFormatter.setCurrency(Currency.getInstance("EUR")); // Use "USD" for US dollars, "EUR" for Euros, etc.
+
+                                        String prezzoFormattato = currencyFormatter.format(prezzo);
+                                    %>
+                                <h4 class="prezzo"><%=prezzoFormattato%></h4>
                             </div>
                             <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
                                 <img class="cart" src="${pageContext.request.contextPath}/view/img/icon_carrello2.png">

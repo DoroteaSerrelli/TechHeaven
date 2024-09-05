@@ -181,6 +181,22 @@ public class ModifyProductsInCatalog extends HttpServlet {
                     request.setAttribute("error", "Invalid price format.");                    
                 }
             }
+            int quantità=1 ;     
+            // Check if 'quantità' is present in modifiedData
+            if (modifiedData.containsKey("quantita")) {                
+                Map<String, String> quantitàStr = modifiedData.get("quantita");
+                String quantityValue = quantitàStr.get("quantita");
+          
+                try {
+                // Convert to integer
+                quantità = Integer.parseInt(quantityValue);
+                // Call method to update quantity
+                outputMessage += updateQuantita(originalProduct, quantità);
+            } catch (NumberFormatException e) {
+                request.setAttribute("error", "Invalid quantity format.");
+            }
+             
+        }
         }
         // Create a map to store JSON response
         responseMap.put("message", outputMessage);
@@ -188,9 +204,18 @@ public class ModifyProductsInCatalog extends HttpServlet {
         
         // Convert map to JSON string using GSON
         return gson.toJson(responseMap);
+    
     }
-
-
+    private String updateQuantita(Prodotto originalProduct, int quantità){
+        try {
+            gcs.aggiornamentoDisponibilitàProdotto(originalProduct, quantità, 1, pr_pagina);
+            return "Aggiornamento Quantità Avvenuto con Successo!";
+        } catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | ProdottoException.QuantitaProdottoException ex) {
+            Logger.getLogger(ModifyProductsInCatalog.class.getName()).log(Level.SEVERE, null, ex);
+            System.out.println(ex.getMessage());
+        }
+        return "Non e' Stato Possibile Aggiornare la Quantità";
+    }
     // Helper method to update product details based on comparison
     private String updateProductDetail(String field, String key, Prodotto originalProduct, 
                                   Map<String, String> modifiedDetails) {

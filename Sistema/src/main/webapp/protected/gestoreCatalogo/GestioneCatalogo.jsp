@@ -130,7 +130,7 @@
                         </div>
                         <div class="form-group">
                             <label for="quantità">Quantità:</label>
-                            <input type="number" id="quantità" name="quantità">
+                            <input type="number" id="quantità" name="quantita">
                         </div>                     
                         <div class="form-group">
                             <label for="file">Immagine:</label>

@@ -344,7 +344,6 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
         
         const modifiedData = {};
         const productId = formData.get('productId');
-    
         // Check and add Product Details Group
         if (document.getElementById('productDetailsCheckbox').checked) {
             const productName = formData.get('productName');
@@ -393,7 +392,14 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
                 };
             }
         }
-
+        
+        // Add Quantity
+        const quantita = formData.get('quantità');
+        if (quantita) {
+            modifiedData['quantita'] = 
+                    { quantita };
+        }
+        
         // Final Validation before submission
         if (Object.keys(modifiedData).length > 0) {
             const jsonData = JSON.stringify({

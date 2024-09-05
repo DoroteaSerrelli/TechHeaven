@@ -187,10 +187,10 @@ public class GestioneCatalogoController extends HttpServlet {
             boolean inVetrina = "true".equals(inVetrinaParam);
             String inCatalogoParam = request.getParameter("inCatalogo");
             boolean inCatalogo = "true".equals(inCatalogoParam);
-            String quantity = (String) request.getParameter("quantità");
+            String quantity = (String) request.getParameter("quantita");
             int quantità = 1;
             if(quantity!=null){
-                quantità = Integer.parseInt(request.getParameter("quantità"));
+                quantità = Integer.parseInt(quantity);
             }
         // Retrieve the file part from the request
        Part filePart = request.getPart("file"); // "file" is the name attribute in the form   

@@ -31,8 +31,8 @@
     </head>    
     <body>     
         <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->
-       <jsp:include page="${pageContext.request.contextPath}/common/header.jsp"  flush="true"/>
-       <jsp:include page="${pageContext.request.contextPath}/roleSelector.jsp"  flush="true"/>
+       <jsp:include page="/common/header.jsp"  flush="true"/>
+       <jsp:include page="/roleSelector.jsp"  flush="true"/>
         <aside class="options_sidebar hidden" id="options_sidebar">
            <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>        
            
@@ -168,6 +168,6 @@
         </script>                
        <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script> 
        <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>                    
-    <jsp:include page="${pageContext.request.contextPath}/common/footer.jsp"  flush="true"/>       
+    <jsp:include page="/common/footer.jsp"  flush="true"/>       
     </body>
 </html>

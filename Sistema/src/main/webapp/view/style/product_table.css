@@ -52,6 +52,14 @@ th, td {
     margin-left: 30px;
     flex: 1; /* Makes sure this section takes up the remaining space */
 }
+.product-details h2{
+    color: #3F3E48;
+    
+}
+.product-details h4{
+    color: goldenrod;
+    
+}
 .product-page {
     display: flex;
     max-width: 1200px;

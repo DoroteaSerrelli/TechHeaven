@@ -39,7 +39,31 @@
         <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->
        <jsp:include page="${pageContext.request.contextPath}/common/header.jsp"  flush="true"/>
        <jsp:include page="${pageContext.request.contextPath}/roleSelector.jsp"  flush="true"/>
-       
+       <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>                   
+       <aside class="options_sidebar visible" id="options_sidebar">
+           <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>        
+            <div class="fe-box" id="viewProducts" onclick="moveToSidebar('viewProducts', 'viewProductsForm')">
+                    <img src="${pageContext.request.contextPath}/view/img/listaprodotto.png" alt="Visualizza Prodotti">
+                    <h6>Visualizza Prodotti</h6>
+            </div>
+            <div class="fe-box" id="addProduct">
+                <a href="/GestioneCatalogo" onclick="moveToSidebar('addProduct', 'addProductForm');"><img src="${pageContext.request.contextPath}/view/img/addprodotto.png" alt="Aggiungi un nuovo prodotto"></a>
+                <h6>Aggiungi un nuovo prodotto</h6>
+            </div>
+            <div class="fe-box" id="removeProduct">
+                <img src="${pageContext.request.contextPath}/view/img/removeprodotto.png" 
+                     onclick="$('#viewProductsForm').removeClass('hidden'); 
+                     $('#modifyPropertiesForm').addClass('hidden');" 
+                     alt="Elimina un prodotto">
+                <h6>Elimina un prodotto</h6>
+            </div>
+            <div class="fe-box" id="modifyProperties">
+                <img src="${pageContext.request.contextPath}/view/img/modproperties.png" alt="Modifica caratteristiche prodotto"
+                onclick="$('#viewProductsForm').removeClass('hidden'); 
+                     $('#modifyPropertiesForm').addClass('hidden');">
+                <h6>Modifica caratteristiche prodotto</h6>
+            </div>
+       </aside>
         <section id="forms">                     
                     <section id="viewProductsForm" class="form-section">
                         <div id="pagination"></div>   

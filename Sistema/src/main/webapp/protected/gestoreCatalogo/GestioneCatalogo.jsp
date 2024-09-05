@@ -50,7 +50,7 @@
                         <h6>Aggiungi un nuovo prodotto</h6>
                     </div>
                     <div class="fe-box" id="removeProduct" onclick="moveToSidebar('viewProducts', 'viewProductsForm');">
-                        <img src="${pageContext.request.contextPath}/view/img/removeprodotto.png" alt="Elimina un prodotto">
+                        <a href="${pageContext.request.contextPath}/ModifyProductsInCatalog?action=delete" ><img src="${pageContext.request.contextPath}/view/img/removeprodotto.png" alt="Elimina un prodotto"></a>
                         <h6>Elimina un prodotto</h6>
                     </div>
                     <div class="fe-box" id="modifyProperties">

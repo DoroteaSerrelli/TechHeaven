@@ -140,6 +140,7 @@ function openModifyForm(product) {
 }
 
 function openDeleteForm(product) {
+    unHideAllInfoGroups();
     $('#addProductForm').addClass('hidden');
     $('#viewProductsForm').addClass('hidden');
     $('#removeProductForm').addClass('hidden');
@@ -268,7 +269,6 @@ $(document).ready(function() {
     });
      // Event handler for deleting products
     $('#removeProduct').click(function() {
-        unHideAllInfoGroups();
         fetchProducts(initialPage, 'delete'); // Fetch products with delete action
     });
 

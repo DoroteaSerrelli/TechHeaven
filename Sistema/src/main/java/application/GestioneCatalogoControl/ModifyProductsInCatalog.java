@@ -77,7 +77,7 @@ public class ModifyProductsInCatalog extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String action;
+        String action = null;
         PaginationUtils pu = new PaginationUtils();
         if(request.getSession().getAttribute("action") != null){
             action = (String)request.getSession().getAttribute("action");
@@ -87,6 +87,7 @@ public class ModifyProductsInCatalog extends HttpServlet {
             action = request.getParameter("action");
             request.getSession().setAttribute("action", action);
         }
+        if(action==null) request.getSession().setAttribute("action", "modify");
         response.sendRedirect(request.getContextPath()+"/protected/gestoreCatalogo/UpdateProductInfos.jsp");
     }
 

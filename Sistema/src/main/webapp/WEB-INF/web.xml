@@ -182,6 +182,14 @@
         <filter-name>RoleAccessFilter</filter-name>
         <url-pattern>/protected/gestoreCatalogo/GestioneCatalogo.jsp</url-pattern>
     </filter-mapping>
+    <filter-mapping>
+        <filter-name>RoleAccessFilter</filter-name>
+        <url-pattern>/protected/gestoreCatalogo/UpdateProductInfos.jsp</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>RoleAccessFilter</filter-name>
+        <url-pattern>/UpdateProductInfos</url-pattern>
+    </filter-mapping>    
     <!--Gestore Ordini Filtro Pattern Url  -->
     <filter-mapping>
         <filter-name>RoleAccessFilter</filter-name>
@@ -268,6 +276,14 @@
     <servlet-mapping>
         <servlet-name>GestioneCatalogoServlet</servlet-name>
         <url-pattern>/GestioneCatalogo</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>ModifyProductServlet</servlet-name>
+        <jsp-file>/protected/gestoreCatalogo/UpdateProductInfos.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ModifyProductServlet</servlet-name>
+        <url-pattern>/UpdateProductInfos</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>UnauthourizedServlet</servlet-name>

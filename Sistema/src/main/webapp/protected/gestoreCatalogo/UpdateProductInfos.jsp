@@ -23,7 +23,8 @@
                 let action = '<%= session.getAttribute("action") %>';
                 if (action) {
                     const initialPage = 1;
-                    fetchProducts(initialPage, action); // Fetch products with the action
+                    if(action===null) fetchProducts(initialPage, 'modify');
+                    else fetchProducts(initialPage, action); // Fetch products with the action
                 } else {
                     console.error('No action provided');
                 }

@@ -29,8 +29,8 @@
         %>
     </head>
     <body>
-       <jsp:include page="${pageContext.request.contextPath}/common/header.jsp"  flush="true"/>
-       <jsp:include page="${pageContext.request.contextPath}/roleSelector.jsp"  flush="true"/>
+       <jsp:include page="/common/header.jsp"  flush="true"/>
+       <jsp:include page="/roleSelector.jsp"  flush="true"/>
         <h1>Informazioni sull'Ordine Selezionato:</h1>
         <div id="product1">
             <h2><%=selected_ordine.getStatoAsString()%></h2>

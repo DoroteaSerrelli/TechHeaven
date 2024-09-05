@@ -29,14 +29,14 @@
         %>
     </head>
     <body>
-        <jsp:include page="${pageContext.request.contextPath}/common/header.jsp"  flush="true"/>
+        <jsp:include page="/common/header.jsp"  flush="true"/>
         <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>
         <input type="text" id="productFilter" onkeyup="filterProducts()" placeholder="Search for request by company name...">
-        <jsp:include page="${pageContext.request.contextPath}/protected/gestoreOrdini/toolbar.jsp"  flush="true"/>
+        <jsp:include page="/protected/gestoreOrdini/toolbar.jsp"  flush="true"/>
         
         <!-- Search Input Field -->
         <!-- Pagination links -->
-        <jsp:include page="${pageContext.request.contextPath}/common/pagination.jsp"  flush="true"/>   
+        <jsp:include page="/common/pagination.jsp"  flush="true"/>   
         <table id="showpr" style="width: 80%; margin: 0 auto">
             <tr>
                 <th><strong>Codice Richiesta</strong></th><!-- Codice Richesta -->

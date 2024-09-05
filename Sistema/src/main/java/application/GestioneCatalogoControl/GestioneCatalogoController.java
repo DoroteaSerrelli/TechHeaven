@@ -180,7 +180,7 @@ public class GestioneCatalogoController extends HttpServlet {
             //Devo controllare se la stringa corrisponde a nessuna categoria e assegnare null.
             String sottocategoria = request.getParameter("sottocategoria");
             Sottocategoria s_categoria;
-            if(sottocategoria.equals("null")) s_categoria= null;
+            if(sottocategoria==null || sottocategoria.equals("null")) s_categoria= null;
             else s_categoria = Sottocategoria.valueOf(sottocategoria);
                     
             String inVetrinaParam = request.getParameter("inVetrina");
@@ -205,23 +205,35 @@ public class GestioneCatalogoController extends HttpServlet {
            response.sendRedirect(request.getContextPath() + "/GestioneCatalogo");
            return;
        }
-       Prodotto product = new Prodotto(prod_id, productName, topDescrizione, dettagli, price, Categoria.valueOf(categoria),
-               s_categoria, marca, modello, quantità, inCatalogo, inVetrina);     
+          
        
        //Retrieves the Action the Servlet needs to do With the Retrieved Products Information
        try {
            String action = request.getParameter("action");
            if(action==null || action.isEmpty()){
+               Prodotto product = new Prodotto(prod_id, productName, topDescrizione, dettagli, price, Categoria.valueOf(categoria),
+               s_categoria, marca, modello, quantità, inCatalogo, inVetrina);  
+               
                 gcs.aggiuntaProdottoInCatalogo(product, 1, pr_pagina);
+                request.getSession().setAttribute("error", "Prodotto Aggiunto con Successo!");
                 if (filePart != null) {
                     // Get the input stream of the uploaded file
                     InputStream fileContent = filePart.getInputStream();
                     PhotoControl.updateTopImage(prod_id, fileContent);
                 }  
-           }   
+           }   	
            else if(action.equals("deleteProduct")){
-               //Creazione Proxy In caso di Cancellazione
-              // gcs.rimozioneProdottoDaCatalogo(product, prod_id, pr_pagina);
+               ProxyProdotto pr_todelete = new ProxyProdotto (prod_id, productName, topDescrizione, price, Categoria.valueOf(categoria),
+               marca, modello, quantità, inCatalogo, inVetrina );
+               try {              
+                   //Creazione Proxy In caso di Cancellazione
+                   gcs.rimozioneProdottoDaCatalogo(pr_todelete, 1, pr_pagina);
+                   request.getSession().setAttribute("error", "Prodotto Eliminato con Successo!");
+               } catch (CatalogoException.ProdottoNonInCatalogoException ex) {
+                   Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
+                   request.getSession().setAttribute("error", ex.getMessage());
+                   
+               }
            }
            response.sendRedirect(request.getContextPath() + "/GestioneCatalogo");
           

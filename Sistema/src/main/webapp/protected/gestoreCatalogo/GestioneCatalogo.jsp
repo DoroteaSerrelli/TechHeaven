@@ -73,15 +73,7 @@
                                  <th><strong>Marca</strong></th><!-- Marca -->
                                  <th><strong>TopDescr</strong></th><!-- Top Descrizione -->
                                  <th><strong>Prezzo</strong></th><!-- Prezzo -->
-                             </tr>
-                        <div id="error">
-                            <% String errormsg="";
-                                errormsg= (String)request.getAttribute("error");
-                                if(errormsg==null) errormsg="";                                                       
-                            %>
-                            <%=errormsg%>
-                        </div>                                          
-                    <%%>
+                             </tr>                                                                              
                          </table> 
                        <div id="pagination"></div>
             </section>
@@ -152,7 +144,15 @@
                     <h2>Elimina un prodotto</h2>
                     <p>Form content for removing a product...</p>
                 </section>
-        </section>                     
+        </section>
+        <div id="error">
+            <% String errormsg="";
+                errormsg= (String)request.getSession().getAttribute("error");
+                if(errormsg==null) errormsg="";                                                       
+            %>
+            <h2> <%=errormsg%> </h2>
+            <%request.getSession().removeAttribute("error");%>
+        </div>                   
        <div class="errormsg"> 
            <p id="updateMessage"></p>
        </div>

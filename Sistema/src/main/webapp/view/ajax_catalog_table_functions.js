@@ -108,7 +108,7 @@ function fetchProductFullInfos(product, action) {
     });
 }
 
-function unHideAllInfoGroups(){
+function unHideAllInfoGroups(){ 
     $('#productDetailsGroup').removeClass('hidden');
     $('#descriptionGroup').removeClass('hidden');
     $('#pricingGroup').removeClass('hidden');
@@ -124,7 +124,30 @@ function hideAllInfoGroups(){
     
 }
 
+function showAndEnableCheckboxes() {
+     // Get all checkboxes
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    // Loop through each checkbox and hide & disable it
+    checkboxes.forEach(checkbox => {
+        checkbox.style.display = 'block';  // Show the checkbox
+        checkbox.disabled = false;         // Enable the checkbox
+    });   
+}
+
+function hideAndDisableCheckboxes() {
+    // Get all checkboxes
+    const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+    // Loop through each checkbox and hide & disable it
+    checkboxes.forEach(checkbox => {
+        checkbox.style.display = 'none';  // Hide the checkbox
+        checkbox.disabled = true;         // Disable the checkbox
+    });
+}
+
 function openModifyForm(product) {
+    showAndEnableCheckboxes();
     $('#addProductForm').addClass('hidden');
     $('#viewProductsForm').addClass('hidden');
     $('#removeProductForm').addClass('hidden');
@@ -141,6 +164,8 @@ function openModifyForm(product) {
 
 function openDeleteForm(product) {
     unHideAllInfoGroups();
+    hideAndDisableCheckboxes();
+    
     $('#addProductForm').addClass('hidden');
     $('#viewProductsForm').addClass('hidden');
     $('#removeProductForm').addClass('hidden');
@@ -305,91 +330,105 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
     const form = document.getElementById('productForm');
     const formData = new FormData(form);
     
-    const modifiedData = {};
-    const productId = formData.get('productId');
-    
-    // Check and add Product Details Group
-    if (document.getElementById('productDetailsCheckbox').checked) {
-        const productName = formData.get('productName');
-        const marca = formData.get('marca');
-        const modello = formData.get('modello');
-
-        if (productName && marca && modello) {
-            modifiedData['productDetails'] = {
-                productName,
-                marca,
-                modello
-            };
-        }
-    }
-
-    // Check and add Description Group
-    if (document.getElementById('descriptionCheckbox').checked) {
-        const topDescrizione = formData.get('topDescrizione');
-        const dettagli = formData.get('dettagli');
-        if (topDescrizione && dettagli) {
-            modifiedData['descriptions'] = {
-                topDescrizione,
-                dettagli
-            };
-        }
-    }
-
-    // Check and add Pricing Group
-    if (document.getElementById('pricingCheckbox').checked) {
-        const price = formData.get('price');
-
-        if (price) {
-            modifiedData['pricing'] = { price };
-        }
-    }
-
-    // Check and add Category Group
-    if (document.getElementById('categoryCheckbox').checked) {
-        const categoria = formData.get('categoria');
-        const sottocategoria = formData.get('sottocategoria');
-
-        if (categoria && sottocategoria) {
-            modifiedData['category'] = {
-                categoria,
-                sottocategoria
-            };
-        }
-    }
-
-    // Final Validation before submission
-    if (Object.keys(modifiedData).length > 0) {
-        const jsonData = JSON.stringify({
-            modifiedData: modifiedData,
-            originalProductDetails: JSON.parse(document.querySelector('input[name="originalProductDetails"]').value)
-        });
-        console.log('JSON Data to be sent:', jsonData);
-        // Submit the form after preparing all the data
-        $.ajax({
-            url: form.action,
-            method: 'POST',
-            contentType: 'application/json',
-            data: jsonData,
-            success: function(response) {
-                // Assuming the response is a JSON object with message and redirectUrl
-                console.log(response);
-                // Store the message in sessionStorage or localStorage
-                sessionStorage.setItem('outputMessage', response.message);
-
-                // Redirect to the provided URL
-                window.location.href = response.redirectUrl;
-            },
-            error: function(xhr, status, error) {
-                // Assuming the response is a JSON object with message and redirectUrl
-                // Store the message in sessionStorage or localStorage
-                sessionStorage.setItem('outputMessage', xhr.message);
-
-                // Redirect to the provided URL
-                window.location.href = xhr.redirectUrl;
-            }
-        });
+      const actionUrl = form.action; // Check form action
+    if (actionUrl.includes('deleteProduct')) {
+        // Re-enable disabled select fields before submission
+        $('#modifyPropertiesForm select[name="categoria"]').attr('disabled', false);
+        $('#modifyPropertiesForm select[name="sottocategoria"]').attr('disabled', false);
+        $('#modifyPropertiesForm input[name="inVetrina"]').removeAttr('disabled');
+        $('#modifyPropertiesForm input[name="inCatalogo"]').removeAttr('disabled');
+        // Directly submit the form for deletion without extra data handling
+        form.submit(); // Programmatically submit the form
+        
     } else {
-        alert('Please make sure to modify at least one section and ensure all fields are filled correctly.');
-    }
+        
+        const modifiedData = {};
+        const productId = formData.get('productId');
+    
+        // Check and add Product Details Group
+        if (document.getElementById('productDetailsCheckbox').checked) {
+            const productName = formData.get('productName');
+            const marca = formData.get('marca');
+            const modello = formData.get('modello');
+
+            if (productName && marca && modello) {
+                modifiedData['productDetails'] = {
+                    productName,
+                    marca,
+                    modello
+                };
+            }
+        }
+
+        // Check and add Description Group
+        if (document.getElementById('descriptionCheckbox').checked) {
+            const topDescrizione = formData.get('topDescrizione');
+            const dettagli = formData.get('dettagli');
+            if (topDescrizione && dettagli) {
+                modifiedData['descriptions'] = {
+                    topDescrizione,
+                    dettagli
+                };
+            }
+        }
+
+        // Check and add Pricing Group
+        if (document.getElementById('pricingCheckbox').checked) {
+            const price = formData.get('price');
+
+            if (price) {
+                modifiedData['pricing'] = { price };
+            }
+        }
+
+        // Check and add Category Group
+        if (document.getElementById('categoryCheckbox').checked) {
+            const categoria = formData.get('categoria');
+            const sottocategoria = formData.get('sottocategoria');
+
+            if (categoria && sottocategoria) {
+                modifiedData['category'] = {
+                    categoria,
+                    sottocategoria
+                };
+            }
+        }
+
+        // Final Validation before submission
+        if (Object.keys(modifiedData).length > 0) {
+            const jsonData = JSON.stringify({
+                modifiedData: modifiedData,
+                originalProductDetails: JSON.parse(document.querySelector('input[name="originalProductDetails"]').value)
+            });
+            console.log('JSON Data to be sent:', jsonData);
+            // Submit the form after preparing all the data
+            $.ajax({
+                url: form.action,
+                method: 'POST',
+                contentType: 'application/json',
+                data: jsonData,
+                success: function(response) {
+                    // Assuming the response is a JSON object with message and redirectUrl
+                    console.log(response);
+                    // Store the message in sessionStorage or localStorage
+                    sessionStorage.setItem('outputMessage', response.message);
+
+                    // Redirect to the provided URL
+                    window.location.href = response.redirectUrl;
+                },
+                error: function(xhr, status, error) {
+                    // Assuming the response is a JSON object with message and redirectUrl
+                    // Store the message in sessionStorage or localStorage
+                    sessionStorage.setItem('outputMessage', xhr.message);
+
+                    // Redirect to the provided URL
+                    window.location.href = xhr.redirectUrl;
+                }
+            });
+
+        } else {
+            alert('Please make sure to modify at least one section and ensure all fields are filled correctly.');
+        } 
+} 
 });
   

@@ -43,7 +43,7 @@ th, td {
 /* Product Details Styling: */
 /* Container for Product Page */
 .product-image img {
-    max-width: 100%;
+    max-width: 75%;
     border-radius: 8px;
 }
 
@@ -55,6 +55,13 @@ th, td {
 .product-details h2{
     color: #3F3E48;
     
+}
+.product-details span{
+    font-size: 18px;
+    color: #8A2E1D;
+}
+.product-details h3{
+    font-size: 22px;
 }
 .product-details h4{
     color: goldenrod;
@@ -70,6 +77,9 @@ th, td {
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
+.product-actions h2{
+    color: goldenrod;
+}
 .product-actions a {
     padding: 10px 20px;
     margin-right: 10px;

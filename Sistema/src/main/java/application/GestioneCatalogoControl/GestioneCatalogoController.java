@@ -32,7 +32,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import storage.NavigazioneDAO.PhotoControl;
 
 /**
  *
@@ -219,7 +218,7 @@ public class GestioneCatalogoController extends HttpServlet {
                 if (filePart != null) {
                     // Get the input stream of the uploaded file
                     InputStream fileContent = filePart.getInputStream();
-                    PhotoControl.updateTopImage(prod_id, fileContent);
+                    gcs.inserimentoTopImmagine(product, fileContent, 1, pr_pagina);
                 }  
            }   	
            else if(action.equals("deleteProduct")){
@@ -245,7 +244,9 @@ public class GestioneCatalogoController extends HttpServlet {
                  Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
                  request.getSession().setAttribute("error", ex.getMessage());
                  System.out.println(ex.getMessage());
-             }
+             } catch (CatalogoException.ProdottoNonInCatalogoException ex) {
+            Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }      
                                                
                        

@@ -155,13 +155,18 @@
                         <!-- Image and Other Details -->
                         <div class="form-group">
                             <label for="quantità">Quantità</label>
-                            <input type="number" id="quantità" name="quantità">
-                            <label for="file">Immagine</label>
-                            <input type="file" id="file" name="file" accept="image/*"> 
+                            <input type="number" id="quantità" name="quantità">                    
                         </div>
                             <button id="submitBtn" type="submit">Update</button>
                         </form>
-                    </section>                    
+                    </section>
+                        <h2>Modifica, Aggiungi o Elimina Foto di Presentazione</h2>
+                        <section>
+                            <form action="ImageUpdater?action=updateFotoPresentazione">
+                                <label for="file">Immagine</label>
+                                <input type="file" id="file" name="presentazione" accept="image/*"> 
+                            </form>
+                        </section>   
             </section>
         <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script> 
         <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>                    

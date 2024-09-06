@@ -4,12 +4,17 @@
  */
 package application.NavigazioneControl;
 
+import application.GestioneCatalogoService.GestioneCatalogoServiceImpl;
+import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Base64;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -67,7 +72,22 @@ public class ImageServlet extends HttpServlet {
             Logger.getLogger(ImageServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+    
+     // Static method to load gallery images for a product
+    public static List<String> loadGallery(Prodotto product) throws IOException {
+        // Get the image gallery directly from the Prodotto object
+        List<byte[]> galleryImages = product.getGalleriaImmagini(); // Use the Prodotto method to get images
 
+        // Convert the byte[] images to base64 strings
+        List<String> base64Gallery = new ArrayList<>();
+        for (byte[] imageData : galleryImages) {
+            String base64Image = Base64.getEncoder().encodeToString(imageData);
+            String imageUrl = "data:image/jpeg;base64," + base64Image;
+            base64Gallery.add(imageUrl);
+        }
+        return base64Gallery;
+    }
+    
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.

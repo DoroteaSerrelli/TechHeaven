@@ -61,6 +61,11 @@ function populateFields(product){
     
 }
 
+function clearFormState() {
+    sessionStorage.removeItem('selectedProduct');
+    sessionStorage.removeItem('selectedAction');
+}
+
 function addOriginalProductDetailsToForm(productDetails) {
     const form = document.getElementById('productForm');
     
@@ -82,7 +87,6 @@ function addOriginalProductDetailsToForm(productDetails) {
 
 function fetchProductFullInfos(product, action) {
     const productJson = JSON.stringify(product);
-    
     $.ajax({
         url: `${window.contextPath}/ProductInfos`,
         method: 'POST',
@@ -93,6 +97,10 @@ function fetchProductFullInfos(product, action) {
         success: function(response) {
             console.log('Product details:', response);
             const productDetails = response;
+            
+            // Store product details and action in sessionStorage
+            sessionStorage.setItem('selectedProduct', JSON.stringify(productDetails));
+            sessionStorage.setItem('selectedAction', action);
             
             if (action === 'modify') {
                 openModifyForm(productDetails);
@@ -416,6 +424,7 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
                 success: function(response) {
                     // Assuming the response is a JSON object with message and redirectUrl
                     console.log(response);
+                    clearFormState();
                     // Store the message in sessionStorage or localStorage
                     sessionStorage.setItem('outputMessage', response.message);
 
@@ -423,6 +432,7 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
                     window.location.href = response.redirectUrl;
                 },
                 error: function(xhr, status, error) {
+                    clearFormState();
                     // Assuming the response is a JSON object with message and redirectUrl
                     // Store the message in sessionStorage or localStorage
                     sessionStorage.setItem('outputMessage', xhr.message);

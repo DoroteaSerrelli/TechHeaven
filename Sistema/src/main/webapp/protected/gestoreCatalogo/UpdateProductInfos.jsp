@@ -18,17 +18,31 @@
         <script src="${pageContext.request.contextPath}/view/validations_catalog_manager.js"></script> 
         <script src="${pageContext.request.contextPath}/view/pagination.js"></script>        
         <script>
-            $(document).ready(function() {
-                // Retrieve the action from the session attribute set by the Servlet
-                let action = '<%= session.getAttribute("action") %>';
-                if (action) {
-                    const initialPage = 1;
-                    if(action===null) fetchProducts(initialPage, 'modify');
-                    else fetchProducts(initialPage, action); // Fetch products with the action
-                } else {
-                    console.error('No action provided');
-                }
-            });
+           $(document).ready(function() {
+            // Retrieve the action from the session attribute set by the Servlet
+            let action = '<%= session.getAttribute("action") %>';
+
+            // Retrieve stored product and action information
+            let storedProduct = sessionStorage.getItem('selectedProduct');
+            let storedAction = sessionStorage.getItem('selectedAction');
+
+            if (storedProduct && storedAction) {
+                const product = JSON.parse(storedProduct);
+                if (storedAction === 'modify') {
+                    openModifyForm(product);
+                    $('#modifyPropertiesForm').removeClass('hidden');
+                    $('#viewProductsForm').addClass('hidden');
+                } else if (storedAction === 'delete') {
+                    openDeleteForm(product);
+                }             
+            } else if (action) {
+                const initialPage = 1;
+                fetchProducts(initialPage, action); // Fetch products with the action
+            } else {
+                console.error('No action provided');
+            }
+        });
+
         </script> 
         <script type="text/javascript">
             // Define the context path as a global variable
@@ -159,14 +173,14 @@
                         </div>
                             <button id="submitBtn" type="submit">Update</button>
                         </form>
-                    </section>
                         <h2>Modifica, Aggiungi o Elimina Foto di Presentazione</h2>
                         <section>
                             <form action="ImageUpdater?action=updateFotoPresentazione">
                                 <label for="file">Immagine</label>
                                 <input type="file" id="file" name="presentazione" accept="image/*"> 
                             </form>
-                        </section>   
+                        </section>  
+                    </section>                        
             </section>
         <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script> 
         <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>                    

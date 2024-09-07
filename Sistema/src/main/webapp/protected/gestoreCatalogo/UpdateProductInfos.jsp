@@ -16,8 +16,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_form.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="${pageContext.request.contextPath}/view/validations_catalog_manager.js"></script> 
-        <script src="${pageContext.request.contextPath}/view/pagination.js"></script>        
+        <script src="${pageContext.request.contextPath}/view/pagination.js"></script> 
         <script>
            $(document).ready(function() {
             // Retrieve the action from the session attribute set by the Servlet
@@ -25,10 +24,10 @@
 
             // Retrieve stored product and action information
             let storedProduct = sessionStorage.getItem('selectedProduct');
+            
             let storedAction = sessionStorage.getItem('selectedAction');
-
             if (storedProduct && storedAction) {
-                const product = JSON.parse(storedProduct);
+                const product = JSON.parse(storedProduct);         
                 if (storedAction === 'modify') {
                     openModifyForm(product);
                     $('#modifyPropertiesForm').removeClass('hidden');
@@ -178,6 +177,7 @@
                         <section>
                             <h2>Modifica, Aggiungi o Elimina Foto di Presentazione</h2>
                             <form id="photoForm" action="${pageContext.request.contextPath}/ImageUpdater?action=updateFotoPresentazione" method="post" enctype="multipart/form-data">
+                                <input type="hidden" id="productData" name="productData">
                                 <label for="file">Immagine</label>
                                 <label for="main_photoAction">Aggiorna Foto</label>    
                                 <input type="radio" name="main_photoAction" value="update">
@@ -186,9 +186,10 @@
                                 <label for="action">Elimina Foto</label>
                                 <input type="radio" name="main_photoAction" value="delete">                               
                                 <input type="file" id="file" name="presentazione" accept="image/*"> 
+                                <input type="submit" id="imageUploadBtn" value="Aggiorna Immagini">
                             </form>
                             <div class="product-image">
-                                <img id="topImage" src="" alt="alt" > 
+                                <img id="topImage" src="" alt="alt" loading="lazy"> 
                             </div>    
                             <div class="product-gallery">
                                 <% if(galleryImages!=null && !galleryImages.isEmpty()){%>        
@@ -219,6 +220,7 @@
             }
         </script>
         <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script> 
-        <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>                    
+        <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>      
+                <script src="${pageContext.request.contextPath}/view/catalog_image_update_functions.js"></script> 
         <jsp:include page="/common/footer.jsp"  flush="true"/>             
 </html>

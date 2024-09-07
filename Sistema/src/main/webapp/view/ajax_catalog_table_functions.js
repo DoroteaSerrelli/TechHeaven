@@ -59,6 +59,8 @@ function populateFields(product){
     $('#modifyPropertiesForm input[name="inVetrina"]').prop('checked', product.inVetrina);
     $('#modifyPropertiesForm input[name="inCatalogo"]').prop('checked', product.inCatalogo);
     
+    displayTopImage(product);
+    
 }
 
 function clearFormState() {
@@ -154,6 +156,39 @@ function hideAndDisableCheckboxes() {
     });
 }
 
+function displayTopImage(product){
+    $('#topImage').attr('src', `${window.contextPath}/image?productId=` + product.codiceProdotto);
+}
+
+function displayPhotos(product){
+    if (product.galleriaImmagini && product.galleriaImmagini.length > 0) {
+        product.galleriaImmagini.forEach(product => {
+        fetchImage(product.codiceProdotto).done(function(base64Image) {
+            const imgElement = $('<img>')
+                .attr('src', 'data:image/png;base64,' + base64Image) // Adjust MIME type if needed
+                .attr('alt', 'Product Image')
+                .css('width', '100px'); // Adjust size as needed
+
+            const deleteButton = $('<button>')
+                .text('Delete')
+                .on('click', function() {
+                    deletePhoto(product.id); // Pass the product ID or unique identifier
+                });
+
+            const photoItem = $('<div>').addClass('photo-item')
+                .append(imgElement)
+                .append(deleteButton);
+
+            $('#photoGallery').append(photoItem);
+        }).fail(function() {
+            console.error('Error fetching image for product ID:', product.codiceProdotto);
+        });
+        });
+    } else {
+        $('#photoGallery').append('<p>No photos available</p>');
+    }
+}
+
 function openModifyForm(product) {
     showAndEnableCheckboxes();
     $('#addProductForm').addClass('hidden');
@@ -164,6 +199,8 @@ function openModifyForm(product) {
     $('#changeable').html("Modify Product Informations");
     
     enableModify();
+    displayPhotos(product);
+    
     populateFields(product);   
     // Set other fields as needed
 

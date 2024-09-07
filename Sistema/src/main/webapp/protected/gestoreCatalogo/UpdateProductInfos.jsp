@@ -4,6 +4,7 @@
     Author     : raffa
 --%>
 
+<%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -48,6 +49,7 @@
             // Define the context path as a global variable
             window.contextPath = '<%= request.getContextPath() %>';
         </script>
+        <%List<String> galleryImages = (List<String>)request.getSession().getAttribute("galleryImages"); %>
     </head>    
     <body>     
         <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->
@@ -172,16 +174,50 @@
                             <input type="number" id="quantità" name="quantità">                    
                         </div>
                             <button id="submitBtn" type="submit">Update</button>
-                        </form>
-                        <h2>Modifica, Aggiungi o Elimina Foto di Presentazione</h2>
+                        </form>                       
                         <section>
-                            <form action="ImageUpdater?action=updateFotoPresentazione">
+                            <h2>Modifica, Aggiungi o Elimina Foto di Presentazione</h2>
+                            <form id="photoForm" action="${pageContext.request.contextPath}/ImageUpdater?action=updateFotoPresentazione" method="post" enctype="multipart/form-data">
                                 <label for="file">Immagine</label>
+                                <label for="main_photoAction">Aggiorna Foto</label>    
+                                <input type="radio" name="main_photoAction" value="update">
+                                <label for="action">Aggiungi Foto</label>
+                                <input type="radio" name="main_photoAction" value="add">                                
+                                <label for="action">Elimina Foto</label>
+                                <input type="radio" name="main_photoAction" value="delete">                               
                                 <input type="file" id="file" name="presentazione" accept="image/*"> 
                             </form>
+                            <div class="product-image">
+                                <img id="topImage" src="" alt="alt" > 
+                            </div>    
+                            <div class="product-gallery">
+                                <% if(galleryImages!=null && !galleryImages.isEmpty()){%>        
+                                <div class="main-image">
+                                    <!-- Display the first image as the main image -->
+                                    <img id="currentImage" src="<%= galleryImages.get(0) %>" alt="alt" />
+                                </div>
+                                <div class="thumbnails">
+                                    <!-- Loop through the galleryImages list to create thumbnails -->
+                                    <%
+                                        for (int i = 0; i < galleryImages.size(); i++) {
+                                            String img = galleryImages.get(i);
+                                    %>
+                                        <img src="<%= img %>" alt="alt" onclick="changeImage('<%= img %>')" />
+                                    <%
+                                        }
+                                    }    
+                                    %>
+
+                                  <%  %>
+                                </div>
                         </section>  
                     </section>                        
             </section>
+        <script>
+            function changeImage(src) {
+                document.getElementById('currentImage').src = src;
+            }
+        </script>
         <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script> 
         <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>                    
         <jsp:include page="/common/footer.jsp"  flush="true"/>             

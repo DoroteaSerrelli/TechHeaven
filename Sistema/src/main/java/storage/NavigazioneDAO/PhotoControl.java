@@ -286,7 +286,7 @@ public class PhotoControl {
 
 		try {
 			connection = ds.getConnection();
-			stmt = connection.prepareStatement("SELECT FROM immagine_di_dettaglio WHERE (PRODOTTO = ? AND CONTENUTO = ?)");
+			stmt = connection.prepareStatement("SELECT CODICEIMMAGINE FROM immagine_di_dettaglio WHERE (PRODOTTO = ? AND CONTENUTO = ?)");
 			stmt.setInt(1, idP);
 			stmt.setBinaryStream(2, photo, photo.available());
 			rs = stmt.executeQuery();

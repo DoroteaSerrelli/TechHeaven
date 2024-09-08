@@ -45,3 +45,46 @@
         }
     });
 });
+
+document.addEventListener('DOMContentLoaded', function() {
+    const deleteButtons = document.querySelectorAll('.delete-image-btn');
+
+    deleteButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Retrieve product data from session storage
+            const storedProduct = sessionStorage.getItem('selectedPr');
+            const product = storedProduct ? JSON.parse(storedProduct) : {}; // Default to empty object if not found
+            
+            console.log('Product associated with images:', product);
+
+            // Get the index or unique identifier of the image to be deleted
+            const imageIndex = this.getAttribute('data-image-index'); // Assuming each image has a unique index or id
+            
+            // Optionally remove the image container from the UI
+            const imageContainer = document.getElementById(`image-container-${imageIndex}`);
+            if (imageContainer) {
+                imageContainer.remove();
+                console.log(`Image at index ${imageIndex} deleted.`);
+
+                // Send an AJAX request to delete the image on the server
+                $.ajax({
+                    url: window.contextPath+'/ImageUpdater', // Adjust the URL to your servlet's path
+                    method: 'POST',
+                    data: { 
+                        gallery_photoActions: 'delete', // Specify the action for deletion
+                        imageIndex: imageIndex, // Send the index or identifier for the image to be deleted
+                        product: JSON.stringify(product) // Send the product info with the request
+                    },
+                    success: function(response) {
+                        console.log('Image deleted on the server');
+                        // Handle success (optional UI updates or redirects)
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error deleting image:', error);
+                        // Handle error (optional UI feedback)
+                    }
+                });
+            }
+        });
+    });
+});

@@ -10,6 +10,7 @@ import application.NavigazioneService.NavigazioneServiceImpl;
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProdottoException;
 import com.google.gson.Gson;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -27,7 +28,11 @@ import javax.servlet.http.Part;
  *
  * @author raffa
  */
-@MultipartConfig
+@MultipartConfig(
+    fileSizeThreshold = 1024 * 1024,  // 1MB
+    maxFileSize = 1024 * 1024 * 10,   // 10MB
+    maxRequestSize = 1024 * 1024 * 50 // 50MB
+)
 public class ImageUpdater extends HttpServlet {
     private GestioneCatalogoServiceImpl gcs;
     private NavigazioneServiceImpl ns;
@@ -90,39 +95,60 @@ public class ImageUpdater extends HttpServlet {
     private int perPage= 50;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        String action = (String) request.getParameter("action");
-        
+            throws ServletException, IOException {      
         // Retrieve the JSON product data from the request
         String productJson = request.getParameter("product"); 
-        System.out.println(productJson);
         if (productJson != null) {
             Gson gson = new Gson();
             Prodotto product = gson.fromJson(productJson, Prodotto.class);
-            if(action.equals("updateFotoPresentazione")){
-                try {
+               try {
                     String main_photoAction = (String) request.getParameter("main_photoAction");
-                    // Retrieve the file part from the request
-                    Part filePart = request.getPart("presentazione"); // "presentazione" is the name attribute in the form
-                    InputStream fileContent = retrieveFileContent(filePart);
-                    switch(main_photoAction){
-                        case "update":
-                            case"add":         
+                    
+                    String gallery_photoActions = (String) request.getParameter("gallery_photoActions");                  
+                    if(main_photoAction!=null){
+                        switch(main_photoAction){
+                         case "update":
+                            case "add":
+                                 // Retrieve the file part from the request
+                                Part filePart = request.getPart("presentazione"); // "presentazione" is the name attribute in the form
+                                InputStream fileContent = retrieveFileContent(filePart);
                                 gcs.inserimentoTopImmagine(product, fileContent, 1, perPage);
-                            break;
-                        case "delete":                        
-                            gcs.cancellazioneImmagineInGalleria(product, fileContent, 1, perPage);
-                            break;
+                            break;                  
+                        default:
+                            // Handle unknown or missing action
+                            throw new IllegalArgumentException("Unexpected value: " + main_photoAction);
+                        }
                     }
+                    if (gallery_photoActions != null) {
+                        switch (gallery_photoActions) {
+                            case "delete":
+                                // Retrieve image index and path
+                                String imageIndexStr = request.getParameter("imageIndex");
+                                int imageIndex = Integer.parseInt(imageIndexStr);
+                                byte[] imageToRemove = product.getGalleriaImmagini().get(imageIndex);
+                                InputStream imageStream = new ByteArrayInputStream(imageToRemove);
+                                 // Assuming you have a method to delete an image from the product's gallery by its index or identifier
+                                gcs.cancellazioneImmagineInGalleria(product, imageStream, 1, perPage);
+                                break;
+                            case "addToGallery":
+                                 // Retrieve the file part from the request
+                                Part filePart = request.getPart("presentazione"); // "presentazione" is the name attribute in the form
+                                InputStream fileContent = retrieveFileContent(filePart);
+                                gcs.inserimentoImmagineInGalleriaImmagini(product, fileContent, 1, perPage);
+                                break;
+                            default:
+                                throw new IllegalArgumentException("Unexpected gallery action: " + gallery_photoActions);
+                        }
+                    }         
                 } catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException ex) {
                     Logger.getLogger(ImageUpdater.class.getName()).log(Level.SEVERE, null, ex);
                     System.out.println(ex.getMessage());
-                }
-
-            }
-        }
+                }       
+        }     
        
-       
+    }
+    public InputStream byteArrayToInputStream(byte[] byteArray) {
+        return new ByteArrayInputStream(byteArray);
     }
     private InputStream retrieveFileContent(Part filePart) throws IOException{
         InputStream fileContent = null;

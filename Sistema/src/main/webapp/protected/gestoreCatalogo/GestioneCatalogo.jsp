@@ -33,27 +33,27 @@
        <jsp:include page="/common/header.jsp"  flush="true"/>
        <jsp:include page="/roleSelector.jsp"  flush="true"/>
         <aside class="options_sidebar hidden" id="options_sidebar">
-           <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>        
+           <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>        
            
             <!-- Sidebar will be populated by JavaScript -->
         </aside>      
         <main class="main-content" id="mainContent">
-              <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>                       
+              <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>                       
             <section id="centerMenu" class="center-menu">
                 <div class="fe-box" id="viewProducts" onclick="moveToSidebar('viewProducts', 'viewProductsForm')">
-                    <img src="${pageContext.request.contextPath}/view/img/listaprodotto.png" alt="Visualizza Prodotti">
+                    <img src="${pageContext.request.contextPath}/images/site_images/listaprodotto.png" alt="Visualizza Prodotti">
                     <h6>Visualizza Prodotti</h6>
                 </div>
                     <div class="fe-box" id="addProduct" onclick="moveToSidebar('addProduct', 'addProductForm')">
-                        <img src="${pageContext.request.contextPath}/view/img/addprodotto.png" alt="Aggiungi un nuovo prodotto">
+                        <img src="${pageContext.request.contextPath}/images/site_images/addprodotto.png" alt="Aggiungi un nuovo prodotto">
                         <h6>Aggiungi un nuovo prodotto</h6>
                     </div>
                     <div class="fe-box" id="removeProduct" onclick="moveToSidebar('viewProducts', 'viewProductsForm');">
-                        <a href="${pageContext.request.contextPath}/ModifyProductsInCatalog?action=delete" ><img src="${pageContext.request.contextPath}/view/img/removeprodotto.png" alt="Elimina un prodotto"></a>
+                        <a href="${pageContext.request.contextPath}/ModifyProductsInCatalog?action=delete" ><img src="${pageContext.request.contextPath}/images/site_images/removeprodotto.png" alt="Elimina un prodotto"></a>
                         <h6>Elimina un prodotto</h6>
                     </div>
                     <div class="fe-box" id="modifyProperties">
-                        <a href="${pageContext.request.contextPath}/ModifyProductsInCatalog?action=modify" > <img src="${pageContext.request.contextPath}/view/img/modproperties.png" alt="Modifica caratteristiche prodotto"> </a>
+                        <a href="${pageContext.request.contextPath}/ModifyProductsInCatalog?action=modify" > <img src="${pageContext.request.contextPath}/images/site_images/modproperties.png" alt="Modifica caratteristiche prodotto"> </a>
                         <h6>Modifica caratteristiche prodotto</h6>
                     </div>
                 </section>

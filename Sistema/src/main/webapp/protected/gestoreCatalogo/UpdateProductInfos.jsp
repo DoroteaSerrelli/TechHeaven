@@ -54,11 +54,11 @@
         <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->
        <jsp:include page="/common/header.jsp"  flush="true"/>
        <jsp:include page="/roleSelector.jsp"  flush="true"/>
-       <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>                   
+       <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>                   
        <aside class="options_sidebar visible" id="options_sidebar">
-           <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>        
+           <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>        
             <div class="fe-box" id="viewProducts" onclick="moveToSidebar('viewProducts', 'viewProductsForm')">
-                    <img src="${pageContext.request.contextPath}/view/img/listaprodotto.png" alt="Visualizza Prodotti">
+                    <img src="${pageContext.request.contextPath}/images/site_images/listaprodotto.png" alt="Visualizza Prodotti">
                     <h6>Visualizza Prodotti</h6>
             </div>
             <div class="fe-box" id="addProduct">
@@ -66,14 +66,14 @@
                 <h6>Aggiungi un nuovo prodotto</h6>
             </div>
             <div class="fe-box" id="removeProduct">
-                <img src="${pageContext.request.contextPath}/view/img/removeprodotto.png" 
+                <img src="${pageContext.request.contextPath}/images/site_images/removeprodotto.png" 
                      onclick="$('#viewProductsForm').removeClass('hidden'); 
                      $('#modifyPropertiesForm').addClass('hidden');" 
                      alt="Elimina un prodotto">
                 <h6>Elimina un prodotto</h6>
             </div>
             <div class="fe-box" id="modifyProperties">
-                <img src="${pageContext.request.contextPath}/view/img/modproperties.png" alt="Modifica caratteristiche prodotto"
+                <img src="${pageContext.request.contextPath}/images/site_images/modproperties.png" alt="Modifica caratteristiche prodotto"
                 onclick="$('#viewProductsForm').removeClass('hidden'); 
                      $('#modifyPropertiesForm').addClass('hidden');">
                 <h6>Modifica caratteristiche prodotto</h6>
@@ -176,47 +176,63 @@
                         </form>                       
                         <section>
                             <h2>Modifica, Aggiungi o Elimina Foto di Presentazione</h2>
-                            <form id="photoForm" action="${pageContext.request.contextPath}/ImageUpdater?action=updateFotoPresentazione" method="post" enctype="multipart/form-data">
+                            <form id="photoForm" action="${pageContext.request.contextPath}/ImageUpdater" method="post" enctype="multipart/form-data">
                                 <input type="hidden" id="productData" name="productData">
                                 <label for="file">Immagine</label>
-                                <label for="main_photoAction">Aggiorna Foto</label>    
+                                <label for="update">Aggiorna Foto</label>    
                                 <input type="radio" name="main_photoAction" value="update">
-                                <label for="action">Aggiungi Foto</label>
+                                <label for="add">Aggiungi Foto Presentazione</label>
                                 <input type="radio" name="main_photoAction" value="add">                                
-                                <label for="action">Elimina Foto</label>
-                                <input type="radio" name="main_photoAction" value="delete">                               
                                 <input type="file" id="file" name="presentazione" accept="image/*"> 
                                 <input type="submit" id="imageUploadBtn" value="Aggiorna Immagini">
-                            </form>
                             <div class="product-image">
                                 <img id="topImage" src="" alt="alt" loading="lazy"> 
                             </div>    
-                            <div class="product-gallery">
-                                <% if(galleryImages!=null && !galleryImages.isEmpty()){%>        
-                                <div class="main-image">
-                                    <!-- Display the first image as the main image -->
-                                    <img id="currentImage" src="<%= galleryImages.get(0) %>" alt="alt" />
-                                </div>
-                                <div class="thumbnails">
-                                    <!-- Loop through the galleryImages list to create thumbnails -->
-                                    <%
-                                        for (int i = 0; i < galleryImages.size(); i++) {
-                                            String img = galleryImages.get(i);
-                                    %>
-                                        <img src="<%= img %>" alt="alt" onclick="changeImage('<%= img %>')" />
-                                    <%
+                                <label for="addToGallery">Aggiungi Foto Galleria</label>
+                                <input type="radio" name="gallery_photoActions" value="addToGallery">
+                                <div class="product-gallery">
+                                    <% if(galleryImages!=null && !galleryImages.isEmpty()){%>        
+                                    <div class="main-image" style="display:none" >
+                                        <!-- Display the first image as the main image -->
+                                        <img id="currentImage" src="<%= galleryImages.get(0) %>" alt="alt" />
+                                    </div>
+                                    <div class="thumbnails">
+                                        <% 
+                                        if (galleryImages != null && !galleryImages.isEmpty()) {
+                                            for (int i = 0; i < galleryImages.size(); i++) {
+                                                String img = galleryImages.get(i);
+                                        %>
+                                            <div class="thumbnail-container" id="image-container-<%= i %>">
+                                                <!-- Use lazy loading for thumbnails -->
+                                                <img src="<%= img %>" alt="Thumbnail" class="gallery-thumbnail" loading="lazy" onclick="changeImage('<%= img %>')">
+                                                <button class="delete-image-btn" data-image-index="<%= i %>">Delete</button>
+                                            </div>
+                                        <% 
+                                            }
                                         }
-                                    }    
-                                    %>
-
-                                  <%  %>
-                                </div>
+                                        }
+                                        %>
+                                    </div>
+                                </div>    
+                            </form>
                         </section>  
                     </section>                        
             </section>
         <script>
             function changeImage(src) {
-                document.getElementById('currentImage').src = src;
+                const currentImage = document.getElementById('currentImage');
+                const thumbnails = document.querySelectorAll('.gallery-thumbnail');
+
+                // Set the main image to the selected one
+                currentImage.src = src;
+
+                // Remove highlight from all thumbnails
+                thumbnails.forEach(thumbnail => {
+                    thumbnail.classList.remove('selected');
+                });
+
+                // Add highlight to the clicked thumbnail
+                document.querySelector(`img[src="${src}"]`).classList.add('selected');
             }
         </script>
         <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script> 

@@ -109,7 +109,8 @@ public class ModifyProductsInCatalog extends HttpServlet {
         }
     }
     String jsonData = jsonBuilder.toString();
-    System.out.println("Received JSON Data: " + jsonData);
+    //Stampa DEBUG RICEZIONE DATI JSON
+    //System.out.println("Received JSON Data: " + jsonData);
 
     // Parse the JSON
     Gson gson = new Gson();
@@ -222,9 +223,10 @@ public class ModifyProductsInCatalog extends HttpServlet {
         String modifiedValue = modifiedDetails.get(key);
         if (originalProduct != null) {
             Object originalValue = getFieldByName(field, originalProduct); // Return type Object to handle different data types
-            System.out.println(field);
-            System.out.println(originalProduct);
-            System.out.println(originalValue);
+           //STAMPE DI DEBUGGING:
+            // System.out.println(field);
+           // System.out.println(originalProduct);
+           // System.out.println(originalValue);
             
             if (!originalValue.equals(convertToCorrectType(modifiedValue, originalValue))) {
                 try {

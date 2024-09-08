@@ -12,7 +12,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Richieste Approvigionamento</title>
+        <title>Richieste Approvvigionamento</title>
         <link rel="stylesheet" href="${pageContext.request.contextPath}/common/style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/extra_manager_style.css">
@@ -30,7 +30,7 @@
     </head>
     <body>
         <jsp:include page="/common/header.jsp"  flush="true"/>
-        <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>
+        <button id="sidebar_toggle"><img src="<%= request.getContextPath()%>/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>
         <input type="text" id="productFilter" onkeyup="filterProducts()" placeholder="Search for request by company name...">
         <jsp:include page="/protected/gestoreOrdini/toolbar.jsp"  flush="true"/>
         

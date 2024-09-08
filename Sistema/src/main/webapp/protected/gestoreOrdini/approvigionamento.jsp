@@ -38,7 +38,7 @@
         </div>
         <jsp:include page="/protected/gestoreOrdini/toolbar.jsp"  flush="true"/>       
         <jsp:include page="/common/header.jsp"  flush="true"/>
-        <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>
+        <button id="sidebar_toggle"><img src="<%= request.getContextPath()%>/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>
         <!-- Search Input Field -->
         <input type="text" id="productFilter" onkeyup="filterProducts()" placeholder="Search for products by name...">
         <!-- Search Input Field -->
@@ -48,7 +48,7 @@
         <table id="showpr" style="width: 80%; margin: 0 auto">
             <tr>
                 <th><strong>Codice Prodotto</strong></th><!-- Codice Prodotto -->
-                <th><strong>Image</strong></th><!-- Immagine -->
+                <th><strong>Immagine</strong></th><!-- Immagine -->
                 <th><strong>Nome</strong></th><!-- Nome prodotto -->
                 <!-- <th><strong>Marca</strong></th> Marca -->             
                 <th><strong>Quantità Residua</strong></th><!-- Amount Left In Store -->
@@ -62,7 +62,7 @@
                 <td>  
                     <h3><%=product.getCodiceProdotto()%></h3>
                 </td>
-                <td><img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';"/>
+                <td><img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';"/>
                 </td>
                 <td class="productName" style="width: 25%;">  
                     <h3><%=product.getNomeProdotto()%></h3>

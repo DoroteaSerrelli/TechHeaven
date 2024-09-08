@@ -40,7 +40,7 @@
                         var addressList = document.getElementById('addressList');
                         var addressHTML = '<div class="address-item" id="address_'+ '<%= indirizzoID %>' + '">' +
                                 '<p onclick="loadAddress(\'' + '<%= indirizzoID %>' + '\')">' +
-                          '<img class="arrow" id="arrow_' + <%= indirizzoID %> + '" src="view/img/modif_arrow.png" style="display:none;" />' 
+                          '<img class="arrow" id="arrow_' + <%= indirizzoID %> + '" src="images/site_images/modif_arrow.png" style="display:none;" />' 
                           +'Via: <%= indirizzo.getVia() %> <%= indirizzo.getNumCivico() %>' +
                             '</p>' +
                             '<p>' +

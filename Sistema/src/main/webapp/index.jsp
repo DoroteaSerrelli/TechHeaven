@@ -10,7 +10,7 @@
 <html lang="en">
     <head>
         <title>TechHeaven</title>
-         <link rel="favicon.ico" href="${pageContext.request.contextPath}/view/img/favicon.ico" type="image/x-icon">        
+         <link rel="favicon.ico" href="<%= request.getContextPath()%>/images/site_images/favicon.ico" type="image/x-icon">        
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">         
     </head>
@@ -25,26 +25,26 @@
         </section>   
           <section id="feature" class="section-p1">
             <div class="fe-box">
-                <img src="view/img/freeshipping.png" alt="alt">
+                <img src="<%= request.getContextPath()%>/images/site_images/freeshipping.png" alt="alt">
                 <h6>Free Shipping</h6>
                 
             </div>
              <div class="fe-box">
-                <img src="view/img/spedizionionline.png" alt="alt">
+                <img src="<%= request.getContextPath()%>/images/site_images/spedizionionline.png" alt="alt">
                 <h6>Online Order</h6>
                 
             </div>
             <div class="fe-box">
-                <img src="view/img/savemoneyups.png" alt="alt">
+                <img src="<%= request.getContextPath()%>/images/site_images/savemoneyups.png" alt="alt">
                 <h6>Save Money</h6>
                 
             </div>           
             <div class="fe-box">
-                <img src="view/img/promozioni.png" alt="alt">
+                <img src="<%= request.getContextPath()%>/images/site_images/promozioni.png" alt="alt">
                 <h6>Promotions</h6>                
             </div>           
             <div class="fe-box">
-                <img src="view/img/supportoh24.png" alt="alt">
+                <img src="<%= request.getContextPath()%>/images/site_images/supportoh24.png" alt="alt">
                 <h6>F24/7 Support</h6>               
             </div> 
         </section>
@@ -56,7 +56,7 @@
                     <% for (ProxyProdotto product : telefoni) { 
                         if(product.isInVetrina()){%>       
                     <div class="pro">
-                        <img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';"
+                        <img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';"
                          style="width: 80px; height: 80px"/>
                         <div class="des">
                             <span><%=product.getMarca()%></span>
@@ -64,7 +64,7 @@
                             <h4><%=product.getPrezzo()%>€</h4>
                             </div>
                         <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
-                            <img class="cart" src="${pageContext.request.contextPath}/view/img/icon_carrello2.png">
+                            <img class="cart" src="<%= request.getContextPath()%>/images/site_images/icon_carrello2.png">
                         </a>
                     </div>
                     <%} 
@@ -84,7 +84,7 @@
                     <%if (gr_elettr!=null && !gr_elettr.isEmpty()){%>                                      
                         <% for (ProxyProdotto product : gr_elettr) { %>       
                        <div class="pro">
-                           <img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';"
+                           <img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='<%=request.getContextPath() %>/images/site_images/placeholder.png';"
                             style="width: 80px; height: 80px"/>
                            <div class="des">
                                <span><%=product.getMarca()%></span>
@@ -92,7 +92,7 @@
                                <h4><%=product.getPrezzo()%>€</h4>
                                </div>
                            <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
-                               <img class="cart" src="${pageContext.request.contextPath}/view/img/icon_carrello2.png">
+                               <img class="cart" src="<%= request.getContextPath()%>/images/site_images/icon_carrello2.png">
                            </a>                                       
                        </div> 
                    <%}

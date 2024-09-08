@@ -6,117 +6,126 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     Created on : 7-apr-2023, 17.32.07
     Author     : raffy
 */
-*{
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: serif;
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: serif;
 }
 
 /*WARNING VALIDAZIONE PER INPUT TROPPO LUNGO PER LE TEXTAREA*/
- .warning {
-    color: red;
-    font-size: 12px;
-    display: none;
-  }
+.warning {
+	color: red;
+	font-size: 12px;
+	display: none;
+}
 /*SELEZIONE MODIFICA INFO PERSONALI CAMPI*/
 .selected {
-    background-color: #e0f7fa; /* Light blue background */
-    color: #00796b; /* Dark teal text */
-    font-weight: bold;
+	background-color: #e0f7fa; /* Light blue background */
+	color: #00796b; /* Dark teal text */
+	font-weight: bold;
 }
+
 .selected-address {
-    background-color: #f0f8ff; /* Light blue background */
-    border-left: 4px solid #2DA0F2; /* Blue border on the left */
-    padding-left: 10px; /* Adjust padding for the border */
+	background-color: #f0f8ff; /* Light blue background */
+	border-left: 4px solid #2DA0F2; /* Blue border on the left */
+	padding-left: 10px; /* Adjust padding for the border */
 }
 
-
-#username{
-    margin-bottom: 20px;
+#username {
+	margin-bottom: 20px;
 }
 
 /*FORM DI REGISTRAZIONE*/
-.section-p1{
-    padding: 40px 80px;
-    text-align: center;   
+.section-p1 {
+	padding: 40px 80px;
+	text-align: center;
 }
-form {  
-  display: inline-block; /* Keeps the form from stretching to full width */
-  text-align: left; /* Resets the text alignment for form elements */   
-  
-  padding-left: 50px;
-  padding-right: 50px;
-  border: 1px solid #41A0F2;
-  border-bottom-color: transparent;
+
+form {
+	display: inline-block;
+	/* Keeps the form from stretching to full width */
+	text-align: left; /* Resets the text alignment for form elements */
+	padding-left: 50px;
+	padding-right: 50px;
+	border: 1px solid #41A0F2;
+	border-bottom-color: transparent;
 }
 
 .center {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh; /* Optional: Center vertically within the viewport */
-}
-.row {
-  display: flex;
-  justify-content: space-between; /* Distribute space evenly between inputs */  
-  padding: 10px;
-}
-.input-wrapper {
-  flex-basis: 40%; /* Adjust width as needed */
-  margin-right: 10%;
-  width: 50%;
-}
-.input-wrapper p{
-    width: 200px;
-}
-.input-wrapper input{
-    font-size: 15px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100vh; /* Optional: Center vertically within the viewport */
 }
 
-.confirm_button{
-    cursor: pointer;
-    width: 150px;
-    height: 25px;
-    margin-top: 40px;    
-    background-color: #F2DB44;
-    border-radius: 30%;
-    border-top-color: #6A5FB3;
-    border-bottom-color: #F28C44;
+.row {
+	display: flex;
+	justify-content: space-between;
+	/* Distribute space evenly between inputs */
+	padding: 10px;
+}
+
+.input-wrapper {
+	flex-basis: 40%; /* Adjust width as needed */
+	margin-right: 10%;
+	width: 50%;
+}
+
+.input-wrapper p {
+	width: 200px;
+}
+
+.input-wrapper input {
+	font-size: 15px;
+}
+
+.confirm_button {
+	cursor: pointer;
+	width: 150px;
+	height: 25px;
+	margin-top: 40px;
+	background-color: #F2DB44;
+	border-radius: 30%;
+	border-top-color: #6A5FB3;
+	border-bottom-color: #F28C44;
 }
 /*ERROR MESSAGE STILE**/
-.errormsg .valid{
-    padding: 10px;
-    margin-top: 10px;
-    background-color:  #ccffcc;
-    border: 1px solid #41A0F2;
-    border-radius: 5px;
-    text-align: center;
-    font-size: 30px;  
+.errormsg .valid {
+	padding: 10px;
+	margin-top: 10px;
+	background-color: #ccffcc;
+	border: 1px solid #41A0F2;
+	border-radius: 5px;
+	text-align: center;
+	font-size: 30px;
 }
-.errormsg .invalid{
-    background-color: #ffe6e6; 
-    border: dotted #ff6666;
-    word-wrap: break-word;
-    padding: 10px;
+
+.errormsg .invalid {
+	background-color: #ffe6e6;
+	border: dotted #ff6666;
+	word-wrap: break-word;
+	padding: 10px;
 }
 /*FORM DI REGISTRAZIONE*/
 /*PULSANTE SUBMIT SEARCH*/
-#search_section{
-    list-style-type: none;
-    
+#search_section {
+	list-style-type: none;
 }
-#search_section li .search{
-    border: none; 
-    background: none; 
-    padding: 0; 
-    cursor: pointer;
+
+#search_section li .search {
+	border: none;
+	background: none;
+	padding: 0;
+	cursor: pointer;
 }
-#search_section input[type="text"]{
-    border: none; /* Remove default border */
-    border-radius: 20px; /* Adjust border radius to make it rounder */
-    padding: 5px; /* Add padding for better appearance */
-    background-color: rgba(255, 255, 255, 0.5); /* Set background color with transparency */
+
+#search_section input[type="text"] {
+	border: none; /* Remove default border */
+	border-radius: 20px; /* Adjust border radius to make it rounder */
+	padding: 5px; /* Add padding for better appearance */
+	background-color: rgba(255, 255, 255, 0.5);
+	/* Set background color with transparency */
 }
 /*ABOUT US SEZIONE
 #about h2{
@@ -125,63 +134,62 @@ form {
     margin-left: 20px;
 }
 #about .row{
-    background-image:  url("../view/img/4.png");
+    background-image:  url("../images/site_images/4.png");
     background-repeat: no-repeat;
     height: 40%;
 }
 /*ABOUT US SEZIONE*/
-
-.section-m1{
-    margin: 40px 80px;
+.section-m1 {
+	margin: 40px 80px;
 }
 
-body{
-    width: 100%;
+body {
+	width: 100%;
 }
 
-h1{
-    font-family: serif;
-    font-size: 30pt;
-    line-height: 64px;
-    color: #1d428a;
-    margin-left: 20px;
+h1 {
+	font-family: serif;
+	font-size: 30pt;
+	line-height: 64px;
+	color: #1d428a;
+	margin-left: 20px;
 }
-h2{
-    color:  #B5CEFF;
-    font-size: 23pt;
-    line-height: 54px;
+
+h2 {
+	color: #B5CEFF;
+	font-size: 23pt;
+	line-height: 54px;
 }
 /*#64b278*/
-h4{
-    color: #B5CEFF;
-    font-size: 25px;
+h4 {
+	color: #B5CEFF;
+	font-size: 25px;
 }
 
-
-p{
-    font-size: 20px;
-    color: rgb(91,68,242);
-    margin: 15px 0 20px 0;
+p {
+	font-size: 20px;
+	color: rgb(91, 68, 242);
+	margin: 15px 0 20px 0;
 }
 
-#feature{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-wrap: wrap;
+#feature {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	flex-wrap: wrap;
 }
 
-#feature .fe-box{
-    height: 180px;
-    width: 180px;
-    text-align: center;
-    padding: 25px 15px;
-    box-shadow: 20px 20px 34px rgba(0,0,0,0.03);
-    border: 1px solid  #cce7d0;
+#feature .fe-box {
+	height: 180px;
+	width: 180px;
+	text-align: center;
+	padding: 25px 15px;
+	box-shadow: 20px 20px 34px rgba(0, 0, 0, 0.03);
+	border: 1px solid #cce7d0;
 }
 
-#feature .fe-box :hover{
-    box-shadow: 10px 10px 54px rgba(78,62,221,0.1);
+#feature .fe-box :hover {
+	box-shadow: 10px 10px 54px rgba(78, 62, 221, 0.1);
 }
 /*
 	color: rgb(254,247,226);
@@ -189,419 +197,426 @@ p{
     #496373    rgb(119,62,11)
     #F2DBA2    rgb(254,247,226)
 */
-#feature .fe-box h6{
-    padding: 9px 8px 6px 8px;
+#feature .fe-box h6 {
+	padding: 9px 8px 6px 8px;
 	font-size: 18px;
-    line-height: 1;
-    border-radius: 4px;
-    color: #496373;
-    background-color: #F2DBA2;
+	line-height: 1;
+	border-radius: 4px;
+	color: #496373;
+	background-color: #F2DBA2;
 }
 
-#feature .fe-box img{
-    height: 80%;
-    width: 100%;
-    margin-bottom: 10px;
-	
+#feature .fe-box img {
+	height: 80%;
+	width: 100%;
+	margin-bottom: 10px;
 }
 
 /*Settiamo - impostiamo le proprietà degli elementi centrali:
 Quindi dell'immagine in background e del testo, flex (allineamento degli item)
 Che setteremò per incollonare il testo al centro.
 */
-#hero{
-    background-image: url("../view/img/3.png");
-    height: 90vh;
-    width: 100%;
-    background-position: top 25% right 0;
-    background-size: cover;
-    padding: 0 80px;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
+#hero {
+	background-image: url("../images/site_images/3.png");
+	height: 90vh;
+	width: 100%;
+	background-position: top 25% right 0;
+	background-size: cover;
+	padding: 0 80px;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
 }
 
-#hero h4{
-    padding-bottom: 15px;
-}
-#hero h1{
-    color:  #B5CEFF;
-}
-#hero p{
-    color: lightgreen;
-}
-    
-#hero button{
-    background-color: transparent;
-    color: transparent;
-    border: 0;
-    padding: 14px 0 14px 65px;
-    background-repeat: no-repeat;
-    cursor: pointer;
-    font-weight: 700;
-    font-size: 15px;
+#hero h4 {
+	padding-bottom: 15px;
 }
 
-#header{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 20px 80px;
-    background-color:   rgb(91,68,242);
-    box-shadow: 0px 15px rgba(22,12,89,0.06);
-    z-index: 999;
-    top: 0;
-    left: 0;
-    position:  sticky;
+#hero h1 {
+	color: #B5CEFF;
 }
 
-#navbar{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
+#hero p {
+	color: lightgreen;
 }
-#categories{
-    display: flex;
-    align-items: center;
-    justify-content: center;
+
+#hero button {
+	background-color: transparent;
+	color: transparent;
+	border: 0;
+	padding: 14px 0 14px 65px;
+	background-repeat: no-repeat;
+	cursor: pointer;
+	font-weight: 700;
+	font-size: 15px;
 }
-#categories li{
-    list-style: none;
-    padding: 0px 30px;
-    position: relative;
-    background-color: rgb(160,211,242)
+
+#header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 20px 80px;
+	background-color: rgb(91, 68, 242);
+	box-shadow: 0px 15px rgba(22, 12, 89, 0.06);
+	z-index: 999;
+	top: 0;
+	left: 0;
+	position: sticky;
+}
+
+#navbar {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#categories {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+#categories li {
+	list-style: none;
+	padding: 0px 30px;
+	position: relative;
+	background-color: rgb(160, 211, 242)
+}
+
+#categories li a{
+	text-decoration: none;
 }
 
 /*CARRELLO SEZIONE prodotti mini preview*/
 /* Style for the checkout link */
 #carrello a {
-    color: #ba9823;
-    
+	color: #ba9823;
 }
 
 /* Style for the cart items container */
 #carrelloroba {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 /* Style for each individual cart item */
 .cart-item {
-    border-bottom: 1px solid #ccc; /* Add a border between each item */
-    padding: 5px 0;
+	border-bottom: 1px solid #ccc; /* Add a border between each item */
+	padding: 5px 0;
 }
 /*CARRELLO SEZIONE prodotti mini preview*/
 
 /*Sto "targettando" la lista linkata all'interno della barra di navigazione'
 SUPERCLASSE di tutti gli elementi che vengono sotto anche la sottolineatura*/
-#navbar li{
-    list-style: none;
-    padding: 0px 30px;
-    position: relative;
+#navbar li {
+	list-style: none;
+	padding: 0px 30px;
+	position: relative;
 }
 
 /*Sto "targettando" i link della lista linkata  all'interno della barra di navigazione'
 Ciò mi permette di modificare il testo linkata all'interno della barra di navigazione e 
 modificarne le proprietà
 */
-#navbar li a{
-    text-decoration: none;
-    font-size: 20px;
-    font-weight: 600;
-    color:  aquamarine;
-    transition: 0.3s ease;
+#navbar li a {
+	text-decoration: none;
+	font-size: 20px;
+	font-weight: 600;
+	color: aquamarine;
+	transition: 0.3s ease;
 }
 
 /*Sto "targettando" i link della lista linkata  all'interno della barra di navigazione'
 Ciò mi permette di modificare il testo linkato all'interno della barra di navigazione e 
 modificarne le proprietà in questo caso quando il mouse "fluttua" sopra il testo
 */
-
-#navbar li a:hover,
-#navbar li a.active{
-    color: darkturquoise;
+#navbar li a:hover, #navbar li a.active {
+	color: darkturquoise;
 }
 /*
 Sto modificando le caratteristiche DELLA SOTTOLINEATURA che apparirà sotto i link una volta che il mouse
 è passato sopra i link di classe active
 */
-#navbar li a.active::after,
-#navbar li a:hover::after{
-    content: "";
-    width: 35%;
-    height: 2px;
-    background-color: darkturquoise;
-    position: absolute;
-    bottom: -4px;
-    left: 20px;
+#navbar li a.active::after, #navbar li a:hover::after {
+	content: "";
+	width: 35%;
+	height: 2px;
+	background-color: darkturquoise;
+	position: absolute;
+	bottom: -4px;
+	left: 20px;
 }
 
-#mobile{
-    display: none;
-    align-items: center;
+#mobile {
+	display: none;
+	align-items: center;
 }
 
-#close{
-    display: none;
+#close {
+	display: none;
 }
-
 
 /*RISULTATI DI RICERCA STYLE*/
-#product1{
-    text-align: center;
+#product1 {
+	text-align: center;
 }
-#product1 h2{
-    color: #1d428a;
+
+#product1 h2 {
+	color: #1d428a;
 }
-#product1 p{
-    color: #4B608A;
+
+#product1 p {
+	color: #4B608A;
 }
 /*
     color: #222F4A;*/
-#product1 h3{
-    color: #1d428a;
+#product1 h3 {
+	color: #1d428a;
 }
 /*display: flex; justify-content: flex-end;
     padding-top: 20px; flex-wrap: wrap;
     margin: 0 -5px;*/
-
-
 .container {
-    display: flex;
+	display: flex;
 }
+
 .search_results {
-    flex: 1; /* Allow main content to expand and fill remaining space */
-    padding: 20px;
+	flex: 1; /* Allow main content to expand and fill remaining space */
+	padding: 20px;
 }
+
 .sidebar {
-    flex: 0 0 250px; /* Set a fixed width for the sidebar */
-    background-color: #f0f0f0; /* Sidebar background color */
-    padding: 20px;
+	flex: 0 0 250px; /* Set a fixed width for the sidebar */
+	background-color: #f0f0f0; /* Sidebar background color */
+	padding: 20px;
 }
 /*grid-template-columns: repeat(3, 1fr); Display three items per row */
-#product1 .pro-container{
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /*Create responsive grid with minimum item width of 250px*/
-    gap: 40px; /* Add gap between grid items */
-    justify-content: flex-end   
-} 
+#product1 .pro-container {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+	/*Create responsive grid with minimum item width of 250px*/
+	gap: 40px; /* Add gap between grid items */
+	justify-content: flex-end
+}
 /*
  min-width: 250px;
    margin: 15px 0;    
    padding: 10px 12px;
      
 */
-#product1 .pro{
-    margin: 0 5px;
-    padding: 20px;
-    border: 1px solid burlywood;
-    border-radius: 25px;
-    cursor: pointer;
-    box-shadow: 20px 20px 30px rgba(0,0,0,0.02);
-    transition: 0.2s ease;
-    position: relative;
+#product1 .pro {
+	margin: 0 5px;
+	padding: 20px;
+	border: 1px solid burlywood;
+	border-radius: 25px;
+	cursor: pointer;
+	box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.02);
+	transition: 0.2s ease;
+	position: relative;
 }
 
-#product1 .pro:hover{
-    box-shadow: 20px 20px 30px rgba(0,0,0,0.06);
+#product1 .pro:hover {
+	box-shadow: 20px 20px 30px rgba(0, 0, 0, 0.06);
 }
 
-#product1 .pro img{
-    width: 50%;
-    height: auto;
-    margin: 5px;
-    object-fit: contain;
-    border-radius: 20px;
-    border-bottom-color: lightcoral;
+#product1 .pro img {
+	width: 50%;
+	height: auto;
+	margin: 5px;
+	object-fit: contain;
+	border-radius: 20px;
+	border-bottom-color: lightcoral;
 }
 
-#product1 .pro .des{
-    text-align: start;
-    padding: 10px 0;
+#product1 .pro .des {
+	text-align: start;
+	padding: 10px 0;
 }
 
-#product1 .pro .des span{
-    color:  goldenrod;
-    font-size: 12px;
+#product1 .pro .des span {
+	color: goldenrod;
+	font-size: 12px;
 }
 /*#ba9823;*/
-#product1 .pro .des h5{
-    padding-top: 7px;
-    color:  seagreen;
-    font-size: 14px;
-    
-}
-#product1 .pro .des i{
-    font-size: 12px;
-    color: #ba9823;
-    
-}
-#product1 .pro .cart{
-    width: 25px;
-    height: 25px;
-    line-height: 40px;
-    border-radius: 50px;
-    background-color: #e8f6ea;
-    color:  darkseagreen;
-    border: 1px solid #cce7d0;
-    position: absolute;
-    bottom: 20px;
-    right: 10px;
+#product1 .pro .des h5 {
+	padding-top: 7px;
+	color: seagreen;
+	font-size: 14px;
 }
 
-#product1 .pro .des h4{
-    padding-top: 7px;
-    font-size: 15px;
-    font-weight: 700;
-    color: goldenrod;
+#product1 .pro .des i {
+	font-size: 12px;
+	color: #ba9823;
 }
 
-#pagination{
-    text-align: center; 
-    margin: 5px;
-    padding: 10px;
+#product1 .pro .cart {
+	width: 25px;
+	height: 25px;
+	line-height: 40px;
+	border-radius: 50px;
+	background-color: #e8f6ea;
+	color: darkseagreen;
+	border: 1px solid #cce7d0;
+	position: absolute;
+	bottom: 20px;
+	right: 10px;
 }
-#pagination a{
-    text-decoration: none;
-    margin-right: 15px;
-    font-size: 30px;
+
+#product1 .pro .des h4 {
+	padding-top: 7px;
+	font-size: 15px;
+	font-weight: 700;
+	color: goldenrod;
+}
+
+#pagination {
+	text-align: center;
+	margin: 5px;
+	padding: 10px;
+}
+
+#pagination a {
+	text-decoration: none;
+	margin-right: 15px;
+	font-size: 30px;
 }
 /*MODO IN CUI SONO ORGANIZZATI I PRODOTTI*/
-
-#banner{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    background-image: url("../view/img/4.png");
-    width: 100%;
-    height: 40vh;
-    background-size: cover;
-    background-position: center;
+#banner {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	background-image: url("../images/site_images/4.png");
+	width: 100%;
+	height: 40vh;
+	background-size: cover;
+	background-position: center;
 }
 
-#banner h4{
-    color:  goldenrod;
+#banner h4 {
+	color: goldenrod;
 }
 
-#banner h2{
-     color:  goldenrod;
-     padding: 10px 0;
+#banner h2 {
+	color: goldenrod;
+	padding: 10px 0;
 }
 
-#banner button{  
-    padding: 3px 10px;
-    background-color: darkseagreen; 
-    color:  #088178;
-    font-size: 14px;
-    font-weight: 600;
-    border-radius: 20px;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    transition: 0.2s;
+#banner button {
+	padding: 3px 10px;
+	background-color: darkseagreen;
+	color: #088178;
+	font-size: 14px;
+	font-weight: 600;
+	border-radius: 20px;
+	cursor: pointer;
+	border: none;
+	outline: none;
+	transition: 0.2s;
 }
 
-#banner button:hover{
-    font-size: 14px;
-    font-weight: 600;
-    padding: 15px 30px;
-    background: #088178;
-    color:  #e8f6ea;
+#banner button:hover {
+	font-size: 14px;
+	font-weight: 600;
+	padding: 15px 30px;
+	background: #088178;
+	color: #e8f6ea;
 }
 
-#banner h2 span{
-     color:  chocolate;
+#banner h2 span {
+	color: chocolate;
 }
 
-#sm-banner{
+#sm-banner {
 	display: flex;
 	justify-content: space-between;
 	flex-wrap: wrap;
 }
 /*Si applicano entrambi gli effetti sul secondo banner poichè 
 gli assegniamo entrambe le classi ma cambiamo l'immagine di background*/
-#sm-banner .banner-box{
+#sm-banner .banner-box {
 	display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
 	text-align: center;
-    background-image: url("../view/img/1.png");
-    width: 50%;
-    height: 40vh;
-    background-size: cover;
-    background-position: center;
+	background-image: url("../images/site_images/1.png");
+	width: 50%;
+	height: 40vh;
+	background-size: cover;
+	background-position: center;
 	padding: 30px;
 }
 
-#sm-banner .banner-box2{
-	 background-image: url("../view/img/2.png");
-   
-}
-#sm-banner h4{
-	color: goldenrod;
-	font-size:20px;
-	font-weight:300;
+#sm-banner .banner-box2 {
+	background-image: url("../images/site_images/2.png");
 }
 
-#sm-banner h2{
+#sm-banner h4 {
+	color: goldenrod;
+	font-size: 20px;
+	font-weight: 300;
+}
+
+#sm-banner h2 {
 	color: chocolate;
-	font-size:28px;
-	font-weight:800;
+	font-size: 28px;
+	font-weight: 800;
 }
-#sm-banner span{
+
+#sm-banner span {
 	color: chocolate;
-	font-size:15px;
-	font-weight:500;
-	padding-bottom:15px;
+	font-size: 15px;
+	font-weight: 500;
+	padding-bottom: 15px;
 }
-#sm-banner .banner-box:hover button{	
-	background-color: #6C1908;	
-	border:1px solid white;
+
+#sm-banner .banner-box:hover button {
+	background-color: #6C1908;
+	border: 1px solid white;
 }
-button.minbanner{
-	font-size:13px;
-	font-weight:600;
-	padding:11px 18px;
+
+button.minbanner {
+	font-size: 13px;
+	font-weight: 600;
+	padding: 11px 18px;
 	color: white;
 	background-color: transparent;
-	border-radius:4px;
-	cursor:pointer;
-	border:1px solid #6C1908;
-	outline:none;
-	transition:0.2s;
+	border-radius: 4px;
+	cursor: pointer;
+	border: 1px solid #6C1908;
+	outline: none;
+	transition: 0.2s;
 }
 
-#newsletter{
+#newsletter {
 	display: flex;
 	justify-content: space-between;
 	flex-wrap: wrap;
 	align-items: center;
-	background-image: url("img/2.png");
-        background-repeat: no-repeat;
+	background-image: url("images/site_images/2.png");
+	background-repeat: no-repeat;
 	background-position: 10% 20%;
 	background-color: seagreen;
 }
 
-#newsletter h4{
+#newsletter h4 {
 	font-size: 25px;
 	font-weight: 700;
-	
-	
 }
-#newsletter p{
+
+#newsletter p {
 	font-size: 20px;
 	font-weight: 600;
-	color:#00B86F;
-	
+	color: #00B86F;
 }
-#newsletter p span{
-	color: whitesmoke;	
+
+#newsletter p span {
+	color: whitesmoke;
 }
-#newsletter input{
+
+#newsletter input {
 	height: 3.125rem;
 	padding: 0 1.25em;
 	font-size: 14px;
@@ -610,7 +625,8 @@ button.minbanner{
 	border-radius: 4px;
 	outline: none;
 }
-#newsletter button{
+
+#newsletter button {
 	font-size: 18px;
 	background-color: darkseagreen;
 	white-space: no-wrap;
@@ -619,90 +635,106 @@ button.minbanner{
 	border: 1px solid;
 	border-color: darkgoldenrod;
 }
-#newsletter .form{
+
+#newsletter .form {
 	width: 40%;
 }
 
-footer{
-        background-color: rgb(80, 104, 242);
+footer {
+	background-color: rgb(80, 104, 242);
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-between;
 }
-footer .col{
+
+footer .col {
 	display: flex;
 	flex-direction: column;
 	align-items: flex-start;
 	margin-bottom: 20px;
 }
-footer .logo{
+
+footer .logo {
 	margin-bottom: 30px;
 }
-footer h4{
+
+footer h4 {
 	font-size: 14px;
 	padding-bottom: 20px;
 	color: #1d428a;
 }
-footer p{
+
+footer p {
 	font-size: 13px;
 	margin: 0 0 8px 0;
-	color: rgb(160,211,242);
+	color: rgb(160, 211, 242);
 }
-footer a{
+
+footer a {
 	font-size: 13px;
 	text-decoration: none;
-	color: rgb(160,211,242);
+	color: rgb(160, 211, 242);
 	margin: 10px;
 }
-footer .follow{
+
+footer .follow {
 	margin-top: 20px;
 }
-footer .follow .icon{
-    cursor: pointer;
-    display: flex;
-    justify-content: space-between;
+
+footer .follow .icon {
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
 }
-footer .follow img i:hover, footer a:hover{
+
+footer .follow img i:hover, footer a:hover {
 	color: #F2CB50;
 	padding-right: 4px;
 	cursor: pointer;
 }
-footer .install img{
-	margin: 5px 0 5px 0;	
+
+footer .install img {
+	margin: 5px 0 5px 0;
 }
+
 footer .follow img {
-  background-color: rgb(80, 104, 242);  
-  /* Change 1s to the desired animation duration */
-  /* 'forwards' keeps the last keyframe state after the animation ends */
+	background-color: rgb(80, 104, 242);
+	/* Change 1s to the desired animation duration */
+	/* 'forwards' keeps the last keyframe state after the animation ends */
 }
 
 .footer .logo img {
-  /* Set initial opacity to 0 to hide the GIF */
-  opacity: 0;
+	/* Set initial opacity to 0 to hide the GIF */
+	opacity: 0;
 }
 
 .animate-png {
-  /* Set opacity to 1 to make the GIF visible */
-  opacity: 1;
-  transition: opacity 0.5s ease; /* Add a transition effect for smoother 
+	/* Set opacity to 1 to make the GIF visible */
+	opacity: 1;
+	transition: opacity 0.5s ease; /* Add a transition effect for smoother 
 }
 
 @keyframes playPngAnimation {
   /* Define animation keyframes for opacity transition */
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+	from
+	{
+	opacity
+	:
+	0;
 }
-footer .copyright{
+
+to {
+	opacity: 1;
+}
+
+}
+footer .copyright {
 	width: 100%;
 	text-align: center;
 }
 
-#page-header{
-	background-image: url("img/2.png");
+#page-header {
+	background-image: url("images/site_images/2.png");
 	width: 100%;
 	height: 40vh;
 	background-size: cover;
@@ -712,236 +744,235 @@ footer .copyright{
 }
 
 /**Responsive Media Query**/
-@media only screen and (max-width:799px){
-	#header #mobile a img{
+@media only screen and (max-width:799px) {
+	#header #mobile a img {
 		width: 75%;
 		height: 70%;
 	}
-    #navbar{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: fixed;
-    top: 0;
-    right: -300px; 
-    height: 100vh;
-    width: 300px;
-    background-color: #E3E6F3;
-    box-shadow: 0 40px 60px rgba(0,0,0, 0.1);
-    padding: 80px 0 0 10px ;
-    transition: 0.3s;   	
-    }
-    #categories{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: flex-start;
-    position: fixed;
-    top: 0;
-    right: -300px; 
-    height: 100vh;
-    width: 300px;
-    background-color: #E3E6F3;
-    box-shadow: 0 40px 60px rgba(0,0,0, 0.1);
-    padding: 80px 0 0 10px ;
-    transition: 0.3s;   	
-    }
-    #navbar.active{
-        right: 0;
-    }
-    #navbar li{
-    margin-bottom: 25px;
-    }    
+	#navbar {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: flex-start;
+		position: fixed;
+		top: 0;
+		right: -300px;
+		height: 100vh;
+		width: 300px;
+		background-color: #E3E6F3;
+		box-shadow: 0 40px 60px rgba(0, 0, 0, 0.1);
+		padding: 80px 0 0 10px;
+		transition: 0.3s;
+	}
+	#categories {
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: flex-start;
+		position: fixed;
+		top: 0;
+		right: -300px;
+		height: 100vh;
+		width: 300px;
+		background-color: #E3E6F3;
+		box-shadow: 0 40px 60px rgba(0, 0, 0, 0.1);
+		padding: 80px 0 0 10px;
+		transition: 0.3s;
+	}
+	#navbar.active {
+		right: 0;
+	}
+	#navbar li {
+		margin-bottom: 25px;
+	}
 	/*color:  rgb(2,106,129);	
     color:  rgb(118,163,148);
 	*/
-        #navbar li a:visited{
-            color:  rgb(79,136,90);	
-        }
-	#navbar li a:link, a.active{
-	color:  rgb(93,168,107);
-	
+	#navbar li a:visited {
+		color: rgb(79, 136, 90);
 	}
-	#navbar li a:hover{
-       color:  rgb(79,136,90);
+	#navbar li a:link, a.active {
+		color: rgb(93, 168, 107);
 	}
-	
-    #mobile{
-    display: flex;
-    align-items: center;
-    }
-    
-    #close{
-        display: initial;
-        position: absolute;
-        top: 30px;
-        left: 30px;
-        color:  #088178;
-        font-size: 24px;
-    }
-    
-    #lg-bag{
-        display: none;
-    }
-	
-	#hero{
+	#navbar li a:hover {
+		color: rgb(79, 136, 90);
+	}
+	#mobile {
+		display: flex;
+		align-items: center;
+	}
+	#close {
+		display: initial;
+		position: absolute;
+		top: 30px;
+		left: 30px;
+		color: #088178;
+		font-size: 24px;
+	}
+	#lg-bag {
+		display: none;
+	}
+	#hero {
 		height: 70vh;
 		padding: 0 80px;
 		background-position: top 30% right 30%;
 	}
-	
-	#feature{
+	#feature {
 		justify-content: center;
 	}
-	
-	#feature .fe-box{
+	#feature .fe-box {
 		margin: 15px 15px;
 	}
-	
-	#product1 .pro-container{
+	#product1 .pro-container {
 		justify-content: center;
 	}
-	#product1 .pro{
+	#product1 .pro {
 		margin: 15px;
 	}
-	
-	#banner{
+	#banner {
 		height: 20vh;
 	}
-	#sm-banner .banner-box{
-		min-width:100%;
-		height:30vh;
-		
+	#sm-banner .banner-box {
+		min-width: 100%;
+		height: 30vh;
 	}
-	#sm-banner .banner-box2{
-		margin-top:20px;
+	#sm-banner .banner-box2 {
+		margin-top: 20px;
 	}
-	#newsletter .form{
-		width:70%;
+	#newsletter .form {
+		width: 70%;
 	}
 }
-@media (max-width:477px){
-        .container {
-        flex-direction: column; /* Stack sidebar and main content vertically */
-        }
-        .sidebar {
-            flex: 0 0 100%; /* Full width for sidebar */
-        }
-        #product1 {
-        grid-template-columns: repeat(2, 1fr); /* Two items per row for smaller screens */
-        }
-        
-	#header{
+
+@media ( max-width :477px) {
+	.container {
+		flex-direction: column;
+		/* Stack sidebar and main content vertically */
+	}
+	.sidebar {
+		flex: 0 0 100%; /* Full width for sidebar */
+	}
+	#product1 {
+		grid-template-columns: repeat(2, 1fr);
+		/* Two items per row for smaller screens */
+	}
+	#header {
 		padding: 10px 30px;
- 	}
-	#header a img{
+	}
+	#header a img {
 		width: 30%;
 		height: 30%;
 	}
-	#header a img.logo{
+	#header a img.logo {
 		width: 55%;
 	}
-	#hero{
+	#hero {
 		padding: 0 15px;
-		background-position:55%;
+		background-position: 55%;
 		align-items: center;
 	}
-	h4{		
-		color: rgb(120,70,23);
+	h4 {
+		color: rgb(120, 70, 23);
 	}
-	h1{
-		font-size:38px;
+	h1 {
+		font-size: 38px;
 	}
-	h2{
-		font-size:32px;
+	h2 {
+		font-size: 32px;
 	}
-	.section-p1{
+	.section-p1 {
 		padding: 20px;
 	}
-	#feature{
-		justify-content:space-between;
+	#feature {
+		justify-content: space-between;
 	}
-	#feature .fe-box{
-		width:155px;
+	#feature .fe-box {
+		width: 155px;
 		margin: 0 0 15px 0;
 	}
-	#product1 .pro{
+	#product1 .pro {
 		width: 100%;
 	}
-	#banner{
-		height:40vh;
+	#banner {
+		height: 40vh;
 		align-items: center;
-		justify-content:center;
-		padding: 0 ;
+		justify-content: center;
+		padding: 0;
 		margin: 0 15px;
 	}
-	#banner h2{
+	#banner h2 {
 		font-size: 20px;
 	}
-	#sm-banner .banner-box{
-		height:40vh;
+	#sm-banner .banner-box {
+		height: 40vh;
 	}
-	#sm-banner .banner-box2{
-		margin-top:20px;
+	#sm-banner .banner-box2 {
+		margin-top: 20px;
 	}
-	#newsletter .form{
+	#newsletter .form {
 		width: 100%;
 	}
-	#newsletter{	
-		margin-right:5px;
-		margin-left:5px;
+	#newsletter {
+		margin-right: 5px;
+		margin-left: 5px;
 	}
-	footer .copyright{
-		text-align:start;
+	footer .copyright {
+		text-align: start;
 	}
-        
-        /*REGISTRAZIONE TELEFUNCEN*/       
-        form {
-            display: inline-block; /* Keeps the form from stretching to full width */
-            text-align: left; /* Resets the text alignment for form elements */
-            
-            flex-direction:  column;
-            padding: 0px;
-        }
-        .center {
-            display: table-column;
-            justify-content: left;
-            align-items:   flex-start;
-            height: 100vh; /* Optional: Center vertically within the viewport */
-        }
-        .row {
-            width: 50%;
-            justify-content: space-between; /* Distribute space evenly between inputs */
-            border-right-color: transparent;
-        }
-        .input-wrapper {
-            margin-right: 30%;
-        }
-        .input-wrapper.reg_form input{
-            width: 98%;            
-        }
-        .input-wrapper.reg_form .confirm_button{
-            width: 80%;            
-        }        
-        .errormsg {
-            width: 80%; /* Adjust the width as needed */
-            max-width: 300px; /* Adjust the maximum width as needed */
-            word-wrap: break-word; /* Enable text wrapping */
-        }
-        
-        /*<<<<<<AUTENTICAZIONE ALLINEAMENTO CAMPI>>>**/
-        .login-container .row{
-            display: flex;
-     
-            justify-content: center; /* Center vertically */
-            align-items: center; /* Center horizontally */
-        }
-        .login-container  .input-wrapper{
-            margin-right: 10px;
-            margin-left: 80%;
-        }
-        .login-container .confirm_button{
-            width: 120px;
-        }
+
+	/*REGISTRAZIONE TELEFONO*/
+	form {
+		display: inline-block;
+		/* Keeps the form from stretching to full width */
+		text-align: left; /* Resets the text alignment for form elements */
+		flex-direction: column;
+		padding: 0px;
+	}
+	.center {
+		display: table-column;
+		justify-content: left;
+		align-items: flex-start;
+		height: 100vh; /* Optional: Center vertically within the viewport */
+	}
+	.row {
+		width: 50%;
+		justify-content: space-between;
+		/* Distribute space evenly between inputs */
+		border-right-color: transparent;
+	}
+	.input-wrapper {
+		margin-right: 30%;
+	}
+	.input-wrapper.reg_form input {
+		width: 98%;
+	}
+	.input-wrapper.reg_form .confirm_button {
+		width: 80%;
+	}
+	.errormsg {
+		width: 80%; /* Adjust the width as needed */
+		max-width: 300px; /* Adjust the maximum width as needed */
+		word-wrap: break-word; /* Enable text wrapping */
+	}
+
+	/*<<<<<<AUTENTICAZIONE ALLINEAMENTO CAMPI>>>**/
+	.login-container .row {
+		display: flex;
+		justify-content: center; /* Center vertically */
+		align-items: center; /* Center horizontally */
+	}
+	.login-container  .input-wrapper {
+		margin-right: 10px;
+		margin-left: 80%;
+	}
+	.login-container .confirm_button {
+		width: 120px;
+	}
+
+	/*VISUALIZZAZIONE PREZZI*/
+	.prezzo {
+		number-format: 'currency';
+		/* Opzionale: per visualizzare il simbolo della valuta */
+		min-fraction-digits: 2;
+	}
 }

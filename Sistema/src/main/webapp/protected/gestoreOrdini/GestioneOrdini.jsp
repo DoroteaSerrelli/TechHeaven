@@ -42,21 +42,21 @@
         <main class="main-content" id="mainContent">
             <section id="centerMenu" class="center-menu">
                 <div class="fe-box" id="viewOrders" onclick="moveToSidebar('viewOrders', 'viewOrdersForm'); fetchOrders(1, 'fetch_da_spedire')">
-                    <img src="${pageContext.request.contextPath}/view/img/ordinidaspedire.png" alt="Visualizza Ordini Clienti">
+                    <img src="<%= request.getContextPath()%>/images/site_images/ordinidaspedire.png" alt="Visualizza Ordini Clienti">
                     <h5>Visualizza Ordini Da Spedire</h5>
                 </div>
                     <div class="fe-box" id="viewSentOrders" onclick="moveToSidebar('viewSentOrders', 'viewOrdersForm'); fetchOrders(1, 'fetch_spediti')">
-                        <img src="${pageContext.request.contextPath}/view/img/ordinispediti.png" alt="Visualizza Ordini Spediti">
+                        <img src="<%= request.getContextPath()%>/images/site_images/ordinispediti.png" alt="Visualizza Ordini Spediti">
                         <h5>Visualizza Ordini Spediti</h5>
                     </div>
                     <div class="fe-box" id="supplyingRequests">
-                        <a href="GestioneApprovigionamentiController?action=viewList&page=1"><img src="${pageContext.request.contextPath}/view/img/supplyrequests.png" alt="Richieste Approvigionamento"></a>
-                        <h5>Richieste Approvigionamento</h5>
+                        <a href="GestioneApprovigionamentiController?action=viewList&page=1"><img src="<%= request.getContextPath()%>/images/site_images/supplyrequests.png" alt="Richieste Approvvigionamento"></a>
+                        <h5>Richieste Approvvigionamento</h5>
                     </div>
                     <div class="fe-box" id="supplyingRequest">
-                        <a href="GestioneApprovigionamentiController?action=viewProductList&page=1"><img src="${pageContext.request.contextPath}/view/img/apprrovigionamento.png" alt="Approvigionamento">
+                        <a href="GestioneApprovigionamentiController?action=viewProductList&page=1"><img src="<%= request.getContextPath()%>/images/site_images/approvvigionamento.png" alt="Approvvigionamento">
                         </a>
-                        <h5>Approvigionamento</h5>
+                        <h5>Approvvigionamento</h5>
                     </div>
                 </section>
            </main>            

@@ -39,7 +39,7 @@
        </form>
 
         <div id="product1">               
-            <h2>Dettagli Utente</h2><a href="AutenticazioneController?action=updateUserInfo"><img src="${pageContext.request.contextPath}/view/img/modificaInfoAccount.png"></a>
+            <h2>Dettagli Utente</h2><a href="AutenticazioneController?action=updateUserInfo"><img src="<%= request.getContextPath()%>/images/site_images/modificaInfoAccount.png"></a>
             <ul>
                 <h3>Nome Utente: <%=u.getUsername()%></h3>
                 <h3>Email: <%=real_user.getProfile().getEmail()%> </h3>

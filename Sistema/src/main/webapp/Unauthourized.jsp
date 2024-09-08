@@ -17,7 +17,7 @@
             <h1>403 - Non autorizzato</h1>      
             <p>Spiacente, non ha i permessi necessari per accedere a questa pagina.</p>
             <p>Se credi che questo sia un errore, perfavore contatta l'amministratore di sistema.</p>
-            <p><a href="${pageContext.request.contextPath}/">Ritorna alla pagina iniziale</a> oppure <a href="mailto:support@example.com">Contattaci per aiuto</a></p>
+            <p><a href="<%= request.getContextPath()%>/">Ritorna alla pagina iniziale</a> oppure <a href="mailto:support@example.com">Contattaci per aiuto</a></p>
         </div>          
     </body>
     <footer style="padding-top:5%; padding-bottom: 6%; justify-content: center; align-content: center">

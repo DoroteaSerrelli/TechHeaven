@@ -43,7 +43,7 @@
                 <div class="product-image">
                     <img src="image?productId=<%= product.getCodiceProdotto() %>" 
                          alt="alt" 
-                         onerror="this.onerror=null;this.src='<%= request.getContextPath() %>/view/img/placeholder.png';" 
+                         onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';" 
                          />
                     <div class="product-gallery">
                     <% if(galleryImages!=null && !galleryImages.isEmpty()){%>        
@@ -70,10 +70,10 @@
                 <div class="product-actions"> 
                     <h2 class="prezzo"><%=prezzoFormattato%></h2>
                     <a class="add-to-cart" href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
-                        <img class="cart" src="${pageContext.request.contextPath}/view/img/icon_carrello2.png">
+                        <img class="cart" src="<%= request.getContextPath()%>/images/site_images/icon_carrello2.png">
                     </a>
                     <a class="add-to-wishlist" href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
-                        <img src="${pageContext.request.contextPath}/view/img/icon_wishlist.png" style="margin: 1px; width: 25px; height: 25px">
+                        <img src="<%= request.getContextPath()%>/images/site_images/icon_wishlist.png" style="margin: 1px; width: 25px; height: 25px">
                     </a>
                 </div>  
                 </div>                    

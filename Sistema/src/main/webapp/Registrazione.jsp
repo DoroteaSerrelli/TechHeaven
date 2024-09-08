@@ -6,13 +6,12 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
-   <html lang="en">
+<html lang="en">
     <head>
         <title>TechHeaven</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="${pageContext.request.contextPath}/view/validations.js"></script>
+        <script src="<%= request.getContextPath()%>/view/validations.js"></script>
     </head>
     <body>
         <link rel="stylesheet" href="common/style.css">

@@ -46,7 +46,7 @@
                 <div class="row">
                     <h2><%= item.getCodiceProdotto()%></h2>
                     <h3><%= item.getNomeProdotto()%></h3>
-                    <img src="image?productId=<%= item.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='${pageContext.request.contextPath}/view/img/placeholder.png';"/>
+                    <img src="image?productId=<%= item.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';"/>
                 </div>
                 <p id="range_value"><%=item.getQuantita()%></p>
                 <div class="input-wrapper row">     

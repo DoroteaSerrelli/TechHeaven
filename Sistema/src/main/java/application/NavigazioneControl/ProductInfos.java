@@ -118,6 +118,8 @@ public class ProductInfos extends HttpServlet {
                 Gson gson = new Gson();
                 ProxyProdotto proxyProd = gson.fromJson(productJson, ProxyProdotto.class);
                 Prodotto selectedProd = ns.visualizzaProdotto(proxyProd);
+                List<String> base64Gallery = ImageServlet.loadGallery(selectedProd);
+                request.getSession().setAttribute("galleryImages", base64Gallery);
                 
                 String jsonResponse = gson.toJson(selectedProd);
                 response.setContentType("application/json");

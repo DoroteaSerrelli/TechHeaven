@@ -120,8 +120,8 @@ public class ModifyProductsInCatalog extends HttpServlet {
    // String productId = jsonObject.get("productId").getAsString();
 
     // Log parsed data
-    System.out.println("Modified Data: " + modifiedData);
-    System.out.println("Original Product Details: " + originalProductDetails);
+    //System.out.println("Modified Data: " + modifiedData);
+    //System.out.println("Original Product Details: " + originalProductDetails);
     //System.out.println("Product ID: " + productId);
         // Now you can use modifiedDataJson, originalProductJson, and productId as needed
         // For example, you can deserialize these JSON strings into Java objects:

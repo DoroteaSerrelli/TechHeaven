@@ -59,6 +59,8 @@ function populateFields(product){
     $('#modifyPropertiesForm input[name="inVetrina"]').prop('checked', product.inVetrina);
     $('#modifyPropertiesForm input[name="inCatalogo"]').prop('checked', product.inCatalogo);
     
+    displayTopImage(product);
+    
 }
 
 function clearFormState() {
@@ -97,9 +99,10 @@ function fetchProductFullInfos(product, action) {
         success: function(response) {
             console.log('Product details:', response);
             const productDetails = response;
-            
+            const prDetails = response;
             // Store product details and action in sessionStorage
             sessionStorage.setItem('selectedProduct', JSON.stringify(productDetails));
+            sessionStorage.setItem('selectedPr', JSON.stringify(prDetails));
             sessionStorage.setItem('selectedAction', action);
             
             if (action === 'modify') {
@@ -154,6 +157,11 @@ function hideAndDisableCheckboxes() {
     });
 }
 
+function displayTopImage(product){
+    $('#topImage').attr('src', `${window.contextPath}/image?productId=` + product.codiceProdotto);
+}
+
+
 function openModifyForm(product) {
     showAndEnableCheckboxes();
     $('#addProductForm').addClass('hidden');
@@ -164,6 +172,7 @@ function openModifyForm(product) {
     $('#changeable').html("Modify Product Informations");
     
     enableModify();
+    
     populateFields(product);   
     // Set other fields as needed
 

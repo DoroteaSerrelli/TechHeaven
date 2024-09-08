@@ -43,8 +43,12 @@ th, td {
 /* Product Details Styling: */
 /* Container for Product Page */
 .product-image img {
-    max-width: 75%;
+    max-width: 65%;
     border-radius: 8px;
+}
+
+#topImage{
+    margin: 10px;
 }
 
 /* Styling the Product Details Section */

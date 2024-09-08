@@ -71,8 +71,7 @@ public class ImageServlet extends HttpServlet {
         } catch (ProdottoException.CategoriaProdottoException ex) {
             Logger.getLogger(ImageServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
-    }
-    
+    }    
      // Static method to load gallery images for a product
     public static List<String> loadGallery(Prodotto product) throws IOException {
         // Get the image gallery directly from the Prodotto object
@@ -86,6 +85,21 @@ public class ImageServlet extends HttpServlet {
             base64Gallery.add(imageUrl);
         }
         return base64Gallery;
+    }
+    
+    // Static method to load presentation image for a product
+    public static String loadPresentationPhoto(Prodotto product) throws IOException {
+        // Get the image gallery directly from the Prodotto object
+        byte[] presentationImage = product.getTopImmagine(); // Use the Prodotto method to get images
+
+        // Convert the byte[] images to base64 strings
+        String base64MainPhoto;
+        
+        String base64Image = Base64.getEncoder().encodeToString(presentationImage);
+        String imageUrl = "data:image/jpeg;base64," + base64Image;
+        base64MainPhoto= imageUrl;
+        
+        return base64MainPhoto;
     }
     
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

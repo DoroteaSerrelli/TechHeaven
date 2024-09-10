@@ -31,6 +31,7 @@
 	<a href="#"> <img
 		src="<%= request.getContextPath()%>/images/site_images/logo.png"
 		height="120" width="120" class="logo" alt="Logo" /></a>
+		<link rel="shortcut icon" type="image/ico" href="<%= request.getContextPath()%>/images/site_images/favicon.ico">
 	<div>
 		<ul id="navbar">
 			<li><a class="active" href="${pageContext.request.contextPath}/">Home</a></li>

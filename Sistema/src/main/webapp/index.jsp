@@ -10,8 +10,7 @@
 <html lang="en">
     <head>
         <title>TechHeaven</title>
-         <link rel="favicon.ico" href="<%= request.getContextPath()%>/images/site_images/favicon.ico" type="image/x-icon">        
-        <meta charset="UTF-8">
+         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">         
     </head>
     <body>

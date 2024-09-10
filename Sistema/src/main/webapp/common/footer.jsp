@@ -64,6 +64,6 @@
                 <p>&copy 2024, TechHeavenSRL etc - Website TechHeaven</p>
             </div>
 	</footer>
-        <script src="${pageContext.request.contextPath}/view/gif_observer.js"></script>
+        <script src="<%= request.getContextPath()%>/scripts/gif_observer.js"></script>
     </body>
 </html>

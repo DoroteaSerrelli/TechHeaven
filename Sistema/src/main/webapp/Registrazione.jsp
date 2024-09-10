@@ -11,10 +11,10 @@
         <title>TechHeaven</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <script src="<%= request.getContextPath()%>/view/validations.js"></script>
+        <script src="<%= request.getContextPath()%>/scripts/validations.js"></script>
     </head>
     <body>
-        <link rel="stylesheet" href="common/style.css">
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
         <jsp:include page="common/header.jsp"  flush="true"/>
         <div class="section-p1"><form name="client" method="post" action="RegistrazioneController">           
             <div class="row">

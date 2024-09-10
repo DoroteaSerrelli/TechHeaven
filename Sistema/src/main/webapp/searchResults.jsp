@@ -54,7 +54,7 @@
     <!-- Include any CSS stylesheets if needed -->
     </head>
     <body>
-       <link rel="stylesheet" href="common/style.css">
+       <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
        <jsp:include page="common/header.jsp"  flush="true"/>
     <h1>Product Search Results</h1>   
     <!-- Display search results here -->

@@ -12,12 +12,12 @@
         <title>TechHeaven</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/common/style.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_options.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/catalog_options.css">
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/product_table.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="${pageContext.request.contextPath}/view/ajax_orders_table_functions.js?ts=<%= System.currentTimeMillis() %>"></script>
-        <script src="${pageContext.request.contextPath}/view/pagination.js?ts=<%= System.currentTimeMillis() %>"></script>      
+        <script src="<%= request.getContextPath()%>/scripts/ajax_orders_table_functions.js?ts=<%= System.currentTimeMillis() %>"></script>
+        <script src="<%= request.getContextPath()%>/scripts/pagination.js?ts=<%= System.currentTimeMillis() %>"></script>      
         <script type="text/javascript">
             // Define the context path as a global variable
             window.contextPath = '<%= request.getContextPath() %>';
@@ -95,7 +95,7 @@
                        <div id="pagination"></div>
             </section>
         </section>                       
-       <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script>        
+       <script src="<%= request.getContextPath()%>/scripts/shifting_menu_manag_functions_sidebar.js"></script>        
     <jsp:include page="/common/footer.jsp"  flush="true"/>
     </body>
 </html>

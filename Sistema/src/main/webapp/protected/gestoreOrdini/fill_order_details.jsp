@@ -117,7 +117,7 @@
     addCharacterLimitValidation('Imballaggio', 'charCountImballaggio', 'charWarningImballaggio', 100);
 
     </script>
-        <script src="${pageContext.request.contextPath}/view/validate_fill_order.js?ts=<%= System.currentTimeMillis() %>"></script>
+        <script src="<%= request.getContextPath()%>/scripts/validate_fill_order.js?ts=<%= System.currentTimeMillis() %>"></script>
     </body>
 </html> 
 			

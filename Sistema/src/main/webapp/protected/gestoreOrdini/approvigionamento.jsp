@@ -13,13 +13,13 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Approvigionamento</title>
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/common/style.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/extra_manager_style.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_options.css">
-        <script src="${pageContext.request.contextPath}/view/ajax_orders_table_functions.js?ts=<%= System.currentTimeMillis() %>"></script> 
-        <script src="${pageContext.request.contextPath}/view/validate_fill_order.js?ts=<%= System.currentTimeMillis() %>"></script> 
+        <title>Approvvigionamento</title>
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/product_table.css">
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/extra_manager_style.css">
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/catalog_options.css">
+        <script src="<%= request.getContextPath()%>/scripts/ajax_orders_table_functions.js?ts=<%= System.currentTimeMillis() %>"></script> 
+        <script src="<%= request.getContextPath()%>/scripts/validate_fill_order.js?ts=<%= System.currentTimeMillis() %>"></script> 
         
         <%
             Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) request.getAttribute("all_pr_list");

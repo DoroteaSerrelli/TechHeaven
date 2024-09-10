@@ -66,7 +66,7 @@
         </script>
     </head>
     <body>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
         <jsp:include page="common/header.jsp"  flush="true"/>
         <div class="section-p1">
             <form name="client" method="post" action="ReimpostaPasswordController">           

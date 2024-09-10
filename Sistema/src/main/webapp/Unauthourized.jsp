@@ -10,7 +10,7 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Unauthorized</title>
-        <link rel="stylesheet" href="common/style.css">
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
     </head>
     <body>
         <div class="section-p1" style="padding-bottom: 20%;">

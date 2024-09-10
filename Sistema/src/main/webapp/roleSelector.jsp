@@ -15,7 +15,7 @@
     <meta charset="UTF-8">
     <title>Role Selector</title>
     <!-- Include the external JavaScript file using the context path -->
-    <script src="<%= request.getContextPath() %>/view/roleFunctions.js?ts=<%= System.currentTimeMillis() %>"></script>
+    <script src="<%= request.getContextPath() %>/scripts/roleFunctions.js?ts=<%= System.currentTimeMillis() %>"></script>
     </head>
     <body>
     <%

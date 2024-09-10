@@ -14,8 +14,8 @@
     <head>
         <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Product Details Page</title>
-        <link rel="stylesheet" href="<%=request.getContextPath()%>/common/style.css">
-        <link rel="stylesheet" href="<%=request.getContextPath()%>/view/style/product_table.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/style/style.css">
+        <link rel="stylesheet" href="<%=request.getContextPath()%>/style/product_table.css">
        <jsp:include page="common/header.jsp"  flush="true"/>
        <%
            Prodotto product = (Prodotto)request.getAttribute("product");

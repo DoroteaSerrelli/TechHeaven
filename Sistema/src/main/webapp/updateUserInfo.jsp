@@ -13,9 +13,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Update Information</title>
-    <link rel="stylesheet" href="common/style.css">
-    <link rel="stylesheet" href="common/update_user_info_bar.css">
-    <script src="${pageContext.request.contextPath}/view/validations.js?ts=<%=System.currentTimeMillis()%>"></script>
+    <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
+    <link rel="stylesheet" href="<%= request.getContextPath()%>/style/update_user_info_bar.css">
+    <script src="<%=request.getContextPath() %>/scripts/validations.js?ts=<%=System.currentTimeMillis()%>"></script>
     <!-- Include any necessary scripts -->
     <script>
         // Initialize addresses array
@@ -122,7 +122,7 @@
                 <div id="addressList"></div> <!-- Container for displaying addresses -->
             </div>
             <% } %>
-        <script src="view/modInfoAccount.js?ts=<%= System.currentTimeMillis() %>"></script>  
+        <script src="<%= request.getContextPath() %>/scripts/modInfoAccount.js?ts=<%= System.currentTimeMillis() %>"></script>  
     </div>
     <div class="errormsg" style="text-align:center">
         <p id="error">

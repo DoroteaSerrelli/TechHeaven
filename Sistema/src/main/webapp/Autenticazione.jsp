@@ -13,7 +13,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
     </head>
     <body>
-        <link rel="stylesheet" href="common/style.css">
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
         <jsp:include page="common/header.jsp"  flush="true"/>
         <div class="section-p1">
             <div class="login-container">

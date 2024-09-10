@@ -19,12 +19,12 @@
 	integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
 	crossorigin="anonymous"></script>
 	
-<script src="${pageContext.request.contextPath}/view/navi_script.js"></script>
+<script src="<%= request.getContextPath()%>/scripts/navi_script.js"></script>
 
 <script
-	src="${pageContext.request.contextPath}/view/cartAndSearch_functions.js?ts=<%= System.currentTimeMillis() %>"></script>
+	src="<%= request.getContextPath()%>/scripts/cartAndSearch_functions.js?ts=<%= System.currentTimeMillis() %>"></script>
 <link rel="stylesheet"
-	href="${pageContext.request.contextPath}/common/style.css">
+	href="<%= request.getContextPath()%>/style/style.css">
 </head>
 
 <section id="header">

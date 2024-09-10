@@ -42,12 +42,26 @@ th, td {
 
 /* Product Details Styling: */
 /* Container for Product Page */
+/* Ensure the main image doesn't overflow the container */
+.product-gallery .main-image img {
+    max-width: 100%; /* This will ensure the image scales down proportionally */
+    height: auto;    /* Maintain the aspect ratio */
+    display: block;
+    margin: 0 auto;  /* Center the image horizontally */
+}
+
+/* Set the container size for the main image */
+.product-gallery .main-image {
+    width: 50%;   /* You can adjust this based on your design */
+    max-width: 600px; /* Optional: Set a max width to avoid it becoming too large */
+    margin: 0 auto;  /* Center the container horizontally */
+}
 .product-image img {
-    max-width: 65%;
     border-radius: 8px;
 }
 
 #topImage{
+    max-width: 40%;
     margin: 10px;
 }
 

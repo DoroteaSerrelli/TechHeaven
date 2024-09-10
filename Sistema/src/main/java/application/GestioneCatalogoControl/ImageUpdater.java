@@ -6,15 +6,20 @@ package application.GestioneCatalogoControl;
 
 import application.GestioneCatalogoService.CatalogoException;
 import application.GestioneCatalogoService.GestioneCatalogoServiceImpl;
+import application.NavigazioneControl.ImageServlet;
 import application.NavigazioneService.NavigazioneServiceImpl;
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProdottoException;
 import com.google.gson.Gson;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -104,6 +109,7 @@ public class ImageUpdater extends HttpServlet {
                try {
                     String main_photoAction = (String) request.getParameter("main_photoAction");
                     
+                    ArrayList<byte[]> galleriaImmagini = product.getGalleriaImmagini();
                     String gallery_photoActions = (String) request.getParameter("gallery_photoActions");                  
                     if(main_photoAction!=null){
                         switch(main_photoAction){
@@ -113,12 +119,14 @@ public class ImageUpdater extends HttpServlet {
                                 Part filePart = request.getPart("presentazione"); // "presentazione" is the name attribute in the form
                                 InputStream fileContent = retrieveFileContent(filePart);
                                 gcs.inserimentoTopImmagine(product, fileContent, 1, perPage);
+                                product.setTopImmagine(inputStreamToByteArray(fileContent));
                             break;                  
                         default:
                             // Handle unknown or missing action
                             throw new IllegalArgumentException("Unexpected value: " + main_photoAction);
                         }
                     }
+                  
                     if (gallery_photoActions != null) {
                         switch (gallery_photoActions) {
                             case "delete":
@@ -126,15 +134,27 @@ public class ImageUpdater extends HttpServlet {
                                 String imageIndexStr = request.getParameter("imageIndex");
                                 int imageIndex = Integer.parseInt(imageIndexStr);
                                 byte[] imageToRemove = product.getGalleriaImmagini().get(imageIndex);
+                                System.out.println(imageIndex);
+                                System.out.println(imageToRemove);
                                 InputStream imageStream = new ByteArrayInputStream(imageToRemove);
                                  // Assuming you have a method to delete an image from the product's gallery by its index or identifier
                                 gcs.cancellazioneImmagineInGalleria(product, imageStream, 1, perPage);
+                                
+                                galleriaImmagini.remove(imageIndex);
+                                updateGalleriaImmaginiLocale(product, galleriaImmagini, response);
+                                
                                 break;
                             case "addToGallery":
                                  // Retrieve the file part from the request
                                 Part filePart = request.getPart("presentazione"); // "presentazione" is the name attribute in the form
                                 InputStream fileContent = retrieveFileContent(filePart);
                                 gcs.inserimentoImmagineInGalleriaImmagini(product, fileContent, 1, perPage);
+                                updateGalleriaImmaginiLocale(product, galleriaImmagini, response);
+                                
+                                // Updating The Local Gallery: That will Get Passed to JSON as Return Value
+                                // To Update Gallery UI.
+                                galleriaImmagini.add(inputStreamToByteArray(fileContent));
+                                
                                 break;
                             default:
                                 throw new IllegalArgumentException("Unexpected gallery action: " + gallery_photoActions);
@@ -147,9 +167,39 @@ public class ImageUpdater extends HttpServlet {
         }     
        
     }
-    public InputStream byteArrayToInputStream(byte[] byteArray) {
+    
+    private void updateGalleriaImmaginiLocale(Prodotto product, ArrayList<byte[]> galleriaImmagini, HttpServletResponse response) throws IOException{
+        
+        product.setGalleriaImmagini(galleriaImmagini);        
+        Gson gson = new Gson();
+        Map<String, Object> responseData = new HashMap<>();
+        responseData.put("product", product);
+        responseData.put("galleryImages", ImageServlet.loadGallery(product));
+        
+        String jsonResponse = gson.toJson(responseData);
+        response.setContentType("application/json");
+        PrintWriter out = response.getWriter();
+        out.print(jsonResponse);
+        out.flush();
+    }
+    
+    //Utility Method to Write An Input Stream Into A Byte Array.
+    private byte[] inputStreamToByteArray(InputStream inputStream) throws IOException {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int length;
+        while ((length = inputStream.read(buffer)) != -1) {
+            byteArrayOutputStream.write(buffer, 0, length);
+        }
+        return byteArrayOutputStream.toByteArray();
+    }
+    
+    // Utility Method to Convert a Byte Array into An Input Stream
+    private InputStream byteArrayToInputStream(byte[] byteArray) {
         return new ByteArrayInputStream(byteArray);
     }
+    // Utility Method to Retrieve Input Stream From a FilePart when Received 
+    // From a Form
     private InputStream retrieveFileContent(Part filePart) throws IOException{
         InputStream fileContent = null;
         if (filePart != null) {

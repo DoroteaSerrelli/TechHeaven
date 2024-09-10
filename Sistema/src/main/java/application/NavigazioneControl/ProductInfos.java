@@ -4,15 +4,20 @@
  */
 package application.NavigazioneControl;
 
+import application.GestioneCatalogoControl.ImageResizer;
 import application.NavigazioneService.NavigazioneServiceImpl;
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 import com.google.gson.Gson;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -95,10 +100,10 @@ public class ProductInfos extends HttpServlet {
                 Gson gson = new Gson();
                 ProxyProdotto proxyProd = gson.fromJson(productJson, ProxyProdotto.class);
                 Prodotto selectedProd = ns.visualizzaProdotto(proxyProd);
-                
-                List<String> base64Gallery = ImageServlet.loadGallery(selectedProd);
+                List<String> resizedBase64Gallery = resizeAndProcessProductImages(selectedProd);
+               
                 request.getSession().setAttribute("product", selectedProd);
-                request.getSession().setAttribute("galleryImages", base64Gallery);
+                request.getSession().setAttribute("galleryImages", resizedBase64Gallery);
             } else {
                 response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product data is missing");
                 return;
@@ -118,10 +123,17 @@ public class ProductInfos extends HttpServlet {
                 Gson gson = new Gson();
                 ProxyProdotto proxyProd = gson.fromJson(productJson, ProxyProdotto.class);
                 Prodotto selectedProd = ns.visualizzaProdotto(proxyProd);
-                List<String> base64Gallery = ImageServlet.loadGallery(selectedProd);
-                request.getSession().setAttribute("galleryImages", base64Gallery);
+                List<String> resizedBase64Gallery = resizeAndProcessProductImages(selectedProd);
+                byte[] top_image_resized = ImageResizer.resizeTopImage(selectedProd, 400, 400);
+                selectedProd.setTopImmagine(top_image_resized);
+                // Add gallery to JSON response
+                Map<String, Object> responseData = new HashMap<>();
+                responseData.put("product", selectedProd);
+                responseData.put("base64Gallery", resizedBase64Gallery);
+
+              //  request.getSession().setAttribute("galleryImages", base64Gallery);
                 
-                String jsonResponse = gson.toJson(selectedProd);
+                String jsonResponse = gson.toJson(responseData);
                 response.setContentType("application/json");
                 PrintWriter out = response.getWriter();
                 out.print(jsonResponse);
@@ -133,7 +145,12 @@ public class ProductInfos extends HttpServlet {
             response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product data is missing");
         }
     }
-
+    // Utility Method that Resizes Product's Img Gallery
+    // Returns Resized Gallery For Further Use. 
+    private List<String> resizeAndProcessProductImages(Prodotto selectedProd) throws IOException{
+        ArrayList<String> resizedBase64Gallery= ImageResizer.processGalleryAndConvertToBase64(selectedProd.getGalleriaImmagini());
+        return resizedBase64Gallery;
+    }
     /**
      * Returns a short description of the servlet.
      *

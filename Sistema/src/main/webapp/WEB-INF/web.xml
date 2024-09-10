@@ -293,7 +293,8 @@
         <servlet-name>UnauthourizedServlet</servlet-name>
         <url-pattern>/Unauthourized</url-pattern>
     </servlet-mapping>
-    <!-- 
+    
+    <!-- Impedire l'accesso a pagine web del sito con una normale connessione HTTP -->
 	<security-constraint>
 		<web-resource-collection>
 			<web-resource-name>All</web-resource-name>
@@ -303,7 +304,8 @@
 			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
 		</user-data-constraint>
 	</security-constraint>
-
+	
+	<!-- XSS e Clickjacking-->
 	<filter>
 		<filter-name>httpHeaderSecurity</filter-name>
 		<filter-class>org.apache.catalina.filters.HttpHeaderSecurityFilter</filter-class>
@@ -324,5 +326,5 @@
 		<filter-name>httpHeaderSecurity</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
- -->
+
 </web-app>

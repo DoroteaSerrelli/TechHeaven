@@ -18,7 +18,9 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -101,8 +103,10 @@ public class ImageUpdater extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {      
+        request.setCharacterEncoding("UTF-8");
         // Retrieve the JSON product data from the request
         String productJson = request.getParameter("product"); 
+        System.out.println(productJson);
         if (productJson != null) {
             Gson gson = new Gson();
             Prodotto product = gson.fromJson(productJson, Prodotto.class);
@@ -128,22 +132,27 @@ public class ImageUpdater extends HttpServlet {
                     }
                   
                     if (gallery_photoActions != null) {
+                        List<byte[]> originalGallery = (List<byte[]>) request.getSession().getAttribute("originalGallery");
                         switch (gallery_photoActions) {
-                            case "delete":
-                                // Retrieve image index and path
-                                String imageIndexStr = request.getParameter("imageIndex");
-                                int imageIndex = Integer.parseInt(imageIndexStr);
-                                byte[] imageToRemove = product.getGalleriaImmagini().get(imageIndex);
-                                System.out.println(imageIndex);
-                                System.out.println(imageToRemove);
-                                InputStream imageStream = new ByteArrayInputStream(imageToRemove);
-                                 // Assuming you have a method to delete an image from the product's gallery by its index or identifier
-                                gcs.cancellazioneImmagineInGalleria(product, imageStream, 1, perPage);
-                                
-                                galleriaImmagini.remove(imageIndex);
-                                updateGalleriaImmaginiLocale(product, galleriaImmagini, response);
-                                
-                                break;
+                            case "delete":                               
+                                // Retrieve image index from request
+                                int imageToRemoveIndex = Integer.parseInt(request.getParameter("imageIndex"));
+                                // Check if the index is valid
+                                if (imageToRemoveIndex >= 0 && imageToRemoveIndex < originalGallery.size()) {
+                                    // Get the byte[] image to remove
+                                    byte[] imageBytesToRemove = originalGallery.get(imageToRemoveIndex);
+                                    // Create an InputStream from the byte array
+                                    InputStream imageStream = new ByteArrayInputStream(imageBytesToRemove);
+                                    // Assuming you have a method to delete an image from the product's gallery
+                                    gcs.cancellazioneImmagineInGalleria(product, imageStream, 1, perPage);
+                                    // Remove the image from the originalGallery list
+                                    originalGallery.remove(imageToRemoveIndex);
+                                    // Update the session attribute with the modified gallery
+                                    request.getSession().setAttribute("originalGallery", originalGallery);
+                                    // Respond with success
+                                    response.getWriter().write("Image deleted successfully.");
+                                  }
+                            break;
                             case "addToGallery":
                                  // Retrieve the file part from the request
                                 Part filePart = request.getPart("presentazione"); // "presentazione" is the name attribute in the form
@@ -174,7 +183,7 @@ public class ImageUpdater extends HttpServlet {
         Gson gson = new Gson();
         Map<String, Object> responseData = new HashMap<>();
         responseData.put("product", product);
-        responseData.put("galleryImages", ImageServlet.loadGallery(product));
+        responseData.put("success", true);
         
         String jsonResponse = gson.toJson(responseData);
         response.setContentType("application/json");

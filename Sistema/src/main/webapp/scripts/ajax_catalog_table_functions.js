@@ -98,20 +98,25 @@ function fetchProductFullInfos(product, action) {
         },
         success: function(response) {
             console.log('Product details:', response);
-            const productDetails = response;
-            const prDetails = response;
-            // Store product details and action in sessionStorage
-            sessionStorage.setItem('selectedProduct', JSON.stringify(productDetails));
-            sessionStorage.setItem('selectedPr', JSON.stringify(prDetails));
-            sessionStorage.setItem('selectedAction', action);
+            const productDetails = response.product;
+          //  const prDetails = response.product;
+            const galleryImages = response.base64Gallery;
             
-            if (action === 'modify') {
-                openModifyForm(productDetails);
-            } else if (action === 'delete') {
-                openDeleteForm(productDetails);
-            }    
-            // Adding original product details as hidden input field
-            addOriginalProductDetailsToForm(productDetails);
+            storeProductDetails(productDetails, 'selectedProduct');  // Store product details in IndexedDB
+            // Store the gallery images in IndexedDB
+            storeGalleryImages(galleryImages);
+            updateGallery(galleryImages);    
+            sessionStorage.setItem('selectedAction', action);            
+            // Retrieve and handle product details for form
+            getProductDetails('selectedProduct', function(details) {
+                if (action === 'modify') {
+                    openModifyForm(productDetails);
+                } else if (action === 'delete') {
+                    openDeleteForm(productDetails);
+                }    
+                // Adding original product details as hidden input field
+            addOriginalProductDetailsToForm(details);
+        });
         },
         error: function(xhr, status, error) {
             console.error('Error fetching product details:', error);

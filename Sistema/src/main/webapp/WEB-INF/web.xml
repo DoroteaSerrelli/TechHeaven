@@ -73,6 +73,15 @@
         <servlet-name>ImageServlet</servlet-name>
         <url-pattern>/image</url-pattern>
     </servlet-mapping>
+    <servlet>
+        <servlet-name>ImageUpdater</servlet-name>
+        <servlet-class>application.GestioneCatalogoControl.ImageUpdater</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>ImageUpdater</servlet-name>
+        <url-pattern>/ImageUpdater</url-pattern>
+    </servlet-mapping>
+    
     <servlet-mapping>
         <servlet-name>GestioneWishlistController</servlet-name>
         <url-pattern>/GestioneWishlistController</url-pattern>

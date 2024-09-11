@@ -102,17 +102,14 @@ public class ImageServlet extends HttpServlet {
             // Set response content type
             response.setContentType("image/jpeg");
             
-            // Write image to response output stream
-            ServletOutputStream outStream = response.getOutputStream();
-            outStream.write(imageBytes);
-            outStream.flush();
-            outStream.close();
-        } catch (SQLException ex) {
+            try ( // Write image to response output stream
+                    ServletOutputStream outStream = response.getOutputStream()) {
+                outStream.write(imageBytes);
+                outStream.flush();
+            }
+        } catch (SQLException | ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException ex) {
             Logger.getLogger(ImageServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ProdottoException.SottocategoriaProdottoException ex) {
-            Logger.getLogger(ImageServlet.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ProdottoException.CategoriaProdottoException ex) {
-            Logger.getLogger(ImageServlet.class.getName()).log(Level.SEVERE, null, ex);
+            
         }
     }    
      public static List<String> loadGallery(Prodotto product) throws IOException {

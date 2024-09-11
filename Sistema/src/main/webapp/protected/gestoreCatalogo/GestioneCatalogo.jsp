@@ -17,16 +17,16 @@
         <title>TechHeaven</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/common/style.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_options.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_form.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/style/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_options.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/style/product_table.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_form.css">
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
         <script src="${pageContext.request.contextPath}/view/pagination.js"></script>       
         <script type="text/javascript">
             // Define the context path as a global variable
             window.contextPath = '<%= request.getContextPath() %>';
-        </script>
+        </script>      
     </head>    
     <body>     
         <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->
@@ -165,8 +165,8 @@
                 sessionStorage.removeItem('outputMessage');
             });
         </script>                
-       <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script> 
-       <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>                    
+       <script src="${pageContext.request.contextPath}/scripts/shifting_menu_manag_functions_sidebar.js"></script> 
+       <script src="${pageContext.request.contextPath}/scripts/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>                    
     <jsp:include page="/common/footer.jsp"  flush="true"/>       
     </body>
 </html>

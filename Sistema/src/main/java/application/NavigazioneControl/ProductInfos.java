@@ -11,15 +11,18 @@ import application.NavigazioneService.ProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 import com.google.gson.Gson;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -123,15 +126,24 @@ public class ProductInfos extends HttpServlet {
                 Gson gson = new Gson();
                 ProxyProdotto proxyProd = gson.fromJson(productJson, ProxyProdotto.class);
                 Prodotto selectedProd = ns.visualizzaProdotto(proxyProd);
+                if(selectedProd.getTopImmagine() == null || selectedProd.getTopImmagine().length == 0){
+                    String placeholderPath = getServletContext().getRealPath("/images/site_images/placeholder.png");
+                    File placeholderFile = new File(placeholderPath);
+                     BufferedImage imageToServe = ImageIO.read(placeholderFile);
+                    selectedProd.setTopImmagine(ImageResizer.imageToByteArray(imageToServe, "jpg"));
+                }
+                else{
+                    byte[] top_image_resized = ImageResizer.resizeTopImage(selectedProd, 400, 400);
+                    selectedProd.setTopImmagine(top_image_resized);                
+                }
                 List<String> resizedBase64Gallery = resizeAndProcessProductImages(selectedProd);
-                byte[] top_image_resized = ImageResizer.resizeTopImage(selectedProd, 400, 400);
-                selectedProd.setTopImmagine(top_image_resized);
                 // Add gallery to JSON response
                 Map<String, Object> responseData = new HashMap<>();
                 responseData.put("product", selectedProd);
                 responseData.put("base64Gallery", resizedBase64Gallery);
-
-              //  request.getSession().setAttribute("galleryImages", base64Gallery);
+              
+                request.getSession().setAttribute("originalGallery", selectedProd.getGalleriaImmagini());
+                
                 
                 String jsonResponse = gson.toJson(responseData);
                 response.setContentType("application/json");

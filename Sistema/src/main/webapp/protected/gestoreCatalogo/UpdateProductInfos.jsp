@@ -4,6 +4,9 @@
     Author     : raffa
 --%>
 
+<%@page import="java.util.ArrayList"%>
+<%@page import="application.GestioneCatalogoControl.ImageResizer"%>
+<%@page import="com.google.gson.Gson"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -11,44 +14,66 @@
     <title>Select a Product From The List to Update It</title> 
     <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/common/style.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_options.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/product_table.css">
-        <link rel="stylesheet" href="${pageContext.request.contextPath}/view/style/catalog_form.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-        <script src="${pageContext.request.contextPath}/view/pagination.js"></script> 
-        <script>
-           $(document).ready(function() {
-            // Retrieve the action from the session attribute set by the Servlet
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/style/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_options.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/style/product_table.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_form.css">
+      <%
+    // Retrieve the base64 gallery list from the session
+    List<byte[]> originalGallery = (List<byte[]>) request.getSession().getAttribute("originalGallery");
+    List <String> base64Gallery = new ArrayList<>();
+    if(originalGallery!=null){
+        base64Gallery = ImageResizer.processGalleryAndConvertToBase64(originalGallery);
+    }
+        String base64GalleryJson = base64Gallery != null ? new Gson().toJson(base64Gallery) : "[]"; 
+%>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="${pageContext.request.contextPath}/scripts/pagination.js"></script>
+    <script src="${pageContext.request.contextPath}/scripts/indexedDBUtils.js"></script>
+    <script>
+        $(document).ready(function() {
+            openDB(2); // Open the database when the document is ready
+
             let action = '<%= session.getAttribute("action") %>';
+            let base64Gallery = <%= base64GalleryJson %>; // Convert session data to JavaScript array
 
-            // Retrieve stored product and action information
-            let storedProduct = sessionStorage.getItem('selectedProduct');
-            
-            let storedAction = sessionStorage.getItem('selectedAction');
-            if (storedProduct && storedAction) {
-                const product = JSON.parse(storedProduct);         
-                if (storedAction === 'modify') {
-                    openModifyForm(product);
-                    $('#modifyPropertiesForm').removeClass('hidden');
-                    $('#viewProductsForm').addClass('hidden');
-                } else if (storedAction === 'delete') {
-                    openDeleteForm(product);
-                }             
-            } else if (action) {
-                const initialPage = 1;
-                fetchProducts(initialPage, action); // Fetch products with the action
-            } else {
-                console.error('No action provided');
-            }
+            retrieveAllData(function(data) {
+                const { product, galleryImages } = data;
+                if (galleryImages.length > 0) {
+                    // If session data is not available, use data from IndexedDB
+                    updateGallery(galleryImages);  // Display gallery images from IndexedDB
+                    clearGalleryImages();  // Clear gallery data from IndexedDB
+                }
+                // Check if base64Gallery is not empty and update gallery
+                else if (base64Gallery.length > 0) {
+                    // Check if base64Gallery is an array and update the gallery
+                    if (Array.isArray(base64Gallery)) {
+                        updateGallery(base64Gallery);
+                    }
+                } 
+
+                // Proceed with handling product and action
+                if (product && action) {
+                    if (action === 'modify') {
+                        openModifyForm(product);
+                        $('#modifyPropertiesForm').removeClass('hidden');
+                        $('#viewProductsForm').addClass('hidden');
+                    } else if (action === 'delete') {
+                        openDeleteForm(product);
+                    }
+                } else if (action) {
+                    const initialPage = 1;
+                    fetchProducts(initialPage, action);
+                } else {
+                    console.error('No action provided');
+                }
+            });
         });
-
-        </script> 
+    </script>
         <script type="text/javascript">
             // Define the context path as a global variable
             window.contextPath = '<%= request.getContextPath() %>';
         </script>
-        <%List<String> galleryImages = (List<String>)request.getSession().getAttribute("galleryImages"); %>
     </head>    
     <body>     
         <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->
@@ -177,66 +202,55 @@
                         <section>
                             <h2>Modifica, Aggiungi o Elimina Foto di Presentazione</h2>
                             <form id="photoForm" action="${pageContext.request.contextPath}/ImageUpdater" method="post" enctype="multipart/form-data">
-                                <input type="hidden" id="productData" name="productData">
+                               <input type="hidden" id="productData" name="productData">
+                                <!-- Option Sections -->
+                                <div class="option-group">
+                                <p>Seleziona un'Azione per la Foto:</p>
+                                <!-- Main Photo Actions -->
+                                <div class="option">
+                                    <label for="update">Aggiorna Foto</label>
+                                    <input type="radio" id="update" name="main_photoAction" value="update">
+                                </div>
+                                <div class="option">
+                                    <label for="add">Aggiungi Foto Presentazione</label>
+                                    <input type="radio" id="add" name="main_photoAction" value="add">
+                                </div>
+
+                                <!-- Gallery Photo Actions -->
+                                <div class="option">
+                                    <label for="addToGallery">Aggiungi Foto Galleria</label>
+                                    <input type="radio" id="addToGallery" name="gallery_photoActions" value="addToGallery">
+                                </div>
+                            </div>
+
+                            <!-- File Input -->
+                            <div class="file-upload">
                                 <label for="file">Immagine</label>
-                                <label for="update">Aggiorna Foto</label>    
-                                <input type="radio" name="main_photoAction" value="update">
-                                <label for="add">Aggiungi Foto Presentazione</label>
-                                <input type="radio" name="main_photoAction" value="add">                                
-                                <input type="file" id="file" name="presentazione" accept="image/*"> 
-                                <input type="submit" id="imageUploadBtn" value="Aggiorna Immagini">
+                                <input type="file" id="file" name="presentazione" accept="image/*">
+                            </div>
+
+                            <!-- Buttons -->
+                            <input type="submit" class="confirm_button" id="imageUploadBtn" value="Aggiorna Immagini">
+                            <button type="button" id="resetFormBtn">Clear Selections</button>                      
+                        </form>
+                                <!-- Image Preview -->
                             <div class="product-image">
-                                <img id="topImage" src="" alt="alt" loading="lazy"> 
+                                <img id="topImage" src="" alt="alt" loading="lazy">
+                            </div>
+                                <div id="gallery-container"></div>
+                            <div class="product-gallery">                                
+                                <div class="main-image" >
+                                    <!-- Display the first image as the main image -->
+                                    <img id="currentImage"  alt="alt" />
+                                </div>
+                                <div class="gallery-thumbnails">                                   
+                                </div>
                             </div>    
-                                <label for="addToGallery">Aggiungi Foto Galleria</label>
-                                <input type="radio" name="gallery_photoActions" value="addToGallery">
-                                <div class="product-gallery">
-                                    <% if(galleryImages!=null && !galleryImages.isEmpty()){%>        
-                                    <div class="main-image" style="display:none" >
-                                        <!-- Display the first image as the main image -->
-                                        <img id="currentImage" src="<%= galleryImages.get(0) %>" alt="alt" />
-                                    </div>
-                                    <div class="thumbnails">
-                                        <% 
-                                        if (galleryImages != null && !galleryImages.isEmpty()) {
-                                            for (int i = 0; i < galleryImages.size(); i++) {
-                                                String img = galleryImages.get(i);
-                                        %>
-                                            <div class="thumbnail-container" id="image-container-<%= i %>">
-                                                <!-- Use lazy loading for thumbnails -->
-                                                <img src="<%= img %>" alt="Thumbnail" class="gallery-thumbnail" loading="lazy" onclick="changeImage('<%= img %>')">
-                                                <button class="delete-image-btn" data-image-index="<%= i %>">Delete</button>
-                                            </div>
-                                        <% 
-                                            }
-                                        }
-                                        }
-                                        %>
-                                    </div>
-                                </div>    
-                            </form>
                         </section>  
                     </section>                        
             </section>
-        <script>
-            function changeImage(src) {
-                const currentImage = document.getElementById('currentImage');
-                const thumbnails = document.querySelectorAll('.gallery-thumbnail');
-
-                // Set the main image to the selected one
-                currentImage.src = src;
-
-                // Remove highlight from all thumbnails
-                thumbnails.forEach(thumbnail => {
-                    thumbnail.classList.remove('selected');
-                });
-
-                // Add highlight to the clicked thumbnail
-                document.querySelector(`img[src="${src}"]`).classList.add('selected');
-            }
-        </script>
-        <script src="${pageContext.request.contextPath}/view/shifting_menu_manag_functions_sidebar.js"></script> 
-        <script src="${pageContext.request.contextPath}/view/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>      
-                <script src="${pageContext.request.contextPath}/view/catalog_image_update_functions.js"></script> 
+        <script src="${pageContext.request.contextPath}/scripts/shifting_menu_manag_functions_sidebar.js"></script> 
+        <script src="${pageContext.request.contextPath}/scripts/catalog_image_update_functions.js?ts=<%=System.currentTimeMillis()%>"></script>      
+        <script src="${pageContext.request.contextPath}/scripts/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>      
         <jsp:include page="/common/footer.jsp"  flush="true"/>             
 </html>

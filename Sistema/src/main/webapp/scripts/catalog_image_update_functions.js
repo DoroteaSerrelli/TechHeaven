@@ -100,6 +100,7 @@ function attachDeleteButtonListeners() {
         });
     });
 }
+
 document.getElementById('imageUploadBtn').addEventListener('click', function(e) {
     e.preventDefault(); // Prevent the default form submission
 
@@ -108,38 +109,34 @@ document.getElementById('imageUploadBtn').addEventListener('click', function(e) 
 
     // Retrieve all data (product and gallery images) from IndexedDB
     retrieveAllData(function(data) {
-        if (data.product) {
-            document.getElementById('productData').value = JSON.stringify(data.product); // Add product data to hidden field
+    const { product, galleryImages } = data;          
+    let productCopy = { ...product };
+    
+        
+    // Add other form data
+    formData.append('product', JSON.stringify(productCopy));
+
+    // Send the request
+    $.ajax({
+        url: form.action,
+        method: 'POST',
+        data: formData,
+        processData: false,
+        contentType: false,
+        success: function(response) {
+            const newImageBase64 = response.newImageBase64; // Get the new image
+                console.log(newImageBase64.toString());
+                // Check if the response contains a new base64 image
+                if (newImageBase64) {     
+                    base64Gallery.push(newImageBase64); // Add the new image to the gallery array
+                    updateGallery(base64Gallery); // Update the gallery UI with the new image
+                }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error:', error);
         }
-
-        // Add product data to FormData
-        formData.append('product', JSON.stringify(data.product)); // Append product as JSON string
-
-        // Send AJAX request with FormData
-        $.ajax({
-            url: form.action,
-            method: 'POST',
-            data: formData,
-            processData: false, // Important for FormData
-            contentType: false, // Important for FormData
-            success: function(response) {
-                const imageBytes  = response.galleryImages;
-                const updated_product = response.product;
-
-                // Store the gallery images as bytes in IndexedDB
-                storeGalleryImages(imageBytes);
-
-                // Convert image bytes to base64 for display
-                const base64GalleryImages = imageBytes.map(img => arrayBufferToBase64(img));
-
-                // Update the gallery UI with base64 images
-                updateGallery(base64GalleryImages);
-            },
-            error: function(xhr, status, error) {
-                console.error('Error uploading image:', error);
-            }
-        });
     });
+});
 });
 
 

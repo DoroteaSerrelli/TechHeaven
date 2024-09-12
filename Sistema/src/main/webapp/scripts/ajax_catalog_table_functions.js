@@ -87,6 +87,24 @@ function addOriginalProductDetailsToForm(productDetails) {
     hiddenOriginalProduct.value = originalProductJson;
 }
 
+function fetchSessionData(callback) {
+    $.ajax({
+        url: `${window.contextPath}/FetchSessionData`,
+        method: 'GET',
+        success: function(response) {
+            console.log('Session data retrieved successfully:', response);
+            const base64Gallery = response.base64Gallery;
+            if (callback) {
+                callback(base64Gallery);
+            }
+        },
+        error: function(xhr, status, error) {
+            console.error('Error fetching session data:', error);
+        }
+    });
+}
+
+
 function fetchProductFullInfos(product, action) {
     const productJson = JSON.stringify(product);
     $.ajax({
@@ -97,26 +115,25 @@ function fetchProductFullInfos(product, action) {
             action: 'retrieveInfosForUpdate'
         },
         success: function(response) {
-            console.log('Product details:', response);
-            const productDetails = response.product;
-          //  const prDetails = response.product;
-            const galleryImages = response.base64Gallery;
-            
-            storeProductDetails(productDetails, 'selectedProduct');  // Store product details in IndexedDB
-            // Store the gallery images in IndexedDB
-            storeGalleryImages(galleryImages);
-            updateGallery(galleryImages);    
-            sessionStorage.setItem('selectedAction', action);            
-            // Retrieve and handle product details for form
-            getProductDetails('selectedProduct', function(details) {
-                if (action === 'modify') {
-                    openModifyForm(productDetails);
-                } else if (action === 'delete') {
-                    openDeleteForm(productDetails);
-                }    
-                // Adding original product details as hidden input field
-            addOriginalProductDetailsToForm(details);
-        });
+            // After updating the session data, fetch the updated session attribute
+            fetchSessionData(function(base64Gallery) {
+                // Now you have the updated base64Gallery
+                const productDetails = response.product;
+                
+                storeProductDetails(productDetails, 'selectedProduct');  // Store product details in IndexedDB
+                storeGalleryImages(base64Gallery);  // Store the gallery images in IndexedDB
+                updateGallery(base64Gallery);  // Update the gallery with the retrieved images
+                
+                sessionStorage.setItem('selectedAction', action);            
+                getProductDetails('selectedProduct', function(details) {
+                    if (action === 'modify') {
+                        openModifyForm(productDetails);
+                    } else if (action === 'delete') {
+                        openDeleteForm(productDetails);
+                    }
+                    addOriginalProductDetailsToForm(details);
+                });
+            });
         },
         error: function(xhr, status, error) {
             console.error('Error fetching product details:', error);

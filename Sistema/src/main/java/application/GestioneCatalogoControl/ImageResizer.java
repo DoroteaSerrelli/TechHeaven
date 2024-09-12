@@ -51,15 +51,17 @@ public class ImageResizer {
     }
 
   // Utility Method to Process Gallery Images as byte[] and Convert to Base64 After Resizing
-public static ArrayList<String> processGalleryAndConvertToBase64(List<byte[]> galleryImages) throws IOException {
+public static ArrayList<String> processGalleryAndConvertToBase64(List<byte[]> galleryImages, int width, int height) throws IOException {
     ArrayList<String> resizedBase64Gallery = new ArrayList<>();
 
     for (byte[] imageBytes : galleryImages) {
+        if(imageBytes==null || imageBytes.length==0);
+        else{
         // Convert byte array to BufferedImage
         BufferedImage galleryImage = byteArrayToImage(imageBytes);
 
         // Resize each gallery image (example: 200x200 pixels)
-        BufferedImage resizedGalleryImage = resizeImage(galleryImage, 200, 200);
+        BufferedImage resizedGalleryImage = resizeImage(galleryImage, width, height);
 
         // Convert resized image to byte array
         byte[] resizedImageBytes = imageToByteArray(resizedGalleryImage, "jpg");
@@ -69,6 +71,7 @@ public static ArrayList<String> processGalleryAndConvertToBase64(List<byte[]> ga
         
         // Add the base64 image to the list
         resizedBase64Gallery.add("data:image/jpeg;base64," + resizedBase64Image);
+        }
     }
 
     return resizedBase64Gallery;

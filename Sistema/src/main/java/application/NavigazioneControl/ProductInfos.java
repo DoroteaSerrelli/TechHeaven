@@ -103,7 +103,7 @@ public class ProductInfos extends HttpServlet {
                 Gson gson = new Gson();
                 ProxyProdotto proxyProd = gson.fromJson(productJson, ProxyProdotto.class);
                 Prodotto selectedProd = ns.visualizzaProdotto(proxyProd);
-                List<String> resizedBase64Gallery = resizeAndProcessProductImages(selectedProd);
+                List<String> resizedBase64Gallery = resizeAndProcessProductImages(selectedProd, 400, 400);
                
                 request.getSession().setAttribute("product", selectedProd);
                 request.getSession().setAttribute("galleryImages", resizedBase64Gallery);
@@ -136,14 +136,14 @@ public class ProductInfos extends HttpServlet {
                     byte[] top_image_resized = ImageResizer.resizeTopImage(selectedProd, 400, 400);
                     selectedProd.setTopImmagine(top_image_resized);                
                 }
-                List<String> resizedBase64Gallery = resizeAndProcessProductImages(selectedProd);
+                //List<String> resizedBase64Gallery = resizeAndProcessProductImages(selectedProd, 400, 400);
                 // Add gallery to JSON response
-                Map<String, Object> responseData = new HashMap<>();
-                responseData.put("product", selectedProd);
-                responseData.put("base64Gallery", resizedBase64Gallery);
-              
+                Map<String, Object> responseData = new HashMap<>();              
+                responseData.put("base64Gallery", ImageServlet.loadGallery(selectedProd));
                 request.getSession().setAttribute("originalGallery", selectedProd.getGalleriaImmagini());
                 
+                selectedProd.setGalleriaImmagini(null);
+                responseData.put("product", selectedProd);
                 
                 String jsonResponse = gson.toJson(responseData);
                 response.setContentType("application/json");
@@ -159,8 +159,8 @@ public class ProductInfos extends HttpServlet {
     }
     // Utility Method that Resizes Product's Img Gallery
     // Returns Resized Gallery For Further Use. 
-    private List<String> resizeAndProcessProductImages(Prodotto selectedProd) throws IOException{
-        ArrayList<String> resizedBase64Gallery= ImageResizer.processGalleryAndConvertToBase64(selectedProd.getGalleriaImmagini());
+    private List<String> resizeAndProcessProductImages(Prodotto selectedProd, int width, int height) throws IOException{
+        ArrayList<String> resizedBase64Gallery= ImageResizer.processGalleryAndConvertToBase64(selectedProd.getGalleriaImmagini(), width, height);
         return resizedBase64Gallery;
     }
     /**

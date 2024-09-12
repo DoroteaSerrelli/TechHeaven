@@ -112,6 +112,13 @@ public class ImageServlet extends HttpServlet {
             
         }
     }    
+    
+    // Method to convert byte[] to Base64 String
+    public static String convertToBase64(byte[] imageBytes) {
+        // Encode byte array into a Base64 string
+        return Base64.getEncoder().encodeToString(imageBytes);
+    }
+    
      public static List<String> loadGallery(Prodotto product) throws IOException {
         // Get the image gallery from Prodotto
         List<byte[]> galleryImages = product.getGalleriaImmagini(); 
@@ -119,11 +126,14 @@ public class ImageServlet extends HttpServlet {
         // Convert the byte[] images to base64 strings
         List<String> base64Gallery = new ArrayList<>();
         for (byte[] imageData : galleryImages) {
-            // Detect image type (for simplicity, assume JPEG, but you can use libraries like Apache Tika)
-            String base64Image = Base64.getEncoder().encodeToString(imageData);
-            String mimeType = detectImageMimeType(imageData); // This method can be implemented to detect image type
-            String imageUrl = "data:" + mimeType + ";base64," + base64Image;
-            base64Gallery.add(imageUrl);
+            if(imageData==null || imageData.length==0);
+            else{
+                // Detect image type (for simplicity, assume JPEG, but you can use libraries like Apache Tika)
+                String base64Image = Base64.getEncoder().encodeToString(imageData);
+                String mimeType = detectImageMimeType(imageData); // This method can be implemented to detect image type
+                String imageUrl = "data:" + mimeType + ";base64," + base64Image;
+                base64Gallery.add(imageUrl);
+            }
         }
         return base64Gallery;
     }

@@ -19,14 +19,17 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/product_table.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_form.css">
       <%
-    // Retrieve the base64 gallery list from the session
-    List<byte[]> originalGallery = (List<byte[]>) request.getSession().getAttribute("originalGallery");
-    List <String> base64Gallery = new ArrayList<>();
-    if(originalGallery!=null){
-        base64Gallery = ImageResizer.processGalleryAndConvertToBase64(originalGallery);
-    }
-        String base64GalleryJson = base64Gallery != null ? new Gson().toJson(base64Gallery) : "[]"; 
-%>
+        // Retrieve the base64 gallery list from the session
+        List<byte[]> originalGallery = (List<byte[]>) request.getSession().getAttribute("originalGallery");
+        List <String> base64Gallery = new ArrayList<>();
+        if(originalGallery!=null){
+             base64Gallery = ImageResizer.processGalleryAndConvertToBase64(originalGallery, 500, 500);
+        }
+            String base64GalleryJson = base64Gallery != null ? new Gson().toJson(base64Gallery) : "[]"; 
+    %>
+    <script>
+        var base64Gallery = <%= base64GalleryJson %>; // Convert session data to JavaScript array
+    </script> 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="${pageContext.request.contextPath}/scripts/pagination.js"></script>
     <script src="${pageContext.request.contextPath}/scripts/indexedDBUtils.js"></script>
@@ -34,26 +37,21 @@
         $(document).ready(function() {
             openDB(2); // Open the database when the document is ready
 
-            let action = '<%= session.getAttribute("action") %>';
-            let base64Gallery = <%= base64GalleryJson %>; // Convert session data to JavaScript array
+            let action = '<%= session.getAttribute("action") %>';           
 
             retrieveAllData(function(data) {
                 const { product, galleryImages } = data;
-                if (galleryImages.length > 0) {
+                // Initialize gallery from IndexedDB if base64Gallery is empty
+                if (base64Gallery.length === 0 && galleryImages.length > 0) {
                     // If session data is not available, use data from IndexedDB
-                    updateGallery(galleryImages);  // Display gallery images from IndexedDB
-                    clearGalleryImages();  // Clear gallery data from IndexedDB
-                }
-                // Check if base64Gallery is not empty and update gallery
-                else if (base64Gallery.length > 0) {
-                    // Check if base64Gallery is an array and update the gallery
-                    if (Array.isArray(base64Gallery)) {
-                        updateGallery(base64Gallery);
-                    }
+                    base64Gallery = galleryImages; // Assign galleryImages from IndexedDB to base64Gallery
+                    updateGallery(base64Gallery);  // Update the gallery with the retrieved images
+                    //Clearing The indexedDBGallery to free up Space:
+                    clearGalleryImages(galleryImages);
                 } 
-
                 // Proceed with handling product and action
                 if (product && action) {
+                     updateGallery(base64Gallery);
                     if (action === 'modify') {
                         openModifyForm(product);
                         $('#modifyPropertiesForm').removeClass('hidden');

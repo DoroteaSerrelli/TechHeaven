@@ -11,6 +11,8 @@ import application.NavigazioneService.NavigazioneServiceImpl;
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProdottoException;
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -18,6 +20,7 @@ import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.List;
@@ -106,14 +109,17 @@ public class ImageUpdater extends HttpServlet {
         request.setCharacterEncoding("UTF-8");
         // Retrieve the JSON product data from the request
         String productJson = request.getParameter("product"); 
-        System.out.println(productJson);
         if (productJson != null) {
             Gson gson = new Gson();
             Prodotto product = gson.fromJson(productJson, Prodotto.class);
                try {
                     String main_photoAction = (String) request.getParameter("main_photoAction");
-                    
-                    ArrayList<byte[]> galleriaImmagini = product.getGalleriaImmagini();
+                    // Process the gallery images if they are passed
+                        // Use the session attribute if gallery images are missing in the request
+                    List<byte[]> originalGallery = (List<byte[]>) request.getSession().getAttribute("originalGallery"); 
+                    if(originalGallery==null || originalGallery.isEmpty()){
+                        originalGallery = new ArrayList<>();
+                    }
                     String gallery_photoActions = (String) request.getParameter("gallery_photoActions");                  
                     if(main_photoAction!=null){
                         switch(main_photoAction){
@@ -132,7 +138,6 @@ public class ImageUpdater extends HttpServlet {
                     }
                   
                     if (gallery_photoActions != null) {
-                        List<byte[]> originalGallery = (List<byte[]>) request.getSession().getAttribute("originalGallery");
                         switch (gallery_photoActions) {
                             case "delete":                               
                                 // Retrieve image index from request
@@ -155,14 +160,15 @@ public class ImageUpdater extends HttpServlet {
                             break;
                             case "addToGallery":
                                  // Retrieve the file part from the request
-                                Part filePart = request.getPart("presentazione"); // "presentazione" is the name attribute in the form
+                                Part filePart = request.getPart("presentazione"); // "presentazione" is the name attribute in the form                           
                                 InputStream fileContent = retrieveFileContent(filePart);
+                                originalGallery.add(inputStreamToByteArray(fileContent));
+                                product.setGalleriaImmagini((ArrayList<byte[]>) originalGallery);
                                 gcs.inserimentoImmagineInGalleriaImmagini(product, fileContent, 1, perPage);
-                                updateGalleriaImmaginiLocale(product, galleriaImmagini, response);
+                                updateGalleriaImmaginiLocale( originalGallery, inputStreamToByteArray(fileContent), response, request);
                                 
                                 // Updating The Local Gallery: That will Get Passed to JSON as Return Value
-                                // To Update Gallery UI.
-                                galleriaImmagini.add(inputStreamToByteArray(fileContent));
+                                // To Update Gallery UI.                              
                                 
                                 break;
                             default:
@@ -177,14 +183,17 @@ public class ImageUpdater extends HttpServlet {
        
     }
     
-    private void updateGalleriaImmaginiLocale(Prodotto product, ArrayList<byte[]> galleriaImmagini, HttpServletResponse response) throws IOException{
-        
-        product.setGalleriaImmagini(galleriaImmagini);        
+    private void updateGalleriaImmaginiLocale(List<byte[]> galleriaImmagini,byte[] byteImage, HttpServletResponse response, HttpServletRequest request) throws IOException{                   
         Gson gson = new Gson();
+         System.out.println(Arrays.toString(byteImage));
+       
         Map<String, Object> responseData = new HashMap<>();
-        responseData.put("product", product);
-        responseData.put("success", true);
-        
+          // Prepare JSON response with the new base64 image        
+        String base64Image = ImageServlet.convertToBase64(byteImage);   
+        System.out.println(base64Image);
+        responseData.put("newImageBase64", base64Image); // Send the base64 image back to the client
+
+        request.getSession().setAttribute("originalGallery", galleriaImmagini);
         String jsonResponse = gson.toJson(responseData);
         response.setContentType("application/json");
         PrintWriter out = response.getWriter();

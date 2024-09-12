@@ -17,7 +17,8 @@
         <jsp:include page="common/header.jsp"  flush="true"/>
         <div class="section-p1">
             <div class="login-container">
-                <form name="client" method="post" action="AutenticazioneController">           
+                <form name="client" method="post" action="AutenticazioneController">
+                <input type = "hidden" name="action" value ="login">           
                 <div class="row">
                     <div class="input-wrapper">
                         <p>  *Username: </p>  
@@ -30,22 +31,12 @@
                         <input type="password" name="password" required>
                     </div>
                 </div>  
-                <div class="row">     
-                     <div class="input-wrapper">             
-                        <p>  *Role: </p>
-                        <select name="ruolo" required>
-                            <option value="Cliente">Cliente</option>
-                            <option value="GestoreOrdini">Gestore Ordini</option>
-                            <option value="GestoreCatalogo">Gestore Catalogo</option>
-                        </select>    
-                     </div> 
-                </div>  
                     <div class="row">
                         <div class="input-wrapper"> 
-                        <input value="Submit" type="submit" class="confirm_button" name="submit" onclick="return validate()">                
+                        <input value="Conferma" type="submit" class="confirm_button" name="submit" onclick="return validate()">                
                         </div>
                         <div class="input-wrapper">
-                            <button class="confirm_button"><a href="resetPassword">Reimposta password</a></button>                           
+                            <button class="confirm_button" ><a href="resetPassword">Reimposta password</a></button>                           
                         </div>
                     </div>    
                 <div class="errormsg">                   

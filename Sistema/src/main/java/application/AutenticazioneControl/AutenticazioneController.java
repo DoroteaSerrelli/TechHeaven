@@ -29,151 +29,135 @@ import storage.AutenticazioneDAO.IndirizzoDAODataSource;
 @WebServlet(name = "AutenticazioneController", urlPatterns = {"/AutenticazioneController"})
 public class AutenticazioneController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet AutenticazioneController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet AutenticazioneController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+	// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+	/**
+	 * Handles the HTTP <code>GET</code> method.
+	 *
+	 * @param request servlet request
+	 * @param response servlet response
+	 * @throws ServletException if a servlet-specific error occurs
+	 * @throws IOException if an I/O error occurs
+	 */
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
+			// Call loadUserAddresses when the page is accessed directly
+			loadUserAddresses(request);
+		} catch (SQLException ex) {
+			Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
+		}
+		// Check if an action parameter is present and not empty
+		String action = request.getParameter("action");
+		if (action != null && !action.isEmpty()) {
+			// Forward to updateUserInfo.jsp if action is specified
+			if (action.equals("updateUserInfo")) {
+				response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
+			}           
+			// Add other actions if needed
+		} else {
+			// Forward to the default page (e.g., AreaRiservata.jsp) if no action is specified
+			request.getRequestDispatcher("AreaRiservata").forward(request, response);
+		}
+	}
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        try {
-            // Call loadUserAddresses when the page is accessed directly
-            loadUserAddresses(request);
-        } catch (SQLException ex) {
-            Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
-        }
-         // Check if an action parameter is present and not empty
-        String action = request.getParameter("action");
-        if (action != null && !action.isEmpty()) {
-            // Forward to updateUserInfo.jsp if action is specified
-            if (action.equals("updateUserInfo")) {
-                 response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
-            }           
-            // Add other actions if needed
-        } else {
-            // Forward to the default page (e.g., AreaRiservata.jsp) if no action is specified
-            request.getRequestDispatcher("AreaRiservata").forward(request, response);
-        }
-    }
+	/**
+	 * Handles the HTTP <code>POST</code> method.
+	 *
+	 * @param request servlet request
+	 * @param response servlet response
+	 * @throws ServletException if a servlet-specific error occurs
+	 * @throws IOException if an I/O error occurs
+	 */
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    private AutenticazioneServiceImpl loginService = new AutenticazioneServiceImpl();
-    
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        try {
-            String action = request.getParameter("action");
-            if (action != null && !action.isEmpty()) {           
-                if(action.equals("logout")){
-                    request.getSession().invalidate();// Invalidate the session
-                    response.sendRedirect(request.getContextPath() + "/Autenticazione"); 
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		try {
+			String action = request.getParameter("action");
+			if(action.equalsIgnoreCase("login")) {
+				String username = request.getParameter("username");
+				String password = request.getParameter("password");
+				ProxyUtente resultedUser;
+
+				AutenticazioneServiceImpl loginService = new AutenticazioneServiceImpl();
+				resultedUser = loginService.login(username, password);
+
+				if (resultedUser!=null) {
+					// Autenticazione andata a buon fine
+					request.getSession().setAttribute("user", resultedUser);
+					response.sendRedirect(request.getContextPath() + "/SelezioneRuolo.jsp");
                     return;
-                }
-            }
-            
-            String username = request.getParameter("username");
-            String password = request.getParameter("password");
-            String ruolo = request.getParameter("ruolo");
-            ProxyUtente result;
-            result = loginService.login(username, password);
-            if (result!=null) {
-                // Authentication successful
-                request.getSession().setAttribute("user", result);
-                loadUserAddresses(request);
-                
-                ArrayList<Ruolo> ruoli;
-                ruoli = result.getRuoli();
-                for(Ruolo r: ruoli){ 
-                    System.out.println(r.getNomeRuolo());
-                    if(r.getNomeRuolo().equals(ruolo)){
-                        switch(ruolo){
-                            case "Cliente": 
-                                response.sendRedirect(request.getContextPath() +"/AreaRiservata");
-                                return;                                                          
-                            case "GestoreOrdini": 
-                                response.sendRedirect(request.getContextPath() +"/GestioneOrdini");
-                                return;                                
-                            case "GestoreCatalogo":                                
-                                response.sendRedirect(request.getContextPath() +"/GestioneCatalogo");
-                                return;  
-                            default:
-                                // Handle unexpected role cases if needed
-                                request.getSession().setAttribute("error","Ruolo scelto non corrispondente ai ruoli del utente");
-                                request.getRequestDispatcher("Autenticazione").forward(request, response);
-                                break;    
-                        }
-                        break;
-                    } 
-                }
-                request.getSession().setAttribute("error","Ruolo scelto non corrispondente ai ruoli del utente");
-                request.getRequestDispatcher("Autenticazione").forward(request, response);
-            } else {
-                // Authentication failed
-                request.getSession().setAttribute("error","Username o Password Errati");                               
-                response.sendRedirect(request.getContextPath() + "/Autenticazione");
-            }
-        } catch (SQLException | AutenticazioneException.UtenteInesistenteException ex) {
-            Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
-            request.getSession().setAttribute("error", "Username o Password Errati");
-            response.sendRedirect(request.getContextPath() + "/Autenticazione");
-        }
-        }
-      /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-    public void loadUserAddresses(HttpServletRequest request) throws SQLException {
-        ProxyUtente u = (ProxyUtente) request.getSession().getAttribute("user");
-        if (u != null) {
-            IndirizzoDAODataSource indDAO = new IndirizzoDAODataSource();
-            ArrayList<Indirizzo> indirizzi = indDAO.doRetrieveAll("Indirizzo.via", u.getUsername());
-            request.setAttribute("Indirizzi", indirizzi); 
+				}else {
+					// Autenticazione fallita
+					request.getSession().setAttribute("error","Username o Password Errati");                               
+					response.sendRedirect(request.getContextPath() + "/Autenticazione");
+				}
+			}
+			if(action.equalsIgnoreCase("roleSelection")) {
+				//recupero oggetto user da sessione
+				ProxyUtente resultedUser = (ProxyUtente) request.getSession().getAttribute("user");
+				String ruolo = request.getParameter("ruolo");
 
-        }
-    }
+				loadUserAddresses(request);
+
+				ArrayList<Ruolo> ruoli;
+				ruoli = resultedUser.getRuoli();
+				for(Ruolo r: ruoli){ 
+					System.out.println(r.getNomeRuolo());
+					if(r.getNomeRuolo().equals(ruolo)){
+						switch(ruolo){
+						case "Cliente": 
+							response.sendRedirect(request.getContextPath() +"/AreaRiservata");
+							return;                                                          
+						case "GestoreOrdini": 
+							response.sendRedirect(request.getContextPath() +"/GestioneOrdini");
+							return;                                
+						case "GestoreCatalogo":                                
+							response.sendRedirect(request.getContextPath() +"/GestioneCatalogo");
+							return;  
+						default:
+							// Ruolo non associato all'utente
+							request.getSession().setAttribute("error","Ruolo scelto non corrispondente ai ruoli dell'utente");
+							request.getRequestDispatcher("Autenticazione").forward(request, response);
+							break;    
+						}
+						break;
+					}
+					request.getSession().setAttribute("error","Ruolo scelto non corrispondente ai ruoli del utente");
+					request.getRequestDispatcher("Autenticazione").forward(request, response);
+				}
+
+			}
+			if(action.equals("logout")){
+				request.getSession().invalidate();// Invalida la sessione
+				response.sendRedirect(request.getContextPath() + "/Autenticazione"); 
+				return;
+			}
+
+		} catch (SQLException | AutenticazioneException.UtenteInesistenteException ex) {
+			Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
+			request.getSession().setAttribute("error", "Username o Password Errati");
+			response.sendRedirect(request.getContextPath() + "/Autenticazione");
+		}
+	}
+	/**
+	 * Returns a short description of the servlet.
+	 *
+	 * @return a String containing servlet description
+	 */
+	@Override
+	public String getServletInfo() {
+		return "Short description";
+	}// </editor-fold>
+	public void loadUserAddresses(HttpServletRequest request) throws SQLException {
+		ProxyUtente u = (ProxyUtente) request.getSession().getAttribute("user");
+		if (u != null) {
+			IndirizzoDAODataSource indDAO = new IndirizzoDAODataSource();
+			ArrayList<Indirizzo> indirizzi = indDAO.doRetrieveAll("Indirizzo.via", u.getUsername());
+			request.setAttribute("Indirizzi", indirizzi); 
+
+		}
+	}
 }

@@ -121,7 +121,7 @@ function fetchProductFullInfos(product, action) {
                 const productDetails = response.product;
                 
                 storeProductDetails(productDetails, 'selectedProduct');  // Store product details in IndexedDB
-                storeGalleryImages(base64Gallery);  // Store the gallery images in IndexedDB
+               // storeGalleryImages(base64Gallery);  // Store the gallery images in IndexedDB <--- POTENZIALE CACHING DELLA GALLERIA.
                 updateGallery(base64Gallery);  // Update the gallery with the retrieved images
                 
                 sessionStorage.setItem('selectedAction', action);            

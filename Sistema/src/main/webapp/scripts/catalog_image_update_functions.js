@@ -87,12 +87,24 @@ function attachDeleteButtonListeners() {
                         contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // Set the correct content type
                         success: function(response) {
                             console.log('Image deleted on the server');
-
+                             // Update the log element with the response message
+                            document.getElementById("updatePhotoLog").innerHTML = `<h2>${response}</h2>`;
                             // Update gallery UI with the new list of images
                             //updateGallery(galleryImages);
                         },
                         error: function(xhr, status, error) {
-                            console.error('Error deleting image:', error);
+                            console.error('Error deleting image:', error);                          
+                            // Check if the server returned a JSON error message
+                            let errorMessage = "Errore durante la cancellazione dell'Immagine.";
+                            try {
+                                // Parse the JSON error message from the server if available
+                                let jsonResponse = JSON.parse(xhr.responseText);
+                                errorMessage = jsonResponse;  // Adjust depending on server's error structure
+                            } catch (e) {
+                                console.error('Could not parse error response as JSON:', e);
+                            }
+                            // Display the error message on the right side of the form
+                            document.getElementById("updatePhotoLog").innerHTML = `<h2 style="color:red;">${errorMessage}</h2>`;
                         }
                     });
                 });
@@ -106,48 +118,41 @@ document.getElementById('imageUploadBtn').addEventListener('click', function(e) 
 
     const form = document.getElementById('photoForm');
     const formData = new FormData(form);
-    
-    const fileInput = document.getElementById('file');
-    const file = fileInput.files[0];  // Get the selected file
+    // Add other form data (product information)
+    retrieveAllData(function(data) {
+        const { product } = data;
+        let productCopy = { ...product };
+        formData.append('product', JSON.stringify(productCopy));
 
-    if (file) {
-        // Read the file as Base64 and update the gallery before sending it to the server
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const base64Image = e.target.result; // Base64 encoded image
-            base64Gallery.push(base64Image);     // Add the image to the gallery array
-            updateGallery(base64Gallery);        // Update the gallery UI with the new image
-
-            // Continue to append the file and send the AJAX request to the server
-            formData.append('presentazione', file);
-
-            // Add other form data (product information)
-            retrieveAllData(function(data) {
-                const { product } = data;
-                let productCopy = { ...product };
-                formData.append('product', JSON.stringify(productCopy));
-
-                // Send the AJAX request
-                $.ajax({
-                    url: form.action,
-                    method: 'POST',
-                    data: formData,
-                    processData: false,
-                    contentType: false,
-                    success: function(response) {
-                        console.log("Image uploaded successfully.");
-                        // Optionally handle server response here
-                    },
-                    error: function(xhr, status, error) {
-                        console.error('Error:', error);
-                    }
+        // Send the AJAX request
+        $.ajax({
+            url: form.action,
+            method: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                console.log("Image uploaded successfully.");
+                // Fetch and update session data for the current product
+                fetchSessionData(function(base64Gallery) {
+                    updateGallery(base64Gallery); // Update the gallery UI with the updated session data
                 });
-            });
-        };
-        reader.readAsDataURL(file);  // Convert the file to Base64
-    } else {
-        console.error("No file selected.");
-    }
+                document.getElementById("updatePhotoLog").innerHTML = `<h2>${response}</h2>`;
+            },
+            error: function(xhr, status, error) {
+                 let errorMessage = "Errore durante la cancellazione dell'Immagine.";
+                try {
+                    // Parse the JSON error message from the server if available
+                    let jsonResponse = JSON.parse(xhr.responseText);
+                    errorMessage = jsonResponse;  // Adjust depending on server's error structure
+                } catch (e) {
+                    console.error('Could not parse error response as JSON:', e);
+                }
+                // Display the error message on the right side of the form
+                document.getElementById("updatePhotoLog").innerHTML = `<h2 style="color:red;">${errorMessage}</h2>`;
+            }
+        });
+    });    
 });
 
 document.getElementById('resetFormBtn').addEventListener('click', function() {

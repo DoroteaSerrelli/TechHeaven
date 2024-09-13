@@ -113,82 +113,114 @@ public class ImageUpdater extends HttpServlet {
             Gson gson = new Gson();
             Prodotto product = gson.fromJson(productJson, Prodotto.class);
                try {
+                    String updatelog = "";
                     String main_photoAction = (String) request.getParameter("main_photoAction");
                     // Process the gallery images if they are passed
                         // Use the session attribute if gallery images are missing in the request
                     List<byte[]> originalGallery = (List<byte[]>) request.getSession().getAttribute("originalGallery"); 
-                    //System.out.println("Galleria recuperata dalla Sessione:"+originalGallery);
-                    Part filePart = request.getPart("presentazione"); // "presentazione" is the name attribute in the form                           
-                    InputStream fileContent = retrieveFileContent(filePart);
-                    // INPUTSTREAM CAN ONLY BE ACCESSED ONCE BECAUSE THE INPUT IN CONSUMED IN
-                    // THE PROCESS OF CONVERTING IT.
-                    byte [] inputImage = inputStreamToByteArray(fileContent);
-                    
-                    if(originalGallery==null || originalGallery.isEmpty()){
-                        originalGallery = new ArrayList<>();
+                    String gallery_photoActions = (String) request.getParameter("gallery_photoActions");  
+                    if(gallery_photoActions!=null && gallery_photoActions.equals("delete")){
+                        deleteGalleryImage(request, response, originalGallery, product);
                     }
-                    String gallery_photoActions = (String) request.getParameter("gallery_photoActions");                  
-                    if(main_photoAction!=null){
-                        switch(main_photoAction){
-                         case "update":
-                            case "add":
-                                // We fetch the file content at the very beggining and store it inside a
-                                // byte array which gets converted back into an input stream when adding
-                                // the image to the database.
-                                gcs.inserimentoTopImmagine(product, byteArrayToInputStream(inputImage), 1, perPage);
-                                product.setTopImmagine(inputStreamToByteArray(fileContent));
-                            break;                  
-                        default:
-                            // Handle unknown or missing action
-                            throw new IllegalArgumentException("Unexpected value: " + main_photoAction);
-                        }
-                    }
-                  
-                    if (gallery_photoActions != null) {
-                        switch (gallery_photoActions) {
-                            case "delete":                               
-                                // Retrieve image index from request
-                                int imageToRemoveIndex = Integer.parseInt(request.getParameter("imageIndex"));
-                                // Check if the index is valid
-                                if (imageToRemoveIndex >= 0 && imageToRemoveIndex < originalGallery.size()) {
-                                    // Get the byte[] image to remove
-                                    byte[] imageBytesToRemove = originalGallery.get(imageToRemoveIndex);
-                                    // Create an InputStream from the byte array
-                                    InputStream imageStream = new ByteArrayInputStream(imageBytesToRemove);
-                                    // Assuming you have a method to delete an image from the product's gallery
-                                    gcs.cancellazioneImmagineInGalleria(product, imageStream, 1, perPage);
-                                    // Remove the image from the originalGallery list
-                                    originalGallery.remove(imageToRemoveIndex);
-                                    // Update the session attribute with the modified gallery
-                                    request.getSession().setAttribute("originalGallery", originalGallery);
-                                    // Respond with success
-                                    response.getWriter().write("Image deleted successfully.");
-                                  }
-                            break;
-                            case "addToGallery":
-                                 // Retrieve the file part from the request
-                                                   
-                                originalGallery.add(inputImage);
-                                product.setGalleriaImmagini((ArrayList<byte[]>) originalGallery);
-                                
-                                gcs.inserimentoImmagineInGalleriaImmagini(product, byteArrayToInputStream(inputImage), 1, perPage);
-                                request.getSession().setAttribute("originalGallery", originalGallery);
-                                //updateGalleriaImmaginiLocale( originalGallery, inputImage, response, request);
-                                
-                                // Updating The Local Gallery: That will Get Passed to JSON as Return Value
-                                // To Update Gallery UI.                              
-                                
-                                break;
+                    else{
+                        //System.out.println("Galleria recuperata dalla Sessione:"+originalGallery);
+                        Part filePart = request.getPart("presentazione"); // "presentazione" is the name attribute in the form                           
+                        InputStream fileContent = retrieveFileContent(filePart);
+                        // INPUTSTREAM CAN ONLY BE ACCESSED ONCE BECAUSE THE INPUT IN CONSUMED IN
+                        // THE PROCESS OF CONVERTING IT.
+                        byte [] inputImage = inputStreamToByteArray(fileContent);
+
+                        if(originalGallery==null || originalGallery.isEmpty()){
+                            originalGallery = new ArrayList<>();
+                        }                                   
+                        if(main_photoAction!=null){
+                            switch(main_photoAction){
+                             case "update":
+                                case "add":
+                                    // We fetch the file content at the very beggining and store it inside a
+                                    // byte array which gets converted back into an input stream when adding
+                                    // the image to the database.
+                                    gcs.inserimentoTopImmagine(product, byteArrayToInputStream(inputImage), 1, perPage);
+                                    product.setTopImmagine(inputStreamToByteArray(fileContent));
+                                break;                  
                             default:
-                                throw new IllegalArgumentException("Unexpected gallery action: " + gallery_photoActions);
-                        }
-                    }         
-                } catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException ex) {
-                    Logger.getLogger(ImageUpdater.class.getName()).log(Level.SEVERE, null, ex);
-                    System.out.println(ex.getMessage());
-                }       
-        }     
-       
+                                // Handle unknown or missing action
+                                throw new IllegalArgumentException("Unexpected value: " + main_photoAction);
+                            }
+                        }                 
+                        if (gallery_photoActions != null) {
+                            switch (gallery_photoActions) {
+                                case "addToGallery":
+                                     // Retrieve the file part from the request
+
+                                    originalGallery.add(inputImage);
+                                    product.setGalleriaImmagini((ArrayList<byte[]>) originalGallery);
+
+                                    gcs.inserimentoImmagineInGalleriaImmagini(product, byteArrayToInputStream(inputImage), 1, perPage);
+                                    request.getSession().setAttribute("originalGallery", originalGallery);
+                                    //updateGalleriaImmaginiLocale( originalGallery, inputImage, response, request);
+                                    updatelog+= "L'Immagine Inserita e' Stata Aggiunta Correttamente alla Galleria";
+                                    // Updating The Local Gallery: That will Get Passed to JSON as Return Value
+                                    // To Update Gallery UI.                              
+
+                                    break;
+                                default:
+                                    throw new IllegalArgumentException("Unexpected gallery action: " + gallery_photoActions);
+                            }
+                        }          
+                    sendGalleryUpdateOutcome(updatelog, response);
+                    }              
+                    } catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException ex) {
+                        Logger.getLogger(ImageUpdater.class.getName()).log(Level.SEVERE, null, ex);
+                        response.getWriter().write("An error occurred: " + ex.getMessage());
+                        String message = "Si è verificato un errore: " + ex.getMessage();
+                        sendGalleryUpdateOutcome(message, response);
+
+                    }       
+            }     
+     
+    }
+    private String deleteGalleryImage(HttpServletRequest request, HttpServletResponse response, List<byte[]> originalGallery, Prodotto product){
+        String updatelog = "";
+        // Retrieve image index from request
+        int imageToRemoveIndex = Integer.parseInt(request.getParameter("imageIndex"));
+        // Check if the index is valid
+        if (imageToRemoveIndex >= 0 && imageToRemoveIndex < originalGallery.size()) {
+            try {
+                // Get the byte[] image to remove
+                byte[] imageBytesToRemove = originalGallery.get(imageToRemoveIndex);
+                // Create an InputStream from the byte array
+                InputStream imageStream = new ByteArrayInputStream(imageBytesToRemove);
+                // Assuming you have a method to delete an image from the product's gallery
+                gcs.cancellazioneImmagineInGalleria(product, imageStream, 1, perPage);
+                // Remove the image from the originalGallery list
+                originalGallery.remove(imageToRemoveIndex);
+                // Update the session attribute with the modified gallery
+                request.getSession().setAttribute("originalGallery", originalGallery);
+                // Respond with success
+                response.getWriter().write("Image deleted successfully.");                                 
+                updatelog+= "L'Immagine Selezionata e' Stata Rimossa Con Successo dalla Galleria";
+            } catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | IOException ex) {
+                Logger.getLogger(ImageUpdater.class.getName()).log(Level.SEVERE, null, ex);
+                updatelog+= ex.getMessage();
+            }
+          }
+        else{
+            updatelog+= "Non e' Stato Possibile Rimuovere L'Immagine dalla Galleria";
+        }
+        return updatelog;
+    }
+    private void sendGalleryUpdateOutcome(String message, HttpServletResponse response){
+        Gson gson = new Gson();
+        String jsonResponse = gson.toJson(message);
+         response.setContentType("application/json");
+    
+        // Send the JSON response
+        try (PrintWriter out = response.getWriter()) {
+            out.print(jsonResponse);
+        } catch (IOException ex) {
+            Logger.getLogger(ImageUpdater.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
     
     private void updateGalleriaImmaginiLocale(List<byte[]> galleriaImmagini,byte[] byteImage, HttpServletResponse response, HttpServletRequest request) throws IOException{                   

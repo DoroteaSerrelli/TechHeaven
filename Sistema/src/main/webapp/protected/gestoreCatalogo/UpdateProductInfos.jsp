@@ -40,15 +40,8 @@
             let action = '<%= session.getAttribute("action") %>';           
 
             retrieveAllData(function(data) {
-                const { product, galleryImages } = data;
-                // Initialize gallery from IndexedDB if base64Gallery is empty
-                if (base64Gallery.length === 0 && galleryImages.length > 0) {
-                    // If session data is not available, use data from IndexedDB
-                    base64Gallery = galleryImages; // Assign galleryImages from IndexedDB to base64Gallery
-                    updateGallery(base64Gallery);  // Update the gallery with the retrieved images
-                    //Clearing The indexedDBGallery to free up Space:
-                    clearGalleryImages(galleryImages);
-                } 
+                const { product } = data;  
+                
                 // Proceed with handling product and action
                 if (product && action) {
                      updateGallery(base64Gallery);
@@ -196,46 +189,52 @@
                             <input type="number" id="quantità" name="quantità">                    
                         </div>
                             <button id="submitBtn" type="submit">Update</button>
-                        </form>                       
-                        <section>
-                            <h2>Modifica, Aggiungi o Elimina Foto di Presentazione</h2>
-                            <form id="photoForm" action="${pageContext.request.contextPath}/ImageUpdater" method="post" enctype="multipart/form-data">
-                               <input type="hidden" id="productData" name="productData">
-                                <!-- Option Sections -->
-                                <div class="option-group">
-                                <p>Seleziona un'Azione per la Foto:</p>
-                                <!-- Main Photo Actions -->
-                                <div class="option">
-                                    <label for="update">Aggiorna Foto</label>
-                                    <input type="radio" id="update" name="main_photoAction" value="update">
-                                </div>
-                                <div class="option">
-                                    <label for="add">Aggiungi Foto Presentazione</label>
-                                    <input type="radio" id="add" name="main_photoAction" value="add">
-                                </div>
-
-                                <!-- Gallery Photo Actions -->
-                                <div class="option">
-                                    <label for="addToGallery">Aggiungi Foto Galleria</label>
-                                    <input type="radio" id="addToGallery" name="gallery_photoActions" value="addToGallery">
-                                </div>
-                            </div>
-
-                            <!-- File Input -->
-                            <div class="file-upload">
-                                <label for="file">Immagine</label>
-                                <input type="file" id="file" name="presentazione" accept="image/*">
-                            </div>
-
-                            <!-- Buttons -->
-                            <input type="submit" class="confirm_button" id="imageUploadBtn" value="Aggiorna Immagini">
-                            <button type="button" id="resetFormBtn">Clear Selections</button>                      
                         </form>
-                                <!-- Image Preview -->
-                            <div class="product-image">
-                                <img id="topImage" src="" alt="alt" loading="lazy">
-                            </div>
-                                <div id="gallery-container"></div>
+                        <h2>Modifica, Aggiungi o Elimina Foto di Presentazione</h2> 
+                        <div class="product-image">
+                            <img id="topImage" src="" alt="alt" loading="lazy">
+                        </div>
+                        <div id="updatePhotoLog" style="flex: 1; padding: 10px">
+                            <h2>Logs</h2>
+                         </div>
+                        <section style="display: flex;">       
+                            <!-- The log on the right -->                         
+                            <div style="flex: 1;">                      
+                                  <!-- Image Preview -->                               
+                                <form id="photoForm" action="${pageContext.request.contextPath}/ImageUpdater" method="post" enctype="multipart/form-data">
+                                   <input type="hidden" id="productData" name="productData">
+                                        <!-- Option Sections -->
+                                        <div class="option-group">
+                                        <p>Seleziona un'Azione per la Foto:</p>
+                                        <!-- Main Photo Actions -->
+                                        <div class="option">
+                                            <label for="update">Aggiorna Foto</label>
+                                            <input type="radio" id="update" name="main_photoAction" value="update">
+                                        </div>
+                                        <div class="option">
+                                            <label for="add">Aggiungi Foto Presentazione</label>
+                                            <input type="radio" id="add" name="main_photoAction" value="add">
+                                        </div>
+
+                                        <!-- Gallery Photo Actions -->
+                                        <div class="option">
+                                            <label for="addToGallery">Aggiungi Foto Galleria</label>
+                                            <input type="radio" id="addToGallery" name="gallery_photoActions" value="addToGallery">
+                                        </div>
+                                    </div>
+
+                                <!-- File Input -->
+                                <div class="file-upload">
+                                    <label for="file">Immagine</label>
+                                    <input type="file" id="file" name="presentazione" accept="image/*">
+                                </div>
+
+                                <!-- Buttons -->
+                                <input type="submit" class="confirm_button" id="imageUploadBtn" value="Aggiorna Immagini">
+                                <button type="button" id="resetFormBtn">Clear Selections</button>                      
+                            </form>                           
+                         </div>                                 
+                            <div id="gallery-container"></div>
                             <div class="product-gallery">                                
                                 <div class="main-image" >
                                     <!-- Display the first image as the main image -->

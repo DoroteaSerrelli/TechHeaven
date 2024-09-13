@@ -106,39 +106,49 @@ document.getElementById('imageUploadBtn').addEventListener('click', function(e) 
 
     const form = document.getElementById('photoForm');
     const formData = new FormData(form);
-
-    // Retrieve all data (product and gallery images) from IndexedDB
-    retrieveAllData(function(data) {
-    const { product, galleryImages } = data;          
-    let productCopy = { ...product };
     
-        
-    // Add other form data
-    formData.append('product', JSON.stringify(productCopy));
+    const fileInput = document.getElementById('file');
+    const file = fileInput.files[0];  // Get the selected file
 
-    // Send the request
-    $.ajax({
-        url: form.action,
-        method: 'POST',
-        data: formData,
-        processData: false,
-        contentType: false,
-        success: function(response) {
-            const newImageBase64 = response.newImageBase64; // Get the new image
-                console.log(newImageBase64.toString());
-                // Check if the response contains a new base64 image
-                if (newImageBase64) {     
-                    base64Gallery.push(newImageBase64); // Add the new image to the gallery array
-                    updateGallery(base64Gallery); // Update the gallery UI with the new image
-                }
-        },
-        error: function(xhr, status, error) {
-            console.error('Error:', error);
-        }
-    });
-});
-});
+    if (file) {
+        // Read the file as Base64 and update the gallery before sending it to the server
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const base64Image = e.target.result; // Base64 encoded image
+            base64Gallery.push(base64Image);     // Add the image to the gallery array
+            updateGallery(base64Gallery);        // Update the gallery UI with the new image
 
+            // Continue to append the file and send the AJAX request to the server
+            formData.append('presentazione', file);
+
+            // Add other form data (product information)
+            retrieveAllData(function(data) {
+                const { product } = data;
+                let productCopy = { ...product };
+                formData.append('product', JSON.stringify(productCopy));
+
+                // Send the AJAX request
+                $.ajax({
+                    url: form.action,
+                    method: 'POST',
+                    data: formData,
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        console.log("Image uploaded successfully.");
+                        // Optionally handle server response here
+                    },
+                    error: function(xhr, status, error) {
+                        console.error('Error:', error);
+                    }
+                });
+            });
+        };
+        reader.readAsDataURL(file);  // Convert the file to Base64
+    } else {
+        console.error("No file selected.");
+    }
+});
 
 document.getElementById('resetFormBtn').addEventListener('click', function() {
     const form = document.getElementById('photoForm');

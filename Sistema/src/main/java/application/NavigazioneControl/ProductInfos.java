@@ -104,7 +104,6 @@ public class ProductInfos extends HttpServlet {
                 ProxyProdotto proxyProd = gson.fromJson(productJson, ProxyProdotto.class);
                 Prodotto selectedProd = ns.visualizzaProdotto(proxyProd);
                 List<String> resizedBase64Gallery = resizeAndProcessProductImages(selectedProd, 400, 400);
-               
                 request.getSession().setAttribute("product", selectedProd);
                 request.getSession().setAttribute("galleryImages", resizedBase64Gallery);
             } else {
@@ -136,6 +135,8 @@ public class ProductInfos extends HttpServlet {
                     byte[] top_image_resized = ImageResizer.resizeTopImage(selectedProd, 400, 400);
                     selectedProd.setTopImmagine(top_image_resized);                
                 }
+                System.out.println(selectedProd.getGalleriaImmagini().toString());
+               
                 //List<String> resizedBase64Gallery = resizeAndProcessProductImages(selectedProd, 400, 400);
                 // Add gallery to JSON response
                 Map<String, Object> responseData = new HashMap<>();              

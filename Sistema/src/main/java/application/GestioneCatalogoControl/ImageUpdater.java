@@ -117,6 +117,13 @@ public class ImageUpdater extends HttpServlet {
                     // Process the gallery images if they are passed
                         // Use the session attribute if gallery images are missing in the request
                     List<byte[]> originalGallery = (List<byte[]>) request.getSession().getAttribute("originalGallery"); 
+                    //System.out.println("Galleria recuperata dalla Sessione:"+originalGallery);
+                    Part filePart = request.getPart("presentazione"); // "presentazione" is the name attribute in the form                           
+                    InputStream fileContent = retrieveFileContent(filePart);
+                    // INPUTSTREAM CAN ONLY BE ACCESSED ONCE BECAUSE THE INPUT IN CONSUMED IN
+                    // THE PROCESS OF CONVERTING IT.
+                    byte [] inputImage = inputStreamToByteArray(fileContent);
+                    
                     if(originalGallery==null || originalGallery.isEmpty()){
                         originalGallery = new ArrayList<>();
                     }
@@ -125,10 +132,10 @@ public class ImageUpdater extends HttpServlet {
                         switch(main_photoAction){
                          case "update":
                             case "add":
-                                 // Retrieve the file part from the request
-                                Part filePart = request.getPart("presentazione"); // "presentazione" is the name attribute in the form
-                                InputStream fileContent = retrieveFileContent(filePart);
-                                gcs.inserimentoTopImmagine(product, fileContent, 1, perPage);
+                                // We fetch the file content at the very beggining and store it inside a
+                                // byte array which gets converted back into an input stream when adding
+                                // the image to the database.
+                                gcs.inserimentoTopImmagine(product, byteArrayToInputStream(inputImage), 1, perPage);
                                 product.setTopImmagine(inputStreamToByteArray(fileContent));
                             break;                  
                         default:
@@ -160,12 +167,13 @@ public class ImageUpdater extends HttpServlet {
                             break;
                             case "addToGallery":
                                  // Retrieve the file part from the request
-                                Part filePart = request.getPart("presentazione"); // "presentazione" is the name attribute in the form                           
-                                InputStream fileContent = retrieveFileContent(filePart);
-                                originalGallery.add(inputStreamToByteArray(fileContent));
+                                                   
+                                originalGallery.add(inputImage);
                                 product.setGalleriaImmagini((ArrayList<byte[]>) originalGallery);
-                                gcs.inserimentoImmagineInGalleriaImmagini(product, fileContent, 1, perPage);
-                                updateGalleriaImmaginiLocale( originalGallery, inputStreamToByteArray(fileContent), response, request);
+                                
+                                gcs.inserimentoImmagineInGalleriaImmagini(product, byteArrayToInputStream(inputImage), 1, perPage);
+                                request.getSession().setAttribute("originalGallery", originalGallery);
+                                //updateGalleriaImmaginiLocale( originalGallery, inputImage, response, request);
                                 
                                 // Updating The Local Gallery: That will Get Passed to JSON as Return Value
                                 // To Update Gallery UI.                              
@@ -185,13 +193,10 @@ public class ImageUpdater extends HttpServlet {
     
     private void updateGalleriaImmaginiLocale(List<byte[]> galleriaImmagini,byte[] byteImage, HttpServletResponse response, HttpServletRequest request) throws IOException{                   
         Gson gson = new Gson();
-         System.out.println(Arrays.toString(byteImage));
        
         Map<String, Object> responseData = new HashMap<>();
           // Prepare JSON response with the new base64 image        
-        String base64Image = ImageServlet.convertToBase64(byteImage);   
-        System.out.println(base64Image);
-        responseData.put("newImageBase64", base64Image); // Send the base64 image back to the client
+      //  responseData.put("imgAdded", base64Image); // Send the base64 image back to the client
 
         request.getSession().setAttribute("originalGallery", galleriaImmagini);
         String jsonResponse = gson.toJson(responseData);

@@ -4,11 +4,12 @@
     Author     : raffa
 --%>
 
-<%@page import="application.GestioneApprovvigionamenti.RichiestaApprovvigionamento"%>
-<%@page import="java.util.Collection"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"
+		import = "application.GestioneApprovvigionamenti.RichiestaApprovvigionamento,
+				  java.util.Collection"%>
 <!DOCTYPE html>
-<html>
+<html lang = "en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -22,21 +23,21 @@
         <%
             Collection<RichiestaApprovvigionamento> requests = (Collection<RichiestaApprovvigionamento>) request.getAttribute("supply_requests");
             if(requests==null ||requests.isEmpty()){ %>
-            <h4>Nessun richiesta trovata%></h4>
+            <h4>Nessuna richiesta trovata%></h4>
             <%}
             int pagen = (int) request.getAttribute("page");
            
         %>
     </head>
     <body>
-        <jsp:include page="/common/header.jsp"  flush="true"/>
-        <button id="sidebar_toggle"><img src="<%= request.getContextPath()%>/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>
+        <jsp:include page="<%=request.getContextPath() %>/common/header.jsp"  flush="true"/>
+        <button id="sidebar_toggle"><img src="<%= request.getContextPath()%>/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()" alt = "sidebar"></button>
         <input type="text" id="productFilter" onkeyup="filterProducts()" placeholder="Search for request by company name...">
-        <jsp:include page="/protected/gestoreOrdini/toolbar.jsp"  flush="true"/>
+        <jsp:include page="<%=request.getContextPath() %>/protected/gestoreOrdini/toolbar.jsp"  flush="true"/>
         
         <!-- Search Input Field -->
         <!-- Pagination links -->
-        <jsp:include page="/common/pagination.jsp"  flush="true"/>   
+        <jsp:include page="<%=request.getContextPath() %>/common/pagination.jsp"  flush="true"/>   
         <table id="showpr" style="width: 80%; margin: 0 auto">
             <tr>
                 <th><strong>Codice Richiesta</strong></th><!-- Codice Richesta -->

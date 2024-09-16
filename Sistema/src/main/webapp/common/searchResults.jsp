@@ -3,20 +3,21 @@
     Created on : 18-apr-2024, 18.39.30
     Author     : raffy
 --%>
+<%@page contentType="text/html" pageEncoding="UTF-8"
+		import = "java.util.Currency,
+				  java.text.NumberFormat,
+				  java.text.DecimalFormat,
+				  java.net.URLEncoder,
+				  com.google.gson.Gson,
+				  java.util.Base64,
+				  application.NavigazioneService.NavigazioneServiceImpl,
+				  java.lang.String,
+				  java.util.Set,
+				  java.util.HashSet,
+				  application.NavigazioneService.ProxyProdotto,
+				  java.util.Collection,
+				  application.NavigazioneService.Prodotto"%>
 
-<%@page import="java.util.Currency"%>
-<%@page import="java.text.NumberFormat"%>
-<%@page import="java.text.DecimalFormat"%>
-<%@page import="java.net.URLEncoder"%>
-<%@page import="com.google.gson.Gson"%>
-<%@page import="java.util.Base64"%>
-<%@page import="application.NavigazioneService.NavigazioneServiceImpl"%>
-<%@page import="java.lang.String"%>
-<%@page import="java.util.Set"%>
-<%@page import="java.util.HashSet"%>
-<%@page import="application.NavigazioneService.ProxyProdotto"%>
-<%@page import="java.util.Collection"%>
-<%@page import="application.NavigazioneService.Prodotto"%>
 <script>
     function submitProductDetails(productJson) {
         const form = document.createElement('form');
@@ -45,18 +46,18 @@
     <%}
     String keyword = (String) request.getAttribute("keyword");
 %>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
    <head>
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product Search Results</title>
-    <!-- Include any CSS stylesheets if needed -->
+    <title>TechHeaven - Risultati Ricerca</title>
+    <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
     </head>
     <body>
-       <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
-       <jsp:include page="common/header.jsp"  flush="true"/>
-    <h1>Product Search Results</h1>   
+       
+       <jsp:include page="<%=request.getContextPath() %>/common/header.jsp"  flush="true"/>
+    <h1>Risultati prodotti dalla ricerca</h1>   
     <!-- Display search results here -->
     <div class="container">
         <div class="sidebar">
@@ -78,7 +79,7 @@
         </div>
         <div class="search_results">
                <!-- Pagination links -->
-            <jsp:include page="common/pagination_research.jsp"  flush="true"/>
+            <jsp:include page="<%=request.getContextPath() %>/common/pagination_research.jsp"  flush="true"/>
             <div class="errormsg">                                             
                 <p id="error" class="error"></p>                                        
             </div> 
@@ -119,10 +120,10 @@
                                 <h4 class="prezzo"><%=prezzoFormattato%></h4>
                             </div>
                             <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
-                                <img class="cart" src="<%= request.getContextPath()%>/images/site_images/icon_carrello2.png">
+                                <img class="cart" src="<%= request.getContextPath()%>/images/site_images/icon_carrello2.png" alt = "carrello">
                             </a>
                             <a href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
-                                <img  src="<%= request.getContextPath()%>/images/site_images/icon_wishlist.png" style="margin: 1px; width: 25px; height: 25px">
+                                <img  src="<%= request.getContextPath()%>/images/site_images/icon_wishlist.png" style="margin: 1px; width: 25px; height: 25px" alt = "wishlist">
                             </a>    
                     </div>                    
              <%}%>
@@ -130,6 +131,6 @@
         </section>
         </div>
     </div> 
-    <jsp:include page="common/footer.jsp"  flush="true"/> 
+    <jsp:include page="<%=request.getContextPath() %>/common/footer.jsp"  flush="true"/> 
     </body>
 </html>

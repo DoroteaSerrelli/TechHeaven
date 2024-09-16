@@ -3,11 +3,12 @@
     Created on : 2 ago 2024, 15:09:57
     Author     : raffa
 --%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="java.util.Collection"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"
+		import = "java.util.ArrayList,
+				  java.util.Collection"%>
 <!DOCTYPE html>
-<html>
+<html lang = "en">
      <head>
         <title>TechHeaven</title>
         <meta charset="UTF-8">
@@ -33,8 +34,8 @@
 
     </head>    
     <body>     
-       <jsp:include page="/common/header.jsp"  flush="true"/>
-       <jsp:include page="/roleSelector.jsp"  flush="true"/>    
+       <jsp:include page="<%=request.getContextPath() %>/common/header.jsp"  flush="true"/>
+       <jsp:include page="<%=request.getContextPath() %>/protected/cliente/roleSelector.jsp"  flush="true"/>    
        <div id="pagination"></div>
         <aside class="options_sidebar hidden" id="options_sidebar">
             <!-- Sidebar will be populated by JavaScript -->
@@ -96,6 +97,6 @@
             </section>
         </section>                       
        <script src="<%= request.getContextPath()%>/scripts/shifting_menu_manag_functions_sidebar.js"></script>        
-    <jsp:include page="/common/footer.jsp"  flush="true"/>
+    <jsp:include page="<%=request.getContextPath() %>/common/footer.jsp"  flush="true"/>
     </body>
 </html>

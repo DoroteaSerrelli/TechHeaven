@@ -126,7 +126,7 @@
         <url-pattern>/FetchSessionData</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
-        <welcome-file>index.jsp</welcome-file>
+        <welcome-file>Homepage.jsp</welcome-file>
     </welcome-file-list>
     <servlet>
         <servlet-name>RegistrazioneController</servlet-name>
@@ -239,7 +239,7 @@
     <!-- Lista .jsp Pagine Percorso + Mapping -->
     <servlet>
         <servlet-name>resetPasswordServlet</servlet-name>
-        <jsp-file>/resetPassword.jsp</jsp-file>
+        <jsp-file>/common/resetPassword.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>resetPasswordServlet</servlet-name>
@@ -247,7 +247,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>AutenticazioneServlet</servlet-name>
-        <jsp-file>/Autenticazione.jsp</jsp-file>
+        <jsp-file>/common/Autenticazione.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>AutenticazioneServlet</servlet-name>
@@ -255,7 +255,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>cartServlet</servlet-name>
-        <jsp-file>/cart.jsp</jsp-file>
+        <jsp-file>/common/cart.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>cartServlet</servlet-name>
@@ -263,7 +263,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>RegistrazioneServlet</servlet-name>
-        <jsp-file>/Registrazione.jsp</jsp-file>
+        <jsp-file>/common/Registrazione.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>RegistrazioneServlet</servlet-name>
@@ -303,7 +303,7 @@
     </servlet-mapping>
     <servlet>
         <servlet-name>UnauthourizedServlet</servlet-name>
-        <jsp-file>/Unauthourized.jsp</jsp-file>
+        <jsp-file>/common/Unauthourized.jsp</jsp-file>
     </servlet>
     <servlet-mapping>
         <servlet-name>UnauthourizedServlet</servlet-name>

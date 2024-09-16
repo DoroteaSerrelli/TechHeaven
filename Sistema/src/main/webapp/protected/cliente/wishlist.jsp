@@ -4,12 +4,12 @@
     Author     : raffa
 --%>
 
-<%@page import="application.NavigazioneService.ProxyProdotto"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="application.GestioneWishlistService.Wishlist"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"
+		import = "application.NavigazioneService.ProxyProdotto,
+				  java.util.ArrayList,
+				  application.GestioneWishlistService.Wishlist"%>
 <!DOCTYPE html>
-<html>
+<html lang = "en">
     <head>
         <title>TechHeaven</title>
         <meta charset="UTF-8">
@@ -19,7 +19,7 @@
         
     </head>
     <body>
-        <jsp:include page="common/header.jsp"  flush="true"/>              
+        <jsp:include page="<%=request.getContextPath() %>/common/header.jsp"  flush="true"/>              
         <div id="showpr" class="section-p1">
         <%
             Wishlist wishlist; 
@@ -28,7 +28,7 @@
         %>
             <div id="emptycart">
                 <h4>La tua wishlist è vuota!</h4>
-                <p>Inserisci uno dei nostri prodotti per mantenerti aggiornato sulle novità!</p>
+                <p>Aggiungi uno dei nostri prodotti alla tua lista dei desideri.</p>
             </div>
             
         <%
@@ -47,9 +47,9 @@
                 ArrayList <ProxyProdotto> ItemWishlist = wishlist.getProdotti();
                 for(ProxyProdotto p: ItemWishlist){                         
             %>            
-            <a href="GestioneWishlistController?action=removefromwishlist&productId=<%=p.getCodiceProdotto()%>"><button class="delete_button">Remove</button></a>
+            <a href="GestioneWishlistController?action=removefromwishlist&productId=<%=p.getCodiceProdotto()%>"><button class="delete_button">Rimuovi</button></a>
             <div class="row">			
-                <img src="image?productId=<%= p.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';"/>
+                <img src="image?productId=<%= p.getCodiceProdotto() %>" alt="Prodotto" onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';"/>
                 <p><%=p.getNomeProdotto()+" "%> <%=p.getMarca()%></p>
                         <h3><%=p.getPrezzo()%>€</h3>
             </div>     
@@ -58,6 +58,6 @@
             
         <%}%>
         </div>        
-        <jsp:include page="common/footer.jsp"  flush="true"/> 	       		
+        <jsp:include page="<%=request.getContextPath() %>/common/footer.jsp"  flush="true"/> 	       		
     </body>
 </html>

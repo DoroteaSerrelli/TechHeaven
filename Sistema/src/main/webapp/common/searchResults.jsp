@@ -56,7 +56,7 @@
     </head>
     <body>
        
-       <jsp:include page="<%=request.getContextPath() %>/common/header.jsp"  flush="true"/>
+       <jsp:include page="/common/header.jsp"  flush="true"/>
     <h1>Risultati prodotti dalla ricerca</h1>   
     <!-- Display search results here -->
     <div class="container">
@@ -79,7 +79,7 @@
         </div>
         <div class="search_results">
                <!-- Pagination links -->
-            <jsp:include page="<%=request.getContextPath() %>/common/pagination_research.jsp"  flush="true"/>
+            <jsp:include page="/common/pagination_research.jsp"  flush="true"/>
             <div class="errormsg">                                             
                 <p id="error" class="error"></p>                                        
             </div> 
@@ -131,6 +131,6 @@
         </section>
         </div>
     </div> 
-    <jsp:include page="<%=request.getContextPath() %>/common/footer.jsp"  flush="true"/> 
+    <jsp:include page="/common/footer.jsp"  flush="true"/> 
     </body>
 </html>

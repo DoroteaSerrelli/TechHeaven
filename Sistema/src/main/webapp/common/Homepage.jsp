@@ -16,7 +16,7 @@
 </head>
 <body>
 
-	<jsp:include page="<%=request.getContextPath() %>/common/header.jsp" flush="true" />
+	<jsp:include page="/common/header.jsp" flush="true" />
 	<section id="hero">
 		<h4>Spacial offers availables every day</h4>
 		<h2>Super value deal</h2>
@@ -135,6 +135,6 @@
 			<button class="minbanner">Learn More</button>
 		</div>
 	</section>
-	<jsp:include page="<%= request.getContextPath() %>/common/footer.jsp" flush="true" />
+	<jsp:include page="/common/footer.jsp" flush="true" />
 </body>
 </html>

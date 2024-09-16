@@ -13,7 +13,7 @@
 	href="<%= request.getContextPath()%>/style/cart.css">
 </head>
 <body>
-	<jsp:include page="<%=request.getContextPath() %>/common/header.jsp"
+	<jsp:include page="common/header.jsp"
 		flush="true" />
 	<div id="showpr" class="section-p1">
 		<%
@@ -70,7 +70,7 @@
 
 		<%}%>
 	</div>
-	<jsp:include page="<%=request.getContextPath() %>/common/footer.jsp"
+	<jsp:include page="common/footer.jsp"
 		flush="true" />
 
 </body>

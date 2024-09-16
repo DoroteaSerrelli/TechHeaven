@@ -14,7 +14,7 @@
 	href="<%= request.getContextPath()%>/style/style.css">
 </head>
 <body>
-	<jsp:include page="<%=request.getContextPath() %>/common/header.jsp"
+	<jsp:include page="/common/header.jsp"
 		flush="true" />
 	<div class="section-p1" style="padding-bottom: 20%;">
 		<h1>403 - Non autorizzato</h1>
@@ -28,7 +28,7 @@
 				per aiuto</a>
 		</p>
 	</div>
-	<jsp:include page="<%=request.getContextPath() %>/common/footer.jsp"
+	<jsp:include page="/common/footer.jsp"
 		flush="true" />
 </body>
 </html>

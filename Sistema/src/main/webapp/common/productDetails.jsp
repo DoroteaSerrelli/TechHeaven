@@ -19,7 +19,7 @@
 	href="<%=request.getContextPath()%>/style/style.css">
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/style/product_table.css">
-<jsp:include page="<%=request.getContextPath() %>/common/header.jsp" flush="true" />
+<jsp:include page="/common/header.jsp" flush="true" />
 <%
            Prodotto product = (Prodotto)request.getAttribute("product");
            if(product==null){
@@ -103,6 +103,6 @@
                 document.getElementById('currentImage').src = src;
             }
             </script>
-	<jsp:include page="<%=request.getContextPath() %>/common/footer.jsp" flush="true" />
+	<jsp:include page="/common/footer.jsp" flush="true" />
 </body>
 </html>

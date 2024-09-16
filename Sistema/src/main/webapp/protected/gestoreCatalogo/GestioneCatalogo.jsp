@@ -77,24 +77,30 @@
                        <div id="pagination"></div>
             </section>
                 <section id="addProductForm" class="form-section hidden">
-                    <!-- Your form for adding a new product -->
+                    <!-- Your form for adding a new product -->                  
                     <h2>Aggiungi un nuovo prodotto</h2>
                     <form action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
+                         <div id="error"></div>
                         <div class="form-group">                    
                             <label for="productID"> ID Prodotto </label>
-                            <input type="number" id="number" name="productId">
+                            <input type="number" id="number" name="productId" oninput="validateProductID(this, 'ID')" required>
+                            <div id="prodIDError" class="erromsg" style="display:none;"></div>                           
                             <label for="productName">Nome Prodotto:</label>
-                            <input type="text" id="productName" name="productName">
+                            <input type="text" id="productName" name="productName" oninput="validateProductNameorModel(this, 'Nome')" required>
+                            <div id="prodNomeError" class="erromsg" style="display:none;"></div>                                                           
                         </div>
                         <div class="form-group">
                             <label for="TopDescrizione">Top Descrizione:</label>
-                            <textarea name="topDescrizione" rows="5" cols="40"></textarea>
+                            <textarea name="topDescrizione" rows="5" cols="40" oninput="validateDettailsAndDescription(this, 'Descrizione')" required></textarea>
+                            <div id="prodDescrizioneError" class="erromsg" style="display:none;"></div>  
                             <label for="Dettagli">Dettagli:</label>
-                            <textarea name="dettagli" rows="5" cols="40"></textarea>
+                            <textarea name="dettagli" rows="5" cols="40" oninput="validateDettailsAndDescription(this, 'Dettagli')" required></textarea>
+                            <div id="prodDettagliError" class="erromsg" style="display:none;"></div>     
                         </div>   
                         <div class="form-group">
                             <label for="prezzo">Prezzo:</label>                       
-                            <input type="text" name="price">
+                            <input type="text" name="price" oninput="validatePrice(this, 'Prezzo')" required>
+                            <div id="prodPrezzoError" class="erromsg" style="display:none;"></div>  
                         </div>
                         <div class="form-group">
                             <select name="categoria">
@@ -113,11 +119,13 @@
                         </div>    
                         <div class="form-group">
                             <label for="marca">Marca:</label>
-                            <input type="text" id="marca" name="marca">
+                            <input type="text" id="marca" name="marca" oninput="validateBrand(this)" required>
+                            <div id="prodBrandError" class="erromsg" style="display:none;"></div> 
                         </div>
                         <div class="form-group">
                             <label for="modello">Modello:</label>
-                            <input type="text" id="modello" name="modello">
+                            <input type="text" id="modello" name="modello" oninput="validateProductNameorModel(this, 'Modello')" required>
+                            <div id="prodModelloError" class="erromsg" style="display:none;"></div> 
                         </div>
                         <div class="form-group">
                             <label for="inVetrina">In Vetrina:</label>
@@ -129,13 +137,14 @@
                         </div>
                         <div class="form-group">
                             <label for="quantità">Quantità:</label>
-                            <input type="number" id="quantità" name="quantita">
+                            <input type="number" id="quantità" name="quantita" oninput="validateProductID(this, 'Quantità')" required>
+                            <div id="prodQuantitàError" class="erromsg" style="display:none;"></div>  
                         </div>                     
                         <div class="form-group">
                             <label for="file">Immagine:</label>
                             <input type="file" id="file" name="file" accept="image/*">
                         </div>
-                        <button type="submit">Aggiungi</button>
+                         <button type="submit" id="addPrBtn" onclick="return validateForm()">Aggiungi</button>
                     </form>
                 </section>
                 <section id="removeProductForm" class="form-section hidden">
@@ -165,7 +174,8 @@
                 sessionStorage.removeItem('outputMessage');
             });
         </script>                
-       <script src="${pageContext.request.contextPath}/scripts/shifting_menu_manag_functions_sidebar.js"></script> 
+       <script src="${pageContext.request.contextPath}/scripts/shifting_menu_manag_functions_sidebar.js"></script>
+       <script src="${pageContext.request.contextPath}/scripts/validateNewProduct.js"></script>      
        <script src="${pageContext.request.contextPath}/scripts/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>                    
     <jsp:include page="/common/footer.jsp"  flush="true"/>       
     </body>

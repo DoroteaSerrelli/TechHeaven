@@ -122,22 +122,22 @@
                          <section id="modifyPropertiesForm" class="form-section hidden">
                     <h2 id="changeable">Modifica Prodotto</h2>
                     <form id="productForm" action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
-                        <!-- Product Details Group -->
+                        <!-- Product Details Group -->                       
                         <div class="form-group">
                             <label for="productID">ID Prodotto</label>
-                            <input type="number" id="productId" name="productId">
+                            <input type="number" id="productId" name="productId" oninput="validateProductID(this, 'ID')">
                             <input type="checkbox" id="productDetailsCheckbox" name="productDetailsCheckbox">
                             <label for="productDetailsCheckbox">Update Product Details</label>
                             <div id="productDetailsGroup" class="hidden">                              
                                 <label for="productName">Nome Prodotto</label>
-                                <input type="text" id="productName" name="productName">
+                                <input type="text" id="productName" name="productName" oninput="validateProductName(this, 'productName')">
                                 <label for="marca">Marca</label>
-                                <input type="text" id="marca" name="marca">
+                                <input type="text" id="marca" name="marca" oninput="validateBrand(this)">
                                 <label for="modello">Modello</label>
                                 <input type="text" id="modello" name="modello">
                             </div>
                         </div>
-
+                        
                     <!-- Description Group -->
                     <div class="form-group">
                         <input type="checkbox" id="descriptionCheckbox" name="descriptionCheckbox">
@@ -156,7 +156,7 @@
                         <label for="pricingCheckbox">Update Pricing</label>
                         <div id="pricingGroup" class="hidden">
                             <label for="prezzo">Prezzo</label>
-                            <input type="text" name="price">
+                            <input type="text" name="price" oninput="validatePrice(this)">
                         </div>
                     </div>
 
@@ -186,7 +186,7 @@
                         <!-- Image and Other Details -->
                         <div class="form-group">
                             <label for="quantità">Quantità</label>
-                            <input type="number" id="quantità" name="quantità">                    
+                            <input type="number" id="quantità" name="quantità" oninput="validateProductID(this, 'Quantità')">                    
                         </div>
                             <button id="submitBtn" type="submit">Update</button>
                         </form>
@@ -247,6 +247,7 @@
                     </section>                        
             </section>
         <script src="${pageContext.request.contextPath}/scripts/shifting_menu_manag_functions_sidebar.js"></script> 
+        <script src="${pageContext.request.contextPath}/scripts/validateNewProduct.js"></script>
         <script src="${pageContext.request.contextPath}/scripts/catalog_image_update_functions.js?ts=<%=System.currentTimeMillis()%>"></script>      
         <script src="${pageContext.request.contextPath}/scripts/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>      
         <jsp:include page="/common/footer.jsp"  flush="true"/>             

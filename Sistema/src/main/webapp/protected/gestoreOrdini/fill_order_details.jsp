@@ -4,15 +4,17 @@
     Author     : raffa
 --%>
 
-<%@page import="java.util.HashMap"%>
-<%@page import="application.NavigazioneService.ProxyProdotto"%>
-<%@page import="application.NavigazioneService.Prodotto"%>
-<%@page import="application.GestioneCarrelloService.ItemCarrello"%>
-<%@page import="java.util.ArrayList"%>
-<%@page import="application.GestioneOrdiniService.Ordine"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<%@page contentType="text/html" pageEncoding="UTF-8"
+		import = "java.util.HashMap,
+				  application.NavigazioneService.ProxyProdotto,
+				  application.NavigazioneService.Prodotto,
+				  application.GestioneCarrelloService.ItemCarrello,
+				  java.util.ArrayList,
+				  application.GestioneOrdiniService.Ordine"%>
+				  
 <!DOCTYPE html>
-<html>
+<html lang = "en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -21,7 +23,7 @@
         <%
             Ordine selected_ordine = (Ordine) request.getSession().getAttribute("selected_ordine");
             if(selected_ordine==null){
-                response.sendRedirect(request.getContextPath() + "/GestioneOrdini.jsp");
+                response.sendRedirect(request.getContextPath() + "protected/gestoreOrdini/GestioneOrdini.jsp");
                 return;
             }
             ArrayList<ItemCarrello> order_products = (ArrayList<ItemCarrello>) request.getSession().getAttribute("order_products");
@@ -29,8 +31,8 @@
         %>
     </head>
     <body>
-       <jsp:include page="/common/header.jsp"  flush="true"/>
-       <jsp:include page="/roleSelector.jsp"  flush="true"/>
+       <jsp:include page="<%=request.getContextPath() %>/common/header.jsp"  flush="true"/>
+       <jsp:include page="<%=request.getContextPath() %>/protected/cliente/roleSelector.jsp"  flush="true"/>
         <h1>Informazioni sull'Ordine Selezionato:</h1>
         <div id="product1">
             <h2><%=selected_ordine.getStatoAsString()%></h2>

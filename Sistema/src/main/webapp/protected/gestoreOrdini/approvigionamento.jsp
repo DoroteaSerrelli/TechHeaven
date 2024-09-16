@@ -4,12 +4,12 @@
     Author     : raffa
 --%>
 
-<%@page import="java.util.HashMap"%>
-<%@page import="application.NavigazioneService.ProxyProdotto"%>
-<%@page import="java.util.Collection"%>
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"
+		import = "java.util.HashMap,
+				  application.NavigazioneService.ProxyProdotto,
+				  java.util.Collection"%>
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,14 +36,14 @@
             %>
             <h4><%=errormsg%></h4>
         </div>
-        <jsp:include page="/protected/gestoreOrdini/toolbar.jsp"  flush="true"/>       
-        <jsp:include page="/common/header.jsp"  flush="true"/>
+        <jsp:include page="<%=request.getContextPath() %>/protected/gestoreOrdini/toolbar.jsp"  flush="true"/>       
+        <jsp:include page="<%=request.getContextPath() %>/common/header.jsp"  flush="true"/>
         <button id="sidebar_toggle"><img src="<%= request.getContextPath()%>/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>
         <!-- Search Input Field -->
-        <input type="text" id="productFilter" onkeyup="filterProducts()" placeholder="Search for products by name...">
+        <input type="text" id="productFilter" onkeyup="filterProducts()" placeholder="Cerca un prodotto per nome...">
         <!-- Search Input Field -->
         <!-- Pagination links -->
-        <jsp:include page="/common/pagination.jsp"  flush="true"/>       
+        <jsp:include page="<%=request.getContextPath() %>/common/pagination.jsp"  flush="true"/>       
         
         <table id="showpr" style="width: 80%; margin: 0 auto">
             <tr>
@@ -75,6 +75,6 @@
         <form id="supplyingRequestForm" class="">
             <input id="product_id" type="hidden" name="product_id" value="">
         </form>           
-        <jsp:include page="/common/footer.jsp"  flush="true"/>
+        <jsp:include page="<%=request.getContextPath() %>/common/footer.jsp"  flush="true"/>
     </body>
 </html>

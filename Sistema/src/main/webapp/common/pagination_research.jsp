@@ -6,7 +6,7 @@
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang = "en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>JSP Page</title>
@@ -29,13 +29,13 @@
                     %>
                     <% if(pagen>1){%>
                         <h2>Pagina Precedente: <%=previous_page%></h2>  
-                        <a href="<%= prevpageUrl %>"><img src="<%= request.getContextPath()%>/images/site_images/arrow_back.png"></a>
+                        <a href="<%= prevpageUrl %>"><img src="<%= request.getContextPath()%>/images/site_images/arrow_back.png" alt = "ArrowBack"></a>
                     <%}%>    
                     <% if ((boolean) request.getAttribute("hasNextPage")) { %>
                         <h2>Pagina Successiva: <%=next_page%></h2>
-                        <a href="<%= nextpageUrl %>"><img src="<%= request.getContextPath()%>/images/site_images/arrow_forward.png"></a>
+                        <a href="<%= nextpageUrl %>"><img src="<%= request.getContextPath()%>/images/site_images/arrow_forward.png" alt = "ArrowForward"></a>
                     <% } else { %>
-                        <img src="<%= request.getContextPath()%>/images/site_images/arrow_forward_disabled.png">
+                        <img src="<%= request.getContextPath()%>/images/site_images/arrow_forward_disabled.png" alt = "ArrowDisabled">
                     <% } %>
                 <%  %>
             <%  %>

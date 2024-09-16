@@ -19,7 +19,7 @@
         
     </head>
     <body>
-        <jsp:include page="<%=request.getContextPath() %>/common/header.jsp"  flush="true"/>              
+        <jsp:include page="/common/header.jsp"  flush="true"/>              
         <div id="showpr" class="section-p1">
         <%
             Wishlist wishlist; 
@@ -58,6 +58,6 @@
             
         <%}%>
         </div>        
-        <jsp:include page="<%=request.getContextPath() %>/common/footer.jsp"  flush="true"/> 	       		
+        <jsp:include page="/common/footer.jsp"  flush="true"/> 	       		
     </body>
 </html>

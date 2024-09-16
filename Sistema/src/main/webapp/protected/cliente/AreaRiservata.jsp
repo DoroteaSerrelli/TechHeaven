@@ -34,8 +34,8 @@
 </head>
 <body>
 
-	<jsp:include page="<%=request.getContextPath() %>/common/header.jsp" flush="true" />
-	<jsp:include page="<%=request.getContextPath() %>/protected/cliente/roleSelector.jsp" flush="true" />
+	<jsp:include page="/common/header.jsp" flush="true" />
+	<jsp:include page="/protected/cliente/roleSelector.jsp" flush="true" />
 
 	<form action="AutenticazioneController?action=logout" method="POST">
 		<button class="confirm_button" type="submit">Logout</button>
@@ -82,7 +82,7 @@
 		</div>
 		<% } %>
 	</div>
-	<jsp:include page="<%=request.getContextPath() %>/common/footer.jsp" flush="true" />
+	<jsp:include page="/common/footer.jsp" flush="true" />
 </body>
 
 </html>

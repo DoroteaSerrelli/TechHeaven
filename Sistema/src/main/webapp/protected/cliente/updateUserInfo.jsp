@@ -59,7 +59,7 @@
     </script>
 </head>
 <body>
-	<jsp:include page="<%=request.getContextPath() %>/common/header.jsp"
+	<jsp:include page="/common/header.jsp"
 		flush="true" />
 	<div id="mobile">
 		<button class="openbtn" onclick="openUpdateBar()" type="button">
@@ -160,7 +160,7 @@
 			<% } %>
 		</p>
 	</div>
-	<jsp:include page="<%=request.getContextPath() %>/common/footer.jsp"
+	<jsp:include page="/common/footer.jsp"
 		flush="true" />
 </body>
 </html>

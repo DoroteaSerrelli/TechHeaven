@@ -87,49 +87,50 @@ public class AutenticazioneController extends HttpServlet {
 				if (resultedUser!=null) {
 					// Autenticazione andata a buon fine
 					request.getSession().setAttribute("user", resultedUser);
-					response.sendRedirect(request.getContextPath() + "/SelezioneRuolo.jsp");
-                    return;
+					response.sendRedirect(request.getContextPath() + "/SelezioneRuolo");
+                                        return;
 				}else {
 					// Autenticazione fallita
 					request.getSession().setAttribute("error","Username o Password Errati");                               
 					response.sendRedirect(request.getContextPath() + "/Autenticazione");
+                                        return;
 				}
 			}
-			if(action.equalsIgnoreCase("roleSelection")) {
-				//recupero oggetto user da sessione
-				ProxyUtente resultedUser = (ProxyUtente) request.getSession().getAttribute("user");
-				String ruolo = request.getParameter("ruolo");
+			if (action.equalsIgnoreCase("roleSelection")) {
+                            // Retrieve the user object from session
+                            ProxyUtente resultedUser = (ProxyUtente) request.getSession().getAttribute("user");                               
+                            String ruolo = request.getParameter("ruolo");                           
+                            loadUserAddresses(request);
 
-				loadUserAddresses(request);
+                            ArrayList<Ruolo> ruoli = resultedUser.getRuoli();
+                            boolean roleMatched = true; // Flag to track if role is found
 
-				ArrayList<Ruolo> ruoli;
-				ruoli = resultedUser.getRuoli();
-				for(Ruolo r: ruoli){ 
-					System.out.println(r.getNomeRuolo());
-					if(r.getNomeRuolo().equals(ruolo)){
-						switch(ruolo){
-						case "Cliente": 
-							response.sendRedirect(request.getContextPath() +"/AreaRiservata");
-							return;                                                          
-						case "GestoreOrdini": 
-							response.sendRedirect(request.getContextPath() +"/GestioneOrdini");
-							return;                                
-						case "GestoreCatalogo":                                
-							response.sendRedirect(request.getContextPath() +"/GestioneCatalogo");
-							return;  
-						default:
-							// Ruolo non associato all'utente
-							request.getSession().setAttribute("error","Ruolo scelto non corrispondente ai ruoli dell'utente");
-							request.getRequestDispatcher("Autenticazione").forward(request, response);
-							break;    
-						}
-						break;
-					}
-					request.getSession().setAttribute("error","Ruolo scelto non corrispondente ai ruoli del utente");
-					request.getRequestDispatcher("Autenticazione").forward(request, response);
-				}
+                            for (Ruolo r : ruoli) { 
+                                if (r.getNomeRuolo().equals(ruolo)) {                                          
+                                    switch (ruolo) {
+                                        case "Cliente": 
+                                            response.sendRedirect(request.getContextPath() + "/AreaRiservata");
+                                            return;                                                          
+                                        case "GestoreOrdini": 
+                                            response.sendRedirect(request.getContextPath() + "/GestioneOrdini");
+                                            return;                                
+                                        case "GestoreCatalogo":                                
+                                            response.sendRedirect(request.getContextPath() + "/GestioneCatalogo");
+                                            return;  
+                                        default: 
+                                            roleMatched = false;
+                                        break;   
+                                    }
+                                }
+                            }
+                            if(roleMatched == false){
+                                // If no role matches, set error and forward to authentication page
+                                request.getSession().setAttribute("error", "Ruolo scelto non corrispondente ai ruoli del utente");
+                                request.getRequestDispatcher("Autenticazione").forward(request, response);
+                                return; // Stop further processing
+                            }
+                        }
 
-			}
 			if(action.equals("logout")){
 				request.getSession().invalidate();// Invalida la sessione
 				response.sendRedirect(request.getContextPath() + "/Autenticazione"); 

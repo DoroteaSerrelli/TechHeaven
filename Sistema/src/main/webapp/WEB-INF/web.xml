@@ -270,6 +270,14 @@
         <url-pattern>/Registrazione</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>RoleSelectServlet</servlet-name>
+        <jsp-file>/protected/cliente/SelezioneRuolo.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>RoleSelectServlet</servlet-name>
+        <url-pattern>/SelezioneRuolo</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>GestioneOrdiniServlet</servlet-name>
         <jsp-file>/protected/gestoreOrdini/GestioneOrdini.jsp</jsp-file>
     </servlet>

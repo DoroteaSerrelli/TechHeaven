@@ -114,10 +114,10 @@ public class UpdateAddressController extends HttpServlet {
                 case "UpdateIndirizzo":
                     int id_indirizzo = Integer.parseInt(request.getParameter("addressIndex"));
                     target_ind.setIDIndirizzo(id_indirizzo);
-                    updated_user= as.updateAddressBook(user, "AGGIORNARE-INDIRIZZO", target_ind);
+                    updated_user= as.aggiornaRubricaIndirizzi(user, "AGGIORNARE-INDIRIZZO", target_ind);
                 break; 
                 case "AddIndirizzo":
-                    updated_user= as.updateAddressBook(user, "AGGIUNGERE-INDIRIZZO", target_ind);
+                    updated_user= as.aggiornaRubricaIndirizzi(user, "AGGIUNGERE-INDIRIZZO", target_ind);
                 break; 
                 case "RemoveIndirizzo":
                     id_indirizzo = Integer.parseInt(request.getParameter("addressIndex"));
@@ -125,7 +125,7 @@ public class UpdateAddressController extends HttpServlet {
                     
                     System.out.println("ID:"+target_ind.getIDIndirizzo());
                     
-                    updated_user= as.updateAddressBook(user, "RIMUOVERE-INDIRIZZO", target_ind);
+                    updated_user= as.aggiornaRubricaIndirizzi(user, "RIMUOVERE-INDIRIZZO", target_ind);
                 break; 
                 default:
                     System.out.println("Errore azione indirizzo non valida");

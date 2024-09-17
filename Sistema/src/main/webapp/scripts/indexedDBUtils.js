@@ -34,6 +34,53 @@ function openDB(version) {
     });
 }
 
+//Function to reset all data inside IndexedDB
+function resetProductData(action) {
+    openDB(dbVersion) // Opens the database
+        .then((db) => {
+            // Start a transaction with readwrite access
+            const transaction = db.transaction(['productDetails', 'productImages'], 'readwrite');
+
+            // Get object stores
+            const productDetailsStore = transaction.objectStore('productDetails');
+            const productImagesStore = transaction.objectStore('productImages');
+
+            // Clear object stores
+            const clearDetailsRequest = productDetailsStore.clear();
+            const clearImagesRequest = productImagesStore.clear();
+
+            clearDetailsRequest.onsuccess = function() {
+                console.log('Product details store cleared successfully');
+            };
+
+            clearImagesRequest.onsuccess = function() {
+                console.log('Product images store cleared successfully');
+            };
+
+            clearDetailsRequest.onerror = function(event) {
+                console.error('Error clearing product details store:', event.target.error);
+            };
+
+            clearImagesRequest.onerror = function(event) {
+                console.error('Error clearing product images store:', event.target.error);
+            };
+
+            // Redirect or perform other actions after the transaction completes
+            transaction.oncomplete = function() {
+                console.log('Data cleared, redirecting...');
+                window.location.href = `${window.contextPath}/ModifyProductsInCatalog?action=`+action;
+            };
+
+            transaction.onerror = function(event) {
+                console.error('Transaction error:', event.target.error);
+            };
+        })
+        .catch((error) => {
+            console.error('Error opening database:', error);
+        });
+}
+
+
  // Function to clear gallery images from IndexedDB
 function clearGalleryImages() {
     openDB(dbVersion).then(db => {

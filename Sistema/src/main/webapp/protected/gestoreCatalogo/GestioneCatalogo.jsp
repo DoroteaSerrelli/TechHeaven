@@ -21,13 +21,15 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_options.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/product_table.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_form.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> 
-        <script src="${pageContext.request.contextPath}/view/pagination.js"></script>       
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" 
+        crossorigin="anonymous"></script>
+        <script src="${pageContext.request.contextPath}/scripts/pagination.js"></script>  
         <script type="text/javascript">
             // Define the context path as a global variable
             window.contextPath = '<%= request.getContextPath() %>';
-        </script>      
-    </head>    
+        </script> 
+        <script src="${pageContext.request.contextPath}/scripts/indexedDBUtils.js"></script>       
+        </head>    
     <body>     
         <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->
        <jsp:include page="/common/header.jsp"  flush="true"/>
@@ -48,12 +50,17 @@
                         <img src="${pageContext.request.contextPath}/images/site_images/addprodotto.png" alt="Aggiungi un nuovo prodotto">
                         <h6>Aggiungi un nuovo prodotto</h6>
                     </div>
-                    <div class="fe-box" id="removeProduct" onclick="moveToSidebar('viewProducts', 'viewProductsForm');">
-                        <a href="${pageContext.request.contextPath}/ModifyProductsInCatalog?action=delete" ><img src="${pageContext.request.contextPath}/images/site_images/removeprodotto.png" alt="Elimina un prodotto"></a>
+                        <!-- Potenziale Caching del Prodotto che permetterebbe all'utente di continuare la modifica
+                            di un prodotto anche chiudendo e riaprendo il browser. Faccio la Clear dello storage
+                            cosi la lista viene mostrata e ricaricando la pagina di modifica dopo aver selezionato il prodotto
+                            le caratteristiche rimangono.
+                        -->
+                    <div class="fe-box" id="removeProduct" onclick="resetProductData('delete')">
+                        <a href="javascript:void(0)"><img src="${pageContext.request.contextPath}/images/site_images/removeprodotto.png" alt="Elimina un prodotto"></a>
                         <h6>Elimina un prodotto</h6>
                     </div>
-                    <div class="fe-box" id="modifyProperties">
-                        <a href="${pageContext.request.contextPath}/ModifyProductsInCatalog?action=modify" > <img src="${pageContext.request.contextPath}/images/site_images/modproperties.png" alt="Modifica caratteristiche prodotto"> </a>
+                        <div class="fe-box" id="modifyProperties" onclick="resetProductData('modify')">
+                        <a href="javascript:void(0)"> <img src="${pageContext.request.contextPath}/images/site_images/modproperties.png" alt="Modifica caratteristiche prodotto"> </a>
                         <h6>Modifica caratteristiche prodotto</h6>
                     </div>
                 </section>

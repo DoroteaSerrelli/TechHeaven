@@ -30,7 +30,10 @@
     <script>
         var base64Gallery = <%= base64GalleryJson %>; // Convert session data to JavaScript array
     </script> 
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" 
+    crossorigin="anonymous"></script>
     <script src="${pageContext.request.contextPath}/scripts/pagination.js"></script>
     <script src="${pageContext.request.contextPath}/scripts/indexedDBUtils.js"></script>
     <script>
@@ -44,6 +47,7 @@
                 
                 // Proceed with handling product and action
                 if (product && action) {
+                    addOriginalProductDetailsToForm(product);
                      updateGallery(base64Gallery);
                     if (action === 'modify') {
                         openModifyForm(product);

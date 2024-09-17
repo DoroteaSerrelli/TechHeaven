@@ -70,10 +70,10 @@ public class UpdateProfileController extends HttpServlet {
             
            // Check which fields the user wants to update
             if (updated_email != null && !updated_email.isEmpty()) {
-              updated_user = as.updateProfile(user, "EMAIL", updated_email);     
+              updated_user = as.aggiornaProfilo(user, "EMAIL", updated_email);     
             }
             if (updated_tel != null &&  !updated_tel.isEmpty()) {
-               updated_user = as.updateProfile(updated_user, "TELEFONO", updated_tel);
+               updated_user = as.aggiornaProfilo(updated_user, "TELEFONO", updated_tel);
             }
                          
             request.getSession().setAttribute("user", updated_user);

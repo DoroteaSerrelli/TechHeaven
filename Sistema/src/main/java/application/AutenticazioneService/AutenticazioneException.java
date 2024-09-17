@@ -3,7 +3,14 @@ package application.AutenticazioneService;
 import application.AutenticazioneService.AutenticazioneException;
 
 /**
- * La classe gestisce le eccezioni lanciate in fase autenticazione dell'utente al sistema
+ * La classe gestisce le eccezioni lanciate in fase autenticazione dell'utente al sistema,
+ * di reimpostazione della password ed operazioni di gestione del profilo dell'utente.
+ * 
+ * @see application.AutenticazioneService.AutenticazioneService
+ * @see application.AutenticazioneService.AutenticazioneServiceImpl
+ * 
+ * @author Dorotea Serrelli
+ * 
  * */
 
 public class AutenticazioneException extends Exception{

@@ -30,38 +30,21 @@
     <script>
         var base64Gallery = <%= base64GalleryJson %>; // Convert session data to JavaScript array
     </script> 
-    
-
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" 
-    crossorigin="anonymous"></script>
+     <jsp:include page="/common/header.jsp"  flush="true"/>
     <script src="${pageContext.request.contextPath}/scripts/pagination.js"></script>
     <script src="${pageContext.request.contextPath}/scripts/indexedDBUtils.js"></script>
     <script>
         $(document).ready(function() {
-            openDB(2); // Open the database when the document is ready
+            openDB(2) // Open the database when the document is ready
+                .then(function(db) {
+                    let action = '<%= session.getAttribute("action") %>';
 
-            let action = '<%= session.getAttribute("action") %>';           
-
-            retrieveAllData(function(data) {
-                const { product } = data;  
-                
-                // Proceed with handling product and action
-                if (product && action) {
-                    updateGallery(base64Gallery);
-                    if (action === 'modify') {
-                        openModifyForm(product);
-                        $('#modifyPropertiesForm').removeClass('hidden');
-                        $('#viewProductsForm').addClass('hidden');
-                    } else if (action === 'delete') {
-                        openDeleteForm(product);
-                    }
-                } else if (action) {
-                    const initialPage = 1;
-                    fetchProducts(initialPage, action);
-                } else {
-                    console.error('No action provided');
-                }
-            });
+                    // Check if product data has been cached in IndexedDB or loaded before
+                    checkCachedProductData(db, action);
+                })
+                .catch(function(error) {
+                    console.error('Error opening IndexedDB:', error);
+                });
         });
     </script>
         <script type="text/javascript">
@@ -70,8 +53,7 @@
         </script>
     </head>    
     <body>     
-        <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->
-       <jsp:include page="/common/header.jsp"  flush="true"/>
+        <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->      
        <jsp:include page="/roleSelector.jsp"  flush="true"/>
        <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>                   
        <aside class="options_sidebar visible" id="options_sidebar">
@@ -81,7 +63,7 @@
                     <h6>Visualizza Prodotti</h6>
             </div>
             <div class="fe-box" id="addProduct">
-                <a href="/GestioneCatalogo" onclick="moveToSidebar('addProduct', 'addProductForm');"><img src="${pageContext.request.contextPath}/view/img/addprodotto.png" alt="Aggiungi un nuovo prodotto"></a>
+                <a href="/GestioneCatalogo"><img src="${pageContext.request.contextPath}/view/img/addprodotto.png" alt="Aggiungi un nuovo prodotto"></a>
                 <h6>Aggiungi un nuovo prodotto</h6>
             </div>
             <div class="fe-box" id="removeProduct">
@@ -128,17 +110,19 @@
                         <!-- Product Details Group -->                       
                         <div class="form-group">
                             <label for="productID">ID Prodotto</label>
-                            <input type="number" id="productId" name="productId" oninput="validateProductID(this, 'ID')">
+                            <input type="number" id="productId" name="productId">
                             <input type="checkbox" id="productDetailsCheckbox" name="productDetailsCheckbox">
                             <label for="productDetailsCheckbox">Update Product Details</label>
                             <div id="productDetailsGroup" class="hidden">                              
                                 <label for="productName">Nome Prodotto</label>
-                                <input type="text" id="productName" name="productName" oninput="validateProductName(this, 'productName')">
+                                <input type="text" id="productName" name="productName">
                                 <label for="marca">Marca</label>
                                 <input type="text" id="marca" name="marca" oninput="validateBrand(this)">
+                                <div id="prodBrandError" class="erromsg" style="display:none;"></div> 
                                 <label for="modello">Modello</label>
-                                <input type="text" id="modello" name="modello">
-                            </div>
+                                <input type="text" id="modello" name="modello" oninput="validateProductNameorModel(this, 'Modello')">
+                                <div id="prodModelloError" class="erromsg" style="display:none;"></div>
+                            </div>                          
                         </div>
                         
                     <!-- Description Group -->
@@ -243,7 +227,7 @@
                                     <!-- Display the first image as the main image -->
                                     <img id="currentImage"  alt="alt" />
                                 </div>
-                                <div class="gallery-thumbnails">                                   
+                                <div class="gallery-thumbnails" style="cursor:pointer">                                   
                                 </div>
                             </div>    
                         </section>  

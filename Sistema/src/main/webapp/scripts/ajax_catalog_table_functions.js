@@ -92,7 +92,8 @@ function fetchSessionData(callback) {
         url: `${window.contextPath}/FetchSessionData`,
         method: 'GET',
         success: function(response) {
-            console.log('Session data retrieved successfully:', response);
+            //Stampa debug Ricezione Galleria tramite ajax (Recupero degli Oggetti in Sessione)
+          //  console.log('Session data retrieved successfully:', response);
             const base64Gallery = response.base64Gallery;
             if (callback) {
                 callback(base64Gallery);
@@ -241,7 +242,8 @@ function toggleSidebar(){
             method: 'GET',
             contentType: 'application/json',
             success: function(data) {
-                console.log('Received Data:', data); // Verify data structure
+                // Stampa Debug Ricezione Lista Prodotti Tramite Ajax
+               // console.log('Received Data:', data); // Verify data structure
                 
                 // Handle and display the products and pagination
                 const products = data.products;
@@ -285,7 +287,8 @@ function toggleSidebar(){
                     }
                      
                     const imgSrc = `${window.contextPath}/image?productId=`+product.codiceProdotto;
-                    console.log(`Image URL: ${imgSrc}`); // Log the image URL to check
+                    // Stampa di Debug delle Immagini e Rispettiva Servlet che si occupa delle immagini
+                    // console.log(`Image URL: ${imgSrc}`); // Log the image URL to check 
 
                     const imgCell = $('<td></td>').append(
                     $('<img>').attr('src', imgSrc)

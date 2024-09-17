@@ -21,8 +21,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_options.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/product_table.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_form.css">
-        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha512-894YE6QWD5I59HgZOGReFYm4dnWc1Qt5NtvYSaNcOP+u1T9qYdvdihz0PPSiiqn/+/3e7Jo4EaG7TubfWGUrMQ==" 
-        crossorigin="anonymous"></script>
+        <jsp:include page="/common/header.jsp"  flush="true"/>
         <script src="${pageContext.request.contextPath}/scripts/pagination.js"></script>  
         <script type="text/javascript">
             // Define the context path as a global variable
@@ -32,7 +31,6 @@
         </head>    
     <body>     
         <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->
-       <jsp:include page="/common/header.jsp"  flush="true"/>
        <jsp:include page="/roleSelector.jsp"  flush="true"/>
         <aside class="options_sidebar hidden" id="options_sidebar">
            <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>        

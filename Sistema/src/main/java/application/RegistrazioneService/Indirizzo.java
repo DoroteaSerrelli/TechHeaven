@@ -1,43 +1,44 @@
 package application.RegistrazioneService;
 
 /**
- * Questa classe fornisce metodi per creare, accedere e modificare gli attributi di un indirizzo.
+ * Questa classe fornisce metodi per creare, accedere e modificare gli attributi di un indirizzo
+ * associato ad un utente.
  * Inoltre, include metodi di validazione per verificare la correttezza dei dati inseriti.
- *
+ * 
  * @author Dorotea Serrelli
  */
 
 public class Indirizzo implements Cloneable{
 	
 	/**
-	 * Identificativo dell'indirizzo postale.
+	 * IDIndirizzo : identificativo dell'indirizzo postale.
 	 * Un utente può avere più indirizzi postali.
 	 * */
 	private int IDIndirizzo = 0;
 	
 	/**
-	 * La via
+	 * via : la via
 	 * */
 	private String via = "";
 	
 	/**
-	 * Il numero civico (si comprende il caso dei numeri civici di 
+	 * numCivico : il numero civico (si comprende il caso dei numeri civici di 
 	 * condomini, formati da numeri e lettere)
 	 * */
 	private String numCivico = "";
 	
 	/**
-	 * La città
+	 * citta : la città
 	 * */
 	private String citta = "";
 	
 	/**
-	 * CAP
+	 * cap : CAP
 	 * */
 	private String cap = "";
 	
 	/**
-	 * La provincia
+	 * provincia : la provincia
 	 * */
 	private String provincia = "";
 	
@@ -56,7 +57,7 @@ public class Indirizzo implements Cloneable{
 	 * @param cap: Il CAP dell'indirizzo.
 	 * @param provincia: La provincia dell'indirizzo.
 	 * 
-	 * @return true se l'indirizzo è valido, false altrimenti.
+	 * @return true se l'indirizzo è valido; false altrimenti.
 	 */
 	
 	public static boolean checkValidate(String via, String numCivico, String citta, String cap, String provincia) {
@@ -78,7 +79,8 @@ public class Indirizzo implements Cloneable{
 	 * ottenuti dai getter dell'oggetto Indirizzo.
 	 *
 	 * @param indirizzo: L'oggetto Indirizzo da validare.
-	 * @return true se tutti i campi dell'indirizzo sono validi, false altrimenti.
+	 * 
+	 * @return true se tutti i campi di indirizzo sono validi; false altrimenti.
 	 */
 	
 	public static boolean checkValidate(Indirizzo indirizzo) {
@@ -96,7 +98,10 @@ public class Indirizzo implements Cloneable{
 	 * @param cap: Il codice postale dell'indirizzo.
 	 * @param provincia: La provincia dell'indirizzo.
 	 * 
+	 * @return un oggetto della classe Indirizzo che ha i seguenti attributi : iDIndirizzo, via
+	 * 			numCivico, citta, cap, provincia.
 	 */
+	
 	public Indirizzo(int iDIndirizzo, String via, String numCivico, String citta, String cap, String provincia) {
 		IDIndirizzo = iDIndirizzo;
 		this.via = via;
@@ -115,7 +120,10 @@ public class Indirizzo implements Cloneable{
 	 * @param cap: Il codice postale dell'indirizzo.
 	 * @param provincia: La provincia dell'indirizzo.
 	 * 
+	 * @return un oggetto della classe Indirizzo che ha i seguenti attributi : via
+	 * 			numCivico, citta, cap, provincia.
 	 */
+	
 	public Indirizzo(String via, String numCivico, String citta, String cap, String provincia) {
 		this.via = via;
 		this.numCivico = numCivico;
@@ -126,7 +134,8 @@ public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Il metodo fornisce l'identificativo univoco dell'indirizzo.
-	 * @return ID dell'indirizzo
+	 * 
+	 * @return IDIndirizzo : ID dell'indirizzo
 	 * */
 
 	public int getIDIndirizzo() {
@@ -135,7 +144,8 @@ public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Il metodo imposta l'identificativo univoco dell'indirizzo.
-	 * @param idIndirizzo : codice univoco dell'indirizzo
+	 * 
+	 * @param iDIndirizzo : codice univoco dell'indirizzo
 	 * */
 	
 	public void setIDIndirizzo(int iDIndirizzo) {
@@ -144,7 +154,8 @@ public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Il metodo fornisce la via dell'indirizzo.
-	 * @return via dell'indirizzo postale
+	 * 
+	 * @return via : la via dell'indirizzo postale
 	 * */
 	
 	public String getVia() {
@@ -153,6 +164,7 @@ public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Il metodo imposta la via dell'indirizzo.
+	 * 
 	 * @param via : via dell'indirizzo postale
 	 * */
 	
@@ -162,7 +174,8 @@ public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Il metodo fornisce il numero civico dell'indirizzo.
-	 * @return il numero civico dell'indirizzo postale
+	 * 
+	 * @return numCivico : il numero civico dell'indirizzo postale
 	 * */
 	
 	public String getNumCivico() {
@@ -171,6 +184,7 @@ public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Il metodo imposta il numero civico dell'indirizzo.
+	 * 
 	 * @param numCivico : il numero civico dell'indirizzo postale
 	 * */
 	
@@ -180,7 +194,8 @@ public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Il metodo fornisce la città dell'indirizzo.
-	 * @return la città dell'indirizzo postale
+	 * 
+	 * @return citta : la città dell'indirizzo postale
 	 * */
 	
 	public String getCitta() {
@@ -189,6 +204,7 @@ public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Il metodo imposta la città dell'indirizzo.
+	 * 
 	 * @param citta : la città dell'indirizzo postale
 	 * */
 	
@@ -198,7 +214,8 @@ public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Il metodo fornisce il CAP dell'indirizzo.
-	 * @return il CAP dell'indirizzo postale
+	 * 
+	 * @return cap : il CAP dell'indirizzo postale
 	 * */
 	
 	public String getCap() {
@@ -207,6 +224,7 @@ public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Il metodo imposta il CAP dell'indirizzo.
+	 * 
 	 * @param CAP : il CAP dell'indirizzo postale
 	 * */
 	
@@ -216,7 +234,8 @@ public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Il metodo fornisce la provincia presente nell'indirizzo.
-	 * @return la provincia dell'indirizzo postale
+	 * 
+	 * @return provincia : la provincia dell'indirizzo postale
 	 * */
 	
 	public String getProvincia() {
@@ -225,6 +244,7 @@ public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Il metodo imposta la provincia presente nell'indirizzo.
+	 * 
 	 * @param provincia : la provincia dell'indirizzo postale
 	 * */
 	

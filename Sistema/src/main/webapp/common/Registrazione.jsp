@@ -17,7 +17,7 @@
 </head>
 <body>
 
-	<jsp:include page="<%=request.getContextPath() %>/common/header.jsp" flush="true" />
+	<jsp:include page="/common/header.jsp" flush="true" />
 	<div class="section-p1">
 		<form name="client" method="post" action="RegistrazioneController">
 			<div class="row">
@@ -108,7 +108,7 @@
 			</div>
 		</form>
 	</div>
-	<jsp:include page="<%=request.getContextPath() %>/common/footer.jsp" flush="true" />
+	<jsp:include page="/common/footer.jsp" flush="true" />
 </body>
 
 </html>

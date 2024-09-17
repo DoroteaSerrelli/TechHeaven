@@ -130,8 +130,7 @@ function fetchProductFullInfos(product, action) {
                         openModifyForm(productDetails);
                     } else if (action === 'delete') {
                         openDeleteForm(productDetails);
-                    }
-                    addOriginalProductDetailsToForm(details);
+                    }                   
                 });
             });
         },
@@ -185,6 +184,7 @@ function displayTopImage(product){
 
 
 function openModifyForm(product) {
+    addOriginalProductDetailsToForm(product);
     showAndEnableCheckboxes();
     $('#addProductForm').addClass('hidden');
     $('#viewProductsForm').addClass('hidden');
@@ -194,7 +194,6 @@ function openModifyForm(product) {
     $('#changeable').html("Modify Product Informations");
     
     enableModify();
-    
     populateFields(product);   
     // Set other fields as needed
 
@@ -202,6 +201,7 @@ function openModifyForm(product) {
 }
 
 function openDeleteForm(product) {
+    addOriginalProductDetailsToForm(product);
     unHideAllInfoGroups();
     hideAndDisableCheckboxes();
     

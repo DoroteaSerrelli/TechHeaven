@@ -47,8 +47,7 @@
                 
                 // Proceed with handling product and action
                 if (product && action) {
-                    addOriginalProductDetailsToForm(product);
-                     updateGallery(base64Gallery);
+                    updateGallery(base64Gallery);
                     if (action === 'modify') {
                         openModifyForm(product);
                         $('#modifyPropertiesForm').removeClass('hidden');

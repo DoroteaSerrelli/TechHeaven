@@ -35,16 +35,30 @@
     <script src="${pageContext.request.contextPath}/scripts/indexedDBUtils.js"></script>
     <script>
         $(document).ready(function() {
-            openDB(2) // Open the database when the document is ready
-                .then(function(db) {
-                    let action = '<%= session.getAttribute("action") %>';
+            openDB(2); // Open the database when the document is ready
 
-                    // Check if product data has been cached in IndexedDB or loaded before
-                    checkCachedProductData(db, action);
-                })
-                .catch(function(error) {
-                    console.error('Error opening IndexedDB:', error);
-                });
+            let action = '<%= session.getAttribute("action") %>';           
+
+            retrieveAllData(function(data) {
+                const { product } = data;  
+                
+                // Proceed with handling product and action
+                if (product && action) {
+                    updateGallery(base64Gallery);
+                    if (action === 'modify') {
+                        openModifyForm(product);
+                        $('#modifyPropertiesForm').removeClass('hidden');
+                        $('#viewProductsForm').addClass('hidden');
+                    } else if (action === 'delete') {
+                        openDeleteForm(product);
+                    }
+                } else if (action) {
+                    const initialPage = 1;
+                    fetchProducts(initialPage, action);
+                } else {
+                    console.error('No action provided');
+                }
+            });
         });
     </script>
         <script type="text/javascript">
@@ -131,9 +145,11 @@
                         <label for="descriptionCheckbox">Update Descriptions</label>
                         <div id="descriptionGroup" class="hidden">
                             <label for="TopDescrizione">Top Descrizione</label>
-                            <textarea name="topDescrizione" rows="5" cols="40"></textarea>
+                            <textarea name="topDescrizione" rows="5" cols="40" oninput="validateDettailsAndDescription(this, 'Descrizione')"></textarea>
+                            <div id="prodDescrizioneError" class="erromsg" style="display:none;"></div>                           
                             <label for="Dettagli">Dettagli</label>
-                            <textarea name="dettagli" rows="5" cols="40"></textarea>
+                            <textarea name="dettagli" rows="5" cols="40" oninput="validateDettailsAndDescription(this, 'Dettagli')"></textarea>
+                            <div id="prodDettagliError" class="erromsg" style="display:none;"></div>
                         </div>
                     </div>
 
@@ -143,7 +159,8 @@
                         <label for="pricingCheckbox">Update Pricing</label>
                         <div id="pricingGroup" class="hidden">
                             <label for="prezzo">Prezzo</label>
-                            <input type="text" name="price" oninput="validatePrice(this)">
+                            <input type="text" name="price" oninput="validatePrice(this, 'Prezzo')">
+                            <div id="prodPrezzoError" class="erromsg" style="display:none;"></div>  
                         </div>
                     </div>
 
@@ -173,7 +190,8 @@
                         <!-- Image and Other Details -->
                         <div class="form-group">
                             <label for="quantità">Quantità</label>
-                            <input type="number" id="quantità" name="quantità" oninput="validateProductID(this, 'Quantità')">                    
+                            <input type="number" id="quantità" name="quantità" oninput="validateProductID(this, 'Quantità')"> 
+                            <div id="prodQuantitàError" class="erromsg" style="display:none;"></div>  
                         </div>
                             <button id="submitBtn" type="submit">Update</button>
                         </form>
@@ -234,7 +252,7 @@
                     </section>                        
             </section>
         <script src="${pageContext.request.contextPath}/scripts/shifting_menu_manag_functions_sidebar.js"></script> 
-        <script src="${pageContext.request.contextPath}/scripts/validateNewProduct.js"></script>
+        <script src="${pageContext.request.contextPath}/scripts/validateNewProduct.js?ts=<%=System.currentTimeMillis()%>"></script>
         <script src="${pageContext.request.contextPath}/scripts/catalog_image_update_functions.js?ts=<%=System.currentTimeMillis()%>"></script>      
         <script src="${pageContext.request.contextPath}/scripts/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>      
         <jsp:include page="/common/footer.jsp"  flush="true"/>             

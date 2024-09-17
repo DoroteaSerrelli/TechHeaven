@@ -162,56 +162,6 @@ function performTransaction(storeName, mode, callback) {
     });
 }
 
-function promptProductSelection(action) {
-    // Handle the case where no product is cached
-    console.log('No cached product found, prompting product selection...');
-    
-    // You can show a UI for product selection here or redirect to a product selection page
-    const initialPage = 1;
-    fetchProducts(initialPage, action);  // Fetch products for user selection
-}
-
-function handleProductAction(product, action) {
-    // Proceed with handling product and action
-    if (product && action) {
-        updateGallery(base64Gallery);  // Update the gallery based on the selected product
-        
-        if (action === 'modify') {
-            openModifyForm(product);
-            $('#modifyPropertiesForm').removeClass('hidden');
-            $('#viewProductsForm').addClass('hidden');
-        } else if (action === 'delete') {
-            openDeleteForm(product);
-        }
-    } else {
-        console.error('No product or action provided');
-    }
-}
-
-function checkCachedProductData(db, action) {
-    // Assuming product data is cached with a specific key (e.g., 'selectedProduct')
-    const transaction = db.transaction(['productDetails'], 'readonly');
-    const objectStore = transaction.objectStore('productDetails');
-    
-    const request = objectStore.get('selectedProduct');  // Fetch cached product if it exists
-    
-    request.onsuccess = function(event) {
-        const product = event.target.result;  // Cached product data
-        
-        if (product) {
-            // If product is cached, process it directly
-            handleProductAction(product, action);
-        } else {
-            // If not cached, prompt user to select a product and fetch data
-            promptProductSelection(action);
-        }
-    };
-    
-    request.onerror = function(event) {
-        console.error('Error fetching product data:', event.target.error);
-    };
-}
-
 
 // Function to cache data locally
 let cachedProduct = null;

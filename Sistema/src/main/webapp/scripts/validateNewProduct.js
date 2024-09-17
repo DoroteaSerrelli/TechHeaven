@@ -99,3 +99,85 @@ function validateForm() {
 
     return true; // Allow form submission
 }
+
+
+ // Function to validate the entire form
+    function validateModifyForm() {
+        let isValid = true;
+
+        // Validate Product Details
+        if ($('#productDetailsCheckbox').is(':checked')) {
+            isValid &= validateProductDetails();
+        }
+
+        // Validate Descriptions
+        if ($('#descriptionCheckbox').is(':checked')) {
+            isValid &= validateDescriptions();
+        }
+
+        // Validate Pricing
+        if ($('#pricingCheckbox').is(':checked')) {
+            isValid &= validatePricing();
+        }
+
+        // Validate Quantity
+        isValid &= validateQuantity($('#quantità'));
+
+        // Return the overall validity
+        return isValid;
+    }
+
+    // Validation functions for individual sections
+    function validateProductDetails() {
+        let isValid = true;
+        const marca = $('#marca')[0];
+        const modello = $('#modello')[0];
+
+        if (!validateBrand(marca)) {
+            isValid = false;
+        }
+
+        if (!validateProductNameorModel(modello, 'Modello')) {
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    function validateDescriptions() {
+        let isValid = true;
+
+        const topDescrizione = $('textarea[name="topDescrizione"]')[0];
+        const dettagli = $('textarea[name="dettagli"]')[0];
+
+        if (!validateDettailsAndDescription(topDescrizione, 'Descrizione')) {
+            isValid = false;
+        }
+
+        if (!validateDettailsAndDescription(dettagli, 'Dettagli')) {
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    function validatePricing() {
+        let isValid = true;
+
+        const price = $('input[name="price"]')[0];
+
+        if (!validatePrice(price, 'Prezzo')) {
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+   
+
+    function validateQuantity(input) {
+        if (!validateProductID(input[0], 'Quantità')) {
+            return false;
+        }
+        return true;
+    }

@@ -383,102 +383,106 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
         form.submit(); // Programmatically submit the form
         
     } else {
-        
-        const modifiedData = {};
-        const productId = formData.get('productId');
-        // Check and add Product Details Group
-        if (document.getElementById('productDetailsCheckbox').checked) {
-            const productName = formData.get('productName');
-            const marca = formData.get('marca');
-            const modello = formData.get('modello');
+        if(validateModifyForm()){
+            const modifiedData = {};
+            const productId = formData.get('productId');
+            // Check and add Product Details Group
+            if (document.getElementById('productDetailsCheckbox').checked) {
+                const productName = formData.get('productName');
+                const marca = formData.get('marca');
+                const modello = formData.get('modello');
 
-            if (productName && marca && modello) {
-                modifiedData['productDetails'] = {
-                    productName,
-                    marca,
-                    modello
-                };
-            }
-        }
-
-        // Check and add Description Group
-        if (document.getElementById('descriptionCheckbox').checked) {
-            const topDescrizione = formData.get('topDescrizione');
-            const dettagli = formData.get('dettagli');
-            if (topDescrizione && dettagli) {
-                modifiedData['descriptions'] = {
-                    topDescrizione,
-                    dettagli
-                };
-            }
-        }
-
-        // Check and add Pricing Group
-        if (document.getElementById('pricingCheckbox').checked) {
-            const price = formData.get('price');
-
-            if (price) {
-                modifiedData['pricing'] = { price };
-            }
-        }
-
-        // Check and add Category Group
-        if (document.getElementById('categoryCheckbox').checked) {
-            const categoria = formData.get('categoria');
-            const sottocategoria = formData.get('sottocategoria');
-
-            if (categoria && sottocategoria) {
-                modifiedData['category'] = {
-                    categoria,
-                    sottocategoria
-                };
-            }
-        }
-        
-        // Add Quantity
-        const quantita = formData.get('quantità');
-        if (quantita) {
-            modifiedData['quantita'] = 
-                    { quantita };
-        }
-        
-        // Final Validation before submission
-        if (Object.keys(modifiedData).length > 0) {
-            const jsonData = JSON.stringify({
-                modifiedData: modifiedData,
-                originalProductDetails: JSON.parse(document.querySelector('input[name="originalProductDetails"]').value)
-            });
-            console.log('JSON Data to be sent:', jsonData);
-            // Submit the form after preparing all the data
-            $.ajax({
-                url: form.action,
-                method: 'POST',
-                contentType: 'application/json',
-                data: jsonData,
-                success: function(response) {
-                    // Assuming the response is a JSON object with message and redirectUrl
-                    console.log(response);
-                    clearFormState();
-                    // Store the message in sessionStorage or localStorage
-                    sessionStorage.setItem('outputMessage', response.message);
-
-                    // Redirect to the provided URL
-                    window.location.href = response.redirectUrl;
-                },
-                error: function(xhr, status, error) {
-                    clearFormState();
-                    // Assuming the response is a JSON object with message and redirectUrl
-                    // Store the message in sessionStorage or localStorage
-                    sessionStorage.setItem('outputMessage', xhr.message);
-
-                    // Redirect to the provided URL
-                    window.location.href = xhr.redirectUrl;
+                if (productName && marca && modello) {
+                    modifiedData['productDetails'] = {
+                        productName,
+                        marca,
+                        modello
+                    };
                 }
-            });
+            }
 
-        } else {
-            alert('Please make sure to modify at least one section and ensure all fields are filled correctly.');
-        } 
+            // Check and add Description Group
+            if (document.getElementById('descriptionCheckbox').checked) {
+                const topDescrizione = formData.get('topDescrizione');
+                const dettagli = formData.get('dettagli');
+                if (topDescrizione && dettagli) {
+                    modifiedData['descriptions'] = {
+                        topDescrizione,
+                        dettagli
+                    };
+                }
+            }
+
+            // Check and add Pricing Group
+            if (document.getElementById('pricingCheckbox').checked) {
+                const price = formData.get('price');
+
+                if (price) {
+                    modifiedData['pricing'] = { price };
+                }
+            }
+
+            // Check and add Category Group
+            if (document.getElementById('categoryCheckbox').checked) {
+                const categoria = formData.get('categoria');
+                const sottocategoria = formData.get('sottocategoria');
+
+                if (categoria && sottocategoria) {
+                    modifiedData['category'] = {
+                        categoria,
+                        sottocategoria
+                    };
+                }
+            }
+
+            // Add Quantity
+            const quantita = formData.get('quantità');
+            if (quantita) {
+                modifiedData['quantita'] = 
+                        { quantita };
+            }
+
+            // Final Validation before submission
+            if (Object.keys(modifiedData).length > 0) {
+                const jsonData = JSON.stringify({
+                    modifiedData: modifiedData,
+                    originalProductDetails: JSON.parse(document.querySelector('input[name="originalProductDetails"]').value)
+                });
+                console.log('JSON Data to be sent:', jsonData);
+                // Submit the form after preparing all the data
+                $.ajax({
+                    url: form.action,
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: jsonData,
+                    success: function(response) {
+                        // Assuming the response is a JSON object with message and redirectUrl
+                        console.log(response);
+                       // clearCachedProduct();
+                        // Store the message in sessionStorage or localStorage
+                        sessionStorage.setItem('outputMessage', response.message);
+
+                        // Redirect to the provided URL
+                        window.location.href = response.redirectUrl;
+                    },
+                    error: function(xhr, status, error) {
+                        //clearCachedProduct();
+                        // Assuming the response is a JSON object with message and redirectUrl
+                        // Store the message in sessionStorage or localStorage
+                        sessionStorage.setItem('outputMessage', xhr.message);
+
+                        // Redirect to the provided URL
+                        window.location.href = xhr.redirectUrl;
+                    }
+                });
+
+            } else {
+                alert('Assicurati di modificare almeno una sezione e verifica che tutti i campi siano riempiti correttamente.');
+            }
+        }
+        else{
+            alert('Ci sono errori nei dati da modificare, correggili prima di riprovare.');
+        }
 } 
 });
   

@@ -6,7 +6,12 @@ import application.RegistrazioneService.Cliente.Sesso;
  * Interfaccia che si occupa di offrire servizi relativi alla
  * registrazione di un nuovo utente: cliente, gestore degli ordini e 
  * gestore del catalogo.
+ * 
  * @see java.application.RegistrazioneService.RegistrazioneServiceImpl
+ * @see java.application.RegistrazioneService.ProxyUtente
+ * @see java.application.RegistrazioneService.Ruolo
+ * @see java.application.RegistrazioneService.Indirizzo
+ * @see java.application.RegistrazioneService.Cliente
  * 
  * @author Dorotea Serrelli
  * */
@@ -16,15 +21,17 @@ public interface RegistrazioneService {
 	/**
 	 * Questo metodo permette di registrare un nuovo cliente al sistema.
 	 * 
-	 * @param username il nome utente scelto dal cliente
-	 * @param password la password scelta dal cliente
-	 * @param email l'email del cliente
-	 * @param nome il nome del cliente
-	 * @param cognome il cognome dell'utente
-	 * @param sex il genere del cliente
-	 * @param telefono il numero di telefono del cliente
-	 * @param indirizzo l'indirizzo di spedizione del cliente
-	 * @return un oggetto ProxyUtente che contiene le informazioni del cliente seguenti: username, password e ruoli.
+	 * @param username: il nome utente scelto dal cliente
+	 * @param password: la password scelta dal cliente
+	 * @param email: l'indirizzo di posta elettronica del cliente
+	 * @param nome: il nome del cliente
+	 * @param cognome: il cognome dell'utente
+	 * @param sex: il genere del cliente
+	 * @param telefono: il numero di telefono del cliente
+	 * @param indirizzo: l'indirizzo di spedizione del cliente
+	 * 
+	 * @return un oggetto ProxyUtente che contiene le seguenti informazioni del nuovo cliente: username, password e 
+	 * 			ruoli (in questo caso possiede solo il ruolo Cliente).
 	 * */
 	ProxyUtente registraCliente(String username, String password, String email, String nome, String cognome, 
 			Sesso sex, String telefono, Indirizzo indirizzo);
@@ -32,16 +39,18 @@ public interface RegistrazioneService {
 	/**
 	 * Il metodo permette di registrare un nuovo utente come gestore degli ordini al sistema.
 	 * 
-	 * @param username il nome utente scelto dal gestore
-	 * @param password la password scelta dal gestore
-	 * @param email l'email del gestore
-	 * @param nome il nome del gestore
-	 * @param cognome il cognome del gestore
-	 * @param sex il genere del gestore
-	 * @param telefono il numero di telefono del gestore
-	 * @param indirizzo l'indirizzo di spedizione del gestore
-	 * @param isOrderManager è il ruolo "Gestore ordini" da associare all'utente
-	 * @return un oggetto Utente che contiene le informazioni del gestore seguenti: username, password e ruoli.
+	 * @param username: il nome utente scelto dal gestore
+	 * @param password: la password scelta dal gestore
+	 * @param email: l'indirizzo di posta elettronica del gestore
+	 * @param nome: il nome del gestore
+	 * @param cognome: il cognome del gestore
+	 * @param sex: il genere del gestore
+	 * @param telefono: il numero di telefono del gestore
+	 * @param indirizzo: l'indirizzo di spedizione del gestore
+	 * @param isOrderManager: è il ruolo "GestoreOrdini" da associare all'utente
+	 * 
+	 * @return un oggetto ProxyUtente che contiene le seguenti informazioni del nuovo cliente: username, password e 
+	 * 			ruoli (in questo caso possiede i ruoli GestoreOrdini e Cliente).
 	 * */
 	
 	ProxyUtente registraGestoreOrdini(String username, String password, String email, String nome, String cognome, 
@@ -50,16 +59,18 @@ public interface RegistrazioneService {
 	/**
 	 * Questo metodo permette di registrare un nuovo utente come gestore del catalogo al sistema.
 	 * 
-	 * @param username il nome utente scelto dal gestore
-	 * @param password la password scelta dal gestore
-	 * @param email l'email del gestore
-	 * @param nome il nome del gestore
-	 * @param cognome il cognome del gestore
-	 * @param sex il genere del gestore
-	 * @param telefono il numero di telefono del gestore
-	 * @param indirizzo l'indirizzo di spedizione del gestore
-	 * @param isCatalogManager è il ruolo "Gestore catalogo" da associare all'utente
-	 * @return un oggetto Utente che contiene le informazioni del gestore seguenti: username, password e ruoli.
+	 * @param username: il nome utente scelto dal gestore
+	 * @param password: la password scelta dal gestore
+	 * @param email: l'indirizzo di posta elettronica del gestore
+	 * @param nome: il nome del gestore
+	 * @param cognome: il cognome del gestore
+	 * @param sex: il genere del gestore
+	 * @param telefono: il numero di telefono del gestore
+	 * @param indirizzo: l'indirizzo di spedizione del gestore
+	 * @param isCatalogManager: è il ruolo "GestoreCatalogo" da associare all'utente
+	 * 
+	 * @return un oggetto ProxyUtente che contiene le seguenti informazioni del nuovo cliente: username, password e 
+	 * 			ruoli (in questo caso possiede i ruoli GestoreCatalogo e Cliente).
 	 * */
 	
 	ProxyUtente registraGestoreCatalogo(String username, String password,String email, String nome, String cognome, 

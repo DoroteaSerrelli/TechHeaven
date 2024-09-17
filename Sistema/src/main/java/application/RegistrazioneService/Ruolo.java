@@ -3,7 +3,7 @@ package application.RegistrazioneService;
 /**
  * La classe esprime il concetto di ruolo di un individuo all'interno
  * del sistema quando si autentica.
- * I possibili ruoli per un individuo sono utente, gestore degli ordini 
+ * I possibili ruoli per un individuo sono cliente, gestore degli ordini 
  * e gestore del catalogo.
  * 
  * @author Dorotea Serrelli
@@ -11,32 +11,41 @@ package application.RegistrazioneService;
  * */
 
 public class Ruolo implements Cloneable{
+	
 	/**
-	 * Il nome del ruolo associato ad un individuo.
+	 * nomeRuolo : il nome del ruolo associato ad un individuo.
 	 * */
 	private String nomeRuolo;
 	
 	/**
 	 * Costruttore della classe
+	 * 
 	 * @param nomeRuolo : il ruolo
+	 * 
 	 * @return un oggetto della classe Ruolo con attributo nomeRuolo
 	 * */
+	
 	public Ruolo(String nomeRuolo) {
 		this.nomeRuolo = nomeRuolo;
 	}
 	
 	/**
 	 * Il metodo fornisce il nome del ruolo.
+	 * 
 	 * @return valore attributo nomeRuolo
 	 * */
+	
 	public String getNomeRuolo() {
 		return nomeRuolo;
 	}
 	
 	/**
 	 * Il metodo imposta il nome del ruolo.
+	 * 
 	 * @param nomeRuolo : il nome del ruolo
+	 * 
 	 * */
+	
 	public void setNomeRuolo(String nomeRuolo) {
 		this.nomeRuolo = nomeRuolo;
 	}

@@ -8,8 +8,10 @@ import java.util.ArrayList;
 /**
  * Questa classe astratta è la classe client del design pattern Proxy
  * utilizzato per l'accesso e la gestione delle operazioni sull'oggetto Utente.
+ * 
  * @see java.application.RegistrazioneService.Utente
  * @see java.application.RegistrazioneService.ProxyUtente
+ * @see java.application.RegistrazioneService.Ruolo
  * 
  * @author Dorotea Serrelli
  * */
@@ -44,6 +46,9 @@ public abstract class ObjectUtente implements Cloneable{
 	 * @param u : username;
 	 * @param p : password;
 	 * @param r : ruolo da associare all'utente;
+	 * 
+	 * @return un oggetto della classe ObjectUtente con attributi username u,
+	 * 			password p e ruolo r.
 	 * */
 
 	public ObjectUtente(String u, String p, Ruolo r) {
@@ -60,6 +65,9 @@ public abstract class ObjectUtente implements Cloneable{
 	 * @param u : username;
 	 * @param p : password;
 	 * @param r : ruoli da associare all'utente;
+	 * 
+	 * @return un oggetto della classe ObjectUtente con attributi username u,
+	 * 			password p e ruoli r.
 	 * */
 
 	public ObjectUtente(String u, String p, ArrayList<Ruolo> r) {
@@ -74,7 +82,11 @@ public abstract class ObjectUtente implements Cloneable{
 	 * 
 	 * @param u : username;
 	 * @param p : password;
+	 * 
+	 * @return un oggetto della classe ObjectUtente con attributi username u,
+	 * 			password p.
 	 * */
+	
 	public ObjectUtente(String u, String p) {
 		username = u;
 		password = hashPassword(p).toString();
@@ -83,7 +95,12 @@ public abstract class ObjectUtente implements Cloneable{
 	}
 
 	/**
-	 * Si verifica se le credenziali inserite dall'utente sono valide.
+	 * In questo metodo si verifica se le credenziali inserite dall'utente sono valide.
+	 * 
+	 * @param username : il nome utente
+	 * @param password : la password dell'utente
+	 * 
+	 * @return true se le credenziali username e password sono corrette; false altrimenti.
 	 * */
 	public static boolean checkValidate(String username, String password) {
 
@@ -101,6 +118,10 @@ public abstract class ObjectUtente implements Cloneable{
 
 	/**
 	 * Questo metodo verifica se la nuova password inserita dall'utente è valida.
+	 * 
+	 * @param password : la password dell'utente
+	 * 
+	 * @return true se la password è corretta; false altrimenti.
 	 * */
 	public static boolean checkResetPassword(String password) {
 
@@ -111,8 +132,16 @@ public abstract class ObjectUtente implements Cloneable{
 
 
 	/**
-	 * Il metodo effettua l'hashing della password.
+	 * Il metodo effettua l'hashing SHA-512 della password dell'utente.
+	 * In tal modo le password non vengono memorizzate in chiaro nel Database.
+	 * 
+	 * @param password : la password dell'utente
+	 * 
+	 * @return hashString: l'output della funzione hash SHA-512 fornito in 
+	 * 			input la password password dell'utente.
+	 * 
 	 * */
+	
 	private StringBuilder hashPassword(String password) {
 		StringBuilder hashString = new StringBuilder();
 		try {
@@ -128,14 +157,19 @@ public abstract class ObjectUtente implements Cloneable{
 	}
 
 	/**
-	 * Restituisce l'username dell'utente.
+	 * Il metodo restituisce l'username dell'utente.
+	 * 
+	 * @return username : il nome utente
 	 * */
+	
 	public String getUsername() {
 		return username;
 	}
 
 	/**
-	 * Imposta l'username dell'utente.
+	 * Il metodo imposta l'username dell'utente.
+	 * 
+	 * @param username : il nome utente
 	 * */
 
 	public void setUsername(String username) {
@@ -143,7 +177,9 @@ public abstract class ObjectUtente implements Cloneable{
 	}
 
 	/**
-	 * Restituisce la password dell'utente.
+	 * Il metodo restituisce la password dell'utente.
+	 * 
+	 * @return password : la password dell'utente
 	 * */
 
 	public String getPassword() {
@@ -151,7 +187,10 @@ public abstract class ObjectUtente implements Cloneable{
 	}
 
 	/**
-	 * Imposta la password dell'utente già cifrata.
+	 * Il metodo imposta la password dell'utente già cifrata.
+	 * @see application.RegistrazioneService.ObjectUtente.hashPassword
+	 * 
+	 * @param password : la password cifrata in SHA-512 
 	 * */
 
 	public void setPassword(String password) {
@@ -159,7 +198,11 @@ public abstract class ObjectUtente implements Cloneable{
 	}
 	
 	/**
-	 * Imposta la password dell'utente non ancora cifrata.
+	 * Il metodo imposta la password dell'utente non ancora cifrata.
+	 * 
+	 * @see application.RegistrazioneService.ObjectUtente.hashPassword
+	 * 
+	 * @param password : la password dell'utente in chiaro, da cifrare in SHA-512 
 	 * */
 
 	public void setPasswordToHash(String p) {
@@ -167,14 +210,19 @@ public abstract class ObjectUtente implements Cloneable{
 	}
 
 	/**
-	 * Restituisce i ruoli associati all'utente.
+	 * Il metodo restituisce i ruoli associati all'utente.
+	 * 
+	 * @return ruoli: i ruoli associati all'utente
 	 * */
 	public ArrayList<Ruolo> getRuoli() {
 		return ruoli;
 	}
 
 	/**
-	 * Imposta i ruoli di un utente.
+	 * Il metodo imposta i ruoli di un utente.
+	 * 
+	 * @param ruoli : i ruoli dell'utente
+	 * 
 	 * */
 
 	public void setRuoli(ArrayList<Ruolo> ruoli) {
@@ -183,6 +231,10 @@ public abstract class ObjectUtente implements Cloneable{
 
 	/**
 	 * Questo metodo aggiunge un nuovo ruolo all'utente.
+	 * 
+	 * @param r : il nuovo ruolo da aggiungere all'utente
+	 * 
+	 * @return ruoli : una lista dei ruoli associati all'utente, comprendente il ruolo r
 	 * */
 	public ArrayList<Ruolo> addRuolo(Ruolo r) {
 		ruoli.add(r);

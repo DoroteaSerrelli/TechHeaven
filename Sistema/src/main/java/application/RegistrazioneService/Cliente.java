@@ -13,6 +13,7 @@ import storage.GestioneOrdiniDAO.OrdineDAODataSource;
  * in modo che si conoscano le informazioni essenziali degli ordini effettuati dall'utente.
  * 
  * @see application.GestioneOrdiniService.ProxyOrdine
+ * @see application.GestioneOrdiniService.Indirizzo
  * 
  * @author Dorotea Serrelli
  * */
@@ -73,6 +74,8 @@ public class Cliente implements Cloneable{
 	 * Tale metodo, pertanto, verrà utilizzato in fase di registrazione 
 	 * del nuovo cliente al sistema.
 	 * 
+	 * @see application.RegistrazioneService.Indirizzo.checkValidate
+	 * 
 	 * @param email : l'indirizzo di posta elettronica del cliente
 	 * @param nome : il nome del cliente
 	 * @param cognome : il cognome del cliente
@@ -94,11 +97,9 @@ public class Cliente implements Cloneable{
 				|| !telefono.matches(telefonoPattern) || sex == null)
 			return false;
 		
-		/**
+		/*
 		 * Si effettua la verifica dell'indirizzo inserito invocando il metodo checkValidate della
 		 * classe Indirizzo.
-		 * 
-		 * @see application.RegistrazioneService.Indirizzo.checkValidate
 		 * **/
 		if(!Indirizzo.checkValidate(indirizzo))
 			return false;
@@ -112,6 +113,7 @@ public class Cliente implements Cloneable{
 	 * debba aggiornare il proprio indirizzo email.
 	 * 
 	 * @param email : l'indirizzo di posta elettronica inserito dall'utente
+	 * 
 	 * @return true se l'email è scritta nel formato corretto; false altrimenti.
 	 * */
 	public static boolean checkValidateEmail(String email) {
@@ -126,6 +128,7 @@ public class Cliente implements Cloneable{
 	 * debba aggiornare il proprio recapito telefonico.
 	 * 
 	 * @param telefono : il numero di telefono fornito dall'utente
+	 * 
 	 * @return true se il numero di telefono è scritto nel formato corretto; false altrimenti.
 	 * */
 	public static boolean checkValidateTelefono(String telefono) {
@@ -146,7 +149,7 @@ public class Cliente implements Cloneable{
 	 * @param indirizzi : la rubrica di indirizzi di spedizione associati al cliente
 	 * 
 	 * @return un oggetto Cliente inizializzato con le informazioni del cliente passate
-	 * come parametri
+	 * 			come parametri: email, nome, cognome, sex, telefono, indirizzi e proxyOrdini vuoto
 	 * */
 	public Cliente(String email, String nome, String cognome, Sesso sex, String telefono,
 			ArrayList<Indirizzo> indirizzi) {
@@ -173,7 +176,8 @@ public class Cliente implements Cloneable{
 	 * @param indirizzo : l'indirizzo di spedizione associato al cliente
 	 * 
 	 * @return un oggetto Cliente inizializzato con le informazioni del cliente passate
-	 * come parametri
+	 * 			come parametri: email, nome, cognome, sex, telefono, indirizzo di
+	 * 			spedizione e proxyOrdini vuoto
 	 * */
 	public Cliente(String email, String nome, String cognome, Sesso sex, String telefono,
 			Indirizzo indirizzo) {
@@ -191,7 +195,7 @@ public class Cliente implements Cloneable{
 	/**
 	 * Il metodo fornisce l'indirizzo email del cliente
 	 * 
-	 * @return l'indirizzo di posta elettronica del cliente
+	 * @return email : l'indirizzo di posta elettronica del cliente
 	 * */
 	public String getEmail() {
 		return email;
@@ -209,7 +213,7 @@ public class Cliente implements Cloneable{
 	/**
 	 * Il metodo restituisce il nome del cliente
 	 * 
-	 * @return nome del cliente
+	 * @return nome : nome del cliente
 	 * */
 	public String getNome() {
 		return nome;
@@ -227,7 +231,7 @@ public class Cliente implements Cloneable{
 	/**
 	 * Il metodo restituisce il cognome del cliente
 	 * 
-	 * @return cognome del cliente
+	 * @return cognome : cognome del cliente
 	 * */
 	public String getCognome() {
 		return cognome;
@@ -245,7 +249,7 @@ public class Cliente implements Cloneable{
 	/**
 	 * Il metodo restituisce il genere del cliente.
 	 * 
-	 * @return il sesso del cliente
+	 * @return sex : il sesso del cliente
 	 * */
 	public Sesso getSex() {
 		return sex;
@@ -254,8 +258,7 @@ public class Cliente implements Cloneable{
 	/**
 	 * Il metodo restituisce il genere del cliente in formato stringa.
 	 * 
-	 * @return il sesso del cliente come oggetto della classe 
-	 * String
+	 * @return il sesso del cliente come oggetto della classe String
 	 * */
 	public String getSexAsString() {
 		return sex.toString();
@@ -274,7 +277,7 @@ public class Cliente implements Cloneable{
 	 * Il metodo imposta il genere del cliente in formato stringa.
 	 * 
 	 * @param sex : il sesso del cliente fornito come 
-	 * oggetto della classe String
+	 * 			oggetto della classe String
 	 * */
 	public void setSex(String sex) {
 	    if(sex.equalsIgnoreCase("F")) {
@@ -289,7 +292,7 @@ public class Cliente implements Cloneable{
 	/**
 	 * Il metodo restituisce il numero di telefono del cliente.
 	 * 
-	 * @return il numero di telefono del cliente
+	 * @return telefono : il numero di telefono del cliente
 	 * */
 	public String getTelefono() {
 		return telefono;
@@ -308,17 +311,16 @@ public class Cliente implements Cloneable{
 	 * Il metodo restituisce la rubrica di indirizzi di spedizione
 	 * del cliente.
 	 * 
-	 * @return gli indirizzi di spedizione associati al cliente
+	 * @return indirizzi : lista di indirizzi di spedizione associati al cliente
 	 * */
 	public ArrayList<Indirizzo> getIndirizzi() {
 		return indirizzi;
 	}
 	
 	/**
+	 * Il metodo imposta una lista di indirizzi di spedizione al cliente.
 	 * 
-	 * Il metodo imposta un insieme di indirizzi di spedizione al cliente.
-	 * 
-	 * @param uninsieme di indirizzi di spedizione da associare al cliente
+	 * @param indirizzi : una lista di indirizzi di spedizione da associare al cliente
 	 * */
 	public void setIndirizzi(ArrayList<Indirizzo> indirizzi) {
 		this.indirizzi = indirizzi;
@@ -333,8 +335,8 @@ public class Cliente implements Cloneable{
 	 * @param page rappresenta il numero di pagina desiderato
 	 * @param perPage indica il numero di elementi per pagina
 	 * 
-	 * @return una collezione di oggetti di tipo ProxyOrdine che contiene gli
-	 * ordini fatti dall'utente presso il negozio online.
+	 * @return proxyOrdini : una collezione di oggetti di tipo ProxyOrdine che contiene gli
+	 * 				ordini fatti dall'utente presso il negozio online.
 	 * */
 	public ArrayList<ProxyOrdine> mostraOrdiniCliente(int page, int perPage) {
 		if(proxyOrdini == null) {
@@ -351,9 +353,10 @@ public class Cliente implements Cloneable{
 
 	/**
 	 * Metodo che fornisce una stringa contenente tutte le informazioni associate al cliente.
-	 * Esso si serve di un metodo helper @see application.RegistrazioneService.Cliente.toStringIndirizzi()
-	 * per stampare la rubrica di indirizzi del cliente.
+	 * Esso si serve di un metodo helper per stampare la rubrica di indirizzi del cliente.
 	 * 
+	 * @see application.RegistrazioneService.Cliente.toStringIndirizzi()
+	 *  
 	 * @return un oggetto di tipo String contenente tutte le informazioni relative al cliente
 	 * */
 	@Override
@@ -366,8 +369,8 @@ public class Cliente implements Cloneable{
 	 * Metodo helper che fornisce una stringa contenente tutti gli indirizzi di spedizione
 	 * che sono associati al cliente.
 	 * 
-	 * @return un oggetto di tipo String contenente tutti gli indirizzi di spedizione
-	 * del cliente
+	 * @return rubricaIndirizzi : un oggetto di tipo String contenente tutti gli indirizzi di spedizione
+	 * 			del cliente
 	 * */
 	private String toStringIndirizzi() {
 		String rubricaIndirizzi = "";
@@ -392,7 +395,7 @@ public class Cliente implements Cloneable{
 	 * negli ArrayList (Indirizzi e ProxyOrdini) vengono copiati in modo profondo,
 	 * garantendo che le modifiche apportate alla copia non influenzino l'oggetto originale.
 	 *
-	 * @return Una copia profonda dell'oggetto Cliente.
+	 * @return clone : Una copia profonda dell'oggetto Cliente.
 	 */
 	@Override
 	public Cliente clone() throws CloneNotSupportedException {

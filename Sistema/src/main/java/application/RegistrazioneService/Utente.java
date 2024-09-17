@@ -1,18 +1,22 @@
 package application.RegistrazioneService;
 
 /**
- * Questa classe rappresenta un utente del sistema:
- * detiene le informazioni username, password, 
+ * Questa classe rappresenta un utente del sistema, per il quale si conoscono
+ * username, password, 
  * ruoli associati e profilo personale.
- *
- * @author Dorotea Serrelli
+ * 
  * @see application.RegistrazioneService.ObjectUtente
+ * @see application.RegistrazioneService.Cliente
+ * @see application.RegistrazioneService.Ruolo
+ * 
+ * @author Dorotea Serrelli
+ * 
  */
 
 public class Utente extends ObjectUtente implements Cloneable{
 	
 	/**
-	 * Riferimento al profilo dell'utente, contenente le informazioni
+	 * profile : riferimento al profilo dell'utente, contenente le informazioni
 	 * personali.
 	 * */
 	private Cliente profile;
@@ -27,6 +31,8 @@ public class Utente extends ObjectUtente implements Cloneable{
      * @param password: La password.
      * @param profile: Il profilo cliente associato all'utente.
      * 
+     * @return un oggetto della classe Utente avente come attributi
+     * 			username, password e profile.
      */
 
 	public Utente(String username, String password, Cliente profile) {
@@ -44,7 +50,11 @@ public class Utente extends ObjectUtente implements Cloneable{
      * @param profile: Il profilo cliente associato all'utente.
      * @param role : un ruolo aggiuntivo oltre a quello di cliente
      * 
+     * @return un oggetto della classe Utente avente come attributi
+     * 			username, password, profile e role.
+     * 
      */
+	
 	public Utente(String username, String password, Cliente profile, Ruolo role) {
 		super(username, password, role);
 		this.profile = profile;
@@ -52,14 +62,17 @@ public class Utente extends ObjectUtente implements Cloneable{
 	
 	/**
 	 * Il metodo fornisce il profilo dell'utente.
-	 * @return informazioni personali dell'utente
+	 * 
+	 * @return profile : informazioni personali dell'utente
 	 * */
+	
 	public Cliente getProfile() {
 		return profile;
 	}
 	
 	/**
 	 * Il metodo imposta il profilo dell'utente.
+	 * 
 	 * @param profile : informazioni personali dell'utente
 	 * */
 	public void setProfile(Cliente profile) {
@@ -84,7 +97,7 @@ public class Utente extends ObjectUtente implements Cloneable{
 	 * vengono copiati in modo profondo, garantendo che le modifiche apportate alla
 	 * copia non influenzino l'oggetto originale.
 	 *
-	 * @return Una copia profonda dell'oggetto Utente.
+	 * @return clone : Una copia profonda dell'oggetto Utente.
 	 * @throws RuntimeException se si verifica un errore durante la clonazione.
 	 */
 	@Override

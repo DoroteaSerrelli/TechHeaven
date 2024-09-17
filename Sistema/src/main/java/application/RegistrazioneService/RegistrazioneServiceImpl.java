@@ -11,10 +11,14 @@ import storage.AutenticazioneDAO.IndirizzoDAODataSource;
 /**
  * La classe fornisce un'implementazione al servizio di registrazione di un nuovo utente
  * al sistema: cliente, gestore degli ordini e gestore del catalogo.
- * @see application.RegistrazioneService
- * @see application.RegistrazioneService.Proxyutente
+ * 
+ * @see application.RegistrazioneService.RegistrazioneService
+ * @see application.RegistrazioneService.ProxyUtente
  * @see application.RegistrazioneService.ObjectUtente
  * @see application.RegistrazioneService.Utente
+ * @see java.application.RegistrazioneService.Ruolo
+ * @see java.application.RegistrazioneService.Indirizzo
+ * @see java.application.RegistrazioneService.Cliente
  * 
  * @author Dorotea Serrelli
  * */
@@ -23,8 +27,22 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 	
 	@Override
 	/**
-	 * Implementa la funzionalità di registrazione di un cliente.
+	 * Questo metodo implementa la funzionalità di registrazione di un nuovo cliente
+	 * nel sistema.
+	 * 
+	 * @param username: il nome utente scelto dal cliente
+	 * @param password: la password scelta dal cliente
+	 * @param email: l'indirizzo di posta elettronica del cliente
+	 * @param nome: il nome del cliente
+	 * @param cognome: il cognome dell'utente
+	 * @param sex: il genere del cliente
+	 * @param telefono: il numero di telefono del cliente
+	 * @param indirizzo: l'indirizzo di spedizione del cliente
+	 * 
+	 * @return un oggetto ProxyUtente che contiene le seguenti informazioni del nuovo cliente: username, password e 
+	 * 			ruoli (in questo caso possiede solo il ruolo Cliente).
 	 * */
+
 	public ProxyUtente registraCliente(String username, String password, String email, String nome, String cognome, Sesso sex, String telefono,
 			Indirizzo indirizzo) {
 		if(ObjectUtente.checkValidate(username, password)) {
@@ -64,9 +82,23 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 		return null;
 	}
 
+	
 	@Override
 	/**
-	 * Implementa la funzionalità di registrazione di un gestore degli ordini con ruoli: Cliente, Gestore ordini.
+	 * Questo metodo implementa la funzionalità di registrazione di un gestore degli ordini nel sistema.
+	 * 
+	 * @param username: il nome utente scelto dal gestore
+	 * @param password: la password scelta dal gestore
+	 * @param email: l'indirizzo di posta elettronica del gestore
+	 * @param nome: il nome del gestore
+	 * @param cognome: il cognome del gestore
+	 * @param sex: il genere del gestore
+	 * @param telefono: il numero di telefono del gestore
+	 * @param indirizzo: l'indirizzo di spedizione del gestore
+	 * @param isOrderManager: è il ruolo "GestoreOrdini" da associare all'utente
+	 * 
+	 * @return un oggetto ProxyUtente che contiene le seguenti informazioni del nuovo cliente: username, password e 
+	 * 			ruoli (in questo caso possiede i ruoli GestoreOrdini e Cliente).
 	 * */
 	public ProxyUtente registraGestoreOrdini(String username, String password, String email, String nome, String cognome, Sesso sex, String telefono,
 			Indirizzo indirizzo, Ruolo isOrderManager) {
@@ -107,16 +139,30 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 		return null;
 	}
 
+	
 	@Override
 	/**
-	 * Implementa la funzionalità di registrazione di un gestore del catalogo.
+	 * Questo metodo implementa la funzionalità di registrazione di un gestore del catalogo nel sistema.
+	 * 
+	 * @param username: il nome utente scelto dal gestore
+	 * @param password: la password scelta dal gestore
+	 * @param email: l'indirizzo di posta elettronica del gestore
+	 * @param nome: il nome del gestore
+	 * @param cognome: il cognome del gestore
+	 * @param sex: il genere del gestore
+	 * @param telefono: il numero di telefono del gestore
+	 * @param indirizzo: l'indirizzo di spedizione del gestore
+	 * @param isCatalogManager: è il ruolo "GestoreCatalogo" da associare all'utente
+	 * 
+	 * @return un oggetto ProxyUtente che contiene le seguenti informazioni del nuovo cliente: username, password e 
+	 * 			ruoli (in questo caso possiede i ruoli Gestore catalogo e Cliente).
 	 * */
 	public ProxyUtente registraGestoreCatalogo(String username, String password, String email, String nome, String cognome, Sesso sex, String telefono,
 			Indirizzo indirizzo, Ruolo isCatalogManager) {
 		if(ObjectUtente.checkValidate(username, password)) {
 			if(Cliente.checkValidate(email, nome, cognome, sex, telefono, indirizzo)) {
 				Cliente profile = new Cliente(email, nome, cognome, sex, telefono, indirizzo);
-				Utente user = new Utente(username, password, profile, new Ruolo("Gestore catalogo"));
+				Utente user = new Utente(username, password, profile, isCatalogManager);
 				ClienteDAODataSource profileDAO = new ClienteDAODataSource();
 				UtenteDAODataSource userDAO = new UtenteDAODataSource();
 				RuoloDAODataSource roleDAO = new RuoloDAODataSource();

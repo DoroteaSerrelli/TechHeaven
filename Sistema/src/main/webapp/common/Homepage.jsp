@@ -98,10 +98,10 @@ Collection<ProxyProdotto> gr_elettr = (Collection<ProxyProdotto>) application.ge
 		</div>
 	</section>
 	<section id="banner">
-		<h4>Buy a laptop today</h4>
+		<!--<h4>Non Restare Indietro!</h4>
 		<h2>
-			Up to <span>70% off</span> - To improve your efficiency at home
-		</h2>
+			Vieni A Scoprire I <span>Nostri</span> Smartphone!
+		</h2>-->
 		<button>Explore More</button>
 	</section>
 	<section id="product1" class="section-p1">
@@ -144,16 +144,10 @@ Collection<ProxyProdotto> gr_elettr = (Collection<ProxyProdotto>) application.ge
 		</div>
 	</section>
 	<section id="sm-banner" class="section-p1">
-		<div class="banner-box">
-			<h4>crazy deals</h4>
-			<h2>Buy 1 get 1 free</h2>
-			<span>The best quality tech is on sale at TechHeaven</span>
+		<div class="banner-box">			
 			<button class="minbanner">Learn More</button>
 		</div>
 		<div class="banner-box banner-box2">
-			<h4>summer</h4>
-			<h2>Upcoming season</h2>
-			<span>Fresh offers available on sale at TechHeaven</span>
 			<button class="minbanner">Learn More</button>
 		</div>
 	</section>

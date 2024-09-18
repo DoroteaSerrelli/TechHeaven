@@ -1,3 +1,4 @@
+<%@page import="java.util.HashMap"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"
 	import="application.GestioneCarrelloService.ItemCarrello,
 				  application.GestioneCarrelloService.Carrello"%>
@@ -16,60 +17,85 @@
 	<jsp:include page="common/header.jsp"
 		flush="true" />
 	<div id="showpr" class="section-p1">
-		<%
-            Carrello carrello; 
-            carrello = (Carrello) request.getSession().getAttribute("usercart");%>
-		<div class="errormsg">
-			<% 
-                    String err = (String)request.getSession().getAttribute("error");
-                    if (err != null && !err.isEmpty()) {
-                 %>
-			<p id="error" class="error invalid"><%=err%></p>
-			<% request.getSession().removeAttribute("error");
-                    } %>
-		</div>
-		<% if(carrello==null || carrello.getProducts().isEmpty()){
+    <p id="error"></p>
+    <%
+        Carrello carrello = (Carrello) request.getSession().getAttribute("usercart");
+    %>
+    <div class="errormsg">
+        <%
+            String err = (String) request.getSession().getAttribute("error");
+            if (err != null && !err.isEmpty()) {
         %>
-		<div id="emptycart">
-			<h4>Il tuo carrello è vuoto!</h4>
-			<p>Cerca il tuo prodotto nelle nostre categorie di prodotti.</p>
-		</div>
+        <p id="error" class="error invalid"><%= err %></p>
+        <%
+            request.getSession().removeAttribute("error");
+            }
+        %>
+    </div>
 
-		<%
-            } else {  
-        %>
-		<h1>Carrello:</h1>
-		<%
-            carrello.totalAmount();
-        %>
-		<div id="complete_order">
-			<h1>Totale provvisorio:</h1>
-			<h3><%=String.format("%.2f", carrello.totalAmount())%>€
-			</h3>
-			<a href="complete_order.jsp">Click here to proceed with the order</a>
-		</div>
-		<%
-                for(ItemCarrello p: carrello.getProducts()){                         
+    <%
+        if (carrello == null || carrello.getProducts().isEmpty()) {
+    %>
+    <div id="emptycart">
+        <h4>Il tuo carrello è vuoto!</h4>
+        <p>Cerca il tuo prodotto nelle nostre categorie di prodotti.</p>
+    </div>
+    <%
+        } else {
+    %>   
+    <div id="cart">
+        <h1>Carrello:</h1>
+        <div id="complete_order">
+            <h1>Totale provvisorio:</h1>
+            <h3><%= String.format("%.2f", carrello.totalAmount()) %>€</h3>
+            <a href="CompletaOrdine.jsp">Click here to proceed with the order</a>
+        </div>
+
+        <%
+            for (ItemCarrello p : carrello.getProducts()) {
+        %>          
+        <div id="item_<%= p.getCodiceProdotto() %>" class="cart-item">
+            <p><%= p.getNomeProdotto() + "  " %></p>
+            <span style="color: #F28C44; font-size: 20px"><%= p.getMarca() %></span>
+            <div class="row">
+                <img src="image?productId=<%= p.getCodiceProdotto() %>" alt="alt"
+                    onerror="this.onerror=null;this.src='<%= request.getContextPath() %>/images/site_images/placeholder.png';" />			
+                <h3><%= p.getPrezzo() %>€</h3>
+            </div>
+            <div class="row item-carrello">
+                <p>Quantità: <%= p.getQuantita() %></p>
+                <%
+                    if (p.getQuantita() >= 1) { 
+                        HashMap products_available_inStock = (HashMap) request.getSession().getAttribute("products_available_inStock");
+                %>                              
+                <p id="range_value_<%= p.getCodiceProdotto() %>" style="color: goldenrod"><%= p.getQuantita() %></p>
+                <div class="input-wrapper row">
+                    <input type="range" id="prod_quantità_<%= p.getCodiceProdotto() %>"
+                        name="prod_quantità" min="1"
+                        max="<%= products_available_inStock.get(p.getCodiceProdotto()) %>">
+                </div>
+                <a href="#"
+                    onclick="modifyCart(<%= p.getCodiceProdotto() %>, 'updateQuantità', viewCart)">
+                    <h3>Aggiorna Quantità</h3>
+                </a>
+                <a href="#"
+                    onClick="modifyCart(<%= p.getCodiceProdotto() %>, 'rimuoviDalCarrello')">
+                    <h3>Rimuovi dal Carrello</h3>
+                </a>
+                    <%
+                        }
+                    %>
+                </div>
+            </div>
+            <%
+                }
             %>
+        </div>
+        <%
+            }
+        %>
+    </div>
 
-		<div class="row">
-			<img src="image?productId=<%= p.getCodiceProdotto() %>" alt="alt"
-				onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';" />
-			<p><%=p.getNomeProdotto()+" "%>
-				<%=p.getMarca()%></p>
-			<h3><%=p.getPrezzo()%>€
-			</h3>
-		</div>
-		<div class="row item-carrello">
-			<p>
-				Quantità:
-				<%=p.getQuantita()%></p>
-		</div>
-		<% }
-            %>
-
-		<%}%>
-	</div>
 	<jsp:include page="common/footer.jsp"
 		flush="true" />
 

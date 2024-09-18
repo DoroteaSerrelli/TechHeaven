@@ -28,7 +28,7 @@
          toggleCartVisibility();
      });
    // Add item to cart via AJAX
-   function modifyCart(productId, action) {
+   function modifyCart(productId, action, callback) {
         // Make an AJAX request to the servlet
         var outputMessage= "";
         var quantity;
@@ -45,7 +45,7 @@
                     // You can handle the response here if needed
                     // Request completed successfully
                     // Reload cart section
-                 //   reloadCartSection();
+                   //reloadCartSection();
                     // Display notification               
                    
                     // Parse the JSON response
@@ -54,9 +54,21 @@
                     // Handle the response here
                     var outputMessage = response.message; // Retrieve the message from the response
                     var status = response.status; // Retrieve the status from the response
+                    
+                    // Check if the item was successfully removed
+                    if (status === "valid" && action === "rimuoviDalCarrello") {
+                        // Remove the item from the UI (remove the item's DOM element)
+                        var itemRow = document.getElementById("item_" + productId);
+                        if (itemRow) {
+                            itemRow.remove(); // Remove the item from the DOM
+                        }
+                    }
 
-                    // Optionally reload cart section or take other actions based on status
-                    reloadCartSection();
+                    
+                    // Optionally reload the cart or call the provided callback
+                    if (typeof callback === 'function') {
+                        callback(); // Call the callback function after successful request
+                    }
                     
                     // Display notification
                     displayNotification(outputMessage, status);
@@ -73,10 +85,36 @@
         // Send the request with product ID as a parameter
         xhr.send("productId=" + encodeURIComponent(productId) );
     }
+    
+    // Function to refresh the cart by calling the viewCart action
+    function viewCart() {
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "GestioneCarrelloController?action=viewCart", true);
+        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+                if (xhr.status === 200) {
+                    reloadCartSection();
+                    // Replace the cart section with the new HTML response
+                   // document.getElementById("carrello-item").innerHTML = xhr.responseText;
+
+                    // Optionally bind event listeners or do any other necessary UI updates
+             //       rebindRangeInputs(); // If you need to rebind range inputs after refreshing the UI
+                } else {
+                    // Handle error in refreshing the cart
+                    displayNotification("Error refreshing the cart", "error");
+                }
+            }
+        };
+
+        // Send the request to refresh the cart
+        xhr.send();
+    }
+    
     // Function to reload cart section using AJAX
     function reloadCartSection() {
-
-        $("#carrello").load(' #carrelloroba'); // Replace cart section content with response
+        $("#cart").load(" #cart > *"); // Reload only the cart section with updated content
     }
 
     // Function to display notification

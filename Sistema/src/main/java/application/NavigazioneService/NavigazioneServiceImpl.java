@@ -80,9 +80,10 @@ public class NavigazioneServiceImpl implements NavigazioneService{
 	 * 
 	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
 	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
+	 * @throws SQLException 
 	 * */
 	@Override
-	public Collection<ProxyProdotto> ricercaProdottoBar(String keyword, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException {
+	public Collection<ProxyProdotto> ricercaProdottoBar(String keyword, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
 		
 		ProdottoDAODataSource pdao = new ProdottoDAODataSource();
 		return pdao.searching("NOME", keyword, page, perPage);

@@ -5,6 +5,9 @@
 package application.NavigazioneControl;
 
 import application.NavigazioneService.NavigazioneServiceImpl;
+
+import java.sql.SQLException;
+
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -20,7 +23,12 @@ public class NewServletListener implements ServletContextListener {
         // This is the code you want to execute
         String categoria = "TELEFONIA"; 
         System.out.println("SONO QUI");
-        sce.getServletContext().setAttribute("telefoni", PaginationUtils.performPagination(new NavigazioneServiceImpl(), categoria, 1, 6, "menu"));
+        try {
+			sce.getServletContext().setAttribute("telefoni", PaginationUtils.performPagination(new NavigazioneServiceImpl(), categoria, 1, 6, "menu"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         // Assuming request and response objects are not available here,
         // so you might need to adjust this part according to your requirement
         //PaginationUtils.setPaginationAttributes(request, searchResult, categoria, 10);
@@ -29,7 +37,12 @@ public class NewServletListener implements ServletContextListener {
         //DOPPIO FETCH ???? PAGINA INIZIALE
         categoria = "GRANDI_ELETTRODOMESTICI"; 
         System.out.println("SONO QUIx2");
-        sce.getServletContext().setAttribute("gr_elettr", PaginationUtils.performPagination(new NavigazioneServiceImpl(), categoria, 1, 6, "menu"));
+        try {
+			sce.getServletContext().setAttribute("gr_elettr", PaginationUtils.performPagination(new NavigazioneServiceImpl(), categoria, 1, 6, "menu"));
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         // Storing searchResult in ServletContext for later retrieval
         

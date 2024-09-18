@@ -217,7 +217,7 @@ Quindi dell'immagine in background e del testo, flex (allineamento degli item)
 Che setteremò per incollonare il testo al centro.
 */
 #hero {
-	background-image: url("../images/site_images/3.png");
+	background-image: url("../images/site_images/banner_1.png");
 	height: 90vh;
 	width: 100%;
 	background-position: top 25% right 0;

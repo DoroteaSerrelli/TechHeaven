@@ -17,12 +17,7 @@
 <body>
 
 	<jsp:include page="/common/header.jsp" flush="true" />
-	<section id="hero">
-		<h4>Spacial offers availables every day</h4>
-		<h2>Super value deal</h2>
-		<h1>On all products</h1>
-		<button>Buy Now</button>
-	</section>
+	<section id="hero"></section>
 	<section id="feature" class="section-p1">
 		<div class="fe-box">
 			<img

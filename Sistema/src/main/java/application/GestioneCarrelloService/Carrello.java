@@ -14,6 +14,7 @@ import application.GestioneCarrelloService.CarrelloException.ProdottoPresenteExc
  * 
  * @see java.application.GestioneCarrelloService.GestioneCarrelloService
  * @see java.application.GestioneCarrelloService.GestioneCarrelloServiceImpl
+ * @see java.application.GestioneCarrelloService.ItemCarrello
  * @see java.application.GestioneCarrelloService.CarrelloException
  * 
  * @author Dorotea Serrelli
@@ -22,24 +23,30 @@ import application.GestioneCarrelloService.CarrelloException.ProdottoPresenteExc
 public class Carrello {
 	
 	/**
-	 * I prodotti presenti nel carrello.
-	 * @see java.application.GestioneCarrelloService.ItemCarrello
+	 * products : i prodotti presenti nel carrello.
 	 * */
+	
 	private List<ItemCarrello> products;
 	
 	/**
 	 * Costruttore di classe
 	 * */
+	
 	public Carrello() {
 		products = new ArrayList<>();
 	}
 	
 	/**
 	 * Questo metodo consente l'aggiunta di un prodotto all'interno del carrello.
-	 * @param product è il prodotto da aggiungere al carrello
+	 * 
+	 * @param product : il prodotto da aggiungere al carrello
+	 * 
 	 * @precondition product != null
 	 * @precondition !this.isPresent(product)
-	 * @throws ProdottoPresenteException se il prodotto è già presente nel carrello
+	 * 
+	 * @throws ProdottoNulloException : gestisce il caso in cui il prodotto product è null
+	 * @throws ProdottoPresenteException : gestisce il caso in cui il prodotto da aggiungere 
+	 * 										è già presente nel carrello
 	 * */
 	
 	public void addProduct(ItemCarrello product) throws ProdottoPresenteException, ProdottoNulloException{
@@ -53,12 +60,15 @@ public class Carrello {
 	
 	/**
 	 * Questo metodo consente la rimozione di un prodotto all'interno del carrello.
-	 * @param product è il prodotto da rimuovere dal carrello
+	 * 
+	 * @param product : il prodotto da rimuovere dal carrello
+	 * 
 	 * @precondition product != null
 	 * @precondition this.isPresent(product)
-	 * @throws ProdottoNulloException se product è null
-	 * @throws ProdottoNonPresenteException se il prodotto non è presente nel carrello
-	 * @throws CarrelloVuotoException se il carrello è vuoto
+	 * 
+	 * @throws ProdottoNulloException : gestisce il caso in cui il prodotto product è null
+	 * @throws ProdottoNonPresenteException: gestisce il caso in cui il prodotto non è presente nel carrello
+	 * @throws CarrelloVuotoException : gestisce il caso in cui il carrello è vuoto
 	 * */
 	
 	public void deleteProduct(ItemCarrello product) throws ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException{
@@ -79,9 +89,14 @@ public class Carrello {
 	
 	/**
 	 * Questo metodo consente di controllare se un prodotto si trova all'interno del carrello.
-	 * @param product è il prodotto da verificare dal carrello
+	 * 
+	 * @param product : il prodotto da verificare dal carrello
+	 * 
 	 * @precondition product != null
-	 * @throws ProdottoNulloException se product è null
+	 * 
+	 * @return exist : true se product è presente nel carrello; false altrimenti.
+	 * 
+	 * @throws ProdottoNulloException : gestisce il caso in cui il prodotto product è null
 	 * */
 	
 	public boolean isPresent(ItemCarrello product) throws ProdottoNulloException{
@@ -101,12 +116,17 @@ public class Carrello {
 	
 	/**
 	 * Questo metodo aggiorna la quantità di un prodotto all'interno del carrello.
-	 * @param product è il prodotto la cui quantità deve essere aggiornata
+	 * 
+	 * @param product : il prodotto la cui quantità deve essere aggiornata
+	 * @param quantity : la quantità da impostare
+	 * 
 	 * @precondition product != null
 	 * @precondition this.isPresent(product)
-	 * @throws ProdottoNulloException se product è null
-	 * @throws ProdottoNonPresenteException se il prodotto non è presente nel carrello
-	 * @throws CarrelloVuotoException se il carrello è vuoto
+	 * @precondition quantity > 0
+	 * 
+	 * @throws ProdottoNulloException : gestisce il caso in cui il prodotto product è null
+	 * @throws ProdottoNonPresenteException: gestisce il caso in cui il prodotto non è presente nel carrello
+	 * @throws CarrelloVuotoException : gestisce il caso in cui il carrello è vuoto
 	 * */
 
 	public void updateProductQuantity(ItemCarrello product, int quantity) throws ProdottoNulloException, CarrelloVuotoException, ProdottoNonPresenteException {
@@ -128,8 +148,9 @@ public class Carrello {
 
 
 	/**
-	 * Questo metodo restituisce i prodotti presenti nel carrello
-	 * @return products i prodotti del carrello
+	 * Questo metodo restituisce i prodotti presenti nel carrello.
+	 * 
+	 * @return products : i prodotti del carrello
 	 * */
 	
 	public List<ItemCarrello> getProducts() {
@@ -138,7 +159,8 @@ public class Carrello {
 	
 	/**
 	 * Questo metodo determina il numero di pezzi presenti nel carrello.
-	 * @return itemsNo il numero di pezzi nel carrello
+	 * 
+	 * @return itemsNo : il numero totale di pezzi nel carrello
 	 * */
 	
 	public int getNumProdotti() {
@@ -152,7 +174,8 @@ public class Carrello {
 	}
 	
 	/**
-	 * Questo metodo determina il costo totale dei prodotti prresenti nel carrello.
+	 * Questo metodo determina il costo totale dei prodotti presenti nel carrello.
+	 * 
 	 * @return il costo totale della spesa
 	 * */
 	

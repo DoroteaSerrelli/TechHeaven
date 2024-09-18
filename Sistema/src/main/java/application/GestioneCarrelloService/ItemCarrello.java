@@ -4,14 +4,18 @@ import application.NavigazioneService.*;
 /**
  * La classe rappresenta il concetto di prodotto presente nel carrello, con una certa quantità.
  * 
- * @see application.NavigazioneService.Prodotto;
+ * @see application.NavigazioneService.Prodotto
+ * @see application.GestioneCarrelloService.GestioneCarrelloService
+ * @see application.GestioneCarrelloService.GestioneCarrelloServiceImpl
+ * @see application.GestioneCarrelloService.Carrello
  * 
  * @author Dorotea Serrelli
  * */
+
 public class ItemCarrello extends Prodotto implements Cloneable{
 	
 	/**
-	 * Il numero di pezzi di un prodotto da acquistare.
+	 * quantitàAcquisto: il numero di pezzi di un prodotto da acquistare.
 	 * */
 	
 	private int quantitàAcquisto = 0;
@@ -20,6 +24,7 @@ public class ItemCarrello extends Prodotto implements Cloneable{
 	 * Costruttore di classe di default.
 	 * Si crea un oggetto ItemCarrello con quantità di acquisto pari a 1.
 	 * */
+	
 	public ItemCarrello() {
 		super();
 		quantitàAcquisto = 1;
@@ -27,8 +32,10 @@ public class ItemCarrello extends Prodotto implements Cloneable{
 	
 	/**
 	 * Il metodo fornisce il numero di pezzi del prodotto scelto.
-	 * @return la quantità di un prodotto
+	 * 
+	 * @return quantitàAcquisto : la quantità di un prodotto
 	 * */
+	
 	@Override
 	public int getQuantita() {
 		return quantitàAcquisto;
@@ -36,6 +43,7 @@ public class ItemCarrello extends Prodotto implements Cloneable{
 	
 	/**
 	 * Il metodo imposta il numero di pezzi del prodotto scelto.
+	 * 
 	 * @param quantity : quantità di un prodotto
 	 * */
 	@Override
@@ -46,7 +54,7 @@ public class ItemCarrello extends Prodotto implements Cloneable{
 	/**
 	 * Il metodo crea una copia dell'oggetto ItemCarrello.
 	 *
-	 * @return Una copia dell'oggetto ItemCarrello.
+	 * @return clone : una copia dell'oggetto ItemCarrello.
 	 * @throws RuntimeException se si verifica un errore durante la clonazione.
 	 */
 	@Override

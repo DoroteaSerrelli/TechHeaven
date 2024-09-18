@@ -16,14 +16,20 @@ import application.RegistrazioneService.ProxyUtente;
  * gestione della lista dei desideri dell'utente: visualizzazione della wishlist, 
  * aggiunta di un prodotto nella  wishlist, rimozione di un prodotto dalla wishlist.
  * 
+ * @see application.GestioneWishlistService.GestioneWishlistServiceImpl
+ * @see application.GestioneWishlistService.Wishlist
+ * @see application.GestioneWishlistService.WishlistException
+ * @see application.NavigazioneService.ProxyProdotto
+ * 
  * @author Dorotea Serrelli
+ * 
  * */
 
 public interface GestioneWishlistService {
 	
 	
 	/**
-	 * Questo metodo si occupa di fornire una wishlist di un utente.
+	 * Questo metodo si occupa di fornire la wishlist di un utente.
 	 * Per la realizzazione corrente del sistema software, l'utente può creare
 	 * una sola wishlist.
 	 * Per implementazioni future si può pensare di creare più wishlist per lo stesso
@@ -37,12 +43,12 @@ public interface GestioneWishlistService {
 	 * @throws SQLException 
 	 * @throws CategoriaProdottoException 
 	 * */
+	
 	public Wishlist recuperaWishlist(ProxyUtente user, int id) throws SQLException, CategoriaProdottoException;
 	
 	/**
 	 * Questo metodo si occupa di fornire l'elenco dei prodotti
 	 * presenti nella wishlist.
-	 * @see application.NavigazioneService.ProxyProdotto
 	 * 
 	 * @param user : il proprietario della wishlist
 	 * @param wishes: la wishlist
@@ -85,6 +91,6 @@ public interface GestioneWishlistService {
 	 * @throws CategoriaProdottoException 
 	 * */
 	
-	public Wishlist rimuoviDallaWishlist(Wishlist wishes, ProxyUtente user, ProxyProdotto prod) throws ProdottoNonPresenteException, WishlistVuotaException, ProdottoNulloException, SQLException, CategoriaProdottoException;
+	public Wishlist rimuoviProdottoDaWishlist(Wishlist wishes, ProxyUtente user, ProxyProdotto prod) throws ProdottoNonPresenteException, WishlistVuotaException, ProdottoNulloException, SQLException, CategoriaProdottoException;
 
 }

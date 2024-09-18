@@ -13,8 +13,10 @@ import storage.WishlistDAO.WishlistDAODataSource;
 
 /**
  * Questa classe fornisce un'implementazione concreta dei servizi per la gestione della wishlist.
+ * 
  * @see application.GestioneWishlistService.GestioneWishlistService
- * @see	application.GestioneWishlistService.Wishlist
+ * @see application.GestioneWishlistService.Wishlist
+ * @see application.GestioneWishlistService.WishlistException
  * @see application.NavigazioneService.ProxyProdotto
  * 
  * @author Dorotea Serrelli 
@@ -29,12 +31,14 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 	 * @param user : il proprietario della wishlist
 	 * @param id : l'identificativo della wishlist
 	 * 
-	 * @return la wishlist del proprietario
+	 * @return ws : la wishlist del proprietario
 	 * 
 	 * @throws SQLException relativa al recupero dei dati dal database per 
 	 * 		   costruire la wishlist dell'utente user
+	 * 
 	 * @throws CategoriaProdottoException 
 	 * */
+	
 	@Override
 	public Wishlist recuperaWishlist(ProxyUtente user, int id) throws SQLException, CategoriaProdottoException {
 		WishlistDAODataSource dao = new WishlistDAODataSource();
@@ -53,12 +57,14 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 	 * 
 	 * @param user : il proprietario della wishlist
 	 * @param wishes : la wishlist dell'utente user
-	 * @return il contenuto della wishlist del proprietario
+	 * 
+	 * @return i prodotti preferiti dell'utente user, memorizzati in wishes
 	 * 
 	 * @throws SQLException relativa al recupero dei dati dal database per 
 	 * 		   costruire la wishlist dell'utente user
 	 * @throws CategoriaProdottoException 
 	 * */
+	
 	@Override
 	public ArrayList<ProxyProdotto> visualizzaWishlist(Wishlist wishes, ProxyUtente user) throws SQLException, CategoriaProdottoException {
 		WishlistDAODataSource dao = new WishlistDAODataSource();
@@ -75,15 +81,18 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 	/**
 	 * Il metodo si occupa di aggiungere un prodotto selezionato dall'utente
 	 * nella wishlist.
+	 * 
 	 * @param wishes : la wishlist
 	 * @param user : il proprietario della wishlist
 	 * @param prod : il prodotto da aggiungere alla wishlist
-	 * @return la wishlist contenente il nuovo prodotto
+	 * 
+	 * @return newWishes : la wishlist contenente il prodotto prod
 	 * 
 	 * @throws SQLException per gestire eccezione dovuta al recupero del prodotto prod nel database,
 	 * 						utile per verificare se prod è già nella wishlist wishes.
 	 * @throws CategoriaProdottoException 
 	 * */
+	
 	@Override
 	public Wishlist aggiungiProdottoInWishlist(Wishlist wishes, ProxyProdotto prod, ProxyUtente user)
 			throws ProdottoPresenteException,
@@ -109,14 +118,15 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 	 * @param user : il proprietario della wishlist
 	 * @param prod : il prodotto da rimuovere dalla wishlist
 	 * 
-	 * @return la wishlist priva del prodotto rimosso
+	 * @return newWishes : la wishlist priva del prodotto prod
+	 * 
 	 * @throws SQLException per gestire eccezione dovuta al recupero del prodotto prod nel database,
 	 * 						utile per verificare se prod è presente nella wishlist wishes. 
 	 * @throws CategoriaProdottoException 
 	 * */
 
 	@Override
-	public Wishlist rimuoviDallaWishlist(Wishlist wishes, ProxyUtente user, ProxyProdotto prod)
+	public Wishlist rimuoviProdottoDaWishlist(Wishlist wishes, ProxyUtente user, ProxyProdotto prod)
 			throws application.GestioneWishlistService.WishlistException.ProdottoNonPresenteException,
 			WishlistVuotaException, application.GestioneWishlistService.WishlistException.ProdottoNulloException, SQLException, CategoriaProdottoException {
 		

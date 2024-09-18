@@ -96,7 +96,7 @@ public class GestioneWishlistController extends HttpServlet {
                             System.out.println(productId);
                             ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);   
                             
-                            w = gws.rimuoviDallaWishlist(w, user, prodotto);
+                            w = gws.rimuoviProdottoDaWishlist(w, user, prodotto);
                             request.getSession().setAttribute("Wishlist", w);
                            
                         } catch (WishlistException.ProdottoNonPresenteException | WishlistException.ProdottoNulloException | SQLException | WishlistException.WishlistVuotaException ex) {

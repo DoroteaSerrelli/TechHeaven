@@ -1,28 +1,13 @@
-<!-- Basta includere uno script nella sezione di file in cui 
-        viene usato e basta importarlo nel file contenente la sezione usata 
-        senza doverlo importare da altre parti-->
-
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"
 	integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
 	crossorigin="anonymous"></script>
 
 <script src="<%=request.getContextPath()%>/scripts/navi_script.js"></script>
+<script src="<%=request.getContextPath()%>/scripts/cartAndSearch_functions.js?ts=<%=System.currentTimeMillis()%>"></script>
+<link rel="stylesheet" href="<%=request.getContextPath()%>/style/style.css">
 
-<script
-	src="<%=request.getContextPath()%>/scripts/cartAndSearch_functions.js?ts=<%=System.currentTimeMillis()%>"></script>
-<link rel="stylesheet"
-	href="<%=request.getContextPath()%>/style/style.css">
-</head>
-
-<link rel="shortcut icon" type="image/ico"
-	href="<%=request.getContextPath()%>/images/site_images/favicon.ico">
+<link rel="shortcut icon" type="image/ico" href="<%=request.getContextPath()%>/images/site_images/favicon.ico">
 <section id="header">
 	<a href="#"> <img
 		src="<%=request.getContextPath()%>/images/site_images/logo.png"
@@ -42,13 +27,17 @@
 
 			<li><a href="${pageContext.request.contextPath}/AreaRiservata"><img
 					src="<%=request.getContextPath()%>/images/site_images/icon_user.png"
-					height="30" width="30" alt="AreaRiservata" id = "iconp" onmouseout = "document.getElementById('iconp').src='<%= request.getContextPath()%>/images/site_images/icon_user.png'" onmouseover = "document.getElementById('iconp').src='<%= request.getContextPath()%>/images/site_images/icon_user2.png'"></a></li>
-					
+					height="30" width="30" alt="AreaRiservata" id="iconp"
+					onmouseout="document.getElementById('iconp').src='<%= request.getContextPath()%>/images/site_images/icon_user.png'"
+					onmouseover="document.getElementById('iconp').src='<%= request.getContextPath()%>/images/site_images/icon_user2.png'"></a></li>
+
 			<li><a href="${pageContext.request.contextPath}/cart"><img
 					src="<%=request.getContextPath()%>/images/site_images/icon_carrello2.png"
-					height="30" width="30" alt="Carrello" id = "iconc" onmouseout = "document.getElementById('iconc').src='<%= request.getContextPath()%>/images/site_images/icon_carrello2.png'" onmouseover = "document.getElementById('iconc').src='<%= request.getContextPath()%>/images/site_images/icon_carrello.png'"></a></li>
-			
-			
+					height="30" width="30" alt="Carrello" id="iconc"
+					onmouseout="document.getElementById('iconc').src='<%= request.getContextPath()%>/images/site_images/icon_carrello2.png'"
+					onmouseover="document.getElementById('iconc').src='<%= request.getContextPath()%>/images/site_images/icon_carrello.png'"></a></li>
+
+
 			<a href="#" id="close" onClick="closeSidebar()"> <svg
 					xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
 					height="24">
@@ -101,9 +90,9 @@
                 <path fill="#2DA0F2"
 					d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
             </svg>
-		
-		
-		
+
+
+
 		</button>
 	</div>
 	<br>
@@ -126,4 +115,3 @@
 				}
 			});
 </script>
-</html>

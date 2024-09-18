@@ -20,6 +20,9 @@ import application.NavigazioneService.ProdottoException.SottocategoriaProdottoEx
 import application.NavigazioneService.ProxyProdotto;
 
 /**
+ * Classe DAO per la gestione di un prodotto.
+ * Questa classe implementa le operazioni CRUD (Create, Read, Update, Delete)
+ * per i prodotti memorizzati nel database relazionale.
  * 
  * @see application.NavigazioneService.Prodotto;
  * @see application.NavigazioneService.ProxyProdotto;
@@ -48,7 +51,8 @@ public class ProdottoDAODataSource{
 
 	/**
 	 * Il metodo permette di memorizzare un nuovo prodotto nel database.
-	 * @param product è il prodotto da memorizzare nella base di dati
+	 * 
+	 * @param product : il prodotto da memorizzare nella base di dati
 	 * */
 	public synchronized void doSave(Prodotto product) throws SQLException {
 
@@ -95,10 +99,16 @@ public class ProdottoDAODataSource{
 	/**
 	 * Il metodo permette di recuperare le informazioni di un prodotto, eccetto la descrizione dettagliata,
 	 * l'immagine di presentazione e la galleria di immagini di dettaglio.
-	 * @param IDProduct è il prodotto da recuperare nella base di dati
-	 * @throws SottocategoriaProdottoException 
-	 * @throws CategoriaProdottoException 
+	 * 
+	 * @param IDProduct : il codice univoco del prodotto da recuperare nella base di dati
+	 * 
+	 * @return dto: un oggetto della classe ProxyProdotto contenente le informazioni
+	 * 				essenziali del prodotto con codice IDProduct 
+	 * 
+	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * */
+	
 	public synchronized ProxyProdotto doRetrieveProxyByKey(int IDProduct) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -144,10 +154,16 @@ public class ProdottoDAODataSource{
 	 * Il metodo permette di recuperare tutte le informazioni associate ad un prodotto,
 	 * incluse: descrizione dettagliata, immagine di presentazione e 
 	 * galleria di immagini di dettaglio.
-	 * @param IDProduct è il prodotto da recuperare nella base di dati
-	 * @throws SottocategoriaProdottoException 
-	 * @throws CategoriaProdottoException 
+	 * 
+	 * @param IDProduct : il codice univoco del prodotto da recuperare nella base di dati
+	 * 
+	 * @return dto: un oggetto della classe Prodotto contenente tutte le informazioni
+	 * 				del prodotto con codice IDProduct 
+	 * 
+	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * */
+	
 	public synchronized Prodotto doRetrieveCompleteByKey(int IDProduct) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -199,9 +215,12 @@ public class ProdottoDAODataSource{
 
 	/**
 	 * Il metodo permette di porre il flag InCatalogo di un prodotto presente nel database a false.
-	 * @param IDProduct è l'identificativo del prodotto da aggiornare
+	 * 
+	 * @param IDProduct : l'identificativo del prodotto da aggiornare
+	 * 
 	 * @return l'esito dell'operazione
 	 * */
+	
 	public synchronized boolean doDelete(int IDProduct) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -234,14 +253,17 @@ public class ProdottoDAODataSource{
 	/**
 	 * Il metodo recupera le informazioni dei prodotti presenti nel database ed effettua la paginazione 
 	 * di tali prodotti.
-	 * @param order è l'ordine con il quale mostrare i prodotti
-	 * @param page rappresenta il numero di pagina desiderato
-	 * @param perPage indica il numero di elementi per pagina
-	 * @return products i prodotti presenti nel database ordinati per order
-	 * @throws SottocategoriaProdottoException 
-	 * @throws CategoriaProdottoException 
+	 * 
+	 * @param order : l'ordine con il quale mostrare i prodotti
+	 * @param page : rappresenta il numero di pagina desiderato
+	 * @param perPage : indica il numero di elementi per pagina
+	 * 
+	 * @return products : i prodotti presenti nel database ordinati per order
+	 * 
+	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * */
-
+	
 	public synchronized Collection<ProxyProdotto> doRetrieveAll(String order, int page, int perPage) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		Connection connection2 = null;
@@ -324,64 +346,21 @@ public class ProdottoDAODataSource{
 		}
 		return products;
 	}
-	/* CODICE DI RISERVA
-	 * public synchronized Collection<ProxyProdotto> doRetrieveAll(String order, ) throws SQLException {
-	Connection connection = null;
-	PreparedStatement preparedStatement = null;
-
-	Collection<ProxyProdotto> products = new LinkedList<>();
-
-	String selectSQL = "SELECT * FROM " + ProdottoDAODataSource.TABLE_NAME;
-
-	if (order != null && !order.equals("")) {
-		selectSQL += " ORDER BY " + order;	//ordinare i prodotti per nome
-	}
-
-	try {
-		connection = ds.getConnection();
-		preparedStatement = connection.prepareStatement(selectSQL);
-
-		ResultSet rs = preparedStatement.executeQuery();
-
-		while (rs.next()) {
-			ProxyProdotto dto = new ProxyProdotto();
-
-			dto.setCodiceProdotto(rs.getInt("CODICEPRODOTTO"));
-			dto.setNomeProdotto(rs.getString("NOME"));
-			dto.setTopDescrizione(rs.getString("TOPDESCRIZIONE"));
-			dto.setCategoria(rs.getString("CATEGORIA"));
-			dto.setSottocategoria(rs.getString("SOTTOCATEGORIA"));
-			dto.setPrezzo(rs.getFloat("PREZZO"));
-			dto.setMarca(rs.getString("MARCA"));
-			dto.setModello(rs.getString("MODELLO"));
-			dto.setQuantita(rs.getInt("QUANTITà"));
-			dto.setInCatalogo(rs.getInt("INCATALOGO") == 1 ? true : false);
-			dto.setInVetrina(rs.getInt("INVETRINA") == 1 ? true : false);
-			products.add(dto);
-		}
-
-	} finally {
-		try {
-			if (preparedStatement != null)
-				preparedStatement.close();
-		} finally {
-			if (connection != null)
-				connection.close();
-		}
-	}
-	return products;
-} */
 
 	/**
 	 * Il metodo recupera le informazioni dei prodotti non presenti nel catalogo ed effettua
 	 * la paginazione di tali prodotti.
-	 * @param order è l'ordine con il quale mostrare i prodotti
-	 * @param page rappresenta il numero di pagina desiderato
-	 * @param perPage indica il numero di elementi per pagina
-	 * @return products i prodotti rimossi dal catalogo ordinati per order
-	 * @throws SottocategoriaProdottoException 
-	 * @throws CategoriaProdottoException 
+	 * 
+	 * @param order : l'ordine con il quale mostrare i prodotti
+	 * @param page : rappresenta il numero di pagina desiderato
+	 * @param perPage : indica il numero di elementi per pagina
+	 * 
+	 * @return products : i prodotti rimossi dal catalogo ordinati per order
+	 * 
+	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * */
+	
 	public synchronized Collection<ProxyProdotto> doRetrieveAllDeleted(String order, int page, int perPage) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		Connection connection2 = null;
@@ -471,13 +450,17 @@ public class ProdottoDAODataSource{
 	/**
 	 * Il metodo recupera le informazioni dei prodotti presenti nel catalogo ed effettua la paginazione
 	 * di tali prodotti.
-	 * @param order è l'ordine con il quale mostrare i prodotti
-	 * @param page rappresenta il numero di pagina desiderato
-	 * @param perPage indica il numero di elementi per pagina
-	 * @return products i prodotti del catalogo ordinati per order
-	 * @throws CategoriaProdottoException 
-	 * @throws SottocategoriaProdottoException 
+	 * 
+	 * @param order : l'ordine con il quale mostrare i prodotti
+	 * @param page : rappresenta il numero di pagina desiderato
+	 * @param perPage : indica il numero di elementi per pagina
+	 * 
+	 * @return products : i prodotti del catalogo ordinati per order
+	 * 
+	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * */
+	
 	public synchronized Collection<ProxyProdotto> doRetrieveAllExistent(String order, int page, int perPage) throws SQLException, CategoriaProdottoException, SottocategoriaProdottoException {
 		Connection connection = null;
 		Connection connection2 = null;
@@ -568,15 +551,19 @@ public class ProdottoDAODataSource{
 	 * nel modello, nel brand, nella descrizione in evidenza o nella descrizione dettagliata la parola
 	 * searchTerm. Viene effettuata la paginazione dei risultati ottenuti.
 	 * 
-	 * @param searchTerm è la parola di ricerca
-	 * @param order è l'ordine con il quale mostrare i prodotti
-	 * @param page rappresenta il numero di pagina desiderato
-	 * @param perPage indica il numero di elementi per pagina
+	 * @param searchTerm : la parola di ricerca
+	 * @param order : l'ordine con il quale mostrare i prodotti
+	 * @param page : rappresenta il numero di pagina desiderato
+	 * @param perPage : indica il numero di elementi per pagina
 	 * 
-	 * @return products i prodotti del catalogo ordinati per order
-	 * @throws SottocategoriaProdottoException 
-	 * @throws CategoriaProdottoException 
+	 * @return products : i prodotti del catalogo ordinati per order che presentano nel nome,
+	 * 						nel modello, nel brand, nella descrizione in evidenza o nella descrizione 
+	 * 						dettagliata la parola searchTerm.
+	 * 
+	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * */
+	
 	public synchronized Collection<ProxyProdotto> searching(String order, String searchTerm, int page, int perPage) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		Connection connection2 = null;
@@ -681,15 +668,18 @@ public class ProdottoDAODataSource{
 	 * Il metodo recupera le informazioni dei prodotti nel catalogo che appartengono alla categoria
 	 * richiesta. Viene effettuata la paginazione dei risultati ottenuti.
 	 * 
-	 * @param category è la categoria di ricerca
-	 * @param order è l'ordine con il quale mostrare i prodotti
-	 * @param page rappresenta il numero di pagina desiderato
-	 * @param perPage indica il numero di elementi per pagina
+	 * @param category : la categoria di ricerca
+	 * @param order : l'ordine con il quale mostrare i prodotti
+	 * @param page : rappresenta il numero di pagina desiderato
+	 * @param perPage : indica il numero di elementi per pagina
 	 * 
-	 * @return products i prodotti del catalogo ordinati per order
-	 * @throws CategoriaProdottoException 
-	 * @throws SottocategoriaProdottoException 
+	 * @return products : i prodotti del catalogo, ordinati per order, appartenenti alla
+	 * 						categoria category
+	 * 
+	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * */
+	
 	public synchronized Collection<ProxyProdotto> searchingByCategory(String order, String category, int page, int perPage) throws SQLException, CategoriaProdottoException, SottocategoriaProdottoException {
 		Connection connection = null;
 		Connection connection2 = null;
@@ -783,11 +773,14 @@ public class ProdottoDAODataSource{
 	/**
 	 * Il metodo permette di modificare le seguenti informazioni associate ad un prodotto del catalogo:
 	 * marca, modello, descrizione in evidenza, descrizione dettagliata, categoria, sottocategoria.
-	 * @param idProdotto è l'identificativo del prodotto da aggiornare
-	 * @param campo è l'informazione che si intende aggiornare
-	 * @param valore è la nuova informazione da memorizzare
+	 * 
+	 * @param idProdotto : l'identificativo del prodotto da aggiornare
+	 * @param campo : l'informazione che si intende aggiornare
+	 * @param valore : la nuova informazione da memorizzare
+	 * 
 	 * @return esito dell'operazione
 	 * */
+	
 	public boolean updateData(int idProdotto, String campo, String valore) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -839,12 +832,15 @@ public class ProdottoDAODataSource{
 	}
 
 	/**
-	 * Il metodo permette di aggiornare il prezzo di un prodotto del catalogo:
-	 * @param idProdotto è l'identificativo del prodotto da aggiornare
-	 * @param price è il prezzo da applicare al prodotto
-	 * @param valore è la nuova informazione da memorizzare
+	 * Il metodo permette di aggiornare il prezzo di un prodotto del catalogo.
+	 * 
+	 * @param idProdotto : l'identificativo del prodotto da aggiornare
+	 * @param price : il prezzo da applicare al prodotto
+	 * @param valore : la nuova informazione da memorizzare
+	 * 
 	 * @return esito dell'operazione
 	 * */
+	
 	public boolean updatePrice(int idProdotto, float price) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -877,10 +873,13 @@ public class ProdottoDAODataSource{
 
 	/**
 	 * Il metodo permette di porre un prodotto del catalogo come prodotto in una vetrina del negozio online.
-	 * @param idProdotto è l'identificativo del prodotto da aggiornare
-	 * @param flagView indica se il prodotto verrà messo in vetrina
+	 * 
+	 * @param idProdotto : l'identificativo del prodotto da aggiornare
+	 * @param flagView : indica se il prodotto verrà messo in vetrina
+	 * 
 	 * @return esito dell'operazione
 	 * */
+	
 	public boolean updateDataView(int idProdotto, int flagView) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -912,10 +911,13 @@ public class ProdottoDAODataSource{
 
 	/**
 	 * Il metodo permette di aggiornare le quantità di un prodotto del catalogo in magazzino.
-	 * @param idProdotto è l'identificativo del prodotto da aggiornare
-	 * @param quantity è la quantità del prodotto da impostare
+	 * 
+	 * @param idProdotto : l'identificativo del prodotto da aggiornare
+	 * @param quantity : la quantità del prodotto da impostare
+	 * 
 	 * @return esito dell'operazione
 	 * */
+	
 	public boolean updateQuantity(int idProdotto, int quantity) throws SQLException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;

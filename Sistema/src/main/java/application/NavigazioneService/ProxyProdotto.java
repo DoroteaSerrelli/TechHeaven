@@ -8,14 +8,18 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
 
 /**
  * La classe permette di controllare l'accesso ad un oggetto della classe Prodotto, 
- * agendo come surrogato o interfaccia di sostituzione a questo oggetto nel design pattern Proxy. 
+ * agendo come surrogato o interfaccia di sostituzione a questo oggetto nel design pattern Proxy.
+ * 
  * ProxyProdotto agisce per conto di Prodotto, memorizzando un sottoinsieme degli attributi di Prodotto 
  * (quelli offerti da ObjectProdotto) e gestisce completamente le richieste che non richiedono la conoscenza delle
  * specifiche del prodotto seguenti : top immagine, descrizione dettagliata, galleria immagini.
+ * 
  * ProxyProdotto ha un riferimento ad un oggetto Prodotto, in modo che tutte le richieste legate alla manipolazione 
  * delle speicfiche del prodotto precedentemente menzionate (pagina dei dettagli del prodotto) 
  * vengono delegate a Prodotto.
+ * 
  * Dopo la delega, viene creato l'oggetto Prodotto e caricato in memoria.
+ * 
  * @see application.NavigazioneService.ObjectProdotto
  * @see application.NavigazioneService.Prodotto
  * 
@@ -23,27 +27,34 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
  * */
 
 public class ProxyProdotto extends ObjectProdotto{
-
+	
+	/**
+	 * realProdotto : riferimento ad un oggetto di tipo Prodotto
+	 * che contiene tutte le specifiche
+	 * del prodotto (anche topImmagine, dettagli e galleriaImmagini)
+	 * */
+	
 	private Prodotto realProdotto;
 	
 	/**
 	 * Costruttore di classe di default.
 	 * */
+	
 	public ProxyProdotto() {
 		super();
 		realProdotto = null;
 	}
 
 	/**
-	 * Costruttore di classe per creare un oggetto ProxyProdotto noti codiceProdotto, nomeProdotto, topDescrizione, prezzo, categoria, marca, modello, quantita,
-	 * inCatalogo, inVetrina.
+	 * Costruttore di classe per creare un oggetto ProxyProdotto noti codiceProdotto, nomeProdotto, topDescrizione, 
+	 * prezzo, categoria, marca, modello, quantita, inCatalogo, inVetrina.
 	 * 
 	 * @param codiceProdotto : l'identificativo del prodotto
 	 * @param nomeProdotto : il nome del prodotto 
 	 * @param topDescrizione : la descrizione in evidenza del prodotto
 	 * @param prezzo : il costo del prodotto
 	 * @param categoria : la categoria di appartenenza del prodotto (Telefonia, Prodotti elettronica, Piccoli elettrodomestici,
-	 * Grandi elettrodomestici)
+	 * 						Grandi elettrodomestici)
 	 * @param marca : il brand o casa produttrice del prodotto
 	 * @param modello : la versione del prodotto definita dalla casa produttrice
 	 * @param quantita : il numero di scorte in magazzino del prodotto
@@ -51,7 +62,9 @@ public class ProxyProdotto extends ObjectProdotto{
 	 * @param inVetrina : il prodotto è nella vetrina online del negozio tra i prodotti di una determinata categoria
 	 * 
 	 * @return un oggetto surrogato che possiede le informazioni essenziali di un prodotto
+	 * 
 	 * */
+	
 	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,
 			Categoria categoria, String marca, String modello, int quantita,
 			boolean inCatalogo, boolean inVetrina) {
@@ -69,7 +82,7 @@ public class ProxyProdotto extends ObjectProdotto{
 	 * @param topDescrizione : la descrizione in evidenza del prodotto
 	 * @param prezzo : il costo del prodotto
 	 * @param categoria : la categoria di appartenenza del prodotto (Telefonia, Prodotti elettronica, Piccoli elettrodomestici,
-	 * Grandi elettrodomestici)
+	 * 						Grandi elettrodomestici)
 	 * @param sottocategoria : la sottocategoria o sottoraggruppamento di una categoria del prodotto
 	 * @param marca : il brand o casa produttrice del prodotto
 	 * @param modello : la versione del prodotto definita dalla casa produttrice
@@ -79,6 +92,7 @@ public class ProxyProdotto extends ObjectProdotto{
 	 * 
 	 * @return un oggetto surrogato che possiede le informazioni essenziali di un prodotto
 	 * */
+	
 	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,
 			Categoria categoria, Sottocategoria sottocategoria, String marca, String modello, int quantita,
 			boolean inCatalogo, boolean inVetrina) {
@@ -95,6 +109,7 @@ public class ProxyProdotto extends ObjectProdotto{
 	 * @throws CategoriaProdottoException 
 	 * @throws SottocategoriaProdottoException 
 	 * */
+	
 	public Prodotto mostraProdotto() throws SottocategoriaProdottoException, CategoriaProdottoException {
 		if(realProdotto == null) {
 			ProdottoDAODataSource productDao = new ProdottoDAODataSource();

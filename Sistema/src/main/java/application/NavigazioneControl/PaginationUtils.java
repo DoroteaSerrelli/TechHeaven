@@ -35,7 +35,7 @@ public class PaginationUtils {
     public static Collection<ProxyProdotto> performPagination(NavigazioneServiceImpl productService, String keyword, int page, int resultsPerPage, String searchType) {
         ProdottoDAODataSource pdao = new ProdottoDAODataSource();
         SearchResult res = new SearchResult();
-        List<ProxyProdotto> results;
+        Collection<ProxyProdotto> results;
         switch (searchType) {
             case "bar" -> {
                 try {

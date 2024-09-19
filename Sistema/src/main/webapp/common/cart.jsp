@@ -1,3 +1,5 @@
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.HashMap"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"
 	import="application.GestioneCarrelloService.ItemCarrello,
@@ -48,7 +50,7 @@
         <div id="complete_order">
             <h1>Totale provvisorio:</h1>
             <h3><%= String.format("%.2f", carrello.totalAmount()) %>€</h3>
-            <a href="CompletaOrdine.jsp">Click here to proceed with the order</a>
+            <a href="/CheckoutCarrello">Click here to proceed with the order</a>
         </div>
 
         <%
@@ -60,28 +62,37 @@
             <div class="row">
                 <img src="image?productId=<%= p.getCodiceProdotto() %>" alt="alt"
                     onerror="this.onerror=null;this.src='<%= request.getContextPath() %>/images/site_images/placeholder.png';" />			
-                <h3><%= p.getPrezzo() %>€</h3>
+                <%
+                    double prezzo = p.getPrezzo();
+                    NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+                    currencyFormatter.setCurrency(Currency.getInstance("EUR"));
+                    String prezzoFormattato = currencyFormatter.format(prezzo);
+                    %>
+                    <h4 style="color: goldenrod" class="prezzo"><%=prezzoFormattato%></h4>
             </div>
             <div class="row item-carrello">
                 <p>Quantità: <%= p.getQuantita() %></p>
                 <%
                     if (p.getQuantita() >= 1) { 
                         HashMap products_available_inStock = (HashMap) request.getSession().getAttribute("products_available_inStock");
-                %>                              
-                <p id="range_value_<%= p.getCodiceProdotto() %>" style="color: goldenrod"><%= p.getQuantita() %></p>
-                <div class="input-wrapper row">
-                    <input type="range" id="prod_quantità_<%= p.getCodiceProdotto() %>"
-                        name="prod_quantità" min="1"
-                        max="<%= products_available_inStock.get(p.getCodiceProdotto()) %>">
+                %>                                              
+                <div class="quantity_controls">
+                    <p class="range" id="range_value_<%= p.getCodiceProdotto() %>" style="color: goldenrod"><%= p.getQuantita() %></p>
+                    <div class="input-wrapper row">                       
+                        <input type="range" id="prod_quantità_<%= p.getCodiceProdotto() %>"
+                            name="prod_quantità" min="1"
+                            max="<%= products_available_inStock.get(p.getCodiceProdotto()) %>">
+                    </div>
+                
+                    <a href="#"
+                        onclick="modifyCart(<%= p.getCodiceProdotto() %>, 'updateQuantità', viewCart)">
+                        <h3>Aggiorna Quantità</h3>
+                    </a>
+                    <a href="#"
+                        onClick="modifyCart(<%= p.getCodiceProdotto() %>, 'rimuoviDalCarrello')">
+                        <h3>Rimuovi dal Carrello</h3>
+                    </a>
                 </div>
-                <a href="#"
-                    onclick="modifyCart(<%= p.getCodiceProdotto() %>, 'updateQuantità', viewCart)">
-                    <h3>Aggiorna Quantità</h3>
-                </a>
-                <a href="#"
-                    onClick="modifyCart(<%= p.getCodiceProdotto() %>, 'rimuoviDalCarrello')">
-                    <h3>Rimuovi dal Carrello</h3>
-                </a>
                     <%
                         }
                     %>

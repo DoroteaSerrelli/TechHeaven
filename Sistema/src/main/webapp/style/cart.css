@@ -69,6 +69,7 @@
     border-bottom: 1px solid #00B86F;
 }
 
+/*Layout sezione completa ordini (Carrello.jsp)*/
 #showpr #complete_order{
     position: fixed; /* Fix the position of the sidebar */
     top: 40%; /* Align the sidebar to the top of the page */
@@ -80,19 +81,59 @@
     box-shadow: 0 0 10px rgba(160, 148, 242, 1.5); /* Add a subtle shadow effect */
     transform: translateY(-50%); /* Center vertically */
 }
+/*Layout sezione completa ordini (CompletaOrdini.jsp)*/
+#showpr .complete_order #complete_order{
+    height: 400px; 
+    overflow-y: scroll; 
+    top: 50%; 
+    direction: rtl;
+}
+
+
+#complete_order h1{
+    text-decoration: underline;
+    text-decoration-color: #00B86F;
+    text-decoration-thickness: 0.5px;
+}
+#complete_order h3{
+    color: goldenrod;
+}
+
+.quantity_controls{
+    display: flex;
+    flex-direction: row;
+}
+.quantity_controls .range{
+    position: relative;
+    top: -25px; /* Adjust this value to move the number on top of the slider */
+    right: -20%;
+    font-size: 25px;
+    font-weight: bold;
+    color: goldenrod;
+
+}
+
+.shipping_options{
+    display: flex; 
+    flex-direction: row; 
+    justify-content: center; 
+}
+.shipping_options p{
+    padding-left: 5px;
+    padding-right: 5px;
+}
 
 @media (max-width:477px){
     #showpr #complete_order {
-        top: auto;
+        top: 87%;
         right: auto;
-        bottom: 0;
         padding: 10px; /* Reduce padding for smaller screens */
-        right: 10px;
-        width: 90%;
+        height: 24%;
+        width: 80%;
     }
     #showpr #complete_order h1{
         font-size: 1.5em; /* Adjust font size for smaller screens */
-        margin-bottom: 10px; /* Add some bottom margin for better spacing */
+        margin-bottom: 6px; /* Add some bottom margin for better spacing */
         overflow-wrap: break-word; /* Allow long words to break and wrap */
         width: 100%;
         text-align: left;
@@ -100,5 +141,23 @@
     
     #showpr .row{
         width: 100%;
+    }
+    #showpr img{
+        height: 50%;
+        width: 50%;
+    }
+    .quantity_controls{
+        display: flex;
+        flex-direction: column;
+    }
+    .quantity_controls a{
+        padding: 5px;
+    }
+    
+    /*Styling per CompletaOrdine.jsp*/
+    #showpr .complete_order #complete_order{
+        top: auto;
+        right: auto;
+        
     }
 }   

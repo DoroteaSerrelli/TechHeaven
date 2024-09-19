@@ -8,6 +8,7 @@ import application.RegistrazioneService.Indirizzo;
 /**
  * Questa classe astratta è la classe client del design pattern Proxy
  * utilizzato per l'accesso e la gestione delle operazioni sull'oggetto Ordine.
+ * 
  * @see application.GestioneOrdiniService.Ordine
  * @see application.GestioneOrdiniService.ProxyOrdine
  * 
@@ -23,22 +24,26 @@ public abstract class ObjectOrdine implements Cloneable{
 		/**
 		 * Richiesta_effettuata: il cliente ha effettuato il pagamento dell'ordine ed è 
 		 * stata inviata la richiesta di elaborazione dell'ordine al negozio*/
+		
 		Richiesta_effettuata,
 		
 		/**In lavorazione : la richiesta di elaborazione dell'ordine è stata presa in carico
 		 * da uno dei gestori degli ordini del negozio. In questa fase l'ordine viene preparato
 		 * alla spedizione*/
+		
 		In_lavorazione,
 		
 		/**
 		 *Spedito : l'ordine è stato spedito dal negozio ad un'azienda di logistica convenzionata,
 		 *la quale si occuperà della consegna del pacco*/
+		
 		Spedito,
 		
 		/**
 		 *Preparazione_incompleta: l'ordine è stato preso in carico da uno dei gestori degli ordini
 		 *del negozio ma non è stato completato per la spedizione (ad esempio per mancanza dei prodotti richiesti).
 		 * */
+		
 		Preparazione_incompleta
 	}
 	
@@ -50,52 +55,71 @@ public abstract class ObjectOrdine implements Cloneable{
 		/**
 		 * Spedizione_standard : l'ordine viene elaborato da 3 a 5 giorni lavorativi.
 		 * */
+		
 		Spedizione_standard,
 		
 		/**
 		 * Spedizione_assicurata : l'ordine viene elaborato da 4 a 6 giorni lavorativi.
 		 * */
+		
 		Spedizione_assicurata,
 		
 		/**
 		 * Spedizione_prime : l'ordine viene elaborato in 2 giorni lavorativi.
 		 * */
+		
 		Spedizione_prime
 	}
 	
 	/**
 	 * codiceOrdine : identificativo numerico dell'ordine
 	 * */
+	
 	private int codiceOrdine;
 	
 	/**
 	 * stato: stato di elaborazione dell'ordine
 	 * */
+	
 	private Stato stato;
 	
 	/**
 	 * indirizzoSpedizione : l'indirizzo di spedizione specificato dall'utente in fase di check-out dell'ordine,
 	 * al fine di recapitare il pacco.
 	 * */
+	
 	private String indirizzoSpedizione;
 	
 	/**
 	 * spedizione : la tipologia di spediziondal negozio
 	 * verso un'azienda logistica
 	 * */
+	
 	private TipoSpedizione spedizione;
 	
 	/**
 	 * data : la data in cui viene effettuata la richiesta di 
 	 * creazione dell'ordine dal cliente
 	 * */
+	
 	private LocalDate data;
 	
 	/**
 	 * ora : l'ora in cui viene effettuata la richiesta di 
 	 * creazione dell'ordine dal cliente 
 	 * */
+	
 	private LocalTime ora;
+	
+	/**
+	 * Il metodo verifica la correttezza del formato dell'indirizzo di spedizione
+	 * fornito dall'utente per la spedizione di un ordine.
+	 * 
+	 * @param indirizzoSpedizione : l'indirizzo presso cui spedire l'ordine
+	 * 
+	 * @return true se indirizzoSpedizione è espresso nel formato corretto; false altrimenti.
+	 * 
+	 * */
 	
 	public static boolean checkValidate(Indirizzo indirizzoSpedizione) {
 		return Indirizzo.checkValidate(indirizzoSpedizione);
@@ -113,13 +137,17 @@ public abstract class ObjectOrdine implements Cloneable{
 	
 	/**
 	 * Costruttore di classe.
+	 * 
 	 * @param codice : l'identificativo numerico dell'ordine;
 	 * @param stato : lo stato dell'ordine;
 	 * @param indirizzoSpedizione : l'indirizzo di spedizione scelto dal committente;
 	 * @param spedizione : la tipologia di spedizione scelta dall'utente.
-	 * @return un oggetto di tipo ObjectOrdine inizializzato con i parametri di input
-	 * e gli attributi data e ora correnti.
+	 * 
+	 * @return un oggetto della classe ObjectOrdine inizializzato con i parametri di input
+	 * 		   codice, stato, indirizzoSpedizione e spedizione
+	 * 				e gli attributi data e ora correnti.
 	 * */
+	
 	protected ObjectOrdine(int codice, Stato stato, Indirizzo indirizzoSpedizione, TipoSpedizione spedizione) {
 		codiceOrdine = codice;
 		this.stato = stato;
@@ -131,33 +159,41 @@ public abstract class ObjectOrdine implements Cloneable{
 	
 	/**
 	 * Il metodo fornisce il codice dell'ordine.
-	 * @return il codice dell'ordine
+	 * 
+	 * @return codiceOrdine : il codice dell'ordine
 	 * */
+	
 	public int getCodiceOrdine() {
 		return codiceOrdine;
 	}
 	
 	/**
 	 * Il metodo imposta il codice dell'ordine.
+	 * 
 	 * @param codiceOrdine : l'identificativo numerico da associare 
-	 * ad un ordine.
+	 * 						ad un ordine.
 	 * */
+	
 	public void setCodiceOrdine(int codiceOrdine) {
 		this.codiceOrdine = codiceOrdine;
 	}
 	
 	/**
 	 * Il metodo restituisce lo stato dell'ordine.
-	 * @return lo stato dell'ordine
+	 * 
+	 * @return stato : lo stato dell'ordine
 	 * */
+	
 	public Stato getStato() {
 		return stato;
 	}
 	
 	/**
 	 * Il metodo imposta lo stato di elaborazione dell'ordine.
+	 * 
 	 * @param stato : lo stato dell'ordine
 	 * */
+	
 	public void setStato(Stato stato) {
 		this.stato = stato;
 	}
@@ -165,16 +201,20 @@ public abstract class ObjectOrdine implements Cloneable{
 	/**
 	 * Il metodo fornisce lo stato di elaborazione dell'ordine
 	 * sottoforma di stringa.
-	 * @return lo stato dell'ordine
+	 * 
+	 * @return lo stato dell'ordine come oggetto di classe String
 	 * */
+	
 	public String getStatoAsString() {
 		return stato.toString();
 	}
 	
 	/**
-	 * Imposta lo stato di elaborazione dell'ordine.
-	 * @param stato: lo stato dell'ordine espresso come stringa
+	 * Imposta lo stato di elaborazione dell'ordine espresso in formato stringa.
+	 * 
+	 * @param stato: lo stato dell'ordine espresso come oggetto della classe String
 	 * */
+	
 	public void setStatoAsString(String stato) {
 		switch (stato.toUpperCase()) {
 		case "RICHIESTA_EFFETTUATA", "RICHIESTA EFFETTUATA":
@@ -197,9 +237,11 @@ public abstract class ObjectOrdine implements Cloneable{
 
 	/**
 	 * Il metodo fornisce l'indirizzo di spedizione presso cui spedire l'ordine.
-	 * @return l'indirizzo di spedizione fornito dall'utente per far
-	 * recapitare l'ordine
+	 * 
+	 * @return indirizzoSpedizione : l'indirizzo di spedizione fornito dall'utente per far
+	 * 								recapitare l'ordine
 	 * */
+	
 	public String getIndirizzoSpedizione() {
 		return indirizzoSpedizione;
 	}
@@ -207,17 +249,20 @@ public abstract class ObjectOrdine implements Cloneable{
 	/**
 	 * Il metodo imposta l'indirizzo di spedizione per un ordine.
 	 * @param indirizzoSpedizione: l'indirizzo di spedizione fornito dall'utente per far
-	 * recapitare l'ordine
+	 * 								recapitare l'ordine
 	 * */
+	
 	public void setIndirizzoSpedizione(Indirizzo indirizzoSpedizione) {
 		this.indirizzoSpedizione = indirizzoSpedizione.toString();
 	}
 	
 	/**
-	 * Il metodo imposta l'indirizzo di spedizione per un ordine.
+	 * Il metodo imposta l'indirizzo di spedizione per un ordine in formato stringa.
+	 * 
 	 * @param indirizzoSpedizione: l'indirizzo di spedizione fornito dall'utente per far
-	 * recapitare l'ordine, in formato stringa
+	 * 								recapitare l'ordine,espresso come oggetto della classe String
 	 * */
+	
 	public void setIndirizzoSpedizioneString(String indirizzoSpedizione) {
 		this.indirizzoSpedizione = indirizzoSpedizione;
 	}
@@ -225,14 +270,17 @@ public abstract class ObjectOrdine implements Cloneable{
 	
 	/**
 	 * Il metodo fornisce la tipologia di spedizione da applicare all'ordine.
-	 * @return la tipologia di spedizione scelta dall'utente per il suo ordine.
+	 * 
+	 * @return spedizione : la tipologia di spedizione scelta dall'utente per il suo ordine.
 	 * */
+	
 	public TipoSpedizione getSpedizione() {
 		return spedizione;
 	}
 	
 	/**
 	 * Il metodo imposta la tipologia di spedizione ad un ordine.
+	 * 
 	 * @param spedizione : tipo di spedizione preferita dall'utente per il suo ordine
 	 * */
 	public void setSpedizione(TipoSpedizione spedizione) {
@@ -242,17 +290,22 @@ public abstract class ObjectOrdine implements Cloneable{
 	/**
 	 * Il metodo fornisce la tipologia di spedizione da applicare all'ordine,
 	 * sottoforma di stringa.
-	 * @return la tipologia di spedizione scelta dall'utente per il suo ordine.
+	 * 
+	 * @return la tipologia di spedizione scelta dall'utente per il suo ordine
+	 * 			come oggetto della classe String.
 	 * */
+	
 	public String getSpedizioneAsString() {
 		return spedizione.toString();
 	}
 	
 	/**
-	 * Il metodo imposta la tipologia di spedizione ad un ordine.
+	 * Il metodo imposta la tipologia di spedizione ad un ordine, fornita sottoforma di stringa.
+	 * 
 	 * @param spedizione : tipo di spedizione preferita 
-	 * dall'utente per il suo ordine, fornita sottoforma di stringa.
+	 * 						dall'utente per il suo ordine espressa come oggetto di String.
 	 * */
+	
 	public void setSpedizioneAsString(String spedizione) {
 		switch (spedizione.toUpperCase()) {
 		case "SPEDIZIONE_STANDARD", "SPEDIZIONE STANDARD":
@@ -273,8 +326,10 @@ public abstract class ObjectOrdine implements Cloneable{
 	/**
 	 * Il metodo restituisce la data di creazione dell'ordine fatta dall'utente
 	 * dopo il pagamento della merce.
-	 * @return data di commissione dell'ordine
+	 * 
+	 * @return data : data di commissione dell'ordine
 	 * */
+	
 	public LocalDate getData() {
 		return data;
 	}
@@ -282,8 +337,10 @@ public abstract class ObjectOrdine implements Cloneable{
 	/**
 	 * Il metodo imposta la data di creazione dell'ordine fatta dall'utente
 	 * dopo il pagamento della merce.
+	 * 
 	 * @param data: data di commissione dell'ordine
 	 * */
+	
 	public void setData(LocalDate data) {
 		this.data = data;
 	}
@@ -291,8 +348,10 @@ public abstract class ObjectOrdine implements Cloneable{
 	/**
 	 * Il metodo restituisce l'ora di creazione dell'ordine fatta dall'utente
 	 * dopo il pagamento della merce.
-	 * @return ora di commissione dell'ordine
+	 * 
+	 * @return ora : ora di commissione dell'ordine
 	 * */
+	
 	public LocalTime getOra() {
 		return ora;
 	}
@@ -300,17 +359,22 @@ public abstract class ObjectOrdine implements Cloneable{
 	/**
 	 * Il metodo imposta l'ora di creazione dell'ordine fatta dall'utente
 	 * dopo il pagamento della merce.
+	 * 
 	 * @param ora: ora di commissione dell'ordine
 	 * */
+	
 	public void setOra(LocalTime ora) {
 		this.ora = ora;
 	}
 	
 	/**
-	 * Il metodo che fornisce lo stato di un oggetto di tipo ObjectOrdine.
+	 * Il metodo fornisce, in formato stringa, le caratteristiche essenziali di
+	 * un oggetto di tipo ObjectOrdine.
+	 * 
 	 * @return una stringa contenente le informazioni associate ad un oggetto
-	 * di tipo ObjectOrdine 
+	 * 			di tipo ObjectOrdine 
 	 * */
+	
 	@Override
 	public String toString() {
 		return "Ordine [CodiceOrdine=" + codiceOrdine + ", stato=" + stato 
@@ -323,9 +387,10 @@ public abstract class ObjectOrdine implements Cloneable{
 	 * degli attributi di questo oggetto. Si tratta di una copia profonda, ovvero anche gli
 	 * oggetti contenuti all'interno vengono clonati, evitando di condividere riferimenti.
 	 *
-	 * @return Una nuova istanza di `ObjectOrdine` che rappresenta una copia esatta di questo oggetto.
+	 * @return clone : una nuova istanza di `ObjectOrdine` che rappresenta una copia esatta di questo oggetto.
 	 * @throws AssertionError Se il metodo `clone()` di `Object` lancia una eccezione inaspettata.
 	 */
+	
 	@Override
 	public ObjectOrdine clone() throws CloneNotSupportedException{
 	    try {

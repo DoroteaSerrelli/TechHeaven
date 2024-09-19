@@ -10,6 +10,11 @@ import application.RegistrazioneService.Indirizzo;
 /**
  * La classe rappresenta il concetto di ordine commissionato dal cliente presso il negozio online.
  * 
+ * @see application.GestioneOrdiniService.ObjectOrdine
+ * @see application.GestioneOrdiniService.ProxyOrdine
+ * @see application.RegistrazioneService.Cliente
+ * @see application.GestioneCarrelloService.ItemCarrello
+ * 
  * @author Dorotea Serrelli
  * */
 
@@ -18,16 +23,15 @@ public class Ordine extends ObjectOrdine implements Cloneable{
 	/**
 	 * acquirente : è il committente dell'ordine.
 	 * 
-	 * @see application.RegistrazioneService.Cliente
 	 * */
+	
 	private Cliente acquirente;
 	
 	/**
 	 * prodotti : i prodotti, e le relative quantità, acquistati
 	 * dall'utente, costituenti l'ordine, richiesti
-	 * 
-	 * @see application.GestioneCarrelloService.ItemCarrello
 	 * */
+	
 	private ArrayList<ItemCarrello> prodotti;
 	
 	/**
@@ -41,6 +45,7 @@ public class Ordine extends ObjectOrdine implements Cloneable{
 	
 	/**
 	 * Costruttore della classe.
+	 * 
 	 * @param codice : l'identificativo numerico dell'ordine;
 	 * @param stato : lo stato dell'ordine;
 	 * @param indirizzoSpedizione : l'indirizzo di spedizione scelto dal committente;
@@ -48,10 +53,11 @@ public class Ordine extends ObjectOrdine implements Cloneable{
 	 * @param acquirente : il cliente che commissiona l'ordine
 	 * @param prodotti : i prodotti acquistati dal cliente
 	 * 
-	 * @return un oggetto di tipo Ordine.
-	 * @throws OrdineVuotoException per gestire un ordine che non ha prodotti al suo interno
+	 * @return un oggetto di tipo Ordine contenente i seguenti attributi : codice, stato, indirizzoSpedizione,
+	 * 			spedizione, acquirente, prodotti.
+	 * 
+	 * @throws OrdineVuotoException : per gestire un ordine che non ha prodotti al suo interno
 	 * */
-	
 	
 	public Ordine(int codice, Stato stato, Indirizzo indirizzoSpedizione, TipoSpedizione spedizione, Cliente acquirente, ArrayList<ItemCarrello> prodotti) throws OrdineVuotoException {
 		super(codice, stato, indirizzoSpedizione, spedizione);
@@ -62,37 +68,44 @@ public class Ordine extends ObjectOrdine implements Cloneable{
 	}
 
 	/**
-	 * Il metodo fornisce le informazioni generali del committente
-	 * @return il profilo dell'utente richiedente l'ordine
+	 * Il metodo fornisce le informazioni generali del committente.
+	 * 
+	 * @return acquirente : il profilo dell'utente richiedente l'ordine
 	 * */
+	
 	public Cliente getAcquirente() {
 		return acquirente;
 	}
 	
 	/**
-	 * Il metodo imposta le informazioni generali del committente
+	 * Il metodo imposta le informazioni generali del committente.
+	 * 
 	 * @param client: il profilo del cliente richiedente l'ordine
 	 * */
+	
 	public void setAcquirente(Cliente client) {
 		this.acquirente = client;
 	}
 	
 	/**
-	 * Il metodo fornisce i prodotti presenti nell'ordine
+	 * Il metodo fornisce i prodotti presenti nell'ordine.
 	 * 
-	 * @return i prodotti dell'ordine
+	 * @return prodotti : i prodotti dell'ordine
 	 * */
+	
 	public ArrayList<ItemCarrello> getProdotti() {
 		return prodotti;
 	}
 	
 	/**
 	 * Il metodo imposta l'insieme di prodotti utili per 
-	 * la creazione dell'ordine
+	 * la creazione dell'ordine.
 	 * 
-	 * @param prodotti i prodotti da inserire nell'ordine
-	 * @throws OrdineVuotoException 
+	 * @param prodotti : i prodotti da inserire nell'ordine
+	 * 
+	 * @throws OrdineVuotoException : per gestire un ordine che non ha prodotti al suo interno
 	 * */
+	
 	public void setProdotti(ArrayList<ItemCarrello> prodotti) throws OrdineVuotoException {
 		if(prodotti == null || prodotti.size() == 0)
 			throw new OrdineVuotoException("L'insieme dei prodotti fornito e\' vuoto.");
@@ -106,8 +119,9 @@ public class Ordine extends ObjectOrdine implements Cloneable{
 	 * @see application.GestioneOrdiniService.Ordine.toString()
 	 * al fine di stampare le referenze dell' ordine.
 	 * 
-	 * @return le informazioni dei prodotti acquistati
+	 * @return str : le informazioni dei prodotti acquistati
 	 * */
+	
 	private String prodottiOrdiniString() {
 		String str = "";
 		for(ItemCarrello i : prodotti) 
@@ -125,6 +139,7 @@ public class Ordine extends ObjectOrdine implements Cloneable{
 	 * @return le informazioni sull'ordine e sui suoi prodotti 
 	 * in formato stringa
 	 * */
+	
 	@Override
 	public String toString() {
 		return super.toString() + ", cliente=" + acquirente.getNome() + " " + acquirente.getCognome() + 
@@ -139,7 +154,7 @@ public class Ordine extends ObjectOrdine implements Cloneable{
 	 * vengano copiati in modo indipendente, evitando così di condividere riferimenti
 	 * con l'oggetto originale.
 	 * 
-	 * @return Una nuova istanza di `Ordine` che rappresenta una copia esatta dell'oggetto originale.
+	 * @return clone : una nuova istanza di `Ordine` che rappresenta una copia esatta dell'oggetto originale.
 	 * @throws CloneNotSupportedException Se la classe o una delle classi degli attributi
 	 *         non supporta l'operazione di clonazione.
 	 */

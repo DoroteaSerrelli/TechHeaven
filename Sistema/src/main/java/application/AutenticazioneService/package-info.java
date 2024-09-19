@@ -4,7 +4,7 @@
  * 
  * - autenticazione nel sistema;
  * - reimpostazione della password;
- * - aggironamento del profilo personale;
+ * - aggiornamento del profilo personale;
  * - aggiornamento della rubrica degli indirizzi di spedizione.
  *
  * @author Dorotea Serrelli

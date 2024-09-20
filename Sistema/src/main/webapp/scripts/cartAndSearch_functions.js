@@ -157,3 +157,12 @@
         }
     });
 });
+
+function toggleDrawer() {
+    var sidebar = document.getElementById("complete_order");
+    sidebar.classList.toggle("active");
+    var drawer_toggle = document.getElementById("drawer-toggle");
+    drawer_toggle.classList.toggle("open_drawer");
+}
+
+

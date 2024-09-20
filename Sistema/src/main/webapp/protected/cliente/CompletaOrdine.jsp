@@ -44,11 +44,11 @@
        
         <%
             Carrello carrello = (Carrello) request.getSession().getAttribute("usercart");%>
+            <button id="drawer-toggle" onclick="toggleDrawer()"><h1>Totale Ordine:</h1></button> 
         <div class="complete_order">    
-            <div id="complete_order">
-                <h1>:Totale Ordine</h1> 
+            <div id="complete_order">                
                 <div id="cart">
-                <p><%=carrello.getNumProdotti()%> Item nel Carrello</p>
+                <p><%=carrello.getNumProdotti()%> :Item nel Carrello</p>
                 <%  for (ItemCarrello p : carrello.getProducts()) {
                         %> 
                     <div class="cart-item">
@@ -57,7 +57,7 @@
                             <img src="image?productId=<%= p.getCodiceProdotto() %>" alt="alt" width="20%" height="20%"
                                 onerror="this.onerror=null;this.src='<%= request.getContextPath() %>/images/site_images/placeholder.png';" />			
                             <%
-                                double prezzo = p.getPrezzo();
+                                double prezzo = p.getPrezzo() * p.getQuantita();
                                 NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
                                 currencyFormatter.setCurrency(Currency.getInstance("EUR"));
                                 String prezzoFormattato = currencyFormatter.format(prezzo);

@@ -13,6 +13,8 @@ import application.NavigazioneService.ProxyProdotto;
  * email del fornitore come modalità di contatto con il fornitore, la descrizione da allegare alla richiesta,
  * il prodotto da richiedere, la quantità del prodotto richiesta al fornitore. 
  * 
+ * @see application.NavigazioneService.ProxyProdotto
+ * 
  * @author Dorotea Serrelli
  * 
  * */
@@ -20,37 +22,43 @@ import application.NavigazioneService.ProxyProdotto;
 public class RichiestaApprovvigionamento {
 
 	/**
-	 * L'identificativo numerico univoco di una richiesta
+	 * codice : identificativo numerico univoco di una richiesta
 	 * di rifornimento.
 	 * */
+	
 	private int codice;
 
 	/**
-	 * Il nominativo del fornitore.
+	 * fornitore : il nominativo del fornitore.
 	 * */
+	
 	private String fornitore;
 
 	/**
-	 * L'email del fornitore.
+	 * emailFornitore : l'email del fornitore.
 	 * */
+	
 	private String emailFornitore;
 
 	/**
-	 * La descrizione da corredo per la 
+	 * descrizione : la descrizione da corredo per la 
 	 * richiesta di rifornimento del prodotto.
 	 * */
+	
 	private String descrizione;
 
 	/**
-	 * La quantità di prodotto che si 
+	 * quantità : la quantità di prodotto che si 
 	 * richiede per il rifornimento.
 	 * */
+	
 	private int quantità;
 
 	/**
-	 * Il prodotto per cui si effettua la
+	 * prodotto : il prodotto per cui si effettua la
 	 * richiesta di approvvigionamento.
 	 * */
+	
 	private ProxyProdotto prodotto;
 
 	/**
@@ -58,11 +66,12 @@ public class RichiestaApprovvigionamento {
 	 * per realizzare una richiesta di rifornimento, è espresso nel formato corretto.
 	 * 
 	 * @param nominativo : il nominativo del fornitore 
-	 * 					   (può avere lettere, numeri e spazi (ma non inizia con uno spazio)
+	 * 					   (può avere lettere, numeri e spazi - ma non inizia con uno spazio)
 	 * 
 	 * @return true se i dati inseriti sono stati specificati nel 
-	 * formato corretto; false altrimenti.
+	 * 				formato corretto; false altrimenti.
 	 * */
+	
 	public static boolean checkValidateNominativo(String nominativo) {
 		String nominativoPattern = "^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$";
 
@@ -71,11 +80,13 @@ public class RichiestaApprovvigionamento {
 
 	/**
 	 * Il metodo verifica se l'indirizzo di posta elettronica del fornitore
-	 * è stato specificato nel corretto formato.
+	 * è specificato nel corretto formato.
 	 * 
 	 * @param email : l'indirizzo di posta elettronica del fornitore
+	 * 
 	 * @return true se l'email è scritta nel formato corretto; false altrimenti.
 	 * */
+	
 	public static boolean checkValidateEmail(String email) {
 		String emailPattern = "^[\\w]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
 		return email.matches(emailPattern);
@@ -99,7 +110,7 @@ public class RichiestaApprovvigionamento {
 	/**
 	 * Costruttore della classe.
 	 * 
-	 * @param codice : il codice identificativo della richiesta di rifornimento
+	 * @param codice : numero identificativo della richiesta di rifornimento
 	 * @param fornitore : il nominativo del fornitore
 	 * @param emailFornitore : l'email del fornitore
 	 * @param descrizione : la descrizione da corredo per la 
@@ -110,15 +121,16 @@ public class RichiestaApprovvigionamento {
 	 * 					 richiesta di approvvigionamento.
 	 * 
 	 * @return un oggetto della classe RichiestaApprovvigionamento con le caratteristiche pari
-	 * 		   ai parametri passatti in input.
+	 * 		   ai parametri passatti in input: codice, fornitore, emailFornitore, descrizione,
+	 * 			quantità, prodotto.
 	 * 
-	 * @throws FornitoreException per il formato non corretto delle informazioni relative ad un fornitore.
-	 * @throws QuantitaProdottoException per la quantità di un prodotto non valida
-	 * @throws DescrizioneDettaglioException  per gestire il caso in cui la descrizione da allegare è vuota
-	 * @throws ProdottoVendibileException se si fa richiesta di rifornimento di un prodotto non venduto dal negozio online
-	 * 
+	 * @throws FornitoreException : eccezione lanciata nel caso di formato non corretto delle informazioni 
+	 * 								relative ad un fornitore.
+	 * @throws QuantitaProdottoException : eccezione lanciata nel caso di quantità di un prodotto non valida
+	 * @throws DescrizioneDettaglioException : eccezione lanciata nel caso in cui la descrizione da allegare è vuota
+	 * @throws ProdottoVendibileException : eccezione lanciata nel caso in cui si fa richiesta di rifornimento 
+	 * 										di un prodotto non venduto dal negozio online
 	 * */
-
 
 	public RichiestaApprovvigionamento(int codice, String fornitore, String emailFornitore, String descrizione,
 			int quantità, ProxyProdotto prodotto) throws FornitoreException, QuantitaProdottoException, DescrizioneDettaglioException, ProdottoVendibileException {
@@ -158,7 +170,6 @@ public class RichiestaApprovvigionamento {
 	 * Costruttore della classe senza specificare il codice
 	 * della richiesta di approvvigionamento.
 	 * 
-	 * @param codice : il codice identificativo della richiesta di rifornimento
 	 * @param fornitore : il nominativo del fornitore
 	 * @param emailFornitore : l'email del fornitore
 	 * @param descrizione : la descrizione da corredo per la 
@@ -169,15 +180,16 @@ public class RichiestaApprovvigionamento {
 	 * 					 richiesta di approvvigionamento.
 	 * 
 	 * @return un oggetto della classe RichiestaApprovvigionamento con le caratteristiche pari
-	 * 		   ai parametri passatti in input.
+	 * 		   ai parametri passatti in input: fornitore, emailFornitore, descrizione,
+	 * 			quantità, prodotto.
 	 * 
-	 * @throws FornitoreException per il formato non corretto delle informazioni relative ad un fornitore.
-	 * @throws QuantitaProdottoException per la quantità di un prodotto non valida
-	 * @throws DescrizioneDettaglioException  per gestire il caso in cui la descrizione da allegare è vuota
-	 * @throws ProdottoVendibileException se si fa richiesta di rifornimento di un prodotto non venduto dal negozio online
-	 * 
+	 * @throws FornitoreException : eccezione lanciata nel caso di formato non corretto delle informazioni 
+	 * 								relative ad un fornitore.
+	 * @throws QuantitaProdottoException : eccezione lanciata nel caso di quantità di un prodotto non valida
+	 * @throws DescrizioneDettaglioException : eccezione lanciata nel caso in cui la descrizione da allegare è vuota
+	 * @throws ProdottoVendibileException : eccezione lanciata nel caso in cui si fa richiesta di rifornimento 
+	 * 										di un prodotto non venduto dal negozio online
 	 * */
-
 
 	public RichiestaApprovvigionamento(String fornitore, String emailFornitore, String descrizione,
 			int quantità, ProxyProdotto prodotto) throws FornitoreException, QuantitaProdottoException, DescrizioneDettaglioException, ProdottoVendibileException {
@@ -214,8 +226,9 @@ public class RichiestaApprovvigionamento {
 	/**
 	 * Il metodo restituisce il codice della richiesta di rifornimento.
 	 * 
-	 * @return codice : il codice della richiesta di rifornimento
+	 * @return codice : l'identificativo della richiesta di rifornimento
 	 */
+	
 	public int getCodiceRifornimento() {
 		return codice;
 	}
@@ -223,8 +236,9 @@ public class RichiestaApprovvigionamento {
 	/**
 	 * Il metodo imposta il codice della richiesta di rifornimento.
 	 * 
-	 * @param codice : il codice della richiesta di rifornimento
+	 * @param codice : l'identificativo della richiesta di rifornimento
 	 */
+	
 	public void setCodice(int codice) {
 		this.codice = codice;
 	}
@@ -233,8 +247,9 @@ public class RichiestaApprovvigionamento {
 	 * Il metodo restituisce il nominativo del fornitore a cui si fa la
 	 * richiesta di approvvigionamento.
 	 * 
-	 * @return il fornitore
+	 * @return fornitore : il nome del fornitore
 	 */
+	
 	public String getFornitore() {
 		return fornitore;
 	}
@@ -245,8 +260,11 @@ public class RichiestaApprovvigionamento {
 	 * 
 	 * @param fornitore : il fornitore a cui si effettua la richiesta
 	 * 					  del prodotto
-	 * @throws FornitoreException 
+	 * 
+	 * @throws FornitoreException : eccezione lanciata nel caso di formato non corretto del
+	 * 								nominativo del fornitore.
 	 */
+	
 	public void setFornitore(String fornitore) throws FornitoreException {
 		if(!checkValidateNominativo(fornitore))
 			throw new FornitoreException("Il nominativo del fornitore non e\' espresso nel formato corretto.\n"
@@ -259,8 +277,9 @@ public class RichiestaApprovvigionamento {
 	 * Il metodo restituisce l'email del fornitore a cui si fa la
 	 * richiesta di approvvigionamento.
 	 * 
-	 * @return l'indirizzo di posta elettronica del fornitore
+	 * @return emailFornitore : l'indirizzo di posta elettronica del fornitore
 	 */
+	
 	public String getEmailFornitore() {
 		return emailFornitore;
 	}
@@ -270,8 +289,11 @@ public class RichiestaApprovvigionamento {
 	 * richiesta di approvvigionamento.
 	 * 
 	 * @param emailFornitore : l'indirizzo di posta elettronica del fornitore
-	 * @throws FornitoreException 
+	 * 
+	 * @throws FornitoreException : eccezione lanciata nel caso di formato non corretto dell'email
+	 * 								del fornitore.
 	 */
+	
 	public void setEmailFornitore(String emailFornitore) throws FornitoreException {
 		if(!checkValidateEmail(emailFornitore))
 			throw new FornitoreException("L'email del fornitore non e\' espressa nel formato corretto.\n"
@@ -284,8 +306,9 @@ public class RichiestaApprovvigionamento {
 	 * Il metodo fornisce una descrizione di dettaglio da allegare
 	 * alla richiesta di approvvigionamento.
 	 * 
-	 * @return la descrizione di dettaglio per la richiesta di fornitura
+	 * @return descrizione : la descrizione di dettaglio per la richiesta di fornitura
 	 */
+	
 	public String getDescrizione() {
 		return descrizione;
 	}
@@ -295,8 +318,10 @@ public class RichiestaApprovvigionamento {
 	 * alla richiesta di approvvigionamento.
 	 * 
 	 * @param descrizione : la descrizione di dettaglio per la richiesta di fornitura
-	 * @throws DescrizioneDettaglioException 
+	 * 
+	 * @throws DescrizioneDettaglioException : eccezione lanciata nel caso in cui la descrizione da allegare è vuota
 	 */
+	
 	public void setDescrizione(String descrizione) throws DescrizioneDettaglioException {
 		if(descrizione.isEmpty())
 			throw new DescrizioneDettaglioException("La descrizione di dettaglio non puo\' essere vuota.");
@@ -308,8 +333,9 @@ public class RichiestaApprovvigionamento {
 	 * Il metodo fornisce la quantità di rifornimento richiesta al fornitore
 	 * per il prodotto.
 	 * 
-	 * @return la quantità di prodotto richiesta al fornitore
+	 * @return quantità : la quantità di prodotto richiesta al fornitore
 	 */
+	
 	public int getQuantitaRifornimento() {
 		return quantità;
 	}
@@ -319,8 +345,10 @@ public class RichiestaApprovvigionamento {
 	 * per il prodotto.
 	 * 
 	 * @param quantità : la quantità di prodotto richiesta al fornitore
-	 * @throws QuantitaProdottoException 
+	 * 
+	 * @throws QuantitaProdottoException : eccezione lanciata nel caso di quantità di un prodotto non valida
 	 */
+	
 	public void setQuantitaRifornimento(int quantità) throws QuantitaProdottoException {
 		if(quantità <= 0)
 			throw new QuantitaProdottoException("La quantità di un prodotto deve essere maggiore di 0.");
@@ -329,15 +357,15 @@ public class RichiestaApprovvigionamento {
 
 	}
 
-
 	/**
 	 * Il metodo fornisce le caratteristiche essenziali del prodotto, 
 	 * venduto dal negozio, per cui si effettua la 
 	 * richiesta di rifornimento.
 	 * 
-	 * @return il prodotto per il quale fare 
-	 * 			la richiesta di approvvigionamento
+	 * @return prodotto : il prodotto per il quale fare 
+	 * 					  la richiesta di approvvigionamento
 	 */
+	
 	public ProxyProdotto getProdotto() {
 		return prodotto;
 	}
@@ -349,8 +377,11 @@ public class RichiestaApprovvigionamento {
 	 * 
 	 * @param prodotto : il prodotto per il quale fare 
 	 * 					 la richiesta di approvvigionamento
-	 * @throws ProdottoVendibileException 
-	 */
+	 * 
+	 * @throws ProdottoVendibileException : eccezione lanciata nel caso in cui si fa richiesta di rifornimento 
+	 * 										di un prodotto non venduto dal negozio online
+	 * */
+	
 	public void setProdotto(ProxyProdotto prodotto) throws ProdottoVendibileException {
 		if(!prodotto.isInCatalogo())
 			throw new ProdottoVendibileException("Il prodotto specificato non e\' presente nel catalogo.");
@@ -361,11 +392,15 @@ public class RichiestaApprovvigionamento {
 	/**
 	 * Il metodo fornisce in formato stringa le caratteristiche associate ad
 	 * una richiesta di approvvigionamento.
+	 * 
+	 * @return un oggetto della classe String che fornisce le caratteristiche della
+	 * 		   richiesta di approvvigionamento
 	 * */
+	
 	@Override
 	public String toString() {
 		return "RichiestaApprovvigionamento [codice=" + codice + ", fornitore=" + fornitore + ", emailFornitore="
-				+ emailFornitore + ", descrizione=" + descrizione + ", quantità=" + quantità + ", prodotto=" + prodotto
+				+ emailFornitore + ", descrizione=" + descrizione + ", quantità=" + quantità + ", \nProdotto\n" + prodotto.toString()
 				+ "]";
 	}
 }

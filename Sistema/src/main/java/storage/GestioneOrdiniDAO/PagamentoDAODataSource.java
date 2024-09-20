@@ -26,7 +26,7 @@ import application.NavigazioneService.ProdottoException.CategoriaProdottoExcepti
  * Questa classe implementa le operazioni CRUD (Create, Read, Update, Delete)
  * e la ricerca dei pagamenti memorizzati nel database relazionale.
  * 
- * @author: Dorotea Serrelli
+ * @author : Dorotea Serrelli
  * */
 
 public class PagamentoDAODataSource {

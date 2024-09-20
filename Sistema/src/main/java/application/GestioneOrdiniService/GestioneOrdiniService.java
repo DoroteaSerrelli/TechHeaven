@@ -27,7 +27,7 @@ import application.RegistrazioneService.ProxyUtente;
  * @see application.GestioneOrdiniService.OrdineException
  * @see application.GestioneOrdiniService.ReportSpedizione
  * @see application.RegistrazioneService.ProxyUtente
- * @see application.GestioneCarrello.Carrello
+ * @see application.GestioneCarrelloService.Carrello
  * @see application.PagamentoService.Pagamento
  * 
  * @author Dorotea Serrelli

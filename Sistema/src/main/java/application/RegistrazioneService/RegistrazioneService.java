@@ -7,11 +7,11 @@ import application.RegistrazioneService.Cliente.Sesso;
  * registrazione di un nuovo utente: cliente, gestore degli ordini e 
  * gestore del catalogo.
  * 
- * @see java.application.RegistrazioneService.RegistrazioneServiceImpl
- * @see java.application.RegistrazioneService.ProxyUtente
- * @see java.application.RegistrazioneService.Ruolo
- * @see java.application.RegistrazioneService.Indirizzo
- * @see java.application.RegistrazioneService.Cliente
+ * @see application.RegistrazioneService.RegistrazioneServiceImpl
+ * @see application.RegistrazioneService.ProxyUtente
+ * @see application.RegistrazioneService.Ruolo
+ * @see application.RegistrazioneService.Indirizzo
+ * @see application.RegistrazioneService.Cliente
  * 
  * @author Dorotea Serrelli
  * */

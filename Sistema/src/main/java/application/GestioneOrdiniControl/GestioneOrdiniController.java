@@ -50,6 +50,21 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
 @WebServlet(name = "GestioneOrdiniController", urlPatterns = {"/GestioneOrdiniController"})
 public class GestioneOrdiniController extends HttpServlet {
     private static final long serialVersionUID = 1L;
+
+    private GestioneOrdiniServiceImpl gos;
+    private OrdineDAODataSource odao;
+    private ProdottoDAODataSource pdao;
+    private PaginationUtils pu;
+    
+    @Override
+    public void init() throws ServletException {
+        // Initialize any services or resources needed by the servlet
+        odao = new OrdineDAODataSource();
+        gos = new GestioneOrdiniServiceImpl();
+        pdao = new ProdottoDAODataSource();
+        pu = new PaginationUtils();
+    }
+    
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -59,18 +74,6 @@ public class GestioneOrdiniController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private GestioneOrdiniServiceImpl gos;
-    private OrdineDAODataSource odao;
-    private ProdottoDAODataSource pdao;
-    private PaginationUtils pu;
-    @Override
-    public void init() throws ServletException {
-        // Initialize any services or resources needed by the servlet
-        odao = new OrdineDAODataSource();
-        gos = new GestioneOrdiniServiceImpl();
-        pdao = new ProdottoDAODataSource();
-        pu = new PaginationUtils();
-    }
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");

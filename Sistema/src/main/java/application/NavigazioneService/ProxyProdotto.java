@@ -48,6 +48,7 @@ public class ProxyProdotto extends ObjectProdotto{
 	/**
 	 * Costruttore di classe per creare un oggetto ProxyProdotto noti codiceProdotto, nomeProdotto, topDescrizione, 
 	 * prezzo, categoria, marca, modello, quantita, inCatalogo, inVetrina.
+	 * L'oggetto ottenuto è un oggetto surrogato che possiede le informazioni essenziali di un prodotto.
 	 * 
 	 * @param codiceProdotto : l'identificativo del prodotto
 	 * @param nomeProdotto : il nome del prodotto 
@@ -60,8 +61,6 @@ public class ProxyProdotto extends ObjectProdotto{
 	 * @param quantita : il numero di scorte in magazzino del prodotto
 	 * @param inCatalogo : il prodotto è presente nel catalogo online del negozio
 	 * @param inVetrina : il prodotto è nella vetrina online del negozio tra i prodotti di una determinata categoria
-	 * 
-	 * @return un oggetto surrogato che possiede le informazioni essenziali di un prodotto
 	 * 
 	 * */
 	
@@ -76,6 +75,8 @@ public class ProxyProdotto extends ObjectProdotto{
 	/**
 	 * Costruttore di classe che crea un prodotto appartenente ad una categoria, e sottocategoria, noti codiceProdotto, nomeProdotto, 
 	 * topDescrizione, prezzo, marca, modello, quantita, inCatalogo, inVetrina.
+	 * L'oggetto ottenuto è un oggetto surrogato che possiede le informazioni essenziali 
+	 * di un prodotto.
 	 * 
 	 * @param codiceProdotto : l'identificativo del prodotto
 	 * @param nomeProdotto : il nome del prodotto 
@@ -90,7 +91,6 @@ public class ProxyProdotto extends ObjectProdotto{
 	 * @param inCatalogo : il prodotto è presente nel catalogo online del negozio
 	 * @param inVetrina : il prodotto è nella vetrina online del negozio tra i prodotti di una determinata categoria
 	 * 
-	 * @return un oggetto surrogato che possiede le informazioni essenziali di un prodotto
 	 * */
 	
 	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,

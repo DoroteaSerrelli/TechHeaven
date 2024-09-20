@@ -8,7 +8,7 @@ import application.GestioneOrdiniService.Ordine;
  * effettuato da un utente dell'e-commerce (non è da considerarsi come una
  * fattura fiscale) contenute in 'Pagamento': codice, ordine pagato, importo, data ed ora del pagamento.
  * 
- * @see java.application.PagamentoService.Pagamento
+ * @see application.PagamentoService.Pagamento
  * 
  * @author Dorotea Serrelli
  * */

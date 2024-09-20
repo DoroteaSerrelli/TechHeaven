@@ -49,6 +49,9 @@ public class Approvigionamento extends HttpServlet {
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+
+    private int perPage=50;
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -57,7 +60,6 @@ public class Approvigionamento extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private int perPage=50;
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

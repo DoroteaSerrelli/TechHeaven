@@ -4,9 +4,9 @@ package application.NavigazioneService;
  * Questa classe gestisce le eccezioni lanciate durante l'esecuzione operazioni legate
  * ad un prodotto.
  * 
- * @see java.application.NavigazioneService.ProxyProdotto;
- * @see java.application.NavigazioneService.Prodotto;
- * @see java.application.NavigazioneService.ObjectProdotto;
+ * @see application.NavigazioneService.ProxyProdotto
+ * @see application.NavigazioneService.Prodotto
+ * @see application.NavigazioneService.ObjectProdotto
  * 
  * @author Dorotea Serrelli
  * */

@@ -28,7 +28,7 @@ import storage.AutenticazioneDAO.*;
  * della password ed aggiornamento del profilo personale dell'utente.
  * 
  * @see application.AutenticazioneService.AutenticazioneService
- * @see application.RegistrazioneService.Proxyutente
+ * @see application.RegistrazioneService.ProxyUtente
  * @see application.RegistrazioneService.ObjectUtente
  * @see application.RegistrazioneService.Utente
  * @see application.RegistrazioneService.Ruolo
@@ -46,10 +46,8 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 	 * @param username : l'username fornito dall'utente
 	 * @param password : la password fornita dall'utente (senza che sia stato effettuato l'hashing)
 	 * 
-	 * @return un ogetto della classe ProxyUtente corrispondente all'utente con le credenziali 
-	 * 			username e password inserite
-	 * 
-	 * @return un oggetto della classe ProxyUtente che contiene le informazioni username, password, 
+	 * @return un oggetto della classe ProxyUtente corrispondente all'utente con le credenziali 
+	 * 			username e password inserite, comprensivo di 
 	 * 			ruoli associati all'utente autenticato
 	 * 
 	 * @throws SQLException 

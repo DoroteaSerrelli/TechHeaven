@@ -26,8 +26,15 @@ import application.RegistrazioneService.Cliente;
 import storage.AutenticazioneDAO.ClienteDAODataSource;
 
 /**
+ * Classe DAO per la gestione degli ordini nel database.
+ * Questa classe implementa i metodi CRUD per la gestione degli ordini nel database.
+ * Inoltre, fornisce dei metodi per recuperare gli ordini in base a vari criteri,
+ * come lo stato dell'ordine, l'utente che ha effettuato l'ordine,
+ * l'intervallo di date in cui l'ordine è stato effettuato, ecc...
+ * 
  * @author Dorotea Serrelli
  * */
+
 public class OrdineDAODataSource {
 	private static DataSource ds;
 

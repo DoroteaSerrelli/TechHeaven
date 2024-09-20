@@ -15,11 +15,12 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
 /**
- * La classe consente di effettuare le operazioni di caricamento, recupero, aggiunta e rimozione
+ * La classe DAO consente di effettuare le operazioni di caricamento, recupero, aggiunta e rimozione
  * dell'immagine di presentazione (topImage) di un prodotto e della galleria di immagini
  * di dettaglio ad esso associate.
  * 
- * @see package application.NavigazioneService.Prodotto;
+ * @see application.NavigazioneService.Prodotto
+ * 
  * @author Dorotea Serrelli
  * */
 

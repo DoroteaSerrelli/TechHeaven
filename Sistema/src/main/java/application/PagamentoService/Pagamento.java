@@ -13,7 +13,7 @@ import application.GestioneOrdiniService.Ordine;
  * Per le modalità di pagamento 'Contrassegno', 'Paypal', 'Carta di credito' verranno 
  * create delle apposite classi concrete di Pagamento.
  * 
- * @see java.application.PagamentoService
+ * @see application.PagamentoService
  * @see application.GestioneOrdiniService.Ordine
  * 
  * @author Dorotea Serrelli

@@ -13,7 +13,7 @@ import storage.GestioneOrdiniDAO.OrdineDAODataSource;
  * in modo che si conoscano le informazioni essenziali degli ordini effettuati dall'utente.
  * 
  * @see application.GestioneOrdiniService.ProxyOrdine
- * @see application.GestioneOrdiniService.Indirizzo
+ * @see application.RegistrazioneService.Indirizzo
  * 
  * @author Dorotea Serrelli
  * */

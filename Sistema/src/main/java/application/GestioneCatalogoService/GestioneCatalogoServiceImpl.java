@@ -37,7 +37,7 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
  * @see application.NavigazioneService.Prodotto
  * @see application.NavigazioneService.ProxyProdotto
  * @see application.NavigazioneService.ProdottoException
- * @see application.NavigazioneService.CatalogoException
+ * @see application.GestioneCatalogoService.CatalogoException
  * 
  * @author raffa
  * @author Dorotea Serrelli

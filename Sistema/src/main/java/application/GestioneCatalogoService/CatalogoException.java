@@ -4,9 +4,9 @@ package application.GestioneCatalogoService;
  * Questa classe gestisce le eccezioni lanciate durante l'esecuzione di una
  * operazione sul catalogo.
  * 
- * @see java.application.GestioneCatalogoService.*;
- * @see java.application.NavigazioneService.ProxyProdotto;
- * @see java.application.NavigazioneService.Prodotto;
+ * @see application.GestioneCatalogoService
+ * @see application.NavigazioneService.ProxyProdotto
+ * @see application.NavigazioneService.Prodotto
  * 
  * @author Dorotea Serrelli
  * */

@@ -10,7 +10,7 @@ import application.GestioneOrdiniService.Ordine;
  * Inoltre, contiene informazioni aggiuntive quali nome del titolare
  * della carta e numero della carta.
  * 
- * @see java.application.PagamentoService.Pagamento
+ * @see application.PagamentoService.Pagamento
  * 
  * @author Dorotea Serrelli
  * */

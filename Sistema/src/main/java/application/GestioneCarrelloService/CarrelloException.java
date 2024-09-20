@@ -5,7 +5,7 @@ package application.GestioneCarrelloService;
  * operazione sul carrello, a seguito della violazione del contratto della
  * classe Carrello.
  * 
- * @see java.application.GestioneCarrelloService.Carrello
+ * @see application.GestioneCarrelloService.Carrello
  * 
  * @author Dorotea Serrelli
  * */

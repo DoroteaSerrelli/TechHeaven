@@ -24,6 +24,13 @@ import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
 
 /**
+ * Classe DAO per la gestione delle richieste di approvvigionamento
+ * di prodotti nel database.
+ * 
+ * Questa classe implementa i metodi CRUD per la gestione delle richieste
+ * di approvvigionamento dei prodotti presenti nel
+ * catalogo del negozio.
+ * 
  * @author Dorotea Serrelli
  * */
 
@@ -47,9 +54,12 @@ private static final String TABLE_NAME = "richiesta_fornitura";
 	/**
 	 * Il metodo crea una richiesta di approvvigionamento di un prodotto e 
 	 * la memorizza nel DB.
+	 * 
 	 * @param supplyRequest : la richiesta di approvvigionamento da salvare
 	 * 
+	 * @throws SQLException
 	 * **/
+
 	public synchronized void doSave(RichiestaApprovvigionamento supplyRequest) throws SQLException {
 		
 		Connection connection = null;

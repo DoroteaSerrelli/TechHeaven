@@ -16,9 +16,9 @@ import storage.AutenticazioneDAO.IndirizzoDAODataSource;
  * @see application.RegistrazioneService.ProxyUtente
  * @see application.RegistrazioneService.ObjectUtente
  * @see application.RegistrazioneService.Utente
- * @see java.application.RegistrazioneService.Ruolo
- * @see java.application.RegistrazioneService.Indirizzo
- * @see java.application.RegistrazioneService.Cliente
+ * @see application.RegistrazioneService.Ruolo
+ * @see application.RegistrazioneService.Indirizzo
+ * @see application.RegistrazioneService.Cliente
  * 
  * @author Dorotea Serrelli
  * */

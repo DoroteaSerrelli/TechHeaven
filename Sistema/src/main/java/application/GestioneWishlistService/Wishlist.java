@@ -12,9 +12,9 @@ import application.RegistrazioneService.ProxyUtente;
  * riferimento all'utente proprietario, i prodotti che l'utente 
  * vorrebbe acquistare in un secondo momento presso l'e-commerce.
  * 
- * @see java.application.GestioneWishlistService.GestioneWishlistService
- * @see java.application.GestioneWishlistService.GestioneWishlistServiceImpl
- * @see java.application.GestioneWishlistService.WishlistException
+ * @see application.GestioneWishlistService.GestioneWishlistService
+ * @see application.GestioneWishlistService.GestioneWishlistServiceImpl
+ * @see application.GestioneWishlistService.WishlistException
  * @see application.RegistrazioneService.ProxyUtente
  * @see application.NavigazioneService.ProxyProdotto
  * 
@@ -49,11 +49,12 @@ public class Wishlist {
 	
 	/**
 	 * Costruttore di classe di default per una wishlist vuota.
+	 * Si costruisce un oggetto della classe Wishlist rappresentante la wishlist 
+	 * dell'utente user, priva di prodotti
 	 * 
-	 * @param user l'utente
+	 * @param user : l'utente per il quale si costruisce
+	 * 				 la wishlist
 	 * 
-	 * @return un oggetto della classe Wishlist rappresentatnte la wishlist 
-	 * 			dell'utente user, priva di prodotti
 	 * */
 	
 	public Wishlist(ProxyUtente user) {
@@ -63,11 +64,12 @@ public class Wishlist {
 	
 	/**
 	 * Costruttore di classe di default per una wishlist vuota.
+	 * Si costruisce un oggetto della classe Wishlist rappresentatnte la wishlist 
+	 * con identificativo id dell'utente user, priva di prodotti.
+	 * 
 	 * @param user : l'utente 
 	 * @param id : identificativo della wishlist
 	 * 
-	 * @return un oggetto della classe Wishlist rappresentatnte la wishlist 
-	 * 			con identificativo id dell'utente user, priva di prodotti
 	 * */
 	
 	public Wishlist(ProxyUtente user, int id) {
@@ -79,12 +81,12 @@ public class Wishlist {
 	/**
 	 * Costruttore di classe per una wishlist non vuota.
 	 * 
+	 * Si costruisce un oggetto della classe Wishlist rappresentante la wishlist 
+	 * con identificativo id dell'utente user, avente i prodotti products
+	 * 
 	 * @param user : l'utente
 	 * @param id : l'identificativo della wishlist
 	 * @param products : i prodotti desiderati dall'utente
-	 * 
-	 *  @return un oggetto della classe Wishlist rappresentatnte la wishlist 
-	 * 			con identificativo id dell'utente user, avente i prodotti products
 	 * 
 	 * @throws WishlistVuotaException : la wishlist deve avere attributo products non vuoto
 	 * */

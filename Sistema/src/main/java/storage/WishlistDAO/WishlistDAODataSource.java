@@ -214,9 +214,10 @@ public class WishlistDAODataSource{
 
 	/**
 	 * Questo metodo consente di aggiungere un nuovo prodotto alla wishlist.
+	 * 
 	 * @param product : il prodotto da aggiungere
 	 * @param ws : la wishlist
-	 * @return la wishlist con il prodotto product aggiunto
+	 * 
 	 * @throws CategoriaProdottoException 
 	 * */
 	public synchronized void doSaveProduct(ProxyProdotto product, Wishlist ws) throws SQLException, CategoriaProdottoException {

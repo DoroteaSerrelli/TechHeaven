@@ -42,8 +42,6 @@ public class ProxyUtente extends ObjectUtente{
 	 * @param password : la password associata all'utente
 	 * @param ruoli : i ruoli che possiede l'utente
 	 * 
-	 * @return un oggetto della classe ProxyUtente con attributi username
-	 * 			password, ruoli.
 	 * */
 	
 	public ProxyUtente(String username, String password, ArrayList<Ruolo> ruoli) {
@@ -56,7 +54,6 @@ public class ProxyUtente extends ObjectUtente{
 	 * @param username : il nome utente
 	 * @param password : la password dell'utente
 	 * 
-	 * @return un oggetto della classe ProxyUtente con attributi username e password.
 	 * */
 	
 	public ProxyUtente(String username, String password) {

@@ -5,7 +5,7 @@ package application.GestioneOrdiniService;
  * operazione su un ordine, a seguito della violazione del contratto della
  * classe Ordine.
  * 
- * @see java.application.GestioneOrdiniService.Ordine
+ * @see application.GestioneOrdiniService.Ordine
  * 
  * @author Dorotea Serrelli
  * */

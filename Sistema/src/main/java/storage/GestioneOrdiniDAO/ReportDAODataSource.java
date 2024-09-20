@@ -17,7 +17,13 @@ import application.GestioneOrdiniService.ReportSpedizione;
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 
 /**
- * @author: Dorotea Serrelli
+ * Classe DAO per la gestione dei report di spedizione
+ * degli ordini spediti nel database.
+ * 
+ * Questa classe implementa i metodi CRUD per la gestione dei report
+ * di spedizione associati agli ordini elaborati dal negozio.
+ * 
+ * @author Dorotea Serrelli
  * */
 
 public class ReportDAODataSource {

@@ -24,9 +24,9 @@ import application.NavigazioneService.ProxyProdotto;
  * Questa classe implementa le operazioni CRUD (Create, Read, Update, Delete)
  * per i prodotti memorizzati nel database relazionale.
  * 
- * @see application.NavigazioneService.Prodotto;
- * @see application.NavigazioneService.ProxyProdotto;
- * @see storage.NavigazioneDAO.PhotoControl;
+ * @see application.NavigazioneService.Prodotto
+ * @see application.NavigazioneService.ProxyProdotto
+ * @see storage.NavigazioneDAO.PhotoControl
  * 
  * @author Dorotea Serrelli
  * */

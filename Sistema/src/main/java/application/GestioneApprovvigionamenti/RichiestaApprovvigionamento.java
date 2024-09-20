@@ -109,6 +109,9 @@ public class RichiestaApprovvigionamento {
 
 	/**
 	 * Costruttore della classe.
+	 * Si costruisce un oggetto della classe RichiestaApprovvigionamento con le caratteristiche pari
+	 * ai parametri passatti in input: codice, fornitore, emailFornitore, descrizione,
+	 * quantità, prodotto.
 	 * 
 	 * @param codice : numero identificativo della richiesta di rifornimento
 	 * @param fornitore : il nominativo del fornitore
@@ -119,10 +122,6 @@ public class RichiestaApprovvigionamento {
 	 * 					 richiede per il rifornimento.
 	 * @param prodotto : il prodotto per cui si effettua la
 	 * 					 richiesta di approvvigionamento.
-	 * 
-	 * @return un oggetto della classe RichiestaApprovvigionamento con le caratteristiche pari
-	 * 		   ai parametri passatti in input: codice, fornitore, emailFornitore, descrizione,
-	 * 			quantità, prodotto.
 	 * 
 	 * @throws FornitoreException : eccezione lanciata nel caso di formato non corretto delle informazioni 
 	 * 								relative ad un fornitore.
@@ -169,6 +168,9 @@ public class RichiestaApprovvigionamento {
 	/**
 	 * Costruttore della classe senza specificare il codice
 	 * della richiesta di approvvigionamento.
+	 * Si costruisce un oggetto della classe RichiestaApprovvigionamento con le caratteristiche pari
+	 * ai parametri passatti in input: fornitore, emailFornitore, descrizione,
+	 * quantità, prodotto.
 	 * 
 	 * @param fornitore : il nominativo del fornitore
 	 * @param emailFornitore : l'email del fornitore
@@ -179,9 +181,6 @@ public class RichiestaApprovvigionamento {
 	 * @param prodotto : il prodotto per cui si effettua la
 	 * 					 richiesta di approvvigionamento.
 	 * 
-	 * @return un oggetto della classe RichiestaApprovvigionamento con le caratteristiche pari
-	 * 		   ai parametri passatti in input: fornitore, emailFornitore, descrizione,
-	 * 			quantità, prodotto.
 	 * 
 	 * @throws FornitoreException : eccezione lanciata nel caso di formato non corretto delle informazioni 
 	 * 								relative ad un fornitore.

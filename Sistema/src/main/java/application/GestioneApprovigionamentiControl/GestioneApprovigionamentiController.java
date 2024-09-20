@@ -31,6 +31,8 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
  */
 public class GestioneApprovigionamentiController extends HttpServlet {
 
+
+    private int perPage=50;
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -40,7 +42,6 @@ public class GestioneApprovigionamentiController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private int perPage=50;
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String action = retrieveActionAndDetectChanges(request);

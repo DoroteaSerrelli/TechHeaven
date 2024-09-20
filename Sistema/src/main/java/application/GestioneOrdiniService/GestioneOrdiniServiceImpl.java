@@ -31,9 +31,9 @@ import storage.NavigazioneDAO.*;
  * @see application.GestioneOrdiniService.OrdineException
  * @see application.GestioneOrdiniService.ReportSpedizione
  * @see application.RegistrazioneService.ProxyUtente
- * @see application.GestioneCarrello.Carrello
+ * @see application.GestioneCarrelloService.Carrello
  * @see application.PagamentoService.Pagamento
- * @see package storage.GestioneOrdiniDAO
+ * @see storage.GestioneOrdiniDAO
  * 
  * @author Dorotea Serrelli 
  * */

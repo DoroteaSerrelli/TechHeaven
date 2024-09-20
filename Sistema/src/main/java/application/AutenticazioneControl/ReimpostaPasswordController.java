@@ -70,6 +70,9 @@ public class ReimpostaPasswordController extends HttpServlet {
         processRequest(request, response);
     }
 
+
+    private AutenticazioneServiceImpl loginService = new AutenticazioneServiceImpl();
+    
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -78,8 +81,6 @@ public class ReimpostaPasswordController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private AutenticazioneServiceImpl loginService = new AutenticazioneServiceImpl();
- 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

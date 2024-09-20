@@ -12,7 +12,7 @@ import java.time.LocalTime;
  * corriere, tipologia di imballaggio, data di spedizione ed ora di spedizione,
  * le caratteristiche dell'ordine.
  * 
- * @see application.GestioneOrdineService.ObjectOrdine
+ * @see application.GestioneOrdiniService.ObjectOrdine
  * 
  * @author Dorotea Serrelli
  * 
@@ -76,15 +76,16 @@ public class ReportSpedizione {
 	}
 	
 	/**
-	 * Metodo costruttore della classe
+	 * Metodo costruttore della classe.
+	 * Si costruisce un oggetto ReportSpedizione rappresentante 
+	 * il report di spedizione associato a ordine, avente attributi numeroReport,
+	 * corriere, imballaggio e data e ora correnti
 	 * 
 	 * @param numeroReport : è il numero del report di spedizione
 	 * @param corriere: la ditta logistica che deve prendere in carico l'ordine da spedire
 	 * @param imballaggio: la tipologia di imballaggio dell'ordine da spedire
 	 * @param ordine : è l'ordine da spedire
 	 * 
-	 * @return il report di spedizione associato a ordine, avente attributi numeroReport,
-	 * 			corriere, imballaggio e data e ora correnti
 	 * **/
 	
 	public ReportSpedizione(int numeroReport, String corriere, String imballaggio, ObjectOrdine ordine) {

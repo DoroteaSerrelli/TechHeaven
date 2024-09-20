@@ -18,11 +18,12 @@ public class Ruolo implements Cloneable{
 	private String nomeRuolo;
 	
 	/**
-	 * Costruttore della classe
+	 * Costruttore della classe.
+	 * Si costruisce un oggetto della classe Ruolo con 
+	 * attributo nomeRuolo.
 	 * 
 	 * @param nomeRuolo : il ruolo
 	 * 
-	 * @return un oggetto della classe Ruolo con attributo nomeRuolo
 	 * */
 	
 	public Ruolo(String nomeRuolo) {

@@ -27,12 +27,10 @@ public class Utente extends ObjectUtente implements Cloneable{
      * date le credenziali di accesso e le informazioni
 	 * personali : nome, cognome, sesso, email, numero di telefono, indirizzo..
      *
-     * @param username: Il nome utente.
-     * @param password: La password.
-     * @param profile: Il profilo cliente associato all'utente.
+     * @param username: il nome utente
+     * @param password: la password
+     * @param profile: il profilo cliente associato all'utente
      * 
-     * @return un oggetto della classe Utente avente come attributi
-     * 			username, password e profile.
      */
 
 	public Utente(String username, String password, Cliente profile) {
@@ -41,17 +39,14 @@ public class Utente extends ObjectUtente implements Cloneable{
 	}
 	
 	/**
-     * Il metodo crea un nuovo oggetto Utente con i ruoli di cliente e role,
+     * Il metodo costruttore crea un nuovo oggetto Utente con i ruoli di cliente e role,
      * date le credenziali di accesso e le informazioni
 	 * personali : nome, cognome, sesso, email, numero di telefono, indirizzo.
      *
-     * @param username: Il nome utente.
-     * @param password: La password.
-     * @param profile: Il profilo cliente associato all'utente.
+     * @param username: il nome utente
+     * @param password: la password
+     * @param profile: il profilo cliente associato all'utente
      * @param role : un ruolo aggiuntivo oltre a quello di cliente
-     * 
-     * @return un oggetto della classe Utente avente come attributi
-     * 			username, password, profile e role.
      * 
      */
 	

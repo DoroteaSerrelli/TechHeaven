@@ -5,7 +5,7 @@ package application.GestioneApprovvigionamenti;
  * operazione su una richiesta di approvvigionamento, a seguito della violazione del contratto della
  * classe RichiestaApprovvigionamento.
  * 
- * @see java.application.GestioneApprovvigionamenti.RichiestaApprovvigionamento
+ * @see application.GestioneApprovvigionamenti.RichiestaApprovvigionamento
  * 
  * @author Dorotea Serrelli
  * */

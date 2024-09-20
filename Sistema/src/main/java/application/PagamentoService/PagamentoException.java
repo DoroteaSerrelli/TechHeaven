@@ -5,7 +5,7 @@ package application.PagamentoService;
  * operazione di pagamento su un ordine, a seguito della violazione del contratto della
  * classe Pagamento.
  * 
- * @see java.application.PagamentoService.Pagamento
+ * @see application.PagamentoService.Pagamento
  * 
  * @author Dorotea Serrelli
  * */

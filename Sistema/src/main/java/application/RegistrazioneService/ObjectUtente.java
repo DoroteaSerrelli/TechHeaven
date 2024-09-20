@@ -9,9 +9,9 @@ import java.util.ArrayList;
  * Questa classe astratta è la classe client del design pattern Proxy
  * utilizzato per l'accesso e la gestione delle operazioni sull'oggetto Utente.
  * 
- * @see java.application.RegistrazioneService.Utente
- * @see java.application.RegistrazioneService.ProxyUtente
- * @see java.application.RegistrazioneService.Ruolo
+ * @see application.RegistrazioneService.Utente
+ * @see application.RegistrazioneService.ProxyUtente
+ * @see application.RegistrazioneService.Ruolo
  * 
  * @author Dorotea Serrelli
  * */

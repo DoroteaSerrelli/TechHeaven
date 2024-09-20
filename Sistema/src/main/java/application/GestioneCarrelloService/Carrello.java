@@ -12,10 +12,10 @@ import application.GestioneCarrelloService.CarrelloException.ProdottoPresenteExc
  * Classe che esprime il concetto 'carrello': si occupa di operazioni volte 
  * a manipolare il carrello ed i suoi prodotti.
  * 
- * @see java.application.GestioneCarrelloService.GestioneCarrelloService
- * @see java.application.GestioneCarrelloService.GestioneCarrelloServiceImpl
- * @see java.application.GestioneCarrelloService.ItemCarrello
- * @see java.application.GestioneCarrelloService.CarrelloException
+ * @see application.GestioneCarrelloService.GestioneCarrelloService
+ * @see application.GestioneCarrelloService.GestioneCarrelloServiceImpl
+ * @see application.GestioneCarrelloService.ItemCarrello
+ * @see application.GestioneCarrelloService.CarrelloException
  * 
  * @author Dorotea Serrelli
  * */

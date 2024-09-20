@@ -30,7 +30,7 @@ import application.NavigazioneService.ProxyProdotto;
  * @see application.NavigazioneService.Prodotto
  * @see application.NavigazioneService.ProxyProdotto
  * @see application.NavigazioneService.ProdottoException
- * @see application.NavigazioneService.CatalogoException
+ * @see application.GestioneCatalogoService.CatalogoException
  * 
  * @author raffy
  * @author Dorotea Serrelli

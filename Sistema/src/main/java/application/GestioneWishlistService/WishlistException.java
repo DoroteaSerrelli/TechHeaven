@@ -5,7 +5,7 @@ package application.GestioneWishlistService;
  * operazione sulla wishlist, a seguito della violazione del contratto della
  * classe Wishlist.
  * 
- * @see java.application.GestioneWishlistService.Wishlist
+ * @see application.GestioneWishlistService.Wishlist
  * 
  * @author Dorotea Serrelli
  * */

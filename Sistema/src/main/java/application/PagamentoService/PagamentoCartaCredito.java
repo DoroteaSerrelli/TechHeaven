@@ -4,12 +4,11 @@ import application.GestioneOrdiniService.Ordine;
 
 /**
  * Classe concreta che esprime il concetto 'pagamento con carta di credito'.
- * Essa ereditata le informazioni contenute in 'Pagamento': salienti del pagamento di un ordine online
+ * Essa eredita le informazioni salienti del pagamento di un ordine online
  * effettuato da un utente dell'e-commerce (non è da considerarsi come una
- * fattura fiscale): codice, ordine pagato, importo, data ed ora del pagamento.
+ * fattura fiscale) contenute in 'Pagamento': codice, ordine pagato, importo, data ed ora del pagamento.
  * Inoltre, contiene informazioni aggiuntive quali nome del titolare
  * della carta e numero della carta.
- * 
  * 
  * @see java.application.PagamentoService.Pagamento
  * 
@@ -19,13 +18,13 @@ import application.GestioneOrdiniService.Ordine;
 public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 	
 	/**
-	 * Il titolare della carta di credito
+	 * titolare : il titolare della carta di credito
 	 * */
 	
 	private String titolare;
 	
 	/**
-	 * Il numero della carta di credito utilizzata per il
+	 * numeroCarta: il numero della carta di credito utilizzata per il
 	 * pagamento dell'ordine
 	 * */
 	
@@ -41,9 +40,10 @@ public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 	
 	/**
 	 * Costruttore della classe con parametri: codice di pagamento, l'ordine
-	 * pagato e l'importo versato.
+	 * pagato e l'importo versato, nominativo del titolare della carta e numero della carta.
+	 * 
 	 * @param codicePagamento : il codice identificativo del pagamento effettuato
-	 * @param ordine : l'ordine che è stato pagato
+	 * @param ordine : l'ordine da pagare
 	 * @param importo : il costo dell'operazione (costo dei prodotti ordinati + spese di spedizione)
 	 * @param user : il titolare della carta di credito
 	 * @param numCard : il numero della carta di credito di 16 cifre
@@ -60,8 +60,10 @@ public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 	/**
 	 * Il metodo fornisce il nome del titolare della carta
 	 * di credito.
-	 * @return titolare carta
+	 * 
+	 * @return titolare : il proprietario della carta di credito
 	 * */
+	
 	public String getTitolare() {
 		return titolare;
 	}
@@ -69,8 +71,10 @@ public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 	/**
 	 * Il metodo imposta il nome del titolare della carta
 	 * di credito.
+	 * 
 	 * @param titolare : proprietario della carta di credito
 	 * */
+	
 	public void setTitolare(String titolare) {
 		this.titolare = titolare;
 	}
@@ -78,8 +82,10 @@ public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 	/**
 	 * Il metodo fornisce il numero della carta
 	 * di credito.
-	 * @return numero carta di credito
+	 * 
+	 * @return numeroCarta : numero carta di credito
 	 * */
+	
 	public String getNumeroCarta() {
 		return numeroCarta;
 	}
@@ -87,8 +93,10 @@ public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 	/**
 	 * Il metodo imposta il numero della carta
 	 * di credito.
-	 * @param numCarta : numero carta di credito
+	 * 
+	 * @param numCarta : numero della carta di credito
 	 * */
+	
 	public void setNumeroCarta(String numCarta) {
 		this.numeroCarta = numCarta;
 	}
@@ -97,7 +105,11 @@ public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 	 * Il metodo fornisce, in formato stringa, le informazioni legate ad
 	 * un'operazione di pagamento con carta di credito: codice, data, ora, importo, ordine, 
 	 * proprietario dell'ordine, titolare della carta e numero della carta.
+	 * 
+	 * @return un oggetto della classe String contenente le informazioni circa un'operazione
+	 * 			di pagamento con carta di credito
 	 * */
+	
 	@Override
 	public String toString() {
 		return "PagamentoCartaCredito \n[titolare=" + titolare + ", numeroCarta=" + numeroCarta
@@ -109,7 +121,7 @@ public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 	/**
 	 * Il metodo crea una copia profonda dell'oggetto PagamentoCartaCredito.
 	 *
-	 * @return Una copia profonda dell'oggetto PagamentoCartaCredito.
+	 * @return clone : una copia profonda dell'oggetto PagamentoCartaCredito.
 	 * 
 	 */
 	
@@ -123,5 +135,4 @@ public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 		clone.numeroCarta = this.numeroCarta;
 	    return clone;
 	}
-
 }

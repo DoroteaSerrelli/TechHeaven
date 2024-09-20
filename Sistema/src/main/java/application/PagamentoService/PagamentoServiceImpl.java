@@ -12,24 +12,34 @@ import storage.GestioneOrdiniDAO.*;
  * Fornisce metodi statici per creare oggetti Pagamento in base a diversi criteri
  * come il codice dell'ordine e il codice del pagamento.
  * 
+ * @see application.PagamentoService.PagamentoService
+ * @see application.PagamentoService.Pagamento
+ * @see application.PagamentoService.PagamentoException
+ * 
  * @author Dorotea Serrelli
  * */
 
 public class PagamentoServiceImpl implements PagamentoService{
 
 	/**
-	 * Il metodo crea un oggetto Pagamento da salvare: 
+	 * Il metodo implementa il servizio di pagamento di un ordine di un
+	 * cliente: 
 	 * clona l'oggetto Pagamento passato come parametro e lo salva nel database
 	 * in base al suo tipo concreto.
 	 * 
-	 * @param payment l'oggetto Pagamento da salvare
-	 * @return l'oggetto Pagamento salvato
+	 * @param payment : il pagamento dell'ordine di un cliente da salvare
 	 * 
-	 * @throws OrdineVuotoException se l'ordine associato al pagamento è vuoto
-	 * @throws SQLException se si verifica un errore di accesso al database
-	 * @throws ModalitaAssenteException se la modalità di pagamento non è supportata
+	 * @return un oggetto Pagamento o sua sottoclasse contenente le informazioni
+	 * 			importanti del pagamento dell'ordine
+	 * 
+	 * @throws OrdineVuotoException : eccezione che gestisce il caso in cui
+	 * 								l'ordine associato al pagamento è vuoto
+	 * @throws SQLException : eccezione che gestisce il caso in cui si verifica un errore di accesso al database
+	 * @throws ModalitaAssenteException : eccezione che gestisce il caso in cui 
+	 * 									la modalità di pagamento specificata non è supportata
 	 * @throws CloneNotSupportedException 
 	 */
+	
 	public  <T extends Pagamento> Pagamento effettuaPagamento(T payment) throws OrdineVuotoException, SQLException, ModalitaAssenteException, CloneNotSupportedException {
 		PagamentoDAODataSource dao = new PagamentoDAODataSource();
 
@@ -58,17 +68,21 @@ public class PagamentoServiceImpl implements PagamentoService{
 	/**
 	 * Il metodo crea un oggetto Pagamento in base all'ID dell'ordine associato.
 	 * 
-	 * Recupera il pagamento dall'archivio in base al tipo di pagamento e restituisce
+	 * Recupera il pagamento dal database in base al tipo di pagamento e restituisce
 	 * l'oggetto Pagamento corrispondente.
 	 * 
-	 * @param IDOrdine l'ID dell'ordine associato al pagamento
-	 * @return l'oggetto Pagamento creato
+	 * @param IDOrdine : l'ID dell'ordine associato al pagamento
 	 * 
-	 * @throws OrdineVuotoException se l'ordine non esiste
-	 * @throws SQLException se si verifica un errore di accesso al database
-	 * @throws ModalitaAssenteException se non esiste una modalità di pagamento associata all'ordine
+	 * @return l'oggetto Pagamento associato all'ordine con codice IDOrdine
+	 * 
+	 * 
+	 * @throws OrdineVuotoException : eccezione che gestisce il caso in cui
+	 * 								l'ordine associato al pagamento è vuoto
+	 * @throws SQLException : eccezione che gestisce il caso in cui si verifica un errore di accesso al database
+	 * @throws ModalitaAssenteException : eccezione che gestisce il caso in cui 
+	 * 									la modalità di pagamento specificata non è supportata
 	 * @throws CategoriaProdottoException 
-	 */
+	 ***/
 
 	public static Pagamento createPagamentoOrdine(int IDOrdine) throws OrdineVuotoException, SQLException, ModalitaAssenteException, CategoriaProdottoException {
 		PagamentoDAODataSource dao = new PagamentoDAODataSource();
@@ -97,12 +111,15 @@ public class PagamentoServiceImpl implements PagamentoService{
 	 * recupera il pagamento dall'archivio in base all'ID e restituisce
 	 * l'oggetto Pagamento corrispondente.
 	 * 
-	 * @param IDPayment l'ID del pagamento
-	 * @return l'oggetto Pagamento creato
+	 * @param IDPayment: l'ID del pagamento
+	 * @return l'oggetto Pagamento avente codice IDPayment
 	 * 
-	 * @throws OrdineVuotoException se l'ordine associato al pagamento non esiste
-	 * @throws SQLException se si verifica un errore di accesso al database
-	 * @throws ModalitaAssenteException se non esiste una modalità di pagamento associata al pagamento
+	 * 
+	 * @throws OrdineVuotoException : eccezione che gestisce il caso in cui
+	 * 								l'ordine associato al pagamento è vuoto
+	 * @throws SQLException : eccezione che gestisce il caso in cui si verifica un errore di accesso al database
+	 * @throws ModalitaAssenteException : eccezione che gestisce il caso in cui 
+	 * 									la modalità di pagamento specificata non è supportata
 	 * @throws CategoriaProdottoException 
 	 */
 

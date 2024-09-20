@@ -4,9 +4,9 @@ import application.GestioneOrdiniService.Ordine;
 
 /**
  * Classe concreta che esprime il concetto 'pagamento online Paypal'.
- * Essa ereditata le informazioni contenute in 'Pagamento': salienti del pagamento di un ordine online
+ * Essa eredita le informazioni salienti del pagamento di un ordine online
  * effettuato da un utente dell'e-commerce (non è da considerarsi come una
- * fattura fiscale): codice, ordine pagato, importo, data ed ora del pagamento.
+ * fattura fiscale) contenute in 'Pagamento': codice, ordine pagato, importo, data ed ora del pagamento.
  * 
  * @see java.application.PagamentoService.Pagamento
  * 
@@ -14,6 +14,7 @@ import application.GestioneOrdiniService.Ordine;
  * */
 
 public class PagamentoPaypal extends Pagamento implements Cloneable{
+	
 	/**
 	 * Costruttore di default di classe.
 	 * */
@@ -43,9 +44,10 @@ public class PagamentoPaypal extends Pagamento implements Cloneable{
 	 * Dato che questa classe non introduce nuovi attributi rispetto alla classe base,
 	 * la clonazione viene delegata alla classe padre.
 	 *
-	 * @return Una copia profonda dell'oggetto PagamentoPaypal.
-	 * @throws RuntimeException se si verifica un errore durante la clonazione.
+	 * @return una copia profonda dell'oggetto PagamentoPaypal.
+	 * @throws RuntimeException: eccezione lanciata in caso di errore durante la clonazione.
 	 */
+	
 	@Override
 	public PagamentoPaypal clone() throws CloneNotSupportedException{
 	    return (PagamentoPaypal) super.clone();

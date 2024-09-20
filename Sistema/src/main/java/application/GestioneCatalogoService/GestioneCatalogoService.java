@@ -26,22 +26,35 @@ import application.NavigazioneService.ProxyProdotto;
  * - eliminazione di prodotti dal catalogo;
  * - aggiornamento delle specifiche di un prodotto del catalogo.
  * 
+ * @see application.GestioneCatalogoService.GestioneCatalogoServiceImpl
+ * @see application.NavigazioneService.Prodotto
+ * @see application.NavigazioneService.ProxyProdotto
+ * @see application.NavigazioneService.ProdottoException
+ * @see application.NavigazioneService.CatalogoException
+ * 
  * @author raffy
  * @author Dorotea Serrelli
  */
+
 public interface GestioneCatalogoService {
     
 	/**
 	 * Il metodo definisce il servizio di visualizzazione
 	 * dell'elenco dei prodotti presenti nel catalogo.
+	 * I prodotti sono restituiti dal metodo secondo il meccanismo
+	 * della paginazione.
 	 * 
 	 * @param page : numero della pagina
 	 * @param perPage: numero di prodotti per pagina
 	 * 
 	 * @return l'insieme dei prodotti del catalogo
+	 * 
 	 * @throws SQLException 
-	 * @throws SottocategoriaProdottoException 
-	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 											di una sottocategoria
+	 * 
+	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 										di una categoria 
 	 * */
 	
 	public Collection<ProxyProdotto> visualizzaCatalogo(int page, int perPage) throws SQLException, CategoriaProdottoException, SottocategoriaProdottoException;
@@ -49,6 +62,8 @@ public interface GestioneCatalogoService {
 	/**
 	 * Il metodo definisce il servizio di aggiunta di
 	 * un nuovo prodotto nel catalogo dell'e-commerce.
+	 * I prodotti in catalogo sono restituiti dal metodo secondo il meccanismo
+	 * della paginazione.
 	 * 
 	 * @param product : il nuovo prodotto da inserire nel catalogo
 	 * @param page : numero della pagina
@@ -57,10 +72,14 @@ public interface GestioneCatalogoService {
 	 * @return il catalogo dei prodotti aggiornato, contenente product
 	 * 
 	 * @throws SQLException 
-	 * @throws ProdottoInCatalogoException 
-	 * @throws SottocategoriaProdottoException 
-	 * @throws CategoriaProdottoException 
+	 * @throws ProdottoInCatalogoException : eccezione lanciata per gestire l'aggiunta di un prodotto già
+	 * 										 presente nel catalogo
 	 * 
+	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 											di una sottocategoria
+	 * 
+	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 										di una categoria 
 	 * */
 	
 	public Collection<ProxyProdotto> aggiuntaProdottoInCatalogo(Prodotto product, int page, int perPage) throws SQLException, ProdottoInCatalogoException, CategoriaProdottoException, SottocategoriaProdottoException;
@@ -68,17 +87,23 @@ public interface GestioneCatalogoService {
 	/**
 	 * Il metodo definisce il servizio di rimozione di
 	 * un prodotto presente nel catalogo dell'e-commerce.
+	 * I prodotti in catalogo sono restituiti dal metodo secondo il meccanismo
+	 * della paginazione.
 	 * 
 	 * @param product : il prodotto da rimuovere dal catalogo
 	 * @param page : numero della pagina
 	 * @param perPage: numero di prodotti per pagina
 	 * 
 	 * @return il catalogo dei prodotti aggiornato, privo di product
-	 * @throws SQLException 
-	 * @throws ProdottoNonInCatalogoException 
-	 * @throws CategoriaProdottoException 
-	 * @throws SottocategoriaProdottoException 
 	 * 
+	 * @throws SQLException 
+	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire l'eliminazione di un prodotto
+	 * 										 	non presente nel catalogo
+	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 											di una sottocategoria
+	 * 
+	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 										di una categoria 
 	 * */
 	
 	public Collection<ProxyProdotto> rimozioneProdottoDaCatalogo(ProxyProdotto product, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException;
@@ -87,6 +112,8 @@ public interface GestioneCatalogoService {
 	 * Il metodo definisce il servizio di aggiornamento delle seguenti specifiche del prodotto: 
 	 * modello, marca, descrizione in evidenza, descrizione dettagliata, categoria, 
 	 * sottocategoria, messa in evidenza.
+	 * I prodotti in catalogo sono restituiti dal metodo secondo il meccanismo
+	 * della paginazione.
 	 * 
 	 * @param product : il prodotto sul quale effettuare le modifiche (non contiene i dati aggiornati)
 	 * @param infoSelected : l’informazione, tra quelle specificate in precedenza, che si vorrebbe modificare
@@ -95,12 +122,21 @@ public interface GestioneCatalogoService {
 	 * @param perPage: numero di prodotti per pagina
 	 * 
 	 * @return il catalogo dei prodotti aggiornato, contenente product con il campo infoSelected aggiornato a updatedData
-	 * @throws ProdottoAggiornatoException 
+	 * 
+	 * @throws ProdottoAggiornatoException : eccezione che gestisce il caso in cui, specificata infoSelected, il prodotto
+	 * 										possiede già per infoSelected il valore updatedData
 	 * @throws SQLException 
-	 * @throws CategoriaProdottoException 
-	 * @throws SottocategoriaProdottoException 
-	 * @throws ProdottoNonInCatalogoException 
-	 * @throws ErroreSpecificaAggiornamentoException 
+	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 											di una sottocategoria
+	 * 
+	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 										di una categoria
+	 * 
+	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
+	 * 
+	 * @throws ErroreSpecificaAggiornamentoException : eccezione lanciata per gestire il mancato/incorretto inserimento della specifica del prodotto da
+	 * 													aggiornare.
+	 * 
 	 */
 	
 	public Collection<ProxyProdotto> aggiornamentoSpecificheProdotto(Prodotto product, String infoSelected, String updatedData, int page, int perPage) throws ProdottoAggiornatoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException ;
@@ -109,6 +145,8 @@ public interface GestioneCatalogoService {
 	 * Il metodo definisce il servizio di aggiornamento dell'inserimento o della
 	 * rimozione di un prodotto del catalogo
 	 * venduto dal negozio in vetrina.
+	 * I prodotti in catalogo sono restituiti dal metodo secondo il meccanismo
+	 * della paginazione.
 	 * 
 	 * @param product : il prodotto da inserire o da rimuovere dalla vetrina del negozio online
 	 * @param updatedData : la nuova informazione da memorizzare (1 : aggiunta in vetrina, 0 : rimozione dalla vetrina)
@@ -116,10 +154,16 @@ public interface GestioneCatalogoService {
 	 * @param perPage: numero di prodotti per pagina
 	 * 
 	 * @return il catalogo dei prodotti aggiornato, contenente product con il campo inVetrina = updatedData
+	 * 
 	 * @throws SQLException 
-	 * @throws ProdottoNonInCatalogoException 
-	 * @throws CategoriaProdottoException 
-	 * @throws SottocategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 											di una sottocategoria
+	 * 
+	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 										di una categoria
+	 * 
+	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
+	 * 	
 	 */
 	
 	public Collection<ProxyProdotto> aggiornamentoProdottoInVetrina(Prodotto product, int updatedData, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException ;
@@ -127,6 +171,8 @@ public interface GestioneCatalogoService {
 	/**
 	 * Il metodo definisce il servizio di aggiornamento della quantità di scorte
 	 * in magazzino di un prodotto del catalogo.
+	 * I prodotti in catalogo sono restituiti dal metodo secondo il meccanismo
+	 * della paginazione.
 	 * 
 	 * @param product : il prodotto per il quale aggiornare la quantità (non contiene i dati aggiornati)
 	 * @param quantity : la nuova quantità di scorte da impostare
@@ -135,11 +181,17 @@ public interface GestioneCatalogoService {
 	 * 
 	 * @return il catalogo dei prodotti aggiornato, contenente product con la disponibilità
 	 * 		   di scorte in magazzino pari a quantity
+	 * 
 	 * @throws SQLException 
-	 * @throws CategoriaProdottoException 
-	 * @throws SottocategoriaProdottoException 
-	 * @throws ProdottoNonInCatalogoException 
-	 * @throws QuantitaProdottoException 
+	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 											di una sottocategoria
+	 * 
+	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 										di una categoria
+	 * 
+	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
+	 * 	
+	 * @throws QuantitaProdottoException : eccezione lanciata per gestire un valore non valido per quantity
 	 * 
 	 * */
 	
@@ -148,6 +200,8 @@ public interface GestioneCatalogoService {
 	/**
 	 * Il metodo definisce il servizio di aggiornamento del prezzo di un prodotto
 	 * presente nel catalogo del negozio.
+	 * I prodotti in catalogo sono restituiti dal metodo secondo il meccanismo
+	 * della paginazione.
 	 * 
 	 * @param product : il prodotto per il quale aggiornare il prezzo (non contiene i dati aggiornati)
 	 * @param price : il prezzo del prodotto da impostare
@@ -156,11 +210,17 @@ public interface GestioneCatalogoService {
 	 * 
 	 * @return il catalogo dei prodotti aggiornato, contenente product con il prezzo
 	 * 		   pari a price
+	 * 
 	 * @throws SQLException 
-	 * @throws SottocategoriaProdottoException 
-	 * @throws CategoriaProdottoException 
-	 * @throws ProdottoNonInCatalogoException 
-	 * @throws PrezzoProdottoException 
+	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 											di una sottocategoria
+	 * 
+	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 										di una categoria
+	 * 
+	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
+	 * 	
+	 * @throws PrezzoProdottoException : eccezione lanciata per gestire un valore non valido associato a price
 	 * 
 	 * */
 	
@@ -170,6 +230,8 @@ public interface GestioneCatalogoService {
 	/**
 	 * Il metodo definisce il servizio di aggiunta dell' immagine di presentazione ad un
 	 * prodotto presente nel catalogo del negozio.
+	 * I prodotti in catalogo sono restituiti dal metodo secondo il meccanismo
+	 * della paginazione.
 	 * 
 	 * @param product : il prodotto per il quale aggiornare l'immagine di presentazione (non contiene i dati aggiornati)
 	 * @param image : l'immagine in primo piano del prodotto da impostare
@@ -178,10 +240,15 @@ public interface GestioneCatalogoService {
 	 * 
 	 * @return il catalogo dei prodotti aggiornato, contenente product con l'immagine image come
 	 * 		   immagine di presentazione
+	 * 
 	 * @throws SQLException 
-	 * @throws CategoriaProdottoException 
-	 * @throws SottocategoriaProdottoException 
-	 * @throws ProdottoNonInCatalogoException 
+	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 											di una sottocategoria
+	 * 
+	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 										di una categoria
+	 * 
+	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
 	 * */
 	
 	public Collection<ProxyProdotto> inserimentoTopImmagine(Prodotto product, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException;
@@ -190,6 +257,8 @@ public interface GestioneCatalogoService {
 	/**
 	 * Il metodo definisce il servizio di aggiunta di un'immagine di dettaglio alla galleria immagini 
 	 * di un prodotto presente nel catalogo del negozio.
+	 * I prodotti in catalogo sono restituiti dal metodo secondo il meccanismo
+	 * della paginazione.
 	 * 
 	 * @param product : il prodotto per il quale aggiungere un'immagine di dettaglio(non contiene i dati aggiornati)
 	 * @param image : l'immagine di dettaglio del prodotto da impostare
@@ -199,16 +268,22 @@ public interface GestioneCatalogoService {
 	 * @return il catalogo dei prodotti aggiornato, contenente product con l'immagine image presente nella galleria di
 	 * 			immagini di dettaglio
 	 * @throws SQLException 
-	 * @throws CategoriaProdottoException 
-	 * @throws SottocategoriaProdottoException 
-	 * @throws ProdottoNonInCatalogoException 
-	 */
+	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 											di una sottocategoria
+	 * 
+	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 										di una categoria
+	 * 
+	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
+	 * */
 	
 	public Collection<ProxyProdotto> inserimentoImmagineInGalleriaImmagini(Prodotto product, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException;
 	
 	/**
 	 * Il metodo definisce il servizio di rimozione di un'immagine di dettaglio alla galleria immagini 
 	 * di un prodotto presente nel catalogo del negozio.
+	 * I prodotti in catalogo sono restituiti dal metodo secondo il meccanismo
+	 * della paginazione.
 	 * 
 	 * @param product : il prodotto per il quale rimuovere un'immagine di dettaglio(non contiene i dati aggiornati)
 	 * @param image : l'immagine di dettaglio del prodotto da rimuovere
@@ -217,10 +292,15 @@ public interface GestioneCatalogoService {
 	 * 
 	 * @return il catalogo dei prodotti aggiornato, contenente product con l'immagine image non presente nella galleria di
 	 * 			immagini di dettaglio
+	 * 
 	 * @throws SQLException 
-	 * @throws CategoriaProdottoException 
-	 * @throws SottocategoriaProdottoException 
-	 * @throws ProdottoNonInCatalogoException 
+	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 											di una sottocategoria
+	 * 
+	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 										di una categoria
+	 * 
+	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
 	 * @throws IOException 
 	 */
 	

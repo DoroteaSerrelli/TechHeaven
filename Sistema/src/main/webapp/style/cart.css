@@ -3,6 +3,10 @@
     height: 30%;
 }
 
+#drawer-toggle{
+    display: none;
+}
+
 .details{
     display: flex;
     flex-direction: row;

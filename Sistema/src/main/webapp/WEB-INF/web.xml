@@ -62,9 +62,13 @@
         <servlet-class>application.GestioneCatalogoControl.FetchSessionData</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>CheckoutCarrello</servlet-name>
+        <servlet-name>CheckoutControl</servlet-name>
         <servlet-class>application.GestioneCarrelloControl.CheckoutControl</servlet-class>
     </servlet>
+    <servlet-mapping>
+        <servlet-name>CheckoutControl</servlet-name>
+        <url-pattern>/CheckoutCarrello</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GestioneCarrelloController</servlet-name>
         <url-pattern>/GestioneCarrelloController</url-pattern>
@@ -128,10 +132,6 @@
     <servlet-mapping>
         <servlet-name>FetchSessionData</servlet-name>
         <url-pattern>/FetchSessionData</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>CheckoutCarrello</servlet-name>
-        <url-pattern>/CheckoutCarrello</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>common/Homepage.jsp</welcome-file>
@@ -292,6 +292,14 @@
     <servlet-mapping>
         <servlet-name>RoleSelectServlet</servlet-name>
         <url-pattern>/SelezioneRuolo</url-pattern>
+    </servlet-mapping>
+     <servlet>
+        <servlet-name>paymentServlet</servlet-name>
+        <jsp-file>/protected/cliente/Pagamento.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>paymentServlet</servlet-name>
+        <url-pattern>/Pagamento</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>GestioneOrdiniServlet</servlet-name>

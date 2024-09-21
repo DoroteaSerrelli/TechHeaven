@@ -58,9 +58,9 @@ public class GestioneCarrelloController extends HttpServlet {
                 response.getWriter().println("Invalid request");
             } else {
                 switch (action) {
-                   // case "viewCart":
-                     //   viewCart(request, response);
-                    //    break;
+                    case "viewCart":
+                        request.getSession().getAttribute("usercart");
+                    break;
                     case "updateQuantità":
                         updateQuantità(request, response);
                     break;    

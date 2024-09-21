@@ -4,6 +4,8 @@
     Author     : raffa
 --%>
 
+<%@page import="java.util.Map"%>
+<%@page import="java.util.HashMap"%>
 <%@page import="application.RegistrazioneService.Cliente"%>
 <%@page import="application.RegistrazioneService.Utente"%>
 <%@page import="java.util.Currency"%>
@@ -29,6 +31,14 @@
     </head>
     <body>
         <div id="showpr" class="section-p1">
+         <div class="errormsg">        
+                <% 
+                String err = (String)request.getSession().getAttribute("error");
+                if (err != null && !err.isEmpty()) {
+                %>
+              <p id="error">  <%=err%></p>
+                <% } %>
+            </div>   
          <%           
             ProxyUtente u = (ProxyUtente) request.getSession().getAttribute("user");
 
@@ -46,7 +56,8 @@
             Carrello carrello = (Carrello) request.getSession().getAttribute("usercart");%>
             <button id="drawer-toggle" onclick="toggleDrawer()"><h1>Totale Ordine:</h1></button> 
         <div class="complete_order">    
-            <div id="complete_order">                
+            <div id="complete_order">   
+                <h1>:Totale Ordine</h1>
                 <div id="cart">
                 <p><%=carrello.getNumProdotti()%> :Item nel Carrello</p>
                 <%  for (ItemCarrello p : carrello.getProducts()) {
@@ -73,17 +84,22 @@
             </div> 
         </div>
         <h1>Riepilogo Informazioni Ordine:</h1>
-         <div class="pro-container">
-            
-                <%Cliente client_infos = user.getProfile();%>
-                <p>Nome: <%=client_infos.getNome()%> <%=client_infos.getCognome()%></p>
-                <p>Contatti: <%=client_infos.getTelefono()%> <%=client_infos.getEmail()%></p>
-            </div>    
+         <div class="pro-container">    
+             <a href="/AreaRiservata">Clicca qui per Verifica e/o Aggiorna Dati Personali</a>  
+            <%Cliente client_infos = user.getProfile();%>
+            <p>Nome: <%=client_infos.getNome()%> <%=client_infos.getCognome()%></p>
+            <p>Contatti: <%=client_infos.getTelefono()%> <%=client_infos.getEmail()%></p>
+         </div>    
+         <form action="/CheckoutCarrello" method="post">
+             <input type="hidden" name="action" value="confirmOrder">
         <h2>Seleziona un Indirizzo di Spedizione o Aggiungine uno Nuovo.</h2>
         <%
             ArrayList<Indirizzo> indirizzi = (ArrayList<Indirizzo>)request.getAttribute("Indirizzi");
-            if (indirizzi != null && !indirizzi.isEmpty()) {%>
-              <% for (Indirizzo indirizzo : indirizzi) { %>
+            if (indirizzi != null && !indirizzi.isEmpty()) {
+                Map<Integer, Indirizzo> addressMap = new HashMap<>();%>
+              <% for (Indirizzo indirizzo : indirizzi) { 
+                    addressMap.put(indirizzo.getIDIndirizzo(), indirizzo);
+              %>
               <p> <!-- Radio button with address ID as value -->
                 <input type="radio" name="selectedAddress" value="<%= indirizzo.getIDIndirizzo()%>" required>                           
                       <%= indirizzo.getVia() %>
@@ -92,23 +108,41 @@
                       <%= indirizzo.getCitta() %>
                       (<%= indirizzo.getProvincia() %>)</p>
         <%      }
+                request.getSession().setAttribute("addressMap", addressMap);
             }
         %>
               <h2>Seleziona la Modalità di Spedizione:</h2>
               <div class='shipping_options'> 
                 <p>
-                    <input type="radio" name="tipoSpedizione" value="Standard">
+                    <input type="radio" name="tipoSpedizione" value="Spedizione_standard" required>
                     Standard
                 </p>
                 <p>
-                    <input type="radio" name="tipoSpedizione" value="Assicurata">
+                    <input type="radio" name="tipoSpedizione" value="Spedizione_assicurata">
                     Assicurata
                 </p>
                 <p>
-                    <input type="radio" name="tipoSpedizione" value="Prime">
+                    <input type="radio" name="tipoSpedizione" value="Spedizione_prime">
                     Prime
                 </p>
-            </div>   
+            </div>
+            <h2>Seleziona la Modalità di Consegna:</h2> 
+            <div class='shipping_options'> 
+                <p>
+                    <input type="radio" name="modalitaConsegna" value="Domicilio" required>
+                    Domicilio
+                </p>
+                <p>
+                    <input type="radio" name="modalitaConsegna" value="PuntoRitiro">
+                    Punto di Ritiro
+                </p>
+                <p>
+                    <input type="radio" name="modalitaConsegna" value="Priority">
+                    Priority / Fascia Oraria
+                </p>
+            </div>
+            <input value="Conferma Ordine" type="submit" class="confirm_button"> 
+         </form> 
         <%
             }
         %>

@@ -5,12 +5,19 @@
 package application.GestioneCarrelloControl;
 
 import application.GestioneCarrelloService.Carrello;
+import application.GestioneCarrelloService.ItemCarrello;
+import application.GestioneOrdiniService.GestioneOrdiniServiceImpl;
+import application.GestioneOrdiniService.ObjectOrdine.Stato;
+import application.GestioneOrdiniService.ObjectOrdine.TipoSpedizione;
+import application.GestioneOrdiniService.Ordine;
+import application.GestioneOrdiniService.OrdineException;
 import application.RegistrazioneService.Indirizzo;
 import application.RegistrazioneService.ProxyUtente;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -24,7 +31,11 @@ import storage.AutenticazioneDAO.IndirizzoDAODataSource;
  * @author raffa
  */
 public class CheckoutControl extends HttpServlet {
-
+    GestioneOrdiniServiceImpl gos;
+    @Override
+    public void init(){
+        gos = new GestioneOrdiniServiceImpl();
+    }
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -63,6 +74,16 @@ public class CheckoutControl extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String action = request.getParameter("action");
+        if(action!=null && !action.isEmpty()){
+            if(action.equals("annullaPagamento")){
+                request.getSession().removeAttribute("preview_order");
+                //Redirect alla pagina Iniziale:
+                response.sendRedirect(request.getContextPath()+"/");
+                return;
+            }
+        
+        }
         ProxyUtente u = (ProxyUtente) request.getSession().getAttribute("user");
         if (u==null || u.getUsername().equals("")) {
            response.sendRedirect(request.getContextPath() + "/Autenticazione");
@@ -97,7 +118,29 @@ public class CheckoutControl extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        String action = request.getParameter("action");
+        if(action.equals("confirmOrder"))
+            elaborateCheckoutRequest(request, response);
+    }
+    
+    private void elaborateCheckoutRequest(HttpServletRequest request, HttpServletResponse response) throws IOException{
+        try {
+            int idIndirizzo = Integer.parseInt(request.getParameter("selectedAddress"));
+            ProxyUtente user = (ProxyUtente)request.getSession().getAttribute("user");
+            Map<Integer, Indirizzo> addressMap = (Map<Integer, Indirizzo>) request.getSession().getAttribute("addressMap");
+            Indirizzo selectedAddress = addressMap.get(idIndirizzo);
+            Carrello cart = (Carrello) request.getSession().getAttribute("usercart");
+            String tipo_spedizione = request.getParameter("tipoSpedizione");
+            Ordine preview_order = new Ordine(1, null, selectedAddress, TipoSpedizione.valueOf(tipo_spedizione), user.mostraUtente().getProfile(), (ArrayList<ItemCarrello>) cart.getProducts());
+            request.getSession().setAttribute("preview_order", preview_order);
+            
+            response.sendRedirect(request.getContextPath()+"/Pagamento");
+            
+        } catch (OrdineException.OrdineVuotoException ex) {
+            Logger.getLogger(CheckoutControl.class.getName()).log(Level.SEVERE, null, ex);
+            request.getSession().setAttribute("error", ex);            
+            response.sendRedirect(request.getContextPath()+"/CheckoutCarrello");           
+        }
     }
     
     private void loadUserAddresses(HttpServletRequest request, ProxyUtente u) throws SQLException {

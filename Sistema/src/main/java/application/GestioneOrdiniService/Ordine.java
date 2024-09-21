@@ -45,6 +45,8 @@ public class Ordine extends ObjectOrdine implements Cloneable{
 	
 	/**
 	 * Costruttore della classe.
+	 * Si costruisce un oggetto di tipo Ordine contenente i seguenti attributi : 
+	 * codice, stato, indirizzoSpedizione, spedizione, acquirente, prodotti.
 	 * 
 	 * @param codice : l'identificativo numerico dell'ordine;
 	 * @param stato : lo stato dell'ordine;
@@ -52,9 +54,6 @@ public class Ordine extends ObjectOrdine implements Cloneable{
 	 * @param spedizione : la tipologia di spedizione scelta dall'utente.
 	 * @param acquirente : il cliente che commissiona l'ordine
 	 * @param prodotti : i prodotti acquistati dal cliente
-	 * 
-	 * @return un oggetto di tipo Ordine contenente i seguenti attributi : codice, stato, indirizzoSpedizione,
-	 * 			spedizione, acquirente, prodotti.
 	 * 
 	 * @throws OrdineVuotoException : per gestire un ordine che non ha prodotti al suo interno
 	 * */
@@ -134,10 +133,12 @@ public class Ordine extends ObjectOrdine implements Cloneable{
 	 * Il metodo restituisce una stringa contenente le referenze sull'ordine
 	 * del cliente e le informazioni 
 	 * essenziali sui prodotti presenti nell'ordine, facendo uso del un metodo helper
-	 * @see application.GestioneOrdiniService.Ordine.prodottiOrdiniString().
+	 * prodottiOrdiniString() nella classe Ordine.
+	 * 
+	 * @see application.GestioneOrdiniService.Ordine
 	 * 
 	 * @return le informazioni sull'ordine e sui suoi prodotti 
-	 * in formato stringa
+	 * 			in formato stringa
 	 * */
 	
 	@Override

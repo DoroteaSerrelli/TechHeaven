@@ -716,7 +716,6 @@ public class OrdineDAODataSource {
 	 * dal DB.
 	 * @param startDate : la data di inizio per la quale si stanno ricercando gli ordini commissionati
 	 * @param endDate : la data di fine per la quale si stanno ricercando gli ordini commissionati
-	 * @param order: l'ordinamento con cui si organizzano gli ordini recuperati dal DB
 	 * @param page : il numero di pagina
 	 * @param perPage : il numero di ordini da inserire per ogni record/pagina
 	 * 

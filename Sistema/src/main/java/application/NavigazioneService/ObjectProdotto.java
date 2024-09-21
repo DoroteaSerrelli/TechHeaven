@@ -354,7 +354,7 @@ public abstract class ObjectProdotto {
 	/**
 	 * Il metodo imposta la categoria di appartenenza del prodotto.
 	 * 
-	 * @param categoria : la categoria del prodotto espressa come oggetto della classe String
+	 * @param category : la categoria del prodotto espressa come oggetto della classe String
 	 * 
 	 * @throws CategoriaProdottoException : gestisce l'inserimento di una categoria non ammessa dalla classe
 	 * 										enum Categoria @see application.NavigazioneService.ObjectProdotto.Categoria
@@ -402,7 +402,7 @@ public abstract class ObjectProdotto {
 	/**
 	 * Il metodo imposta la sottocategoria di appartenenza del prodotto.
 	 * 
-	 * @param subCategory la sottocategoria del prodotto espressa come oggetto della classe String
+	 * @param subcategory : la sottocategoria del prodotto espressa come oggetto della classe String
 	 * 
 	 * @throws SottocategoriaProdottoException : gestisce l'inserimento di una sottocategoria non ammessa dalla classe
 	 * 											enum Sottocategoria @see application.NavigazioneService.ObjectProdotto.Sottocategoria
@@ -570,10 +570,11 @@ public abstract class ObjectProdotto {
 	}
 	
 	/**
-	 * Il metodo imposta il prodotto come rappresentante della categoria di appartenenza e, pertanto,
-	 * sarà nella vetrina del negozio online per l'esposizione dei prodotti della suddetta categoria.
+	 * Il metodo imposta il prodotto come rappresentante della categoria di appartenenza 
+	 * e, pertanto, sarà nella vetrina del negozio online per l'esposizione 
+	 * dei prodotti della suddetta categoria se inVetrina == true.
+	 * In caso contrario, il prodotto non sarà in vetrina.
 	 * 
-	 * @return true se è il rappresentante della categoria di appartenenza; false altrimenti.
 	 * */
 	
 	public void setInVetrina(boolean inVetrina) {

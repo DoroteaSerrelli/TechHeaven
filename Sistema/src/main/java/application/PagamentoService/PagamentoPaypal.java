@@ -26,12 +26,13 @@ public class PagamentoPaypal extends Pagamento implements Cloneable{
 	/**
 	 * Costruttore della classe con parametri: codice di pagamento, l'ordine
 	 * pagato e l'importo versato.
+	 * Si crea un oggetto PagamentoPaypal contenente le informazioni codicePagamento, 
+	 * ordine, importo, data corrente, ora corrente.
+	 * 
 	 * @param codicePagamento : il codice identificativo del pagamento effettuato
 	 * @param ordine : l'ordine che è stato pagato
 	 * @param importo : il costo dell'operazione (costo dei prodotti ordinati + spese di spedizione)
 	 * 
-	 * @return l'oggetto PagamentoPaypal contenente le informazioni codicePagamento, ordine, importo, 
-	 * 			data corrente, ora corrente.
 	 * */
 	
 	public PagamentoPaypal(int codicePagamento, Ordine ordine, float importo) {
@@ -45,7 +46,7 @@ public class PagamentoPaypal extends Pagamento implements Cloneable{
 	 * la clonazione viene delegata alla classe padre.
 	 *
 	 * @return una copia profonda dell'oggetto PagamentoPaypal.
-	 * @throws RuntimeException: eccezione lanciata in caso di errore durante la clonazione.
+	 * @throws RuntimeException : eccezione lanciata in caso di errore durante la clonazione.
 	 */
 	
 	@Override

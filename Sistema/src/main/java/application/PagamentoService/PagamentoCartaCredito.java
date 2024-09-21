@@ -48,8 +48,6 @@ public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 	 * @param user : il titolare della carta di credito
 	 * @param numCard : il numero della carta di credito di 16 cifre
 	 * 
-	 * @return l'oggetto PagamentoCartaCredito contenente le informazioni codicePagamento, ordine, importo, 
-	 * 			data corrente, ora corrente, titolare user e numero di carta numCard.
 	 * */
 	
 

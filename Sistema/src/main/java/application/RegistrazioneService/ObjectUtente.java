@@ -47,8 +47,6 @@ public abstract class ObjectUtente implements Cloneable{
 	 * @param p : password;
 	 * @param r : ruolo da associare all'utente;
 	 * 
-	 * @return un oggetto della classe ObjectUtente con attributi username u,
-	 * 			password p e ruolo r.
 	 * */
 
 	public ObjectUtente(String u, String p, Ruolo r) {
@@ -66,8 +64,6 @@ public abstract class ObjectUtente implements Cloneable{
 	 * @param p : password;
 	 * @param r : ruoli da associare all'utente;
 	 * 
-	 * @return un oggetto della classe ObjectUtente con attributi username u,
-	 * 			password p e ruoli r.
 	 * */
 
 	public ObjectUtente(String u, String p, ArrayList<Ruolo> r) {
@@ -83,8 +79,6 @@ public abstract class ObjectUtente implements Cloneable{
 	 * @param u : username;
 	 * @param p : password;
 	 * 
-	 * @return un oggetto della classe ObjectUtente con attributi username u,
-	 * 			password p.
 	 * */
 	
 	public ObjectUtente(String u, String p) {
@@ -188,7 +182,9 @@ public abstract class ObjectUtente implements Cloneable{
 
 	/**
 	 * Il metodo imposta la password dell'utente già cifrata.
-	 * @see application.RegistrazioneService.ObjectUtente.hashPassword
+	 * Vedasi metodo hashPassword della classe ObjectUtente.
+	 * 
+	 * @see application.RegistrazioneService.ObjectUtente
 	 * 
 	 * @param password : la password cifrata in SHA-512 
 	 * */
@@ -199,10 +195,12 @@ public abstract class ObjectUtente implements Cloneable{
 	
 	/**
 	 * Il metodo imposta la password dell'utente non ancora cifrata.
+	 * Si utilizza per la cifratura della password il metodo hashPassword
+	 * in presente nella classe ObjectUtente.
 	 * 
-	 * @see application.RegistrazioneService.ObjectUtente.hashPassword
+	 * @see application.RegistrazioneService.ObjectUtente
 	 * 
-	 * @param password : la password dell'utente in chiaro, da cifrare in SHA-512 
+	 * @param p : la password dell'utente in chiaro, da cifrare in SHA-512 
 	 * */
 
 	public void setPasswordToHash(String p) {

@@ -210,7 +210,7 @@ public abstract class Pagamento implements Cloneable {
 	 * Il metodo crea una copia profonda dell'oggetto Pagamento.
 	 *
 	 * @return clone : una copia profonda dell'oggetto Pagamento.
-	 * @throws RuntimeException: lancia un'eccezione nel caso in cui 
+	 * @throws RuntimeException : lancia un'eccezione nel caso in cui 
 	 * 							 si verifica un errore durante la clonazione.
 	 */
 	

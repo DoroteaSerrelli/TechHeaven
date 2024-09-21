@@ -73,8 +73,10 @@ public class Cliente implements Cloneable{
 	 * dal nuovo cliente sono espresse nel formato corretto.
 	 * Tale metodo, pertanto, verrà utilizzato in fase di registrazione 
 	 * del nuovo cliente al sistema.
+	 * Per la correttezza dell'indirizzo postale, si veda il metodo
+	 * checkValidate nella classe Indirizzo.
 	 * 
-	 * @see application.RegistrazioneService.Indirizzo.checkValidate
+	 * @see application.RegistrazioneService.Indirizzo
 	 * 
 	 * @param email : l'indirizzo di posta elettronica del cliente
 	 * @param nome : il nome del cliente
@@ -148,8 +150,6 @@ public class Cliente implements Cloneable{
 	 * @param telefono : il recapito telefonico del cliente
 	 * @param indirizzi : la rubrica di indirizzi di spedizione associati al cliente
 	 * 
-	 * @return un oggetto Cliente inizializzato con le informazioni del cliente passate
-	 * 			come parametri: email, nome, cognome, sex, telefono, indirizzi e proxyOrdini vuoto
 	 * */
 	public Cliente(String email, String nome, String cognome, Sesso sex, String telefono,
 			ArrayList<Indirizzo> indirizzi) {
@@ -175,9 +175,6 @@ public class Cliente implements Cloneable{
 	 * @param telefono : il recapito telefonico del cliente
 	 * @param indirizzo : l'indirizzo di spedizione associato al cliente
 	 * 
-	 * @return un oggetto Cliente inizializzato con le informazioni del cliente passate
-	 * 			come parametri: email, nome, cognome, sex, telefono, indirizzo di
-	 * 			spedizione e proxyOrdini vuoto
 	 * */
 	public Cliente(String email, String nome, String cognome, Sesso sex, String telefono,
 			Indirizzo indirizzo) {
@@ -353,12 +350,12 @@ public class Cliente implements Cloneable{
 
 	/**
 	 * Metodo che fornisce una stringa contenente tutte le informazioni associate al cliente.
-	 * Esso si serve di un metodo helper per stampare la rubrica di indirizzi del cliente.
-	 * 
-	 * @see application.RegistrazioneService.Cliente.toStringIndirizzi()
+	 * Esso si serve di un metodo helper, toStringIndirizzi(), per stampare la rubrica 
+	 * di indirizzi del cliente.
 	 *  
 	 * @return un oggetto di tipo String contenente tutte le informazioni relative al cliente
 	 * */
+	
 	@Override
 	public String toString() {
 		return "Cliente [email=" + email + ", nome=" + nome + ", cognome=" + cognome + ", sex=" + sex + ", telefono="
@@ -372,6 +369,7 @@ public class Cliente implements Cloneable{
 	 * @return rubricaIndirizzi : un oggetto di tipo String contenente tutti gli indirizzi di spedizione
 	 * 			del cliente
 	 * */
+	
 	private String toStringIndirizzi() {
 		String rubricaIndirizzi = "";
 		for(Indirizzo d : this.indirizzi)

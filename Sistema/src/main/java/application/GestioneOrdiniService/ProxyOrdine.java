@@ -51,8 +51,6 @@ public class ProxyOrdine extends ObjectOrdine implements Cloneable{
 	 * @param indirizzoSpedizione : l'indirizzo di spedizione presso cui recapitare l'ordine
 	 * @param spedizione : la tipologia di spedizione scelta dall'utente
 	 * 
-	 * @return un oggetto della classe ProxyOrdine avente attributi codice, stato, indirizzoSpedizione,
-	 * 			spedizione.
 	 * */
 	
 	public ProxyOrdine(int codice, Stato stato, Indirizzo indirizzoSpedizione, TipoSpedizione spedizione) {

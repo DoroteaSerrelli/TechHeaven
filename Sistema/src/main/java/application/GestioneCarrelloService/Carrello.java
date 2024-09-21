@@ -41,9 +41,6 @@ public class Carrello {
 	 * 
 	 * @param product : il prodotto da aggiungere al carrello
 	 * 
-	 * @precondition product != null
-	 * @precondition !this.isPresent(product)
-	 * 
 	 * @throws ProdottoNulloException : gestisce il caso in cui il prodotto product è null
 	 * @throws ProdottoPresenteException : gestisce il caso in cui il prodotto da aggiungere 
 	 * 										è già presente nel carrello
@@ -63,11 +60,8 @@ public class Carrello {
 	 * 
 	 * @param product : il prodotto da rimuovere dal carrello
 	 * 
-	 * @precondition product != null
-	 * @precondition this.isPresent(product)
-	 * 
 	 * @throws ProdottoNulloException : gestisce il caso in cui il prodotto product è null
-	 * @throws ProdottoNonPresenteException: gestisce il caso in cui il prodotto non è presente nel carrello
+	 * @throws ProdottoNonPresenteException : gestisce il caso in cui il prodotto non è presente nel carrello
 	 * @throws CarrelloVuotoException : gestisce il caso in cui il carrello è vuoto
 	 * */
 	
@@ -91,8 +85,6 @@ public class Carrello {
 	 * Questo metodo consente di controllare se un prodotto si trova all'interno del carrello.
 	 * 
 	 * @param product : il prodotto da verificare dal carrello
-	 * 
-	 * @precondition product != null
 	 * 
 	 * @return exist : true se product è presente nel carrello; false altrimenti.
 	 * 
@@ -120,12 +112,8 @@ public class Carrello {
 	 * @param product : il prodotto la cui quantità deve essere aggiornata
 	 * @param quantity : la quantità da impostare
 	 * 
-	 * @precondition product != null
-	 * @precondition this.isPresent(product)
-	 * @precondition quantity > 0
-	 * 
 	 * @throws ProdottoNulloException : gestisce il caso in cui il prodotto product è null
-	 * @throws ProdottoNonPresenteException: gestisce il caso in cui il prodotto non è presente nel carrello
+	 * @throws ProdottoNonPresenteException : gestisce il caso in cui il prodotto non è presente nel carrello
 	 * @throws CarrelloVuotoException : gestisce il caso in cui il carrello è vuoto
 	 * */
 

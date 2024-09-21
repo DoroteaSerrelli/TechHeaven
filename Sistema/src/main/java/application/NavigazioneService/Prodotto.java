@@ -72,6 +72,9 @@ public class Prodotto extends ObjectProdotto{
 	 * Costruttore di classe che crea un prodotto appartenente ad una categoria
 	 * (con sottocategoria non nota), privo di
 	 * immagine in evidenza e di galleria di immagini.
+	 * Pertanto, si genera un oggetto della classe ObjectProdotto avente come attributi 
+	 * codiceProdotto, nomeProdotto, topDescrizione, dettagli, prezzo, categoria, 
+	 * marca, modello, quantita, inCatalogo e inVetrina.
 	 * 
 	 * @param codiceProdotto : il codice identificativo del prodotto
 	 * @param nomeProdotto : il nominativo del prodotto
@@ -84,9 +87,6 @@ public class Prodotto extends ObjectProdotto{
 	 * @param quantita : il numero di scorte disponibili in magazzino per quel prodotto
 	 * @param inCatalogo : indica se il prodotto è presente nel catalogo
 	 * @param inVetrina : indica se il prodotto deve essere presente in una vetrina virtuale del sito
-	 * 
-	 * @return un oggetto della classe ObjectProdotto avente come attributi codiceProdotto, nomeProdotto, topDescrizione,
-	 * 			dettagli, prezzo, categoria, marca, modello, quantita, inCatalogo e inVetrina.
 	 * 
 	 * */
 	
@@ -105,6 +105,9 @@ public class Prodotto extends ObjectProdotto{
 	/**
 	 * Costruttore di classe che crea un prodotto appartenente ad una categoria e sottocategoria, privo di
 	 * immagine in evidenza e di galleria di immagini.
+	 * Si crea un oggetto della classe ObjectProdotto avente come attributi codiceProdotto, nomeProdotto, 
+	 * topDescrizione, dettagli, prezzo, categoria, sottocategoria, marca, modello, quantita, 
+	 * inCatalogo e inVetrina.
 	 * 
 	 * @param codiceProdotto : il codice identificativo del prodotto
 	 * @param nomeProdotto : il nominativo del prodotto
@@ -118,9 +121,6 @@ public class Prodotto extends ObjectProdotto{
 	 * @param quantita : il numero di scorte disponibili in magazzino per quel prodotto
 	 * @param inCatalogo : indica se il prodotto è presente nel catalogo
 	 * @param inVetrina : indica se il prodotto deve essere presente in una vetrina virtuale del sito
-	 * 
-	 * @return un oggetto della classe ObjectProdotto avente come attributi codiceProdotto, nomeProdotto, topDescrizione,
-	 * 			dettagli, prezzo, categoria, sottocategoria, marca, modello, quantita, inCatalogo e inVetrina.
 	 * 
 	 * */
 

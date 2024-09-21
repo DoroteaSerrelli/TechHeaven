@@ -26,12 +26,13 @@ public class PagamentoContrassegno extends Pagamento implements Cloneable{
 	/**
 	 * Costruttore della classe con parametri: codice di pagamento, l'ordine
 	 * pagato e l'importo versato.
+	 * Si crea l'oggetto PagamentoContrassegno contenente le informazioni codicePagamento, 
+	 * ordine, importo, data corrente, ora corrente.
+	 * 
 	 * @param codicePagamento : il codice identificativo del pagamento effettuato
 	 * @param ordine : l'ordine che è stato pagato
 	 * @param importo : il costo dell'operazione (costo dei prodotti ordinati + spese di spedizione)
 	 * 
-	 * @return l'oggetto PagamentoContrassegno contenente le informazioni codicePagamento, ordine, importo, 
-	 * 			data corrente, ora corrente.
 	 * */
 	
 	public PagamentoContrassegno(int codicePagamento, Ordine ordine, float importo) {
@@ -45,7 +46,7 @@ public class PagamentoContrassegno extends Pagamento implements Cloneable{
 	 * la clonazione viene delegata alla classe padre.
 	 *
 	 * @return una copia profonda dell'oggetto PagamentoContrassegno.
-	 * @throws RuntimeException: eccezione lanciata nel caso in cui si verifica un errore durante la clonazione.
+	 * @throws RuntimeException : eccezione lanciata nel caso in cui si verifica un errore durante la clonazione.
 	 */
 	
 	@Override

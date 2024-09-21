@@ -90,6 +90,8 @@ public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Metodo costruttore per creare una nuova istanza di un indirizzo postale.
+	 * Si crea, dunque, un oggetto della classe Indirizzo che ha i seguenti 
+	 * attributi : iDIndirizzo, via, numCivico, citta, cap, provincia.
 	 *
 	 * @param iDIndirizzo : L'identificativo univoco dell'indirizzo.
 	 * @param via : La via dell'indirizzo.
@@ -98,8 +100,6 @@ public class Indirizzo implements Cloneable{
 	 * @param cap: Il codice postale dell'indirizzo.
 	 * @param provincia: La provincia dell'indirizzo.
 	 * 
-	 * @return un oggetto della classe Indirizzo che ha i seguenti attributi : iDIndirizzo, via
-	 * 			numCivico, citta, cap, provincia.
 	 */
 	
 	public Indirizzo(int iDIndirizzo, String via, String numCivico, String citta, String cap, String provincia) {
@@ -113,6 +113,8 @@ public class Indirizzo implements Cloneable{
 	
 	/**
 	 * Metodo costruttore per creare una nuova istanza di un indirizzo postale.
+	 * Si crea, dunque, un oggetto della classe Indirizzo che ha i seguenti 
+	 * attributi : via, numCivico, citta, cap, provincia.
 	 *
 	 * @param via: La via dell'indirizzo.
 	 * @param numCivico: Il numero civico dell'indirizzo.
@@ -120,8 +122,6 @@ public class Indirizzo implements Cloneable{
 	 * @param cap: Il codice postale dell'indirizzo.
 	 * @param provincia: La provincia dell'indirizzo.
 	 * 
-	 * @return un oggetto della classe Indirizzo che ha i seguenti attributi : via
-	 * 			numCivico, citta, cap, provincia.
 	 */
 	
 	public Indirizzo(String via, String numCivico, String citta, String cap, String provincia) {

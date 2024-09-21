@@ -836,7 +836,6 @@ public class ProdottoDAODataSource{
 	 * 
 	 * @param idProdotto : l'identificativo del prodotto da aggiornare
 	 * @param price : il prezzo da applicare al prodotto
-	 * @param valore : la nuova informazione da memorizzare
 	 * 
 	 * @return esito dell'operazione
 	 * */

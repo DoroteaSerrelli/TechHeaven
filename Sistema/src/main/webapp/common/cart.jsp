@@ -18,12 +18,7 @@
 <body>
 	<jsp:include page="common/header.jsp"
 		flush="true" />
-	<div id="showpr" class="section-p1">
-    <p id="error"></p>
-    <%
-        Carrello carrello = (Carrello) request.getSession().getAttribute("usercart");
-    %>
-    <div class="errormsg">
+     <div class="errormsg">
         <%
             String err = (String) request.getSession().getAttribute("error");
             if (err != null && !err.isEmpty()) {
@@ -32,19 +27,25 @@
         <%
             request.getSession().removeAttribute("error");
             }
+        else{%>
+            <p id="error" class="error"></p>
+          <%  }
         %>
-    </div>
-
+    </div> 
+	<div id="showpr" class="section-p1">
     <%
-        if (carrello == null || carrello.getProducts().isEmpty()) {
-    %>
-    <div id="emptycart">
-        <h4>Il tuo carrello è vuoto!</h4>
-        <p>Cerca il tuo prodotto nelle nostre categorie di prodotti.</p>
-    </div>
-    <%
-        } else {
-    %>   
+        Carrello carrello = (Carrello) request.getSession().getAttribute("usercart");
+    %>  
+        <%
+            if (carrello == null || carrello.getProducts().isEmpty()) {
+        %>
+        <div id="emptycart">
+            <h4>Il tuo carrello è vuoto!</h4>
+            <p>Cerca il tuo prodotto nelle nostre categorie di prodotti.</p>
+        </div>
+        <%
+            } else {
+        %>   
     <div id="cart">
         <h1>Carrello:</h1>
         <div id="complete_order">
@@ -106,8 +107,7 @@
             }
         %>
     </div>
-
-	<jsp:include page="common/footer.jsp"
+        <jsp:include page="common/footer.jsp"
 		flush="true" />
 
 </body>

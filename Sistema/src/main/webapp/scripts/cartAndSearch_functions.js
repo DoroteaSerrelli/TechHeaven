@@ -115,7 +115,7 @@
     
     // Function to reload cart section using AJAX
     function reloadCartSection() {
-        $("#cart").load(" #cart > *"); // Reload only the cart section with updated content
+        $("#showpr").load(" #showpr > *"); // Reload only the cart section with updated content
     }
 
     // Function to display notification

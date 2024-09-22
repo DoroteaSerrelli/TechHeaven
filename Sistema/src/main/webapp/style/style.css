@@ -345,7 +345,7 @@ Sto modificando le caratteristiche DELLA SOTTOLINEATURA che apparirà sotto i li
 */
 #navbar li a.active::after, #navbar li a:hover::after {
 	content: "";
-	width: 35%;
+	width: 80%;
 	height: 2px;
 	background-color: darkturquoise;
 	position: absolute;

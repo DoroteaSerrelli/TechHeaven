@@ -62,6 +62,7 @@
                         if (itemRow) {
                             itemRow.remove(); // Remove the item from the DOM
                         }
+                        viewCart();
                     }
 
                     

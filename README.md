@@ -10,7 +10,11 @@ L’obiettivo del progetto è la creazione di una piattaforma Web-based che sar�
 Lo scopo principale del progetto è quello di fungere da strumento per gli acquisti dei clienti presso il negozio online, la gestione automatizzata degli ordini commissionati, per la catalogazione dei prodotti in vendita.
 
 ## Stato del progetto
-In Lavorazione - Object Design Document
+In Lavorazione - Object Design Document/Testing Design Document
 
 - Rilascio prima versione del RAD (22/01/2024).
 - Rilascio prima versione del SDD (31/07/2024).
+
+## Documentazione di progetto
+Per la documentazione del progetto si consulti la directory Deliverables: in essa sono contenuti i documenti di progetto da rilasciare al committente (RAD, SDD, ODD, Database Design Document, documenti per Testing).
+Per la documentazione Javadoc del progetto, si consulti il seguente link: https://doroteaserrelli.github.io/TechHeavenDocumentation/

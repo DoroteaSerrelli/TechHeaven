@@ -288,6 +288,12 @@ Che setteremò per incollonare il testo al centro.
 	text-decoration: none;
 }
 
+#categories li a:hover{
+	color: #f2f2f2;
+	background-color: #41a0f2;
+	text-decoration: none;
+}
+
 /*CARRELLO SEZIONE prodotti mini preview*/
 /* Style for the checkout link */
 #carrello a {

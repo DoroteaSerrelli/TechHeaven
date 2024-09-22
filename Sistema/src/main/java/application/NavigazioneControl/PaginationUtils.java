@@ -32,18 +32,16 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
  * @author raffy
  */
 public class PaginationUtils {
-    public static List<ProxyProdotto> performPagination(NavigazioneServiceImpl productService, String keyword, int page, int resultsPerPage, String searchType) {
+    public static Collection<ProxyProdotto> performPagination(NavigazioneServiceImpl productService, String keyword, int page, int resultsPerPage, String searchType) {
         ProdottoDAODataSource pdao = new ProdottoDAODataSource();
         SearchResult res = new SearchResult();
-        List<ProxyProdotto> results;
+        Collection <ProxyProdotto> results;
         switch (searchType) {
             case "bar" -> {
                 try {
                     results = productService.ricercaProdottoBar(keyword, page, resultsPerPage);
                     return results;
-                } catch (ProdottoException.SottocategoriaProdottoException ex) {
-                    Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ProdottoException.CategoriaProdottoException ex) {
+                } catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException ex) {
                     Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
@@ -53,13 +51,9 @@ public class PaginationUtils {
                 try {
                     results = productService.ricercaProdottoMenu(Categoria.valueOf(keyword), page, resultsPerPage);
                     return results;
-                } catch (SQLException ex) {
+                } catch (SQLException | ProdottoException.CategoriaProdottoException | ProdottoException.SottocategoriaProdottoException ex) {
                     Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (ProdottoException.CategoriaProdottoException ex) {
-                Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
-            } catch (ProdottoException.SottocategoriaProdottoException ex) {
-                Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
-            }
+                }
             }
 
             default -> // Handle unknown search types or throw an exception

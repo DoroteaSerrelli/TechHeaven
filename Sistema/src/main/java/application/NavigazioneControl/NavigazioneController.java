@@ -4,11 +4,7 @@
  */
 package application.NavigazioneControl;
 
-import application.NavigazioneService.NavigazioneServiceImpl;
-import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
-import java.util.Collection;
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;

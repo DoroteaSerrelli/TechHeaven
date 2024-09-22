@@ -32,10 +32,10 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
  * @author raffy
  */
 public class PaginationUtils {
-    public static Collection<ProxyProdotto> performPagination(NavigazioneServiceImpl productService, String keyword, int page, int resultsPerPage, String searchType) throws SQLException {
+    public static Collection<ProxyProdotto> performPagination(NavigazioneServiceImpl productService, String keyword, int page, int resultsPerPage, String searchType) {
         ProdottoDAODataSource pdao = new ProdottoDAODataSource();
         SearchResult res = new SearchResult();
-        Collection<ProxyProdotto> results;
+        List<ProxyProdotto> results;
         switch (searchType) {
             case "bar" -> {
                 try {

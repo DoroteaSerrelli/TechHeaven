@@ -78,11 +78,13 @@ public class GestioneCarrelloController extends HttpServlet {
     }
     public void aggiungiAlCarrello(HttpServletRequest request, HttpServletResponse response) throws IOException{
             ItemCarrello inCart = null;
+            HashMap hs = (HashMap) request.getSession().getAttribute("products_available_inStock");
+            if(hs==null) hs = new HashMap();
             try{
                  // Parse request parameters
                 int productId = parseProductId(request.getParameter("productId"));
                 
-                    ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);
+                    ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);                   
                     //ItemCarrello prCheckinsCart = new ItemCarrello();
                     inCart = new ItemCarrello();
                     //prCheckinsCart.setCodiceProdotto(prodotto.getCodiceProdotto());
@@ -91,7 +93,11 @@ public class GestioneCarrelloController extends HttpServlet {
                     
                     if(!cart.isPresent(inCart)){
                         gc.aggiungiAlCarrello(cart, inCart);
-                        
+                        // Se l'ID del prodotto non è presente nella Mappa vuol dire che
+                        // il Range non e' settato con la Q.Max di prodotto disponibile in magazzino.
+                        if(!hs.containsKey(productId)){
+                            hs.put(productId, prodotto.getQuantita());
+                        }
                         prepareJsonOutputMessage("valid", "Item Aggiunto nel Carrello con Successo", request, response);
                     }
                     else {  
@@ -101,7 +107,10 @@ public class GestioneCarrelloController extends HttpServlet {
                         //response.sendError(1, "Item già inserito nel carrello");
                         //return;
                     }
-                    
+                /// Retrieving the product_left in stock amount to use for the range between 1 and max_amount left in stock - 80% (?)
+                // you could theoretically change the amount based on how many max you want the user to have, documentation states that
+                // it has to be max amount available.    
+                request.getSession().setAttribute("products_available_inStock", hs); 
                 request.getSession().setAttribute("usercart", cart);
                 
         } catch (SQLException | CarrelloException.ProdottoPresenteException | CarrelloException.ProdottoNulloException | ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException ex) {
@@ -153,6 +162,7 @@ public class GestioneCarrelloController extends HttpServlet {
     public void rimuoviDalCarrello(HttpServletRequest request, HttpServletResponse response) throws IOException{
             try{
                 String pid = request.getParameter("productId");
+                HashMap hs = (HashMap) request.getSession().getAttribute("products_available_inStock"); 
                 int productId = 0;
                 if (pid != null && !pid.isEmpty()) {
                     productId = Integer.parseInt(pid);
@@ -172,8 +182,13 @@ public class GestioneCarrelloController extends HttpServlet {
                     gc.rimuoviDalCarrello(cart, inCart);
                     //pdao.updateQuantity(productId,quantità_deposito+inCart.getQuantita());
                     System.out.println("quanittà magazzino: "+quantità_deposito);
+                    // Rimuovo la Quantità Max in deposito dalla Mappa che gestisce il Range, usando l'ID 
+                    // del prodotto come chiave.
+                    hs.remove(productId);
                     prepareJsonOutputMessage("valid", "Item Rimosso con Successo dal Carrello!", request, response); 
                 }
+                //Aggiorno la Mappa nella Sessione.
+                request.getSession().setAttribute("products_available_inStock", hs);
                 request.getSession().setAttribute("usercart", cart);
 
         } catch (SQLException | CarrelloException.ProdottoNulloException | CarrelloException.CarrelloVuotoException | CarrelloException.ProdottoNonPresenteException | ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException ex) {

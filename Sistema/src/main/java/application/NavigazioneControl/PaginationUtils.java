@@ -32,7 +32,7 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
  * @author raffy
  */
 public class PaginationUtils {
-    public static Collection<ProxyProdotto> performPagination(NavigazioneServiceImpl productService, String keyword, int page, int resultsPerPage, String searchType) {
+    public static List<ProxyProdotto> performPagination(NavigazioneServiceImpl productService, String keyword, int page, int resultsPerPage, String searchType) {
         ProdottoDAODataSource pdao = new ProdottoDAODataSource();
         SearchResult res = new SearchResult();
         List<ProxyProdotto> results;

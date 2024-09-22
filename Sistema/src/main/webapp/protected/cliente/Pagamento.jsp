@@ -22,6 +22,16 @@
     </head>
     <body>
     <div class="section-p1">
+         <div class="errormsg">        
+                <% 
+                String err = (String)request.getSession().getAttribute("error");
+                if (err != null && !err.isEmpty()) {
+                %>
+              <p id="error">  <%=err%></p>
+                <% }
+                request.getSession().removeAttribute("error");
+                    %>
+            </div>   
         <h1>Seleziona Metodo di Pagamento:</h1>
        <form action="/CheckoutCarrello" method="POST" onsubmit="return validatePaymentForm()">
            <input type="hidden" name="action" value="confirmPayment">
@@ -60,6 +70,7 @@
                     <input type="text" id="cc_cvc" name="cc_cvc">
                 </p>
             </div>
+            <input value="Conferma Pagamento" type="submit" class="confirm_button" name="submit">
             <button class="delete_button"><a href="/CheckoutCarrello?action=annullaPagamento">Annulla Pagamento</a></button>               
        </form>
     </div>         

@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html lang="it">
     <head>
-        <title>TechHeaven</title>
+        <title>TechHeaven - Gestione Catalogo: Dashboard</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/style.css">

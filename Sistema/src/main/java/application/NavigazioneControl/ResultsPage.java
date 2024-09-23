@@ -74,7 +74,7 @@ public class ResultsPage extends HttpServlet {
         request.setAttribute("hasNextPage", request.getSession().getAttribute("hasNextPage"));
            
         // Forward to JSPorder_products_available
-        request.getRequestDispatcher("searchResults.jsp").forward(request, response);
+        request.getRequestDispatcher("common/searchResults.jsp").forward(request, response);
         
         //Clear Session Attributes
         //request.getSession().removeAttribute("searchResult");

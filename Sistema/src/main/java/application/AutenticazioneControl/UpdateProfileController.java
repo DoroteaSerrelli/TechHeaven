@@ -77,7 +77,7 @@ public class UpdateProfileController extends HttpServlet {
             }
                          
             request.getSession().setAttribute("user", updated_user);
-            request.getRequestDispatcher("AreaRiservata").forward(request, response);      
+            response.sendRedirect(request.getContextPath()+"/AreaRiservata");      
             
         }catch(SQLException | AutenticazioneException.FormatoEmailException | AutenticazioneException.ProfiloInesistenteException | AutenticazioneException.EmailEsistenteException | AutenticazioneException.TelefonoEsistenteException | AutenticazioneException.FormatoTelefonoException | AutenticazioneException.InformazioneDaModificareException e){
             try {

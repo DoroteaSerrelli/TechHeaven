@@ -55,7 +55,7 @@ public class UpdateUserInfo extends HttpServlet {
             request.setAttribute("error", error);
         }
         // Forward to JSP
-        request.getRequestDispatcher("updateUserInfo.jsp").forward(request, response);
+        request.getRequestDispatcher("protected/cliente/updateUserInfo.jsp").forward(request, response);
     }
     private void loadUserAddresses(HttpServletRequest request, ProxyUtente u) throws SQLException {
         IndirizzoDAODataSource indDAO = new IndirizzoDAODataSource();

@@ -34,8 +34,8 @@
 
     </head>    
     <body>     
-       <jsp:include page="<%=request.getContextPath() %>/common/header.jsp"  flush="true"/>
-       <jsp:include page="<%=request.getContextPath() %>/protected/cliente/roleSelector.jsp"  flush="true"/>    
+       <jsp:include page="/common/header.jsp"  flush="true"/>
+       <jsp:include page="/protected/cliente/roleSelector.jsp"  flush="true"/>    
        <div id="pagination"></div>
         <aside class="options_sidebar hidden" id="options_sidebar">
             <!-- Sidebar will be populated by JavaScript -->
@@ -97,6 +97,6 @@
             </section>
         </section>                       
        <script src="<%= request.getContextPath()%>/scripts/shifting_menu_manag_functions_sidebar.js"></script>        
-    <jsp:include page="<%=request.getContextPath() %>/common/footer.jsp"  flush="true"/>
+    <jsp:include page="/common/footer.jsp"  flush="true"/>
     </body>
 </html>

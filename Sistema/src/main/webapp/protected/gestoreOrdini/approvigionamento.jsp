@@ -36,14 +36,14 @@
             %>
             <h4><%=errormsg%></h4>
         </div>
-        <jsp:include page="<%=request.getContextPath() %>/protected/gestoreOrdini/toolbar.jsp"  flush="true"/>       
-        <jsp:include page="<%=request.getContextPath() %>/common/header.jsp"  flush="true"/>
+        <jsp:include page="/protected/gestoreOrdini/toolbar.jsp"  flush="true"/>       
+        <jsp:include page="/common/header.jsp"  flush="true"/>
         <button id="sidebar_toggle"><img src="<%= request.getContextPath()%>/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>
         <!-- Search Input Field -->
         <input type="text" id="productFilter" onkeyup="filterProducts()" placeholder="Cerca un prodotto per nome...">
         <!-- Search Input Field -->
         <!-- Pagination links -->
-        <jsp:include page="<%=request.getContextPath() %>/common/pagination.jsp"  flush="true"/>       
+        <jsp:include page="/common/pagination.jsp"  flush="true"/>       
         
         <table id="showpr" style="width: 80%; margin: 0 auto">
             <tr>
@@ -75,6 +75,6 @@
         <form id="supplyingRequestForm" class="">
             <input id="product_id" type="hidden" name="product_id" value="">
         </form>           
-        <jsp:include page="<%=request.getContextPath() %>/common/footer.jsp"  flush="true"/>
+        <jsp:include page="/common/footer.jsp"  flush="true"/>
     </body>
 </html>

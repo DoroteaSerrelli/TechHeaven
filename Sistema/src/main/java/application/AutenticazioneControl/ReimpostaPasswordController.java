@@ -70,9 +70,6 @@ public class ReimpostaPasswordController extends HttpServlet {
         processRequest(request, response);
     }
 
-
-    private AutenticazioneServiceImpl loginService = new AutenticazioneServiceImpl();
-    
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -81,6 +78,8 @@ public class ReimpostaPasswordController extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private AutenticazioneServiceImpl loginService = new AutenticazioneServiceImpl();
+ 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -91,12 +90,17 @@ public class ReimpostaPasswordController extends HttpServlet {
             
             loginService.resetPassword(username, email, password);
             response.sendRedirect(request.getContextPath() + "/Autenticazione");
-        } catch (SQLException ex) {
+            
+        } catch (SQLException | AutenticazioneException.UtenteInesistenteException ex) {
             Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (AutenticazioneException.UtenteInesistenteException ex) {
-            Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
+            
+            request.getSession().setAttribute("error", ex.getMessage());
+            response.sendRedirect(request.getContextPath() + "/resetPassword");
         } catch (AutenticazioneException.FormatoPasswordException ex) {
             Logger.getLogger(ReimpostaPasswordController.class.getName()).log(Level.SEVERE, null, ex);
+            
+            request.getSession().setAttribute("error", ex.getMessage());
+            response.sendRedirect(request.getContextPath() + "/resetPassword");
         }
         
     }

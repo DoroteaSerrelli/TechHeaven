@@ -68,7 +68,7 @@ public class Wishlist extends HttpServlet {
         }
         
         // Forward to JSP
-        request.getRequestDispatcher("wishlist.jsp").forward(request, response);
+        request.getRequestDispatcher("/protected/cliente/wishlist.jsp").forward(request, response);
     }
 
     /**

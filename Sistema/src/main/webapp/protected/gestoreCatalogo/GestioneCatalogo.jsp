@@ -14,7 +14,7 @@
 <!DOCTYPE html>
 <html lang="it">
     <head>
-        <title>TechHeaven</title>
+        <title>TechHeaven - Gestione Catalogo: Dashboard</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/style.css">
@@ -31,7 +31,7 @@
         </head>    
     <body>     
         <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->
-       <jsp:include page="/roleSelector.jsp"  flush="true"/>
+       <jsp:include page="/protected/cliente/roleSelector.jsp"  flush="true"/> 
         <aside class="options_sidebar hidden" id="options_sidebar">
            <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>        
            

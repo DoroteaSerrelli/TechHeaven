@@ -81,7 +81,7 @@ public class AreaRiservata extends HttpServlet {
             }
         }
         // Forward to JSP
-        request.getRequestDispatcher("AreaRiservata.jsp").forward(request, response);
+       request.getRequestDispatcher("/protected/cliente/AreaRiservata.jsp").forward(request, response);
     }
 
     /**

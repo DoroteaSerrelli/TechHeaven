@@ -112,7 +112,9 @@ public class UpdateAddressController extends HttpServlet {
             
             switch(action){
                 case "UpdateIndirizzo":
-                    int id_indirizzo = Integer.parseInt(request.getParameter("addressIndex"));
+                    int id_indirizzo = real_user.getProfile().getIndirizzi().get(0).getIDIndirizzo();
+                    if(request.getParameter("addressIndex")!=null)
+                        id_indirizzo = Integer.parseInt(request.getParameter("addressIndex"));                    
                     target_ind.setIDIndirizzo(id_indirizzo);
                     updated_user= as.aggiornaRubricaIndirizzi(user, "AGGIORNARE-INDIRIZZO", target_ind);
                 break; 

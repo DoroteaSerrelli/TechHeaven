@@ -50,8 +50,8 @@ public class AreaRiservata extends HttpServlet {
                 Logger.getLogger(AreaRiservata.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
-        // Forward to JSP
-        request.getRequestDispatcher("AreaRiservata.jsp").forward(request, response);
+        // Forward to JSP     
+        request.getRequestDispatcher("/protected/cliente/AreaRiservata.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

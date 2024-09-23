@@ -10,7 +10,7 @@ L’obiettivo del progetto è la creazione di una piattaforma Web-based che sar�
 Lo scopo principale del progetto è quello di fungere da strumento per gli acquisti dei clienti presso il negozio online, la gestione automatizzata degli ordini commissionati, per la catalogazione dei prodotti in vendita.
 
 ## Stato del progetto
-In Lavorazione - Object Design Document/Testing Design Document
+In Lavorazione - Object Design Document/Test Plan Document
 
 - Rilascio prima versione del RAD (22/01/2024).
 - Rilascio prima versione del SDD (31/07/2024).

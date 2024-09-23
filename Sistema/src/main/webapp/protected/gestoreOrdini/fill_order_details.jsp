@@ -31,8 +31,8 @@
         %>
     </head>
     <body>
-       <jsp:include page="<%=request.getContextPath() %>/common/header.jsp"  flush="true"/>
-       <jsp:include page="<%=request.getContextPath() %>/protected/cliente/roleSelector.jsp"  flush="true"/>
+       <jsp:include page="/common/header.jsp"  flush="true"/>
+       <jsp:include page="/protected/cliente/roleSelector.jsp"  flush="true"/>
         <h1>Informazioni sull'Ordine Selezionato:</h1>
         <div id="product1">
             <h2><%=selected_ordine.getStatoAsString()%></h2>

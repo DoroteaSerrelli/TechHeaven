@@ -68,7 +68,7 @@
     </head>    
     <body>     
         <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->      
-       <jsp:include page="/roleSelector.jsp"  flush="true"/>
+       <jsp:include page="/protected/cliente/roleSelector.jsp"  flush="true"/> 
        <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>                   
        <aside class="options_sidebar visible" id="options_sidebar">
            <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>        

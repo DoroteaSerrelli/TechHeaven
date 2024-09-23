@@ -73,7 +73,7 @@ public class ProductInfos extends HttpServlet {
         if (product != null && galleryImages != null) {
             request.setAttribute("product", product);
             request.setAttribute("galleryImages", galleryImages);
-            RequestDispatcher dispatcher = request.getRequestDispatcher("/productDetails.jsp");
+            RequestDispatcher dispatcher = request.getRequestDispatcher("common/productDetails.jsp");
             dispatcher.forward(request, response);
         } else {
             // Redirect to a different page if no product is found

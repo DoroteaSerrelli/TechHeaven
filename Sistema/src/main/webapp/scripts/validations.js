@@ -10,7 +10,7 @@
         let n= document.forms["client"]["email"].value;
         var pattern=/^\S+@\S+\.\S+$/;
         if(!n.match(pattern)){
-            document.getElementById("error").innerHTML="Email must be in the form ____@____.___";
+            document.getElementById("error").innerHTML="L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com)";
             error.classList.remove("valid");
             error.classList.add("invalid");				
         return false;
@@ -72,11 +72,11 @@
         };
 
         const errorMessages = {
-          road: "Must be a valid road name (letters, spaces, and numbers allowed)",
-          cv: "Must be a valid civic number (numbers and letters allowed like 32A)",
-          cap: "Must be a valid postal code (5 digits)",
-          province: "Must be a valid province name two letters only allowed",
-          city: "Must be a valid city name (letters and spaces allowed)"
+          road: "La via deve contenere solo lettere e spazi",
+          cv: "Il numero civico è composto da numeri e, eventualmente, una lettera",
+          cap: "Il CAP è formato da 5 numeri",
+          province: "La provincia è composta da due lettere maiuscole",
+          city: "La città deve essere composta solo da lettere e spazi"
         };
         let anyInvalid = false;
 
@@ -108,7 +108,7 @@
         ///^(\((00|\+)39\)|(00|\+)39)?(38[890]|34[7-90]|36[680]|33[3-90]|32[89])\d{7}$/
         var pattern= "^[3][0-9]{2}-[0-9]{3}-[0-9]{4}$";
         if(!n.match(pattern)){
-            document.getElementById("error").innerHTML="Must be in the form +39 xxx-xxx-xxxx";
+            document.getElementById("error").innerHTML="Il formato del numero di telefono deve essere xxx-xxx-xxxx";
             error.classList.remove("valid");
             error.classList.add("invalid");
         return false;

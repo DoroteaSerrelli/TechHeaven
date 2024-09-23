@@ -97,14 +97,14 @@
 					name="submit" onclick="return validate()">
 			</div>
 			<div class="errormsg">
-				<p id="error"></p>
-				<% 
+					<% 
                     String err = (String)request.getSession().getAttribute("error");
                     if (err != null && !err.isEmpty()) {
                  %>
-				<%=err%>
-				<% } %>
-			</div>
+					<p id="error" class="error invalid"><%=err%></p>
+					<% request.getSession().removeAttribute("error");
+                    } %>
+				</div>
 		</form>
 	</div>
 	<jsp:include page="/common/footer.jsp" flush="false" />

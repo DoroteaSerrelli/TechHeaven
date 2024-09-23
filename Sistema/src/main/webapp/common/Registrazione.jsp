@@ -18,68 +18,16 @@
 <body>
 
 	<jsp:include page="/common/header.jsp" flush="true" />
+	
 	<div class="section-p1">
 		<form name="client" method="post" action="RegistrazioneController">
-			<div class="row">
-				<div class="input-wrapper reg_form">
-					<p>*Name:</p>
-					<input type="text" name="name" oninput="validateName()" required>
-				</div>
-				<div class="input-wrapper reg_form">
-					<p>*Surname:</p>
-					<input type="text" name="surname" oninput="validateSurname()"
-						required>
-				</div>
-			</div>
-			<div class="row">
-				<div class="input-wrapper reg_form">
-					<p>*Address Road:</p>
-					<input id="road" type="text" name="road"
-						oninput="validateAddress()" required>
-				</div>
-				<div class="input-wrapper reg_form">
-					<p>*Civic Number:</p>
-					<input id="cv" type="text" name="cv" oninput="validateAddress()"
-						required>
-				</div>
-			</div>
-			<div class="row">
-				<div class="input-wrapper reg_form">
-					<p>*Address City:</p>
-					<input id="city" type="text" name="city"
-						oninput="validateAddress()" required>
-				</div>
-				<div class="input-wrapper reg_form">
-					<p>*CAP:</p>
-					<input id="cap" type="text" name="cap" oninput="validateAddress()"
-						required>
-				</div>
-			</div>
-			<div class="row">
-				<div class="input-wrapper reg_form">
-					<p>*Province:</p>
-					<input id="province" type="text" name="province"
-						oninput="validateAddress()" required>
-				</div>
-				<div class="input-wrapper reg_form">
-					<p>*Sex:</p>
-					<select name="sesso" required>
-						<option value="M">Male</option>
-						<option value="F">Female</option>
-					</select>
-				</div>
-			</div>
-			<div class="row">
-				<div class="input-wrapper reg_form">
-					<p>*E-mail:</p>
-					<input type="text" name="email" oninput="validateEmail()" required>
-				</div>
-				<div class="input-wrapper reg_form">
-					<p>*Phone Number:</p>
-					<input type="text" name="phoneNumber"
-						oninput="validatePhoneNumber()" required>
-				</div>
-			</div>
+			<h1>Registrazione</h1>
+			<p>Registrati al nostro sito per acquistare i nostri prodotti ed essere aggiornato
+			sui nuovi arrivi.</p>
+			<br>
+			<hr>
+			<br>
+			<h2>Informazioni sull'account</h2>
 			<div class="row">
 				<div class="input-wrapper reg_form">
 					<p>*Username:</p>
@@ -92,9 +40,74 @@
 						required>
 				</div>
 			</div>
+			<div class="row">
+				<div class="input-wrapper reg_form">
+					<p>*Nome:</p>
+					<input type="text" name="name" oninput="validateName()" required>
+				</div>
+				<div class="input-wrapper reg_form">
+					<p>*Cognome:</p>
+					<input type="text" name="surname" oninput="validateSurname()"
+						required>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-wrapper reg_form">
+					<p>*Sesso:</p>
+					<select name="sesso" required>
+						<option value="M">Uomo</option>
+						<option value="F">Donna</option>
+					</select>
+				</div>
+				</div>
+			<div class="row">
+				<div class="input-wrapper reg_form">
+					<p>*E-mail:</p>
+					<input type="text" name="email" oninput="validateEmail()" required>
+				</div>
+				<div class="input-wrapper reg_form">
+					<p>*Numero di cellulare:</p>
+					<input type="text" name="phoneNumber"
+						oninput="validatePhoneNumber()" required>
+				</div>
+			<br>
+			</div>
+			<hr>
+			<h2>Indirizzo</h2>
+			<div class="row">
+				<div class="input-wrapper reg_form">
+					<p>*Via:</p>
+					<input id="road" type="text" name="road"
+						oninput="validateAddress()" required>
+				</div>
+				<div class="input-wrapper reg_form">
+					<p>*Numero civico:</p>
+					<input id="cv" type="text" name="cv" oninput="validateAddress()"
+						required>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-wrapper reg_form">
+					<p>*Città:</p>
+					<input id="city" type="text" name="city"
+						oninput="validateAddress()" required>
+				</div>
+				<div class="input-wrapper reg_form">
+					<p>*CAP:</p>
+					<input id="cap" type="text" name="cap" oninput="validateAddress()"
+						required>
+				</div>
+			</div>
+			<div class="row">
+				<div class="input-wrapper reg_form">
+					<p>*Provincia:</p>
+					<input id="province" type="text" name="province"
+						oninput="validateAddress()" required>
+				</div>
+			</div>
 
 			<div class="input-wrapper reg_form">
-				<input value="Submit" type="submit" class="confirm_button"
+				<input value="Registrati" type="submit" class="confirm_button"
 					name="submit" onclick="return validate()">
 			</div>
 			<div class="errormsg">

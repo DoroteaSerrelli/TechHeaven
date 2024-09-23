@@ -61,7 +61,7 @@
 		</ul>
 		<ul id="search_section">
 			<li>
-				<form id="searchForm" method="post"
+				<form style = "background-color:#5b44f2" id="searchForm" method="post"
 					action="${pageContext.request.contextPath}/NavigazioneController?search_type=bar"
 					onsubmit="return validateSearch()">
 					<button class="search" type="submit">

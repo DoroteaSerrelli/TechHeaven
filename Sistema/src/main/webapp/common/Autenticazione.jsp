@@ -21,6 +21,9 @@
 	<div class="section-p1">
 		<div class="login-container">
 			<form name="client" method="post" action="AutenticazioneController">
+			<h1>Login</h1>
+			<p>Accedi per usufruire dei vantaggi offerti dal sito</p>
+			<hr>
 				<input type="hidden" name="action" value="login">
 				<div class="row">
 					<div class="input-wrapper">
@@ -40,9 +43,10 @@
 							name="submit" onclick="return validate()">
 					</div>
 					<div class="input-wrapper">
+						<a href="resetPassword">
 						<button class="confirm_button">
-							<a href="resetPassword">Reimposta password</a>
-						</button>
+							Reimposta password</button>
+							</a>
 					</div>
 				</div>
 				<div class="errormsg">

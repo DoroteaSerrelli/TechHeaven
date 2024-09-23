@@ -42,14 +42,36 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 	text-align: center;
 }
 
+/*FORM CSS*/
+
 form {
 	display: inline-block;
 	/* Keeps the form from stretching to full width */
 	text-align: left; /* Resets the text alignment for form elements */
 	padding-left: 50px;
 	padding-right: 50px;
-	border: 1px solid #41A0F2;
+	border: medium groove #41A0F2;
 	border-bottom-color: transparent;
+	background-color: #f2f2f2;
+}
+
+form h1{
+	color: #5b44f2;
+	text-align: center;
+}
+
+form p{
+	color: #5068f2;
+}
+
+form hr{
+  border: 1px solid #5068f2;
+  margin-bottom: 25px;
+}
+
+form h2{
+	color: #5b44f2;
+	text-shadow: 2px 2px 5px aquamarine;
 }
 
 .center {
@@ -83,13 +105,14 @@ form {
 .confirm_button {
 	cursor: pointer;
 	width: 150px;
-	height: 25px;
+	height: 40px;
 	margin-top: 40px;
 	background-color: #F2DB44;
 	border-radius: 30%;
 	border-top-color: #6A5FB3;
 	border-bottom-color: #F28C44;
 }
+
 /*ERROR MESSAGE STILE**/
 .errormsg .valid {
 	padding: 10px;

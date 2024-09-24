@@ -64,7 +64,7 @@
         };
 
         const patterns = {
-          road: /^\w+(?:\s+\w+)*$/,
+          road: /^[A-Za-z\s]+$/,
           cv: "^[0-9]+[A-Z]?$",
           cap: /^\d{5}$/,
           province: /^[A-Za-z]{2}$/,

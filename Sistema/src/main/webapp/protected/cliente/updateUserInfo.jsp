@@ -9,7 +9,7 @@
 	import="application.RegistrazioneService.Indirizzo,
 				  java.util.ArrayList"%>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -70,6 +70,16 @@
         
 		</button>
 	</div>
+        <div class="errormsg" style="text-align: center">
+		<p id="error">
+			<% 
+               String err = (String)request.getAttribute("error");
+               if (err != null && !err.isEmpty()) {
+            %>
+			<%=err%>
+			<% } %>
+		</p>
+	</div>
 	<div class="update_bar" id="update_bar">
 		<ul>
 			<li><a id="email" href="#" onclick="showUpdateForm('email')">Update
@@ -101,7 +111,7 @@
 						<p>Email:</p>
 						<input type="email" id="email" name="email"
 							oninput="validateEmail()">
-					</div>
+					</div>                                    
 				</div>
 				<div class="row" id="updateTelefono" style="display: none;">
 					<div class="input-wrapper">
@@ -116,22 +126,37 @@
 						<p>Indirizzo:</p>
 						<input type="text" name="newVia" id="road" placeholder="Via"
 							oninput="validateAddress()">
-					</div>
+                                                <div class="errormsgAddress">
+                                                    <div id="error road"></div>
+                                                </div> 
+					</div>                                      
 					<div class="input-wrapper" style="padding-bottom: 10px;">
 						<input type="text" name="newNumCivico" id="cv"
 							placeholder="Numero Civico" oninput="validateAddress()">
+                                                <div class="errormsgAddress">
+                                                    <div id="error cv" style="width: 240px;"></div>
+                                                </div> 
 					</div>
 					<div class="input-wrapper" style="padding-bottom: 10px;">
 						<input type="text" name="newCap" id="cap" placeholder="Cap"
 							oninput="validateAddress()">
+                                                <div class="errormsgAddress">
+                                                    <div id="error cap"></div>
+                                                </div> 
 					</div>
 					<div class="input-wrapper" style="padding-bottom: 10px;">
 						<input type="text" name="newCitta" id="city" placeholder="Città"
 							oninput="validateAddress()">
+                                                <div class="errormsgAddress">
+                                                    <div id="error city"></div>
+                                                </div> 
 					</div>
 					<div class="input-wrapper" style="padding-bottom: 10px;">
 						<input type="text" name="newProvincia" id="province"
 							placeholder="Provincia" oninput="validateAddress()">
+                                                <div class="errormsgAddress">
+                                                    <div id="error province"></div>
+                                                </div> 
 					</div>
 				</div>
 				<input id="conf_button" value="Update" type="button"
@@ -149,17 +174,7 @@
 		<% } %>
 		<script
 			src="<%= request.getContextPath() %>/scripts/modInfoAccount.js?ts=<%= System.currentTimeMillis() %>"></script>
-	</div>
-	<div class="errormsg" style="text-align: center">
-		<p id="error">
-			<% 
-               String err = (String)request.getAttribute("error");
-               if (err != null && !err.isEmpty()) {
-            %>
-			<%=err%>
-			<% } %>
-		</p>
-	</div>
+	</div>	
 	<jsp:include page="/common/footer.jsp"
 		flush="true" />
 </body>

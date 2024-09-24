@@ -55,53 +55,54 @@
         }		
     }
     function validateAddress() {
-        const elements = {
-          road: document.getElementById('road'),
-          cv: document.getElementById('cv'),
-          cap: document.getElementById('cap'),
-          province: document.getElementById('province'),
-          city: document.getElementById('city')
-        };
+    const elements = {
+        road: document.getElementById('road'),
+        cv: document.getElementById('cv'),
+        cap: document.getElementById('cap'),
+        province: document.getElementById('province'),
+        city: document.getElementById('city')
+    };
 
-        const patterns = {
-          road: /^[A-Za-z\s]+$/,
-          cv: "^[0-9]+[A-Z]?$",
-          cap: /^\d{5}$/,
-          province: /^[A-Za-z]{2}$/,
-          city: /^[A-Za-z\s]+$/
-        };
+    const patterns = {
+        road: /^[A-Za-z\s]+$/,
+        cv: /^[0-9]+[A-Z]?$/, // Changed to valid regex format
+        cap: /^\d{5}$/,
+        province: /^[A-Za-z]{2}$/,
+        city: /^[A-Za-z\s]+$/
+    };
 
-        const errorMessages = {
-          road: "La via deve contenere solo lettere e spazi",
-          cv: "Il numero civico è composto da numeri e, eventualmente, una lettera",
-          cap: "Il CAP è formato da 5 numeri",
-          province: "La provincia è composta da due lettere maiuscole",
-          city: "La città deve essere composta solo da lettere e spazi"
-        };
-        let anyInvalid = false;
+    const errorMessages = {
+        road: "La via deve contenere solo lettere e spazi",
+        cv: "Il numero civico è composto da numeri e, eventualmente, una lettera",
+        cap: "Il CAP è formato da 5 numeri",
+        province: "La provincia è composta da due lettere maiuscole",
+        city: "La città deve essere composta solo da lettere e spazi"
+    };
 
-        for (const field in elements) {
-          const element = elements[field];
-          const value = element.value.trim(); // Remove leading/trailing spaces
+    let anyInvalid = false;
 
-           if (!value.match(patterns[field])) {
-              anyInvalid = true;
-              element.classList.add("invalid");
-              document.getElementById("error").textContent = errorMessages[field];
-              return false; // Early return if any field is invalid
-          } else {
-              element.classList.remove("invalid");
-              element.classList.add("valid");
-              }
-          }
+    for (const field in elements) {
+        const element = elements[field];
+        const value = element.value.trim(); // Remove leading/trailing spaces
+        const errorElement = document.getElementById("error " + field); // Get the error div
 
-        if (!anyInvalid) {
-            document.getElementById("error").textContent = "OK";
-            error.classList.remove("invalid");
-            error.classList.add("valid");
-            return true;
+        if (!value.match(patterns[field])) {
+            anyInvalid = true;
+            element.classList.add("invalid");
+            element.classList.remove("valid");
+            errorElement.textContent = errorMessages[field]; // Display the appropriate error message
+            errorElement.classList.add("invalid-message");
+            errorElement.classList.remove("valid-message");
+        } else {
+            element.classList.remove("invalid");
+            element.classList.add("valid");
+            errorElement.textContent = ""; // Clear error message when input is valid
+            errorElement.classList.remove("invalid-message");
+            errorElement.classList.add("valid-message");
         }
     }
+    return !anyInvalid; // Return true if no fields are invalid, false otherwise
+}
 
     function validatePhoneNumber(){
         let n= document.forms["client"]["phoneNumber"].value;

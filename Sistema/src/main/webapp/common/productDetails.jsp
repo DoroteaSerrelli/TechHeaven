@@ -83,7 +83,7 @@
             <h1><%= product.getNomeProdotto() %></h1>
             <span><strong><%= product.getMarca() %></strong></span>
             <h3><%= product.getTopDescrizione() %></h3>
-            <h2><%= product.getDettagli() %></h2>
+            <h2><%= product.getDettagli().replaceAll("\n", "<br>") %></h2>
             <div class="star"></div>
         </div>
 

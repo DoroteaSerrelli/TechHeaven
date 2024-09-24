@@ -89,6 +89,8 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 /* Ensure product details are below the gallery and actions */
 .product-details {
+    line-height: 1.6;
+    font-size: 16px;
     margin-top: 20px;
 }
 

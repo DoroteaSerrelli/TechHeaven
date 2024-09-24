@@ -17,7 +17,6 @@ Collection<ProxyProdotto> gr_elettr = (Collection<ProxyProdotto>) application.ge
 	href="<%=request.getContextPath()%>/style/style.css">
 </head>
 <body>
-
 	<jsp:include page="/common/header.jsp" flush="true" />
 	<section id="hero"></section>
 	<section id="feature" class="section-p1">
@@ -85,7 +84,7 @@ Collection<ProxyProdotto> gr_elettr = (Collection<ProxyProdotto>) application.ge
 					<h4 class="prezzo"><%=prezzoFormattato%></h4>
 				</div>
 				<a href="#"
-					onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
+					onClick="addToCartAndRedirect(<%= product.getCodiceProdotto() %>, 'aggiungiAlCarrello', '<%= request.getContextPath() %>/cart');">
 					<img class="cart"
 					src="<%=request.getContextPath()%>/images/site_images/icon_carrello2.png">
 				</a>
@@ -142,6 +141,7 @@ Collection<ProxyProdotto> gr_elettr = (Collection<ProxyProdotto>) application.ge
 			}
 			%>
 		</div>
+                <div id="error" style="display:none"></div>
 	</section>
 	<section id="sm-banner" class="section-p1">
 		<div class="banner-box">			

@@ -41,7 +41,10 @@
         %>
 </head>
 <body>
-	 <div class="product-page">
+       <div class="errormsg">
+            <p id="error" class="error"></p>
+	</div>
+    <div class="product-page">    
         <!-- Product image and gallery section -->
         <div class="pro">
             <div class="product-gallery">
@@ -86,10 +89,6 @@
             <h2><%= product.getDettagli().replaceAll("\n", "<br>") %></h2>
             <div class="star"></div>
         </div>
-
-        <div class="errormsg">
-            <p id="error" class="error"></p>
-	</div>
 	<script>
              function changeImage(imageSrc, imgElement) {
                     const currentImage = document.getElementById('currentImage');

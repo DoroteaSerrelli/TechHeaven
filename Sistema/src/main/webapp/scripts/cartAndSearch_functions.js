@@ -159,6 +159,13 @@
     });
 });
 
+// Add to cart and redirect logic
+function addToCartAndRedirect(productId, action, cartUrl) {
+    modifyCart(productId, action, function () {
+        // This callback will be executed after the AJAX request is successful
+        window.location.href = cartUrl; // Redirect to the cart page
+    });
+}
 function toggleDrawer() {
     var sidebar = document.getElementById("complete_order");
     sidebar.classList.toggle("active");

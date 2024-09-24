@@ -2,6 +2,7 @@ package application.RegistrazioneService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import application.GestioneOrdiniService.ProxyOrdine;
 import storage.GestioneOrdiniDAO.OrdineDAODataSource;
@@ -66,7 +67,7 @@ public class Cliente implements Cloneable{
 	 * di tipo ProxyOrdine per memorizzare le informazioni essenziali degli
 	 * ordini effettuati dall'utente presso il negozio online.
 	 * */
-	private ArrayList<ProxyOrdine> proxyOrdini;
+	private Collection<ProxyOrdine> proxyOrdini;
 	
 	/**
 	 * Il metodo verifica se le informazioni personali fornite 
@@ -335,11 +336,11 @@ public class Cliente implements Cloneable{
 	 * @return proxyOrdini : una collezione di oggetti di tipo ProxyOrdine che contiene gli
 	 * 				ordini fatti dall'utente presso il negozio online.
 	 * */
-	public ArrayList<ProxyOrdine> mostraOrdiniCliente(int page, int perPage) {
+	public Collection<ProxyOrdine> mostraOrdiniCliente(int page, int perPage) {
 		if(proxyOrdini == null) {
 			OrdineDAODataSource orderDao = new OrdineDAODataSource();
 			try {
-				ArrayList<ProxyOrdine> proxyOrders = (ArrayList<ProxyOrdine>) orderDao.doRetrieveOrderToUser(email, "DATAORDINE", page, perPage);
+				Collection<ProxyOrdine> proxyOrders = orderDao.doRetrieveOrderToUser(email, "DATAORDINE", page, perPage);
 				proxyOrdini = proxyOrders;
 			} catch (SQLException e) {
 				System.out.println("Errore nel recupero degli ordini del cliente\n");

@@ -16,14 +16,13 @@
 </head>
 <body>
 
-	<jsp:include page="common/header.jsp"
-		flush="true" />
+	<jsp:include page="common/header.jsp" flush="true" />
 	<div class="section-p1">
 		<div class="login-container">
 			<form name="client" method="post" action="AutenticazioneController">
-			<h1>Login</h1>
-			<p>Accedi per usufruire dei vantaggi offerti dal sito</p>
-			<hr>
+				<h1>Login</h1>
+				<p>Accedi per usufruire dei vantaggi offerti dal sito</p>
+				<hr>
 				<input type="hidden" name="action" value="login">
 				<div class="row">
 					<div class="input-wrapper">
@@ -42,12 +41,6 @@
 						<input value="Conferma" type="submit" class="confirm_button"
 							name="submit" onclick="return validate()">
 					</div>
-					<div class="input-wrapper">
-						<a href="resetPassword">
-						<button class="confirm_button">
-							Reimposta password</button>
-							</a>
-					</div>
 				</div>
 				<div class="errormsg">
 					<% 
@@ -59,9 +52,9 @@
                     } %>
 				</div>
 			</form>
+			<p>Non ricordi la tua password? <a href = "resetPassword" >Clicca qui per reimpostarla </a></p>
 		</div>
 	</div>
-	<jsp:include page="common/footer.jsp"
-		flush="false" />
+	<jsp:include page="common/footer.jsp" flush="false" />
 </body>
 </html>

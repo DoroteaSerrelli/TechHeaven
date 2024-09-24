@@ -96,7 +96,7 @@
         } else {
             element.classList.remove("invalid");
             element.classList.add("valid");
-            errorElement.textContent = ""; // Clear error message when input is valid
+            errorElement.textContent = " "; // Clear error message when input is valid
             errorElement.classList.remove("invalid-message");
             errorElement.classList.add("valid-message");
         }

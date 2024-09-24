@@ -90,6 +90,8 @@ public class RegistrazioneController extends HttpServlet {
                response.sendRedirect(request.getContextPath() + "/AreaRiservata");
            } catch (SQLException ex) {
                Logger.getLogger(RegistrazioneController.class.getName()).log(Level.SEVERE, null, ex);
+               request.getSession().setAttribute("error", ex.getMessage());
+               response.sendRedirect(request.getContextPath()+"/Registrazione");
            }
        }
     }

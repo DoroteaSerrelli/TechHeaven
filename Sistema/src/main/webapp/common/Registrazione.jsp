@@ -117,7 +117,9 @@
                     if (err != null && !err.isEmpty()) {
                  %>
 				<%=err%>
-				<% } %>
+				<% 
+                        request.getSession().removeAttribute("error");
+                        } %>
 			</div>
 		</form>
 	</div>

@@ -71,6 +71,33 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     background: #f9f9f9;
 }
 
+.errormsgAddress{
+    justify-content: left;
+    text-align: center; 
+    width: 150px;
+    height: 30px; /* Adjust based on the height needed for your error messages */
+    color: red;
+    font-size: 15px;
+}
+
+.invalid-message {
+    color: red;
+    width: 180px;
+}
+
+.valid-message {
+    color: green;
+}
+
+input.invalid {
+    border-color: red;
+}
+
+input.valid {
+    border-color: green;
+}
+
+
 @media only screen and (max-width:799px){
     .update_bar{
         width: 100px; /* Set the width of the sidebar */    

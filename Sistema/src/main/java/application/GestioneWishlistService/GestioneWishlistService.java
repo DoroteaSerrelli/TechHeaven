@@ -1,7 +1,8 @@
 package application.GestioneWishlistService;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.Collection;
+
 import application.GestioneWishlistService.WishlistException.ProdottoNonPresenteException;
 import application.GestioneWishlistService.WishlistException.ProdottoNulloException;
 import application.GestioneWishlistService.WishlistException.ProdottoPresenteException;
@@ -59,7 +60,7 @@ public interface GestioneWishlistService {
 	 * @throws CategoriaProdottoException 
 	 * */
 	
-	public ArrayList<ProxyProdotto> visualizzaWishlist(Wishlist wishes, ProxyUtente user) throws SQLException, CategoriaProdottoException;
+	public Collection<ProxyProdotto> visualizzaWishlist(Wishlist wishes, ProxyUtente user) throws SQLException, CategoriaProdottoException;
 	
 	/**
 	 * Questo metodo si occupa di aggiungere un prodotto

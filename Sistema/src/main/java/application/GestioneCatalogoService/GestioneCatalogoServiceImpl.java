@@ -16,11 +16,7 @@ import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import storage.NavigazioneDAO.PhotoControl;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
 

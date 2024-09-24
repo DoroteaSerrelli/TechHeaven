@@ -2,6 +2,7 @@ package application.GestioneWishlistService;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import application.GestioneWishlistService.WishlistException.ProdottoNonPresenteException;
 import application.GestioneWishlistService.WishlistException.ProdottoPresenteException;
@@ -44,7 +45,7 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 		WishlistDAODataSource dao = new WishlistDAODataSource();
 		Wishlist ws = new Wishlist(user, id);
 		if(dao.doRetrieveWishlistByKey(user, id) != null) {
-			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAllWishes("", ws));
+			Collection<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAllWishes("", ws));
 			ws.setProdotti(products);
 			return ws;	
 		}
@@ -66,7 +67,7 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 	 * */
 	
 	@Override
-	public ArrayList<ProxyProdotto> visualizzaWishlist(Wishlist wishes, ProxyUtente user) throws SQLException, CategoriaProdottoException {
+	public Collection<ProxyProdotto> visualizzaWishlist(Wishlist wishes, ProxyUtente user) throws SQLException, CategoriaProdottoException {
 		WishlistDAODataSource dao = new WishlistDAODataSource();
 		Wishlist ws;
 		if((ws = dao.doRetrieveWishlistByKey(user, wishes.getId())) != null) {

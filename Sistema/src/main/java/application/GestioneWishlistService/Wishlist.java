@@ -1,6 +1,7 @@
 package application.GestioneWishlistService;
 
 import java.util.ArrayList;
+import java.util.Collection;
 
 import application.GestioneWishlistService.WishlistException.WishlistVuotaException;
 import application.NavigazioneService.ProxyProdotto;
@@ -45,7 +46,7 @@ public class Wishlist {
 	 * secondo momento.
 	 * */
 	
-	private ArrayList<ProxyProdotto> prodotti;
+	private Collection<ProxyProdotto> prodotti;
 	
 	/**
 	 * Costruttore di classe di default per una wishlist vuota.
@@ -126,7 +127,7 @@ public class Wishlist {
 	 * @param products : i prodotti che l'utente desidera o vorrebbe acquistare in un secondo momento
 	 * */
 	
-	public void setProdotti(ArrayList<ProxyProdotto> products) {
+	public void setProdotti(Collection<ProxyProdotto> products) {
 		this.prodotti = products;
 	}
 	
@@ -154,7 +155,7 @@ public class Wishlist {
 	 * 
 	 * @return products : i prodotti della wishlist
 	 * */
-	public ArrayList<ProxyProdotto> getProdotti() {
+	public Collection<ProxyProdotto> getProdotti() {
 		return prodotti;
 	}
 }

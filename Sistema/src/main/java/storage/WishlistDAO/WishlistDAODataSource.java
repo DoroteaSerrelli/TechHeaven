@@ -205,7 +205,7 @@ public class WishlistDAODataSource{
 					connection.close();
 			}
 		}
-		ArrayList<ProxyProdotto> temp = new ArrayList<> (doRetrieveAllWishes("", dto));
+		Collection<ProxyProdotto> temp = new ArrayList<> (doRetrieveAllWishes("", dto));
 		dto.setProdotti(temp);
 
 		return dto;
@@ -397,7 +397,7 @@ public class WishlistDAODataSource{
 				Wishlist dto = new Wishlist(user);
 
 				dto.setId(rs.getInt("IDWISHLIST"));
-				dto.setProdotti((ArrayList<ProxyProdotto>) doRetrieveAllWishes(order, dto));
+				dto.setProdotti(doRetrieveAllWishes(order, dto));
 
 				wishlistes.add(dto);
 			}

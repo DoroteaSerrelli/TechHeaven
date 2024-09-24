@@ -98,6 +98,7 @@ public class GestioneWishlistController extends HttpServlet {
                             
                             w = gws.rimuoviProdottoDaWishlist(w, user, prodotto);
                             if(w.getProdotti().isEmpty()){
+                                request.getSession().removeAttribute("Wishlist");
                                 createNewWishlistIfNotExists(request, user);
                             }
                             else request.getSession().setAttribute("Wishlist", w);

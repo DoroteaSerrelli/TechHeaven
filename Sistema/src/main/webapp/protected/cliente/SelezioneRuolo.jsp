@@ -29,10 +29,13 @@
 	<div class="section-p1">
 		<div class="login-container">
 			<form name="client" method="post" action="AutenticazioneController">
+			<h1>Login - Ruolo</h1>
+			<p>Bentornato! Seleziona la modalità con cui vuoi accedere al sistema</p>
+			<hr>
 				<input type="hidden" name="action" value="roleSelection">
 				<div class="row">
 					<div class="input-wrapper">
-						<p>Role:</p>
+						<p>Ruolo:</p>
 						<select name="ruolo" required>
 							<% for(Ruolo r : u.getRuoli()){
                         	%>

@@ -18,7 +18,7 @@
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/style/style.css">
 <link rel="stylesheet"
-	href="<%=request.getContextPath()%>/style/product_table.css">
+	href="<%=request.getContextPath()%>/style/product_details.css">
 <jsp:include page="/common/header.jsp" flush="true" />
 <%
            Prodotto product = (Prodotto)request.getAttribute("product");
@@ -41,68 +41,72 @@
         %>
 </head>
 <body>
-	<div class="product-page">
-		<div class="pro">
-			<div class="product-image">
-				<img src="image?productId=<%= product.getCodiceProdotto() %>"
-					alt="Prodotto"
-					onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';" />
-				<div class="product-gallery">
-					<% if(galleryImages!=null && !galleryImages.isEmpty()){%>
-					<div class="main-image">
-						<!-- Display the first image as the main image -->
-						<img id="currentImage" src="<%= galleryImages.get(0) %>"
-							alt="<%= product.getNomeProdotto()%>" />
-					</div>
-					<div class="thumbnails">
-						<!-- Loop through the galleryImages list to create thumbnails -->
-						<%
-                            for (int i = 0; i < galleryImages.size(); i++) {
-                                String img = galleryImages.get(i);
+	 <div class="product-page">
+        <!-- Product image and gallery section -->
+        <div class="pro">
+            <div class="product-gallery">
+                <% if(galleryImages != null && !galleryImages.isEmpty()) { %>
+                    <div class="main-image">
+                        <!-- Display the first image as the main image -->
+                        <img id="currentImage" src="<%= galleryImages.get(0) %>" alt="<%= product.getNomeProdotto() %>" />
+                    </div>
+                    <div class="thumbnails">
+                        <!-- Loop through the galleryImages list to create thumbnails -->
+                        <%
+                        for (int i = 0; i < galleryImages.size(); i++) {
+                            String img = galleryImages.get(i);
                         %>
-						<img src="<%= img %>" alt="<%= product.getNomeProdotto()%>"
-							onclick="changeImage('<%= img %>')" />
-						<%
-                            }
-                        }    
+                            <img class="gallery-thumbnails" src="<%= img %>" alt="<%= product.getNomeProdotto() %>" 
+                                onclick="changeImage('<%= img %>', this)" />
+                        <%
+                        } 
                         %>
+                    </div>
+                <% } %>
+            </div>
+        </div>
 
-						<%  %>
-					</div>
-				</div>
-			</div>
-			<div class="product-actions">
-				<h2 class="prezzo"><%=prezzoFormattato%></h2>
-				<a class="add-to-cart" href="#"
-					onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
-					<img class="cart"
-					src="<%= request.getContextPath()%>/images/site_images/icon_carrello2.png">
-				</a> <a class="add-to-wishlist"
-					href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
-					<img
-					src="<%= request.getContextPath()%>/images/site_images/icon_wishlist.png"
-					style="margin: 1px; width: 25px; height: 25px">
-				</a>
-			</div>
-		</div>
+        <!-- Product actions (Add to Cart, Wishlist) section on the side -->
+        <div class="product-actions">
+            <h2 class="prezzo"><%= prezzoFormattato %></h2>
+            <a class="add-to-cart" href="#" onClick="modifyCart(<%= product.getCodiceProdotto() %>, 'aggiungiAlCarrello')">
+                <img class="cart" src="<%= request.getContextPath() %>/images/site_images/icon_carrello2.png" alt="Add to Cart">
+            </a>
+            <a class="add-to-wishlist" href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
+                <img src="<%= request.getContextPath() %>/images/site_images/icon_wishlist.png" style="margin: 1px;" alt="Add to Wishlist">
+            </a>
+        </div>
+    </div>
 
-	</div>
-	<div class="errormsg">
-		<p id="error" class="error"></p>
-	</div>
-	<div class="product-details">
-		<h1><%=product.getNomeProdotto()%></h1>
-		<span><strong><%=product.getMarca()%></strong></span>
-		<h3><%=product.getTopDescrizione()%></h3>
-		<h2><%=product.getDettagli()%></h2>
-		<div class="star"></div>
-	</div>
+        <!-- Product details below -->
+        <div class="product-details">
+            <h1><%= product.getNomeProdotto() %></h1>
+            <span><strong><%= product.getMarca() %></strong></span>
+            <h3><%= product.getTopDescrizione() %></h3>
+            <h2><%= product.getDettagli() %></h2>
+            <div class="star"></div>
+        </div>
 
+        <div class="errormsg">
+            <p id="error" class="error"></p>
+	</div>
 	<script>
-            function changeImage(src) {
-                document.getElementById('currentImage').src = src;
-            }
-            </script>
+             function changeImage(imageSrc, imgElement) {
+                    const currentImage = document.getElementById('currentImage');
+                    const thumbnails = document.querySelectorAll('.gallery-thumbnails');
+
+                    // Update the main image's source
+                    currentImage.src = imageSrc;
+
+                    // Remove 'selected' class from all thumbnails
+                    thumbnails.forEach(thumbnail => thumbnail.classList.remove('selected'));
+
+                    // Add 'selected' class to the clicked thumbnail
+                    if (imgElement && imgElement.classList) {
+                        imgElement.classList.add('selected');
+                    }
+                }
+        </script>
 	<jsp:include page="/common/footer.jsp" flush="true" />
 </body>
 </html>

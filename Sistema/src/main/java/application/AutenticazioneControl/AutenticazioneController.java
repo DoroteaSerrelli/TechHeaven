@@ -29,7 +29,7 @@ import storage.AutenticazioneDAO.IndirizzoDAODataSource;
  * 		<li>logout di un utente;</li>
  * 		<li>caricaricamento delle informazioni personali dell'utente (cliente) per
  *   		ridirezionarlo nell'area riservata.</li>
- * 
+ * <ul>
  * Estende la classe HttpServlet per gestire le richieste HTTP GET e POST.
  * 
  * @author raffy

@@ -38,7 +38,7 @@ public class Indirizzo implements Cloneable{
 	private String cap = "";
 	
 	/**
-	 * provincia : la provincia
+	 * provincia : la provincia formata da due lettere maiuscole
 	 * */
 	private String provincia = "";
 	
@@ -49,7 +49,7 @@ public class Indirizzo implements Cloneable{
 	 * - Numero civico: può contenere numeri, lettere e alcuni caratteri speciali
 	 * - Città: solo lettere e spazi
 	 * - CAP: esattamente 5 cifre numeriche
-	 * - Provincia: solo lettere e spazi
+	 * - Provincia: solo due lettere maiuscole
 	 *
 	 * @param via: La via dell'indirizzo.
 	 * @param numCivico: Il numero civico dell'indirizzo.

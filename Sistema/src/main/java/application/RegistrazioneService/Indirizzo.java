@@ -65,7 +65,7 @@ public class Indirizzo implements Cloneable{
 		String numCivicoPattern = "^(([0-9])|(([0-9]+|\\w)(\\w|[0-9]+)))$";
 		String cittaPattern = "^[A-Za-z\\s]+$";
 		String capPattern = "^\\d{5}$";
-		String provinciaPattern = "^[A-Za-z\\s]+$" ;
+		String provinciaPattern = "^[A-Za-z]{2}$";
 		
 		return (!via.matches(viaPattern) || !numCivico.matches(numCivicoPattern) ||
 				!citta.matches(cittaPattern) || !cap.matches(capPattern) || 

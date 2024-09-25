@@ -23,18 +23,18 @@ import storage.AutenticazioneDAO.IndirizzoDAODataSource;
  * Questa servlet gestisce l'autenticazione degli utenti e le loro informazioni.
  * 
  * Gestisce in particolare le seguenti funzionalità:
- * <ul>
- * 		<li>autenticazione per utente con singolo ruolo;</li>
- * 		<li>autenticazione per utente con più di un ruolo associato;</li>
- * 		<li>logout di un utente;</li>
- * 		<li>caricaricamento delle informazioni personali dell'utente (cliente) per
- *   		ridirezionarlo nell'area riservata.</li>
- * <ul>
+ * 
+ * - autenticazione per utente con singolo ruolo;
+ * - autenticazione per utente con più di un ruolo associato;
+ * - logout di un utente;
+ * - caricamento delle informazioni personali dell'utente (cliente) per
+ *   ridirezionarlo nell'area riservata.
+ * 
  * Estende la classe HttpServlet per gestire le richieste HTTP GET e POST.
  * 
  * @author raffy
  * @author Dorotea Serrelli
- * */
+ */
 
 @WebServlet(name = "AutenticazioneController", urlPatterns = {"/AutenticazioneController"})
 public class AutenticazioneController extends HttpServlet {

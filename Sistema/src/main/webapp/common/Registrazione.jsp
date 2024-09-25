@@ -14,6 +14,8 @@
 <script src="<%= request.getContextPath()%>/scripts/validations.js"></script>
 <link rel="stylesheet"
 	href="<%= request.getContextPath()%>/style/style.css">
+<link rel="stylesheet"
+	href="<%= request.getContextPath()%>/style/update_user_info_bar.css">
 </head>
 <body>
 
@@ -79,11 +81,17 @@
 					<p>*Via:</p>
 					<input id="road" type="text" name="road"
 						oninput="validateAddress()" required>
+                                         <div class="errormsgAddress">
+                                            <div id="error road"></div>
+                                        </div> 
 				</div>
 				<div class="input-wrapper reg_form">
 					<p>*Numero civico:</p>
 					<input id="cv" type="text" name="cv" oninput="validateAddress()"
 						required>
+                                        <div class="errormsgAddress">
+                                            <div id="error cv"></div>
+                                        </div>
 				</div>
 			</div>
 			<div class="row">
@@ -91,11 +99,17 @@
 					<p>*Città:</p>
 					<input id="city" type="text" name="city"
 						oninput="validateAddress()" required>
+                                         <div class="errormsgAddress">
+                                            <div id="error city"></div>
+                                        </div> 
 				</div>
 				<div class="input-wrapper reg_form">
 					<p>*CAP:</p>
 					<input id="cap" type="text" name="cap" oninput="validateAddress()"
 						required>
+                                         <div class="errormsgAddress">
+                                            <div id="error cap"></div>
+                                        </div> 
 				</div>
 			</div>
 			<div class="row">
@@ -103,6 +117,9 @@
 					<p>*Provincia:</p>
 					<input id="province" type="text" name="province"
 						oninput="validateAddress()" required>
+                                        <div class="errormsgAddress">
+                                            <div id="error province"></div>
+                                        </div> 
 				</div>
 			</div>
 

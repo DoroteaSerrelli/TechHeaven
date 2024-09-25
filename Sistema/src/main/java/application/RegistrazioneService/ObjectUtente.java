@@ -98,10 +98,10 @@ public abstract class ObjectUtente implements Cloneable{
 	 * */
 	public static boolean checkValidate(String username, String password) {
 
-		String usernamePattern = "\\d+(\\.\\d+)?";
+		String usernamePattern = "^[a-zA-Z]{5,}$";
 		String passwordPattern = "^(?=.*[a-zA-Z])(?=.*[0-9]).{5,}$";
 
-		if(username.length() < 5 || username.isBlank() || username.matches(usernamePattern))
+		if(!username.matches(usernamePattern))
 			return false;
 		else if(password.length() < 5 || password.isBlank() || !password.matches(passwordPattern))
 			return false;

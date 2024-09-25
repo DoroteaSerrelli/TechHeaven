@@ -1,18 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package application.AutenticazioneControl;
 
 import application.AutenticazioneService.AutenticazioneException;
 import application.AutenticazioneService.AutenticazioneServiceImpl;
-import application.RegistrazioneService.Indirizzo;
 import application.RegistrazioneService.ProxyUtente;
-import application.RegistrazioneService.Ruolo;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -20,99 +12,115 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import storage.AutenticazioneDAO.IndirizzoDAODataSource;
+import storage.AutenticazioneDAO.UtenteDAODataSource;
 
 /**
- *
+ * Questa servlet gestisce la funzionalità di reimpostazione della password dell'utente.
+ * Estendi la classe HttpServlet per gestire le richieste HTTP GET e POST.
+ * 
  * @author raffy
+ * @author Dorotea Serrelli
  */
+
 @WebServlet(name = "ReimpostaPasswordController", urlPatterns = {"/ReimpostaPasswordController"})
 public class ReimpostaPasswordController extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ReimpostaPasswordController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ReimpostaPasswordController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+	/**
+	 * serialVersionUID : È un campo statico finale a lungo raggio utilizzato 
+	 * per la serializzazione dell'oggetto.
+	 */
+	private static final long serialVersionUID = 1L;
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+	/**
+	 * Questo metodo gestisce le richieste HTTP GET. 
+	 * Invia qualsiasi richiesta GET a doPost(request, response).
+	 * 
+	 * @param request : richiesta HTTP
+	 * @param response : risposta HTTP
+	 */
+	
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doPost(request, response);
+	}
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    private AutenticazioneServiceImpl loginService = new AutenticazioneServiceImpl();
- 
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-         try {
-            String username = request.getParameter("username");
-            String email = request.getParameter("email");
-            String password = request.getParameter("password");
-            
-            loginService.resetPassword(username, email, password);
-            response.sendRedirect(request.getContextPath() + "/Autenticazione");
-            
-        } catch (SQLException | AutenticazioneException.UtenteInesistenteException ex) {
-            Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
-            
-            request.getSession().setAttribute("error", ex.getMessage());
-            response.sendRedirect(request.getContextPath() + "/resetPassword");
-        } catch (AutenticazioneException.FormatoPasswordException ex) {
-            Logger.getLogger(ReimpostaPasswordController.class.getName()).log(Level.SEVERE, null, ex);
-            
-            request.getSession().setAttribute("error", ex.getMessage());
-            response.sendRedirect(request.getContextPath() + "/resetPassword");
-        }
-        
-    }
+	/**
+	 * Questo metodo gestisce le richieste HTTP POST. 
+	 * Vengono eseguite le seguenti operazioni:
+	 * <ol>
+	 * 		<li>Verifica se le credenziali username e email fornite dall'utente sono corrette </li>
+	 * 		<li> Reindirizza in caso affermativo alla pagina di creazione password.
+	 * 			<br>In caso contrario, genera messaggi di errore. </li>
+	 * 		<li> Una volta creata la nuova password, si verifica il suo formato.<br>
+	 * 			 Se è corretto, viene memorizzata nel database. In caso contrario, si genera un messaggio di errore.</li>
+	 * </ol>
+	 * 
+	 * @param request : richiesta HTTP
+	 * @param response : risposta HTTP
+	 */
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		try {
 
+			String action = request.getParameter("action");
+			String username;
+			String email;
+
+			switch(action) {
+			case "resetPasswordRequest":
+				username = request.getParameter("username");
+				email = request.getParameter("email");
+
+				UtenteDAODataSource userDao = new UtenteDAODataSource();
+				ProxyUtente userUsername = userDao.doRetrieveProxyUserByKey(username);
+
+				if(!userUsername.getUsername().isEmpty()) {
+					String emailRetrieved = userUsername.mostraUtente().getProfile().getEmail();
+
+					if(emailRetrieved.equals(email)) {
+						request.getSession().setAttribute("username", username);
+						request.getSession().setAttribute("email", email);
+						response.sendRedirect(request.getContextPath() + "/protected/cliente/creaPassword.jsp");
+					}else {
+						request.getSession().setAttribute("error","Username o Email non valide");                               
+						response.sendRedirect(request.getContextPath() + "/resetPassword");
+						return;
+					}
+				}else {
+					request.getSession().setAttribute("error","Username o Email non valide");                               
+					response.sendRedirect(request.getContextPath() + "/resetPassword");
+					return;
+				}
+				break;
+
+			case "resetPassword":
+				username = (String) request.getSession().getAttribute("username");
+				email = (String) request.getSession().getAttribute("email");
+				String password = request.getParameter("password");
+
+				AutenticazioneServiceImpl loginService = new AutenticazioneServiceImpl();
+				loginService.resetPassword(username, email, password);
+				response.sendRedirect(request.getContextPath() + "/Autenticazione");
+
+				request.getSession().removeAttribute("username");
+				request.getSession().removeAttribute("email");
+
+				break;
+			}
+
+		} catch (SQLException | AutenticazioneException.UtenteInesistenteException ex) {
+			Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
+
+			request.getSession().setAttribute("error", ex.getMessage());
+			response.sendRedirect(request.getContextPath() + "/protected/cliente/creaPassword.jsp");
+		} catch (AutenticazioneException.FormatoPasswordException ex) {
+			Logger.getLogger(ReimpostaPasswordController.class.getName()).log(Level.SEVERE, null, ex);
+
+			request.getSession().setAttribute("error", ex.getMessage());
+			response.sendRedirect(request.getContextPath() + "/protected/cliente/creaPassword.jsp");
+		}
+	}
 }

@@ -92,7 +92,7 @@ public class Cliente implements Cloneable{
 	public static boolean checkValidate(String email, String nome, String cognome, Sesso sex, String telefono,
 			Indirizzo indirizzo) {
 		
-		String emailPattern = "^[\\w]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
+		String emailPattern = "^\\S+@\\S+\\.\\S+$";
 		String nomeCognomePattern = "^[A-Za-z\s]+$";
 		String telefonoPattern = "^[0-9]{3}-[0-9]{3}-[0-9]{4}$";
 		
@@ -120,7 +120,7 @@ public class Cliente implements Cloneable{
 	 * @return true se l'email è scritta nel formato corretto; false altrimenti.
 	 * */
 	public static boolean checkValidateEmail(String email) {
-		String emailPattern = "^[\\w]+@[\\w.-]+\\.[a-zA-Z]{2,}$";
+		String emailPattern = "^\\S+@\\S+\\.\\S+$";
 		return email.matches(emailPattern);
 	}
 	

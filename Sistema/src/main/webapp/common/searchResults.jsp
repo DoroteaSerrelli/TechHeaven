@@ -117,7 +117,7 @@
                                         String prezzoFormattato = currencyFormatter.format(prezzo);
                                     %>
                                 <h4 class="prezzo"><%=prezzoFormattato%></h4>
-                            <a class="dettagli" href="javascript:void(0);" 
+                            <a class="dettagli" id="<%= product.getCodiceProdotto()%>" href="javascript:void(0);" 
                                   onclick="submitProductDetails('<%= encodedProductJson %>');">
                                 <p>  Dettagli </p>
                             </a> 

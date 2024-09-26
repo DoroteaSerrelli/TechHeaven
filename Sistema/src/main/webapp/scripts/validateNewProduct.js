@@ -68,18 +68,17 @@ function validateBrand(input){
     }   
 }
 
-function validateDettailsAndDescription(input, object) {
-    const productNameRegex = /^[\w0-9\s-]+$/;
-    if (!productNameRegex.test(input.value)) {
-        addInvalidMessage("La Descrizione e o Dettagli devono essere una combinazione di lettere e numeri", "prod"+object+"Error");	     			
+function validateDettailsAndDescription (input, object) {
+//    const regex = /^(?!.*<[^>]+)[a-zA-Z0-9\s!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{10,300}$/; 
+    // Check if the input matches the regex pattern after trimming whitespace
+    if (input.value.trim()==="") { // Corrected closing parenthesis
+        addInvalidMessage("La Descrizione e o Dettagli devono essere una combinazione di lettere e numeri", "prod" + object + "Error");
         return false;
-    }
-    else{
-        removeInvalidMessage("prod"+object+"Error");
+    } else {
+        removeInvalidMessage("prod" + object + "Error");
         return true;					
     }
 }
-
 // Global form validation before submission
 function validateForm() {
     var valid = true;

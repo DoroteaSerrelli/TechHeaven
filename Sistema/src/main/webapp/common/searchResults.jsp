@@ -96,11 +96,10 @@
                             String productJson = new Gson().toJson(product);
                             String encodedProductJson = URLEncoder.encode(productJson, "UTF-8");
                         %>
-                      <!-- pageContext.request.contextPath <a href="/ProductInfos?product=<// encodedProductJson %>"> </a>-->
+                      <!-- pageContext.request.contextPath <a href="/ProductInfos?product=<// encodedProductJson %>"> </a>-->                                  
                             <img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" 
-                                onclick="submitProductDetails('<%= URLEncoder.encode(productJson, "UTF-8") %>');" 
                                 onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';" />
-                        
+                      
                             <div class="des">
                                 <h3><%=product.getNomeProdotto()%></h3>
                                 <span><%=product.getMarca()%></span>
@@ -122,6 +121,10 @@
                             <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
                                 <img class="cart" src="<%= request.getContextPath()%>/images/site_images/icon_carrello2.png" alt = "carrello">
                             </a>
+                            <a href="javascript:void(0);" 
+                                  onclick="submitProductDetails('<%= encodedProductJson %>');">
+                                <p>  Dettagli </p>
+                            </a>                  
                             <a href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
                                 <img  src="<%= request.getContextPath()%>/images/site_images/icon_wishlist.png" style="margin: 1px; width: 25px; height: 25px" alt = "wishlist">
                             </a>    

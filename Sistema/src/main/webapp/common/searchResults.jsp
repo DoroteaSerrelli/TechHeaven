@@ -117,16 +117,16 @@
                                         String prezzoFormattato = currencyFormatter.format(prezzo);
                                     %>
                                 <h4 class="prezzo"><%=prezzoFormattato%></h4>
+                            <a class="dettagli" href="javascript:void(0);" 
+                                  onclick="submitProductDetails('<%= encodedProductJson %>');">
+                                <p>  Dettagli </p>
+                            </a> 
                             </div>
                             <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
                                 <img class="cart" src="<%= request.getContextPath()%>/images/site_images/icon_carrello2.png" alt = "carrello">
-                            </a>
-                            <a href="javascript:void(0);" 
-                                  onclick="submitProductDetails('<%= encodedProductJson %>');">
-                                <p>  Dettagli </p>
-                            </a>                  
+                            </a>                                            
                             <a href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
-                                <img  src="<%= request.getContextPath()%>/images/site_images/icon_wishlist.png" style="margin: 1px; width: 25px; height: 25px" alt = "wishlist">
+                                <img class="wishlist" src="<%= request.getContextPath()%>/images/site_images/icon_wishlist.png" alt = "wishlist">
                             </a>    
                     </div>                    
              <%}%>

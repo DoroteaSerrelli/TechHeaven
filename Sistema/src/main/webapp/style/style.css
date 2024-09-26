@@ -479,8 +479,8 @@ Sto modificando le caratteristiche DELLA SOTTOLINEATURA che apparirà sotto i li
 }
 
 #product1 .pro .cart {
-	width: 25px;
-	height: 25px;
+	width: 40px;
+	height: 40px;
 	line-height: 40px;
 	border-radius: 50px;
 	background-color: #e8f6ea;
@@ -489,6 +489,18 @@ Sto modificando le caratteristiche DELLA SOTTOLINEATURA che apparirà sotto i li
 	position: absolute;
 	bottom: 20px;
 	right: 10px;
+}
+
+#product1 .pro .wishlist{
+    position: absolute;
+    bottom: 20px;
+    right: 80px; 
+    width: 40px; 
+    height: 40px;
+}
+#product1 .pro .dettagli{
+    position: relative;
+    align-content: center;
 }
 
 #product1 .pro .des h4 {

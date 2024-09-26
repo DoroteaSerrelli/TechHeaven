@@ -1,6 +1,9 @@
 package application.RegistrazioneService;
 
+import java.sql.SQLException;
+
 import application.RegistrazioneService.Cliente.Sesso;
+import application.RegistrazioneService.RegistrazioneException.UtentePresenteException;
 
 /**
  * Interfaccia che si occupa di offrire servizi relativi alla
@@ -32,9 +35,13 @@ public interface RegistrazioneService {
 	 * 
 	 * @return un oggetto ProxyUtente che contiene le seguenti informazioni del nuovo cliente: username, password e 
 	 * 			ruoli (in questo caso possiede solo il ruolo Cliente).
+	 * @throws SQLException 
+	 * @throws UtentePresenteException : gestisce il caso in cui un visitatore si registra con un username
+	 * 									 associata ad un utente presente già nel database.
 	 * */
+	
 	ProxyUtente registraCliente(String username, String password, String email, String nome, String cognome, 
-			Sesso sex, String telefono, Indirizzo indirizzo);
+			Sesso sex, String telefono, Indirizzo indirizzo) throws UtentePresenteException, SQLException;
 	
 	/**
 	 * Il metodo permette di registrare un nuovo utente come gestore degli ordini al sistema.

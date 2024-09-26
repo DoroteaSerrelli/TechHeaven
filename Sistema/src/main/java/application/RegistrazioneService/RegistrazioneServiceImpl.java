@@ -3,6 +3,7 @@ package application.RegistrazioneService;
 import java.sql.SQLException;
 
 import application.RegistrazioneService.Cliente.Sesso;
+import application.RegistrazioneService.RegistrazioneException.UtentePresenteException;
 import storage.AutenticazioneDAO.ClienteDAODataSource;
 import storage.AutenticazioneDAO.UtenteDAODataSource;
 import storage.AutenticazioneDAO.RuoloDAODataSource;
@@ -41,16 +42,29 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 	 * 
 	 * @return un oggetto ProxyUtente che contiene le seguenti informazioni del nuovo cliente: username, password e 
 	 * 			ruoli (in questo caso possiede solo il ruolo Cliente).
+	 * @throws SQLException 
+	 * @throws UtentePresenteException : gestisce il caso in cui un visitatore si registra con un username
+	 * 									 associata ad un utente presente già nel database.
 	 * */
 
 	public ProxyUtente registraCliente(String username, String password, String email, String nome, String cognome, Sesso sex, String telefono,
-			Indirizzo indirizzo) {
+			Indirizzo indirizzo) throws UtentePresenteException, SQLException {
 		if(ObjectUtente.checkValidate(username, password)) {
 			if(Cliente.checkValidate(email, nome, cognome, sex, telefono, indirizzo)) {
+				
 				Cliente profile = new Cliente(email, nome, cognome, sex, telefono, indirizzo);
 				Utente user = new Utente(username, password, profile);
-				ClienteDAODataSource profileDAO = new ClienteDAODataSource();
 				UtenteDAODataSource userDAO = new UtenteDAODataSource();
+				/* *
+				 * Si verifica l'esistenza di un utente nel database con il nome utente username.
+				 * In caso affermativo, non sarà possibile procedere con la registrazione.
+				 * */
+				ProxyUtente userP = userDAO.doRetrieveProxyUserByKey(username);
+
+				if(userP != null && userP.getUsername().equals(username))
+					throw new UtentePresenteException("Non e\' possibile associare al tuo account l'username inserita.\nRiprova la registrazione inserendo un'altra username.");
+				
+				ClienteDAODataSource profileDAO = new ClienteDAODataSource();
 				RuoloDAODataSource roleDAO = new RuoloDAODataSource();
 				IndirizzoDAODataSource addressDAO = new IndirizzoDAODataSource();
 				try {
@@ -77,8 +91,10 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 
 				return new ProxyUtente(user.getUsername(), user.getPassword(), user.getRuoli());
 			}
+			System.out.println("Mi trovo al primo null");
 			return null;
 		}
+		System.out.println("Mi trovo al secondo null");
 		return null;
 	}
 

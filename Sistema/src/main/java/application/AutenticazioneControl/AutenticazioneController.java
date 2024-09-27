@@ -117,7 +117,7 @@ public class AutenticazioneController extends HttpServlet {
 					return;
 				}else {
 					// Autenticazione fallita
-					request.getSession().setAttribute("error","Username o Password Errati");                               
+					request.getSession().setAttribute("error","Username o password non corretti");                               
 					response.sendRedirect(request.getContextPath() + "/Autenticazione");
 					return;
 				}

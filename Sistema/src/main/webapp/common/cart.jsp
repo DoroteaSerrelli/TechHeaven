@@ -50,7 +50,7 @@
         <h1>Carrello:</h1>
         <div id="complete_order">
             <h1>Totale provvisorio:</h1>
-            <h3><%= String.format("%.2f", carrello.totalAmount()) %>€</h3>
+            <h3 id="total_amount"><%= String.format("%.2f", carrello.totalAmount()) %>€</h3>
             <a href="/CheckoutCarrello">Click here to proceed with the order</a>
         </div>
 
@@ -64,7 +64,7 @@
                 <img src="image?productId=<%= p.getCodiceProdotto() %>" alt="alt"
                     onerror="this.onerror=null;this.src='<%= request.getContextPath() %>/images/site_images/placeholder.png';" />			
                 <%
-                    double prezzo = p.getPrezzo();
+                    double prezzo = p.getPrezzo()*p.getQuantita();
                     NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
                     currencyFormatter.setCurrency(Currency.getInstance("EUR"));
                     String prezzoFormattato = currencyFormatter.format(prezzo);
@@ -72,7 +72,7 @@
                     <h4 style="color: goldenrod" class="prezzo"><%=prezzoFormattato%></h4>
             </div>
             <div class="row item-carrello">
-                <p>Quantità: <%= p.getQuantita() %></p>
+                <p>Quantità: <span class="quantita"><%= p.getQuantita() %></span></p>
                 <%
                     if (p.getQuantita() >= 1) { 
                         HashMap products_available_inStock = (HashMap) request.getSession().getAttribute("products_available_inStock");

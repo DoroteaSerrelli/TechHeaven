@@ -27,66 +27,61 @@
      $(document).ready(function() {
          toggleCartVisibility();
      });
-   // Add item to cart via AJAX
-   function modifyCart(productId, action, callback) {
-        // Make an AJAX request to the servlet
-        var outputMessage= "";
-        var quantity;
-        var quantityInput = document.getElementById("prod_quantità_"+ productId); // Append productId here);
-        if(quantityInput===null) quantity=1;
-        else quantity = quantityInput.value;
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "GestioneCarrelloController?action="+action +"&prod_quantità="+ encodeURIComponent(quantity), true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    // Request completed successfully
-                    // You can handle the response here if needed
-                    // Request completed successfully
-                    // Reload cart section
-                   //reloadCartSection();
-                    // Display notification               
-                   
-                    // Parse the JSON response
-                    var response = JSON.parse(xhr.responseText);
+ function modifyCart(productId, action, callback) {
+    var quantityInput = document.getElementById("prod_quantità_" + productId);
+    var quantity = quantityInput ? quantityInput.value : 1;
 
-                    // Handle the response here
-                    var outputMessage = response.message; // Retrieve the message from the response
-                    var status = response.status; // Retrieve the status from the response
-                    
-                    // Check if the item was successfully removed
-                    if (status === "valid" && action === "rimuoviDalCarrello") {
-                        // Remove the item from the UI (remove the item's DOM element)
-                        var itemRow = document.getElementById("item_" + productId);
-                        if (itemRow) {
-                            itemRow.remove(); // Remove the item from the DOM
-                        }
-                        viewCart();
-                    }
-
-                    
-                    // Optionally reload the cart or call the provided callback
-                    if (typeof callback === 'function') {
-                        callback(); // Call the callback function after successful request
-                    }
-                    
-                    // Display notification
-                    displayNotification(outputMessage, status);
-                  
-                } 
-                } else {
-                    // Handle error response from server
-                    outputMessage ="Item already in cart. Cannot add duplicate items.";              
+    var xhr = new XMLHttpRequest();
+    xhr.open("POST", "GestioneCarrelloController?action=" + action + "&prod_quantità=" + encodeURIComponent(quantity), true);
+    xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+    //console.log(xhr);
+    xhr.onreadystatechange = function () {
+      ///// SOLO PER TESTING MA RICORDA CHE C'E' XMLHttpRequest.DONE ED E' EQUIVALENTE A 4.
+      ///// POICHE' FUNZIONA IN QUESTO MODO:
+      /*0 (UNSENT): The XMLHttpRequest has been created but has not yet been sent.
+        1 (OPENED): The open() method has been called. The request is ready to be sent.
+        2 (HEADERS_RECEIVED): The send() method has been called, and the headers of the response have been received.
+        3 (LOADING): The response is being downloaded. If the response is large, this state may be reached before the request is completed.
+        4 (DONE): The request has completed (either successfully or unsuccessfully).*/
+        if (xhr.readyState === 4) {
+            if (xhr.status === 200) {
+                // Parse JSON response from the server
+                var response = JSON.parse(xhr.responseText);
+            //     console.log('Response received: ', xhr.responseText);
+                if (response.status === "valid") {   
+              //       console.log('Response valid, calling update functions');
+                    // Update the item price, quantity, and total amount in the DOM
+                    updateCartItem(productId, response.updatedPrice, response.updatedQuantity);
+                    updateCartTotal(response.totalAmount);
                 }
-                // After the cart section is reloaded, re-bind range input events
-                //rebindRangeInputs();
-          //  displayNotification(outputMessage);
-        };
-        // Send the request with product ID as a parameter
-        xhr.send("productId=" + encodeURIComponent(productId) );
+
+                // If item is removed, remove it from the DOM
+                if (action === "rimuoviDalCarrello") {
+                    removeCartItem(productId);
+                }
+
+                if (callback) callback();
+
+                // Display notification if needed
+                displayNotification(response.message, response.status);
+            } else {
+                displayNotification("Error updating the cart", "error");
+            }
+        }
+    };
+    xhr.onerror = function () {
+        console.error('Request failed');
+        displayNotification("Request failed", "error");
+    };
+    xhr.send("productId=" + encodeURIComponent(productId));
+}
+
+    function removeCartItem(productId) {
+        var itemElement = document.getElementById("item_" + productId);
+        if (itemElement) {
+            itemElement.remove(); // This will remove the item from the DOM
+        }
     }
-    
     // Function to refresh the cart by calling the viewCart action
     function viewCart() {
         var xhr = new XMLHttpRequest();
@@ -96,7 +91,7 @@
         xhr.onreadystatechange = function () {
             if (xhr.readyState === XMLHttpRequest.DONE) {
                 if (xhr.status === 200) {
-                    reloadCartSection();
+                    //reloadCartSection();
                     // Replace the cart section with the new HTML response
                    // document.getElementById("carrello-item").innerHTML = xhr.responseText;
 
@@ -113,6 +108,35 @@
         xhr.send();
     }
     
+function updateCartItem(productId, updatedPrice, updatedQuantity) {
+    var priceElement = document.querySelector("#item_" + productId + " .prezzo"); // Updated selector    
+    var quantityElement = document.querySelector("#item_" + productId + " .quantita"); // Updated selector   
+    var quantityElementRange = document.getElementById("range_value_" + productId);
+    // Replace the comma with a dot to ensure proper numerical conversion
+    updatedPrice = updatedPrice.replace(',', '.');
+
+    // Convert to a number
+    updatedPrice = Number(updatedPrice);
+    
+    if (priceElement) {
+        // Update the price with the currency symbol
+        priceElement.textContent = updatedPrice.toFixed(2).replace('.', ',') + "€"; // Ensure two decimal places and use comma
+    }
+    if (quantityElementRange && quantityElement) {
+        // Update the displayed quantity
+        quantityElementRange.textContent = updatedQuantity;
+        // Update the displayed quantity
+        quantityElement.textContent = updatedQuantity;
+    }
+}
+
+    function updateCartTotal(totalAmount) {
+        var totalElement = document.getElementById("total_amount");
+        if (totalElement) {
+            totalElement.textContent = totalAmount + "€";
+        }
+    }
+
     // Function to reload cart section using AJAX
     function reloadCartSection() {
         $("#showpr").load(" #showpr > *"); // Reload only the cart section with updated content

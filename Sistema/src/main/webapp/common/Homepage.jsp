@@ -131,7 +131,7 @@ Collection<ProxyProdotto> gr_elettr = (Collection<ProxyProdotto>) application.ge
 					<h4 class="prezzo"><%=prezzoFormattato%></h4>
 				</div>
 				<a href="#"
-					onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
+					onClick="addToCartAndRedirect(<%= product.getCodiceProdotto() %>, 'aggiungiAlCarrello', '<%= request.getContextPath() %>/cart');">
 					<img class="cart"
 					src="<%=request.getContextPath()%>/images/site_images/icon_carrello2.png">
 				</a>

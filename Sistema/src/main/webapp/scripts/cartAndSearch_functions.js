@@ -54,13 +54,16 @@
                     updateCartItem(productId, response.updatedPrice, response.updatedQuantity);
                     updateCartTotal(response.totalAmount);
                 }
-
+                
                 // If item is removed, remove it from the DOM
                 if (action === "rimuoviDalCarrello") {
                     removeCartItem(productId);
-                }
-                // Display notification if needed
+                }              
+                if (callback) callback();
+                  // Display notification if needed
                 displayNotification(response.message, response.status);
+                // Display notification if needed
+               // displayNotification(response.message, response.status);
             } else {
                 displayNotification("Error updating the cart", "error");
             }
@@ -173,6 +176,7 @@ function addToCartAndRedirect(productId, action, cartUrl) {
         // This callback will be executed after the AJAX request is successful
         window.location.href = cartUrl; // Redirect to the cart page
     });
+    
 }
 function toggleDrawer() {
     var sidebar = document.getElementById("complete_order");

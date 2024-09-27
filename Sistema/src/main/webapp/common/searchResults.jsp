@@ -80,9 +80,9 @@
         <div class="search_results">
                <!-- Pagination links -->
             <jsp:include page="/common/pagination_research.jsp"  flush="true"/>
-            <div class="errormsg">                                             
-                <p id="error" class="error"></p>                                        
-            </div> 
+        <!--    <div class="errormsg">                                             
+               <p id="error" class="error"></p>                                        
+            </div> -->
         <section id="product1">      
             <div class="pro-container"> 
                 <% 
@@ -122,9 +122,11 @@
                                 <p>  Dettagli </p>
                             </a> 
                             </div>
-                            <a href="#" onClick="modifyCart(<%=product.getCodiceProdotto()%>,'aggiungiAlCarrello')">
-                                <img class="cart" src="<%= request.getContextPath()%>/images/site_images/icon_carrello2.png" alt = "carrello">
-                            </a>                                            
+                            <a href="#"
+                                onClick="addToCartAndRedirect(<%= product.getCodiceProdotto() %>, 'aggiungiAlCarrello', '<%= request.getContextPath() %>/cart');">
+                                <img class="cart"
+                                src="<%=request.getContextPath()%>/images/site_images/icon_carrello2.png">
+                            </a>                                           
                             <a href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
                                 <img class="wishlist" src="<%= request.getContextPath()%>/images/site_images/icon_wishlist.png" alt = "wishlist">
                             </a>    

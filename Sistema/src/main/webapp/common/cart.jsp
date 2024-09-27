@@ -21,11 +21,13 @@
      <div class="errormsg">
         <%
             String err = (String) request.getSession().getAttribute("error");
+            String status = (String) request.getSession().getAttribute("status");           
             if (err != null && !err.isEmpty()) {
         %>
-        <p id="error" class="error invalid"><%= err %></p>
+        <p id="error" class="error <%=status%>"><%= err %></p>
         <%
             request.getSession().removeAttribute("error");
+            request.getSession().removeAttribute("status");
             }
         else{%>
             <p id="error" class="error"></p>
@@ -86,7 +88,7 @@
                     </div>
                 
                     <a href="#"
-                        onclick="modifyCart(<%= p.getCodiceProdotto() %>, 'updateQuantità', viewCart)">
+                        onclick="modifyCart(<%= p.getCodiceProdotto() %>, 'updateQuantità')">
                         <h3>Aggiorna Quantità</h3>
                     </a>
                     <a href="#"

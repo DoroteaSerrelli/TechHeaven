@@ -100,9 +100,14 @@ public class GestioneCarrelloController extends HttpServlet {
                         }
                         double updatedPrice = inCart.getPrezzo() * inCart.getQuantita();
                         double totalAmount = cart.totalAmount();
-                        prepareJsonOutputMessage("valid", "Item aggiunto nel carrello con successo", updatedPrice, inCart.getQuantita(), totalAmount, request, response);                    }
+                        request.getSession().setAttribute("error", "Item aggiunto nel carrello con successo");
+                        request.getSession().setAttribute("status", "valid");
+                        prepareJsonOutputMessage("valid", "Item aggiunto nel carrello con successo", updatedPrice, inCart.getQuantita(), totalAmount, request, response);                   
+                    }
                     else {  
-                        //response.setStatus(HttpServletResponse.SC_BAD_REQUEST);                       
+                        //response.setStatus(HttpServletResponse.SC_BAD_REQUEST); 
+                        request.getSession().setAttribute("error", "Item già inserito nel carrello");
+                         request.getSession().setAttribute("status", "invalid");
                         prepareJsonOutputMessage("invalid", "Item già inserito nel carrello", 0, 0, cart.totalAmount(), request, response);                        //response.sendError(1, "Item già inserito nel carrello");
                         //return;
                     }

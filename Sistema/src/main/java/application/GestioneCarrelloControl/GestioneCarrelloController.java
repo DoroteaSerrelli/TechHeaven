@@ -98,13 +98,12 @@ public class GestioneCarrelloController extends HttpServlet {
                         if(!hs.containsKey(productId)){
                             hs.put(productId, prodotto.getQuantita());
                         }
-                        prepareJsonOutputMessage("valid", "Item Aggiunto nel Carrello con Successo", request, response);
-                    }
+                        double updatedPrice = inCart.getPrezzo() * inCart.getQuantita();
+                        double totalAmount = cart.totalAmount();
+                        prepareJsonOutputMessage("valid", "Item aggiunto nel carrello con successo", updatedPrice, inCart.getQuantita(), totalAmount, request, response);                    }
                     else {  
-                        //response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-                        
-                        prepareJsonOutputMessage("invalid", "Item già Inserito nel Carrello", request, response);
-                        //response.sendError(1, "Item già inserito nel carrello");
+                        //response.setStatus(HttpServletResponse.SC_BAD_REQUEST);                       
+                        prepareJsonOutputMessage("invalid", "Item già inserito nel carrello", 0, 0, cart.totalAmount(), request, response);                        //response.sendError(1, "Item già inserito nel carrello");
                         //return;
                     }
                 /// Retrieving the product_left in stock amount to use for the range between 1 and max_amount left in stock - 80% (?)
@@ -115,8 +114,7 @@ public class GestioneCarrelloController extends HttpServlet {
                 
         } catch (SQLException | CarrelloException.ProdottoPresenteException | CarrelloException.ProdottoNulloException | ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException ex) {
             Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-            prepareJsonOutputMessage("invalid", ex.getMessage(), request, response);            
-                
+            prepareJsonOutputMessage("invalid", ex.getMessage(), 0, 0, 0, request, response);                            
             response.sendRedirect(request.getContextPath() + "/cart");
         } 
     }
@@ -141,19 +139,22 @@ public class GestioneCarrelloController extends HttpServlet {
                     int quantità_deposito =  prodotto.getQuantita();
                     if(quantità<=quantità_deposito){
                         gc.aumentaQuantitaNelCarrello(cart, inCart, quantità);                        
-                        System.out.println("quanittà input: "+quantità);
-                        System.out.println("quanittà magazzino: "+quantità_deposito);
-                        prepareJsonOutputMessage("valid", "Quantità Modificata nel Carrello con Successo", request, response);
+                 //       System.out.println("quanittà input: "+quantità);
+                 //       System.out.println("quanittà magazzino: "+quantità_deposito);
+                        // Prepare the updated price and cart total for response
+                        double updatedPrice = inCart.getPrezzo() * quantità;
+                        double totalAmount = cart.totalAmount();
+                        prepareJsonOutputMessage("valid", "Quantità modificata nel carrello con successo", updatedPrice, quantità, totalAmount, request, response);
                     }
                     else {
-                        prepareJsonOutputMessage("invalid", "La quantià inserita supera le scorte presenti in magazzino", request, response);
+                        prepareJsonOutputMessage("invalid", "La quantià inserita supera le scorte presenti in magazzino", 0, 0, cart.totalAmount(), request, response);                    
                     }
                 }
                 ///Carrello svuotoTemp = new Carrello();
                 request.getSession().setAttribute("usercart", cart);                
             } catch (CarrelloException.ProdottoNulloException | CarrelloException.ProdottoPresenteException | SQLException | CarrelloException.CarrelloVuotoException | CarrelloException.ProdottoNonPresenteException | CarrelloException.QuantitaProdottoException | ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException ex) {
                 Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-                prepareJsonOutputMessage("invalid", ex.getMessage(), request, response);            
+                prepareJsonOutputMessage("invalid", ex.getMessage(), 0, 0, 0, request, response);               
                 response.sendRedirect(request.getContextPath() + "/cart");
             }
         }
@@ -185,15 +186,16 @@ public class GestioneCarrelloController extends HttpServlet {
                     // Rimuovo la Quantità Max in deposito dalla Mappa che gestisce il Range, usando l'ID 
                     // del prodotto come chiave.
                     hs.remove(productId);
-                    prepareJsonOutputMessage("valid", "Item Rimosso con Successo dal Carrello!", request, response); 
-                }
+                    // Prepare the updated cart total for response
+                    double totalAmount = cart.totalAmount();
+                    prepareJsonOutputMessage("valid", "Item rimosso con successo dal carrello", 0, 0, totalAmount, request, response);                }
                 //Aggiorno la Mappa nella Sessione.
                 request.getSession().setAttribute("products_available_inStock", hs);
                 request.getSession().setAttribute("usercart", cart);
 
         } catch (SQLException | CarrelloException.ProdottoNulloException | CarrelloException.CarrelloVuotoException | CarrelloException.ProdottoNonPresenteException | ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException ex) {
             Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
-            prepareJsonOutputMessage("invalid", ex.getMessage(), request, response);            
+             prepareJsonOutputMessage("invalid", ex.getMessage(), 0, 0, 0, request, response);            
                 
             response.sendRedirect(request.getContextPath() + "/cart");
         }
@@ -210,27 +212,31 @@ public class GestioneCarrelloController extends HttpServlet {
             inCart.setDettagli(prodotto.getTopDescrizione());
     }
     
-    private void prepareJsonOutputMessage(String status, String msg, HttpServletRequest request, HttpServletResponse response){
+   private void prepareJsonOutputMessage(String status, String msg, double updatedPrice, int updatedQuantity, double totalAmount, HttpServletRequest request, HttpServletResponse response) {
         try {
             // Prepare the data to be returned as JSON
-            Map<String, String> jsonResponse = new HashMap<>();
+            Map<String, Object> jsonResponse = new HashMap<>();
             jsonResponse.put("message", msg);
             jsonResponse.put("status", status);
-            
+            jsonResponse.put("updatedPrice", String.format("%.2f", updatedPrice));  // Format the price to two decimal places
+            jsonResponse.put("updatedQuantity", updatedQuantity);
+            jsonResponse.put("totalAmount", String.format("%.2f", totalAmount));    // Format total amount to two decimal places
+
             // Convert the Map to JSON using Gson
             Gson gson = new Gson();
             String jsonResponseString = gson.toJson(jsonResponse);
-            
+
             // Set response content type to JSON
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
-            
+
             // Write the JSON response back to the client
             response.getWriter().write(jsonResponseString);
         } catch (IOException ex) {
             Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
+
     
     private int parseProductId(String pid) {
         if (pid != null && !pid.isEmpty()) {

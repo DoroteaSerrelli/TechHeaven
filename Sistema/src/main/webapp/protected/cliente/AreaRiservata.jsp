@@ -34,7 +34,7 @@
 </head>
 <body>
 
-	<jsp:include page="/common/header.jsp" flush="true" />
+	<jsp:include page="../../common/header.jsp" flush="true" />
 	<jsp:include page="/protected/cliente/roleSelector.jsp" flush="true" />
 
 	<form action="AutenticazioneController?action=logout" method="POST">

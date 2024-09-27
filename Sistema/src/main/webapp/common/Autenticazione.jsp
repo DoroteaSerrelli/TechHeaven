@@ -16,7 +16,7 @@
 </head>
 <body>
 
-	<jsp:include page="common/header.jsp" flush="true" />
+	<jsp:include page="/common/header.jsp" flush="true" />
 	<div class="section-p1">
 		<div class="login-container">
 			<form name="client" method="post" action="AutenticazioneController">
@@ -55,6 +55,6 @@
 			<p>Non ricordi la tua password? <a href = "resetPassword" >Clicca qui per reimpostarla </a></p>
 		</div>
 	</div>
-	<jsp:include page="common/footer.jsp" flush="false" />
+	<jsp:include page="/common/footer.jsp" flush="false" />
 </body>
 </html>

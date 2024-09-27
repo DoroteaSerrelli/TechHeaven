@@ -26,7 +26,7 @@
         <link rel="stylesheet"
                 href="<%= request.getContextPath()%>/style/cart.css">
         <title>TechHeaven - Completa l'acquisto</title>    
-        <jsp:include page="common/header.jsp"
+        <jsp:include page="../../common/header.jsp"
 		flush="true" />
     </head>
     <body>

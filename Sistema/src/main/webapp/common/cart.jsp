@@ -16,7 +16,7 @@
 	href="<%= request.getContextPath()%>/style/cart.css">
 </head>
 <body>
-	<jsp:include page="common/header.jsp"
+	<jsp:include page="/common/header.jsp"
 		flush="true" />
      <div class="errormsg">
         <%
@@ -107,7 +107,7 @@
             }
         %>
     </div>
-        <jsp:include page="common/footer.jsp"
+        <jsp:include page="/common/footer.jsp"
 		flush="true" />
 
 </body>

@@ -44,4 +44,21 @@ public class RegistrazioneException extends Exception{
 			super(message);
 		}
 	}
+	
+	/**
+	 * Classe statica per gestire la registrazione di un utente che ha digitato un'email
+	 * già memorizzata nel database.
+	 * */
+	public static class EmailPresenteException extends RegistrazioneException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public EmailPresenteException(String message) {
+			super(message);
+		}
+	}
+	
 }

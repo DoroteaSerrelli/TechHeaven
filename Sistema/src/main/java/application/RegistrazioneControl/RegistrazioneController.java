@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import application.RegistrazioneService.Cliente;
 import application.RegistrazioneService.Indirizzo;
 import application.RegistrazioneService.ProxyUtente;
+import application.RegistrazioneService.RegistrazioneException.EmailPresenteException;
 import application.RegistrazioneService.RegistrazioneException.UtentePresenteException;
 import application.RegistrazioneService.RegistrazioneServiceImpl;
 import java.sql.SQLException;
@@ -76,7 +77,7 @@ public class RegistrazioneController extends HttpServlet {
 
 		try {
 			u = reg.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.valueOf(sesso), telefono, indirizzo);
-			//Non ci sono utenti nel database con il nome utente pari a username
+			//Non ci sono utenti nel database con il nome utente pari a 'username' o con indirizzo di posta pari a 'email'
 			IndirizzoDAODataSource indDAO = new IndirizzoDAODataSource();
 
 			ArrayList <Indirizzo> indirizzi = indDAO.doRetrieveAll("Indirizzo.via", u.getUsername());        
@@ -89,11 +90,11 @@ public class RegistrazioneController extends HttpServlet {
 					+ "Riprova la registrazione inserendo un'altra username.";
 			request.getSession().setAttribute("errorMessage", message);
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
-	
-		} catch (UtentePresenteException e) {
+			
+		}catch (UtentePresenteException | EmailPresenteException e) {
 			request.getSession().setAttribute("errorMessage", e.getMessage());
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
-
+		
 		}catch(SQLException e) {
 			Logger.getLogger(RegistrazioneController.class.getName()).log(Level.SEVERE, null, e);
 			request.getSession().setAttribute("error", e.getMessage());

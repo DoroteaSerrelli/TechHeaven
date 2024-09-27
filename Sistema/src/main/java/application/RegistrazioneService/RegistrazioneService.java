@@ -3,6 +3,7 @@ package application.RegistrazioneService;
 import java.sql.SQLException;
 
 import application.RegistrazioneService.Cliente.Sesso;
+import application.RegistrazioneService.RegistrazioneException.EmailPresenteException;
 import application.RegistrazioneService.RegistrazioneException.UtentePresenteException;
 
 /**
@@ -38,10 +39,13 @@ public interface RegistrazioneService {
 	 * @throws SQLException 
 	 * @throws UtentePresenteException : gestisce il caso in cui un visitatore si registra con un username
 	 * 									 associata ad un utente presente già nel database.
+	 * 
+	 * @throws EmailPresenteException : gestisce il caso in cui un visitatore si registra con un'email
+	 * 									associata ad un utente già presente nel database.
 	 * */
 	
 	ProxyUtente registraCliente(String username, String password, String email, String nome, String cognome, 
-			Sesso sex, String telefono, Indirizzo indirizzo) throws UtentePresenteException, SQLException;
+			Sesso sex, String telefono, Indirizzo indirizzo) throws UtentePresenteException, SQLException, EmailPresenteException;
 	
 	/**
 	 * Il metodo permette di registrare un nuovo utente come gestore degli ordini al sistema.

@@ -3,6 +3,7 @@ package application.RegistrazioneService;
 import java.sql.SQLException;
 
 import application.RegistrazioneService.Cliente.Sesso;
+import application.RegistrazioneService.RegistrazioneException.EmailPresenteException;
 import application.RegistrazioneService.RegistrazioneException.UtentePresenteException;
 import storage.AutenticazioneDAO.ClienteDAODataSource;
 import storage.AutenticazioneDAO.UtenteDAODataSource;
@@ -45,16 +46,21 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 	 * @throws SQLException 
 	 * @throws UtentePresenteException : gestisce il caso in cui un visitatore si registra con un username
 	 * 									 associata ad un utente presente già nel database.
+	 * 
+	 * @throws EmailPresenteException : gestisce il caso in cui un visitatore si registra con un'email
+	 * 									associata ad un utente già presente nel database.
+	 * 
 	 * */
 
 	public ProxyUtente registraCliente(String username, String password, String email, String nome, String cognome, Sesso sex, String telefono,
-			Indirizzo indirizzo) throws UtentePresenteException, SQLException {
+			Indirizzo indirizzo) throws UtentePresenteException, SQLException, EmailPresenteException {
 		if(ObjectUtente.checkValidate(username, password)) {
 			if(Cliente.checkValidate(email, nome, cognome, sex, telefono, indirizzo)) {
 				
 				Cliente profile = new Cliente(email, nome, cognome, sex, telefono, indirizzo);
 				Utente user = new Utente(username, password, profile);
 				UtenteDAODataSource userDAO = new UtenteDAODataSource();
+				
 				/* *
 				 * Si verifica l'esistenza di un utente nel database con il nome utente username.
 				 * In caso affermativo, non sarà possibile procedere con la registrazione.
@@ -65,6 +71,19 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 					throw new UtentePresenteException("Non e\' possibile associare al tuo account l'username inserita.\nRiprova la registrazione inserendo un'altra username.");
 				
 				ClienteDAODataSource profileDAO = new ClienteDAODataSource();
+				
+				/* *
+				 * Si verifica l'esistenza di un utente nel database con l'indirizzo di posta elettronica
+				 * pari a email.
+				 * In caso affermativo, non sarà possibile procedere con la registrazione.
+				 * */
+				
+				Cliente profileP = profileDAO.doRetrieveByKey(email);
+				
+				if(profileP != null && profileP.getEmail().equals(email))
+					throw new EmailPresenteException("Non e\' possibile associare al tuo account l'email inserita.\nRiprova la registrazione inserendo un'altra email.");
+				
+				
 				RuoloDAODataSource roleDAO = new RuoloDAODataSource();
 				IndirizzoDAODataSource addressDAO = new IndirizzoDAODataSource();
 				try {

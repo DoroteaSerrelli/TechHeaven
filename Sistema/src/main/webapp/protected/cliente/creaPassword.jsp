@@ -14,27 +14,27 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <script>
-            function validate(){
-		if(!validatePassword()) return false;
-            }
-            function validatePassword(){
-		let n= document.forms["client"]["surname"].value;
-		var pattern= /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{5,}$/;
-		if(!n.match(pattern)){
-                    document.getElementById("error").innerHTML="La password deve avere almeno 5 caratteri (lettere e numeri)";
-                    error.classList.remove("valid");
-                    error.classList.add("invalid");
-		return false;
+	function validate() {
+		if (!validatePassword())
+			return false;
+	}
+	function validatePassword() {
+		let n = document.forms["client"]["surname"].value;
+		var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{5,}$/;
+		if (!n.match(pattern)) {
+			document.getElementById("error").innerHTML = "La password deve avere almeno 5 caratteri (lettere e numeri)";
+			error.classList.remove("valid");
+			error.classList.add("invalid");
+			return false;
+		} else {
+			error.classList.remove("invalid");
+			error.classList.add("valid");
+			return true;
 		}
-		else{
-                    error.classList.remove("invalid");									
-                    error.classList.add("valid");	
-		return true;		
-		}		
-            }
-        </script>
+	}
+</script>
 <link rel="stylesheet"
-	href="<%= request.getContextPath()%>/style/style.css">
+	href="<%=request.getContextPath()%>/style/style.css">
 </head>
 <body>
 
@@ -43,7 +43,12 @@
 		<form name="client" method="post"
 			action="../../ReimpostaPasswordController">
 			<h1>Reimpostazione password</h1>
-			<p>Inserisci la nuova password di accesso</p>
+			<p>Inserisci la nuova password di accesso.</p>
+			<p>
+				In caso di inserimento corretto della nuova password, <br> sarai
+				indirizzato verso la pagina di autenticazione <br> nella quale
+				potrai inserire la tua nuova password.
+			</p>
 			<hr>
 			<input type="hidden" name="action" value="resetPassword">
 			<div class="row">
@@ -58,13 +63,15 @@
 					name="submit" onclick="return validate()">
 			</div>
 			<div class="errormsg">
-				<% 
-                    String err = (String)request.getSession().getAttribute("error");
-                    if (err != null && !err.isEmpty()) {
-                 %>
+				<%
+				String err = (String) request.getSession().getAttribute("error");
+				if (err != null && !err.isEmpty()) {
+				%>
 				<p id="error" class="error invalid"><%=err%></p>
-				<% request.getSession().removeAttribute("error");
-                    } %>
+				<%
+				request.getSession().removeAttribute("error");
+				}
+				%>
 			</div>
 		</form>
 	</div>

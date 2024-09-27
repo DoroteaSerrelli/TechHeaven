@@ -17,6 +17,8 @@ import application.AutenticazioneService.AutenticazioneServiceImpl;
 import application.RegistrazioneService.Indirizzo;
 import application.RegistrazioneService.ProxyUtente;
 import application.RegistrazioneService.Ruolo;
+import application.AutenticazioneService.AutenticazioneException.FormatoRuoloException;
+import application.AutenticazioneService.AutenticazioneException.RuoloInesistenteException;
 import storage.AutenticazioneDAO.IndirizzoDAODataSource;
 
 /**
@@ -123,14 +125,21 @@ public class AutenticazioneController extends HttpServlet {
 				}
 			}
 			if (action.equalsIgnoreCase("roleSelection")) {
-				// Retrieve the user object from session
+				// Recupero oggetto user dalla sessione
 				ProxyUtente resultedUser = (ProxyUtente) request.getSession().getAttribute("user");                               
-				String ruolo = request.getParameter("ruolo");                           
+				String ruolo = request.getParameter("ruolo");
+				
+				if(!ruolo.equals("Cliente") && !ruolo.equals("GestoreCatalogo") && !ruolo.equals("GestoreOrdini")) {
+					FormatoRuoloException e = new FormatoRuoloException("Il ruolo specificato non esiste.");
+					request.getSession().setAttribute("errorMessage", e.getMessage());
+					response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
+				}
+					
 				loadUserAddresses(request);
 
 				ArrayList<Ruolo> ruoli = resultedUser.getRuoli();
-				boolean roleMatched = true; // Flag to track if role is found
-
+				boolean roleMatched = true; // Flag per verificare se il ruolo scelto è stato trovato
+				
 				for (Ruolo r : ruoli) { 
 					if (r.getNomeRuolo().equals(ruolo)) {                                          
 						switch (ruolo) {
@@ -150,10 +159,10 @@ public class AutenticazioneController extends HttpServlet {
 					}
 				}
 				if(!roleMatched){
-					// In caso di assenza del ruolo, si genera un errore e si ridireziona l'utente alla
+					// In caso di assenza del ruolo richiesto, si genera un errore e si ridireziona l'utente alla
 					//pagina di autenticazione
-					
-					request.getSession().setAttribute("error", "Ruolo scelto non corrispondente ai ruoli del utente");
+					RuoloInesistenteException e = new RuoloInesistenteException("Ruolo scelto non associato all'utente. Riprova a selezionare un altro ruolo.");
+					request.getSession().setAttribute("error", e.getMessage());
 					request.getRequestDispatcher("Autenticazione").forward(request, response);
 					return; // Stop
 				}
@@ -167,7 +176,7 @@ public class AutenticazioneController extends HttpServlet {
 
 		} catch (SQLException | AutenticazioneException.UtenteInesistenteException ex) {
 			Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
-			request.getSession().setAttribute("error", "Username o Password Errati");
+			request.getSession().setAttribute("error", "Username o password non corretti");
 			response.sendRedirect(request.getContextPath() + "/Autenticazione");
 		}
 	}

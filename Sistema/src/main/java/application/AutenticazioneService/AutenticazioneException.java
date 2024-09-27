@@ -64,6 +64,39 @@ public class AutenticazioneException extends Exception{
 		}
 	}
 	
+	
+	/**
+	 * Classe statica per gestire il caso in cui il ruolo scelto non
+	 * rispetta il formato: Cliente, GestoreCatalogo, GestoreOrdini.
+	 * */
+	public static class FormatoRuoloException extends AutenticazioneException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoRuoloException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire il caso in cui il ruolo scelto non
+	 * è associato all'utente.
+	 * */
+	public static class RuoloInesistenteException extends AutenticazioneException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public RuoloInesistenteException(String message) {
+			super(message);
+		}
+	}
+	
 	/**
 	 * Classe statica per gestire l'assenza del profilo dell'utente.
 	 * */

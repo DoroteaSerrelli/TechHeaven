@@ -72,9 +72,11 @@
         <!-- Product actions (Add to Cart, Wishlist) section on the side -->
         <div class="product-actions">
             <h2 class="prezzo"><%= prezzoFormattato %></h2>
-            <a class="add-to-cart" href="#" onClick="modifyCart(<%= product.getCodiceProdotto() %>, 'aggiungiAlCarrello')">
-                <img class="cart" src="<%= request.getContextPath() %>/images/site_images/icon_carrello2.png" alt="Add to Cart">
-            </a>
+            <a href="#"
+                onClick="addToCartAndRedirect(<%= product.getCodiceProdotto() %>, 'aggiungiAlCarrello', '<%= request.getContextPath() %>/cart');">
+                <img class="cart"
+                src="<%=request.getContextPath()%>/images/site_images/icon_carrello2.png">
+        </a>            
             <a class="add-to-wishlist" href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
                 <img src="<%= request.getContextPath() %>/images/site_images/icon_wishlist.png" style="margin: 1px;" alt="Add to Wishlist">
             </a>

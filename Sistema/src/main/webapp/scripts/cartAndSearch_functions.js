@@ -59,9 +59,6 @@
                 if (action === "rimuoviDalCarrello") {
                     removeCartItem(productId);
                 }
-
-                if (callback) callback();
-
                 // Display notification if needed
                 displayNotification(response.message, response.status);
             } else {
@@ -76,37 +73,24 @@
     xhr.send("productId=" + encodeURIComponent(productId));
 }
 
-    function removeCartItem(productId) {
-        var itemElement = document.getElementById("item_" + productId);
-        if (itemElement) {
-            itemElement.remove(); // This will remove the item from the DOM
-        }
+
+function isCartEmpty() {
+    // Assuming there's a way to determine if the cart is empty
+    // For example, check the length of cart items or a specific DOM element
+    return document.querySelectorAll('.cart-item').length === 0; // Adjust the selector as needed
+}
+
+function removeCartItem(productId) {
+    var itemElement = document.getElementById("item_" + productId);
+    if (itemElement) {
+        itemElement.remove(); // This will remove the item from the DOM
     }
-    // Function to refresh the cart by calling the viewCart action
-    function viewCart() {
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "GestioneCarrelloController?action=viewCart", true);
-        xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
-
-        xhr.onreadystatechange = function () {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    //reloadCartSection();
-                    // Replace the cart section with the new HTML response
-                   // document.getElementById("carrello-item").innerHTML = xhr.responseText;
-
-                    // Optionally bind event listeners or do any other necessary UI updates
-             //       rebindRangeInputs(); // If you need to rebind range inputs after refreshing the UI
-                } else {
-                    // Handle error in refreshing the cart
-                    displayNotification("Error refreshing the cart", "error");
-                }
-            }
-        };
-
-        // Send the request to refresh the cart
-        xhr.send();
+    // Check if the cart is empty
+    if (isCartEmpty()) {
+        reloadCartSection();
     }
+}
+
     
 function updateCartItem(productId, updatedPrice, updatedQuantity) {
     var priceElement = document.querySelector("#item_" + productId + " .prezzo"); // Updated selector    

@@ -5,13 +5,18 @@ function validate() {
 function validateEmail() {
 	let n = document.forms["client"]["email"].value;
 	var pattern = /^\S+@\S+\.\S+$/;
-	
+
 	if (!n.match(pattern)) {
+		const element = document.getElementById('errorSession');
+		if (element.style.display === 'block') {
+			element.style.display = "none";
+			element.innerText = "";
+		}
 		document.getElementById("error").innerHTML = "L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com).";
 		error.classList.add("invalid");
-		
+
 		return false;
-	}else {
+	} else {
 		document.getElementById("error").innerHTML = "";
 		error.classList.remove("invalid");
 
@@ -22,14 +27,19 @@ function validateEmail() {
 function validateName() {
 	let n = document.forms["client"]["name"].value;
 	var pattern = /^[A-Za-z\s]+$/;
-	
+
 	if (!n.match(pattern)) {
+		const element = document.getElementById('errorSession');
+		if (element.style.display === 'block') {
+			element.style.display = "none";
+			element.innerText = "";
+		}
 		document.getElementById("error").innerHTML = "Il nome deve contenere solo lettere e, eventualmente, spazi.";
 		error.classList.add("invalid");
-		
+
 		return false;
-		
-	}else {
+
+	} else {
 		document.getElementById("error").innerHTML = "";
 		error.classList.remove("invalid");
 
@@ -39,17 +49,22 @@ function validateName() {
 function validateSurname() {
 	let n = document.forms["client"]["surname"].value;
 	var pattern = /^[A-Za-z\s]+$/;
-	
+
 	if (!n.match(pattern)) {
+		const element = document.getElementById('errorSession');
+		if (element.style.display === 'block') {
+			element.style.display = "none";
+			element.innerText = "";
+		}
 		document.getElementById("error").innerHTML = "Il cognome deve contenere solo lettere e, eventualmente, spazi.";
 		error.classList.add("invalid");
-		
+
 		return false;
-		
-	}else {
+
+	} else {
 		document.getElementById("error").innerHTML = "";
 		error.classList.remove("invalid");
-		
+
 		return true;
 	}
 }
@@ -87,6 +102,11 @@ function validateAddress() {
 		const errorElement = document.getElementById("error " + field); // Get the error div
 
 		if (!value.match(patterns[field])) {
+			const element = document.getElementById('errorSession');
+			if (element.style.display === 'block') {
+				element.style.display = "none";
+				element.innerText = "";
+			}
 			anyInvalid = true;
 			element.classList.add("invalid");
 			element.classList.remove("valid");
@@ -107,17 +127,22 @@ function validateAddress() {
 function validatePhoneNumber() {
 	let n = document.forms["client"]["phoneNumber"].value;
 	var pattern = "^[0-9]{3}-[0-9]{3}-[0-9]{4}$";
-	
+
 	if (!n.match(pattern)) {
+		const element = document.getElementById('errorSession');
+		if (element.style.display === 'block') {
+			element.style.display = "none";
+			element.innerText = "";
+		}
 		document.getElementById("error").innerHTML = "Il formato del numero di telefono deve essere xxx-xxx-xxxx";
 		error.classList.add("invalid");
-		
+
 		return false;
-		
-	}else{
+
+	} else {
 		document.getElementById("error").innerHTML = "";
 		error.classList.remove("invalid");
-		
+
 		return true;
 	}
 }
@@ -125,17 +150,22 @@ function validatePhoneNumber() {
 function validateUsername() {
 	let n = document.forms["client"]["username"].value;
 	var pattern = "^[a-zA-Z]{5,}$";
-	
+
 	if (!n.match(pattern)) {
+		const element = document.getElementById('errorSession');
+		if (element.style.display === 'block') {
+			element.style.display = "none";
+			element.innerText = "";
+		}
 		document.getElementById("error").innerHTML = "L'username deve avere almeno lunghezza pari a 5 e contenere solo lettere.";
 		error.classList.add("invalid");
-		
+
 		return false;
-		
-	}else{
+
+	} else {
 		document.getElementById("error").innerHTML = "";
 		error.classList.remove("invalid");
-		
+
 		return true;
 	}
 }
@@ -143,14 +173,19 @@ function validateUsername() {
 function validatePassword() {
 	let n = document.forms["client"]["password"].value;
 	var pattern = /^(?=.*[a-zA-Z])(?=.*[0-9]).{5,}$/;
-	
+
 	if (!n.match(pattern)) {
+		const element = document.getElementById('errorSession');
+		if (element.style.display === 'block') {
+			element.style.display = "none";
+			element.innerText = "";
+		}
 		document.getElementById("error").innerHTML = "La password deve avere almeno 5 caratteri che siano lettere e numeri.";
 		error.classList.add("invalid");
-		
+
 		return false;
-		
-	}else {
+
+	} else {
 		document.getElementById("error").innerHTML = "";
 		error.classList.remove("invalid");
 
@@ -164,7 +199,7 @@ function validatePassword() {
  */
 function validateForm() {
 	var isValid = false;
-	
+
 	/**
 	 * Se ci sono dei campi nascosti (quelli con ID updateEmail e updateTelefono), vengono svuotati. 
 	 * Questi campi potrebbero contenere informazioni precompilate che non devono interferire 
@@ -185,7 +220,7 @@ function validateForm() {
 	 * Numero di telefono: Stessa cosa per il campo del numero di telefono, chiamando la funzione validatePhoneNumber().
 	 * Indirizzo: Se presente, verifica anche l'indirizzo con la funzione validateAddress().
 	 * */
-	
+
 	if (emailField.style.display !== 'none') {
 		isValid = validateEmail();
 

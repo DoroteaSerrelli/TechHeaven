@@ -130,6 +130,14 @@ form h2{
 	word-wrap: break-word;
 	padding: 10px;
 }
+
+.errormsg #errorSession {
+	background-color: #ffe6e6;
+	border: dotted #ff6666;
+	word-wrap: break-word;
+	padding: 10px;
+}
+
 /*FORM DI REGISTRAZIONE*/
 /*PULSANTE SUBMIT SEARCH*/
 #search_section {

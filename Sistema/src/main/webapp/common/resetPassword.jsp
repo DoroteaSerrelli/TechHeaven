@@ -13,7 +13,7 @@
 <title>TechHeaven - Reimpostazione Password</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>
+<!-- <script>
 	function validate() {
 		if (!validateUsername() || !validateEmail())
 			return false;
@@ -44,7 +44,9 @@
 			return true;
 		}
 	}
-</script>
+</script>  -->
+<script
+	src="<%=request.getContextPath()%>/scripts/validationResetPassword.js"></script>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/style/style.css">
 </head>
@@ -55,7 +57,7 @@
 		<form name="client" method="post" action="ReimpostaPasswordController">
 			<h1>Reimpostazione password</h1>
 			<p>Compila il seguente form per poter creare una nuova password
-				di accesso</p>
+				di accesso.</p>
 			<hr>
 			<input type="hidden" name="action" value="resetPasswordRequest">
 			<div class="row">
@@ -75,12 +77,22 @@
 				<input value="Crea nuova password" type="submit"
 					class="confirm_button" name="submit" onclick="return validate()">
 			</div>
+
 			<div class="errormsg">
+				<p id="error"></p>
+				<p id="errorSession" style = "display : none;"></p>
 				<%
 				String err = (String) request.getSession().getAttribute("error");
 				if (err != null && !err.isEmpty()) {
 				%>
-				<p id="error" class="error invalid"><%=err%></p>
+				<script>
+				const element = document.getElementById('errorSession');
+				if(element.style.display === "none" || element.style.visibility === "hidden"){
+					document.getElementById('errorSession').style.display = "block";
+	        		document.getElementById('errorSession').textContent = '<%=err%>';
+				}else
+					document.getElementById('errorSession').textContent = '<%=err%>';
+				</script>
 				<%
 				request.getSession().removeAttribute("error");
 				}

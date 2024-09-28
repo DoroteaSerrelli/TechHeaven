@@ -20,12 +20,12 @@
 <body>
 
 	<jsp:include page="/common/header.jsp" flush="true" />
-	
+
 	<div class="section-p1">
 		<form name="client" method="post" action="RegistrazioneController">
 			<h1>Registrazione</h1>
-			<p>Registrati al nostro sito per acquistare i nostri prodotti ed essere aggiornato
-			sui nuovi arrivi.</p>
+			<p>Registrati al nostro sito per acquistare i nostri prodotti ed
+				essere aggiornato sui nuovi arrivi.</p>
 			<br>
 			<hr>
 			<br>
@@ -61,7 +61,7 @@
 						<option value="F">Donna</option>
 					</select>
 				</div>
-				</div>
+			</div>
 			<div class="row">
 				<div class="input-wrapper reg_form">
 					<p>*E-mail:</p>
@@ -72,7 +72,7 @@
 					<input type="text" name="phoneNumber"
 						oninput="validatePhoneNumber()" required>
 				</div>
-			<br>
+				<br>
 			</div>
 			<hr>
 			<h2>Indirizzo</h2>
@@ -81,17 +81,17 @@
 					<p>*Via:</p>
 					<input id="road" type="text" name="road"
 						oninput="validateAddress()" required>
-                                         <div class="errormsgAddress">
-                                            <div id="error road"></div>
-                                        </div> 
+					<div class="errormsgAddress">
+						<div id="error road"></div>
+					</div>
 				</div>
 				<div class="input-wrapper reg_form">
 					<p>*Numero civico:</p>
 					<input id="cv" type="text" name="cv" oninput="validateAddress()"
 						required>
-                                        <div class="errormsgAddress">
-                                            <div id="error cv"></div>
-                                        </div>
+					<div class="errormsgAddress">
+						<div id="error cv"></div>
+					</div>
 				</div>
 			</div>
 			<div class="row">
@@ -99,17 +99,17 @@
 					<p>*Città:</p>
 					<input id="city" type="text" name="city"
 						oninput="validateAddress()" required>
-                                         <div class="errormsgAddress">
-                                            <div id="error city"></div>
-                                        </div> 
+					<div class="errormsgAddress">
+						<div id="error city"></div>
+					</div>
 				</div>
 				<div class="input-wrapper reg_form">
 					<p>*CAP:</p>
 					<input id="cap" type="text" name="cap" oninput="validateAddress()"
 						required>
-                                         <div class="errormsgAddress">
-                                            <div id="error cap"></div>
-                                        </div> 
+					<div class="errormsgAddress">
+						<div id="error cap"></div>
+					</div>
 				</div>
 			</div>
 			<div class="row">
@@ -117,9 +117,9 @@
 					<p>*Provincia:</p>
 					<input id="province" type="text" name="province"
 						oninput="validateAddress()" required>
-                                        <div class="errormsgAddress">
-                                            <div id="error province"></div>
-                                        </div> 
+					<div class="errormsgAddress">
+						<div id="error province"></div>
+					</div>
 				</div>
 			</div>
 
@@ -129,14 +129,23 @@
 			</div>
 			<div class="errormsg">
 				<p id="error"></p>
-				<% 
-                    String err = (String)request.getSession().getAttribute("error");
-                    if (err != null && !err.isEmpty()) {
-                 %>
-				<%=err%>
-				<% 
-                        request.getSession().removeAttribute("error");
-                        } %>
+				<p id="errorSession" style="display: none;"></p>
+				<%
+				String err = (String) request.getSession().getAttribute("error");
+				if (err != null && !err.isEmpty()) {
+				%>
+				<script>
+				const element = document.getElementById('errorSession');
+				if(element.style.display === "none" || element.style.visibility === "hidden"){
+					document.getElementById('errorSession').style.display = "block";
+	        		document.getElementById('errorSession').textContent = '<%=err%>';
+				}else
+					document.getElementById('errorSession').textContent = '<%=err%>';
+				</script>
+				<%
+				request.getSession().removeAttribute("error");
+				}
+				%>
 			</div>
 		</form>
 	</div>
@@ -144,3 +153,4 @@
 </body>
 
 </html>
+

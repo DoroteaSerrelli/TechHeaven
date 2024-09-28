@@ -4,6 +4,8 @@
     Author     : raffa
 --%>
 
+<%@page import="java.net.URLEncoder"%>
+<%@page import="com.google.gson.Gson"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"
 		import = "application.NavigazioneService.ProxyProdotto,
 				  java.util.ArrayList,
@@ -16,7 +18,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
         <link rel="stylesheet" href="<%=request.getContextPath() %>/style/cart.css">
-        
+          <script type="text/javascript">
+            // Define the context path as a global variable
+            window.contextPath = '<%= request.getContextPath() %>';
+        </script> 
     </head>
     <body>
         <jsp:include page="/common/header.jsp"  flush="true"/>              
@@ -47,8 +52,16 @@
                 ArrayList <ProxyProdotto> ItemWishlist = wishlist.getProdotti();
                 for(ProxyProdotto p: ItemWishlist){                         
             %>            
+             <%
+                String productJson = new Gson().toJson(p);
+                String encodedProductJson = URLEncoder.encode(productJson, "UTF-8");
+            %>
             <a href="GestioneWishlistController?action=removefromwishlist&productId=<%=p.getCodiceProdotto()%>"><button class="delete_button">Rimuovi</button></a>
-            <div class="row">			
+            <div class="row">		
+                <a class="dettagli" id="<%= p.getCodiceProdotto()%>" href="javascript:void(0);" 
+                        onclick="submitProductDetails('<%= encodedProductJson %>');">
+                      <p>  Dettagli </p>
+                 </a> 
                 <img src="image?productId=<%= p.getCodiceProdotto() %>" alt="Prodotto" onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';"/>
                 <p><%=p.getNomeProdotto()+" "%> <%=p.getMarca()%></p>
                         <h3><%=p.getPrezzo()%>€</h3>

@@ -186,3 +186,21 @@ function toggleDrawer() {
 }
 
 
+function submitProductDetails(productJson) {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = `${window.contextPath}/ProductInfos`;
+
+    // Create a textarea to hold JSON data
+    const textarea = document.createElement('textarea');
+    textarea.name = 'product';
+    textarea.style.display = 'none'; // Hide the textarea
+    textarea.value = productJson; // Assign JSON data to the textarea
+
+    form.appendChild(textarea);
+
+    // Append the form to the body and submit it
+    document.body.appendChild(form);
+    form.submit();
+
+}       

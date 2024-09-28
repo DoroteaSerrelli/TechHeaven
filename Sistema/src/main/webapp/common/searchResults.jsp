@@ -18,26 +18,6 @@
 				  java.util.Collection,
 				  application.NavigazioneService.Prodotto"%>
 
-<script>
-    function submitProductDetails(productJson) {
-        const form = document.createElement('form');
-        form.method = 'POST';
-        form.action = `${window.contextPath}/ProductInfos`;
-
-        // Create a textarea to hold JSON data
-        const textarea = document.createElement('textarea');
-        textarea.name = 'product';
-        textarea.style.display = 'none'; // Hide the textarea
-        textarea.value = productJson; // Assign JSON data to the textarea
-
-        form.appendChild(textarea);
-
-        // Append the form to the body and submit it
-        document.body.appendChild(form);
-        form.submit();
-
-    }              
- </script> 
 <%
     Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) request.getSession().getAttribute("products");
    
@@ -53,6 +33,10 @@
     <meta charset="UTF-8" name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TechHeaven - Risultati Ricerca</title>
     <link rel="stylesheet" href="<%= request.getContextPath()%>/style/style.css">
+    <script type="text/javascript">
+            // Define the context path as a global variable
+            window.contextPath = '<%= request.getContextPath() %>';
+        </script> 
     </head>
     <body>
        

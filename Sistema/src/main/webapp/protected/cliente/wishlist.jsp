@@ -60,12 +60,12 @@
                 String productJson = new Gson().toJson(p);
                 String encodedProductJson = URLEncoder.encode(productJson, "UTF-8");
             %>
-            <a href="GestioneWishlistController?action=removefromwishlist&productId=<%=p.getCodiceProdotto()%>"><button class="delete_button">Rimuovi</button></a>
-            <div class="row">		
-                <a class="dettagli" id="<%= p.getCodiceProdotto()%>" href="javascript:void(0);" 
-                        onclick="submitProductDetails('<%= encodedProductJson %>');">
-                      <p>  Dettagli </p>
-                 </a> 
+            <a class="dettagli" id="<%= p.getCodiceProdotto()%>" href="javascript:void(0);" 
+                onclick="submitProductDetails('<%= encodedProductJson %>');">
+              <p>  Dettagli </p>
+             </a> 
+            <a id="removeBtn<%=p.getCodiceProdotto()%>" href="GestioneWishlistController?action=removefromwishlist&productId=<%=p.getCodiceProdotto()%>"><button class="delete_button">Rimuovi</button></a>
+            <div class="row" id="<%=p.getCodiceProdotto()%>">		               
                 <img src="image?productId=<%= p.getCodiceProdotto() %>" alt="Prodotto" onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';"/>
                 <p><%=p.getNomeProdotto()+" "%> <%=p.getMarca()%></p>
                       <%
@@ -79,8 +79,8 @@
 
                         String prezzoFormattato = currencyFormatter.format(prezzo);
                     %>
-                <h4 style="color: goldenrod" class="prezzo"><%=prezzoFormattato%></h4>
-            </div>     
+                <h4 style="color: goldenrod" class="prezzo"><%=prezzoFormattato%></h4>             
+            </div>             
             <% }
             %> 
             

@@ -13,38 +13,6 @@
 <title>TechHeaven - Reimpostazione Password</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- <script>
-	function validate() {
-		if (!validateUsername() || !validateEmail())
-			return false;
-	}
-	function validateUsername() {
-		let n = document.forms["client"]["name"].value;
-		var pattern = "^[A-Za-z]{5,}$";
-		if (!n.match(pattern)) {
-			error.classList.remove("valid");
-			error.classList.add("invalid");
-			return false;
-		} else {
-			error.classList.remove("invalid");
-			error.classList.add("valid");
-			return true;
-		}
-	}
-	function validateEmail() {
-		let n = document.forms["client"]["email"].value;
-		var pattern = /^\S+@\S+\.\S+$/;
-		if (!n.match(pattern)) {
-			error.classList.remove("valid");
-			error.classList.add("invalid");
-			return false;
-		} else {
-			error.classList.remove("invalid");
-			error.classList.add("valid");
-			return true;
-		}
-	}
-</script>  -->
 <script
 	src="<%=request.getContextPath()%>/scripts/validationResetPassword.js"></script>
 <link rel="stylesheet"

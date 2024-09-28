@@ -10,6 +10,7 @@ import application.AutenticazioneService.AutenticazioneException.FormatoTelefono
 import application.AutenticazioneService.AutenticazioneException.IndirizzoEsistenteException;
 import application.AutenticazioneService.AutenticazioneException.InformazioneDaModificareException;
 import application.AutenticazioneService.AutenticazioneException.ModificaIndirizzoException;
+import application.AutenticazioneService.AutenticazioneException.PasswordEsistenteException;
 import application.AutenticazioneService.AutenticazioneException.ProfiloInesistenteException;
 import application.AutenticazioneService.AutenticazioneException.TelefonoEsistenteException;
 import application.AutenticazioneService.AutenticazioneException.UtenteInesistenteException;
@@ -59,10 +60,13 @@ public interface AutenticazioneService {
 	 * 										rispetti il formato
 	 * 
 	 * @throws UtenteInesistenteException : lanciata nel caso in cui l'utente non è
-	 * 			registrato nel sistema
+	 * 										registrato nel sistema
+	 * 
+	 * @throws PasswordEsistenteException : lanciata nel caso in cui l'utente inserisce come nuova password,
+	 * 										la password che già possiede nel database
 	 * */
 	
-	public void resetPassword(String username, String email, String newPassword) throws UtenteInesistenteException, FormatoPasswordException, SQLException;
+	public void resetPassword(String username, String email, String newPassword) throws UtenteInesistenteException, FormatoPasswordException, SQLException, PasswordEsistenteException;
 	
 	/**
 	 * Il metodo effettua la modifica del numero di telefono e dell'email 

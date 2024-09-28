@@ -5,34 +5,15 @@
 --%>
 
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="ISO-8859-1">
+<meta charset="UTF-8">
 <title>TechHeaven - Reimpostazione password</title>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<script>
-	function validate() {
-		if (!validatePassword())
-			return false;
-	}
-	function validatePassword() {
-		let n = document.forms["client"]["surname"].value;
-		var pattern = /^(?=.*[a-zA-Z])(?=.*\d)[a-zA-Z\d]{5,}$/;
-		if (!n.match(pattern)) {
-			document.getElementById("error").innerHTML = "La password deve avere almeno 5 caratteri (lettere e numeri)";
-			error.classList.remove("valid");
-			error.classList.add("invalid");
-			return false;
-		} else {
-			error.classList.remove("invalid");
-			error.classList.add("valid");
-			return true;
-		}
-	}
-</script>
+<script src="<%= request.getContextPath()%>/scripts/validationResetPassword.js"></script>
 <link rel="stylesheet"
 	href="<%=request.getContextPath()%>/style/style.css">
 </head>
@@ -60,14 +41,23 @@
 			</div>
 			<div class="input-wrapper">
 				<input value="Conferma" type="submit" class="confirm_button"
-					name="submit" onclick="return validate()">
+					name="submit" onclick="return validateFormPassword()">
 			</div>
 			<div class="errormsg">
+				<p id="error"></p>
+				<p id="errorSession" style = "display : none;"></p>
 				<%
 				String err = (String) request.getSession().getAttribute("error");
 				if (err != null && !err.isEmpty()) {
 				%>
-				<p id="error" class="error invalid"><%=err%></p>
+				<script>
+				const element = document.getElementById('errorSession');
+				if(element.style.display === "none" || element.style.visibility === "hidden"){
+					document.getElementById('errorSession').style.display = "block";
+	        		document.getElementById('errorSession').textContent = '<%=err%>';
+				}else
+					document.getElementById('errorSession').textContent = '<%=err%>';
+				</script>
 				<%
 				request.getSession().removeAttribute("error");
 				}

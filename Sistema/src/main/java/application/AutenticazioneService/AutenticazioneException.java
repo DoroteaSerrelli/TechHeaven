@@ -113,6 +113,23 @@ public class AutenticazioneException extends Exception{
 	}
 	
 	/**
+	 * Classe statica per gestire, in caso di reimpostazione dela password, 
+	 * il caso in cui l'utente inserisce come nuova password la password che ha già associata 
+	 * nel database.
+	 * */
+	public static class PasswordEsistenteException extends AutenticazioneException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public PasswordEsistenteException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
 	 * Classe statica per gestire l'email già associata all'utente.
 	 * */
 	public static class EmailEsistenteException extends AutenticazioneException {

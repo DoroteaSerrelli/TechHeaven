@@ -14,6 +14,7 @@ import application.AutenticazioneService.AutenticazioneException.TelefonoEsisten
 import application.AutenticazioneService.AutenticazioneException.UtenteInesistenteException;
 import application.AutenticazioneService.AutenticazioneException.InformazioneDaModificareException;
 import application.AutenticazioneService.AutenticazioneException.ModificaIndirizzoException;
+import application.AutenticazioneService.AutenticazioneException.PasswordEsistenteException;
 import application.RegistrazioneService.Cliente;
 import application.RegistrazioneService.Indirizzo;
 import application.RegistrazioneService.ObjectUtente;
@@ -85,11 +86,14 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 	 * 										rispetti il formato
 	 * 
 	 * @throws UtenteInesistenteException : lanciata nel caso in cui l'utente non è
-	 * 			registrato nel sistema
+	 * 										registrato nel sistema
+	 * 
+	 * @throws PasswordEsistenteException : lanciata nel caso in cui l'utente inserisce come nuova password,
+	 * 										la password che già possiede nel database
 	 * */
 	
 	@Override
-	public void resetPassword(String username, String email, String newPassword) throws UtenteInesistenteException, FormatoPasswordException, SQLException {
+	public void resetPassword(String username, String email, String newPassword) throws UtenteInesistenteException, FormatoPasswordException, SQLException, PasswordEsistenteException {
 		UtenteDAODataSource userDAO = new UtenteDAODataSource();
 		Utente userReal;
 		if((userReal = userDAO.doRetrieveFullUserByKey(username)) == null)
@@ -99,8 +103,13 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 				throw new UtenteInesistenteException("Username o email non valide");
 			else {
 				if(!ObjectUtente.checkResetPassword(newPassword))
-					throw new FormatoPasswordException("Formato della nuova password non valido");
+					throw new FormatoPasswordException("La password deve avere almeno 5 caratteri che siano lettere e numeri.");
 				//hashing della nuova password
+				Utente isEqual = new Utente("", newPassword, null);
+
+				if(userReal.getPassword().equals(isEqual.getPassword()))
+						throw new PasswordEsistenteException("Non è possibile associare questa password al tuo account. Inserisci una altra password.");
+				
 				userReal.setPasswordToHash(newPassword);
 				userDAO.doResetPassword(username, userReal.getPassword());
 

@@ -3,7 +3,7 @@
  */
 
 function validate() {
-	if (!validateEmail() || !validateUsername() || !validatePassword()) return false;
+	if (!validateEmail() || !validateUsername()) return false;
 }
 
 function validateEmail() {
@@ -49,6 +49,10 @@ function validateUsername() {
 
 		return true;
 	}
+}
+
+function validateFormPassword(){
+	if(!validatePassword) return false;
 }
 
 function validatePassword() {

@@ -39,7 +39,7 @@
 				<div class="row">
 					<div class="input-wrapper">
 						<input value="Conferma" type="submit" class="confirm_button"
-							name="submit" onclick="return validate()">
+							name="submit">
 					</div>
 				</div>
 				<div class="errormsg">

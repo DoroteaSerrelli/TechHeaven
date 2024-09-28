@@ -1,12 +1,12 @@
 package application.AutenticazioneControl;
 
-import application.AutenticazioneService.AutenticazioneException;
+import application.AutenticazioneService.AutenticazioneException.UtenteInesistenteException;
+import application.AutenticazioneService.AutenticazioneException.FormatoPasswordException;
+import application.AutenticazioneService.AutenticazioneException.PasswordEsistenteException;
 import application.AutenticazioneService.AutenticazioneServiceImpl;
 import application.RegistrazioneService.ProxyUtente;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -38,7 +38,7 @@ public class ReimpostaPasswordController extends HttpServlet {
 	 * @param request : richiesta HTTP
 	 * @param response : risposta HTTP
 	 */
-	
+
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -85,12 +85,12 @@ public class ReimpostaPasswordController extends HttpServlet {
 						request.getSession().setAttribute("email", email);
 						response.sendRedirect(request.getContextPath() + "/protected/cliente/creaPassword.jsp");
 					}else {
-						request.getSession().setAttribute("error","Username o Email non valide");                               
+						request.getSession().setAttribute("error","Username o email non valide");                               
 						response.sendRedirect(request.getContextPath() + "/resetPassword");
 						return;
 					}
 				}else {
-					request.getSession().setAttribute("error","Username o Email non valide");                               
+					request.getSession().setAttribute("error","Username o email non valide");                               
 					response.sendRedirect(request.getContextPath() + "/resetPassword");
 					return;
 				}
@@ -111,16 +111,13 @@ public class ReimpostaPasswordController extends HttpServlet {
 				break;
 			}
 
-		} catch (SQLException | AutenticazioneException.UtenteInesistenteException ex) {
-			Logger.getLogger(AutenticazioneController.class.getName()).log(Level.SEVERE, null, ex);
-
+		} catch (UtenteInesistenteException | FormatoPasswordException |PasswordEsistenteException ex) {
 			request.getSession().setAttribute("error", ex.getMessage());
 			response.sendRedirect(request.getContextPath() + "/protected/cliente/creaPassword.jsp");
-		} catch (AutenticazioneException.FormatoPasswordException ex) {
-			Logger.getLogger(ReimpostaPasswordController.class.getName()).log(Level.SEVERE, null, ex);
 
+		}catch(SQLException ex) {
 			request.getSession().setAttribute("error", ex.getMessage());
-			response.sendRedirect(request.getContextPath() + "/protected/cliente/creaPassword.jsp");
+			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
 		}
 	}
 }

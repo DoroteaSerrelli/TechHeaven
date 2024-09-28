@@ -88,11 +88,11 @@ public class RegistrazioneController extends HttpServlet {
 		}catch(NullPointerException e) {
 			String message = "Non e\' possibile associare l'username inserita al tuo account.\n "
 					+ "Riprova la registrazione inserendo un'altra username.";
-			request.getSession().setAttribute("errorMessage", message);
+			request.getSession().setAttribute("error", message);
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
 			
 		}catch (UtentePresenteException | EmailPresenteException e) {
-			request.getSession().setAttribute("errorMessage", e.getMessage());
+			request.getSession().setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
 		
 		}catch(SQLException e) {

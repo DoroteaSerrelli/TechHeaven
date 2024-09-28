@@ -16,7 +16,7 @@
 	<br>
 	<h3>
 		Si è verificato un problema: <br /> <br> <br> <span
-			style="color: red;">${sessionScope.errorMessage}</span>
+			style="color: red;">${sessionScope.error}</span>
 	</h3>
 
 	<jsp:include page="/common/footer.jsp" flush="true" />

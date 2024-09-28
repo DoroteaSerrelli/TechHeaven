@@ -4,6 +4,8 @@
     Author     : raffa
 --%>
 
+<%@page import="java.util.Currency"%>
+<%@page import="java.text.NumberFormat"%>
 <%@page import="java.net.URLEncoder"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"
@@ -66,7 +68,18 @@
                  </a> 
                 <img src="image?productId=<%= p.getCodiceProdotto() %>" alt="Prodotto" onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';"/>
                 <p><%=p.getNomeProdotto()+" "%> <%=p.getMarca()%></p>
-                        <h3><%=p.getPrezzo()%>€</h3>
+                      <%
+                    double prezzo = p.getPrezzo();
+                       // Optionally, specify a particular currency
+                     // Create a NumberFormat instance for currency formatting
+                        NumberFormat currencyFormatter = NumberFormat.getCurrencyInstance();
+
+                        // Optionally, specify a particular currency
+                        currencyFormatter.setCurrency(Currency.getInstance("EUR")); // Use "USD" for US dollars, "EUR" for Euros, etc.
+
+                        String prezzoFormattato = currencyFormatter.format(prezzo);
+                    %>
+                <h4 style="color: goldenrod" class="prezzo"><%=prezzoFormattato%></h4>
             </div>     
             <% }
             %> 

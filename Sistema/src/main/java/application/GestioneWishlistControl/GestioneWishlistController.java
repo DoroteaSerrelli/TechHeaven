@@ -76,9 +76,14 @@ public class GestioneWishlistController extends HttpServlet {
                             w = gws.aggiungiProdottoInWishlist(w, prodotto, user);
                             request.getSession().setAttribute("Wishlist", w);
                             
+                            request.getSession().setAttribute("errormsg", "Item aggiunto nella wishlist con successo");
+                            request.getSession().setAttribute("status", "valid");
+                            
                         } catch (WishlistException.ProdottoPresenteException | WishlistException.ProdottoNulloException | SQLException ex) {
                             Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
                             request.getSession().setAttribute("errormsg", "Item già Presente nella Wishlist");
+                            request.getSession().setAttribute("status", "invalid");
+                            
                             response.sendRedirect(request.getContextPath() + "/Wishlist");
                             return;
                         } catch (ProdottoException.SottocategoriaProdottoException ex) {
@@ -95,17 +100,23 @@ public class GestioneWishlistController extends HttpServlet {
                             int productId = parseProductId(request.getParameter("productId"));
                             System.out.println(productId);
                             ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);   
+                            request.getSession().setAttribute("errormsg", "Item rimosso con successo dalla wishlist");
+                            request.getSession().setAttribute("status", "valid");
+                            
                             
                             w = gws.rimuoviProdottoDaWishlist(w, user, prodotto);
+                            
                             if(w.getProdotti().isEmpty()){
                                 request.getSession().removeAttribute("Wishlist");
                                 createNewWishlistIfNotExists(request, user);
                             }
-                            else request.getSession().setAttribute("Wishlist", w);
-                           
+                            else request.getSession().setAttribute("Wishlist", w); 
+                            
                         } catch (WishlistException.ProdottoNonPresenteException | WishlistException.ProdottoNulloException | SQLException | WishlistException.WishlistVuotaException ex) {
                             Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
                             request.getSession().setAttribute("errormsg", "Rimozione Item Fallita");
+                            request.getSession().setAttribute("status", "invalid");
+                            
                             response.sendRedirect(request.getContextPath() + "/Wishlist");
                             return;
                         } catch (ProdottoException.SottocategoriaProdottoException ex) {

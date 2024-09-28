@@ -42,9 +42,11 @@
         <div class="errormsg">         
              <% 
                 String err = (String)request.getAttribute("error");
+                String status = (String)request.getAttribute("status");
+                
                 if (err != null && !err.isEmpty()) {
              %>
-            <p id="error" class="invalid"><%=err%></p>               
+            <p id="error" class="<%=status%>"><%=err%></p>               
             <% } %>
         </div>        
         <h1>Wishlist</h1>

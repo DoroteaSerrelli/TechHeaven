@@ -60,11 +60,16 @@ public class Wishlist extends HttpServlet {
            return;
         }
         String errormsg = (String)request.getSession().getAttribute("errormsg");
+        String status = (String)request.getSession().getAttribute("status");
         //Controllo se so sono avvenuti errori e nel caso visualizzo il messaggio
         // salvandolo come attributo, e lo elimino dagli attributi di sessione.
         if(errormsg!=null){
             request.setAttribute("error", errormsg);
-            request.removeAttribute("errormsg");
+            request.setAttribute("status", status);
+            
+            request.getSession().removeAttribute("errormsg");
+            request.getSession().removeAttribute("status");
+            
         }
         
         // Forward to JSP

@@ -23,6 +23,7 @@ import application.GestioneOrdiniService.ReportSpedizione;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.PagamentoService.PagamentoException.ModalitaAssenteException;
 import application.RegistrazioneService.Cliente;
+import java.sql.Statement;
 import storage.AutenticazioneDAO.ClienteDAODataSource;
 
 /**
@@ -70,22 +71,28 @@ public class OrdineDAODataSource {
 		PreparedStatement preparedStatement = null;
 
 		String insertOrderSQL = "INSERT INTO " + OrdineDAODataSource.TABLE_NAME
-				+ " (CODICEORDINE, STATO, EMAIL, INDIRIZZOSPEDIZIONE, TIPOSPEDIZIONE, DATAORDINE, ORAORDINE) VALUES (?, ?, ?, ?, ?, ?, ?)";
+				+ " (STATO, EMAIL, INDIRIZZOSPEDIZIONE, TIPOSPEDIZIONE, DATAORDINE, ORAORDINE) VALUES (?, ?, ?, ?, ?, ?)";
 
 		try {
 			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(insertOrderSQL);
-			preparedStatement.setInt(1, order.getCodiceOrdine());
-			preparedStatement.setString(2, order.getStatoAsString());
-			preparedStatement.setString(3, order.getAcquirente().getEmail());
-			preparedStatement.setString(4, order.getIndirizzoSpedizione());
-			preparedStatement.setString(5, order.getSpedizioneAsString());
-			preparedStatement.setDate(6, java.sql.Date.valueOf(order.getData()));
-			preparedStatement.setTime(7, java.sql.Time.valueOf(order.getOra()));
+			preparedStatement = connection.prepareStatement(insertOrderSQL, Statement.RETURN_GENERATED_KEYS);
+			preparedStatement.setString(1, order.getStatoAsString());
+			preparedStatement.setString(2, order.getAcquirente().getEmail());
+			preparedStatement.setString(3, order.getIndirizzoSpedizione());
+			preparedStatement.setString(4, order.getSpedizioneAsString());
+			preparedStatement.setDate(5, java.sql.Date.valueOf(order.getData()));
+			preparedStatement.setTime(6, java.sql.Time.valueOf(order.getOra()));
 			
 			
 			preparedStatement.executeUpdate();
-
+			ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				int generatedID = generatedKeys.getInt(1);
+				order.setCodiceOrdine(generatedID);  // Imposta l'ID generato sull'oggetto ordine
+				System.out.println("Debug Indirizzo ID:" + generatedID);
+			} else {
+				throw new SQLException("Errore creazione indirizzo, non è possibile recuperare l'ultimo ID generato.");
+			}
 			connection.setAutoCommit(false);
 			connection.commit();
 		} finally {
@@ -96,7 +103,7 @@ public class OrdineDAODataSource {
 				if (connection != null)
 					connection.close();
 			}
-		}
+		}		
 		
 		//associare ordine a prodotti
 		

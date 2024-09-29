@@ -20,13 +20,15 @@ import application.PagamentoService.PagamentoPaypal;
 import application.PagamentoService.PagamentoServiceImpl;
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import java.sql.Statement;
 
 /**
- * Classe DAO per la gestione del datasource dei pagamenti.
- * Questa classe implementa le operazioni CRUD (Create, Read, Update, Delete)
- * e la ricerca dei pagamenti memorizzati nel database relazionale.
+ * Classe DAO per la gestione dei pagamenti nel database.
+ * Questa classe implementa i metodi CRUD per la gestione dei pagamenti nel database.
+ * Inoltre, fornisce dei metodi per recuperare gli ordini in base a vari criteri,
+ * come l'identificativo, la modalità di pagamento, il codice dell'ordine a cui fa riferimento, ...
  * 
- * @author : Dorotea Serrelli
+ * @author Dorotea Serrelli
  * */
 
 public class PagamentoDAODataSource {
@@ -62,19 +64,25 @@ public class PagamentoDAODataSource {
 		PreparedStatement preparedStatement = null;
 
 		String insertPaymentSQL = "INSERT INTO " + PagamentoDAODataSource.TABLE_NAME
-				+ " (CODICEPAGAMENTO, ORDINE, DATAPAGAMENTO, ORAPAGAMENTO, IMPORTO) VALUES (?, ?, ?, ?, ?)";
+				+ " ( ORDINE, DATAPAGAMENTO, ORAPAGAMENTO, IMPORTO) VALUES ( ?, ?, ?, ?)";
 
 		try {
 			connection = ds.getConnection();
-			preparedStatement = connection.prepareStatement(insertPaymentSQL);
-			preparedStatement.setInt(1, payment.getCodicePagamento());
-			preparedStatement.setInt(2, payment.getOrdine().getCodiceOrdine());
-			preparedStatement.setDate(3, java.sql.Date.valueOf(payment.getDataPagamento()));
-			preparedStatement.setTime(4, java.sql.Time.valueOf(payment.getOraPagamento()));
-			preparedStatement.setFloat(5, payment.getImporto());
+			preparedStatement = connection.prepareStatement(insertPaymentSQL, Statement.RETURN_GENERATED_KEYS);					
+                        preparedStatement.setInt(1, payment.getOrdine().getCodiceOrdine());
+			preparedStatement.setDate(2, java.sql.Date.valueOf(payment.getDataPagamento()));
+			preparedStatement.setTime(3, java.sql.Time.valueOf(payment.getOraPagamento()));
+			preparedStatement.setFloat(4, payment.getImporto());
 
 			preparedStatement.executeUpdate();
-
+                        ResultSet generatedKeys = preparedStatement.getGeneratedKeys();
+			if (generatedKeys.next()) {
+				int generatedID = generatedKeys.getInt(1);
+				payment.setCodicePagamento(generatedID);  // Imposta l'ID generato sull'oggetto pagamento
+				System.out.println("Debug Pagamento ID:" + generatedID);
+			} else {
+				throw new SQLException("Errore creazione indirizzo, non è possibile recuperare l'ultimo ID generato.");
+			}
 			connection.setAutoCommit(false);
 			connection.commit();
 		} finally {
@@ -213,41 +221,43 @@ public class PagamentoDAODataSource {
 	public synchronized PagamentoContrassegno doRetrieveCashByOrder(int IDOrdine) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-
+                
 		String selectSQL = "SELECT * FROM " + PagamentoDAODataSource.TABLE_NAME_CASH + " INNER JOIN "
 				+ PagamentoDAODataSource.TABLE_NAME + " ON " 
 				+ PagamentoDAODataSource.TABLE_NAME + ".CODICEPAGAMENTO = " + PagamentoDAODataSource.TABLE_NAME_CASH + ".CODICEPAGAMENTO "
 				+ "WHERE ORDINE = ?";
 
 		PagamentoContrassegno dto = null;
-		
 		try {
 			connection = ds.getConnection();
 			preparedStatement = connection.prepareStatement(selectSQL);
 			preparedStatement.setInt(1, IDOrdine);
 
-			ResultSet rs = preparedStatement.executeQuery();
-
+			ResultSet rs = preparedStatement.executeQuery();  
 			while (rs.next()) {
-				dto = new PagamentoContrassegno();
+                                dto = new PagamentoContrassegno(); // Initialize dto here
 				OrdineDAODataSource orderDao = new OrdineDAODataSource();
 
 				dto.setCodicePagamento(rs.getInt("CODICEPAGAMENTO"));
+                                System.out.println("id ordine value: "+rs.getInt("ORDINE"));
 				dto.setOrdine(orderDao.doRetrieveFullOrderByKey(rs.getInt("ORDINE")));
 				dto.setDataPagamento(rs.getDate("DATAPAGAMENTO").toLocalDate());
 				dto.setOraPagamento((rs.getTime("ORAPAGAMENTO")).toLocalTime());
-				dto.setImporto(rs.getFloat("IMPORTO"));
+				dto.setImporto(rs.getFloat("IMPORTO"));                              
+                                
 			}
+                        
 		} finally {
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
-			} finally {
+			} catch(SQLException e) {return null;}
+                        
+                        finally {
 				if (connection != null)
 					connection.close();
 			}
-		}		
-
+		}
 		return dto;
 	}
 
@@ -278,25 +288,29 @@ public class PagamentoDAODataSource {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				dto = new PagamentoPaypal();
-				dto.setCodicePagamento(rs.getInt("CODICEPAGAMENTO"));
+                                dto = new PagamentoPaypal();
 				OrdineDAODataSource orderDao = new OrdineDAODataSource();
 
+				dto.setCodicePagamento(rs.getInt("CODICEPAGAMENTO"));
 				dto.setOrdine(orderDao.doRetrieveFullOrderByKey(rs.getInt("ORDINE")));
 				dto.setDataPagamento(rs.getDate("DATAPAGAMENTO").toLocalDate());
 				dto.setOraPagamento((rs.getTime("ORAPAGAMENTO")).toLocalTime());
 				dto.setImporto(rs.getFloat("IMPORTO"));
+
 			}
 		} finally {
 			try {
 				if (preparedStatement != null)
 					preparedStatement.close();
-			} finally {
+			} catch(SQLException e){
+                            System.out.println(e);
+                        }
+                        finally {
 				if (connection != null)
 					connection.close();
 			}
 		}		
-
+                   
 		return dto;
 	}
 
@@ -327,7 +341,7 @@ public class PagamentoDAODataSource {
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				dto = new PagamentoCartaCredito();
+                                dto = new PagamentoCartaCredito();
 				OrdineDAODataSource orderDao = new OrdineDAODataSource();
 
 				dto.setCodicePagamento(rs.getInt("CODICEPAGAMENTO"));
@@ -335,6 +349,7 @@ public class PagamentoDAODataSource {
 				dto.setDataPagamento(rs.getDate("DATAPAGAMENTO").toLocalDate());
 				dto.setOraPagamento((rs.getTime("ORAPAGAMENTO")).toLocalTime());
 				dto.setImporto(rs.getFloat("IMPORTO"));
+				dto.setCodicePagamento(rs.getInt("CODICEPAGAMENTO"));
 				dto.setTitolare(rs.getString("TITOLARE"));
 				dto.setNumeroCarta(rs.getString("NUMEROCARTA"));
 			}

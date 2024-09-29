@@ -87,7 +87,7 @@ public class CheckoutControl extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("action");
         if(action!=null && !action.isEmpty()){
-            if(action.equals("annullaPagamento")){
+            if(action.equals("annullaPagamento")|| action.equals("annullaOrdine")){
                 request.getSession().removeAttribute("preview_order");
                 //Redirect alla pagina Iniziale:
                 response.sendRedirect(request.getContextPath()+"/");

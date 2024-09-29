@@ -26,7 +26,7 @@
         <link rel="stylesheet"
                 href="<%= request.getContextPath()%>/style/cart.css">
         <title>TechHeaven - Completa l'acquisto</title>    
-        <jsp:include page="../../common/header.jsp"
+        <jsp:include page="common/header.jsp"
 		flush="true" />
     </head>
     <body>
@@ -93,7 +93,7 @@
          <form action="/CheckoutCarrello" method="post">
              <input type="hidden" name="action" value="confirmOrder">
         <h2>Seleziona un Indirizzo di Spedizione o Aggiungine uno Nuovo.</h2>
-        <%
+        <%            
             ArrayList<Indirizzo> indirizzi = (ArrayList<Indirizzo>)request.getAttribute("Indirizzi");
             if (indirizzi != null && !indirizzi.isEmpty()) {
                 Map<Integer, Indirizzo> addressMap = new HashMap<>();%>
@@ -142,6 +142,7 @@
                 </p>
             </div>
             <input value="Conferma Ordine" type="submit" class="confirm_button"> 
+             <a href="/CheckoutCarrello?action=annullaOrdine"><button class="delete_button" type="button">Annulla Ordine</button></a>
          </form> 
         <%
             }

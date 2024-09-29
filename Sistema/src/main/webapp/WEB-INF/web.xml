@@ -302,6 +302,22 @@
         <url-pattern>/Pagamento</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>paymentSuccessServlet</servlet-name>
+        <jsp-file>/protected/cliente/successoPagamento.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>paymentSuccessServlet</servlet-name>
+        <url-pattern>/SuccessoPagamento</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>paymentFailedServlet</servlet-name>
+        <jsp-file>/protected/cliente/fallitoPagamento.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>paymentFailedServlet</servlet-name>
+        <url-pattern>/ErrorePagamento</url-pattern>
+    </servlet-mapping>   
+    <servlet>
         <servlet-name>GestioneOrdiniServlet</servlet-name>
         <jsp-file>/protected/gestoreOrdini/GestioneOrdini.jsp</jsp-file>
     </servlet>

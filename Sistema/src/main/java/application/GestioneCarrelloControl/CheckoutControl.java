@@ -161,18 +161,21 @@ public class CheckoutControl extends HttpServlet {
             return false;
         }
         // Check if card expiry is valid
-        String[] expiryParts = ccExpiry.split("/");
-        int expMonth = Integer.parseInt(expiryParts[0]);
-        int expYear = Integer.parseInt(expiryParts[1]);
+        // Assuming the format is YYYY-MM-DD
+        String[] expiryParts = ccExpiry.split("-");  
+        int expYear = Integer.parseInt(expiryParts[0]);  // Year
+        int expMonth = Integer.parseInt(expiryParts[1]); // Month
 
         java.util.Calendar currentDate = java.util.Calendar.getInstance();
         int currentYear = currentDate.get(java.util.Calendar.YEAR);
         int currentMonth = currentDate.get(java.util.Calendar.MONTH) + 1; // Months are 0-based
 
+        // Now check if the card is expired
         if (expYear < currentYear || (expYear == currentYear && expMonth < currentMonth)) {
             request.getSession().setAttribute("errorMessage", "La carta di credito è scaduta.");
             return false;
         }
+
       return true;
 }
     private void finalizeOrder(HttpServletRequest request, HttpServletResponse response) throws IOException{
@@ -207,10 +210,10 @@ public class CheckoutControl extends HttpServlet {
             break;    
         }
         if(!success){
-            response.sendRedirect(request.getContextPath()+"/Pagamento");
+            response.sendRedirect(request.getContextPath()+"/ErrorePagamento");
             return;
         }
-        response.sendRedirect(request.getContextPath()+"/AreaRiservata");
+        response.sendRedirect(request.getContextPath()+"/SuccessoPagamento");
     }
     private void elaborateCheckoutRequest(HttpServletRequest request, HttpServletResponse response) throws IOException{
         try {

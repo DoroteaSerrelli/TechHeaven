@@ -30,6 +30,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +40,7 @@ import storage.AutenticazioneDAO.IndirizzoDAODataSource;
  *
  * @author raffa
  */
+@WebServlet(name = "CheckoutControl", urlPatterns = {"/CheckoutCarrello"})
 public class CheckoutControl extends HttpServlet {
     GestioneOrdiniServiceImpl gos;
     PagamentoServiceImpl ps;
@@ -136,7 +138,7 @@ public class CheckoutControl extends HttpServlet {
             finalizeOrder(request, response);
     }
     
-    private boolean processPayment(HttpServletRequest request, Pagamento pagamento, ProxyUtente user, Carrello cart, Ordine preview_order){
+    private <T extends Pagamento> boolean processPayment(HttpServletRequest request, T pagamento, ProxyUtente user, Carrello cart, Ordine preview_order){
           // If validation is successful, proceed with payment processing...                                    
         try {
             preview_order.setStato(ObjectOrdine.Stato.Richiesta_effettuata);
@@ -198,6 +200,7 @@ public class CheckoutControl extends HttpServlet {
                 }
                 // Initialize the credit card payment object
                 pagamento= new PagamentoCartaCredito(1, preview_order, (float) cart.totalAmount(), titolare, ccNumber);
+                System.out.println(titolare);
                 success = processPayment(request, pagamento, user, cart, preview_order);                  
             break;
             case "Paypal":

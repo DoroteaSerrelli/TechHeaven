@@ -245,7 +245,6 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 		}
 
 		if(information.equalsIgnoreCase("RIMUOVERE-INDIRIZZO")) {
-			System.out.println("SONO QUI A RIMUOVERE");
 			if(userDAO.doRetrieveFullUserByKey(user.getUsername()) == null)
 				throw new UtenteInesistenteException("Errore nel recupero delle informazioni relative"
 						+ "all'utente");

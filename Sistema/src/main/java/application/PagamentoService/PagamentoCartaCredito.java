@@ -53,6 +53,8 @@ public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 
 	public PagamentoCartaCredito(int codicePagamento, Ordine ordine, float importo, String user, String numCard) {
 		super(codicePagamento, ordine, importo);
+		 this.titolare = user;
+         this.numeroCarta = numCard;
 	}
 	
 	/**

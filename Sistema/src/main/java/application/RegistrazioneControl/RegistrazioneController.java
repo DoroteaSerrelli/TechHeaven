@@ -28,17 +28,21 @@ import storage.AutenticazioneDAO.IndirizzoDAODataSource;
 public class RegistrazioneController extends HttpServlet {
 
 	/**
-	 * 
+	 * serialVersionUID : È un campo statico finale a lungo raggio utilizzato 
+	 * per la serializzazione dell'oggetto.
 	 */
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * Handles the HTTP <code>GET</code> method.
+	 * Gestisce la richiesta HTTP GET.
 	 *
-	 * @param request servlet request
-	 * @param response servlet response
-	 * @throws ServletException if a servlet-specific error occurs
-	 * @throws IOException if an I/O error occurs
+	 * Questa servlet delega l'elaborazione alla funzione `doPost` in quanto la registrazione
+	 * di un nuovo utente richiede l'invio di dati tramite il metodo POST.
+	 *
+	 * @param request : servlet request
+	 * @param response : servlet response
+	 * @throws ServletException : se si verifica un errore nella servlet
+	 * @throws IOException : se si verifica un errore di I/O
 	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -47,12 +51,17 @@ public class RegistrazioneController extends HttpServlet {
 	}
 
 	/**
-	 * Handles the HTTP <code>POST</code> method.
+	 * Gestisce la richiesta HTTP POST.
 	 *
-	 * @param request servlet request
-	 * @param response servlet response
-	 * @throws ServletException if a servlet-specific error occurs
-	 * @throws IOException if an I/O error occurs
+	 * Questo metodo recupera i dati dell'utente dal form di registrazione e li utilizza
+	 * per creare un nuovo oggetto `Cliente` tramite il servizio `RegistrazioneServiceImpl`.
+	 * Se la registrazione avviene con successo, l'utente viene reindirizzato all'Area Riservata,
+	 * altrimenti viene visualizzata una pagina di errore con un messaggio appropriato.
+	 *
+	 * @param request : servlet request
+	 * @param response : servlet response
+	 * @throws ServletException : se si verifica un errore nella servlet
+	 * @throws IOException : se si verifica un errore di I/O
 	 */
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
@@ -84,17 +93,17 @@ public class RegistrazioneController extends HttpServlet {
 			request.getSession().setAttribute("user", u);
 			request.setAttribute("Indirizzi",indirizzi);
 			response.sendRedirect(request.getContextPath() + "/AreaRiservata");
-		
+
 		}catch(NullPointerException e) {
 			String message = "Non e\' possibile associare l'username inserita al tuo account.\n "
 					+ "Riprova la registrazione inserendo un'altra username.";
 			request.getSession().setAttribute("error", message);
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
-			
+
 		}catch (UtentePresenteException | EmailPresenteException e) {
 			request.getSession().setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
-		
+
 		}catch(SQLException e) {
 			Logger.getLogger(RegistrazioneController.class.getName()).log(Level.SEVERE, null, e);
 			request.getSession().setAttribute("error", e.getMessage());

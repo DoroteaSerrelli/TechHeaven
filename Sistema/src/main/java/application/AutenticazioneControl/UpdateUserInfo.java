@@ -1,17 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package application.AutenticazioneControl;
 
 import application.RegistrazioneService.Indirizzo;
 import application.RegistrazioneService.ProxyUtente;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -19,59 +12,88 @@ import javax.servlet.http.HttpServletResponse;
 import storage.AutenticazioneDAO.IndirizzoDAODataSource;
 
 /**
+ * Servlet che permette la visualizzazione e l'aggiornamento delle informazioni personali dell'utente.
+ *
+ * Questa servlet recupera le informazioni dell'utente attualmente autenticato e le inoltra
+ * alla pagina JSP `protected/cliente/updateUserInfo.jsp` per la visualizzazione.
  *
  * @author raffa
  */
+
 public class UpdateUserInfo extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
+	/**
+	 * serialVersionUID : È un campo statico finale a lungo raggio utilizzato 
+	 * per la serializzazione dell'oggetto.
+	 */
+	private static final long serialVersionUID = 1L;
+
+	/**
+     * Gestisce le richieste HTTP GET e POST.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Questo metodo controlla se l'utente è autenticato. Se l'utente non è autenticato,
+     * viene reindirizzato alla pagina di autenticazione. Altrimenti, recupera le informazioni 
+     * dell'utente (inclusa la lista di indirizzi) e le inoltra alla pagina JSP dedicata 
+     * all'aggiornamento dei dati personali.
+     *
+     * @param request : servlet request
+     * @param response : servlet response
+     * @throws ServletException : se si verifica un errore nella servlet
+     * @throws IOException : se si verifica un errore di I/O
      */
+	
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	
         ProxyUtente u = (ProxyUtente) request.getSession().getAttribute("user");
         if (u==null || u.getUsername().equals("")) {
            response.sendRedirect(request.getContextPath() + "Autenticazione");
            return;
         }    
-        // Retrieve data from request or session if needed
+        
         ArrayList<Indirizzo> indirizzi = (ArrayList<Indirizzo>) request.getAttribute("Indirizzi");
         if(indirizzi==null){
             try {
                 loadUserAddresses(request, u);
             } catch (SQLException ex) {
-                Logger.getLogger(AreaRiservata.class.getName()).log(Level.SEVERE, null, ex);
+            	String error = "Errore nel recupero della tua rubrica degli indirizzi.";
+				request.setAttribute("error", error);
+				response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
             }
         }
-        if(request.getSession().getAttribute("error")!=null){
-            String error = (String) request.getSession().getAttribute("error");
-            request.getSession().removeAttribute("error");
-            request.setAttribute("error", error);
-        }
-        // Forward to JSP
+
         request.getRequestDispatcher("protected/cliente/updateUserInfo.jsp").forward(request, response);
     }
+    
+    
+    /**
+     * Recupera la lista degli indirizzi dell'utente.
+     *
+     * Questo metodo recupera la lista degli indirizzi associati all'utente autenticato.
+     * 
+     * @param request : servlet request
+     * @param utente : l'utente autenticato
+     * @throws SQLException : se si verifica un errore durante l'accesso al database
+     */
+    
     private void loadUserAddresses(HttpServletRequest request, ProxyUtente u) throws SQLException {
         IndirizzoDAODataSource indDAO = new IndirizzoDAODataSource();
         ArrayList<Indirizzo> indirizzi = indDAO.doRetrieveAll("Indirizzo.via", u.getUsername());
         request.setAttribute("Indirizzi", indirizzi); 
        
     }
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    
     /**
-     * Handles the HTTP <code>GET</code> method.
+     * Gestice la richiesta HTTP GET.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Delega l'elaborazione alla funzione processRequest
+     *
+     * @param request : servlet request
+     * @param response : servlet response
+     * @throws ServletException : se si verifica un errore nella servlet
+     * @throws IOException : se si verifica un errore di I/O
      */
+    
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -79,27 +101,19 @@ public class UpdateUserInfo extends HttpServlet {
     }
 
     /**
-     * Handles the HTTP <code>POST</code> method.
+     * Gestice la richiesta HTTP POST.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Delega l'elaborazione alla funzione processRequest
+     *
+     * @param request : servlet request
+     * @param response : servlet response
+     * @throws ServletException : se si verifica un errore nella servlet
+     * @throws IOException : se si verifica un errore di I/O
      */
+    
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
-
 }

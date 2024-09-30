@@ -24,7 +24,7 @@ function showUpdateForm(field, action) {
         if(field==='address'){
             switch(action){
                 case 'AddIndirizzo':                    
-                    document.getElementById('conf_button').value = "Add Address";
+                    document.getElementById('conf_button').value = "Aggiungi Indirizzo";
                     document.getElementById('updateInfoForm').action = 'UpdateAddressController?action=AddIndirizzo';
                     clickedOptionId = 'addAddress'; // Set the correct ID for highlighting
                     break;
@@ -53,14 +53,14 @@ function showUpdateForm(field, action) {
                     clickedOptionId = 'deleteAddress'; // Set the correct ID for highlighting  
                     break;
                 default:
-                    document.getElementById('conf_button').value = "Modify Email-Tel";
+                    document.getElementById('conf_button').value = "Aggiorna";
                     document.getElementById('updateInfoForm').action = 'UpdateProfileController';
                     break;    
             }
         }
         else{
             clickedOptionId = field; // For non-address fields, use the field directly
-            document.getElementById('conf_button').value = "Modify Email-Tel";
+            document.getElementById('conf_button').value = "Aggiorna";
             document.getElementById('updateInfoForm').action = 'UpdateProfileController';
         }
         // Highlight the selected option
@@ -94,7 +94,7 @@ function deleteAddress(index) {
     document.getElementById('updateInfoForm').action = `UpdateAddressController?action=RemoveIndirizzo&addressIndex=${index}`;
     
     // Optionally, show a confirmation message or button
-    const confirmation = confirm("Are you sure you want to delete this address?");
+    const confirmation = confirm("Sei sicuro di voler cancellare l'indirizzo?");
     if (confirmation) {
         document.getElementById('updateInfoForm').submit();
     }

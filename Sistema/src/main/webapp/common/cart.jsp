@@ -16,7 +16,7 @@
 	href="<%= request.getContextPath()%>/style/cart.css">
 </head>
 <body>
-	<jsp:include page="/common/header.jsp"
+	<jsp:include page="common/header.jsp"
 		flush="true" />
      <div class="errormsg">
         <%
@@ -53,7 +53,7 @@
         <div id="complete_order">
             <h1>Totale provvisorio:</h1>
             <h3 id="total_amount"><%= String.format("%.2f", carrello.totalAmount()) %>€</h3>
-            <a href="/CheckoutCarrello">Click here to proceed with the order</a>
+            <a href="<%= request.getContextPath() %>/CheckoutCarrello">Click here to proceed with the order</a>
         </div>
 
         <%
@@ -109,7 +109,7 @@
             }
         %>
     </div>
-        <jsp:include page="/common/footer.jsp"
+        <jsp:include page="common/footer.jsp"
 		flush="true" />
 
 </body>

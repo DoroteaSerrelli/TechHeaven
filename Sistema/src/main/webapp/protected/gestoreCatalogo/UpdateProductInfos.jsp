@@ -119,6 +119,7 @@
                        <div id="pagination"></div>
             </section>
                          <section id="modifyPropertiesForm" class="form-section hidden">
+                             <a href="<%=request.getContextPath()%>/GestioneCatalogo">Annulla</a>
                     <h2 id="changeable">Modifica Prodotto</h2>
                     <form id="productForm" action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
                         <!-- Product Details Group -->                       

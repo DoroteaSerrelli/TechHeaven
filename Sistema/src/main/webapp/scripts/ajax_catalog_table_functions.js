@@ -192,7 +192,7 @@ function openModifyForm(product) {
     $('#removeProductForm').addClass('hidden');
     $('#modifyPropertiesForm').removeClass('hidden');
     
-    $('#changeable').html("Modify Product Informations");
+    $('#changeable').html("Modifica Informazioni del Prodotto");
     
     enableModify();
     populateFields(product);   
@@ -211,7 +211,7 @@ function openDeleteForm(product) {
     $('#removeProductForm').addClass('hidden');
     $('#modifyPropertiesForm').removeClass('hidden');
     
-    $('#changeable').html("Delete Product - Verify Deletion");
+    $('#changeable').html("Elimina Prodotto - Verifica Cancellazione");
     
     disableModify();
     populateFields(product);

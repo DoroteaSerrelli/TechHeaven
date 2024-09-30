@@ -40,8 +40,8 @@ import storage.AutenticazioneDAO.IndirizzoDAODataSource;
  *
  * @author raffa
  */
-@WebServlet(name = "CheckoutControl", urlPatterns = {"/CheckoutCarrello"})
-public class CheckoutControl extends HttpServlet {
+@WebServlet(name = "CheckoutCarrello", urlPatterns = {"/CheckoutCarrello"})
+public class CheckoutCarrello extends HttpServlet {
     GestioneOrdiniServiceImpl gos;
     PagamentoServiceImpl ps;
     @Override
@@ -113,7 +113,7 @@ public class CheckoutControl extends HttpServlet {
             try {
                 loadUserAddresses(request, u);
             } catch (SQLException ex) {
-                Logger.getLogger(CheckoutControl.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(CheckoutCarrello.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         // Forward to JSP
@@ -148,7 +148,7 @@ public class CheckoutControl extends HttpServlet {
             return true;
             // Handle other payment methods (e.g., Paypal)
         } catch (SQLException | CarrelloException.ProdottoNonPresenteException | CarrelloException.CarrelloVuotoException | CarrelloException.ProdottoNulloException | OrdineException.OrdineVuotoException | PagamentoException.ModalitaAssenteException | CloneNotSupportedException ex) {
-            Logger.getLogger(CheckoutControl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CheckoutCarrello.class.getName()).log(Level.SEVERE, null, ex);
             System.out.println(ex.getMessage());
             request.getSession().setAttribute("error", ex.getMessage());        
             return false;
@@ -234,7 +234,7 @@ public class CheckoutControl extends HttpServlet {
             response.sendRedirect(request.getContextPath()+"/Pagamento");
             
         } catch (OrdineException.OrdineVuotoException ex) {
-            Logger.getLogger(CheckoutControl.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(CheckoutCarrello.class.getName()).log(Level.SEVERE, null, ex);
             request.getSession().setAttribute("error", ex);            
             response.sendRedirect(request.getContextPath()+"/CheckoutCarrello");           
         }

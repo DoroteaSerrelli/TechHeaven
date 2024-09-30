@@ -35,7 +35,7 @@ function validateProductID(input, object) {
 function validatePrice(input, object) {
     var priceRegex = /^[0-9]+(\.[0-9]+)?$/; // Allow whole numbers and decimal numbers
     if (!priceRegex.test(input.value)) {
-        addInvalidMessage("Il Prezzo deve essere nella forma numero.numero Es(14.56)", "prod" + object + "Error");
+        addInvalidMessage("Questo campo non può essere vuoto", "prod" + object + "Error");
         return false;
     } else {
         removeInvalidMessage("prod" + object + "Error");
@@ -47,7 +47,7 @@ function validatePrice(input, object) {
 function validateProductNameorModel(input, object) {
     const productNameRegex = /^[A-Za-z0-9\s]+$/;
     if (!productNameRegex.test(input.value)) {
-        addInvalidMessage("Il "+ object +" deve essere una combinazione di lettere e numeri come Xiaomi9T","prod"+object+"Error");  	     			
+        addInvalidMessage("Il "+ object +" deve contenere numeri e/o lettere","prod"+object+"Error");  	     			
         return false;
     }
     else{
@@ -59,7 +59,7 @@ function validateProductNameorModel(input, object) {
 function validateBrand(input){
      const productBrandRegex = /^[A-Za-z]+$/;
     if (!productBrandRegex.test(input.value)) {
-        addInvalidMessage("La Marca deve essere composta di sole lettere senza spazi", "prodBrandError");	     			
+        addInvalidMessage("La marca del prodotto deve contenere lettere ed eventualmente spazi", "prodBrandError");	     			
         return false;
     }
     else{
@@ -72,7 +72,12 @@ function validateDettailsAndDescription (input, object) {
 //    const regex = /^(?!.*<[^>]+)[a-zA-Z0-9\s!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]{10,300}$/; 
     // Check if the input matches the regex pattern after trimming whitespace
     if (input.value.trim()==="") { // Corrected closing parenthesis
-        addInvalidMessage("La Descrizione e o Dettagli devono essere una combinazione di lettere e numeri", "prod" + object + "Error");
+        if(object==='Descrizione'){
+            addInvalidMessage("La descrizione di presentazione non può essere vuota", "prod" + object + "Error");        
+        }
+        else{
+            addInvalidMessage("Le caratteristiche in dettaglio di un prodotto devono essere specificate", "prod" + object + "Error");
+        }
         return false;
     } else {
         removeInvalidMessage("prod" + object + "Error");

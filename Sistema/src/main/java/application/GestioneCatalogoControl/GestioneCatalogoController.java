@@ -244,8 +244,10 @@ public class GestioneCatalogoController extends HttpServlet {
                  Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
                  request.getSession().setAttribute("error", ex.getMessage());
                  System.out.println(ex.getMessage());
+                 response.sendRedirect(request.getContextPath()+"/GestioneCatalogo");
              } catch (CatalogoException.ProdottoNonInCatalogoException ex) {
             Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
+             response.sendRedirect(request.getContextPath()+"/GestioneCatalogo");
         }
     }      
                                                

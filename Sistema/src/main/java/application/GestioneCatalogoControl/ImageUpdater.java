@@ -94,9 +94,6 @@ public class ImageUpdater extends HttpServlet {
         processRequest(request, response);
     }
 
-
-    private int perPage= 50;
-    
     /**
      * Handles the HTTP <code>POST</code> method.
      *
@@ -105,6 +102,7 @@ public class ImageUpdater extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+    private int perPage= 50;
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {      

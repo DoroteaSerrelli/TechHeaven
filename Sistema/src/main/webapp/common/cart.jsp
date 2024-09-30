@@ -61,6 +61,7 @@
         %>          
         <div id="item_<%= p.getCodiceProdotto() %>" class="cart-item">
             <p><%= p.getNomeProdotto() + "  " %></p>
+            <p> <%=p.getDettagli()%> </p>
             <span style="color: #F28C44; font-size: 20px"><%= p.getMarca() %></span>
             <div class="row">
                 <img src="image?productId=<%= p.getCodiceProdotto() %>" alt="alt"

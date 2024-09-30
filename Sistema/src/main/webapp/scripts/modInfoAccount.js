@@ -9,6 +9,7 @@ function closeUpdateBar() {
 
 function showUpdateForm(field, action) {
     // Hide all update forms
+    currentAction = action; // Set the global current action
     var updateForms = document.querySelectorAll('.row[id^="update"]');
     updateForms.forEach(function(form) {
         form.style.display = 'none';
@@ -22,24 +23,35 @@ function showUpdateForm(field, action) {
         var clickedOptionId;
         if(field==='address'){
             switch(action){
-                case 'addAddress':                    
+                case 'AddIndirizzo':                    
                     document.getElementById('conf_button').value = "Add Address";
                     document.getElementById('updateInfoForm').action = 'UpdateAddressController?action=AddIndirizzo';
                     clickedOptionId = 'addAddress'; // Set the correct ID for highlighting
                     break;
-                case 'modifyAddress':                    
+                case 'UpdateIndirizzo':                    
                     if(addresses.length > 0){
-                        loadAddress(addresses[0].id);
+                        loadAddress(addresses[0].id, 'UpdateIndirizzo');
                     }
                     // Show the arrow for the first address
                     var firstArrow = document.getElementById('arrow_' + addresses[0].id);
                     if (firstArrow) {
                         firstArrow.style.display = 'inline';
                     }
-                    document.getElementById('conf_button').value = "Modify Address";
-                    document.getElementById('updateInfoForm').action = 'UpdateAddressController?action=UpdateIndirizzo';
+                    document.getElementById('conf_button').value = "Modifica Indirizzo";
                     clickedOptionId = 'modifyAddress'; // Set the correct ID for highlighting
-                    break;               
+                    break; 
+                case 'RemoveIndirizzo':
+                    if(addresses.length > 0){
+                        loadAddress(addresses[0].id, action);
+                    }
+                    // Show the arrow for the first address
+                    var firstArrow = document.getElementById('arrow_' + addresses[0].id);
+                    if (firstArrow) {
+                        firstArrow.style.display = 'inline';
+                    }
+                    document.getElementById('conf_button').value = "Elimina Indirizzo";
+                    clickedOptionId = 'deleteAddress'; // Set the correct ID for highlighting  
+                    break;
                 default:
                     document.getElementById('conf_button').value = "Modify Email-Tel";
                     document.getElementById('updateInfoForm').action = 'UpdateProfileController';
@@ -88,8 +100,8 @@ function deleteAddress(index) {
     }
 }
 
-function loadAddress(index) {  
-    
+function loadAddress(index, action) {  
+    console.log(action);
      // Log the ID to ensure it's being passed correctly
     console.log("ID passed to loadAddress:", index);
 
@@ -107,7 +119,7 @@ function loadAddress(index) {
     document.getElementById('province').value = address.provincia;
     
     // Update the form action with the selected address index for modification
-    document.getElementById('updateInfoForm').action = `UpdateAddressController?action=UpdateIndirizzo&addressIndex=${index}`;
+    document.getElementById('updateInfoForm').action = `UpdateAddressController?action=${action}&addressIndex=${index}`;
     
     // Hide all arrows and remove highlighting from all addresses
     var arrows = document.querySelectorAll('.arrow');

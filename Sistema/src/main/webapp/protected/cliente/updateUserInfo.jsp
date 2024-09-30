@@ -24,6 +24,7 @@
 <script>
         // Initialize addresses array
         var addresses = [];
+        var currentAction = null; // Variable to store the current action
         <% 
             ArrayList<Indirizzo> indirizzi = (ArrayList<Indirizzo>)request.getAttribute("Indirizzi");
             if (indirizzi != null && !indirizzi.isEmpty()) {
@@ -43,13 +44,12 @@
                     document.addEventListener('DOMContentLoaded', function() {
                         var addressList = document.getElementById('addressList');
                         var addressHTML = '<div class="address-item" id="address_'+ '<%= indirizzoID %>' + '">' +
-                                '<p onclick="loadAddress(\'' + '<%= indirizzoID %>' + '\')">' +
+                                '<p onclick="loadAddress(\'' + '<%= indirizzoID %>' + '\', currentAction)">'+
                           '<img class="arrow" id="arrow_' + <%= indirizzoID %> + '" src="images/site_images/modif_arrow.png" style="display:none;" />' 
                           +'Via: <%= indirizzo.getVia() %> <%= indirizzo.getNumCivico() %>' +
                             '</p>' +
                             '<p>' +
                             '<%= indirizzo.getCap() %> <%= indirizzo.getCitta() %> (<%= indirizzo.getProvincia() %>)' +
-                            '<button class="delete_button" onclick="deleteAddress(\'' + '<%= indirizzo.getIDIndirizzo() %>' + '\')">Delete</button>' +
                             '</p>'+
                         '</div>';
                         addressList.innerHTML += addressHTML;
@@ -82,15 +82,18 @@
 	</div>
 	<div class="update_bar" id="update_bar">
 		<ul>
-			<li><a id="email" href="#" onclick="showUpdateForm('email')">Update
+			<li><a id="email" href="#" onclick="showUpdateForm('email')">Modifica
 					Email</a></li>
 			<li><a id="telefono" href="#"
-				onclick="showUpdateForm('telefono')">Update Phone Number</a></li>
+				onclick="showUpdateForm('telefono')">Modifica numero di telefono</a></li>
 			<li><a id="addAddress" href="#"
-				onclick="showUpdateForm('address', 'addAddress')">Add Address</a></li>
+				onclick="showUpdateForm('address', 'AddIndirizzo')">Aggiungi un Indirizzo</a></li>
 			<li><a id="modifyAddress" href="#"
-				onclick="showUpdateForm('address', 'modifyAddress')">Modify
-					Address</a></li>
+				onclick="showUpdateForm('address', 'UpdateIndirizzo')">Modifica un
+					Indirizzo</a></li>
+                         <li><a id="deleteAddress" href="#"
+				onclick="showUpdateForm('address', 'RemoveIndirizzo')">Elimina un
+					Indirizzo</a></li>               
 			<li><a href="#" id="close" onClick="closeUpdateBar()"> <svg
 						xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
 						height="24">

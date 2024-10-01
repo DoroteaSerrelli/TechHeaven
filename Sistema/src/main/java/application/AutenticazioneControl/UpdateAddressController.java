@@ -143,6 +143,9 @@ public class UpdateAddressController extends HttpServlet {
             Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex);
             String errormsg = "Errore durante la modifica delle informazioni";
             request.getSession().setAttribute("error", ex.getMessage());
+            // Store the action and field to remember what the user was doing
+            request.getSession().setAttribute("field", "address");  // Assuming we are working with addresses
+            request.getSession().setAttribute("currentAction", request.getParameter("action"));
             //Retrieve address after update failure to allow the user to see them and update them 
             // If needed.
             response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");          

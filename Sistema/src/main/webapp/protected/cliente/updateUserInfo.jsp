@@ -21,6 +21,25 @@
 <script
 	src="<%=request.getContextPath() %>/scripts/validations.js?ts=<%=System.currentTimeMillis()%>"></script>
 <!-- Include any necessary scripts -->
+<%
+    // Get error, field, and action from the session  
+    String field = (String) request.getSession().getAttribute("field");
+    String currentAction = (String) request.getSession().getAttribute("currentAction");
+
+    // Clear these attributes after displaying them
+    request.getSession().removeAttribute("field");
+    request.getSession().removeAttribute("currentAction");
+%>
+
+<script>
+    var field = '<%= field != null ? field : "" %>';
+    var currentAction = '<%= currentAction != null ? currentAction : "" %>';
+    // Show the appropriate form based on field and currentAction
+    if (field !== "") {
+        showUpdateForm(field, currentAction);
+    }
+</script>
+</script>
 <script>
         // Initialize addresses array
         var addresses = [];

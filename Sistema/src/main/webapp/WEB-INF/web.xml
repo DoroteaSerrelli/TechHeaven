@@ -342,6 +342,14 @@
         <url-pattern>/GestioneCatalogo</url-pattern>
     </servlet-mapping>
     <servlet>
+        <servlet-name>CatalogoServlet</servlet-name>
+        <jsp-file>/protected/gestoreCatalogo/Catalogo.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>CatalogoServlet</servlet-name>
+        <url-pattern>/Catalogo</url-pattern>
+    </servlet-mapping>
+    <servlet>
         <servlet-name>ModifyProductServlet</servlet-name>
         <jsp-file>/protected/gestoreCatalogo/UpdateProductInfos.jsp</jsp-file>
     </servlet>

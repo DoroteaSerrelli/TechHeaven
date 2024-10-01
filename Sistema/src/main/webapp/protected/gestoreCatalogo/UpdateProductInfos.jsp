@@ -73,8 +73,10 @@
        <aside class="options_sidebar visible" id="options_sidebar">
            <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>        
             <div class="fe-box" id="viewProducts" onclick="moveToSidebar('viewProducts', 'viewProductsForm')">
+                <a href="/Catalogo">
                     <img src="${pageContext.request.contextPath}/images/site_images/listaprodotto.png" alt="Visualizza Prodotti">
                     <h6>Visualizza Prodotti</h6>
+                </a>    
             </div>
             <div class="fe-box" id="addProduct">
                 <a href="/GestioneCatalogo"><img src="${pageContext.request.contextPath}/view/img/addprodotto.png" alt="Aggiungi un nuovo prodotto"></a>

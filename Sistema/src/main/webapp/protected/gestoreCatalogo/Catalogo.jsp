@@ -28,6 +28,19 @@
     </head>
     <body>
          <jsp:include page="/protected/cliente/roleSelector.jsp"  flush="true"/> 
+         <div class="errormsg"> 
+           <p id="updateMessage"></p>
+       </div>
+        <script>
+            $(document).ready(function() {
+                const outputMessage = sessionStorage.getItem('outputMessage');
+                console.log('Output message:', outputMessage); // Log the output message
+                const errorElement = document.getElementById('updateMessage');
+                console.log('Error element found:', errorElement); // Check if element is found
+                errorElement.innerHTML = outputMessage;
+                sessionStorage.removeItem('outputMessage');
+            });
+        </script>  
          <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>
         <jsp:include page="/protected/gestoreCatalogo/catalogo_toolbar.jsp"  flush="true"/> 
          <section id="viewProductsForm" class="form-section">

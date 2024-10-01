@@ -166,20 +166,7 @@
             %>
             <h2> <%=errormsg%> </h2>
             <%request.getSession().removeAttribute("error");%>
-        </div>                   
-       <div class="errormsg"> 
-           <p id="updateMessage"></p>
-       </div>
-        <script>
-            $(document).ready(function() {
-                const outputMessage = sessionStorage.getItem('outputMessage');
-                console.log('Output message:', outputMessage); // Log the output message
-                const errorElement = document.getElementById('updateMessage');
-                console.log('Error element found:', errorElement); // Check if element is found
-                errorElement.innerHTML = outputMessage;
-                sessionStorage.removeItem('outputMessage');
-            });
-        </script>                
+        </div>                                      
        <script src="${pageContext.request.contextPath}/scripts/shifting_menu_manag_functions_sidebar.js"></script>
        <script src="${pageContext.request.contextPath}/scripts/validateNewProduct.js"></script>      
        <script src="${pageContext.request.contextPath}/scripts/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>                    

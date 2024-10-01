@@ -136,23 +136,31 @@ public class UpdateAddressController extends HttpServlet {
 
 			String errorMsg = "Seleziona una informazione da modificare : AGGIUNGERE-INDIRIZZO, RIMUOVERE-INDIRIZZO, AGGIORNARE-INDIRIZZO.";
 			request.getSession().setAttribute("error", errorMsg);
+                        request.getSession().setAttribute("field", "address");  // Assuming we are working with addresses
+                        request.getSession().setAttribute("currentAction", request.getParameter("action"));
 			response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
 
 		}catch(FormatoIndirizzoException ex) {
 
 			request.getSession().setAttribute("error", ex.getMessage());
+                        request.getSession().setAttribute("field", "address");  // Assuming we are working with addresses
+                        request.getSession().setAttribute("currentAction", request.getParameter("action"));
 			response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
 
 		}catch(IndirizzoEsistenteException ex) {
 
 			String errorMsg = "L\\'indirizzo inserito è già presente nella tua rubrica degli indirizzi.";
 			request.getSession().setAttribute("error", errorMsg);
+                        request.getSession().setAttribute("field", "address");  // Assuming we are working with addresses
+                        request.getSession().setAttribute("currentAction", request.getParameter("action"));
 			response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
 
 		}catch(RimozioneIndirizzoException | ModificaIndirizzoException ex) {
 
 			String errorMsg = "L\\'indirizzo inserito non è presente nella tua rubrica degli indirizzi.";
 			request.getSession().setAttribute("error", errorMsg);
+                        request.getSession().setAttribute("field", "address");  // Assuming we are working with addresses
+                        request.getSession().setAttribute("currentAction", request.getParameter("action"));
 			response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
 
 		} catch (UtenteInesistenteException | SQLException ex) {
@@ -160,6 +168,8 @@ public class UpdateAddressController extends HttpServlet {
 			Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex);
 			String errormsg = "Errore durante la modifica delle informazioni";
 			request.getSession().setAttribute("error", errormsg);
+                        request.getSession().setAttribute("field", "address");  // Assuming we are working with addresses
+                        request.getSession().setAttribute("currentAction", request.getParameter("action"));
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");          
 
 		}    

@@ -32,14 +32,16 @@
 %>
 
 <script>
-    var field = '<%= field != null ? field : "" %>';
-    var currentAction = '<%= currentAction != null ? currentAction : "" %>';
-    // Show the appropriate form based on field and currentAction
-    if (field !== "") {
-        showUpdateForm(field, currentAction);
-    }
+    document.addEventListener('DOMContentLoaded', function() {
+        var field = '<%= field != null ? field : "" %>';
+        var currentAction = '<%= currentAction != null ? currentAction : "" %>';
+        // Show the appropriate form based on field and currentAction
+        if (field !== "") {
+            showUpdateForm(field, currentAction);
+        }
+    });
 </script>
-</script>
+
 <script>
         // Initialize addresses array
         var addresses = [];

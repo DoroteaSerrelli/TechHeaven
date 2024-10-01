@@ -237,7 +237,7 @@ public class AutenticazioneException extends Exception{
 	}
 	
 	/**
-	 * Classe statica per gestire l'assenza di un indirizzo dell'utente da eliminare o da 
+	 * Classe statica per gestire l'assenza di un indirizzo dell'utente da 
 	 * aggiornare.
 	 * */
 	public static class ModificaIndirizzoException extends AutenticazioneException {
@@ -248,6 +248,22 @@ public class AutenticazioneException extends Exception{
 		 * @param message il messaggio dell'eccezione da far visualizzare
 		 * */
 		public ModificaIndirizzoException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire l'assenza di un indirizzo dell'utente da 
+	 * rimuovere.
+	 * */
+	public static class RimozioneIndirizzoException extends AutenticazioneException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public RimozioneIndirizzoException(String message) {
 			super(message);
 		}
 	}

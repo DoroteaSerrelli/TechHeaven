@@ -140,7 +140,10 @@ public class IndirizzoDAODataSource {
 
 		Indirizzo dto = new Indirizzo(-1, "", "", "", "", "");
 
-		String selectSQL = "SELECT * FROM " + IndirizzoDAODataSource.TABLE_NAME + " WHERE (UTENTE = ? AND INDIRIZZO = ?) ";
+		String selectSQL = "SELECT * FROM " + IndirizzoDAODataSource.TABLE_NAME + 
+				" INNER JOIN POSSIEDE_INDIRIZZO ON (POSSIEDE_INDIRIZZO.INDIRIZZO = "
+				+ IndirizzoDAODataSource.TABLE_NAME + ".IDINDIRIZZO )"+
+				" WHERE (UTENTE = ? AND INDIRIZZO = ?) ";
 
 		try {
 			connection = ds.getConnection();

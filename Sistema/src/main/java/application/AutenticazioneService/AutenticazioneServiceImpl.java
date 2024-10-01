@@ -14,6 +14,7 @@ import application.AutenticazioneService.AutenticazioneException.TelefonoEsisten
 import application.AutenticazioneService.AutenticazioneException.UtenteInesistenteException;
 import application.AutenticazioneService.AutenticazioneException.InformazioneDaModificareException;
 import application.AutenticazioneService.AutenticazioneException.ModificaIndirizzoException;
+import application.AutenticazioneService.AutenticazioneException.RimozioneIndirizzoException;
 import application.AutenticazioneService.AutenticazioneException.PasswordEsistenteException;
 import application.RegistrazioneService.Cliente;
 import application.RegistrazioneService.Indirizzo;
@@ -55,7 +56,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 	 * @throws UtenteInesistenteException : lanciata nel caso in cui l'utente non è
 	 * 			registrato nel sistema
 	 * */
-	
+
 	@Override
 	public ProxyUtente login(String username, String password) throws SQLException, UtenteInesistenteException {
 		UtenteDAODataSource userDAO = new UtenteDAODataSource();
@@ -91,7 +92,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 	 * @throws PasswordEsistenteException : lanciata nel caso in cui l'utente inserisce come nuova password,
 	 * 										la password che già possiede nel database
 	 * */
-	
+
 	@Override
 	public void resetPassword(String username, String email, String newPassword) throws UtenteInesistenteException, FormatoPasswordException, SQLException, PasswordEsistenteException {
 		UtenteDAODataSource userDAO = new UtenteDAODataSource();
@@ -108,8 +109,8 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 				Utente isEqual = new Utente("", newPassword, null);
 
 				if(userReal.getPassword().equals(isEqual.getPassword()))
-						throw new PasswordEsistenteException("Non è possibile associare questa password al tuo account. Inserisci una altra password.");
-				
+					throw new PasswordEsistenteException("Non è possibile associare questa password al tuo account. Inserisci una altra password.");
+
 				userReal.setPasswordToHash(newPassword);
 				userDAO.doResetPassword(username, userReal.getPassword());
 
@@ -149,7 +150,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 	 * @throws InformazioneDaModificareException : viene lanciata nel caso in cui non è stata selezionata alcuna
 	 * 												informazione del profilo (email, numero di telefono) da aggiornare
 	 * */
-	
+
 	@Override
 	public ProxyUtente aggiornaProfilo(ProxyUtente user, String information, String updatedData) throws SQLException, FormatoEmailException, ProfiloInesistenteException, EmailEsistenteException, TelefonoEsistenteException, FormatoTelefonoException, InformazioneDaModificareException {
 		UtenteDAODataSource userDAO = new UtenteDAODataSource();
@@ -214,15 +215,16 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 	 * 
 	 * @throws UtenteInesistenteException : viene lanciata nel caso in cui l'utente non è registrato nel sistema.
 	 * 
-	 * @throws ModificaIndirizzoException : gestisce l'assenza di un indirizzo dell'utente da eliminare o da 
-	 * 										aggiornare.
+	 * @throws RimozioneIndirizzoException : gestisce l'assenza di un indirizzo dell'utente da eliminare.
+	 * 
+	 * @throws ModificaIndirizzoException : gestisce l'assenza di un indirizzo dell'utente da aggiornare.
 	 * 
 	 * @throws InformazioneDaModificareException : viene lanciata nel caso in cui non è stata selezionata alcuna
 	 * 												informazione da modificare
 	 * */
-	
+
 	@Override
-	public ProxyUtente aggiornaRubricaIndirizzi(ProxyUtente user, String information, Indirizzo updatedData) throws UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, SQLException, ModificaIndirizzoException, InformazioneDaModificareException {
+	public ProxyUtente aggiornaRubricaIndirizzi(ProxyUtente user, String information, Indirizzo updatedData) throws UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, SQLException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException {
 		UtenteDAODataSource userDAO = new UtenteDAODataSource();
 		IndirizzoDAODataSource addressDAO = new IndirizzoDAODataSource();
 
@@ -251,7 +253,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 			else {
 				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll("", user.getUsername());
 				if(!addresses.contains(updatedData))
-					throw new ModificaIndirizzoException("Indirizzo inserito non associato all'utente");
+					throw new RimozioneIndirizzoException("Indirizzo inserito non associato all'utente");
 				else {
 					if(!Indirizzo.checkValidate(updatedData))
 						throw new FormatoIndirizzoException("Formato dell'indirizzo non valido");

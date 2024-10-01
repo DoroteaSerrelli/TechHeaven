@@ -12,6 +12,7 @@ import application.AutenticazioneService.AutenticazioneException.InformazioneDaM
 import application.AutenticazioneService.AutenticazioneException.ModificaIndirizzoException;
 import application.AutenticazioneService.AutenticazioneException.PasswordEsistenteException;
 import application.AutenticazioneService.AutenticazioneException.ProfiloInesistenteException;
+import application.AutenticazioneService.AutenticazioneException.RimozioneIndirizzoException;
 import application.AutenticazioneService.AutenticazioneException.TelefonoEsistenteException;
 import application.AutenticazioneService.AutenticazioneException.UtenteInesistenteException;
 import application.RegistrazioneService.Indirizzo;
@@ -107,7 +108,7 @@ public interface AutenticazioneService {
 	 * 
 	 * @param user : l'utente che richiede la modifica del proprio profilo
 	 * @param information : l'informazione che l'utente intende modificare (inserimento/
-	 * rimozione/aggiornamento di un indirizzo)
+	 * 						rimozione/aggiornamento di un indirizzo)
 	 * @param updatedData : l'indirizzo di spedizione da inserire/rimuovere/aggiornato da memorizzare
 	 * 
 	 * @return un oggetto della classe ProxyUtente che contiene le informazioni username, password, 
@@ -124,13 +125,14 @@ public interface AutenticazioneService {
 	 * 
 	 * @throws UtenteInesistenteException : viene lanciata nel caso in cui l'utente non è registrato nel sistema.
 	 * 
-	 * @throws ModificaIndirizzoException : gestisce l'assenza di un indirizzo dell'utente da eliminare o da 
-	 * 										aggiornare.
+	 * @throws RimozioneIndirizzoException : gestisce l'assenza di un indirizzo dell'utente da eliminare.
+	 * 
+	 * @throws ModificaIndirizzoException : gestisce l'assenza di un indirizzo dell'utente da aggiornare.
 	 * 
 	 * @throws InformazioneDaModificareException : viene lanciata nel caso in cui non è stata selezionata alcuna
 	 * 												informazione da modificare
 	 * */
 	
-	public ProxyUtente aggiornaRubricaIndirizzi(ProxyUtente user, String information, Indirizzo updatedData) throws UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, SQLException, ModificaIndirizzoException, InformazioneDaModificareException;
+	public ProxyUtente aggiornaRubricaIndirizzi(ProxyUtente user, String information, Indirizzo updatedData) throws UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, SQLException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException;
 
 }

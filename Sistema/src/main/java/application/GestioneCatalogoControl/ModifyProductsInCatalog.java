@@ -201,7 +201,7 @@ public class ModifyProductsInCatalog extends HttpServlet {
         }
         // Create a map to store JSON response
         responseMap.put("message", outputMessage);
-        responseMap.put("redirectUrl", request.getContextPath() + "/GestioneCatalogo");
+        responseMap.put("redirectUrl", request.getContextPath() + "/Catalogo");
         
         // Convert map to JSON string using GSON
         return gson.toJson(responseMap);

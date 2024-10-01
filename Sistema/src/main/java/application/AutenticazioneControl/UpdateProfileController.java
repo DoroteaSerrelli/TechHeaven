@@ -107,7 +107,7 @@ public class UpdateProfileController extends HttpServlet {
 			//Si verifica quale campo vuole cambiare l'utente
 
 			if (updated_email != null && !updated_email.isEmpty()) {
-
+                                request.getSession().setAttribute("field", "email");  // Assuming we are working with addresses                           
 				//Si verifica se updated_email è uguale all'email associata all'utente nel database
 				Utente real_user = user.mostraUtente();
 				if(real_user.getProfile().getEmail().equals(updated_email)){
@@ -119,7 +119,8 @@ public class UpdateProfileController extends HttpServlet {
 				updated_user = as.aggiornaProfilo(user, "EMAIL", updated_email);     
 			}
 
-			if (updated_tel != null &&  !updated_tel.isEmpty()) {
+			if (updated_tel != null &&  !updated_tel.isEmpty()) {                           
+                                request.getSession().setAttribute("field", "telefono");
 				//Si verifica se updated_tel è uguale al recapito telefonico associato all'utente nel database
 
 				Utente real_user = user.mostraUtente();

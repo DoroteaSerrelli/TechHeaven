@@ -19,11 +19,7 @@
 				  application.NavigazioneService.Prodotto"%>
 
 <%
-    Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) request.getSession().getAttribute("products");
-   
-    if(products==null ||products.isEmpty()){ %>
-    <h4>Nessun prodotto trovato con la keyword: <%=request.getAttribute("keyword")%></h4>
-    <%}
+    Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) request.getSession().getAttribute("products"); 
     String keyword = (String) request.getAttribute("keyword");
 %>
 
@@ -63,6 +59,9 @@
         </div>
         <div class="search_results">
                <!-- Pagination links -->
+        <%   if(products==null ||products.isEmpty()){ %>
+                <h4>Nessun prodotto trovato con la keyword: <%=request.getAttribute("keyword")%></h4>
+        <%  } else{ %>
             <jsp:include page="/common/pagination_research.jsp"  flush="true"/>
         <!--    <div class="errormsg">                                             
                <p id="error" class="error"></p>                                        
@@ -115,7 +114,8 @@
                                 <img class="wishlist" src="<%= request.getContextPath()%>/images/site_images/icon_wishlist.png" alt = "wishlist">
                             </a>    
                     </div>                    
-             <%}%>
+             <%} 
+        }%>
               </div>
         </section>
         </div>

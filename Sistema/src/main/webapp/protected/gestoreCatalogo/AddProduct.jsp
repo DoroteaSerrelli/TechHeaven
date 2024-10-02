@@ -1,132 +1,114 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
 <!DOCTYPE html>
-<html lang="en">
-    <head>       
-        <title>Add Product Form</title>
+<html lang="it">
+    <head>
+        <title>TechHeaven</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <link rel="stylesheet" href="../styles/prod.css"> 
-            <link rel="stylesheet" href="../style.css">
-            <script>
-            function validate(){
-		if(!validatePrice() || !validateName() || !validateDesc() || !validateBrand() || !validateImgPath()) return false;
-           }
-           function validatePrice(){
-                let n= document.forms["products"]["pricetag"].value;
-                var pattern=/^(?:0\.[0-9]{1,2}|[1-9]{1}[0-9]*(\.[0-9]{1,2})?|0)$/;
-                if(!n.match(pattern)){
-                    document.getElementById("error").innerHTML="didn't add price in a valid format (n.n) \n";
-                    error.classList.remove("valid");
-                    error.classList.add("invalid");				
-                    return false;
-                }
-                else{
-                 document.getElementById("error").innerHTML="OK";
-                error.classList.remove("invalid");									
-                error.classList.add("valid");	
-                return true;					
-                }	
-            }
-           function validateImgPath(){
-                let n= document.forms["products"]["img"].value;
-                var pattern=/^[A-Za-z]*[.][f-p]{3}$/;
-		if(!n.match(pattern)){
-                    document.getElementById("error").innerHTML="img needs to be inside the img/prodotti folder and be in the format\n"
-                    +"imgname.imgtype";
-                    error.classList.remove("valid");
-                    error.classList.add("invalid");				
-                return false;
-                }
-		else{
-                    document.getElementById("error").innerHTML="OK";
-                    error.classList.remove("invalid");									
-                    error.classList.add("valid");	
-		return true;					
-		}	
-           }
-            function validateName(){
-                let n= document.forms["products"]["name"].value;
-                var pattern=/^[A-Za-z]+$/;
-		if(!n.match(pattern)){
-                    document.getElementById("error").innerHTML="Product name must have alphabet characters only";
-                    error.classList.remove("valid");
-                    error.classList.add("invalid");				
-                return false;
-                }
-		else{
-                    document.getElementById("error").innerHTML="OK";
-                    error.classList.remove("invalid");									
-                    error.classList.add("valid");	
-		return true;					
-		}		
-            }
-            function validateBrand(){
-		let n= document.forms["products"]["brand"].value;
-		var pattern=/^[A-Za-z]+$/;
-		if(!n.match(pattern)){
-                    document.getElementById("error").innerHTML="Product brand must have alphabet characters only";
-                    error.classList.remove("valid");
-                    error.classList.add("invalid");				
-                return false;
-		}
-		else{
-                    document.getElementById("error").innerHTML="OK";	
-                    error.classList.remove("invalid");									
-                    error.classList.add("valid");	
-                return true;					
-		}		
-            }
-            function validateDesc(){
-		let n= document.forms["products"]["description"].value;
-		var pattern= /^[A-Za-z0-9 _]*$/;
-		//var pattern= /^[A-Za-z0-9 _]*[A-Za-z0-9][A-Za-z0-9 _] *$/;
-		if(!n.match(pattern)){
-                    document.getElementById("error").innerHTML="Product description must be a sequence of characters <br> and numbers separeted by whitespace without special characters";
-                    error.classList.remove("valid");
-                    error.classList.add("invalid");
-		return false;
-		}
-		else{
-                    document.getElementById("error").innerHTML="OK";	
-                    error.classList.remove("invalid");									
-                    error.classList.add("valid");	
-		return true;		
-		}		
-            }
-		</script>
-    </head>
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/style/style.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_options.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/style/product_table.css">
+        <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_form.css">             
+        <script type="text/javascript">
+            // Define the context path as a global variable
+            window.contextPath = '<%= request.getContextPath() %>';
+        </script>
+    </head>              
     <body>
-    <%@ include file="navibar.jsp" %>  
-     <!-- Prima effetueremò la validazione chiamando uno script che una volta superati tutti i controlli
-         restituirà true e permetterà al form di essere inviato al database !-->
-        <div class="section-p1"><form name="products" method="post"  action="../AddDataDatabase">
-            <ol>
-              <li><p>  Enter brand of the product: </p>
-                   <input type="text" name="brand" onchange="validateBrand()" required>
-              </li>
-              <li><p>  Enter the name of the product: </p>  
-                    <input type="text" name="name" onchange="validateName()" required>
-              </li>          
-              <li><p> Enter a short description of the product to be listed: </p>
-                    <input type="text" name="description" onchange="validateDesc()" required>
-              </li>			  
-              <li><p>  Enter the price of the product to be listed: </p>
-                    <input type="text" name="pricetag" onchange="validatePrice()" required>
-              </li>			  
-              <li><p>  Enter the amount left in stock of product to be listed: </p>
-                    <input type="number" name="quantity" required>
-              </li>
-                <li><p> Enter the amount in gr of product to be listed </p>
-                  <input type="number" name="pr_amouunt" required>
-               </li>			   
-        	<li><p>  Enter the img name (product photo needs to be inside img/prodotti folder): </p>
-                <input type="text" name="img" required>
-              </li>              
-              <li><input value="Submit" type="submit" name="submit" onclick="return validate()"></li>	      
-            </ol>
-            <div class="errormsg">
-	      <p id="error"></p>
-	    </div>   
-        </form></div>    
+       <jsp:include page="/common/header.jsp"  flush="true"/>
+       <jsp:include page="/protected/cliente/roleSelector.jsp"  flush="true"/>
+       <script type="text/javascript">
+            // Define the context path as a global variable
+            window.contextPath = '<%= request.getContextPath() %>';
+        </script> 
+        <script src="${pageContext.request.contextPath}/scripts/indexedDBUtils.js"></script>    
+        <div id="error">
+            <% String errormsg="";
+                errormsg= (String)request.getSession().getAttribute("error");
+                if(errormsg==null) errormsg="";                                                       
+            %>
+            <h2> <%=errormsg%> </h2>
+            <%request.getSession().removeAttribute("error");%>
+        </div>   
+         <jsp:include page="/protected/gestoreCatalogo/catalogo_toolbar.jsp"  flush="true"/> 
+         <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>                        
+     <div class="section-p1">  
+           <section id="" >
+            <!-- Your form for adding a new product -->     
+                    <a href="<%=request.getContextPath()%>/Catalogo">Annulla</a>
+                        <h2>Aggiungi un nuovo prodotto</h2>
+                        <form action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
+                             <div id="error"></div>
+                                <div class="form-group">                    
+                                    <label for="productID"> ID Prodotto </label>
+                                    <input type="number" id="number" name="productId" oninput="validateProductID(this, 'ID')" required>
+                                    <div id="prodIDError" class="erromsg" style="display:none;"></div>                           
+                                    <label for="productName">Nome Prodotto:</label>
+                                    <input type="text" id="productName" name="productName" oninput="validateProductNameorModel(this, 'Nome')" required>
+                                    <div id="prodNomeError" class="erromsg" style="display:none;"></div>                                                           
+                                </div>
+                            <div class="form-group">
+                                <label for="TopDescrizione">Top Descrizione:</label>
+                                <textarea name="topDescrizione" rows="5" cols="40" oninput="validateDettailsAndDescription(this, 'Descrizione')" required></textarea>
+                                <div id="prodDescrizioneError" class="erromsg" style="display:none;"></div>  
+                                <label for="Dettagli">Dettagli:</label>
+                                <textarea name="dettagli" rows="5" cols="40" oninput="validateDettailsAndDescription(this, 'Dettagli')" required></textarea>
+                                <div id="prodDettagliError" class="erromsg" style="display:none;"></div>     
+                            </div>   
+                        <div class="form-group">
+                            <label for="prezzo">Prezzo:</label>                       
+                            <input type="text" name="price" oninput="validatePrice(this, 'Prezzo')" required>
+                            <div id="prodPrezzoError" class="erromsg" style="display:none;"></div>  
+                        </div>
+                            <div class="form-group">
+                                <select name="categoria">
+                                    <option value="GRANDI_ELETTRODOMESTICI">Grandi Elettrodomestici</option>
+                                    <option value="PICCOLI_ELETTRODOMESTICI">Piccoli Elettrodomestici</option>
+                                    <option value="TELEFONIA">Telefonia</option>
+                                    <option value="PRODOTTI_ELETTRONICA">Prodotti Elettronica</option>                            
+                                </select>
+                                <select name="sottocategoria">
+                                    <option value="null">Nessuna Sottocategoria</option>
+                                    <option value="TABLET">Tablet</option>
+                                    <option value="SMARTPHONE">Smartphone</option>
+                                    <option value="PC">PC</option>
+                                    <option value="SMARTWATCH">Smartwatch</option>                               
+                                </select>
+                            </div>    
+                            <div class="form-group">
+                                <label for="marca">Marca:</label>
+                                <input type="text" id="marca" name="marca" oninput="validateBrand(this)" required>
+                                <div id="prodBrandError" class="erromsg" style="display:none;"></div> 
+                            </div>
+                        <div class="form-group">
+                            <label for="modello">Modello:</label>
+                            <input type="text" id="modello" name="modello" oninput="validateProductNameorModel(this, 'Modello')" required>
+                            <div id="prodModelloError" class="erromsg" style="display:none;"></div> 
+                        </div>
+                        <div class="form-group">
+                            <label for="inVetrina">In Vetrina:</label>
+                            <input type="checkbox" id="inVetrina" name="inVetrina" value="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="inCatalogo">In Catalogo:</label>
+                            <input type="checkbox" id="inCatalogo" name="inCatalogo" value="true">
+                        </div>
+                        <div class="form-group">
+                            <label for="quantità">Quantità:</label>
+                            <input type="number" id="quantità" name="quantita" oninput="validateProductID(this, 'Quantità')" required>
+                            <div id="prodQuantitàError" class="erromsg" style="display:none;"></div>  
+                        </div>                     
+                        <div class="form-group">
+                            <label for="file">Immagine:</label>
+                            <input type="file" id="file" name="file" accept="image/*">
+                        </div>
+                         <button type="submit" id="addPrBtn" onclick="return validateForm()">Aggiungi</button>
+                    </form>
+        </section>
+     </div>     
+       <script src="${pageContext.request.contextPath}/scripts/shifting_menu_manag_functions_sidebar.js"></script>
+       <script src="${pageContext.request.contextPath}/scripts/validateNewProduct.js"></script> 
+          <jsp:include page="/common/footer.jsp"  flush="true"/> 
     </body>
 </html>

@@ -32,13 +32,12 @@
     <body>     
         <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->
        <jsp:include page="/protected/cliente/roleSelector.jsp"  flush="true"/> 
-        <aside class="options_sidebar hidden" id="options_sidebar">
-           <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>        
+       <!--  <aside class="options_sidebar hidden" id="options_sidebar">
+           <button id="sidebar_toggle"><img src="/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>        
            
-            <!-- Sidebar will be populated by JavaScript -->
+            Sidebar will be populated by JavaScript -->
         </aside>      
-        <main class="main-content" id="mainContent">
-              <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>                       
+        <main class="main-content" id="mainContent">  
             <section id="centerMenu" class="center-menu">
                 <div class="fe-box" id="viewProducts" onclick="moveToSidebar('viewProducts', 'viewProductsForm')">
                     <a href="/Catalogo">
@@ -46,9 +45,11 @@
                     </a>
                     <h6>Visualizza Prodotti</h6>
                 </div>
-                    <div class="fe-box" id="addProduct" onclick="moveToSidebar('addProduct', 'addProductForm')">
-                        <img src="${pageContext.request.contextPath}/images/site_images/addprodotto.png" alt="Aggiungi un nuovo prodotto">
-                        <h6>Aggiungi un nuovo prodotto</h6>
+                    <div class="fe-box" id="addProduct" >
+                        <a href="<%=request.getContextPath()%>/AggiuntaAlCatalogo">
+                            <img src="${pageContext.request.contextPath}/images/site_images/addprodotto.png" alt="Aggiungi un nuovo prodotto">
+                            <h6>Aggiungi un nuovo prodotto</h6>
+                        </a>
                     </div>
                         <!-- Potenziale Caching del Prodotto che permetterebbe all'utente di continuare la modifica
                             di un prodotto anche chiudendo e riaprendo il browser. Faccio la Clear dello storage
@@ -83,7 +84,8 @@
                        <div id="pagination"></div>
             </section>
                 <section id="addProductForm" class="form-section hidden">
-                    <!-- Your form for adding a new product -->                  
+                    <!-- Your form for adding a new product -->     
+                    <a href="<%=request.getContextPath()%>/Catalogo">Annulla</a>
                     <h2>Aggiungi un nuovo prodotto</h2>
                     <form action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
                          <div id="error"></div>

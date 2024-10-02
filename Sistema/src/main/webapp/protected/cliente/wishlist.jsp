@@ -10,7 +10,7 @@
 <%@page import="com.google.gson.Gson"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"
 		import = "application.NavigazioneService.ProxyProdotto,
-				  java.util.ArrayList,
+				  java.util.Collection,
 				  application.GestioneWishlistService.Wishlist"%>
 <!DOCTYPE html>
 <html lang = "en">
@@ -53,7 +53,7 @@
         </div>        
         <h1>Wishlist</h1>
             <%
-                ArrayList <ProxyProdotto> ItemWishlist = wishlist.getProdotti();
+                Collection <ProxyProdotto> ItemWishlist = wishlist.getProdotti();
                 for(ProxyProdotto p: ItemWishlist){                         
             %>            
              <%

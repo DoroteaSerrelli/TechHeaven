@@ -413,6 +413,47 @@ public class WishlistDAODataSource{
 		}
 		return wishlistes;
 	}
+	
+	/**
+	 * Questo metodo restituisce la wishlist di un utente (vincolo: ogni utente ha una sola wishlist).
+	 * 
+	 * @param user : l'utente
+	 * @return la wishlist dell'utente user
+	 * @throws CategoriaProdottoException 
+	 * */
+	public synchronized Wishlist doRetrieveAllWishUser(ProxyUtente user) throws SQLException, CategoriaProdottoException {
+		Connection connection = null;
+		PreparedStatement preparedStatement = null;
+
+		Wishlist wishlist = new Wishlist(user);
+
+		String selectSQL = "SELECT * FROM " + WishlistDAODataSource.TABLE_NAME + " WHERE UTENTE = ? ";
+
+		try {
+			connection = ds.getConnection();
+			preparedStatement = connection.prepareStatement(selectSQL);
+			preparedStatement.setString(1,  user.getUsername());
+
+			ResultSet rs = preparedStatement.executeQuery();
+
+			while (rs.next()) {
+				Wishlist dto = new Wishlist(user);
+
+				dto.setId(rs.getInt("IDWISHLIST"));
+				dto.setProdotti(doRetrieveAllWishes("", dto));
+			}
+
+		} finally {
+			try {
+				if (preparedStatement != null)
+					preparedStatement.close();
+			} finally {
+				if (connection != null)
+					connection.close();
+			}
+		}
+		return wishlist;
+	}
 
 	/**
 	 * Questo metodo recupera un determinato prodotto dalla wishlist.

@@ -1,103 +1,81 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package application.GestioneWishlistControl;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * Servlet che gestisce la wishlist dell'utente.
  *
  * @author raffa
  */
 public class Wishlist extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet Wishlist</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet Wishlist at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+	/**
+	 * serialVersionUID : È un campo statico finale a lungo raggio utilizzato 
+	 * per la serializzazione dell'oggetto.
+	 */
+	private static final long serialVersionUID = 1L;
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
+	/**
+     * Gestisce la richiesta HTTP GET.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Invia la richiesta al metodo doPost(HttpServletRequest, HttpServletResponse)
+     * per mantenere la coerenza con il metodo POST.
+     *
+     * @param request : la richiesta HTTP
+     * @param response : la risposta HTTP
+     * @throws ServletException : se si verifica un errore specifico della servlet
+     * @throws IOException : se si verifica un errore di input/output
      */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        if(request.getSession().getAttribute("Wishlist")==null){
-           response.sendRedirect(request.getContextPath() + "/GestioneWishlistController?action=viewwishlist");
-           return;
-        }
-        String errormsg = (String)request.getSession().getAttribute("errormsg");
-        String status = (String)request.getSession().getAttribute("status");
-        //Controllo se so sono avvenuti errori e nel caso visualizzo il messaggio
-        // salvandolo come attributo, e lo elimino dagli attributi di sessione.
-        if(errormsg!=null){
-            request.setAttribute("error", errormsg);
-            request.setAttribute("status", status);
-            
-            request.getSession().removeAttribute("errormsg");
-            request.getSession().removeAttribute("status");
-            
-        }
-        
-        // Forward to JSP
-        request.getRequestDispatcher("/protected/cliente/wishlist.jsp").forward(request, response);
-    }
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doPost(request, response);
+	}
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
+	/**
+     * Gestisce la richiesta HTTP POST.
      *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+     * Controlla se l'attributo "Wishlist" è presente nella sessione dell'utente.
+     * Se l'attributo è assente, reindirizza l'utente al controller GestioneWishlistController
+     * con l'azione "viewwishlist" per visualizzare la wishlist.
+     *
+     * Infine, inoltra la richiesta alla pagina adibita per la wishlist.
+     *
+     * @param request : la richiesta HTTP
+     * @param response : la risposta HTTP
+     * @throws ServletException : se si verifica un errore specifico della servlet
+     * @throws IOException : se si verifica un errore di input/output
      */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		
+		if(request.getSession().getAttribute("Wishlist")==null){
+			System.out.println("STO IN WISHLIST.JAVA");
+			response.sendRedirect(request.getContextPath() + "/GestioneWishlistController?action=viewwishlist");
+			return;
+		}
+		
+		String errormsg = (String)request.getSession().getAttribute("errormsg");
+		String status = (String)request.getSession().getAttribute("status");
+		
+		//Controllo se so sono avvenuti errori e nel caso visualizzo il messaggio
+		// salvandolo come attributo, e lo elimino dagli attributi di sessione.
+		
+		if(errormsg!=null){
+			request.setAttribute("error", errormsg);
+			request.setAttribute("status", status);
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+			request.getSession().removeAttribute("errormsg");
+			request.getSession().removeAttribute("status");
+
+		}
+
+		request.getRequestDispatcher("/protected/cliente/wishlist.jsp").forward(request, response);
+	}
 
 }

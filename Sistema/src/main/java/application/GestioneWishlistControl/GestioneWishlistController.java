@@ -1,20 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package application.GestioneWishlistControl;
 
 import application.GestioneWishlistService.GestioneWishlistServiceImpl;
+import application.GestioneWishlistService.WishlistException.ProdottoPresenteException;
+import application.GestioneWishlistService.WishlistException.ProdottoNulloException;
+import application.GestioneWishlistService.WishlistException.WishlistVuotaException;
+import application.GestioneWishlistService.WishlistException.ProdottoNonPresenteException;
 import application.GestioneWishlistService.Wishlist;
-import application.GestioneWishlistService.WishlistException;
-import application.NavigazioneService.ProdottoException;
+import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 import application.RegistrazioneService.ProxyUtente;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.Collection;
-import java.util.Iterator;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -25,205 +22,254 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
 import storage.WishlistDAO.WishlistDAODataSource;
 
 /**
- *
+ * Servlet che gestisce le operazioni sulla wishlist dell'utente.
+ * 
+ * @author Dorotea Serrelli
  * @author raffa
  */
 public class GestioneWishlistController extends HttpServlet {
-    private ProdottoDAODataSource pdao;
-    private GestioneWishlistServiceImpl gws;
-    @Override
-    public void init() throws ServletException {
-        // Initialize any services or resources needed by the servlet
-        pdao = new ProdottoDAODataSource();
-        gws = new GestioneWishlistServiceImpl();
-    }
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException{     
-            
-            ProxyUtente user = (ProxyUtente) request.getSession().getAttribute("user");              
-            if (user==null || user.getUsername().equals("")) {
-               response.sendRedirect(request.getContextPath() + "/Autenticazione");
-               return ;
-           }
-            request.getSession().setAttribute("errormsg", null);                           
-            String action = request.getParameter("action");
-            if (action == null) {
-                // Default action or error handling
-                response.getWriter().println("Invalid request");
-            } else {
-                switch (action) {
-                    case "viewwishlist":
-                    {
-                        Wishlist w = createNewWishlistIfNotExists(request, user);
-                    }
-                    break;    
-                    case "addtowishlist":        
-                       try { 
-                           Wishlist w = createNewWishlistIfNotExists(request, user);
-                            // Parse request parameters
-                            int productId = parseProductId(request.getParameter("productId"));
-                            ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);   
-                            
-                            w = gws.aggiungiProdottoInWishlist(w, prodotto, user);
-                            request.getSession().setAttribute("Wishlist", w);
-                            
-                            request.getSession().setAttribute("errormsg", "Item aggiunto nella wishlist con successo");
-                            request.getSession().setAttribute("status", "valid");
-                            
-                        } catch (WishlistException.ProdottoPresenteException | WishlistException.ProdottoNulloException | SQLException ex) {
-                            Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                            request.getSession().setAttribute("errormsg", "Item già Presente nella Wishlist");
-                            request.getSession().setAttribute("status", "invalid");
-                            
-                            response.sendRedirect(request.getContextPath() + "/Wishlist");
-                            return;
-                        } catch (ProdottoException.SottocategoriaProdottoException ex) {
-                        Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ProdottoException.CategoriaProdottoException ex) {
-                        Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    break;   
-   
-                    case "removefromwishlist":
-                        try { 
-                           Wishlist w = createNewWishlistIfNotExists(request, user);
-                            // Parse request parameters
-                            int productId = parseProductId(request.getParameter("productId"));
-                            System.out.println(productId);
-                            ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);   
-                            request.getSession().setAttribute("errormsg", "Item rimosso con successo dalla wishlist");
-                            request.getSession().setAttribute("status", "valid");
-                            
-                            
-                            w = gws.rimuoviProdottoDaWishlist(w, user, prodotto);
-                            
-                            if(w.getProdotti().isEmpty()){
-                                request.getSession().removeAttribute("Wishlist");
-                                createNewWishlistIfNotExists(request, user);
-                            }
-                            else request.getSession().setAttribute("Wishlist", w); 
-                            
-                        } catch (WishlistException.ProdottoNonPresenteException | WishlistException.ProdottoNulloException | SQLException | WishlistException.WishlistVuotaException ex) {
-                            Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                            request.getSession().setAttribute("errormsg", "Rimozione Item Fallita");
-                            request.getSession().setAttribute("status", "invalid");
-                            
-                            response.sendRedirect(request.getContextPath() + "/Wishlist");
-                            return;
-                        } catch (ProdottoException.SottocategoriaProdottoException ex) {
-                        Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                    } catch (ProdottoException.CategoriaProdottoException ex) {
-                        Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    break;    
-    
-    
-    
-                    // Handle other actions...
-                    default:
-                        response.getWriter().println("Invalid action");
-                }
-            }
-        String contextPath = request.getContextPath();
-        response.sendRedirect(contextPath + "/Wishlist");
-    }
-     /**
-      * Questo metodo tenta di recuperare la Wishlist dalla sessione nel caso in
-      * cui questa sia nulla, cerca di recuperarla dal DB se nel database non è presente
-      * e viene lanciata l'eccezione che segnala la non presenza della wishlist relativa
-      * a quell'utente ne crea una nuova e restituisce la wishlist risultante.
-      * @param request
-      * @param user
-      * @return la wishlist relativa all'utente.
-      */
-    private Wishlist createNewWishlistIfNotExists(HttpServletRequest request, ProxyUtente user){
-        try {
-            WishlistDAODataSource wdao = new WishlistDAODataSource();
-            Wishlist w = (Wishlist)request.getSession().getAttribute("Wishlist");
-            int check_user_wishlist =0;
-            if(w==null){
-                check_user_wishlist = wdao.getWishlistCount(user); 
-                if(check_user_wishlist==0){
-                    w =  new Wishlist(user);
-               //     w.setId();
-                    wdao.doSaveWishlist(w);
-                }
-                else{
-                     Collection<Wishlist> wishlists;
-                    try {
-                        wishlists = wdao.doRetrieveAllWishesUser("",user);
-                        if (!wishlists.isEmpty()) {
-                        Iterator<Wishlist> iterator = wishlists.iterator();
-                        if (iterator.hasNext()) {
-                            w = iterator.next();
-                        }
-                    }
-                    } catch (ProdottoException.CategoriaProdottoException ex) {
-                        Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
-                }
-            }
-            request.getSession().setAttribute("Wishlist", w);
-            return w;
-        } catch (SQLException ex) {
-           Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
-           System.out.println(ex.getMessage());
-        }
-        return null;
-    } 
-    private int parseProductId(String pid) {
-        if (pid != null && !pid.isEmpty()) {
-            return Integer.parseInt(pid);
-        }
-        return 0;
-    } 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
+	/**
+     * serialVersionUID : Versione seriale della servlet (necessaria per la serializzazione).
      */
-    @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        processRequest(request, response);
-    }
+	private static final long serialVersionUID = 1L;
 
-    /**
-     * Returns a short description of the servlet.
+	/**
+     * Recupera la wishlist dell'utente dalla sessione. Se la wishlist non è presente,
+     * la crea e la salva nel database.
      *
-     * @return a String containing servlet description
+     * @param request : la richiesta HTTP
+     * @param user : l'utente corrente
+     * @return la wishlist dell'utente
+     * @throws CategoriaProdottoException : se si verifica un errore durante il recupero
+     *                                    delle categorie dei prodotti
+     * @throws SQLException : se si verifica un errore di connessione al database
      */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
+	
+	private Wishlist createNewWishlistIfNotExists(HttpServletRequest request, ProxyUtente user) throws CategoriaProdottoException{
+		try {
+			WishlistDAODataSource wdao = new WishlistDAODataSource();
+			Wishlist w = (Wishlist)request.getSession().getAttribute("Wishlist");
+			
+			if(w==null){
+				//Determino il numero di wishlist dell'utente
+				int check_user_wishlist = wdao.getWishlistCount(user); 
+				System.out.println("Numero wishlist utente: "+ check_user_wishlist);
+				if(check_user_wishlist == 0){ //l'utente non possiede una wishlist
+					w =  new Wishlist(user);
+					System.out.println("STO CREANDO WISHLIST");
+					wdao.doSaveWishlist(w);
+					w = wdao.doRetrieveAllWishUser(user);
+					request.getSession().removeAttribute("Wishlist");
+					request.getSession().setAttribute("Wishlist", w);
+				
+				}else{
+					System.out.println("STO check_user : " + check_user_wishlist);
+					
+					try {
+						w = wdao.doRetrieveAllWishUser(user);
+						request.getSession().removeAttribute("Wishlist");
+						request.getSession().setAttribute("Wishlist", w);
+						
+					} catch (CategoriaProdottoException ex) {
+						Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
+					}
+
+				}
+				
+			}
+			System.out.println("w in createIfNotExists è con id: " + w.getId());
+			return w;
+		} catch (SQLException ex) {
+			Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
+			System.out.println(ex.getMessage());
+		}
+		return null;
+	}
+	
+	 /**
+     * Converte una stringa che rappresenta l'identificativo di un prodotto in un intero.
+     *
+     * @param pid : la stringa che rappresenta l'identificativo del prodotto
+     * @return l'identificativo del prodotto come intero
+     */
+	
+	private int parseProductId(String pid) {
+		
+		if (pid != null && !pid.isEmpty()) {
+			return Integer.parseInt(pid);
+		}
+		return 0;
+	} 
+
+	/**
+     * Gestisce la richiesta HTTP GET.
+     *
+     * Inoltra la richiesta al metodo doPost per mantenere la coerenza con il metodo POST.
+     *
+     * @param request : la richiesta HTTP
+     * @param response : la risposta HTTP
+     * @throws ServletException : se si verifica un errore specifico della servlet
+     * @throws IOException : se si verifica un errore di input/output
+     */
+	@Override
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		doPost(request, response);
+	}
+
+	/**
+     * Gestisce la richiesta HTTP POST.
+     *
+     * Gestisce le varie operazioni sulla wishlist dell'utente in base al parametro "action"
+     * presente nella richiesta: visualizzazione, aggiunta prodotto, rimozione prodotto.
+     *
+     * @param request : la richiesta HTTP
+     * @param response : la risposta HTTP
+     * @throws ServletException : se si verifica un errore specifico della servlet
+     * @throws IOException : se si verifica un errore di input/output
+     */
+	@Override
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+
+		ProxyUtente user = (ProxyUtente) request.getSession().getAttribute("user");
+
+		//Utente non autenticato
+		if (user==null || user.getUsername().equals("")) {
+			response.sendRedirect(request.getContextPath() + "/Autenticazione");
+			return;
+		}
+
+		request.getSession().setAttribute("errormsg", null);
+
+		String action = request.getParameter("action");
+		ProdottoDAODataSource pdao = new ProdottoDAODataSource();
+		GestioneWishlistServiceImpl gws = new GestioneWishlistServiceImpl();
+
+		if (action == null) {
+			String errorMsg = "Errore nell'esecuzione di un'operazione sulla wishlist. Puoi fare le seguenti operazioni nella wishlist: "
+					+ "visualizzazione wishlist, aggiunta prodotto in wishlist, rimozione prodotto in wishlist.";
+			request.getSession().setAttribute("error", errorMsg);
+			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
+			return;
+		} 
+
+		switch (action) {
+		
+			case "viewwishlist":
+			
+			try {
+				Wishlist w;
+				w = createNewWishlistIfNotExists(request, user);
+				request.getSession().setAttribute("Wishlist", w);
+				response.sendRedirect(request.getContextPath() + "/Wishlist");
+				break;
+			} catch (CategoriaProdottoException e) {
+				Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, e);
+			}
+				
+				
+			case "addtowishlist":        
+				try {
+					
+					Wishlist wish = createNewWishlistIfNotExists(request, user);
+
+					int productId = parseProductId(request.getParameter("productId"));
+					ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);   
+					System.out.println("STO PER RIUSCIRE AD AGGIUNGERE PRODOTTO "+ prodotto.getNomeProdotto() + "a wishlist con id : " + wish.getId());
+					
+					wish = gws.aggiungiProdottoInWishlist(wish, prodotto, user);
+					System.out.println("SONO RIUSCITA AD AGGIUNGERE PRODOTTO "+ prodotto.getNomeProdotto() + "a wishlist con id : " + wish.getId());
+					request.getSession().setAttribute("Wishlist", wish);
+					request.getSession().setAttribute("errormsg", "Prodotto aggiunto nella wishlist con successo");
+					request.getSession().setAttribute("status", "valid");
+					response.sendRedirect(request.getContextPath() + "/Wishlist");
+					
+				}catch(ProdottoPresenteException ex) {
+					String errorMsg = "Prodotto già presente nella wishlist";
+					request.getSession().setAttribute("errormsg", errorMsg);
+					request.getSession().setAttribute("status", "invalid");
+
+					response.sendRedirect(request.getContextPath() + "/Wishlist");
+					return;
+					
+				} catch (ProdottoNulloException ex) {
+					
+					String errorMsg = "Errore nell'aggiunta di un prodotto nella wishlist.";
+					request.getSession().setAttribute("error", errorMsg);
+					response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
+					
+				}catch(SQLException ex) {
+					
+					Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
+					request.getSession().setAttribute("errormsg", "Errore nell'aggiunta di un prodotto nella wishlist.");
+					request.getSession().setAttribute("status", "invalid");
+
+					response.sendRedirect(request.getContextPath() + "/Wishlist");
+					
+				} catch (SottocategoriaProdottoException | CategoriaProdottoException  ex) {
+					Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
+				}
+				
+				break;   
+
+		case "removefromwishlist":
+			try { 
+				
+				int productId = parseProductId(request.getParameter("productId"));
+				ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);   
+				
+				Wishlist wishRem = createNewWishlistIfNotExists(request, user);
+				wishRem = gws.rimuoviProdottoDaWishlist(wishRem, user, prodotto);
+				request.getSession().setAttribute("errormsg", "Prodotto rimosso con successo dalla wishlist");
+				request.getSession().setAttribute("status", "valid");
+
+				if(wishRem.getProdotti().isEmpty()){
+					request.getSession().removeAttribute("Wishlist");
+					createNewWishlistIfNotExists(request, user);
+				}
+				else 
+					request.getSession().setAttribute("Wishlist", wishRem);
+				response.sendRedirect(request.getContextPath() + "/Wishlist");
+
+			} catch (ProdottoNonPresenteException ex) {
+				String errorMsg = "Prodotto non presente nella wishlist.";
+				request.getSession().setAttribute("errormsg", errorMsg);
+				response.sendRedirect(request.getContextPath() + "/Wishlist");
+				
+			}catch (ProdottoNulloException ex) {
+				
+				String errorMsg = "Errore nell'aggiunta di un prodotto nella wishlist.";
+				request.getSession().setAttribute("error", errorMsg);
+				response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
+				
+			}catch(WishlistVuotaException ex) {
+				
+				String errorMsg = "Non sono presenti prodotti nella tua wishlist.";
+				request.getSession().setAttribute("errormsg", errorMsg);
+				response.sendRedirect(request.getContextPath() + "/Wishlist");
+			
+			}catch(SQLException ex) {
+				
+				Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
+				request.getSession().setAttribute("errormsg", "Errore nella rimozione di un prodotto dalla wishlist.");
+				request.getSession().setAttribute("status", "invalid");
+				response.sendRedirect(request.getContextPath() + "/Wishlist");
+
+			} catch (SottocategoriaProdottoException | CategoriaProdottoException ex) {
+				Logger.getLogger(GestioneWishlistController.class.getName()).log(Level.SEVERE, null, ex);
+			}
+			
+			break;    
+
+		default:
+			String errorMsg = "Errore nell'esecuzione di un'operazione sulla wishlist. Puoi fare le seguenti operazioni nella wishlist: "
+					+ "visualizzazione wishlist, aggiunta prodotto in wishlist, rimozione prodotto in wishlist.";
+			request.getSession().setAttribute("error", errorMsg);
+			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
+			break;
+		}
+	}
 
 }

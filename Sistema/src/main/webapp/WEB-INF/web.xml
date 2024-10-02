@@ -210,6 +210,22 @@
         <filter-name>RoleAccessFilter</filter-name>
         <url-pattern>/protected/gestoreCatalogo/UpdateProductInfos.jsp</url-pattern>
     </filter-mapping>
+     <filter-mapping>
+        <filter-name>RoleAccessFilter</filter-name>
+        <url-pattern>/protected/gestoreCatalogo/Catalogo.jsp</url-pattern>
+    </filter-mapping>
+     <filter-mapping>
+        <filter-name>RoleAccessFilter</filter-name>
+        <url-pattern>/Catalogo</url-pattern>
+    </filter-mapping>
+     <filter-mapping>
+        <filter-name>RoleAccessFilter</filter-name>
+        <url-pattern>/protected/gestoreCatalogo/AddProduct.jsp</url-pattern>
+    </filter-mapping>
+     <filter-mapping>
+        <filter-name>RoleAccessFilter</filter-name>
+        <url-pattern>/AggiuntaAlCatalogo</url-pattern>
+    </filter-mapping>
     <filter-mapping>
         <filter-name>RoleAccessFilter</filter-name>
         <url-pattern>/UpdateProductInfos</url-pattern>
@@ -348,6 +364,14 @@
     <servlet-mapping>
         <servlet-name>CatalogoServlet</servlet-name>
         <url-pattern>/Catalogo</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>AddProductCatalogoServlet</servlet-name>
+        <jsp-file>/protected/gestoreCatalogo/AddProduct.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>AddProductCatalogoServlet</servlet-name>
+        <url-pattern>/AggiuntaAlCatalogo</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>ModifyProductServlet</servlet-name>

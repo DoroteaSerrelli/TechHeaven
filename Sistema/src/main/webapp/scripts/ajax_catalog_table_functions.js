@@ -220,17 +220,6 @@ function openDeleteForm(product) {
     $('#productForm').attr('action', `${window.contextPath}/GestioneCatalogoController?action=deleteProduct`);
 }
 
-
-function toggleSidebar(){
-    var options_sidebar = document.getElementById("options_sidebar"); 
-    if(options_sidebar.classList.contains("visible")){
-        options_sidebar.classList.remove("visible");         
-    }
-    else{
-        options_sidebar.classList.add("visible");
-    }
- }
-
     function fetchProducts(page, action) {
         const url = `${window.contextPath}/GestioneCatalogoController?page=${page}`;
         console.log('Fetching URL:', url); // Debug URL
@@ -331,9 +320,9 @@ function toggleSidebar(){
 $(document).ready(function() {
     const initialPage = 1; // Example page number
     // Event handler for viewing products
-    $('#viewProducts').click(function() {
-        fetchProducts(initialPage, ''); // Fetch products without any specific action (just viewing)
-    });
+    //$('#viewProducts').click(function() {
+    //    fetchProducts(initialPage, ''); // Fetch products without any specific action (just viewing)
+    //});
      // Event handler for deleting products
     $('#removeProduct').click(function() {
         fetchProducts(initialPage, 'delete'); // Fetch products with delete action
@@ -346,9 +335,9 @@ $(document).ready(function() {
     });
     
     // Event handler for adding products
-    $('#addProduct').click(function() {
-        enableModify();
-    });
+    //$('#addProduct').click(function() {
+    //    enableModify();
+    //});
     
 });
 

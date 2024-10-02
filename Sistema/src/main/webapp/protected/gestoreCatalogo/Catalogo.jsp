@@ -43,6 +43,7 @@
         </script>  
          <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>
         <jsp:include page="/protected/gestoreCatalogo/catalogo_toolbar.jsp"  flush="true"/> 
+     <div class="section-p1">    
          <section id="viewProductsForm" class="form-section">
             <div id="pagination"></div>   
             <h2>Visualizza Prodotti</h2>
@@ -57,6 +58,7 @@
                  </tr>                                                                              
              </table> 
            </section>
+    </div>  
         <script src="${pageContext.request.contextPath}/scripts/shifting_menu_manag_functions_sidebar.js"></script>
        <script src="${pageContext.request.contextPath}/scripts/validateNewProduct.js"></script>      
        <script src="${pageContext.request.contextPath}/scripts/ajax_catalog_table_functions.js?ts=<%=System.currentTimeMillis()%>"></script>                    

@@ -36,3 +36,13 @@ function moveToSidebar(selectedBoxId, formId) {
     });
     form.classList.remove('hidden');
 }
+
+function toggleSidebar(){
+    var options_sidebar = document.getElementById("options_sidebar"); 
+    if(options_sidebar.classList.contains("visible")){
+        options_sidebar.classList.remove("visible");         
+    }
+    else{
+        options_sidebar.classList.add("visible");
+    }
+ }

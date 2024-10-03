@@ -1,6 +1,7 @@
 package application.GestioneCarrelloService;
 
 import java.util.Collection;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 import application.GestioneCarrelloService.CarrelloException.CarrelloVuotoException;
@@ -8,6 +9,10 @@ import application.GestioneCarrelloService.CarrelloException.ProdottoNonPresente
 import application.GestioneCarrelloService.CarrelloException.ProdottoNulloException;
 import application.GestioneCarrelloService.CarrelloException.ProdottoPresenteException;
 import application.GestioneCarrelloService.CarrelloException.QuantitaProdottoException;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
+import application.NavigazioneService.ProxyProdotto;
+import storage.NavigazioneDAO.ProdottoDAODataSource;
 
 /**
  * Questa classe fornisce un'implementazione concreta dei servizi per la gestione del carrello.
@@ -42,10 +47,27 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 	 * @param item : il prodotto da aggiungere (di quantità unitaria)
 	 * 
 	 * @return il carrello contenente il nuovo prodotto item
+	 * 
+	 * @throws SQLException : eccezione gestista in caso di problemi di accesso/recupero dati dal database
+	 * @throws ProdottoPresenteException : eccezione gestita nel caso in cui l'utente inserisce un prodotto 
+	 * 										item già presente nel carrello
+	 * @throws ProdottoNulloException
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
+	 * @throws QuantitaProdottoException : eccezione gestita nel caso in cui l'utente inserisce un prodotto 
+	 * 										avente numero di scorte pari a 0
 	 * */
 	
 	@Override
-	public Carrello aggiungiAlCarrello(Carrello cart, ItemCarrello item) throws ProdottoPresenteException, ProdottoNulloException {
+	public Carrello aggiungiAlCarrello(Carrello cart, ItemCarrello item) throws ProdottoPresenteException, ProdottoNulloException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException, QuantitaProdottoException {
+		//Si verifica se ci sono scorte in magazzino per il prodotto item
+		
+		ProdottoDAODataSource pDao = new ProdottoDAODataSource();
+		ProxyProdotto product = pDao.doRetrieveProxyByKey(item.getCodiceProdotto());
+		
+		if(product.getQuantita() == 0)
+			throw new QuantitaProdottoException("Non è disponibile il prodotto per l\\’acquisto");
+		
 		cart.addProduct(item);
 		return cart;
 	}
@@ -101,8 +123,12 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 	public Carrello decrementaQuantitaNelCarrello(Carrello cart, ItemCarrello item, int quantity) throws ProdottoNulloException, CarrelloVuotoException, ProdottoNonPresenteException, QuantitaProdottoException {
 		if(item.getQuantita() <= quantity)
 			throw new QuantitaProdottoException("La quantita\' specificata è maggiore o uguale rispetto alla quantita\' del prodotto " + item.getNomeProdotto() + " nel carrello.");
+		
+		if(quantity == 0)
+			throw new QuantitaProdottoException("La quantita\' specificata è nulla.");
 		else
 			cart.updateProductQuantity(item, quantity);
+		
 		return cart;
 	}
 	

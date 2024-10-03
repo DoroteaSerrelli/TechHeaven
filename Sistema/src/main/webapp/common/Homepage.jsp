@@ -83,10 +83,18 @@ Collection<ProxyProdotto> gr_elettr = (Collection<ProxyProdotto>) application.ge
 
 					<h4 class="prezzo"><%=prezzoFormattato%></h4>
 				</div>
+				<%if(product.getQuantita() > 0){ %>
 				<a href="#"
-					onClick="addToCartAndRedirect(<%= product.getCodiceProdotto() %>, 'aggiungiAlCarrello', '<%= request.getContextPath() %>/cart');">
+					onClick="addToCartAndRedirect(<%= product.getCodiceProdotto() %>, 'addToCart', '<%= request.getContextPath() %>/cart');">
 					<img class="cart"
 					src="<%=request.getContextPath()%>/images/site_images/icon_carrello2.png">
+				</a>
+				<%} %>
+				<a
+					href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
+					<img class="wishlist"
+					src="<%= request.getContextPath()%>/images/site_images/icon_wishlist.png"
+					alt="wishlist">
 				</a>
 			</div>
 			<%
@@ -130,10 +138,18 @@ Collection<ProxyProdotto> gr_elettr = (Collection<ProxyProdotto>) application.ge
 
 					<h4 class="prezzo"><%=prezzoFormattato%></h4>
 				</div>
+				<%if(product.getQuantita() > 0){ %>
 				<a href="#"
-					onClick="addToCartAndRedirect(<%= product.getCodiceProdotto() %>, 'aggiungiAlCarrello', '<%= request.getContextPath() %>/cart');">
+					onClick="addToCartAndRedirect(<%= product.getCodiceProdotto() %>, 'addToCart', '<%= request.getContextPath() %>/cart');">
 					<img class="cart"
 					src="<%=request.getContextPath()%>/images/site_images/icon_carrello2.png">
+				</a>
+				<%} %>
+				<a
+					href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
+					<img class="wishlist"
+					src="<%= request.getContextPath()%>/images/site_images/icon_wishlist.png"
+					alt="wishlist">
 				</a>
 			</div>
 			<%
@@ -141,10 +157,10 @@ Collection<ProxyProdotto> gr_elettr = (Collection<ProxyProdotto>) application.ge
 			}
 			%>
 		</div>
-                <div id="error" style="display:none"></div>
+		<div id="error" style="display: none"></div>
 	</section>
 	<section id="sm-banner" class="section-p1">
-		<div class="banner-box">			
+		<div class="banner-box">
 			<button class="minbanner">Learn More</button>
 		</div>
 		<div class="banner-box banner-box2">

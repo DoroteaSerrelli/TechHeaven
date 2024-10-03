@@ -105,11 +105,13 @@
                                 <p>  Dettagli </p>
                             </a> 
                             </div>
+                            <%if(product.getQuantita() > 0) {%>
                             <a href="#"
-                                onClick="addToCartAndRedirect(<%= product.getCodiceProdotto() %>, 'aggiungiAlCarrello', '<%= request.getContextPath() %>/cart');">
+                                onClick="addToCartAndRedirect(<%= product.getCodiceProdotto() %>, 'addToCart', '<%= request.getContextPath() %>/cart');">
                                 <img class="cart"
                                 src="<%=request.getContextPath()%>/images/site_images/icon_carrello2.png">
-                            </a>                                           
+                            </a>  
+                            <%} %>                                         
                             <a href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
                                 <img class="wishlist" src="<%= request.getContextPath()%>/images/site_images/icon_wishlist.png" alt = "wishlist">
                             </a>    

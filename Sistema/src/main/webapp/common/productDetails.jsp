@@ -41,56 +41,67 @@
         %>
 </head>
 <body>
-       <div class="errormsg">
-            <p id="error" class="error"></p>
+	<div class="errormsg">
+		<p id="error" class="error"></p>
 	</div>
-    <div class="product-page">    
-        <!-- Product image and gallery section -->
-        <div class="pro">
-            <div class="product-gallery">
-                <% if(galleryImages != null && !galleryImages.isEmpty()) { %>
-                    <div class="main-image">
-                        <!-- Display the first image as the main image -->
-                        <img id="currentImage" src="<%= galleryImages.get(0) %>" alt="<%= product.getNomeProdotto() %>" />
-                    </div>
-                    <div class="thumbnails">
-                        <!-- Loop through the galleryImages list to create thumbnails -->
-                        <%
+	<div class="product-page">
+		<!-- Product image and gallery section -->
+		<div class="pro">
+			<div class="product-gallery">
+				<% if(galleryImages != null && !galleryImages.isEmpty()) { %>
+				<div class="main-image">
+					<!-- Display the first image as the main image -->
+					<img id="currentImage" src="<%= galleryImages.get(0) %>"
+						alt="<%= product.getNomeProdotto() %>" />
+				</div>
+				<div class="thumbnails">
+					<!-- Loop through the galleryImages list to create thumbnails -->
+					<%
                         for (int i = 0; i < galleryImages.size(); i++) {
                             String img = galleryImages.get(i);
                         %>
-                            <img class="gallery-thumbnails" src="<%= img %>" alt="<%= product.getNomeProdotto() %>" 
-                                onclick="changeImage('<%= img %>', this)" />
-                        <%
+					<img class="gallery-thumbnails" src="<%= img %>"
+						alt="<%= product.getNomeProdotto() %>"
+						onclick="changeImage('<%= img %>', this)" />
+					<%
                         } 
                         %>
-                    </div>
-                <% } %>
-            </div>
-        </div>
+				</div>
+				<% } %>
+			</div>
+		</div>
 
-        <!-- Product actions (Add to Cart, Wishlist) section on the side -->
-        <div class="product-actions">
-            <h2 class="prezzo"><%= prezzoFormattato %></h2>
-            <a href="#"
-                onClick="addToCartAndRedirect(<%= product.getCodiceProdotto() %>, 'aggiungiAlCarrello', '<%= request.getContextPath() %>/cart');">
-                <img class="cart"
-                src="<%=request.getContextPath()%>/images/site_images/icon_carrello2.png">
-        </a>            
-            <a class="add-to-wishlist" href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
-                <img src="<%= request.getContextPath() %>/images/site_images/icon_wishlist.png" style="margin: 1px;" alt="Add to Wishlist">
-            </a>
-        </div>
-    </div>
+		<!-- Product actions (Add to Cart, Wishlist) section on the side -->
+		<div class="product-actions">
+			<h2 class="prezzo"><%= prezzoFormattato %></h2>
 
-        <!-- Product details below -->
-        <div class="product-details">
-            <h1><%= product.getNomeProdotto() %></h1>
-            <span><strong><%= product.getMarca() %></strong></span>
-            <h3><%= product.getTopDescrizione() %></h3>
-            <h2><%= product.getDettagli().replaceAll("\n", "<br>") %></h2>
-            <div class="star"></div>
-        </div>
+			<% if(product.getQuantita() > 0) {%>
+
+			<a href="#"
+				onClick="addToCartAndRedirect(<%= product.getCodiceProdotto() %>, 'addToCart', '<%= request.getContextPath() %>/cart');">
+				<img class="cart"
+				src="<%=request.getContextPath()%>/images/site_images/icon_carrello2.png">
+			</a>
+			<%}else{ %>
+			<p>Non è disponibile il prodotto per l'acquisto.</p>
+			<%} %>
+			<a class="add-to-wishlist"
+				href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
+				<img
+				src="<%= request.getContextPath() %>/images/site_images/icon_wishlist.png"
+				style="margin: 1px;" alt="Add to Wishlist">
+			</a>
+		</div>
+	</div>
+
+	<!-- Product details below -->
+	<div class="product-details">
+		<h1><%= product.getNomeProdotto() %></h1>
+		<span><strong><%= product.getMarca() %></strong></span>
+		<h3><%= product.getTopDescrizione() %></h3>
+		<h2><%= product.getDettagli().replaceAll("\n", "<br>") %></h2>
+		<div class="star"></div>
+	</div>
 	<script>
              function changeImage(imageSrc, imgElement) {
                     const currentImage = document.getElementById('currentImage');

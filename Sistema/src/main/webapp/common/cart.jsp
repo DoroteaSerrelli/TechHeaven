@@ -89,11 +89,11 @@
                     </div>
                 
                     <a href="#"
-                        onclick="modifyCart(<%= p.getCodiceProdotto() %>, 'updateQuantità')">
+                        onclick="modifyCart(<%= p.getCodiceProdotto() %>, 'updateQuantity')">
                         <h3>Aggiorna Quantità</h3>
                     </a>
                     <a href="#"
-                        onClick="modifyCart(<%= p.getCodiceProdotto() %>, 'rimuoviDalCarrello')">
+                        onClick="modifyCart(<%= p.getCodiceProdotto() %>, 'removeFromCart')">
                         <h3>Rimuovi dal Carrello</h3>
                     </a>
                 </div>

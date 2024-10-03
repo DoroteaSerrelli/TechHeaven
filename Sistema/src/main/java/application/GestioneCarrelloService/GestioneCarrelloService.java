@@ -1,5 +1,6 @@
 package application.GestioneCarrelloService;
 
+import java.sql.SQLException;
 import java.util.Collection;
 
 import application.GestioneCarrelloService.CarrelloException.CarrelloVuotoException;
@@ -7,6 +8,8 @@ import application.GestioneCarrelloService.CarrelloException.ProdottoNonPresente
 import application.GestioneCarrelloService.CarrelloException.ProdottoNulloException;
 import application.GestioneCarrelloService.CarrelloException.ProdottoPresenteException;
 import application.GestioneCarrelloService.CarrelloException.QuantitaProdottoException;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 
 /**
  * Interfaccia che si occupa di offrire servizi relativi alla
@@ -44,9 +47,14 @@ public interface GestioneCarrelloService {
 	 * @param item : il prodotto da aggiungere (di quantità unitaria)
 	 * 
 	 * @return il carrello contenente il nuovo prodotto item
+	 * @throws SQLException : eccezione gestista in caso di problemi di accesso/recupero dati dal database
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
+	 * @throws QuantitaProdottoException : eccezione gestita nel caso in cui l'utente inserisce un prodotto 
+	 * 										avente numero di scorte pari a 0
 	 * */
 	
-	public Carrello aggiungiAlCarrello(Carrello cart, ItemCarrello item) throws ProdottoPresenteException, ProdottoNulloException;
+	public Carrello aggiungiAlCarrello(Carrello cart, ItemCarrello item) throws ProdottoPresenteException, ProdottoNulloException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException, QuantitaProdottoException;
 	
 	/**
 	 * Questo metodo si occupa di rimuovere un prodotto

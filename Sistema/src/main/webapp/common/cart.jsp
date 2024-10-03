@@ -85,14 +85,14 @@
                     <div class="input-wrapper row"> 
                         <a href="#"
                             onclick="modifyCart(<%= p.getCodiceProdotto() %>, 'decreaseQuantity')">
-                            <h3>-</h3>
+                            <img src="<%=request.getContextPath()%>/images/site_images/meno.png">
                         </a>
                             <input type="range" id="prod_quantità_<%= p.getCodiceProdotto() %>"
                                 name="prod_quantità" min="1"
                                 max="<%= products_available_inStock.get(p.getCodiceProdotto()) %>">
                         <a href="#"
                             onclick="modifyCart(<%= p.getCodiceProdotto() %>, 'increaseQuantity')">
-                            <h3>+</h3>
+                            <img src="<%=request.getContextPath()%>/images/site_images/piu.png">
                         </a>
                     </div>
                     <a href="#"

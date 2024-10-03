@@ -36,7 +36,19 @@
 					height="30" width="30" alt="Carrello" id="iconc"
 					onmouseout="document.getElementById('iconc').src='<%= request.getContextPath()%>/images/site_images/icon_carrello2.png'"
 					onmouseover="document.getElementById('iconc').src='<%= request.getContextPath()%>/images/site_images/icon_carrello.png'"></a></li>
-
+                         <ul id="categoriesMobile">
+                            <li><a
+                                    href="${pageContext.request.contextPath}/NavigazioneController?search_type=menu&keyword=TELEFONIA">Telefonia</a></li>
+                            <li><a
+                                    href="${pageContext.request.contextPath}/NavigazioneController?search_type=menu&keyword=GRANDI_ELETTRODOMESTICI">Grandi
+                                            Elettrodomestici</a></li>
+                            <li><a
+                                    href="${pageContext.request.contextPath}/NavigazioneController?search_type=menu&keyword=PRODOTTI_ELETTRONICA">Prodotti
+                                            Elettronica</a></li>
+                            <li><a
+                                    href="${pageContext.request.contextPath}/NavigazioneController?search_type=menu&keyword=PICCOLI_ELETTRODOMESTICI">Piccoli
+                                            Elettrodomestici</a></li>
+                        </ul>               
 
 			<a href="#" id="close" onClick="closeSidebar()"> <svg
 					xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"
@@ -87,12 +99,8 @@
 		<button class="openbtn" onclick="openSidebar()" type="button">
 			<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
 				width="24" height="24">
-                <path fill="#2DA0F2"
-					d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
-            </svg>
-
-
-
+                            <path fill="#2DA0F2" d="M4 6h16v2H4zm0 5h16v2H4zm0 5h16v2H4z" />
+                        </svg>
 		</button>
 	</div>
 	<br>

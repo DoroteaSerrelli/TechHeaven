@@ -301,8 +301,13 @@ Che setteremò per incollonare il testo al centro.
 	align-items: center;
 	justify-content: center;
 }
+/*Nascondo la barra di categorie usata in modalità flessibile per la visualizzazione su pc*/
+#categoriesMobile{
+    display: none;
+}
 
 #categories {
+        display: block;
 	display: flex;
 	align-items: center;
 	justify-content: center;
@@ -829,6 +834,19 @@ footer .copyright {
 		padding: 80px 0 0 10px;
 		transition: 0.3s;
 	}
+        /*Nascondo la barra di categorie usata su "schermo del pc" in modalità flessibile*/
+        #categories{
+            display: none;
+        }
+        /*Questa sezione di categoria appare solo in modalità mobile insieme al resto
+         degli altri elementi del header.*/
+        #categoriesMobile{
+            display: block;
+        }
+        #navbar #categoriesMobile li a {
+            color: #876D4E;
+        }
+        
 	#navbar.active {
 		right: 0;
 	}

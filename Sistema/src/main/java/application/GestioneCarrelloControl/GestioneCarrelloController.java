@@ -190,22 +190,22 @@ public class GestioneCarrelloController extends HttpServlet {
 			ItemCarrello inCart = new ItemCarrello();
 
 			Carrello cart = getUserCart(request);
-			setInfoItemCarrello(prodotto, inCart);
-
+                        setInfoItemCarrello(prodotto, inCart);
+                            
 			if(!cart.isPresent(inCart)){                    
 				prepareJsonOutputMessage("invalid", "Prodotto non presente nel carrello", 0, 0, 0, request, response);                            
 				response.sendRedirect(request.getContextPath() + "/cart");
 				return;
-			}else{
-
+			}else{                          
+                                int quantità_carrello = fetchItemQuantity(cart, productId);
 				int quantità_deposito =  prodotto.getQuantita();
-				if(quantità > inCart.getQuantita() && quantità<=quantità_deposito){
-					gc.aumentaQuantitaNelCarrello(cart, inCart, quantità);                        
+				if(quantità > quantità_carrello && quantità<=quantità_deposito){  
+					gc.aumentaQuantitaNelCarrello(cart, inCart, quantità);                               
 					double updatedPrice = inCart.getPrezzo() * quantità;
 					double totalAmount = cart.totalAmount();
 					prepareJsonOutputMessage("valid", "Quantità modificata nel carrello con successo", updatedPrice, quantità, totalAmount, request, response);
 				}
-				else if(quantità <= inCart.getQuantita()){
+				else if(quantità <= quantità_carrello){
 					prepareJsonOutputMessage("invalid", "La quantià inserita non è maggiore della quantità del prodotto nel carrello", 0, 0, cart.totalAmount(), request, response);                    
 				}else {
 					prepareJsonOutputMessage("invalid", "La quantià inserita supera le scorte del prodotto in magazzino", 0, 0, cart.totalAmount(), request, response);                      
@@ -252,8 +252,7 @@ public class GestioneCarrelloController extends HttpServlet {
 
 			ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);
 			ItemCarrello inCart = new ItemCarrello();
-
-			Carrello cart = getUserCart(request);
+			Carrello cart = getUserCart(request);    
 			setInfoItemCarrello(prodotto, inCart);
 
 			if(!cart.isPresent(inCart)){                    
@@ -261,9 +260,11 @@ public class GestioneCarrelloController extends HttpServlet {
 				response.sendRedirect(request.getContextPath() + "/cart");
 				return;
 			}else{
-
 				int quantità_deposito =  prodotto.getQuantita();
-				if(quantità > 0 && quantità < inCart.getQuantita() && inCart.getQuantita()<=quantità_deposito){
+                                int quantità_carrello = fetchItemQuantity(cart, productId);
+				if(quantità > 0 && quantità < quantità_carrello && quantità_carrello<=quantità_deposito){
+                                        inCart.setQuantita(quantità_carrello);
+                                        System.out.println(inCart.getQuantita());
 					gc.decrementaQuantitaNelCarrello(cart, inCart, quantità);                        
 					double updatedPrice = inCart.getPrezzo() * quantità;
 					double totalAmount = cart.totalAmount();
@@ -375,6 +376,7 @@ public class GestioneCarrelloController extends HttpServlet {
 		inCart.setPrezzo(prodotto.getPrezzo());
 		inCart.setModello(prodotto.getModello());
 		inCart.setDettagli(prodotto.getTopDescrizione());
+               
 	}
 
 	private void prepareJsonOutputMessage(String status, String msg, double updatedPrice, int updatedQuantity, double totalAmount, HttpServletRequest request, HttpServletResponse response) {
@@ -424,4 +426,12 @@ public class GestioneCarrelloController extends HttpServlet {
 		}
 		return cart;
 	}
+        
+        private int fetchItemQuantity(Carrello cart, int product_id){
+            for(ItemCarrello item : cart.getProducts()){
+                if(item.getCodiceProdotto() == product_id)
+                   return item.getQuantita();
+            }
+            return 0;
+        }
 }

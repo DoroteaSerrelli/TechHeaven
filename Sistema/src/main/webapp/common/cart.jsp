@@ -82,16 +82,19 @@
                 %>                                              
                 <div class="quantity_controls">
                     <p class="range" id="range_value_<%= p.getCodiceProdotto() %>" style="color: goldenrod"><%= p.getQuantita() %></p>
-                    <div class="input-wrapper row">                       
-                        <input type="range" id="prod_quantità_<%= p.getCodiceProdotto() %>"
-                            name="prod_quantità" min="1"
-                            max="<%= products_available_inStock.get(p.getCodiceProdotto()) %>">
+                    <div class="input-wrapper row"> 
+                        <a href="#"
+                            onclick="modifyCart(<%= p.getCodiceProdotto() %>, 'decreaseQuantity')">
+                            <h3>-</h3>
+                        </a>
+                            <input type="range" id="prod_quantità_<%= p.getCodiceProdotto() %>"
+                                name="prod_quantità" min="1"
+                                max="<%= products_available_inStock.get(p.getCodiceProdotto()) %>">
+                        <a href="#"
+                            onclick="modifyCart(<%= p.getCodiceProdotto() %>, 'increaseQuantity')">
+                            <h3>+</h3>
+                        </a>
                     </div>
-                
-                    <a href="#"
-                        onclick="modifyCart(<%= p.getCodiceProdotto() %>, 'updateQuantity')">
-                        <h3>Aggiorna Quantità</h3>
-                    </a>
                     <a href="#"
                         onClick="modifyCart(<%= p.getCodiceProdotto() %>, 'removeFromCart')">
                         <h3>Rimuovi dal Carrello</h3>

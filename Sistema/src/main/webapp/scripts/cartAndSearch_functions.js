@@ -56,7 +56,7 @@
                 }
                 
                 // If item is removed, remove it from the DOM
-                if (action === "rimuoviDalCarrello") {
+                if (action === "removeFromCart") {
                     removeCartItem(productId);
                 }              
                 if (callback) callback();

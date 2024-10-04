@@ -33,7 +33,7 @@
                     %>
             </div>   
         <h1>Seleziona Metodo di Pagamento:</h1>
-       <form action="/CheckoutCarrello" method="POST" onsubmit="return validatePaymentForm()">
+       <form action="<%=request.getContextPath()%>/CheckoutCarrello" method="POST" onsubmit="return validatePaymentForm()">
            <input type="hidden" name="action" value="confirmPayment">
             <div class="payment_methods" onchange="toggleCreditCardFields()">
                 <p>

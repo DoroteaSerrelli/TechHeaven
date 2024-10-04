@@ -53,8 +53,8 @@ public class ProxyOrdine extends ObjectOrdine implements Cloneable{
 	 * 
 	 * */
 	
-	public ProxyOrdine(int codice, Stato stato, Indirizzo indirizzoSpedizione, TipoSpedizione spedizione) {
-        super(codice, stato, indirizzoSpedizione, spedizione);
+	public ProxyOrdine(int codice, Stato stato, Indirizzo indirizzoSpedizione, TipoSpedizione spedizione, TipoConsegna consegna) {
+        super(codice, stato, indirizzoSpedizione, spedizione, consegna);
         ordinativo = null;
     }
 		

@@ -58,8 +58,8 @@ public class Ordine extends ObjectOrdine implements Cloneable{
 	 * @throws OrdineVuotoException : per gestire un ordine che non ha prodotti al suo interno
 	 * */
 	
-	public Ordine(int codice, Stato stato, Indirizzo indirizzoSpedizione, TipoSpedizione spedizione, Cliente acquirente, ArrayList<ItemCarrello> prodotti) throws OrdineVuotoException {
-		super(codice, stato, indirizzoSpedizione, spedizione);
+	public Ordine(int codice, Stato stato, Indirizzo indirizzoSpedizione, TipoSpedizione spedizione, TipoConsegna consegna, Cliente acquirente, ArrayList<ItemCarrello> prodotti) throws OrdineVuotoException {
+		super(codice, stato, indirizzoSpedizione, spedizione, consegna);
 		this.acquirente = acquirente;
 		if(prodotti == null || prodotti.size() == 0)
 			throw new OrdineVuotoException("L'ordine non contiene prodotti!");

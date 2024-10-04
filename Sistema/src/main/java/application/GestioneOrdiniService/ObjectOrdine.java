@@ -72,6 +72,32 @@ public abstract class ObjectOrdine implements Cloneable{
 	}
 	
 	/**
+	 * L'enum TipoConsegna definisce la tipologia di consegna dell'ordine scelta dall'utente
+	 * in fase di check-out del carrello.
+	 * */
+	public enum TipoConsegna{
+		/**
+		 * Domicilio : l'ordine viene spedito presso l'indirizzo di spedizione indicato dall'utente.
+		 * */
+		
+		Domicilio,
+		
+		/**
+		 * Punto_ritiro : l'ordine viene spedito presso un punto di ritiro convenzionato con l'azienda logistica, 
+		 * nelle vicinanze dell'indirizzo di spedizione dell'utente.
+		 * */
+		
+		Punto_ritiro,
+		
+		/**
+		 * Priority : l'ordine viene spedito presso l'indirizzo di spedizione specificato dall'utente, scegliendo
+		 * una fascia oraria da concordare con il negozio.
+		 * */
+		
+		Priority
+	}
+	
+	/**
 	 * codiceOrdine : identificativo numerico dell'ordine
 	 * */
 	
@@ -91,11 +117,17 @@ public abstract class ObjectOrdine implements Cloneable{
 	private String indirizzoSpedizione;
 	
 	/**
-	 * spedizione : la tipologia di spediziondal negozio
+	 * spedizione : la tipologia di spedizione dal negozio
 	 * verso un'azienda logistica
 	 * */
 	
 	private TipoSpedizione spedizione;
+	
+	/**
+	 * consegna : la tipologia di consegna dell'ordine
+	 * */
+	
+	private TipoConsegna consegna;
 	
 	/**
 	 * data : la data in cui viene effettuata la richiesta di 
@@ -133,6 +165,7 @@ public abstract class ObjectOrdine implements Cloneable{
 		codiceOrdine = 0;
 		stato = null;
 		indirizzoSpedizione = null;
+		consegna = null;
 	}
 	
 	/**
@@ -141,18 +174,20 @@ public abstract class ObjectOrdine implements Cloneable{
 	 * @param codice : l'identificativo numerico dell'ordine;
 	 * @param stato : lo stato dell'ordine;
 	 * @param indirizzoSpedizione : l'indirizzo di spedizione scelto dal committente;
-	 * @param spedizione : la tipologia di spedizione scelta dall'utente.
+	 * @param spedizione : la tipologia di spedizione scelta dall'utente;
+	 * @param consegna : la tipologia di consegna scelta dall'utente.
 	 * 
 	 * @return un oggetto della classe ObjectOrdine inizializzato con i parametri di input
-	 * 		   codice, stato, indirizzoSpedizione e spedizione
+	 * 		   codice, stato, indirizzoSpedizione, spedizione e consegna
 	 * 				e gli attributi data e ora correnti.
 	 * */
 	
-	protected ObjectOrdine(int codice, Stato stato, Indirizzo indirizzoSpedizione, TipoSpedizione spedizione) {
+	protected ObjectOrdine(int codice, Stato stato, Indirizzo indirizzoSpedizione, TipoSpedizione spedizione, TipoConsegna consegna) {
 		codiceOrdine = codice;
 		this.stato = stato;
 		this.indirizzoSpedizione = indirizzoSpedizione.toString();
 		this.spedizione = spedizione;
+		this.consegna = consegna;
 		data = LocalDate.now();
 		ora = LocalTime.now();
 	}
@@ -324,6 +359,62 @@ public abstract class ObjectOrdine implements Cloneable{
 	}
 	
 	/**
+	 * Il metodo fornisce la tipologia di consegna da applicare all'ordine.
+	 * 
+	 * @return consegna : la tipologia di consegna scelta dall'utente per il suo ordine.
+	 * */
+	
+	public TipoConsegna getConsegna() {
+		return consegna;
+	}
+	
+	/**
+	 * Il metodo imposta la tipologia di consegna ad un ordine.
+	 * 
+	 * @param consegna : tipo di consegna preferita dall'utente per il suo ordine
+	 * */
+	public void setConsegna(TipoConsegna consegna) {
+		this.consegna = consegna;
+	}
+	
+	/**
+	 * Il metodo fornisce la tipologia di consegna da applicare all'ordine,
+	 * sottoforma di stringa.
+	 * 
+	 * @return la tipologia di consegna scelta dall'utente per il suo ordine
+	 * 			come oggetto della classe String.
+	 * */
+	
+	public String getConsegnaAsString() {
+		return consegna.toString();
+	}
+	
+	/**
+	 * Il metodo imposta la tipologia di consegna ad un ordine, fornita sottoforma di stringa.
+	 * 
+	 * @param spedizione : tipo di consegna preferita 
+	 * 						dall'utente per il suo ordine espressa come oggetto di String.
+	 * */
+	
+	public void setConsegnaAsString(String consegna) {
+		switch (consegna.toUpperCase()) {
+		case "DOMICILIO":
+			this.consegna = TipoConsegna.Domicilio;
+		break;
+		case "PUNTO_RITIRO", "PUNTO RITIRO":
+			this.consegna = TipoConsegna.Punto_ritiro;
+		break;
+		case "PRIORITY":
+			this.consegna = TipoConsegna.Priority;
+			break;
+		default:
+			throw new IllegalArgumentException("La consegna da associare ad un ordine puo\' essere:\n- Presso domicilio;"
+					+ "\n-Presso punto di ritiro;\n-Priority/fascia oraria.");
+		}
+	}
+	
+	
+	/**
 	 * Il metodo restituisce la data di creazione dell'ordine fatta dall'utente
 	 * dopo il pagamento della merce.
 	 * 
@@ -379,6 +470,7 @@ public abstract class ObjectOrdine implements Cloneable{
 	public String toString() {
 		return "Ordine [CodiceOrdine=" + codiceOrdine + ", stato=" + stato 
 				+ ", tipo di spedizione=" + spedizione + ", indirizzo di spedizione: \n" + indirizzoSpedizione.toString()
+				+ ", tipo di consegna=" + consegna
 				+ "\n Data e ora commissione=" + data + ", " + ora + "]";
 	}
 	
@@ -402,6 +494,7 @@ public abstract class ObjectOrdine implements Cloneable{
 	        clone.spedizione = this.spedizione;
 	        clone.data = this.data;
 	        clone.ora = this.ora;
+	        clone.consegna=this.consegna;
 	        clone.codiceOrdine = this.codiceOrdine;
 	        
 	        return clone;

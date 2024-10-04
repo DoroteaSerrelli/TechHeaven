@@ -9,6 +9,7 @@ import application.GestioneCarrelloService.CarrelloException;
 import application.GestioneCarrelloService.ItemCarrello;
 import application.GestioneOrdiniService.GestioneOrdiniServiceImpl;
 import application.GestioneOrdiniService.ObjectOrdine;
+import application.GestioneOrdiniService.ObjectOrdine.TipoConsegna;
 import application.GestioneOrdiniService.ObjectOrdine.TipoSpedizione;
 import application.GestioneOrdiniService.Ordine;
 import application.GestioneOrdiniService.OrdineException;
@@ -226,7 +227,8 @@ public class CheckoutCarrello extends HttpServlet {
             Indirizzo selectedAddress = addressMap.get(idIndirizzo);
             Carrello cart = (Carrello) request.getSession().getAttribute("usercart");
             String tipo_spedizione = request.getParameter("tipoSpedizione");
-            Ordine preview_order = new Ordine(1, null, selectedAddress, TipoSpedizione.valueOf(tipo_spedizione), user.mostraUtente().getProfile(), (ArrayList<ItemCarrello>) cart.getProducts());
+            String tipoConsegna = request.getParameter("modalitaConsegna");
+            Ordine preview_order = new Ordine(1, null, selectedAddress, TipoSpedizione.valueOf(tipo_spedizione), TipoConsegna.valueOf(tipoConsegna), user.mostraUtente().getProfile(), (ArrayList<ItemCarrello>) cart.getProducts());
             preview_order.setData(LocalDate.now());
             preview_order.setOra(LocalTime.now()); 
             request.getSession().setAttribute("preview_order", preview_order);

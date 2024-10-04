@@ -206,9 +206,9 @@ public class GestioneCarrelloController extends HttpServlet {
 					prepareJsonOutputMessage("valid", "Quantità modificata nel carrello con successo", updatedPrice, quantità, totalAmount, request, response);
 				}
 				else if(quantità <= quantità_carrello){
-					prepareJsonOutputMessage("invalid", "La quantià inserita non è maggiore della quantità del prodotto nel carrello", 0, 0, cart.totalAmount(), request, response);                    
+					prepareJsonOutputMessage("invalid", "La quantità inserita non è maggiore della quantità del prodotto nel carrello", 0, 0, cart.totalAmount(), request, response);                    
 				}else {
-					prepareJsonOutputMessage("invalid", "La quantià inserita supera le scorte del prodotto in magazzino", 0, 0, cart.totalAmount(), request, response);                      
+					prepareJsonOutputMessage("invalid", "La quantità inserita supera le scorte del prodotto in magazzino", 0, 0, cart.totalAmount(), request, response);                      
 				}
 			}
 
@@ -272,10 +272,10 @@ public class GestioneCarrelloController extends HttpServlet {
 				}
 				
 				if(quantità >= inCart.getQuantita()){
-					prepareJsonOutputMessage("invalid", "La quantià inserita non è minore della quantità del prodotto nel carrello", 0, 0, cart.totalAmount(), request, response);                    
+					prepareJsonOutputMessage("invalid", "La quantità inserita non è minore della quantità del prodotto nel carrello", 0, 0, cart.totalAmount(), request, response);                    
 				
 				}else if(quantità == 0){
-					prepareJsonOutputMessage("invalid", "La quantià inserita è 0", 0, 0, cart.totalAmount(), request, response);                      
+					prepareJsonOutputMessage("invalid", "La quantità inserita è 0", 0, 0, cart.totalAmount(), request, response);                      
 				
 				}else if(inCart.getQuantita() > quantità_deposito && quantità_deposito != 0){
 					//il prodotto inserito nel carrello ha subito nel corso del tempo una diminuzione delle sue scorte in magazzino

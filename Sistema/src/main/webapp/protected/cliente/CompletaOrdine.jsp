@@ -90,7 +90,7 @@
             <p>Nome: <%=client_infos.getNome()%> <%=client_infos.getCognome()%></p>
             <p>Contatti: <%=client_infos.getTelefono()%> <%=client_infos.getEmail()%></p>
          </div>    
-         <form action="/CheckoutCarrello" method="post">
+         <form action="<%=request.getContextPath()%>/CheckoutCarrello" method="post">
              <input type="hidden" name="action" value="confirmOrder">
         <h2>Seleziona un Indirizzo di Spedizione o Aggiungine uno Nuovo.</h2>
         <%            

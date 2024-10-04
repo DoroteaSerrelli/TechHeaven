@@ -123,6 +123,7 @@ Stato enum('Richiesta_effettuata', 'In_lavorazione', 'Spedito', 'Preparazione_in
 email varchar(50) NOT NULL,
 IndirizzoSpedizione varchar(200) NOT NULL,
 TipoSpedizione enum('Spedizione_standard', 'Spedizione_assicurata', 'Spedizione_prime') NOT NULL,
+TipoConsegna enum('Domicilio', 'Punto_ritiro', 'Priority') NOT NULL,
 DataOrdine date NOT NULL,
 OraOrdine time NOT NULL,
 

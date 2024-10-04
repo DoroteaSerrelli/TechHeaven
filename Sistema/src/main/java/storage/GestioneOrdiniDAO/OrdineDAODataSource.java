@@ -71,7 +71,7 @@ public class OrdineDAODataSource {
 		PreparedStatement preparedStatement = null;
 
 		String insertOrderSQL = "INSERT INTO " + OrdineDAODataSource.TABLE_NAME
-				+ " (STATO, EMAIL, INDIRIZZOSPEDIZIONE, TIPOSPEDIZIONE, DATAORDINE, ORAORDINE) VALUES (?, ?, ?, ?, ?, ?)";
+				+ " (STATO, EMAIL, INDIRIZZOSPEDIZIONE, TIPOSPEDIZIONE, TIPOCONSEGNA, DATAORDINE, ORAORDINE) VALUES (?, ?, ?, ?, ?, ?, ?)";
 
 		try {
 			connection = ds.getConnection();
@@ -80,8 +80,9 @@ public class OrdineDAODataSource {
 			preparedStatement.setString(2, order.getAcquirente().getEmail());
 			preparedStatement.setString(3, order.getIndirizzoSpedizione());
 			preparedStatement.setString(4, order.getSpedizioneAsString());
-			preparedStatement.setDate(5, java.sql.Date.valueOf(order.getData()));
-			preparedStatement.setTime(6, java.sql.Time.valueOf(order.getOra()));
+			preparedStatement.setString(5, order.getConsegnaAsString());
+			preparedStatement.setDate(6, java.sql.Date.valueOf(order.getData()));
+			preparedStatement.setTime(7, java.sql.Time.valueOf(order.getOra()));
 			
 			
 			preparedStatement.executeUpdate();
@@ -191,6 +192,7 @@ public class OrdineDAODataSource {
 				dto.setStatoAsString(rs.getString("STATO"));
 				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
 				dto.setSpedizioneAsString(rs.getString("TIPOSPEDIZIONE"));
+				dto.setConsegnaAsString(rs.getString("TIPOCONSEGNA"));
 				dto.setData(rs.getDate("DATAORDINE").toLocalDate());
 				dto.setOra((rs.getTime("ORAORDINE")).toLocalTime());
 			}
@@ -241,6 +243,7 @@ public class OrdineDAODataSource {
 				dto.setAcquirente(client);
 				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
 				dto.setSpedizioneAsString(rs.getString("TIPOSPEDIZIONE"));
+				dto.setConsegnaAsString(rs.getString("TIPOCONSEGNA"));
 				dto.setData(rs.getDate("DATAORDINE").toLocalDate());
 				dto.setOra((rs.getTime("ORAORDINE")).toLocalTime());
 				
@@ -418,6 +421,7 @@ public class OrdineDAODataSource {
 				dto.setStatoAsString(rs.getString("STATO"));
 				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
 				dto.setSpedizioneAsString(rs.getString("TIPOSPEDIZIONE"));
+				dto.setConsegnaAsString(rs.getString("TIPOCONSEGNA"));
 				dto.setData(rs.getDate("DATAORDINE").toLocalDate());
 				dto.setOra((rs.getTime("ORAORDINE")).toLocalTime());
 				
@@ -510,6 +514,7 @@ public class OrdineDAODataSource {
 				dto.setStatoAsString(rs.getString("STATO"));
 				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
 				dto.setSpedizioneAsString(rs.getString("TIPOSPEDIZIONE"));
+				dto.setConsegnaAsString(rs.getString("TIPOCONSEGNA"));
 				dto.setData(rs.getDate("DATAORDINE").toLocalDate());
 				dto.setOra((rs.getTime("ORAORDINE")).toLocalTime());
 				
@@ -606,6 +611,7 @@ public class OrdineDAODataSource {
 				dto.setStatoAsString(rs.getString("STATO"));
 				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
 				dto.setSpedizioneAsString(rs.getString("TIPOSPEDIZIONE"));
+				dto.setConsegnaAsString(rs.getString("TIPOCONSEGNA"));
 				dto.setData(rs.getDate("DATAORDINE").toLocalDate());
 				dto.setOra((rs.getTime("ORAORDINE")).toLocalTime());
 				
@@ -698,6 +704,7 @@ public class OrdineDAODataSource {
 				dto.setStatoAsString(rs.getString("STATO"));
 				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
 				dto.setSpedizioneAsString(rs.getString("TIPOSPEDIZIONE"));
+				dto.setConsegnaAsString(rs.getString("TIPOCONSEGNA"));
 				dto.setData(rs.getDate("DATAORDINE").toLocalDate());
 				dto.setOra((rs.getTime("ORAORDINE")).toLocalTime());
 				
@@ -791,6 +798,7 @@ public class OrdineDAODataSource {
 				dto.setStatoAsString(rs.getString("STATO"));
 				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
 				dto.setSpedizioneAsString(rs.getString("TIPOSPEDIZIONE"));
+				dto.setConsegnaAsString(rs.getString("TIPOCONSEGNA"));
 				dto.setData(rs.getDate("DATAORDINE").toLocalDate());
 				dto.setOra((rs.getTime("ORAORDINE")).toLocalTime());
 				

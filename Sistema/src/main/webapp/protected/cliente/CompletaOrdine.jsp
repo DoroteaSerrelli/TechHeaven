@@ -85,7 +85,7 @@
         </div>
         <h1>Riepilogo Informazioni Ordine:</h1>
          <div class="pro-container">    
-             <a href="/AreaRiservata">Clicca qui per Verifica e/o Aggiorna Dati Personali</a>  
+             <a href="<%=request.getContextPath()%>/AreaRiservata">Clicca qui per Verifica e/o Aggiorna Dati Personali</a>  
             <%Cliente client_infos = user.getProfile();%>
             <p>Nome: <%=client_infos.getNome()%> <%=client_infos.getCognome()%></p>
             <p>Contatti: <%=client_infos.getTelefono()%> <%=client_infos.getEmail()%></p>
@@ -142,7 +142,7 @@
                 </p>
             </div>
             <input value="Conferma Ordine" type="submit" class="confirm_button"> 
-             <a href="/CheckoutCarrello?action=annullaOrdine"><button class="delete_button" type="button">Annulla Ordine</button></a>
+             <a href="<%=request.getContextPath()%>/CheckoutCarrello?action=annullaOrdine"><button class="delete_button" type="button">Annulla Ordine</button></a>
          </form> 
         <%
             }

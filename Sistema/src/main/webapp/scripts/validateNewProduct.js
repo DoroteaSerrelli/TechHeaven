@@ -2,23 +2,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/JavaScript.js to edit this template
  */
-
-function addInvalidMessage(msg, errorField){
-    var errField = document.getElementById(errorField);
-    errField.innerHTML=msg;
-    errField.style.display= "block";
-    errField.style.color= "red";
-    errField.classList.remove("valid");
-    errField.classList.add("invalid");	
-}
-
-function removeInvalidMessage(errorField){
-    var errField = document.getElementById(errorField);
-    errField.style.display= "none";
-    errField.classList.remove("invalid");									
-    errField.classList.add("valid");	
-}
-
 function validateProductID(input, object) {
     var pridRegex = /^[0-9]+$/;
     if (!pridRegex.test(input.value)) {      

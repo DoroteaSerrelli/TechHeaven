@@ -69,18 +69,46 @@ function validateForm() {
     let isValid = true;
 
     const validations = [
-        { id: 'Imballaggio', charCountId: 'charCountImballaggio', charWarningId: 'charWarningImballaggio', maxLength: 100 },
-        { id: 'Corriere', charCountId: 'charCountCorriere', charWarningId: 'charWarningCorriere', maxLength: 60 }
+        {
+            id: 'Imballaggio',
+            charCountId: 'charCountImballaggio',
+            charWarningId: 'charWarningImballaggio',
+            maxLength: 100,
+            emptyMessage: "Imballaggio: Questo campo non deve essere vuoto."
+        },
+        {
+            id: 'Corriere',
+            charCountId: 'charCountCorriere',
+            charWarningId: 'charWarningCorriere',
+            maxLength: 60,
+            emptyMessage: "Azienda di spedizione: L’azienda di spedizione deve essere composta da lettere e spazi.",
+            invalidMessage: "Azienda di spedizione: Inserisci solo lettere e spazi."
+        }
     ];
-
-    validations.forEach(validation => {
+     validations.forEach(validation => {
         const textarea = document.getElementById(validation.id);
         const charCount = document.getElementById(validation.charCountId);
         const charWarning = document.getElementById(validation.charWarningId);
 
         if (textarea && charCount) {
+            const value = textarea.value.trim(); // Trim spaces at both ends
             const currentLength = textarea.value.length;
 
+            // Check for empty or spaces-only input
+            if (value === '') {
+                alert(validation.emptyMessage);
+                isValid = false;
+                return;
+            }
+
+            // Specific validation for Corriere (letters and spaces only)
+            if (validation.id === 'Corriere' && !/^[A-Za-z\s]+$/.test(value)) {
+                alert(validation.invalidMessage);
+                isValid = false;
+                return;
+            }
+
+            // Check if the input exceeds the maximum length
             if (currentLength > validation.maxLength) {
                 charWarning.style.display = 'inline';
                 isValid = false;
@@ -89,8 +117,37 @@ function validateForm() {
             }
         }
     });
-
     return isValid;
+}
+
+document.addEventListener('DOMContentLoaded', (event) => {
+            // Get the range input element and the span where the value will be displayed
+            const rangeInput = document.getElementById('item_amount');
+            const rangeValue = document.getElementById('range_value');
+
+            // Function to update the value display
+            function updateRangeValue() {
+                rangeValue.textContent = rangeInput.value;
+            }
+
+            // Initialize the display with the current value
+            updateRangeValue();
+
+            // Add an event listener to update the value when the slider is moved
+            rangeInput.addEventListener('input', updateRangeValue);
+        });
+
+function setActionAndRedirect(action) {
+    sessionStorage.setItem('action', action); // Store action in session storage
+    // Get the context path from the current URL
+    var contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
+
+    // Redirect to the main page with the context path
+    window.location.href = contextPath + '/GestioneOrdini';
+}
+function setActionForOrderSent() {
+    sessionStorage.setItem('action', 'fetch_spediti'); // Store the 'order_sent' action
+   // window.location.href = 'GestioneOrdini'; // Redirect to the main page
 }
 
 // Attach validation to form submit

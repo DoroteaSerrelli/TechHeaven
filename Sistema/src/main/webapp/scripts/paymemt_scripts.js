@@ -19,7 +19,7 @@ function toggleCreditCardFields() {
 // Client-side form validation function
 function validatePaymentForm() {
     const paymentMethod = document.querySelector('input[name="metodoPagamento"]:checked');
-    
+    saveSelectedPaymentMethod(paymentMethod);
     if (!paymentMethod) {
         alert("Seleziona un metodo di pagamento.");
         return false;
@@ -35,7 +35,10 @@ function validatePaymentForm() {
             addInvalidMessage("Inserisci tutte le informazioni della carta di credito.","error");
             return false;
         }
-        if(!validateTitolare(titolare) || !validateCCNumber(ccNumber) || !validateCVV(ccCVC)) return false;
+        // Validate individual fields
+        if (!validateTitolare(titolare) || !validateCCNumber(ccNumber) || !validateCVV(ccCVC)) {
+            return false; // Prevent form submission if validation fails
+        }
         // Simple validation for credit card expiration
         const [expMonth, expYear] = ccExpiry.split('/').map(Number);
         const currentDate = new Date();
@@ -90,3 +93,21 @@ function removeInvalidMessage(errorField){
     errField.classList.remove("invalid");									
     errField.classList.add("valid");	
 }
+
+// Save the selected payment method before form submission
+function saveSelectedPaymentMethod() {
+    const selectedMethod = document.querySelector('input[name="metodoPagamento"]:checked');
+    if (selectedMethod) {
+        localStorage.setItem('selectedPaymentMethod', selectedMethod.value);
+    }
+}
+// Restore the last selected payment method on page load
+   window.onload = function () {
+       const savedMethod = localStorage.getItem('selectedPaymentMethod');
+
+       if (savedMethod) {
+           // Set the radio button to the saved method
+           document.querySelector(`input[name="metodoPagamento"][value="${savedMethod}"]`).checked = true;
+           toggleCreditCardFields(); // Show/hide fields based on saved selection
+       }
+   };

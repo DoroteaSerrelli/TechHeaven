@@ -32,10 +32,10 @@ function validatePaymentForm() {
         const ccCVC = document.getElementById('cc_cvc').value;
 
         if (!titolare || !ccNumber || !ccExpiry || !ccCVC) {
-            alert("Inserisci tutte le informazioni della carta di credito.");
+            addInvalidMessage("Inserisci tutte le informazioni della carta di credito.","error");
             return false;
         }
-
+        if(!validateTitolare(titolare) || !validateCCNumber(ccNumber) || !validateCVV(ccCVC)) return false;
         // Simple validation for credit card expiration
         const [expMonth, expYear] = ccExpiry.split('/').map(Number);
         const currentDate = new Date();
@@ -48,4 +48,45 @@ function validatePaymentForm() {
     }
 
     return true;
+}
+
+function validateTitolare(titolare){
+    const titolarePattern = /^[A-Za-z\s]+$/;
+    const isValidCardholder = titolarePattern.test(titolare);
+    if(!isValidCardholder) addInvalidMessage("Il titolare deve essere una sequenza di lettere e spazi", "errorTitolare");
+    else removeInvalidMessage("errorTitolare");
+    return isValidCardholder;
+}
+
+function validateCCNumber(ccNumber){
+    const numeroCartaPattern = /^\d{16}$/;
+    const isValidCardNumber = numeroCartaPattern.test(ccNumber);
+    if(!isValidCardNumber) addInvalidMessage("Il numero della carta è formato da 16 numeri", "errorcc_number");
+    else removeInvalidMessage("errorcc_number");
+    return isValidCardNumber;
+}
+
+function validateCVV(ccCVC){
+    const cvvPattern = /^\d{3}$/;
+    const isValidCVV = cvvPattern.test(ccCVC);
+    if(!isValidCVV) addInvalidMessage("Il numero CVV è formato da 3 numeri", "errorcc_cvc");
+    else removeInvalidMessage("errorcc_cvc");
+    return isValidCVV;
+}
+
+function addInvalidMessage(msg, errorField){
+    var errField = document.getElementById(errorField);
+    errField.innerHTML=msg;
+    errField.style.display= "block";
+    errField.style.color= "red";
+    errField.classList.remove("valid");
+    errField.classList.add("invalid");	
+}
+
+function removeInvalidMessage(errorField){
+    var errField = document.getElementById(errorField);
+    errField.innerHTML="";
+    errField.style.display= "none";
+    errField.classList.remove("invalid");									
+    errField.classList.add("valid");	
 }

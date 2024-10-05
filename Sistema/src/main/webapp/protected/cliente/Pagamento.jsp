@@ -55,20 +55,23 @@
             <div id="creditCardFields" style="display: none;">
                 <p>
                     <label for="titolare">Titolare</label>
-                    <input type="text" id="titolare" name="titolare">
+                    <input type="text" id="titolare" name="titolare" oninput="validateTitolare(this.value)">
                 </p>
+                    <div id="errorTitolare"></div>
                 <p>
                     <label for="cc_number">Numero Carta di Credito</label>
-                    <input type="text" id="cc_number" name="cc_number">
+                    <input type="text" id="cc_number" name="cc_number" oninput="validateCCNumber(this.value)">
                 </p>
+                    <div id="errorcc_number"></div>
                 <p>
                     <label for="cc_expiry">Data di Scadenza</label>
                     <input type="text" id="cc_expiry" name="cc_expiry">
-                </p>
+                </p>              
                 <p>
                     <label for="cc_cvc">CVC</label>
-                    <input type="text" id="cc_cvc" name="cc_cvc">
+                    <input type="text" id="cc_cvc" name="cc_cvc" oninput="validateCVV(this.value)">
                 </p>
+                    <div id="errorcc_cvc"></div>
             </div>
             <input value="Conferma Pagamento" type="submit" class="confirm_button" name="submit">
             <button class="delete_button"><a href="/CheckoutCarrello?action=annullaPagamento">Annulla Pagamento</a></button>               

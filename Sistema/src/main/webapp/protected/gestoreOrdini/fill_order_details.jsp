@@ -47,9 +47,11 @@
                 <% for (ItemCarrello item : order_products){%>
                 <div class="row">
                     <h2>ID: <%= item.getCodiceProdotto()%></h2>
-                    <h3>Nome: <%= item.getNomeProdotto()%></h3>
-                    <img src="image?productId=<%= item.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';"/>
+                    <h2>Quantità Richiesta: <%= item.getQuantita() %></h2>
                 </div>
+                   <h3>Nome: <%= item.getNomeProdotto()%></h3> 
+                    <img src="image?productId=<%= item.getCodiceProdotto() %>" alt="alt" width="200" height="200"
+                     onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';"/>
                 <p id="range_value"><%=item.getQuantita()%></p>
                 <div class="input-wrapper row">     
                     <input type="hidden" name="product_id[]" value="<%=item.getCodiceProdotto()%>">
@@ -57,20 +59,20 @@
                            max="<%= order_products_available.get(item.getCodiceProdotto())%>" oninput="validateQuantity(this.value)">         
                 </div>
               <%}%>  
-                <div class="input-wrapper">  
-                    <p>Inserisci informazioni sull'imballaggio:</p>
+                <p>Inserisci informazioni sull'imballaggio:</p>
+                <div class="input-wrapper">               
                     <textarea id="Imballaggio" name="Imballaggio" rows="4" cols="50" required></textarea>
                     <span id="charCountImballaggio">0/100</span> <!-- Added for character count -->
-                    <span id="charWarningImballaggio" class="warning">Superato il limite di caratteri ammissibili!</span><br><br>
-                    <div id="errorImballaggio" class="erromsg"></div>
+                    <span id="charWarningImballaggio" class="warning">Superato il limite di caratteri ammissibili!</span><br>                
                 </div>
-                <div class="input-wrapper">  
-                    <p>Inserisci informazioni sull'azienda di spedizioni:</p>
+                <div id="errorImballaggio" class="erromsg"></div>
+                <p>Inserisci informazioni sull'azienda di spedizioni:</p>
+                <div class="input-wrapper">                   
                     <textarea id="Corriere" name="Corriere" rows="4" cols="50" required></textarea>
                     <span id="charCountCorriere">0/60</span> <!-- Added for character count -->
-                    <span id="charWarningCorriere" class="warning">Superato il limite di caratteri ammissibili!</span><br><br>
-                    <div id="errorCorriere" class="erromsg"></div>
+                    <span id="charWarningCorriere" class="warning">Superato il limite di caratteri ammissibili!</span><br>                 
                 </div>
+                <div id="errorCorriere" class="erromsg"></div>
                 <button class="confirm_button" onClick="setActionForOrderSent()" type="submit">Conferma Preparazione Ordine</button>
             </form><!--<a href="GestioneOrdiniController?action=incomplete_order" >-->
                  <button onclick="setActionAndRedirect('incomplete_order')" class="confirm_button" type="submit">Annulla Preparazione Ordine</button></a>    

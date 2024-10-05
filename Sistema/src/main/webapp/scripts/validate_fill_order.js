@@ -53,11 +53,11 @@ function addCharacterLimitValidation(textareaId, charCountId, charWarningId, max
     const charCount = document.getElementById(charCountId);
     const charWarning = document.getElementById(charWarningId);
     const errorElement = document.getElementById(`error${textareaId}`); // Error message display
+    
     textarea.addEventListener('input', function() {
         const value = textarea.value;
         const currentLength = value.length;
         charCount.textContent = `${currentLength}/${maxLength}`;
-
         // Check if the length exceeds the maximum
         if (currentLength > maxLength) {
             charWarning.style.display = 'inline';
@@ -68,18 +68,20 @@ function addCharacterLimitValidation(textareaId, charCountId, charWarningId, max
 
         // Check for empty or space-only input
         if (value.trim() === '') {
-            addInvalidMessage(`${textareaId}: Questo campo non deve essere vuoto.`, errorElement.id);
+            addInvalidMessage(textareaId+`: Questo campo non deve essere vuoto.`, errorElement.id);       
         } else {
             removeInvalidMessage(errorElement.id);
         }
         
         // Specific validation for Corriere (letters and spaces only)
-        if (textarea.id === 'Corriere' && !/^[A-Za-z\s]+$/.test(value)) {
-            addInvalidMessage(`L’azienda di spedizione deve essere composta da lettere e spazi`, errorElement.id);           
-        }
-        else {
-            removeInvalidMessage(errorElement.id);
-        }
+        if (textarea.id === 'Corriere'){ 
+            if(!/^[A-Za-z\s]+$/.test(value) || value.trim() === '') {
+                addInvalidMessage(`L’azienda di spedizione deve essere composta da lettere e spazi`, errorElement.id);           
+            }
+             else {
+                removeInvalidMessage(errorElement.id);
+            }
+        }      
     });
 }
 
@@ -100,8 +102,8 @@ function validateForm() {
             charCountId: 'charCountCorriere',
             charWarningId: 'charWarningCorriere',
             maxLength: 60,
-            emptyMessage: "Azienda di spedizione: L’azienda di spedizione deve essere composta da lettere e spazi.",
-            invalidMessage: "Azienda di spedizione: Inserisci solo lettere e spazi."
+            emptyMessage: "L’azienda di spedizione deve essere composta da lettere e spazi",
+            invalidMessage: "L’azienda di spedizione deve essere composta da lettere e spazi"
         }
     ];
      validations.forEach(validation => {

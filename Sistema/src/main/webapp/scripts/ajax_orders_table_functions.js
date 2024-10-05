@@ -75,7 +75,7 @@ function showSupplyForm(productId) {
             <div class="row">
                 <div class="input-wrapper">
                     <p>Inserisci Una Descrizione Dettagliata Della Richiesta:</p>
-                    <textarea rows="4" cols="20" name="descrizione"></textarea>
+                    <textarea rows="4" cols="20" name="descrizione" required></textarea>
                 </div>    
             </div>
             <div class="errormsg">

@@ -42,7 +42,7 @@
         </div>       
         <div class="section-p1">
             <h4>Informazioni di spedizione:</h4>
-            <form id="fill_order_form" class="reg_form" action="GestioneOrdiniController?action=complete_order" method="post">
+            <form id="fill_order_form" class="reg_form" action="<%=request.getContextPath()%>/GestioneOrdiniController?action=complete_order" method="post">
                 <p>Lista Prodotti E Relative Quantità Richieste:</p>
                 <% for (ItemCarrello item : order_products){%>
                 <div class="row">
@@ -60,13 +60,13 @@
                     <p>Inserisci informazioni sull'imballaggio:</p>
                     <textarea id="Imballaggio" name="Imballaggio" rows="4" cols="50" required></textarea>
                     <span id="charCountImballaggio">0/100</span> <!-- Added for character count -->
-                    <span id="charWarningImballaggio" class="warning">Character limit exceeded!</span><br><br>
+                    <span id="charWarningImballaggio" class="warning">Superato il limite di caratteri ammissibile!</span><br><br>
                 </div>
                 <div class="input-wrapper">  
                     <p>Inserisci informazioni sull'azienda di spedizioni:</p>
                     <textarea id="Corriere" name="Corriere" rows="4" cols="50" required></textarea>
                     <span id="charCountCorriere">0/60</span> <!-- Added for character count -->
-                    <span id="charWarningCorriere" class="warning">Character limit exceeded!</span><br><br>
+                    <span id="charWarningCorriere" class="warning">Superato il limite di caratteri ammissibile!</span><br><br>
                 </div>
                 <button class="confirm_button" onClick="setActionForOrderSent()" type="submit">Conferma Preparazione Ordine</button>
             </form><!--<a href="GestioneOrdiniController?action=incomplete_order" >-->

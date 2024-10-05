@@ -12,7 +12,7 @@ function validateSupplyRequestForm(){
         
         var error = document.getElementById("errormsg");        
         if(!n.match(nominativoPattern)){
-            error.innerHTML="Company name must be a sequence of letters, numbers and eventually spaces";
+            error.innerHTML="Il fornitore deve essere una sequenza di lettere, spazi ed, eventualmente, numeri";
             error.classList.remove("valid");
             error.classList.add("invalid");				
         return false;
@@ -30,7 +30,7 @@ function validateSupplyRequestForm(){
         var emailPattern = /^[\w]+@[\w.-]+\.[a-zA-Z]{2,}$/;
         var error = document.getElementById("errormsg");               
         if(!n.match(emailPattern)){
-            error.innerHTML="Email must be in the form ____@____.___";
+            error.innerHTML="L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com)";
             error.classList.remove("valid");
             error.classList.add("invalid");				
         return false;
@@ -97,7 +97,7 @@ function validateForm() {
 document.getElementById('fill_order_form').addEventListener('submit', function(event) {
     if (!validateForm()) {
         event.preventDefault(); // Prevent form submission
-        alert('Please correct the errors in the form before submitting.');
+        alert('Sono presenti errori nel form da correggere.');
     }
 });
 

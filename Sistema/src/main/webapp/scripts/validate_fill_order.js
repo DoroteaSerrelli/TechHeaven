@@ -47,23 +47,42 @@ function validateSupplyRequestForm(){
 
 //Textarea Validations:
 
-// Function to add character limit validation to a textarea
-function addCharacterLimitValidation(textareaId, charCountId, charWarningId, maxLength) {
+// Function to add character limit and real-time validation to a textarea
+function addCharacterLimitValidation(textareaId, charCountId, charWarningId, maxLength, validationType) {
     const textarea = document.getElementById(textareaId);
     const charCount = document.getElementById(charCountId);
     const charWarning = document.getElementById(charWarningId);
-
+    const errorElement = document.getElementById(`error${textareaId}`); // Error message display
     textarea.addEventListener('input', function() {
-        const currentLength = textarea.value.length;
+        const value = textarea.value;
+        const currentLength = value.length;
         charCount.textContent = `${currentLength}/${maxLength}`;
 
+        // Check if the length exceeds the maximum
         if (currentLength > maxLength) {
             charWarning.style.display = 'inline';
+            errorElement.textContent = ''; // Clear specific error when character limit exceeded
         } else {
             charWarning.style.display = 'none';
         }
+
+        // Check for empty or space-only input
+        if (value.trim() === '') {
+            addInvalidMessage(`${textareaId}: Questo campo non deve essere vuoto.`, errorElement.id);
+        } else {
+            removeInvalidMessage(errorElement.id);
+        }
+        
+        // Specific validation for Corriere (letters and spaces only)
+        if (textarea.id === 'Corriere' && !/^[A-Za-z\s]+$/.test(value)) {
+            addInvalidMessage(`L’azienda di spedizione deve essere composta da lettere e spazi`, errorElement.id);           
+        }
+        else {
+            removeInvalidMessage(errorElement.id);
+        }
     });
 }
+
 // Function to check if all textareas are within the character limit
 function validateForm() {
     let isValid = true;
@@ -96,14 +115,14 @@ function validateForm() {
 
             // Check for empty or spaces-only input
             if (value === '') {
-                alert(validation.emptyMessage);
+                addInvalidMessage(validation.emptyMessage, "error"+validation.id);
                 isValid = false;
                 return;
             }
 
             // Specific validation for Corriere (letters and spaces only)
             if (validation.id === 'Corriere' && !/^[A-Za-z\s]+$/.test(value)) {
-                alert(validation.invalidMessage);
+                addInvalidMessage(validation.invalidMessage, "error"+validation.id);
                 isValid = false;
                 return;
             }
@@ -111,6 +130,7 @@ function validateForm() {
             // Check if the input exceeds the maximum length
             if (currentLength > validation.maxLength) {
                 charWarning.style.display = 'inline';
+                charWarning.innerHTML = "Superato il limite di caratteri ammissibili!";
                 isValid = false;
             } else {
                 charWarning.style.display = 'none';

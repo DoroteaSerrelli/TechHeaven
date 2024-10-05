@@ -46,27 +46,30 @@
                 <p>Lista Prodotti E Relative Quantità Richieste:</p>
                 <% for (ItemCarrello item : order_products){%>
                 <div class="row">
-                    <h2><%= item.getCodiceProdotto()%></h2>
-                    <h3><%= item.getNomeProdotto()%></h3>
+                    <h2>ID: <%= item.getCodiceProdotto()%></h2>
+                    <h3>Nome: <%= item.getNomeProdotto()%></h3>
                     <img src="image?productId=<%= item.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';"/>
                 </div>
                 <p id="range_value"><%=item.getQuantita()%></p>
                 <div class="input-wrapper row">     
                     <input type="hidden" name="product_id[]" value="<%=item.getCodiceProdotto()%>">
-                    <input type="range" id="item_amount" name="item_amount[]" min="<%=item.getQuantita()%>" max="<%= order_products_available.get(item.getCodiceProdotto())%>">         
+                    <input type="range" id="item_amount" name="item_amount[]" min="<%=item.getQuantita()%>" 
+                           max="<%= order_products_available.get(item.getCodiceProdotto())%>" oninput="validateQuantity(this.value)">         
                 </div>
               <%}%>  
                 <div class="input-wrapper">  
                     <p>Inserisci informazioni sull'imballaggio:</p>
                     <textarea id="Imballaggio" name="Imballaggio" rows="4" cols="50" required></textarea>
                     <span id="charCountImballaggio">0/100</span> <!-- Added for character count -->
-                    <span id="charWarningImballaggio" class="warning">Superato il limite di caratteri ammissibile!</span><br><br>
+                    <span id="charWarningImballaggio" class="warning">Superato il limite di caratteri ammissibili!</span><br><br>
+                    <div id="errorImballaggio" class="erromsg"></div>
                 </div>
                 <div class="input-wrapper">  
                     <p>Inserisci informazioni sull'azienda di spedizioni:</p>
                     <textarea id="Corriere" name="Corriere" rows="4" cols="50" required></textarea>
                     <span id="charCountCorriere">0/60</span> <!-- Added for character count -->
-                    <span id="charWarningCorriere" class="warning">Superato il limite di caratteri ammissibile!</span><br><br>
+                    <span id="charWarningCorriere" class="warning">Superato il limite di caratteri ammissibili!</span><br><br>
+                    <div id="errorCorriere" class="erromsg"></div>
                 </div>
                 <button class="confirm_button" onClick="setActionForOrderSent()" type="submit">Conferma Preparazione Ordine</button>
             </form><!--<a href="GestioneOrdiniController?action=incomplete_order" >-->
@@ -76,49 +79,6 @@
                     <p id="error"></p>                  
                 </div>         
                 
-        <script>
-            document.addEventListener('DOMContentLoaded', (event) => {
-            // Get the range input element and the span where the value will be displayed
-            const rangeInput = document.getElementById('item_amount');
-            const rangeValue = document.getElementById('range_value');
-
-            // Function to update the value display
-            function updateRangeValue() {
-                rangeValue.textContent = rangeInput.value;
-            }
-
-            // Initialize the display with the current value
-            updateRangeValue();
-
-            // Add an event listener to update the value when the slider is moved
-            rangeInput.addEventListener('input', updateRangeValue);
-        });
-        </script>
-        <script>
-            function setActionAndRedirect(action) {
-                sessionStorage.setItem('action', action); // Store action in session storage
-                // Get the context path from the current URL
-                var contextPath = window.location.pathname.substring(0, window.location.pathname.indexOf("/", 2));
-
-                // Redirect to the main page with the context path
-                window.location.href = contextPath + '/GestioneOrdini';
-            }
-            function setActionForOrderSent() {
-                sessionStorage.setItem('action', 'fetch_spediti'); // Store the 'order_sent' action
-               // window.location.href = 'GestioneOrdini'; // Redirect to the main page
-            }
-            // Attach validation to form submit
-        document.getElementById('fill_order_form').addEventListener('submit', function(event) {
-            if (!validateForm()) {
-                event.preventDefault(); // Prevent form submission
-                alert('Please correct the errors in the form before submitting.');
-            }
-        });
-    // Adding validation to different textareas with different character limits
-    addCharacterLimitValidation('Corriere', 'charCountCorriere', 'charWarningCorriere', 60);
-    addCharacterLimitValidation('Imballaggio', 'charCountImballaggio', 'charWarningImballaggio', 100);
-
-    </script>
         <script src="<%= request.getContextPath()%>/scripts/validate_fill_order.js?ts=<%= System.currentTimeMillis() %>"></script>
     </body>
 </html> 

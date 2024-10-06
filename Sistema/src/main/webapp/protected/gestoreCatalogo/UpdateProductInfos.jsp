@@ -79,7 +79,7 @@
                 </a>    
             </div>
             <div class="fe-box" id="addProduct">
-                <a href="/GestioneCatalogo"><img src="${pageContext.request.contextPath}/view/img/addprodotto.png" alt="Aggiungi un nuovo prodotto"></a>
+                 <a href="<%=request.getContextPath()%>/AggiuntaAlCatalogo"><img src="${pageContext.request.contextPath}/view/img/addprodotto.png" alt="Aggiungi un nuovo prodotto"></a>
                 <h6>Aggiungi un nuovo prodotto</h6>
             </div>
             <div class="fe-box" id="removeProduct">

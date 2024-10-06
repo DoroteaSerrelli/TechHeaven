@@ -39,12 +39,12 @@
         </aside>      
         <main class="main-content" id="mainContent">  
             <section id="centerMenu" class="center-menu">
-                <div class="fe-box" id="viewProducts" onclick="moveToSidebar('viewProducts', 'viewProductsForm')">
+                <div class="fe-box" id="viewProducts">
                     <a href="/Catalogo">
                         <img src="${pageContext.request.contextPath}/images/site_images/listaprodotto.png" alt="Visualizza Prodotti">
                     </a>
                     <h6>Visualizza Prodotti</h6>
-                </div>
+                </div> <a href="<%=request.getContextPath()%>/AggiuntaAlCatalogo">
                     <div class="fe-box" id="addProduct" >
                         <a href="<%=request.getContextPath()%>/AggiuntaAlCatalogo">
                             <img src="${pageContext.request.contextPath}/images/site_images/addprodotto.png" alt="Aggiungi un nuovo prodotto">

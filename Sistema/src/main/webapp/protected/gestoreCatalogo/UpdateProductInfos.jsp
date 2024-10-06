@@ -120,8 +120,7 @@
                          </table> 
                        <div id="pagination"></div>
             </section>
-                         <section id="modifyPropertiesForm" class="form-section hidden">
-                             <a href="<%=request.getContextPath()%>/GestioneCatalogo">Annulla</a>
+                         <section id="modifyPropertiesForm" class="form-section hidden">                            
                     <h2 id="changeable">Modifica Prodotto</h2>
                     <form id="productForm" action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
                         <!-- Product Details Group -->                       
@@ -196,7 +195,8 @@
                             <input type="number" id="quantità" name="quantità" oninput="validateProductID(this, 'Quantità')"> 
                             <div id="prodQuantitàError" class="erromsg" style="display:none;"></div>  
                         </div>
-                            <button id="submitBtn" type="submit">Update</button>
+                        <button class="confirm_button" id="submitBtn" type="submit">Update</button>
+                      <a href="<%=request.getContextPath()%>/GestioneCatalogo"><button class="cancel_button" type="button"> Annulla</button></a>
                         </form>
                         <h2>Modifica, Aggiungi o Elimina Foto di Presentazione</h2> 
                         <div class="product-image">

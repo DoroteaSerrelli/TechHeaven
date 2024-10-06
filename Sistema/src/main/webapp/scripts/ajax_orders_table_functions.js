@@ -83,7 +83,7 @@ function showSupplyForm(productId) {
             </div>
             <input type="hidden" name="product_id" value="${productId}">
             <button class="confirm_button" type="submit" onclick="return validateSupplyRequestForm()">Submit Request</button>
-            <button type="button" onclick="cancelSupplyRequest()">Anulla Richiesta</button>
+            <button class="cancel_button" type="button" onclick="cancelSupplyRequest()">Anulla Richiesta</button>
         `;
         
         form.style.display = "block"; // Ensure the form is visible

@@ -35,8 +35,7 @@
          <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>                        
      <div class="section-p1">  
            <section id="" >
-            <!-- Your form for adding a new product -->     
-                    <a href="<%=request.getContextPath()%>/Catalogo">Annulla</a>
+            <!-- Your form for adding a new product -->                  
                         <h2>Aggiungi un nuovo prodotto</h2>
                         <form action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
                              <div id="error"></div>
@@ -103,7 +102,8 @@
                             <label for="file">Immagine:</label>
                             <input type="file" id="file" name="file" accept="image/*">
                         </div>
-                         <button type="submit" id="addPrBtn" onclick="return validateForm()">Aggiungi</button>
+                         <button class="confirm_button" type="submit" id="addPrBtn" onclick="return validateForm()">Aggiungi</button>
+                         <a href="<%=request.getContextPath()%>/Catalogo"><button class="cancel_button" type="button">Annulla</button></a>
                     </form>
         </section>
      </div>     

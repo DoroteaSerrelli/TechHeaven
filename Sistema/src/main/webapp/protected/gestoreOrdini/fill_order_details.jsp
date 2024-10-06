@@ -88,7 +88,7 @@
                 </div>
                 <div id="errorCorriere" class="erromsg"></div>
                 <button class="confirm_button" onClick="setActionForOrderSent()" type="submit">Conferma Preparazione Ordine</button>
-                <button onclick="setActionAndRedirect('incomplete_order')" class="" type="submit">Annulla Preparazione Ordine</button></a>      
+                <button class="cancel_button"  onclick="setActionAndRedirect('incomplete_order')" type="submit">Annulla Preparazione Ordine</button></a>      
             </form><!--<a href="GestioneOrdiniController?action=incomplete_order" >-->
         </div>
                 <div class="errormsg">

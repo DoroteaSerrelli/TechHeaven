@@ -15,8 +15,9 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 /*WARNING VALIDAZIONE PER INPUT TROPPO LUNGO PER LE TEXTAREA*/
 .warning {
+        padding: 5px;
 	color: red;
-	font-size: 12px;
+	font-size: 16px;
 	display: none;
 }
 /*SELEZIONE MODIFICA INFO PERSONALI CAMPI*/
@@ -113,6 +114,18 @@ form h2{
 	border-bottom-color: #F28C44;
 }
 
+.cancel_button {
+	cursor: pointer;
+        margin-left: 15px;
+	width: 150px;
+	height: 40px;
+	margin-top: 40px;
+	background-color: #F28C44;
+	border-radius: 30%;
+	border-top-color: #735D5A;
+	border-bottom-color: #6A5FB3;
+}
+
 /*ERROR MESSAGE STILE**/
 .errormsg .valid {
 	padding: 10px;
@@ -137,7 +150,6 @@ form h2{
 	word-wrap: break-word;
 	padding: 10px;
 }
-
 /*FORM DI REGISTRAZIONE*/
 /*PULSANTE SUBMIT SEARCH*/
 #search_section {

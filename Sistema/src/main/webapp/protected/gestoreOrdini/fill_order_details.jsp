@@ -19,7 +19,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Fill Order Infos Page</title>
-        
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/extra_manager_style.css">
         <%
             Ordine selected_ordine = (Ordine) request.getSession().getAttribute("selected_ordine");
             if(selected_ordine==null){
@@ -33,15 +33,29 @@
     <body>
        <jsp:include page="/common/header.jsp"  flush="true"/>
        <jsp:include page="/protected/cliente/roleSelector.jsp"  flush="true"/>
-        <h1>Informazioni sull'Ordine Selezionato:</h1>
-        <div id="product1">
-            <h2><%=selected_ordine.getStatoAsString()%></h2>
-            <h4><%=selected_ordine.getIndirizzoSpedizione()%></h4>
-            <h4><%=selected_ordine.getSpedizioneAsString()%></h4>
-            <h4><%=selected_ordine.getAcquirente()%></h4>
-        </div>       
-        <div class="section-p1">
-            <h4>Informazioni di spedizione:</h4>
+        <h1>Informazioni sull'Ordine Selezionato:</h1>         
+            <div id="order_details">
+              <table>
+                    <tr>
+                        <th>Stato:</th>
+                        <td><%= selected_ordine.getStatoAsString() %></td>
+                    </tr>
+                    <tr>
+                        <th>Indirizzo Spedizione:</th>
+                        <td><%= selected_ordine.getIndirizzoSpedizione() %></td>
+                    </tr>
+                    <tr>
+                        <th>Tipo Spedizione:</th>
+                        <td><%= selected_ordine.getSpedizioneAsString() %></td>
+                    </tr>
+                    <tr>
+                        <th>Info Acquirente:</th>
+                        <td><%= selected_ordine.getAcquirente() %></td>
+                    </tr>
+                </table>
+            </div>  
+        <div class="section-p1">             
+            <h1>Informazioni di spedizione:</h1>
             <form id="fill_order_form" class="reg_form" action="<%=request.getContextPath()%>/GestioneOrdiniController?action=complete_order" method="post">
                 <p>Lista Prodotti E Relative Quantità Richieste:</p>
                 <% for (ItemCarrello item : order_products){%>
@@ -74,8 +88,8 @@
                 </div>
                 <div id="errorCorriere" class="erromsg"></div>
                 <button class="confirm_button" onClick="setActionForOrderSent()" type="submit">Conferma Preparazione Ordine</button>
+                <button onclick="setActionAndRedirect('incomplete_order')" class="" type="submit">Annulla Preparazione Ordine</button></a>      
             </form><!--<a href="GestioneOrdiniController?action=incomplete_order" >-->
-                 <button onclick="setActionAndRedirect('incomplete_order')" class="confirm_button" type="submit">Annulla Preparazione Ordine</button></a>    
         </div>
                 <div class="errormsg">
                     <p id="error"></p>                  

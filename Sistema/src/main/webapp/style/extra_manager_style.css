@@ -28,6 +28,31 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     flex: 1; /* Allow flex items to grow and shrink as needed */
     min-width: 200px; /* Minimum width of each input-wrapper */
 }
+#order_details table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+#order_details th, #order_details td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+#order_details th {
+    color: #5b44f2;
+    font-size: 18px;
+    background-color: #f2f2f2;
+    width: 23%;
+}
+#order_details td {
+    width: 70%;
+    color: #3F3E48;
+    font-size: 18px;
+}
+#order_details{  
+    padding-left: 25px;
+    background-color: rgb(255, 255, 245);
+    box-shadow: 3px 3px rgba(28, 168, 248, 0.3);
+}
 
 /* Styles for mobile screens */
 @media (max-width: 480px) {

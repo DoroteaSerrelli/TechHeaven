@@ -192,7 +192,8 @@ function openModifyForm(product) {
     $('#removeProductForm').addClass('hidden');
     $('#modifyPropertiesForm').removeClass('hidden');
     
-    $('#changeable').html("Modifica Informazioni del Prodotto");
+    $('#changeable').html("Modifica Informazioni del Prodotto");  
+    $('#updateGalleryForm').removeClass('hidden');
     
     enableModify();
     populateFields(product);   
@@ -212,6 +213,7 @@ function openDeleteForm(product) {
     $('#modifyPropertiesForm').removeClass('hidden');
     
     $('#changeable').html("Elimina Prodotto - Verifica Cancellazione");
+    $('#updateGalleryForm').addClass('hidden');
     
     disableModify();
     populateFields(product);
@@ -221,7 +223,7 @@ function openDeleteForm(product) {
 }
 
     function fetchProducts(page, action) {
-        const url = `${window.contextPath}/GestioneCatalogoController?page=${page}`;
+        const url = `${window.contextPath}/GestioneCatalogoController?page=${page}&action=${action}`;
         console.log('Fetching URL:', url); // Debug URL
         
         // Capture the action variable in a closure

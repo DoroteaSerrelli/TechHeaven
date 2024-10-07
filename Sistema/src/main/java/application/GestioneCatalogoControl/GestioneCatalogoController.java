@@ -93,7 +93,10 @@ public class GestioneCatalogoController extends HttpServlet {
             try{
                 if (request.getParameter("page") != null)
                     page = Integer.parseInt(
-                            request.getParameter("page"));               
+                            request.getParameter("page")); 
+                if(request.getParameter("action") != null){
+                    request.getSession().setAttribute("displayGalleryForm", request.getParameter("action"));
+                }
             } catch(Exception e) {
                 Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, e);
                 page=1;

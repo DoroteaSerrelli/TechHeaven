@@ -20,8 +20,9 @@
         <script src="${pageContext.request.contextPath}/scripts/indexedDBUtils.js"></script>
         <script type="text/javascript">
             // Define the context path as a global variable
-            window.contextPath = '<%= request.getContextPath() %>';
+            window.contextPath = '<%= request.getContextPath() %>';         
             $(document).ready(function() {
+                fromAnotherPage = true;
                 fetchProducts(1, ''); // Fetch products without any specific action (just viewing)
             });
         </script> 
@@ -41,7 +42,6 @@
                 sessionStorage.removeItem('outputMessage');
             });
         </script>  
-         <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>
         <jsp:include page="/protected/gestoreCatalogo/catalogo_toolbar.jsp"  flush="true"/> 
      <div class="section-p1">    
          <section id="viewProductsForm" class="form-section">

@@ -21,6 +21,7 @@
        <script type="text/javascript">
             // Define the context path as a global variable
             window.contextPath = '<%= request.getContextPath() %>';
+            fromAnotherPage = true;
         </script> 
         <script src="${pageContext.request.contextPath}/scripts/indexedDBUtils.js"></script>    
         <div id="error">
@@ -31,8 +32,7 @@
             <h2> <%=errormsg%> </h2>
             <%request.getSession().removeAttribute("error");%>
         </div>   
-         <jsp:include page="/protected/gestoreCatalogo/catalogo_toolbar.jsp"  flush="true"/> 
-         <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/view/img/sidebar_toggle.png" onclick="toggleSidebar()"></button>                        
+         <jsp:include page="/protected/gestoreCatalogo/catalogo_toolbar.jsp"  flush="true"/>                         
      <div class="section-p1">  
            <section id="" >
             <!-- Your form for adding a new product -->                  

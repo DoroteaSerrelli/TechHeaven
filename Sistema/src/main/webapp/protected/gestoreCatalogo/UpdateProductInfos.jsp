@@ -36,7 +36,7 @@
     <script>
         $(document).ready(function() {
             openDB(2); // Open the database when the document is ready
-
+            
             let action = '<%= request.getSession().getAttribute("displayGalleryForm") %>';           
             console.log(action);
             retrieveAllData(function(data) {
@@ -64,38 +64,13 @@
         <script type="text/javascript">
             // Define the context path as a global variable
             window.contextPath = '<%= request.getContextPath() %>';
+            fromAnotherPage = false;
         </script>
     </head>    
     <body>     
         <!-- DA AGGIUNGERE PATH NEL WEB.XML + FILTRO -->      
        <jsp:include page="/protected/cliente/roleSelector.jsp"  flush="true"/> 
-       <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>                   
-       <aside class="options_sidebar visible" id="options_sidebar">
-           <button id="sidebar_toggle"><img src="${pageContext.request.contextPath}/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>        
-            <div class="fe-box" id="viewProducts" onclick="moveToSidebar('viewProducts', 'viewProductsForm')">
-                <a href="/Catalogo">
-                    <img src="${pageContext.request.contextPath}/images/site_images/listaprodotto.png" alt="Visualizza Prodotti">
-                    <h6>Visualizza Prodotti</h6>
-                </a>    
-            </div>
-            <div class="fe-box" id="addProduct">
-                 <a href="<%=request.getContextPath()%>/AggiuntaAlCatalogo"><img src="${pageContext.request.contextPath}/view/img/addprodotto.png" alt="Aggiungi un nuovo prodotto"></a>
-                <h6>Aggiungi un nuovo prodotto</h6>
-            </div>
-            <div class="fe-box" id="removeProduct">
-                <img src="${pageContext.request.contextPath}/images/site_images/removeprodotto.png" 
-                     onclick="$('#viewProductsForm').removeClass('hidden'); 
-                     $('#modifyPropertiesForm').addClass('hidden');" 
-                     alt="Elimina un prodotto">
-                <h6>Elimina un prodotto</h6>
-            </div>
-            <div class="fe-box" id="modifyProperties">
-                <img src="${pageContext.request.contextPath}/images/site_images/modproperties.png" alt="Modifica caratteristiche prodotto"
-                onclick="$('#viewProductsForm').removeClass('hidden'); 
-                     $('#modifyPropertiesForm').addClass('hidden');">
-                <h6>Modifica caratteristiche prodotto</h6>
-            </div>
-       </aside>
+       <jsp:include page="/protected/gestoreCatalogo/catalogo_toolbar.jsp"  flush="true"/>         
         <section id="forms">                     
                     <section id="viewProductsForm" class="form-section">
                         <div id="pagination"></div>   

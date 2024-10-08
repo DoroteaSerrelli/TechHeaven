@@ -14,7 +14,7 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
     position: fixed;
     left: -250px;
-    top: 20vh;
+    top: 35vh;
     height: 40vh;
     overflow-y: auto;
     transition: all 0.3s ease;
@@ -22,6 +22,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
 
 .options_sidebar.visible {
     left: 0;
+}
+
+#sidebar_toggle{
+    display: block;
 }
 
 .center-menu {
@@ -68,8 +72,13 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     background-color: #e0e0e0; /* Change to desired highlight color */
 }
 
+#sidebar_toggle_menu{
+    position: fixed;
+    top: 25vh;
+}
+
 /* Styles for mobile screens */
-@media (max-width: 480px) {
+@media (max-width: 480px) {   
     .main-content {
         padding: 5px; /* Reduced padding */        
     }
@@ -88,12 +97,39 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
         width: 80px; /* Smaller images */
         height: 80px;
     }
-    .options_sidebar{
+    
+    .options_sidebar {
         top: auto;
-        left: auto;
-        right: 10px;
+        left: 98%; 
         bottom: 0;
-        padding: 10px; /* Reduce padding for smaller screens */
-        width: 55%;
+        padding-left: 20px;
+        padding-right: 0px;
     }
+    #sidebar_toggle_menu{
+        position: fixed;
+        bottom: 20%; /* Positioning the button */
+        right: 5px;
+        z-index: 1001; /* Ensure it's above the sidebar */
+        background-color: transparent;
+        border: none;
+        padding: 10px;
+        height: 30px;
+        width: 35px;
+        cursor: pointer;
+        display: block; /* Show the toggle button by default */
+        transition: opacity 0.3s ease;
+        transform: rotate(45deg);
+    }
+    #sidebar_toggle_menu img{
+        width: 40px;
+        height: 40px;
+    }
+    .options_sidebar .visible{
+        transform: translateY(0); /* Slide into view */
+    }
+    
+    #sidebar_toggle{
+        display: none;
+    }
+    
 }

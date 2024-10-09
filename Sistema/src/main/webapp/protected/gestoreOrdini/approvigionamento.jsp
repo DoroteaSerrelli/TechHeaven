@@ -64,7 +64,7 @@
                 </td>
                 <td><img src="image?productId=<%= product.getCodiceProdotto() %>" alt="alt" onerror="this.onerror=null;this.src='<%= request.getContextPath()%>/images/site_images/placeholder.png';"/>
                 </td>
-                <td class="productName" style="width: 25%;">  
+                <td class="productName">  
                     <h3><%=product.getNomeProdotto()%></h3>
                 </td>  
              <!--   <td><span><%//=product.getMarca()%></span></td>  -->

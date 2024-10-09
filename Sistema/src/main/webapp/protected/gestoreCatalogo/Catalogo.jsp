@@ -14,6 +14,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_options.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/product_table.css">
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/extra_manager_style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_form.css">
         <jsp:include page="/common/header.jsp"  flush="true"/>
         <script src="${pageContext.request.contextPath}/scripts/pagination.js"></script>

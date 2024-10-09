@@ -137,25 +137,4 @@ th, td {
         margin-left: initial;
         margin-right: 2%;
     }
-    #showpr {
-        display: block;
-        overflow-x: auto;
-        border-color: rgb(91, 68, 242);
-    }
-    #showpr th, #showpr td {
-        display: block;
-        text-align: left;
-          border-color: rgb(91, 68, 242);
-    }
-    #showpr th {
-        display: none; /* Hide headers on small screens */
-    }
-    #showpr tr {
-        margin-bottom: 1em; /* Space between rows */
-    }
-    #showpr td:before {
-        content: attr(data-label); /* Show the header as a label */
-        font-weight: bold;
-        float: left;
-    }
 }

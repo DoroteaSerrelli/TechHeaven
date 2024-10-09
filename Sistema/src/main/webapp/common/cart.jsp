@@ -49,7 +49,7 @@
             } else {
         %>   
     <div id="cart">
-        <h1>Carrello:</h1>
+        <h1>Carrello</h1>
         <div id="complete_order">
             <h1>Totale provvisorio:</h1>
             <h3 id="total_amount"><%= String.format("%.2f", carrello.totalAmount()) %>€</h3>

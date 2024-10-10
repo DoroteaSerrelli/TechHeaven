@@ -31,7 +31,6 @@ import application.RegistrazioneService.Indirizzo;
 
 public class IndirizzoDAODataSource {
 	private static DataSource ds;
-	private static final Logger LOGGER = Logger.getLogger(IndirizzoDAODataSource.class.getName());
 
 	static {
 		try {
@@ -41,7 +40,7 @@ public class IndirizzoDAODataSource {
 			ds = (DataSource) envCtx.lookup("jdbc/techheaven");
 
 		} catch (NamingException e) {
-			LOGGER.log(null, "Error:" + e.getMessage());
+			System.out.println("Error:" + e.getMessage());
 		}
 	}
 

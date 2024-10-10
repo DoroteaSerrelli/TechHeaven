@@ -39,7 +39,19 @@ import storage.AutenticazioneDAO.*;
  * */
 
 public class AutenticazioneServiceImpl implements AutenticazioneService{
-
+	
+	private UtenteDAODataSource userDAO;
+	private RuoloDAODataSource roleDAO;
+	private ClienteDAODataSource profileDAO;
+	private IndirizzoDAODataSource addressDAO;
+	
+	public AutenticazioneServiceImpl(UtenteDAODataSource userDAO, RuoloDAODataSource roleDAO, ClienteDAODataSource profileDAO, IndirizzoDAODataSource addressDAO) {
+		this.userDAO = userDAO;
+		this.roleDAO = roleDAO;
+		this.profileDAO = profileDAO;
+		this.addressDAO = addressDAO;
+	}
+	
 	/**
 	 * Il metodo effettua l'autenticazione dell'utente: verifica la corrispondenza 
 	 * tra le credenziali inserite (viene effettuato l'hash della password fornita) 
@@ -59,7 +71,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 
 	@Override
 	public ProxyUtente login(String username, String password) throws SQLException, UtenteInesistenteException {
-		UtenteDAODataSource userDAO = new UtenteDAODataSource();
+		
 		ProxyUtente userReal;
 		if((userReal = userDAO.doRetrieveProxyUserByKey(username)) == null)
 			throw new UtenteInesistenteException("Username o password non valide");
@@ -68,8 +80,8 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 			if(!client.getPassword().equals(userReal.getPassword()))
 				throw new UtenteInesistenteException("Username o password non valide");
 		}
-		ArrayList<Ruolo> roles = (new RuoloDAODataSource()).doRetrieveByKey(username);
-		return new ProxyUtente(username, userReal.getPassword(), roles);
+
+		return userReal;
 	}
 
 
@@ -95,7 +107,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 
 	@Override
 	public void resetPassword(String username, String email, String newPassword) throws UtenteInesistenteException, FormatoPasswordException, SQLException, PasswordEsistenteException {
-		UtenteDAODataSource userDAO = new UtenteDAODataSource();
+		
 		Utente userReal;
 		if((userReal = userDAO.doRetrieveFullUserByKey(username)) == null)
 			throw new UtenteInesistenteException("Username o email non valide");
@@ -153,8 +165,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 
 	@Override
 	public ProxyUtente aggiornaProfilo(ProxyUtente user, String information, String updatedData) throws SQLException, FormatoEmailException, ProfiloInesistenteException, EmailEsistenteException, TelefonoEsistenteException, FormatoTelefonoException, InformazioneDaModificareException {
-		UtenteDAODataSource userDAO = new UtenteDAODataSource();
-		ClienteDAODataSource profileDAO = new ClienteDAODataSource();
+		
 		Utente userReal;
 
 		if(information.equalsIgnoreCase("EMAIL")) {
@@ -225,8 +236,6 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 
 	@Override
 	public ProxyUtente aggiornaRubricaIndirizzi(ProxyUtente user, String information, Indirizzo updatedData) throws UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, SQLException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException {
-		UtenteDAODataSource userDAO = new UtenteDAODataSource();
-		IndirizzoDAODataSource addressDAO = new IndirizzoDAODataSource();
 
 		if(information.equalsIgnoreCase("AGGIUNGERE-INDIRIZZO")) {
 			if(userDAO.doRetrieveFullUserByKey(user.getUsername()) == null)

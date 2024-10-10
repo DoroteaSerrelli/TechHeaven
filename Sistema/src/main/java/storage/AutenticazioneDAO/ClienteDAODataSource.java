@@ -15,7 +15,10 @@ import application.RegistrazioneService.Cliente;
 
 
 public class ClienteDAODataSource{
-	private static DataSource ds;
+	
+	DataSource ds;
+	
+	/*private static DataSource ds;
 
 	static {
 		try {
@@ -27,11 +30,14 @@ public class ClienteDAODataSource{
 		} catch (NamingException e) {
 			System.out.println("Error:" + e.getMessage());
 		}
-	}
+	}*/
 
 	private static final String TABLE_NAME = "Cliente_DatiPersonali";
 
-
+	public ClienteDAODataSource(DataSource dataSource) throws SQLException{
+		this.ds = dataSource;
+	}
+	
 	public synchronized void doSave(Cliente user) throws SQLException {
 
 		Connection connection = null;

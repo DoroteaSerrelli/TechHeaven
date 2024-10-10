@@ -30,6 +30,10 @@ import application.RegistrazioneService.Indirizzo;
  * */
 
 public class IndirizzoDAODataSource {
+	
+	DataSource ds = null;
+	
+	/*
 	private static DataSource ds;
 
 	static {
@@ -42,10 +46,13 @@ public class IndirizzoDAODataSource {
 		} catch (NamingException e) {
 			System.out.println("Error:" + e.getMessage());
 		}
-	}
+	}*/
 
 	private static final String TABLE_NAME = "indirizzo";
-
+	
+	public IndirizzoDAODataSource(DataSource dataSource) throws SQLException{
+		this.ds = dataSource;
+	}
 
 	/**
 	 * Questo metodo salva un indirizzo nel database e lo associa all'utente specificato tramite username.

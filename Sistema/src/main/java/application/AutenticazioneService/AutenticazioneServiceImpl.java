@@ -20,7 +20,6 @@ import application.RegistrazioneService.Cliente;
 import application.RegistrazioneService.Indirizzo;
 import application.RegistrazioneService.ObjectUtente;
 import application.RegistrazioneService.ProxyUtente;
-import application.RegistrazioneService.Ruolo;
 import application.RegistrazioneService.Utente;
 import storage.AutenticazioneDAO.*;
 
@@ -80,7 +79,8 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 			if(!client.getPassword().equals(userReal.getPassword()))
 				throw new UtenteInesistenteException("Username o password non valide");
 		}
-
+		userReal.setRuoli(roleDAO.doRetrieveByKey(userReal.getUsername()));
+		
 		return userReal;
 	}
 
@@ -103,15 +103,18 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 	 * 
 	 * @throws PasswordEsistenteException : lanciata nel caso in cui l'utente inserisce come nuova password,
 	 * 										la password che già possiede nel database
+	 * @throws FormatoEmailException 
 	 * */
 
 	@Override
-	public void resetPassword(String username, String email, String newPassword) throws UtenteInesistenteException, FormatoPasswordException, SQLException, PasswordEsistenteException {
+	public void resetPassword(String username, String email, String newPassword) throws UtenteInesistenteException, FormatoPasswordException, SQLException, PasswordEsistenteException, FormatoEmailException {
 		
 		Utente userReal;
 		if((userReal = userDAO.doRetrieveFullUserByKey(username)) == null)
 			throw new UtenteInesistenteException("Username o email non valide");
 		else {
+			if(!Cliente.checkValidateEmail(email))
+				throw new FormatoEmailException("L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com).");
 			if(!email.equals(userReal.getProfile().getEmail()))
 				throw new UtenteInesistenteException("Username o email non valide");
 			else {

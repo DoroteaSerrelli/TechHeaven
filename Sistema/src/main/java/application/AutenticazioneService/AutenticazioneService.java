@@ -65,9 +65,10 @@ public interface AutenticazioneService {
 	 * 
 	 * @throws PasswordEsistenteException : lanciata nel caso in cui l'utente inserisce come nuova password,
 	 * 										la password che già possiede nel database
+	 * @throws FormatoEmailException 
 	 * */
 	
-	public void resetPassword(String username, String email, String newPassword) throws UtenteInesistenteException, FormatoPasswordException, SQLException, PasswordEsistenteException;
+	public void resetPassword(String username, String email, String newPassword) throws UtenteInesistenteException, FormatoPasswordException, SQLException, PasswordEsistenteException, FormatoEmailException;
 	
 	/**
 	 * Il metodo effettua la modifica del numero di telefono e dell'email 

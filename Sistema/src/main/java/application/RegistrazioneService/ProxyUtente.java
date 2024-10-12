@@ -3,6 +3,8 @@ package application.RegistrazioneService;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import javax.sql.DataSource;
+
 import storage.AutenticazioneDAO.UtenteDAODataSource;
 
 /**
@@ -66,10 +68,12 @@ public class ProxyUtente extends ObjectUtente{
 	 * il riferimento.
 	 * 
 	 * @return realUtente : l'oggetto Utente che possiede le informazioni personali dell'utente
+	 * @throws SQLException 
 	 * */
-	public Utente mostraUtente() {
+	public Utente mostraUtente() throws SQLException {
 		if(realUtente == null) {
-			UtenteDAODataSource userDao = new UtenteDAODataSource();
+			DataSource ds = null;
+			UtenteDAODataSource userDao = new UtenteDAODataSource(ds);
 			try {
 				Utente real = userDao.doRetrieveFullUserByKey(username);
 				realUtente = real;

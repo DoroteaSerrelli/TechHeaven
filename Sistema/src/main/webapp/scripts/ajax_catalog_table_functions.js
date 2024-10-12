@@ -251,16 +251,6 @@ function openDeleteForm(product) {
                     </tr>
                 `);
 
-               table.html(`
-            <tr>
-                <th><strong>Image</strong></th>
-                <th><strong>Nome</strong></th>
-                <th><strong>Marca</strong></th>
-                <th><strong>TopDescr</strong></th>
-                <th><strong>Prezzo</strong></th>
-            </tr>
-        `);
-
                 products.forEach(product => {
                     const row = $('<tr></tr>');
                   
@@ -289,7 +279,7 @@ function openDeleteForm(product) {
                                   this.src = `${window.contextPath}/view/img/placeholder.png`; 
                               })
                     );
-                    const nomeCell = $('<td></td>').append(
+                   const nomeCell = $('<td class="productName"</td>').append(
                         $('<h3></h3>').text(product.nomeProdotto)
                     );
 

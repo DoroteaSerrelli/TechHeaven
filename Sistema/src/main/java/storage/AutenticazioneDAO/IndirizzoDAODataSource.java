@@ -30,8 +30,11 @@ import application.RegistrazioneService.Indirizzo;
  * */
 
 public class IndirizzoDAODataSource {
+	
+	DataSource ds = null;
+	
+	/*
 	private static DataSource ds;
-	private static final Logger LOGGER = Logger.getLogger(IndirizzoDAODataSource.class.getName());
 
 	static {
 		try {
@@ -41,12 +44,15 @@ public class IndirizzoDAODataSource {
 			ds = (DataSource) envCtx.lookup("jdbc/techheaven");
 
 		} catch (NamingException e) {
-			LOGGER.log(null, "Error:" + e.getMessage());
+			System.out.println("Error:" + e.getMessage());
 		}
-	}
+	}*/
 
 	private static final String TABLE_NAME = "indirizzo";
-
+	
+	public IndirizzoDAODataSource(DataSource dataSource) throws SQLException{
+		this.ds = dataSource;
+	}
 
 	/**
 	 * Questo metodo salva un indirizzo nel database e lo associa all'utente specificato tramite username.

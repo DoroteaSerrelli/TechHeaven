@@ -29,6 +29,9 @@ import application.RegistrazioneService.ProxyUtente;
 
 public class UtenteDAODataSource{
 	
+	DataSource ds = null;
+	
+	/*
 	private static DataSource ds;
 
 	static {
@@ -41,10 +44,13 @@ public class UtenteDAODataSource{
 		} catch (NamingException e) {
 			System.out.println("Error:" + e.getMessage());
 		}	
-	}
+	}*/
 	
 	private static final String TABLE_NAME = "utente";
 	
+	public UtenteDAODataSource(DataSource dataSource) throws SQLException{
+		this.ds = dataSource;
+	}
 	
 	/**
      * Il metodo memorizza un nuovo utente nel database.
@@ -75,7 +81,7 @@ public class UtenteDAODataSource{
 				 * Si intende memorizzare tutti i ruoli associati all'utente.
 				 * */
 				for(Ruolo r : user_account.getRuoli()) {
-					RuoloDAODataSource role = new RuoloDAODataSource();
+					RuoloDAODataSource role = new RuoloDAODataSource(ds);
 					role.doSave(user_account, r);
 				}
 				
@@ -84,11 +90,11 @@ public class UtenteDAODataSource{
 				 * */
 				
 				//Profilo
-				ClienteDAODataSource profileDAO = new ClienteDAODataSource();
+				ClienteDAODataSource profileDAO = new ClienteDAODataSource(ds);
 				profileDAO.doSave(user_account.getProfile());
 				
 				//Indirizzo
-				IndirizzoDAODataSource addressDAO = new IndirizzoDAODataSource();
+				IndirizzoDAODataSource addressDAO = new IndirizzoDAODataSource(ds);
 				for(Indirizzo address : user_account.getProfile().getIndirizzi())
 					addressDAO.doSave(address, user_account.getUsername());
 			}
@@ -215,7 +221,7 @@ public class UtenteDAODataSource{
 				String username = rs.getString("USERNAME");
 				String password = rs.getString("USERPASSWORD");
 				String email = rs.getString("EMAIL");
-				ClienteDAODataSource clienteDao = new ClienteDAODataSource();
+				ClienteDAODataSource clienteDao = new ClienteDAODataSource(ds);
 				Cliente profilo = clienteDao.doRetrieveByKey(email);
 				Utente dto = new Utente(username, password, profilo);
 				users.add(dto);
@@ -259,12 +265,12 @@ public class UtenteDAODataSource{
 				user.setUsername(rs.getString("USERNAME"));
 				user.setPassword(rs.getString("USERPASSWORD"));
 				String email = rs.getString("EMAIL");
-				ClienteDAODataSource clienteDao = new ClienteDAODataSource();
+				ClienteDAODataSource clienteDao = new ClienteDAODataSource(ds);
 				Cliente profilo = clienteDao.doRetrieveByKey(email);
 				/*
 				 * Recupero degli indirizzi
 				 * */
-				IndirizzoDAODataSource addressDao = new IndirizzoDAODataSource();
+				IndirizzoDAODataSource addressDao = new IndirizzoDAODataSource(ds);
 				ArrayList<Indirizzo> indirizzi = addressDao.doRetrieveAll("IDINDIRIZZO", username);
 				profilo.setIndirizzi(indirizzi);
 				

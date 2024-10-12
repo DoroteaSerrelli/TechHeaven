@@ -15,7 +15,7 @@
         <aside class="options_sidebar visible" id="options_sidebar">
             <button id="sidebar_toggle"><img src="<%= request.getContextPath()%>/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>     
             <div class="fe-box" id="viewOrders">
-                <a href="${pageContext.request.contextPath}/GestioneOrdini"><img src="<%= request.getContextPath()%>/images/site_images/ordinidaspedire.png" alt="Visualizza Ordini Clienti">
+                <a href="${pageContext.request.contextPath}/GestioneOrdini" onclick="toggleView()"><img src="<%= request.getContextPath()%>/images/site_images/ordinidaspedire.png" alt="Visualizza Ordini Clienti">
                 <h5>Visualizza Ordini Da Spedire</h5>
             </div>
             <div class="fe-box" id="viewSentOrders">

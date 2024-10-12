@@ -39,6 +39,7 @@
 
             String prezzoFormattato = currencyFormatter.format(prezzo);
         %>
+        
 </head>
 <body>
 	<div class="errormsg">
@@ -73,33 +74,49 @@
 
 		<!-- Product actions (Add to Cart, Wishlist) section on the side -->
 		<div class="product-actions">
-			<h2 class="prezzo"><%= prezzoFormattato %></h2>
+			<h2 class="prezzo">Prezzo : <%= prezzoFormattato %></h2>
 
 			<% if(product.getQuantita() > 0) {%>
-
+			<h2 class="suggerimenti">Disponibilità pezzi : <%= product.getQuantita() %></h2>
+			
 			<a href="#"
 				onClick="addToCartAndRedirect(<%= product.getCodiceProdotto() %>, 'addToCart', '<%= request.getContextPath() %>/cart');">
 				<img class="cart"
-				src="<%=request.getContextPath()%>/images/site_images/icon_carrello2.png">
+				style = "weight: 50px; height:50px;"
+				src="<%=request.getContextPath()%>/images/site_images/icon_carrello2.png" id="iconcart"
+					onmouseout="document.getElementById('iconcart').src='<%= request.getContextPath()%>/images/site_images/icon_carrello2.png'"
+					onmouseover="document.getElementById('iconcart').src='<%= request.getContextPath()%>/images/site_images/icon_carrello.png'" alt = "Aggiungi al carrello">
 			</a>
 			<%}else{ %>
 			<p>Non è disponibile il prodotto per l'acquisto.</p>
 			<%} %>
+			
 			<a class="add-to-wishlist"
 				href="GestioneWishlistController?action=addtowishlist&productId=<%= product.getCodiceProdotto() %>">
 				<img
-				src="<%= request.getContextPath() %>/images/site_images/icon_wishlist.png"
-				style="margin: 1px;" alt="Add to Wishlist">
+				src="<%= request.getContextPath() %>/images/site_images/icon_wishlist.png" id="iconwishlist"
+				style="margin: 1px;" alt="Aggiungi alla Wishlist" onmouseout="document.getElementById('iconwishlist').src='<%= request.getContextPath()%>/images/site_images/icon_wishlist.png'"
+					onmouseover="document.getElementById('iconwishlist').src='<%= request.getContextPath()%>/images/site_images/icon_wishlist2.png'">
 			</a>
 		</div>
 	</div>
 
 	<!-- Product details below -->
+	
+	<h1>Specifiche</h1>
 	<div class="product-details">
-		<h1><%= product.getNomeProdotto() %></h1>
-		<span><strong><%= product.getMarca() %></strong></span>
-		<h3><%= product.getTopDescrizione() %></h3>
-		<h2><%= product.getDettagli().replaceAll("\n", "<br>") %></h2>
+		
+		<h3>Nome : <h3 class = "specifica"><%= product.getNomeProdotto() %> </h3> </h3>
+		<h3>Marca : <h3 class = "specifica"><%= product.getMarca() %></h3></h3>
+		<h3>Modello : <h3 class = "specifica"><%= product.getModello() %></h3></h3>
+		<br>
+		<h3>Descrizione</h3>
+		
+		<p class = "specifica"><b><%= product.getTopDescrizione().replaceAll("\n", "<br>") %></b></p>
+		<br>
+		<hr>
+		<h3>Dettagli</h3>
+		<p class = "specifica"><b><%= product.getDettagli().replaceAll("\n", "<br>") %></b></p>
 		<div class="star"></div>
 	</div>
 	<script>

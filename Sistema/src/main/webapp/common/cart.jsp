@@ -49,7 +49,7 @@
             } else {
         %>   
     <div id="cart">
-        <h1>Carrello:</h1>
+        <h1>Carrello</h1>
         <div id="complete_order">
             <h1>Totale provvisorio:</h1>
             <h3 id="total_amount"><%= String.format("%.2f", carrello.totalAmount()) %>€</h3>
@@ -61,8 +61,9 @@
         %>          
         <div id="item_<%= p.getCodiceProdotto() %>" class="cart-item">
             <p><%= p.getNomeProdotto() + "  " %></p>
-            <p> <%=p.getDettagli()%> </p>
-            <span style="color: #F28C44; font-size: 20px"><%= p.getMarca() %></span>
+            
+            <span style="color: #F28C44; font-size: 20px">Marca : <%= p.getMarca() %></span>
+            <br><span style="color: #F28C44; font-size: 20px">Modello : <%= p.getModello() %></span>
             <div class="row">
                 <img src="image?productId=<%= p.getCodiceProdotto() %>" alt="alt"
                     onerror="this.onerror=null;this.src='<%= request.getContextPath() %>/images/site_images/placeholder.png';" />			

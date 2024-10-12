@@ -27,6 +27,9 @@ import application.RegistrazioneService.Utente;
 
 public class RuoloDAODataSource{
 	
+	DataSource ds = null;
+	
+	/*
 	private static DataSource ds;
 
 	static {
@@ -39,9 +42,14 @@ public class RuoloDAODataSource{
 		} catch (NamingException e) {
 			System.out.println("Error:" + e.getMessage());
 		}	
-	}
+	}*/
 	
 	private static final String TABLE_NAME = "ruolo";
+	
+	public RuoloDAODataSource(DataSource dataSource) throws SQLException{
+		this.ds = dataSource;
+	}
+	
 	
 	/**
      * Il metodo memorizza nel database un nuovo ruolo associato ad un utente.
@@ -221,7 +229,7 @@ public class RuoloDAODataSource{
 			preparedStatement = connection.prepareStatement(selectSQL);
 			preparedStatement.setString(1, role.getNomeRuolo());
 			ResultSet rs = preparedStatement.executeQuery();
-			UtenteDAODataSource userDao = new UtenteDAODataSource();
+			UtenteDAODataSource userDao = new UtenteDAODataSource(ds);
 			while (rs.next()) {
 				users.add(userDao.doRetrieveFullUserByKey((rs.getString("UTENTE"))));
 			}

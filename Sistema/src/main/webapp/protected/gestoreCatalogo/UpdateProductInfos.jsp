@@ -17,6 +17,7 @@
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_options.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/product_table.css">
+        <link rel="stylesheet" href="<%= request.getContextPath()%>/style/extra_manager_style.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/style/catalog_form.css">
       <%
         // Retrieve the base64 gallery list from the session
@@ -74,7 +75,8 @@
         <section id="forms">                     
                     <section id="viewProductsForm" class="form-section">
                         <div id="pagination"></div>   
-                        <h2>Visualizza Prodotti</h2>
+                       <input type="text" id="productFilter" onkeyup="filterProducts()" placeholder="Cerca Prodotto per Nome...">   
+                        <h2>Visualizza Prodotti</h2>               
                          <table id="showpr">
                              <tr>
                                  <th><strong>#</strong></th>

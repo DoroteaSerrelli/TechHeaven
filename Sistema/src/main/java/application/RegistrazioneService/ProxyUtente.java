@@ -3,8 +3,6 @@ package application.RegistrazioneService;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.sql.DataSource;
-
 import storage.AutenticazioneDAO.UtenteDAODataSource;
 
 /**
@@ -26,6 +24,13 @@ import storage.AutenticazioneDAO.UtenteDAODataSource;
  * */
 
 public class ProxyUtente extends ObjectUtente{
+	
+	private UtenteDAODataSource userDAO;
+	
+	public ProxyUtente(String username, String password, ArrayList<Ruolo> ruoli, UtenteDAODataSource userDAO) {
+        super(username, password, ruoli);
+        this.userDAO = userDAO;
+    }
 	
 	/**
 	 * realUtente: il riferimento ad un oggetto di tipo Utente
@@ -62,6 +67,10 @@ public class ProxyUtente extends ObjectUtente{
         super(username, password);
     }
 	
+	public void setNullRealUtente() {
+		this.realUtente = null;
+	}
+	
 	/**
 	 * Il metodo fornisce il riferimento all'oggetto Utente.
 	 * Se non è presente questo riferimento, allora si crea tale oggetto e se ne mantiene in memoria
@@ -72,10 +81,9 @@ public class ProxyUtente extends ObjectUtente{
 	 * */
 	public Utente mostraUtente() throws SQLException {
 		if(realUtente == null) {
-			DataSource ds = null;
-			UtenteDAODataSource userDao = new UtenteDAODataSource(ds);
+			
 			try {
-				Utente real = userDao.doRetrieveFullUserByKey(username);
+				Utente real = userDAO.doRetrieveFullUserByKey(username);
 				realUtente = real;
 			} catch (SQLException e) {
 				System.out.println("Errore nel recupero del profilo dell'utente");
@@ -83,4 +91,6 @@ public class ProxyUtente extends ObjectUtente{
 		}
 		return realUtente;
 	}
+	
+	
 }

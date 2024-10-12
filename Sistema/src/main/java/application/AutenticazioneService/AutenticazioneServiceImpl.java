@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import application.AutenticazioneService.AutenticazioneException.EmailEsistenteException;
+import application.AutenticazioneService.AutenticazioneException.ErroreParametroException;
 import application.AutenticazioneService.AutenticazioneException.FormatoEmailException;
 import application.AutenticazioneService.AutenticazioneException.FormatoIndirizzoException;
 import application.AutenticazioneService.AutenticazioneException.FormatoPasswordException;
@@ -38,19 +39,19 @@ import storage.AutenticazioneDAO.*;
  * */
 
 public class AutenticazioneServiceImpl implements AutenticazioneService{
-	
+
 	private UtenteDAODataSource userDAO;
 	private RuoloDAODataSource roleDAO;
 	private ClienteDAODataSource profileDAO;
 	private IndirizzoDAODataSource addressDAO;
-	
+
 	public AutenticazioneServiceImpl(UtenteDAODataSource userDAO, RuoloDAODataSource roleDAO, ClienteDAODataSource profileDAO, IndirizzoDAODataSource addressDAO) {
 		this.userDAO = userDAO;
 		this.roleDAO = roleDAO;
 		this.profileDAO = profileDAO;
 		this.addressDAO = addressDAO;
 	}
-	
+
 	/**
 	 * Il metodo effettua l'autenticazione dell'utente: verifica la corrispondenza 
 	 * tra le credenziali inserite (viene effettuato l'hash della password fornita) 
@@ -70,7 +71,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 
 	@Override
 	public ProxyUtente login(String username, String password) throws SQLException, UtenteInesistenteException {
-		
+
 		ProxyUtente userReal;
 		if((userReal = userDAO.doRetrieveProxyUserByKey(username)) == null)
 			throw new UtenteInesistenteException("Username o password non valide");
@@ -80,7 +81,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 				throw new UtenteInesistenteException("Username o password non valide");
 		}
 		userReal.setRuoli(roleDAO.doRetrieveByKey(userReal.getUsername()));
-		
+
 		return userReal;
 	}
 
@@ -108,7 +109,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 
 	@Override
 	public void resetPassword(String username, String email, String newPassword) throws UtenteInesistenteException, FormatoPasswordException, SQLException, PasswordEsistenteException, FormatoEmailException {
-		
+
 		Utente userReal;
 		if((userReal = userDAO.doRetrieveFullUserByKey(username)) == null)
 			throw new UtenteInesistenteException("Username o email non valide");
@@ -164,14 +165,17 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 	 * 
 	 * @throws InformazioneDaModificareException : viene lanciata nel caso in cui non è stata selezionata alcuna
 	 * 												informazione del profilo (email, numero di telefono) da aggiornare
+	 * @throws ErroreParametroException 
 	 * */
 
 	@Override
-	public ProxyUtente aggiornaProfilo(ProxyUtente user, String information, String updatedData) throws SQLException, FormatoEmailException, ProfiloInesistenteException, EmailEsistenteException, TelefonoEsistenteException, FormatoTelefonoException, InformazioneDaModificareException {
-		
+	public ProxyUtente aggiornaProfilo(ProxyUtente user, String information, String updatedData) throws SQLException, FormatoEmailException, ProfiloInesistenteException, EmailEsistenteException, TelefonoEsistenteException, FormatoTelefonoException, InformazioneDaModificareException, ErroreParametroException {
+
 		Utente userReal;
 
 		if(information.equalsIgnoreCase("EMAIL")) {
+			if(Cliente.checkValidateTelefono(updatedData))
+				throw new ErroreParametroException("Errore informazione da modificare");
 			if((userReal = userDAO.doRetrieveFullUserByKey(user.getUsername())) == null)
 				throw new ProfiloInesistenteException("Errore nel recupero delle informazioni relative"
 						+ "al profilo dell'utente");
@@ -181,13 +185,20 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 				else {
 					if(!Cliente.checkValidateEmail(updatedData))
 						throw new FormatoEmailException("Formato della nuova email non valido");
-					profileDAO.updateEmail(userReal.getProfile().getEmail(), updatedData);
-					return new ProxyUtente(userReal.getUsername(), userReal.getPassword(), userReal.getRuoli());
+
+					ProxyUtente updatedUser = new ProxyUtente(userReal.getUsername(), userReal.getPassword(), userReal.getRuoli(), userDAO);
+					if(profileDAO.updateEmail(userReal.getProfile().getEmail(), updatedData))
+						updatedUser.mostraUtente().getProfile().setEmail(updatedData);
+
+					return updatedUser;
 				}
 			}
 		}
 
 		if(information.equalsIgnoreCase("TELEFONO")) {
+			if(Cliente.checkValidateEmail(updatedData))
+				throw new ErroreParametroException("Errore informazione da modificare");
+
 			if((userReal = userDAO.doRetrieveFullUserByKey(user.getUsername())) == null)
 				throw new ProfiloInesistenteException("Errore nel recupero delle informazioni relative"
 						+ "al profilo dell'utente");
@@ -197,8 +208,11 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 				else {
 					if(!Cliente.checkValidateTelefono(updatedData))
 						throw new FormatoTelefonoException("Formato del nuovo numero di telefono non valido");
-					profileDAO.updateTelephone(userReal.getProfile().getEmail(), updatedData);
-					return new ProxyUtente(userReal.getUsername(), userReal.getPassword(), userReal.getRuoli());
+					
+					ProxyUtente updatedUser = new ProxyUtente(userReal.getUsername(), userReal.getPassword(), userReal.getRuoli(), userDAO);
+					if(profileDAO.updateTelephone(userReal.getProfile().getEmail(), updatedData))
+						updatedUser.mostraUtente().getProfile().setTelefono(updatedData);
+					return updatedUser;
 				}
 			}
 		}

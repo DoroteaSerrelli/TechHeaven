@@ -205,6 +205,22 @@ public class AutenticazioneException extends Exception{
 			super(message);
 		}
 	}
+	
+	/**
+	 * Classe statica per gestire il passaggio di un parametro che non corrisponde 
+	 * alla informazione da modificare.
+	 * */
+	public static class ErroreParametroException extends AutenticazioneException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public ErroreParametroException(String message) {
+			super(message);
+		}
+	}
 
 	/**
 	 * Classe statica per gestire l'aggiunta di un indirizzo già associato all'utente.

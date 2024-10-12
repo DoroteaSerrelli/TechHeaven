@@ -3,6 +3,7 @@ package application.AutenticazioneService;
 import java.sql.SQLException;
 
 import application.AutenticazioneService.AutenticazioneException.EmailEsistenteException;
+import application.AutenticazioneService.AutenticazioneException.ErroreParametroException;
 import application.AutenticazioneService.AutenticazioneException.FormatoEmailException;
 import application.AutenticazioneService.AutenticazioneException.FormatoIndirizzoException;
 import application.AutenticazioneService.AutenticazioneException.FormatoPasswordException;
@@ -99,9 +100,10 @@ public interface AutenticazioneService {
 	 * 
 	 * @throws InformazioneDaModificareException : viene lanciata nel caso in cui non è stata selezionata alcuna
 	 * 												informazione del profilo (email, numero di telefono) da aggiornare
+	 * @throws ErroreParametroException 
 	 * */
 	
-	public ProxyUtente aggiornaProfilo(ProxyUtente user, String information, String updatedData) throws SQLException, FormatoEmailException, ProfiloInesistenteException, EmailEsistenteException, TelefonoEsistenteException, FormatoTelefonoException, InformazioneDaModificareException;
+	public ProxyUtente aggiornaProfilo(ProxyUtente user, String information, String updatedData) throws SQLException, FormatoEmailException, ProfiloInesistenteException, EmailEsistenteException, TelefonoEsistenteException, FormatoTelefonoException, InformazioneDaModificareException, ErroreParametroException;
 	
 	/**
 	 * Il metodo effettua aggiunta/rimozione/aggiornamento

@@ -153,7 +153,7 @@ public class AutenticazioneServiceImplTest {
 	@Test
 	public void TC3_1_2() throws SQLException {
 		// Arrange
-		String username = "fulvio";
+		String username = "fulvioGestoreOrdini";
 		String correctPassword = "fulvio0";
 		String wrongPassword = "wrongPassword";
 
@@ -171,7 +171,7 @@ public class AutenticazioneServiceImplTest {
 	@Test
 	public void TC3_1_3() throws SQLException, UtenteInesistenteException {
 		// Arrange
-		String username = "fulvio";
+		String username = "fulvioGestoreOrdini";
 		String password = "fulvio0";
 		Ruolo errorRole = new Ruolo("RuoloErrato");
 		ArrayList<Ruolo> acceptedRoles = new ArrayList<>();
@@ -211,7 +211,7 @@ public class AutenticazioneServiceImplTest {
 	@Test
 	public void TC3_1_4() throws SQLException, UtenteInesistenteException {
 		// Arrange
-		String username = "fulvio";
+		String username = "fulvioGestoreOrdini";
 		String password = "fulvio0";
 		Ruolo selectedRole = new Ruolo("GestoreCatalogo"); //Fulvio è un cliente ed un gestore ordini
 		ArrayList<Ruolo> acceptedRoles = new ArrayList<>();
@@ -251,7 +251,7 @@ public class AutenticazioneServiceImplTest {
 	@Test
 	public void TC3_1_5() throws SQLException, UtenteInesistenteException {
 		// Arrange
-		String username = "fulvio";
+		String username = "fulvioGestoreOrdini";
 		String password = "fulvio0";
 		Ruolo selectedRole = new Ruolo("GestoreOrdini");
 		ArrayList<Ruolo> acceptedRoles = new ArrayList<>();
@@ -442,12 +442,12 @@ public class AutenticazioneServiceImplTest {
 	/**
 	 * TEST CASES PER MODIFICA PROFILO : MODIFICA EMAIL
 	 * 
-	 * TC5.1_1 : informazione da modificare non specificata
+	 * TC5.1_1 : informazione da modificare non specificata correttamente
 	 * TC5.1_2 : informazione da modificare != EMAIL
-	 * TC5.1_3 : informazione da modificare = EMAIL, formato dell'email non corretto
-	 * TC5.1_4 : informazione da modificare = EMAIL, formato dell'email corretto,
+	 * TC5.1_3 : informazione da modificare == EMAIL, formato dell'email non corretto
+	 * TC5.1_4 : informazione da modificare == EMAIL, formato dell'email corretto,
 	 * 			 nuova email == vecchia email
-	 * TC5.1_5 : informazione da modificare = EMAIL, formato dell'email corretto,
+	 * TC5.1_5 : informazione da modificare == EMAIL, formato dell'email corretto,
 	 * 			 nuova email != vecchia email
 	 * 
 	 * @throws SQLException 
@@ -609,10 +609,10 @@ public class AutenticazioneServiceImplTest {
 	/**
 	 * TEST CASES PER MODIFICA PROFILO : MODIFICA NUMERO DI TELEFONO
 	 * 
-	 * TC5.2_1 : informazione da modificare non specificata
+	 * TC5.2_1 : informazione da modificare non specificata correttamente
 	 * TC5.2_2 : informazione da modificare != TELEFONO
-	 * TC5.2_3 : informazione da modificare = TELEFONO, formato del numero di telefono non corretto
-	 * TC5.2_4 : informazione da modificare = TELEFONO, formato del numero di telefono corretto,
+	 * TC5.2_3 : informazione da modificare == TELEFONO, formato del numero di telefono non corretto
+	 * TC5.2_4 : informazione da modificare == TELEFONO, formato del numero di telefono corretto,
 	 * 			 nuovo numero di telefono == vecchio numero di telefono
 	 * TC5.2_5 : informazione da modificare = TELEFONO, formato del numero di telefono corretto,
 	 * 			 nuovo numero di telefono != vecchio numero di telefono
@@ -765,6 +765,81 @@ public class AutenticazioneServiceImplTest {
 		assertEquals(newTelephone, updatedUser.mostraUtente().getProfile().getTelefono());
 		Mockito.verify(profileDAO).updateTelephone("doroteaserrelli@gmail.com", newTelephone);
 
+	}
+	
+	/**
+	 * TEST CASES PEZR MODIFICA PROFILO : RUBRICA INDIRIZZI
+	 * */
+	
+	/**
+	 * TEST CASES PER AGGIUNTA DI UN INDIRIZZO IN RUBRICA
+	 * 
+	 * TC6_1.1_1 : informazione da modificare non specificata correttamente
+	 * TC6_1.1_2 : informazione da modificare != AGGIUNGERE-INDIRIZZO
+	 * TC6_1.1_3 : informazione da modificare == AGGIUNGERE-INDIRIZZO, 
+	 * 				via espressa non correttamente
+	 * TC6_1.1_4 : informazione da modificare == AGGIUNGERE-INDIRIZZO, 
+	 * 				via espressa correttamente, numero civico non espresso correttamente 
+	 * TC6_1.1_5 : informazione da modificare == AGGIUNGERE-INDIRIZZO, 
+	 * 				via espressa correttamente, numero civico espresso correttamente,
+	 * 				città espressa non correttamente
+	 * TC6_1.1_6 : informazione da modificare == AGGIUNGERE-INDIRIZZO, 
+	 * 				via espressa correttamente, numero civico espresso correttamente,
+	 * 				città espressa correttamente, CAP non espresso correttamente
+	 * TC6_1.1_7 : informazione da modificare == AGGIUNGERE-INDIRIZZO, 
+	 * 				via espressa correttamente, numero civico espresso correttamente,
+	 * 				città espressa correttamente, CAP espresso correttamente,
+	 * 				provincia espressa non correttamente
+	 * TC6_1.1_8 : informazione da modificare == AGGIUNGERE-INDIRIZZO, 
+	 * 				via espressa correttamente, numero civico espresso correttamente,
+	 * 				città espressa correttamente, CAP espresso correttamente,
+	 * 				provincia espressa correttamente; l'indirizzo inserito è già 
+	 * 				presente in rubrica
+	 * TC6_1.1_9 : informazione da modificare == AGGIUNGERE-INDIRIZZO, 
+	 * 				via espressa correttamente, numero civico espresso correttamente,
+	 * 				città espressa correttamente, CAP espresso correttamente,
+	 * 				provincia espressa correttamente; l'indirizzo inserito non è  
+	 * 				presente in rubrica
+	 * 
+	 * */
+	
+	@Test
+	public void testAggiungiIndirizzo_ProfiloNonAssociatoAUtente() throws SQLException {
+		String username = "user";
+		String password = "password";
+		ArrayList<Indirizzo> addresses = new ArrayList<>();
+		addresses.add(new Indirizzo(1, "Roma", "21", "Avellino", "83100", "AV"));
+		
+		ArrayList<Ruolo> roles = new ArrayList<>();
+		roles.add(new Ruolo("Cliente"));
+		// Arrange
+		ProxyUtente user = new ProxyUtente(username, password, roles);
+
+		// Act & Assert
+		assertThrows(ProfiloInesistenteException.class, () -> {
+			autenticazioneService.aggiornaRubricaIndirizzi(user, "AGGIUNGERE-INDIRIZZO", null);
+		});
+	}
+	
+	@Test
+	public void TC6_1_1_1() throws SQLException {
+		String username = "mariaGestoreCatalogo";
+		String password = "01maria01";
+		ArrayList<Indirizzo> addresses = new ArrayList<>();
+		addresses.add(new Indirizzo(3, "Platani", "13", "Teramo", "64100", "AQ"));
+
+		ArrayList<Ruolo> roles = new ArrayList<>();
+		roles.add(new Ruolo("Cliente"));
+		roles.add(new Ruolo("GestoreCatalogo"));
+		// Arrange
+		ProxyUtente user = new ProxyUtente(username, password, roles);
+		
+		String information = "INFOERRATA"; 
+		//information deve essere AGGIUNGERE-INDIRIZZO, RIMUOVERE-INDIRIZZO, AGGIORNARE-INDIRIZZO		// Act & Assert
+		
+		assertThrows(InformazioneDaModificareException.class, () -> {
+			autenticazioneService.aggiornaProfilo(user, information, "");
+		});
 	}
 
 }

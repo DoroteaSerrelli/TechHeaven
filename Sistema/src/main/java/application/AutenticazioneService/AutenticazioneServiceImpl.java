@@ -208,7 +208,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 				else {
 					if(!Cliente.checkValidateTelefono(updatedData))
 						throw new FormatoTelefonoException("Formato del nuovo numero di telefono non valido");
-					
+
 					ProxyUtente updatedUser = new ProxyUtente(userReal.getUsername(), userReal.getPassword(), userReal.getRuoli(), userDAO);
 					if(profileDAO.updateTelephone(userReal.getProfile().getEmail(), updatedData))
 						updatedUser.mostraUtente().getProfile().setTelefono(updatedData);
@@ -249,22 +249,26 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 	 * 
 	 * @throws InformazioneDaModificareException : viene lanciata nel caso in cui non è stata selezionata alcuna
 	 * 												informazione da modificare
+	 * @throws ProfiloInesistenteException 
 	 * */
 
 	@Override
-	public ProxyUtente aggiornaRubricaIndirizzi(ProxyUtente user, String information, Indirizzo updatedData) throws UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, SQLException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException {
+	public ProxyUtente aggiornaRubricaIndirizzi(ProxyUtente user, String information, Indirizzo updatedData) throws UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, SQLException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException, ProfiloInesistenteException {
 
 		if(information.equalsIgnoreCase("AGGIUNGERE-INDIRIZZO")) {
 			if(userDAO.doRetrieveFullUserByKey(user.getUsername()) == null)
-				throw new UtenteInesistenteException("Errore nel recupero delle informazioni relative"
+				throw new ProfiloInesistenteException("Errore nel recupero delle informazioni relative"
 						+ "all'utente");
 			else {
 				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll("", user.getUsername());
-				if(addresses.contains(updatedData))
-					throw new IndirizzoEsistenteException("Indirizzo inserito già associato all'utente");
+
+				if(!Indirizzo.checkValidate(updatedData))
+					throw new FormatoIndirizzoException("Formato del nuovo indirizzo non valido");
+
 				else {
-					if(!Indirizzo.checkValidate(updatedData))
-						throw new FormatoIndirizzoException("Formato del nuovo indirizzo non valido");
+					if(addresses.contains(updatedData))
+						throw new IndirizzoEsistenteException("Indirizzo inserito già associato all'utente");
+
 
 					addressDAO.doSave(updatedData, user.getUsername());
 					return user;
@@ -274,7 +278,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 
 		if(information.equalsIgnoreCase("RIMUOVERE-INDIRIZZO")) {
 			if(userDAO.doRetrieveFullUserByKey(user.getUsername()) == null)
-				throw new UtenteInesistenteException("Errore nel recupero delle informazioni relative"
+				throw new ProfiloInesistenteException("Errore nel recupero delle informazioni relative"
 						+ "all'utente");
 			else {
 				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll("", user.getUsername());
@@ -292,7 +296,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 
 		if(information.equalsIgnoreCase("AGGIORNARE-INDIRIZZO")) {
 			if(userDAO.doRetrieveFullUserByKey(user.getUsername()) == null)
-				throw new UtenteInesistenteException("Errore nel recupero delle informazioni relative"
+				throw new ProfiloInesistenteException("Errore nel recupero delle informazioni relative"
 						+ "all'utente");
 			else {
 				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll("", user.getUsername());

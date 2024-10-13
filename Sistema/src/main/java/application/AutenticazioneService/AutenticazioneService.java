@@ -23,6 +23,7 @@ import application.RegistrazioneService.RegistrazioneException.FormatoCittaExcep
 import application.RegistrazioneService.RegistrazioneException.FormatoNumCivicoException;
 import application.RegistrazioneService.RegistrazioneException.FormatoProvinciaException;
 import application.RegistrazioneService.RegistrazioneException.FormatoViaException;
+import application.RegistrazioneService.Utente;
 
 /**
  * L'interfaccia offre servizi relativi ad un utente autenticato con il ruolo di cliente:

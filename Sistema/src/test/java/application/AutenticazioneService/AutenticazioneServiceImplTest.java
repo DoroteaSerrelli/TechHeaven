@@ -922,7 +922,7 @@ public class AutenticazioneServiceImplTest {
 		});
 
 	}
-	
+
 	@Test
 	public void TC6_1_1_4() throws SQLException, UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException, ProfiloInesistenteException {
 		String username = "mariaGestoreCatalogo";
@@ -956,7 +956,7 @@ public class AutenticazioneServiceImplTest {
 		});
 
 	}
-	
+
 	@Test
 	public void TC6_1_1_5() throws SQLException, UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException, ProfiloInesistenteException {
 		String username = "mariaGestoreCatalogo";
@@ -990,7 +990,7 @@ public class AutenticazioneServiceImplTest {
 		});
 
 	}
-	
+
 	@Test
 	public void TC6_1_1_6() throws SQLException, UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException, ProfiloInesistenteException {
 		String username = "mariaGestoreCatalogo";
@@ -1024,7 +1024,7 @@ public class AutenticazioneServiceImplTest {
 		});
 
 	}
-	
+
 	@Test
 	public void TC6_1_1_7() throws SQLException, UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException, ProfiloInesistenteException {
 		String username = "mariaGestoreCatalogo";
@@ -1051,12 +1051,82 @@ public class AutenticazioneServiceImplTest {
 		// Act & Assert
 		Mockito.when(userDAO.doRetrieveFullUserByKey(user.getUsername())).thenReturn(existingUser);
 
-		// Act & Assert
-
 		assertThrows(FormatoProvinciaException.class, () -> {
 			autenticazioneService.aggiornaRubricaIndirizzi(user, information, address);
 		});
 
+	}
+
+	@Test
+	public void TC6_1_1_8() throws SQLException, UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException, ProfiloInesistenteException {
+		String username = "mariaGestoreCatalogo";
+		String password = "01maria01";
+		ArrayList<Indirizzo> addresses = new ArrayList<>();
+		addresses.add(new Indirizzo(3, "Platani", "13", "Teramo", "64100", "AQ"));
+
+		ArrayList<Ruolo> roles = new ArrayList<>();
+		roles.add(new Ruolo("Cliente"));
+		roles.add(new Ruolo("GestoreCatalogo"));
+
+		Cliente profile = new Cliente("mariateresa.milani90@gmail.com", "Maria Teresa", "Milani", Cliente.Sesso.F, "222-333-4444",
+				addresses);
+
+
+		// Arrange
+		ProxyUtente user = new ProxyUtente(username, password, roles, userDAO);
+		Utente existingUser = new Utente(username, password, profile);
+
+		Indirizzo newAddress = new Indirizzo(3, "Platani", "13", "Teramo", "64100", "AQ");
+
+		String information = "AGGIUNGERE-INDIRIZZO"; 
+
+		// Act & Assert
+		Mockito.when(userDAO.doRetrieveFullUserByKey(user.getUsername())).thenReturn(existingUser);
+		Mockito.when(addressDAO.doRetrieveAll("", user.getUsername())).thenReturn(addresses);
+
+		assertThrows(IndirizzoEsistenteException.class, () -> {
+			autenticazioneService.aggiornaRubricaIndirizzi(user, information, newAddress);
+		});
+	}
+
+	@Test
+	public void TC6_1_1_9() throws SQLException, UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException, ProfiloInesistenteException, FormatoViaException, FormatoNumCivicoException, FormatoCittaException, FormatoCAPException, FormatoProvinciaException {
+		String username = "mariaGestoreCatalogo";
+		String password = "01maria01";
+		ArrayList<Indirizzo> addresses = new ArrayList<>();
+		addresses.add(new Indirizzo(3, "Platani", "13", "Teramo", "64100", "AQ"));
+
+		ArrayList<Ruolo> roles = new ArrayList<>();
+		roles.add(new Ruolo("Cliente"));
+		roles.add(new Ruolo("GestoreCatalogo"));
+
+		Cliente profile = new Cliente("mariateresa.milani90@gmail.com", "Maria Teresa", "Milani", Cliente.Sesso.F, "222-333-4444",
+				addresses);
+
+
+		// Arrange
+		ProxyUtente user = new ProxyUtente(username, password, roles, userDAO);
+		Utente existingUser = new Utente(username, password, profile);
+
+		Indirizzo address = new Indirizzo(10, "Corso Garibaldi", "67", "Benevento", "82100", "BN");
+
+		String information = "AGGIUNGERE-INDIRIZZO"; 
+
+		// Act & Assert
+		Mockito.when(userDAO.doRetrieveFullUserByKey(user.getUsername())).thenReturn(existingUser);
+		Mockito.when(addressDAO.doRetrieveAll("", user.getUsername())).thenReturn(addresses);
+
+		// Act
+		ProxyUtente updatedUser = autenticazioneService.aggiornaRubricaIndirizzi(user, information, address);
+		profile.getIndirizzi().add(address);
+		Utente existingUpdatedUser = new Utente(username, password, profile);
+		Mockito.when(userDAO.doRetrieveFullUserByKey(user.getUsername())).thenReturn(existingUpdatedUser);
+		
+		// Assert
+		assertNotNull(updatedUser);
+		assertEquals(username, updatedUser.getUsername());
+		assertTrue((updatedUser.mostraUtente().getProfile().getIndirizzi()).contains(address));
+		Mockito.verify(addressDAO).doSave(address, user.getUsername());
 	}
 
 }

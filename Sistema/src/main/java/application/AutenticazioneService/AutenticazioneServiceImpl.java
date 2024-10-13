@@ -292,12 +292,14 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 						+ " all'utente");
 			else {
 				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll("", user.getUsername());
-				if(!addresses.contains(updatedData))
-					throw new RimozioneIndirizzoException("Indirizzo inserito non associato all'utente");
-				else {
-					if(!Indirizzo.checkValidate(updatedData))
-						throw new FormatoIndirizzoException("Formato dell'indirizzo non valido");
+				if(!Indirizzo.checkValidate(updatedData))
+					throw new FormatoIndirizzoException("Formato dell'indirizzo non valido");
 
+				else {
+					if(!addresses.contains(updatedData)) {
+						
+						throw new RimozioneIndirizzoException("Indirizzo inserito non associato all'utente");
+					}
 					addressDAO.doDeleteAddress(updatedData.getIDIndirizzo(), user.getUsername());
 					return user;
 				}

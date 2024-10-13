@@ -18,6 +18,11 @@ import application.AutenticazioneService.AutenticazioneException.TelefonoEsisten
 import application.AutenticazioneService.AutenticazioneException.UtenteInesistenteException;
 import application.RegistrazioneService.Indirizzo;
 import application.RegistrazioneService.ProxyUtente;
+import application.RegistrazioneService.RegistrazioneException.FormatoCAPException;
+import application.RegistrazioneService.RegistrazioneException.FormatoCittaException;
+import application.RegistrazioneService.RegistrazioneException.FormatoNumCivicoException;
+import application.RegistrazioneService.RegistrazioneException.FormatoProvinciaException;
+import application.RegistrazioneService.RegistrazioneException.FormatoViaException;
 
 /**
  * L'interfaccia offre servizi relativi ad un utente autenticato con il ruolo di cliente:
@@ -135,8 +140,13 @@ public interface AutenticazioneService {
 	 * @throws InformazioneDaModificareException : viene lanciata nel caso in cui non è stata selezionata alcuna
 	 * 												informazione da modificare
 	 * @throws ProfiloInesistenteException 
+	 * @throws FormatoProvinciaException 
+	 * @throws FormatoCAPException 
+	 * @throws FormatoCittaException 
+	 * @throws FormatoNumCivicoException 
+	 * @throws FormatoViaException 
 	 * */
 	
-	public ProxyUtente aggiornaRubricaIndirizzi(ProxyUtente user, String information, Indirizzo updatedData) throws UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, SQLException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException, ProfiloInesistenteException;
+	public ProxyUtente aggiornaRubricaIndirizzi(ProxyUtente user, String information, Indirizzo updatedData) throws UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, SQLException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException, ProfiloInesistenteException, FormatoViaException, FormatoNumCivicoException, FormatoCittaException, FormatoCAPException, FormatoProvinciaException;
 
 }

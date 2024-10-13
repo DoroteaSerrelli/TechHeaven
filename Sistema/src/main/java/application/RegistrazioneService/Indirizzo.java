@@ -2,6 +2,12 @@ package application.RegistrazioneService;
 
 import java.util.Objects;
 
+import application.RegistrazioneService.RegistrazioneException.FormatoCAPException;
+import application.RegistrazioneService.RegistrazioneException.FormatoCittaException;
+import application.RegistrazioneService.RegistrazioneException.FormatoNumCivicoException;
+import application.RegistrazioneService.RegistrazioneException.FormatoProvinciaException;
+import application.RegistrazioneService.RegistrazioneException.FormatoViaException;
+
 /**
  * Questa classe fornisce metodi per creare, accedere e modificare gli attributi di un indirizzo
  * associato ad un utente.
@@ -60,15 +66,36 @@ public class Indirizzo implements Cloneable{
 	 * @param provincia: La provincia dell'indirizzo.
 	 * 
 	 * @return true se l'indirizzo è valido; false altrimenti.
+	 * @throws FormatoViaException 
+	 * @throws FormatoNumCivicoException 
+	 * @throws FormatoCittaException 
+	 * @throws FormatoCAPException 
+	 * @throws FormatoProvinciaException 
 	 */
 
-	public static boolean checkValidate(String via, String numCivico, String citta, String cap, String provincia) {
+	public static boolean checkValidate(String via, String numCivico, String citta, String cap, String provincia) throws FormatoViaException, FormatoNumCivicoException, FormatoCittaException, FormatoCAPException, FormatoProvinciaException {
 		String viaPattern = "^[A-Za-z\\s]+$" ;
 		String numCivicoPattern = "^(([0-9])|(([0-9]+|\\w)(\\w|[0-9]+)))$";
 		String cittaPattern = "^[A-Za-z\\s]+$";
 		String capPattern = "^\\d{5}$";
-		String provinciaPattern = "^[A-Za-z]{2}$";
-
+		String provinciaPattern = "^[A-Z]{2}$";
+		
+		if(!via.matches(viaPattern))
+			throw new FormatoViaException("La via deve contenere solo lettere e spazi");
+		
+		if(!numCivico.matches(numCivicoPattern))
+			throw new FormatoNumCivicoException("Il numero civico è composto da numeri e, eventualmente, una lettera.");
+		
+		if(!citta.matches(cittaPattern))
+			throw new FormatoCittaException("La città deve essere composta solo da lettere e spazi.");
+		
+		if(!cap.matches(capPattern))
+			throw new FormatoCAPException("Il CAP deve essere formato da 5 numeri.");
+		
+		if(!provincia.matches(provinciaPattern))
+			throw new FormatoProvinciaException("La provincia è composta da due lettere maiuscole.");
+		
+		
 		return (!via.matches(viaPattern) || !numCivico.matches(numCivicoPattern) ||
 				!citta.matches(cittaPattern) || !cap.matches(capPattern) || 
 				!provincia.matches(provinciaPattern)) ? false : true;
@@ -83,9 +110,14 @@ public class Indirizzo implements Cloneable{
 	 * @param indirizzo: L'oggetto Indirizzo da validare.
 	 * 
 	 * @return true se tutti i campi di indirizzo sono validi; false altrimenti.
+	 * @throws FormatoProvinciaException 
+	 * @throws FormatoCAPException 
+	 * @throws FormatoCittaException 
+	 * @throws FormatoNumCivicoException 
+	 * @throws FormatoViaException 
 	 */
 
-	public static boolean checkValidate(Indirizzo indirizzo) {
+	public static boolean checkValidate(Indirizzo indirizzo) throws FormatoViaException, FormatoNumCivicoException, FormatoCittaException, FormatoCAPException, FormatoProvinciaException {
 		return checkValidate(indirizzo.getVia(), indirizzo.getNumCivico(), 
 				indirizzo.getCitta(), indirizzo.getCap(), indirizzo.getProvincia());
 	}

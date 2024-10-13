@@ -62,11 +62,12 @@ public class IndirizzoDAODataSource {
 	 * @throws SQLException : in caso di errore durante l'accesso al database
 	 * */
 
-	public synchronized void doSave(Indirizzo address, String username) throws SQLException {
+	public synchronized boolean doSave(Indirizzo address, String username) throws SQLException {
 
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
-
+		int result = 0;
+		
 		String insertSQL = "INSERT INTO " + IndirizzoDAODataSource.TABLE_NAME
 				+ "(IDINDIRIZZO, VIA, NUMCIVICO, CITTA, CAP, PROVINCIA) VALUES (?, ?, ?, ?, ?, ?)";
 
@@ -99,7 +100,7 @@ public class IndirizzoDAODataSource {
 			preparedStatement = connection.prepareStatement(insertSQL2);
 			preparedStatement.setString(1, username);
 			preparedStatement.setInt(2, address.getIDIndirizzo());
-			preparedStatement.executeUpdate();
+			result = preparedStatement.executeUpdate();
 
 			connection.commit();
 		} catch (SQLException e) {
@@ -127,6 +128,8 @@ public class IndirizzoDAODataSource {
 				}
 			}
 		}
+		
+		return result != 0;
 
 	}
 

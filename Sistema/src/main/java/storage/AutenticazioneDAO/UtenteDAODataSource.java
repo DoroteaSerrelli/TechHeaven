@@ -267,6 +267,7 @@ public class UtenteDAODataSource{
 				String email = rs.getString("EMAIL");
 				ClienteDAODataSource clienteDao = new ClienteDAODataSource(ds);
 				Cliente profilo = clienteDao.doRetrieveByKey(email);
+				
 				/*
 				 * Recupero degli indirizzi
 				 * */

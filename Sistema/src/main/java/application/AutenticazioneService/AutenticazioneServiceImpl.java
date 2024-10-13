@@ -21,6 +21,11 @@ import application.RegistrazioneService.Cliente;
 import application.RegistrazioneService.Indirizzo;
 import application.RegistrazioneService.ObjectUtente;
 import application.RegistrazioneService.ProxyUtente;
+import application.RegistrazioneService.RegistrazioneException.FormatoCAPException;
+import application.RegistrazioneService.RegistrazioneException.FormatoCittaException;
+import application.RegistrazioneService.RegistrazioneException.FormatoNumCivicoException;
+import application.RegistrazioneService.RegistrazioneException.FormatoProvinciaException;
+import application.RegistrazioneService.RegistrazioneException.FormatoViaException;
 import application.RegistrazioneService.Utente;
 import storage.AutenticazioneDAO.*;
 
@@ -250,10 +255,15 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 	 * @throws InformazioneDaModificareException : viene lanciata nel caso in cui non è stata selezionata alcuna
 	 * 												informazione da modificare
 	 * @throws ProfiloInesistenteException 
+	 * @throws FormatoProvinciaException 
+	 * @throws FormatoCAPException 
+	 * @throws FormatoCittaException 
+	 * @throws FormatoNumCivicoException 
+	 * @throws FormatoViaException 
 	 * */
 
 	@Override
-	public ProxyUtente aggiornaRubricaIndirizzi(ProxyUtente user, String information, Indirizzo updatedData) throws UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, SQLException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException, ProfiloInesistenteException {
+	public ProxyUtente aggiornaRubricaIndirizzi(ProxyUtente user, String information, Indirizzo updatedData) throws UtenteInesistenteException, IndirizzoEsistenteException, FormatoIndirizzoException, SQLException, ModificaIndirizzoException, InformazioneDaModificareException, RimozioneIndirizzoException, ProfiloInesistenteException, FormatoViaException, FormatoNumCivicoException, FormatoCittaException, FormatoCAPException, FormatoProvinciaException {
 
 		if(information.equalsIgnoreCase("AGGIUNGERE-INDIRIZZO")) {
 			if(userDAO.doRetrieveFullUserByKey(user.getUsername()) == null)
@@ -279,7 +289,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 		if(information.equalsIgnoreCase("RIMUOVERE-INDIRIZZO")) {
 			if(userDAO.doRetrieveFullUserByKey(user.getUsername()) == null)
 				throw new ProfiloInesistenteException("Errore nel recupero delle informazioni relative"
-						+ "all'utente");
+						+ " all'utente");
 			else {
 				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll("", user.getUsername());
 				if(!addresses.contains(updatedData))

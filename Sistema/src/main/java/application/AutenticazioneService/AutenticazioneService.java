@@ -3,7 +3,6 @@ package application.AutenticazioneService;
 import java.sql.SQLException;
 
 import application.AutenticazioneService.AutenticazioneException.EmailEsistenteException;
-import application.AutenticazioneService.AutenticazioneException.ErroreParametroException;
 import application.AutenticazioneService.AutenticazioneException.FormatoEmailException;
 import application.AutenticazioneService.AutenticazioneException.FormatoIndirizzoException;
 import application.AutenticazioneService.AutenticazioneException.FormatoPasswordException;
@@ -23,7 +22,6 @@ import application.RegistrazioneService.RegistrazioneException.FormatoCittaExcep
 import application.RegistrazioneService.RegistrazioneException.FormatoNumCivicoException;
 import application.RegistrazioneService.RegistrazioneException.FormatoProvinciaException;
 import application.RegistrazioneService.RegistrazioneException.FormatoViaException;
-import application.RegistrazioneService.Utente;
 
 /**
  * L'interfaccia offre servizi relativi ad un utente autenticato con il ruolo di cliente:
@@ -109,7 +107,7 @@ public interface AutenticazioneService {
 	 * @throws ErroreParametroException 
 	 * */
 	
-	public ProxyUtente aggiornaProfilo(ProxyUtente user, String information, String updatedData) throws SQLException, FormatoEmailException, ProfiloInesistenteException, EmailEsistenteException, TelefonoEsistenteException, FormatoTelefonoException, InformazioneDaModificareException, ErroreParametroException;
+	public ProxyUtente aggiornaProfilo(ProxyUtente user, String information, String updatedData) throws SQLException, FormatoEmailException, ProfiloInesistenteException, EmailEsistenteException, TelefonoEsistenteException, FormatoTelefonoException, InformazioneDaModificareException;
 	
 	/**
 	 * Il metodo effettua aggiunta/rimozione/aggiornamento

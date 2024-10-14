@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import application.AutenticazioneService.AutenticazioneException.EmailEsistenteException;
-import application.AutenticazioneService.AutenticazioneException.ErroreParametroException;
 import application.AutenticazioneService.AutenticazioneException.FormatoEmailException;
 import application.AutenticazioneService.AutenticazioneException.FormatoIndirizzoException;
 import application.AutenticazioneService.AutenticazioneException.FormatoPasswordException;
@@ -174,13 +173,11 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 	 * */
 
 	@Override
-	public ProxyUtente aggiornaProfilo(ProxyUtente user, String information, String updatedData) throws SQLException, FormatoEmailException, ProfiloInesistenteException, EmailEsistenteException, TelefonoEsistenteException, FormatoTelefonoException, InformazioneDaModificareException, ErroreParametroException {
+	public ProxyUtente aggiornaProfilo(ProxyUtente user, String information, String updatedData) throws SQLException, FormatoEmailException, ProfiloInesistenteException, EmailEsistenteException, TelefonoEsistenteException, FormatoTelefonoException, InformazioneDaModificareException {
 
 		Utente userReal;
 
 		if(information.equalsIgnoreCase("EMAIL")) {
-			if(Cliente.checkValidateTelefono(updatedData))
-				throw new ErroreParametroException("Errore informazione da modificare");
 			if((userReal = userDAO.doRetrieveFullUserByKey(user.getUsername())) == null)
 				throw new ProfiloInesistenteException("Errore nel recupero delle informazioni relative"
 						+ "al profilo dell'utente");
@@ -201,9 +198,6 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 		}
 
 		if(information.equalsIgnoreCase("TELEFONO")) {
-			if(Cliente.checkValidateEmail(updatedData))
-				throw new ErroreParametroException("Errore informazione da modificare");
-
 			if((userReal = userDAO.doRetrieveFullUserByKey(user.getUsername())) == null)
 				throw new ProfiloInesistenteException("Errore nel recupero delle informazioni relative"
 						+ "al profilo dell'utente");
@@ -272,17 +266,32 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 			else {
 				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll("", user.getUsername());
 
-				if(!Indirizzo.checkValidate(updatedData))
-					throw new FormatoIndirizzoException("Formato del nuovo indirizzo non valido");
+				try {
+					if(Indirizzo.checkValidate(updatedData)) {
 
-				else {
-					if(addresses.contains(updatedData))
-						throw new IndirizzoEsistenteException("Indirizzo inserito già associato all'utente");
+						if(addresses.contains(updatedData))
+							throw new IndirizzoEsistenteException("Indirizzo inserito già associato all'utente");
 
 
-					addressDAO.doSave(updatedData, user.getUsername());
-					return user;
+						addressDAO.doSave(updatedData, user.getUsername());
+						return user;
+					}
+				} catch (FormatoViaException ex) {
+					throw new FormatoViaException("La via deve contenere solo lettere e spazi");
+
+				}catch(FormatoNumCivicoException e) {
+					throw new FormatoNumCivicoException("Il numero civico è composto da numeri e, eventualmente, una lettera.");
+
+				}catch(FormatoCittaException e) {
+					throw new FormatoCittaException("La città deve essere composta solo da lettere e spazi.");
+
+				}catch(FormatoCAPException e) {
+					throw new FormatoCAPException("Il CAP deve essere formato da 5 numeri.");
+
+				}catch(FormatoProvinciaException e) {
+					throw new FormatoProvinciaException("La provincia è composta da due lettere maiuscole.");
 				}
+
 			}
 		}
 
@@ -292,16 +301,32 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 						+ " all'utente");
 			else {
 				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll("", user.getUsername());
-				if(!Indirizzo.checkValidate(updatedData))
-					throw new FormatoIndirizzoException("Formato dell'indirizzo non valido");
 
-				else {
-					if(!addresses.contains(updatedData)) {
-						
-						throw new RimozioneIndirizzoException("Indirizzo inserito non associato all'utente");
+				try{
+					if(Indirizzo.checkValidate(updatedData)) {
+
+
+						if(!addresses.contains(updatedData)) {
+
+							throw new RimozioneIndirizzoException("Indirizzo inserito non associato all'utente");
+						}
+						addressDAO.doDeleteAddress(updatedData.getIDIndirizzo(), user.getUsername());
+						return user;
 					}
-					addressDAO.doDeleteAddress(updatedData.getIDIndirizzo(), user.getUsername());
-					return user;
+				} catch (FormatoViaException ex) {
+					throw new FormatoViaException("La via deve contenere solo lettere e spazi");
+
+				}catch(FormatoNumCivicoException e) {
+					throw new FormatoNumCivicoException("Il numero civico è composto da numeri e, eventualmente, una lettera.");
+
+				}catch(FormatoCittaException e) {
+					throw new FormatoCittaException("La città deve essere composta solo da lettere e spazi.");
+
+				}catch(FormatoCAPException e) {
+					throw new FormatoCAPException("Il CAP deve essere formato da 5 numeri.");
+
+				}catch(FormatoProvinciaException e) {
+					throw new FormatoProvinciaException("La provincia è composta da due lettere maiuscole.");
 				}
 			}
 		}
@@ -314,14 +339,34 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll("", user.getUsername());
 				for(Indirizzo search_ind: addresses){
 					if(search_ind.getIDIndirizzo() == updatedData.getIDIndirizzo()){
-						if(!Indirizzo.checkValidate(updatedData))
-							throw new FormatoIndirizzoException("Formato del nuovo indirizzo non valido");
+						try {
+							if(Indirizzo.checkValidate(updatedData)) {
+								if(addresses.contains(updatedData))
+									throw new IndirizzoEsistenteException("L'indirizzo inserito è già presente nella tua rubrica degli indirizzi.");
 
-						addressDAO.doUpdateAddress(updatedData, user.getUsername());
-						return user;
+								addressDAO.doUpdateAddress(updatedData, user.getUsername());
+							}
+							return user;
+
+						} catch (FormatoViaException ex) {
+							throw new FormatoViaException("La nuova via deve contenere solo lettere e spazi");
+
+						}catch(FormatoNumCivicoException e) {
+							throw new FormatoNumCivicoException("Il nuovo numero civico è composto da numeri e, eventualmente, una lettera.");
+
+						}catch(FormatoCittaException e) {
+							throw new FormatoCittaException("La nuova città deve essere composta solo da lettere e spazi.");
+
+						}catch(FormatoCAPException e) {
+							throw new FormatoCAPException("Il nuovo CAP deve essere formato da 5 numeri.");
+
+						}catch(FormatoProvinciaException e) {
+							throw new FormatoProvinciaException("La nuova provincia è composta da due lettere maiuscole.");
+						}
 					}
-				}                            
-				throw new ModificaIndirizzoException("Indirizzo inserito non associato all'utente");			
+				}
+
+				throw new ModificaIndirizzoException("L'indirizzo inserito non è presente nella tua rubrica degli indirizzi.");			
 			}
 		}
 

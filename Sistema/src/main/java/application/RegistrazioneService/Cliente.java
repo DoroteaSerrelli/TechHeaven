@@ -4,7 +4,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import application.AutenticazioneService.AutenticazioneException.FormatoEmailException;
+import application.AutenticazioneService.AutenticazioneException.FormatoTelefonoException;
 import application.GestioneOrdiniService.ProxyOrdine;
+import application.RegistrazioneService.RegistrazioneException.FormatoCAPException;
+import application.RegistrazioneService.RegistrazioneException.FormatoCittaException;
+import application.RegistrazioneService.RegistrazioneException.FormatoCognomeException;
+import application.RegistrazioneService.RegistrazioneException.FormatoGenereException;
+import application.RegistrazioneService.RegistrazioneException.FormatoNomeException;
+import application.RegistrazioneService.RegistrazioneException.FormatoNumCivicoException;
+import application.RegistrazioneService.RegistrazioneException.FormatoProvinciaException;
+import application.RegistrazioneService.RegistrazioneException.FormatoViaException;
 import storage.GestioneOrdiniDAO.OrdineDAODataSource;
 
 /**
@@ -79,7 +89,6 @@ public class Cliente implements Cloneable{
 	 * 
 	 * @see application.RegistrazioneService.Indirizzo
 	 * 
-	 * @param email : l'indirizzo di posta elettronica del cliente
 	 * @param nome : il nome del cliente
 	 * @param cognome : il cognome del cliente
 	 * @param sex : il genere del cliente
@@ -88,17 +97,49 @@ public class Cliente implements Cloneable{
 	 * 
 	 * @return true se i dati inseriti sono stati specificati nel 
 	 * formato corretto; false altrimenti.
+	 * 
+	 * @throws FormatoProvinciaException  : eccezione che gestisce il caso in cui la provincia
+	 * 										non è espressa nel formato corretto
+	 * 
+	 * @throws FormatoCAPException : eccezione che gestisce il caso in cui il CAP non rispetta
+	 * 								 il formato
+	 * 
+	 * @throws FormatoCittaException : eccezione che gestisce il caso in cui la città non
+	 * 									è specificata nel formato corretto
+	 * 
+	 * @throws FormatoNumCivicoException : eccezione che gestisce il caso in cui il numero civico
+	 * 										non è specificato nel formato corretto
+	 * 
+	 * @throws FormatoViaException : eccezione che gestisce il caso in cui la via non è specificata nel formato
+	 * 									corretto
+	 * @throws FormatoNomeException : eccezione che gestisce il caso in cui l'utente specifica il nome
+	 * 									non rispettando il formato.
+	 * @throws FormatoCognomeException  : eccezione che gestisce il caso in cui l'utente specifica il cognome
+	 * 									non rispettando il formato.
+	 * @throws FormatoGenereException : eccezione che gestisce il caso in cui l'utente non specifica il genere.
+	 * @throws FormatoTelefonoException : eccezione che gestisce il caso in cui l'utente non specifica il 
+	 * 									numero di telefono con il formato corretto.
+	 * 
 	 * */
-	public static boolean checkValidate(String email, String nome, String cognome, Sesso sex, String telefono,
-			Indirizzo indirizzo) {
+	public static boolean checkValidate(String nome, String cognome, Sesso sex, String telefono,
+			Indirizzo indirizzo) throws FormatoViaException, FormatoNumCivicoException, FormatoCittaException, FormatoCAPException, FormatoProvinciaException, FormatoEmailException, FormatoNomeException, FormatoCognomeException, FormatoGenereException, FormatoTelefonoException {
 		
-		String emailPattern = "^\\S+@\\S+\\.\\S+$";
+		
 		String nomeCognomePattern = "^[A-Za-z\s]+$";
 		String telefonoPattern = "^[0-9]{3}-[0-9]{3}-[0-9]{4}$";
 		
-		if(!email.matches(emailPattern) || !nome.matches(nomeCognomePattern) || !cognome.matches(nomeCognomePattern)
-				|| !telefono.matches(telefonoPattern) || sex == null)
-			return false;
+		
+		if(!nome.matches(nomeCognomePattern))
+			throw new FormatoNomeException("Il nome deve contenere solo lettere e, eventualmente, spazi.");
+		
+		if(!cognome.matches(nomeCognomePattern))
+			throw new FormatoCognomeException("Il cognome deve contenere solo lettere e, eventualmente, spazi.");
+		
+		if(sex == null)
+			throw new FormatoGenereException("Specificare il genere.");
+		
+		if(!telefono.matches(telefonoPattern))
+			throw new FormatoTelefonoException("Il formato del numero di telelfono deve essere xxx-xxx-xxxx.");
 		
 		/*
 		 * Si effettua la verifica dell'indirizzo inserito invocando il metodo checkValidate della
@@ -106,6 +147,7 @@ public class Cliente implements Cloneable{
 		 * **/
 		if(!Indirizzo.checkValidate(indirizzo))
 			return false;
+		
 		return true;
 	}
 	
@@ -118,10 +160,14 @@ public class Cliente implements Cloneable{
 	 * @param email : l'indirizzo di posta elettronica inserito dall'utente
 	 * 
 	 * @return true se l'email è scritta nel formato corretto; false altrimenti.
+	 * @throws FormatoEmailException : eccezione che gestisce il caso in cui l'email non è specificata nel formato
+	 * 									corretto
 	 * */
-	public static boolean checkValidateEmail(String email) {
+	public static boolean checkValidateEmail(String email) throws FormatoEmailException {
 		String emailPattern = "^\\S+@\\S+\\.\\S+$";
-		return email.matches(emailPattern);
+		if(!email.matches(emailPattern))
+			throw new FormatoEmailException("L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com).");
+		return true;
 	}
 	
 	/**

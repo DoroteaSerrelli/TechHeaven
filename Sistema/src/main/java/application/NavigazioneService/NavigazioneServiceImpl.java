@@ -25,6 +25,12 @@ import storage.NavigazioneDAO.*;
 
 public class NavigazioneServiceImpl implements NavigazioneService{
 	
+	private ProdottoDAODataSource productDAO;
+
+	public NavigazioneServiceImpl(ProdottoDAODataSource productDAO) {
+		this.productDAO = productDAO;
+	}
+	
 	/**
 	 * Il metodo implementa il servizio di recupero delle specifiche complete 
 	 * di un prodotto per poterle visualizzare.
@@ -59,10 +65,15 @@ public class NavigazioneServiceImpl implements NavigazioneService{
 	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
 	 * */
 	@Override
-	public Collection<ProxyProdotto> ricercaProdottoMenu(Categoria c, int page, int perPage) throws SQLException, CategoriaProdottoException, SottocategoriaProdottoException {
+	public Collection<ProxyProdotto> ricercaProdottoMenu(String c, int page, int perPage) throws SQLException, CategoriaProdottoException, SottocategoriaProdottoException {
 		
-		ProdottoDAODataSource pdao = new ProdottoDAODataSource();
-		return pdao.searchingByCategory(null, c.toString(), page, perPage);
+		if(!c.equalsIgnoreCase(Categoria.GRANDI_ELETTRODOMESTICI.toString()) &&
+				!c.equalsIgnoreCase(Categoria.PICCOLI_ELETTRODOMESTICI.toString()) &&
+				!c.equalsIgnoreCase(Categoria.PRODOTTI_ELETTRONICA.toString()) &&
+				!c.equalsIgnoreCase(Categoria.TELEFONIA.toString()))
+			return null;
+		
+		return productDAO.searchingByCategory(null, c, page, perPage);
 	}
 	
 	/**
@@ -85,8 +96,9 @@ public class NavigazioneServiceImpl implements NavigazioneService{
 	@Override
 	public Collection<ProxyProdotto> ricercaProdottoBar(String keyword, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
 		
-		ProdottoDAODataSource pdao = new ProdottoDAODataSource();
-		return pdao.searching("NOME", keyword, page, perPage);
+		if(keyword.isBlank())
+			return null;
+		return productDAO.searching("NOME", keyword, page, perPage);
 	}
 
 }

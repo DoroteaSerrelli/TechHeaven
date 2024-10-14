@@ -3,7 +3,6 @@ package application.NavigazioneService;
 import java.sql.SQLException;
 import java.util.Collection;
 
-import application.NavigazioneService.ObjectProdotto.Categoria;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 
@@ -53,7 +52,7 @@ public interface NavigazioneService {
 	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
 	 * */
 	
-	public Collection<ProxyProdotto> ricercaProdottoMenu(Categoria c, int page, int perPage) throws SQLException, CategoriaProdottoException, SottocategoriaProdottoException;
+	public Collection<ProxyProdotto> ricercaProdottoMenu(String c, int page, int perPage) throws SQLException, CategoriaProdottoException, SottocategoriaProdottoException;
 	
 	/**
 	 * Il metodo rappresenta la ricerca di tutti i prodotti che soddisfano una chiave di ricerca.

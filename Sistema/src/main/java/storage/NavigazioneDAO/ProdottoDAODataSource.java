@@ -9,9 +9,6 @@ import java.util.LinkedList;
 import java.util.ArrayList;
 
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import application.NavigazioneService.Prodotto;
@@ -32,23 +29,15 @@ import application.NavigazioneService.ProxyProdotto;
  * */
 
 public class ProdottoDAODataSource{
-	private static DataSource ds;
-
-	static {
-		try {
-			Context initCtx = new InitialContext();
-			Context envCtx = (Context) initCtx.lookup("java:comp/env");
-
-			ds = (DataSource) envCtx.lookup("jdbc/techheaven");
-
-		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
-		}
-	}
+	DataSource ds;
 
 	private static final String TABLE_NAME = "prodotto";
 
-
+	public ProdottoDAODataSource(DataSource dataSource) throws SQLException{
+		this.ds = dataSource;
+	}
+	
+	
 	/**
 	 * Il metodo permette di memorizzare un nuovo prodotto nel database.
 	 * 

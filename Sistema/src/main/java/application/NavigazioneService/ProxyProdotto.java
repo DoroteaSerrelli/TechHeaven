@@ -1,7 +1,6 @@
 package application.NavigazioneService;
 
 import java.sql.SQLException;
-
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
@@ -27,23 +26,47 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
  * */
 
 public class ProxyProdotto extends ObjectProdotto{
-	
+
+	private ProdottoDAODataSource productDAO;
+
 	/**
 	 * realProdotto : riferimento ad un oggetto di tipo Prodotto
 	 * che contiene tutte le specifiche
 	 * del prodotto (anche topImmagine, dettagli e galleriaImmagini)
 	 * */
-	
+
 	private Prodotto realProdotto;
-	
+
 	/**
 	 * Costruttore di classe di default.
 	 * */
-	
+
 	public ProxyProdotto() {
 		super();
 		realProdotto = null;
 	}
+
+
+	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,
+			Categoria categoria, String marca, String modello, int quantita,
+			boolean inCatalogo, boolean inVetrina, ProdottoDAODataSource productDAO) {
+		super(codiceProdotto, nomeProdotto, topDescrizione, prezzo,
+				categoria, marca, modello, quantita,
+				inCatalogo, inVetrina);
+
+		this.productDAO = productDAO;
+	}
+
+	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,
+			Categoria categoria, Sottocategoria sottocategoria, String marca, String modello, int quantita,
+			boolean inCatalogo, boolean inVetrina, ProdottoDAODataSource productDAO) {
+		super(codiceProdotto, nomeProdotto, topDescrizione, prezzo,
+				categoria, sottocategoria, marca, modello, quantita,
+				inCatalogo, inVetrina);
+
+		this.productDAO = productDAO;
+	}
+
 
 	/**
 	 * Costruttore di classe per creare un oggetto ProxyProdotto noti codiceProdotto, nomeProdotto, topDescrizione, 
@@ -63,7 +86,7 @@ public class ProxyProdotto extends ObjectProdotto{
 	 * @param inVetrina : il prodotto è nella vetrina online del negozio tra i prodotti di una determinata categoria
 	 * 
 	 * */
-	
+
 	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,
 			Categoria categoria, String marca, String modello, int quantita,
 			boolean inCatalogo, boolean inVetrina) {
@@ -92,7 +115,7 @@ public class ProxyProdotto extends ObjectProdotto{
 	 * @param inVetrina : il prodotto è nella vetrina online del negozio tra i prodotti di una determinata categoria
 	 * 
 	 * */
-	
+
 	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,
 			Categoria categoria, Sottocategoria sottocategoria, String marca, String modello, int quantita,
 			boolean inCatalogo, boolean inVetrina) {
@@ -109,12 +132,12 @@ public class ProxyProdotto extends ObjectProdotto{
 	 * @throws CategoriaProdottoException 
 	 * @throws SottocategoriaProdottoException 
 	 * */
-	
+
 	public Prodotto mostraProdotto() throws SottocategoriaProdottoException, CategoriaProdottoException {
 		if(realProdotto == null) {
-			ProdottoDAODataSource productDao = new ProdottoDAODataSource();
+
 			try {
-				Prodotto real = productDao.doRetrieveCompleteByKey(getCodiceProdotto());
+				Prodotto real = productDAO.doRetrieveCompleteByKey(getCodiceProdotto());
 				realProdotto = real;
 			} catch (SQLException e) {
 				System.out.println("Errore nel recupero del prodotto");

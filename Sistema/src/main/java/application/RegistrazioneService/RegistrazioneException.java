@@ -28,7 +28,39 @@ public class RegistrazioneException extends Exception{
 		super(message);
 	}
 
+	
+	/**
+	 * Classe statica per gestire il caso in cui l'utente specifica l'username non rispettando il 
+	 * formato.
+	 * */
+	public static class FormatoUsernameException extends RegistrazioneException {
+		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoUsernameException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire il caso in cui l'utente specifica la password
+	 * non rispettando il formato.
+	 * */
+	public static class FormatoPasswordException extends RegistrazioneException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoPasswordException(String message) {
+			super(message);
+		}
+	}
+	
 	/**
 	 * Classe statica per gestire la registrazione di un utente che ha digitato un username
 	 * già memorizzata nel database.
@@ -57,6 +89,54 @@ public class RegistrazioneException extends Exception{
 		 * @param message il messaggio dell'eccezione da far visualizzare
 		 * */
 		public EmailPresenteException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire il caso in cui l'utente specifica il nome
+	 * non rispettando il formato.
+	 * */
+	public static class FormatoNomeException extends RegistrazioneException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoNomeException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire il caso in cui l'utente specifica il cognome
+	 * non rispettando il formato.
+	 * */
+	public static class FormatoCognomeException extends RegistrazioneException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoCognomeException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire il caso in cui l'utente specifica il genere
+	 * non rispettando il formato.
+	 * */
+	public static class FormatoGenereException extends RegistrazioneException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoGenereException(String message) {
 			super(message);
 		}
 	}

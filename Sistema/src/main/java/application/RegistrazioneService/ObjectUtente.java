@@ -5,6 +5,9 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 
+import application.RegistrazioneService.RegistrazioneException.FormatoPasswordException;
+import application.RegistrazioneService.RegistrazioneException.FormatoUsernameException;
+
 /**
  * Questa classe astratta è la classe client del design pattern Proxy
  * utilizzato per l'accesso e la gestione delle operazioni sull'oggetto Utente.
@@ -95,21 +98,66 @@ public abstract class ObjectUtente implements Cloneable{
 	 * @param password : la password dell'utente
 	 * 
 	 * @return true se le credenziali username e password sono corrette; false altrimenti.
+	 * @throws FormatoUsernameException : eccezione che gestisce il caso in cui l'utente specifica 
+	 * 									  l'username non rispettando il formato.
+	 * @throws FormatoPasswordException : eccezione che gestisce il caso in cui l'utente specifica 
+	 * 									  la password non rispettando il formato.
 	 * */
-	public static boolean checkValidate(String username, String password) {
+	public static boolean checkValidate(String username, String password) throws FormatoUsernameException, FormatoPasswordException {
 
 		String usernamePattern = "^[a-zA-Z]{5,}$";
 		String passwordPattern = "^(?=.*[a-zA-Z])(?=.*[0-9]).{5,}$";
 
-		if(!username.matches(usernamePattern))
-			return false;
-		else if(password.length() < 5 || password.isBlank() || !password.matches(passwordPattern))
-			return false;
+		if(!username.matches(usernamePattern)) {
+			throw new FormatoUsernameException("L'username deve avere almeno lunghezza pari a 5 e contenere solo lettere.");
+		}else if(password.length() < 5 || password.isBlank() || !password.matches(passwordPattern))
+			throw new FormatoPasswordException("La password deve avere almeno 5 caratteri che siano lettere e numeri.");
 
 		return true;
 	}
+	
+	/**
+	 * In questo metodo si verifica se l'username inserita dall'utente è corretta nel formato.
+	 * 
+	 * @param username : il nome utente
+	 * 
+	 * @return true se username è corretta; false altrimenti.
+	 * @throws FormatoUsernameException : eccezione che gestisce il caso in cui l'utente specifica 
+	 * 									  l'username non rispettando il formato.
+	 **/
+	
+	public static boolean checkUsername(String username) throws FormatoUsernameException, FormatoPasswordException {
 
+		String usernamePattern = "^[a-zA-Z]{5,}$";
 
+		if(!username.matches(usernamePattern))
+			throw new FormatoUsernameException("L'username deve avere almeno lunghezza pari a 5 e contenere solo lettere.");
+
+		return true;
+	}
+	
+	/**
+	 * In questo metodo si verifica se la password inserita dall'utente è valida nel formato.
+	 * 
+	 * @param password : la password dell'utente
+	 * 
+	 * @return true se la password è corretta; false altrimenti.
+	 * 
+	 * @throws FormatoPasswordException : eccezione che gestisce il caso in cui l'utente specifica 
+	 * 									  la password non rispettando il formato.
+	 * */
+	public static boolean checkPassword(String password) throws FormatoUsernameException, FormatoPasswordException {
+
+		
+		String passwordPattern = "^(?=.*[a-zA-Z])(?=.*[0-9]).{5,}$";
+
+		if(password.length() < 5 || password.isBlank() || !password.matches(passwordPattern))
+			throw new FormatoPasswordException("La password deve avere almeno 5 caratteri che siano lettere e numeri.");
+
+		return true;
+	}
+	
+	
 	/**
 	 * Questo metodo verifica se la nuova password inserita dall'utente è valida.
 	 * 

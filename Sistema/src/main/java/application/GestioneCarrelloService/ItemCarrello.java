@@ -67,4 +67,5 @@ public class ItemCarrello extends Prodotto implements Cloneable{
 	    }
 	    return clone;
 	}
+	
 }

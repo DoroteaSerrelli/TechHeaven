@@ -1,5 +1,7 @@
 package application.NavigazioneService;
 
+import java.util.Objects;
+
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 
@@ -580,6 +582,41 @@ public abstract class ObjectProdotto {
 	public void setInVetrina(boolean inVetrina) {
 		this.inVetrina = inVetrina;
 	}
+	
+	/**
+	 * Calcola e restituisce un valore hash per l'oggetto corrente.
+	 * 
+	 * Il valore hash è calcolato utilizzando i campi significativi
+	 * dell'oggetto, inclusi codiceProdotto, nomeProdotto, marca,
+	 * prezzo e quantita. Questo metodo deve essere sovrascritto
+	 * per garantire la coerenza con il metodo equals.
+	 * 
+	 * @return un valore hash per l'oggetto corrente.
+	 */
+	
+	@Override
+	public int hashCode() {
+	    return Objects.hash(codiceProdotto, nomeProdotto, marca, modello, prezzo);
+	}
+
+	
+	@Override
+	public boolean equals(Object obj) {
+	    if (this == obj) {
+	        return true; // Riferimento identico
+	    }
+	    if (obj == null || getClass() != obj.getClass()) {
+	        return false; // Oggetto nullo o classi diverse
+	    }
+	    ObjectProdotto other = (ObjectProdotto) obj; // Cast dell'oggetto
+	    return codiceProdotto == other.codiceProdotto 
+	            && nomeProdotto.equals(other.nomeProdotto)
+	            && marca.equals(other.marca)
+	            && modello.equals(other.modello)
+	            && prezzo == other.prezzo;
+	}
+
+	
 
 	/**
 	 * Il metodo fornisce in formato stringa le caratteristiche associate al prodotto.

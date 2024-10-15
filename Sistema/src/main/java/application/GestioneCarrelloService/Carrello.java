@@ -50,7 +50,7 @@ public class Carrello {
 		if(product == null)
 			throw new ProdottoNulloException("Non e\' stato specificato nessun prodotto da aggiungere al carrello.");
 		if(products != null && isPresent(product))
-			throw new ProdottoPresenteException("Il prodotto " + product.getNomeProdotto() + " e\' gia\' presente nel carrello.");
+			throw new ProdottoPresenteException("Prodotto già presente nel carrello.");
 		else
 			products.add(product);
 	}

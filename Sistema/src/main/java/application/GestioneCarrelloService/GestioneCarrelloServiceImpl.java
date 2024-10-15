@@ -27,6 +27,12 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
 
 public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 	
+	private ProdottoDAODataSource productDAO;
+	
+	public GestioneCarrelloServiceImpl(ProdottoDAODataSource productDAO) {
+		this.productDAO = productDAO;
+	}
+	
 	/**
 	 * Il metodo fornisce i prodotti presenti nel carrello.
 	 * 
@@ -62,8 +68,7 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 	public Carrello aggiungiAlCarrello(Carrello cart, ItemCarrello item) throws ProdottoPresenteException, ProdottoNulloException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException, QuantitaProdottoException {
 		//Si verifica se ci sono scorte in magazzino per il prodotto item
 		
-		ProdottoDAODataSource pDao = new ProdottoDAODataSource();
-		ProxyProdotto product = pDao.doRetrieveProxyByKey(item.getCodiceProdotto());
+		ProxyProdotto product = productDAO.doRetrieveProxyByKey(item.getCodiceProdotto());
 		
 		if(product.getQuantita() == 0)
 			throw new QuantitaProdottoException("Non è disponibile il prodotto per l\\’acquisto");
@@ -96,10 +101,18 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 	 * 						(quantity deve essere maggiore della quantità corrente di item nel carrello)
 	 * 
 	 * @return il carrello contenente il prodotto item con la quantità quantity
+	 * @throws SQLException 
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
 	 * */
 	
 	@Override
-	public Carrello aumentaQuantitaNelCarrello(Carrello cart, ItemCarrello item, int quantity) throws ProdottoNulloException, CarrelloVuotoException, ProdottoNonPresenteException, QuantitaProdottoException {
+	public Carrello aumentaQuantitaNelCarrello(Carrello cart, ItemCarrello item, int quantity) throws ProdottoNulloException, CarrelloVuotoException, ProdottoNonPresenteException, QuantitaProdottoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
+		ProxyProdotto product = productDAO.doRetrieveProxyByKey(item.getCodiceProdotto());
+		
+		if(quantity > product.getQuantita())
+			throw new QuantitaProdottoException("La quantita\' specificata supera il numero di scorte possibili del prodotto in magazzino.");
+		
 		if(item.getQuantita() >= quantity)
 			throw new QuantitaProdottoException("La quantita\' specificata è minore o uguale rispetto alla quantita\' del prodotto " + item.getNomeProdotto() + " nel carrello.");
 		else
@@ -117,10 +130,19 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 	 * 					(quantity deve essere minore della quantità corrente di item nel carrello)
 	 * 
 	 * @return il carrello contenente il prodotto item con la quantità quantity
+	 * @throws SQLException 
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
 	 * */
 	
 	@Override
-	public Carrello decrementaQuantitaNelCarrello(Carrello cart, ItemCarrello item, int quantity) throws ProdottoNulloException, CarrelloVuotoException, ProdottoNonPresenteException, QuantitaProdottoException {
+	public Carrello decrementaQuantitaNelCarrello(Carrello cart, ItemCarrello item, int quantity) throws ProdottoNulloException, CarrelloVuotoException, ProdottoNonPresenteException, QuantitaProdottoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
+		
+		ProxyProdotto product = productDAO.doRetrieveProxyByKey(item.getCodiceProdotto());
+		
+		if(quantity > product.getQuantita())
+			throw new QuantitaProdottoException("La quantita\' specificata supera il numero di scorte possibili del prodotto in magazzino.");
+		
 		if(item.getQuantita() <= quantity)
 			throw new QuantitaProdottoException("La quantita\' specificata è maggiore o uguale rispetto alla quantita\' del prodotto " + item.getNomeProdotto() + " nel carrello.");
 		

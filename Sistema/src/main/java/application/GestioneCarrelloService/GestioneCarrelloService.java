@@ -77,9 +77,12 @@ public interface GestioneCarrelloService {
 	 * @param quantity : la quantità del prodotto da impostare
 	 * 
 	 * @return il carrello contenente la quantità del prodotto item aggiornata a quantity
+	 * @throws SQLException 
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
 	 * */
 	
-	public Carrello aumentaQuantitaNelCarrello(Carrello cart, ItemCarrello item, int quantity) throws ProdottoNulloException, CarrelloVuotoException, ProdottoNonPresenteException, QuantitaProdottoException;
+	public Carrello aumentaQuantitaNelCarrello(Carrello cart, ItemCarrello item, int quantity) throws ProdottoNulloException, CarrelloVuotoException, ProdottoNonPresenteException, QuantitaProdottoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException;
 	
 	/**
 	 * Questo metodo si occupa di decrementare la quantità di un prodotto
@@ -90,9 +93,12 @@ public interface GestioneCarrelloService {
 	 * @param quantity : la quantità del prodotto da impostare
 	 * 
 	 * @return il carrello contenente la quantità del prodotto item aggiornata a quantity
+	 * @throws SQLException 
+	 * @throws CategoriaProdottoException 
+	 * @throws SottocategoriaProdottoException 
 	 * */
 	
-	public Carrello decrementaQuantitaNelCarrello(Carrello cart, ItemCarrello item, int quantity) throws ProdottoNulloException, CarrelloVuotoException, ProdottoNonPresenteException, QuantitaProdottoException;
+	public Carrello decrementaQuantitaNelCarrello(Carrello cart, ItemCarrello item, int quantity) throws ProdottoNulloException, CarrelloVuotoException, ProdottoNonPresenteException, QuantitaProdottoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException;
 	
 	/**
 	 * Questo metodo fornisce il servizio di svuotamento

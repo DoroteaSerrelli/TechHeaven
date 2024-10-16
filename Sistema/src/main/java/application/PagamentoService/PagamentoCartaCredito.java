@@ -66,23 +66,26 @@ public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 		String numeroCartaPattern = "^\\d{16}$";
 		String cvvPattern = "^\\d{3}$";
 		
-		java.util.Calendar currentDate = java.util.Calendar.getInstance();
-        int currentYear = currentDate.get(java.util.Calendar.YEAR);
-        int currentMonth = currentDate.get(java.util.Calendar.MONTH) + 1; // Months are 0-based
-        
-        String[] expiryParts = dataScadenza.split("-");  
-        int expYear = Integer.parseInt(expiryParts[0]);  // Year
-        int expMonth = Integer.parseInt(expiryParts[1]); // Month
-
-        if (dataScadenza.isBlank() || expYear < currentYear || (expYear == currentYear && expMonth < currentMonth)) {
-            throw new FormatoDataCartaException("La data di scadenza della carta non è valida.");
-        }
 		
 		if(!titolare.matches(titolarePattern))
 			throw new FormatoTitolareCartaException("Il titolare deve essere una sequenza di lettere e spazi.");
         
 		if(!numeroCarta.matches(numeroCartaPattern))
 			throw new FormatoNumeroCartaException("Il numero della carta è formato da 16 numeri.");
+		
+		java.util.Calendar currentDate = java.util.Calendar.getInstance();
+        int currentYear = currentDate.get(java.util.Calendar.YEAR);
+        int currentMonth = currentDate.get(java.util.Calendar.MONTH) + 1; // Months are 0-based
+        
+        String[] expiryParts = dataScadenza.split("/");  
+        int expMonth = Integer.parseInt(expiryParts[0]); // Month
+        int expYear = Integer.parseInt(expiryParts[1]);  // Year
+        int lastTwoDigits = currentYear % 100;
+
+        if (dataScadenza.isBlank() || expYear < lastTwoDigits || (expYear == lastTwoDigits && expMonth < currentMonth) || expMonth < 1 || expMonth > 12) {
+            throw new FormatoDataCartaException("La data di scadenza della carta non è valida.");
+        }
+
 		
 		if(!CVV.matches(cvvPattern))
 			throw new FormatoCVVCartaException("Il numero CVV è formato da 3 numeri.");

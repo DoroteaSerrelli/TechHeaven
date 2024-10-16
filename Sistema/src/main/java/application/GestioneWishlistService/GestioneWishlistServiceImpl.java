@@ -8,6 +8,7 @@ import application.GestioneWishlistService.WishlistException.ProdottoNonPresente
 import application.GestioneWishlistService.WishlistException.ProdottoPresenteException;
 import application.GestioneWishlistService.WishlistException.WishlistVuotaException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.GestioneWishlistService.WishlistException.ProdottoNulloException;
 import application.NavigazioneService.ProxyProdotto;
 import application.RegistrazioneService.ProxyUtente;
 import storage.WishlistDAO.WishlistDAODataSource;
@@ -25,6 +26,11 @@ import storage.WishlistDAO.WishlistDAODataSource;
 
 public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 		
+	private WishlistDAODataSource wishlistDAO;
+	
+	public GestioneWishlistServiceImpl(WishlistDAODataSource wishlistDAO) {
+		this.wishlistDAO = wishlistDAO;
+	}
 	/**
 	 * Il metodo si occupa di fornire la wishlist, identificata da un codice,
 	 * di un utente.
@@ -42,10 +48,10 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 	
 	@Override
 	public Wishlist recuperaWishlist(ProxyUtente user, int id) throws SQLException, CategoriaProdottoException {
-		WishlistDAODataSource dao = new WishlistDAODataSource();
+		
 		Wishlist ws = new Wishlist(user, id);
-		if(dao.doRetrieveWishlistByKey(user, id) != null) {
-			Collection<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAllWishes("", ws));
+		if(wishlistDAO.doRetrieveWishlistByKey(user, id) != null) {
+			Collection<ProxyProdotto> products = new ArrayList<>(wishlistDAO.doRetrieveAllWishes("", ws));
 			ws.setProdotti(products);
 			return ws;	
 		}
@@ -68,15 +74,18 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 	
 	@Override
 	public Collection<ProxyProdotto> visualizzaWishlist(Wishlist wishes, ProxyUtente user) throws SQLException, CategoriaProdottoException {
-		WishlistDAODataSource dao = new WishlistDAODataSource();
+		
 		Wishlist ws;
-		if((ws = dao.doRetrieveWishlistByKey(user, wishes.getId())) != null) {
-			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAllWishes("", ws));
+		
+		if((ws = wishlistDAO.doRetrieveWishlistByKey(user, wishes.getId())) != null) {
+			
+			ArrayList<ProxyProdotto> products = new ArrayList<>(wishlistDAO.doRetrieveAllWishes("", ws));
 			wishes.setProdotti(products);
+			
 			return wishes.getProdotti();	
 		}
-		System.out.println("Wishlist vuota");
-		return null;
+		
+		return null; //la wishlist è vuota
 	}
 	
 	/**
@@ -97,16 +106,19 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 	@Override
 	public Wishlist aggiungiProdottoInWishlist(Wishlist wishes, ProxyProdotto prod, ProxyUtente user)
 			throws ProdottoPresenteException,
-			application.GestioneWishlistService.WishlistException.ProdottoNulloException, SQLException, CategoriaProdottoException {
+			ProdottoNulloException, SQLException, CategoriaProdottoException {
 		
-		WishlistDAODataSource dao = new WishlistDAODataSource();
-		if(dao.doRetrieveProductByKey(prod.getCodiceProdotto(), wishes) != null)
-			throw new ProdottoPresenteException("Il prodotto selezionato e\' gia\' presente nella wishlist!");
+		
+		if(wishlistDAO.doRetrieveProductByKey(prod.getCodiceProdotto(), wishes) != null)
+			throw new ProdottoPresenteException("Prodotto gia\' presente nella wishlist!");
+		
 		else {
-			dao.doSaveProduct(prod, wishes);
-			Wishlist newWishes = dao.doRetrieveWishlistByKey(user, wishes.getId());
-			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAllWishes("", newWishes));
-			newWishes.setProdotti(products);
+			
+			wishlistDAO.doSaveProduct(prod, wishes);
+			Wishlist newWishes = wishlistDAO.doRetrieveWishlistByKey(user, wishes.getId());
+			/*ArrayList<ProxyProdotto> products = new ArrayList<>(wishlistDAO.doRetrieveAllWishes("", newWishes));
+			newWishes.setProdotti(products);*/
+			
 			return newWishes;
 		}
 	}
@@ -128,17 +140,18 @@ public class GestioneWishlistServiceImpl implements GestioneWishlistService{
 
 	@Override
 	public Wishlist rimuoviProdottoDaWishlist(Wishlist wishes, ProxyUtente user, ProxyProdotto prod)
-			throws application.GestioneWishlistService.WishlistException.ProdottoNonPresenteException,
-			WishlistVuotaException, application.GestioneWishlistService.WishlistException.ProdottoNulloException, SQLException, CategoriaProdottoException {
+			throws ProdottoNonPresenteException, WishlistVuotaException, ProdottoNulloException, SQLException, CategoriaProdottoException {
 		
-		WishlistDAODataSource dao = new WishlistDAODataSource();
-		if(dao.doRetrieveProductByKey(prod.getCodiceProdotto(), wishes) == null)
+		if(wishlistDAO.doRetrieveProductByKey(prod.getCodiceProdotto(), wishes) == null)
 			throw new ProdottoNonPresenteException("Il prodotto selezionato non e\' presente nella wishlist!");
+		
 		else {
-			dao.doDeleteProduct(prod.getCodiceProdotto(), wishes);
-			Wishlist newWishes = dao.doRetrieveWishlistByKey(user, wishes.getId());
-			ArrayList<ProxyProdotto> products = new ArrayList<>(dao.doRetrieveAllWishes("", newWishes));
-			newWishes.setProdotti(products);
+			
+			wishlistDAO.doDeleteProduct(prod.getCodiceProdotto(), wishes);
+			Wishlist newWishes = wishlistDAO.doRetrieveWishlistByKey(user, wishes.getId());
+			/*ArrayList<ProxyProdotto> products = new ArrayList<>(wishlistDAO.doRetrieveAllWishes("", newWishes));
+			newWishes.setProdotti(products);*/
+			
 			return newWishes;
 		}
 	}

@@ -28,22 +28,14 @@ import application.RegistrazioneService.ProxyUtente;
  * @author Dorotea Serrelli
  * */
 public class WishlistDAODataSource{
-	private static DataSource ds;
-
-	static {
-		try {
-			Context initCtx = new InitialContext();
-			Context envCtx = (Context) initCtx.lookup("java:comp/env");
-
-			ds = (DataSource) envCtx.lookup("jdbc/techheaven");
-
-		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
-		}	
-	}
+	DataSource ds;
 
 	private static final String TABLE_NAME = "wishlist";
 
+	public WishlistDAODataSource(DataSource dataSource) throws SQLException{
+		this.ds = dataSource;
+	}
+	
 	/**
 	 * Crea una wishlist per l'utente.
 	 * 
@@ -220,7 +212,7 @@ public class WishlistDAODataSource{
 	 * 
 	 * @throws CategoriaProdottoException 
 	 * */
-	public synchronized void doSaveProduct(ProxyProdotto product, Wishlist ws) throws SQLException, CategoriaProdottoException {
+	public synchronized boolean doSaveProduct(ProxyProdotto product, Wishlist ws) throws SQLException, CategoriaProdottoException {
 
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
@@ -231,7 +223,7 @@ public class WishlistDAODataSource{
 		}
 
 		String insertSQL = "INSERT INTO COMPOSIZIONE_WISHLIST(UTENTE, WISHLIST, PRODOTTO) VALUES (?, ?, ?);";
-
+		int result;
 		try {
 			connection = ds.getConnection();
 			connection.setAutoCommit(false);
@@ -240,7 +232,7 @@ public class WishlistDAODataSource{
 			preparedStatement.setInt(2, ws.getId());
 			preparedStatement.setInt(3, product.getCodiceProdotto());
 
-			if(preparedStatement.executeUpdate() == 0) {
+			if((result = preparedStatement.executeUpdate()) == 0) {
 				System.out.println("Errore inserimento prodotto in wishlist");
 			}
 
@@ -254,7 +246,9 @@ public class WishlistDAODataSource{
 				if (connection != null)
 					connection.close();
 			}
-		}	
+		}
+		
+		return result != 0;
 	}
 
 	/**

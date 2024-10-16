@@ -189,7 +189,7 @@ public class GestioneCarrelloServiceImplTest {
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
 		ProxyProdotto product2 = new ProxyProdotto(13, "Amazfit T-Rex 2", "Prova", Float.parseFloat("160.00"), 
-				Categoria.TELEFONIA, Sottocategoria.SMARTWATCH, "Amazfit", "T-Rex2", 10, true, false, productDAO);
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.SMARTWATCH, "Amazfit", "T-Rex2", 10, true, false, productDAO);
 
 
 		ItemCarrello item1 = new ItemCarrello();

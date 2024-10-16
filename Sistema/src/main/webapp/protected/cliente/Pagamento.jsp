@@ -37,7 +37,7 @@
            <input type="hidden" name="action" value="confirmPayment">
             <div class="payment_methods" onchange="toggleCreditCardFields()">
                 <p>
-                    <input type="radio" name="metodoPagamento" value="CreditCard" id="creditCardRadio">
+                    <input type="radio" name="metodoPagamento" value="Carta_credito" id="creditCardRadio">
                     Carta di Credito 
                 </p>
                 <p>

@@ -7,9 +7,6 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import application.PagamentoService.Pagamento;
@@ -18,6 +15,7 @@ import application.PagamentoService.PagamentoContrassegno;
 import application.PagamentoService.PagamentoException.ModalitaAssenteException;
 import application.PagamentoService.PagamentoPaypal;
 import application.PagamentoService.PagamentoServiceImpl;
+import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import java.sql.Statement;
@@ -33,18 +31,10 @@ import java.sql.Statement;
 
 public class PagamentoDAODataSource {
 
-	private static DataSource ds;
-
-	static {
-		try {
-			Context initCtx = new InitialContext();
-			Context envCtx = (Context) initCtx.lookup("java:comp/env");
-
-			ds = (DataSource) envCtx.lookup("jdbc/techheaven");
-
-		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
-		}
+	DataSource ds;
+	
+	public PagamentoDAODataSource(DataSource ds) {
+		this.ds = ds;
 	}
 
 	private static final String TABLE_NAME = "Pagamento";
@@ -216,9 +206,10 @@ public class PagamentoDAODataSource {
 	 * @param IDOrdine : l'ordine
 	 * @return il pagamento in contrassegno relativo all'ordine con codice IDOrdine 
 	 * @throws CategoriaProdottoException 
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
 
-	public synchronized PagamentoContrassegno doRetrieveCashByOrder(int IDOrdine) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
+	public synchronized PagamentoContrassegno doRetrieveCashByOrder(int IDOrdine) throws SQLException, OrdineVuotoException, CategoriaProdottoException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
                 
@@ -235,8 +226,8 @@ public class PagamentoDAODataSource {
 
 			ResultSet rs = preparedStatement.executeQuery();  
 			while (rs.next()) {
-                                dto = new PagamentoContrassegno(); // Initialize dto here
-				OrdineDAODataSource orderDao = new OrdineDAODataSource();
+                                dto = new PagamentoContrassegno(); 
+				OrdineDAODataSource orderDao = new OrdineDAODataSource(ds);
 
 				dto.setCodicePagamento(rs.getInt("CODICEPAGAMENTO"));
                                 System.out.println("id ordine value: "+rs.getInt("ORDINE"));
@@ -268,9 +259,10 @@ public class PagamentoDAODataSource {
 	 * @param IDOrdine : l'ordine
 	 * @return il pagamento con Paypal relativo all'ordine con codice IDOrdine 
 	 * @throws CategoriaProdottoException 
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
 
-	public synchronized PagamentoPaypal doRetrievePaypalByOrder(int IDOrdine) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
+	public synchronized PagamentoPaypal doRetrievePaypalByOrder(int IDOrdine) throws SQLException, OrdineVuotoException, CategoriaProdottoException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -289,7 +281,7 @@ public class PagamentoDAODataSource {
 
 			while (rs.next()) {
                                 dto = new PagamentoPaypal();
-				OrdineDAODataSource orderDao = new OrdineDAODataSource();
+				OrdineDAODataSource orderDao = new OrdineDAODataSource(ds);
 
 				dto.setCodicePagamento(rs.getInt("CODICEPAGAMENTO"));
 				dto.setOrdine(orderDao.doRetrieveFullOrderByKey(rs.getInt("ORDINE")));
@@ -321,9 +313,10 @@ public class PagamentoDAODataSource {
 	 * @param IDOrdine : l'ordine
 	 * @return il pagamento con carta di credito relativo all'ordine con codice IDOrdine 
 	 * @throws CategoriaProdottoException 
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
 
-	public synchronized PagamentoCartaCredito doRetrieveCardByOrder(int IDOrdine) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
+	public synchronized PagamentoCartaCredito doRetrieveCardByOrder(int IDOrdine) throws SQLException, OrdineVuotoException, CategoriaProdottoException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -342,7 +335,7 @@ public class PagamentoDAODataSource {
 
 			while (rs.next()) {
                                 dto = new PagamentoCartaCredito();
-				OrdineDAODataSource orderDao = new OrdineDAODataSource();
+				OrdineDAODataSource orderDao = new OrdineDAODataSource(ds);
 
 				dto.setCodicePagamento(rs.getInt("CODICEPAGAMENTO"));
 				dto.setOrdine(orderDao.doRetrieveFullOrderByKey(rs.getInt("ORDINE")));
@@ -382,10 +375,11 @@ public class PagamentoDAODataSource {
 	 * @throws OrdineVuotoException se l'ordine specificato non esiste
 	 * @throws ModalitaAssenteException se il tipo di pagamento richiesto non è supportato
 	 * @throws CategoriaProdottoException 
+	 * @throws ErroreTipoSpedizioneException 
 	 */
 
-	public synchronized <T extends Pagamento> T doRetrievePaymentByOrder(Class<T> paymentClass, int IDOrdine) throws SQLException, OrdineVuotoException, ModalitaAssenteException, CategoriaProdottoException {
-		Pagamento payment = PagamentoServiceImpl.createPagamentoOrdine(IDOrdine);
+	public synchronized <T extends Pagamento> T doRetrievePaymentByOrder(Class<T> paymentClass, int IDOrdine) throws SQLException, OrdineVuotoException, ModalitaAssenteException, CategoriaProdottoException, ErroreTipoSpedizioneException {
+		Pagamento payment = PagamentoServiceImpl.createPagamentoOrdine(IDOrdine, new PagamentoDAODataSource(ds));
 
 		// Si verifica se l'oggetto restituito è una sottoclasse di Pagamento
 		if (!paymentClass.isInstance(payment)) {
@@ -404,8 +398,9 @@ public class PagamentoDAODataSource {
 	 * @param IDPayment : il codice identificativo del pagamento in contanti
 	 * @return il pagamento in contrassegno avente codice IDPayment 
 	 * @throws CategoriaProdottoException 
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
-	public synchronized PagamentoContrassegno doRetrieveCashByKey(int IDPayment) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
+	public synchronized PagamentoContrassegno doRetrieveCashByKey(int IDPayment) throws SQLException, OrdineVuotoException, CategoriaProdottoException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -424,7 +419,7 @@ public class PagamentoDAODataSource {
 
 			while (rs.next()) {
 
-				OrdineDAODataSource orderDao = new OrdineDAODataSource();
+				OrdineDAODataSource orderDao = new OrdineDAODataSource(ds);
 
 				dto.setCodicePagamento(rs.getInt("CODICEPAGAMENTO"));
 				dto.setOrdine(orderDao.doRetrieveFullOrderByKey(rs.getInt("ORDINE")));
@@ -454,8 +449,9 @@ public class PagamentoDAODataSource {
 	 * @param IDPayment : il codice identificativo del pagamento Paypal
 	 * @return il pagamento Paypal avente codice IDPayment 
 	 * @throws CategoriaProdottoException 
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
-	public synchronized PagamentoPaypal doRetrievePaypalByKey(int IDPayment) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
+	public synchronized PagamentoPaypal doRetrievePaypalByKey(int IDPayment) throws SQLException, OrdineVuotoException, CategoriaProdottoException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -474,7 +470,7 @@ public class PagamentoDAODataSource {
 
 			while (rs.next()) {
 
-				OrdineDAODataSource orderDao = new OrdineDAODataSource();
+				OrdineDAODataSource orderDao = new OrdineDAODataSource(ds);
 
 				dto.setCodicePagamento(rs.getInt("CODICEPAGAMENTO"));
 				dto.setOrdine(orderDao.doRetrieveFullOrderByKey(rs.getInt("ORDINE")));
@@ -503,8 +499,9 @@ public class PagamentoDAODataSource {
 	 * @param IDPayment : il codice identificativo del pagamento con carta di credito
 	 * @return il pagamento con carta di credito avente codice IDPayment 
 	 * @throws CategoriaProdottoException 
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
-	public synchronized PagamentoCartaCredito doRetrieveCardByKey(int IDPayment) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
+	public synchronized PagamentoCartaCredito doRetrieveCardByKey(int IDPayment) throws SQLException, OrdineVuotoException, CategoriaProdottoException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -523,7 +520,7 @@ public class PagamentoDAODataSource {
 
 			while (rs.next()) {
 
-				OrdineDAODataSource orderDao = new OrdineDAODataSource();
+				OrdineDAODataSource orderDao = new OrdineDAODataSource(ds);
 
 				dto.setCodicePagamento(rs.getInt("CODICEPAGAMENTO"));
 				dto.setOrdine(orderDao.doRetrieveFullOrderByKey(rs.getInt("ORDINE")));
@@ -562,10 +559,11 @@ public class PagamentoDAODataSource {
 	 * @throws OrdineVuotoException se l'ordine associato al pagamento non esiste
 	 * @throws ModalitaAssenteException se il tipo di pagamento richiesto non è supportato
 	 * @throws CategoriaProdottoException 
+	 * @throws ErroreTipoSpedizioneException 
 	 */
 
-	public synchronized <T extends Pagamento> T doRetrievePaymentByKey(Class<T> paymentClass, int IDPagamento) throws SQLException, OrdineVuotoException, ModalitaAssenteException, CategoriaProdottoException {
-		Pagamento payment = PagamentoServiceImpl.createPagamento(IDPagamento);
+	public synchronized <T extends Pagamento> T doRetrievePaymentByKey(Class<T> paymentClass, int IDPagamento) throws SQLException, OrdineVuotoException, ModalitaAssenteException, CategoriaProdottoException, ErroreTipoSpedizioneException {
+		Pagamento payment = PagamentoServiceImpl.createPagamento(IDPagamento, new PagamentoDAODataSource(ds));
 
 		// Si verifica se l'oggetto restituito è una sottoclasse di Pagamento
 		if (!paymentClass.isInstance(payment)) {
@@ -589,8 +587,9 @@ public class PagamentoDAODataSource {
 	 * @throws OrdineVuotoException se si verifica un errore durante il recupero dell'ordine associato al pagamento 
 	 * @throws ModalitaAssenteException se il tipo di pagamento richiesto non è supportato
 	 * @throws CategoriaProdottoException 
+	 * @throws ErroreTipoSpedizioneException 
 	 */
-	public synchronized List<Pagamento> doRetrieveAllPayments(String order, int page, int perPage) throws SQLException, OrdineVuotoException, ModalitaAssenteException, CategoriaProdottoException {
+	public synchronized List<Pagamento> doRetrieveAllPayments(String order, int page, int perPage) throws SQLException, OrdineVuotoException, ModalitaAssenteException, CategoriaProdottoException, ErroreTipoSpedizioneException {
 		List<Pagamento> pagamenti = new LinkedList<>();
 
 		Connection connection = null;
@@ -656,7 +655,7 @@ public class PagamentoDAODataSource {
 
 
 			while (rs.next()) {
-				Pagamento pagamento = PagamentoServiceImpl.createPagamento(rs.getInt("CODICEPAGAMENTO"));
+				Pagamento pagamento = PagamentoServiceImpl.createPagamento(rs.getInt("CODICEPAGAMENTO"), new PagamentoDAODataSource(ds));
 				pagamenti.add(pagamento);
 			}
 		} finally {

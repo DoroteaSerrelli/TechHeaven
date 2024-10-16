@@ -1,8 +1,10 @@
 package application.PagamentoService;
 
-import java.time.LocalDate;
-
 import application.GestioneOrdiniService.Ordine;
+import application.PagamentoService.PagamentoException.FormatoCVVCartaException;
+import application.PagamentoService.PagamentoException.FormatoDataCartaException;
+import application.PagamentoService.PagamentoException.FormatoNumeroCartaException;
+import application.PagamentoService.PagamentoException.FormatoTitolareCartaException;
 
 /**
  * Classe concreta che esprime il concetto 'pagamento con carta di credito'.
@@ -53,16 +55,37 @@ public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 	 * 
 	 * @return true se i dati inseriti sono stati specificati nel 
 	 * formato corretto; false altrimenti.
+	 * @throws FormatoTitolareCartaException 
+	 * @throws FormatoNumeroCartaException 
+	 * @throws FormatoCVVCartaException 
+	 * @throws FormatoDataCartaException 
 	 * */
-	public static boolean checkValidate(String titolare, String numeroCarta, LocalDate dataScadenza, int CVV) {
+	public static boolean checkValidate(String titolare, String numeroCarta, String dataScadenza, String CVV) throws FormatoTitolareCartaException, FormatoNumeroCartaException, FormatoCVVCartaException, FormatoDataCartaException {
 
 		String titolarePattern = "^[A-Za-z\s]+$";
 		String numeroCartaPattern = "^\\d{16}$";
 		String cvvPattern = "^\\d{3}$";
+		
+		java.util.Calendar currentDate = java.util.Calendar.getInstance();
+        int currentYear = currentDate.get(java.util.Calendar.YEAR);
+        int currentMonth = currentDate.get(java.util.Calendar.MONTH) + 1; // Months are 0-based
+        
+        String[] expiryParts = dataScadenza.split("-");  
+        int expYear = Integer.parseInt(expiryParts[0]);  // Year
+        int expMonth = Integer.parseInt(expiryParts[1]); // Month
 
-		if(!titolare.matches(titolarePattern) || !numeroCarta.matches(numeroCartaPattern) || dataScadenza.isAfter(LocalDate.now())
-				|| !Integer.toString(CVV).matches(cvvPattern))
-			return false;
+        if (dataScadenza.isBlank() || expYear < currentYear || (expYear == currentYear && expMonth < currentMonth)) {
+            throw new FormatoDataCartaException("La data di scadenza della carta non è valida.");
+        }
+		
+		if(!titolare.matches(titolarePattern))
+			throw new FormatoTitolareCartaException("Il titolare deve essere una sequenza di lettere e spazi.");
+        
+		if(!numeroCarta.matches(numeroCartaPattern))
+			throw new FormatoNumeroCartaException("Il numero della carta è formato da 16 numeri.");
+		
+		if(!CVV.matches(cvvPattern))
+			throw new FormatoCVVCartaException("Il numero CVV è formato da 3 numeri.");
 
 		return true;
 	}

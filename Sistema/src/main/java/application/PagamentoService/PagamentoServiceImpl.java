@@ -2,6 +2,7 @@ package application.PagamentoService;
 
 import java.sql.SQLException;
 
+import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.PagamentoService.PagamentoException.ModalitaAssenteException;
@@ -20,7 +21,13 @@ import storage.GestioneOrdiniDAO.*;
  * */
 
 public class PagamentoServiceImpl implements PagamentoService{
-
+	
+	private PagamentoDAODataSource paymentDAO;
+	
+	public PagamentoServiceImpl(PagamentoDAODataSource paymentDAO) {
+		this.paymentDAO = paymentDAO;
+	}
+	
 	/**
 	 * Il metodo implementa il servizio di pagamento di un ordine di un
 	 * cliente: 
@@ -41,23 +48,22 @@ public class PagamentoServiceImpl implements PagamentoService{
 	 */
 	
 	public  <T extends Pagamento> Pagamento effettuaPagamento(T payment) throws OrdineVuotoException, SQLException, ModalitaAssenteException, CloneNotSupportedException {
-		PagamentoDAODataSource dao = new PagamentoDAODataSource();
-
+		
 		if (payment instanceof PagamentoContrassegno) {
 			PagamentoContrassegno pagamentoContrassegno = (PagamentoContrassegno) payment.clone();
-			dao.doSaveCash(pagamentoContrassegno);
+			paymentDAO.doSaveCash(pagamentoContrassegno);
 			return pagamentoContrassegno;
 		}
 
 		if (payment instanceof PagamentoPaypal) {
 			PagamentoPaypal pagamentoPaypal = (PagamentoPaypal) payment.clone();
-			dao.doSavePaypal(pagamentoPaypal);
+			paymentDAO.doSavePaypal(pagamentoPaypal);
 			return pagamentoPaypal;
 		}
 
 		if (payment instanceof PagamentoCartaCredito) {
 			PagamentoCartaCredito pagamentoCarta = (PagamentoCartaCredito) payment.clone();
-			dao.doSaveCard(pagamentoCarta);
+			paymentDAO.doSaveCard(pagamentoCarta);
 			return pagamentoCarta;
 		}
 
@@ -82,22 +88,22 @@ public class PagamentoServiceImpl implements PagamentoService{
 	 * @throws ModalitaAssenteException : eccezione che gestisce il caso in cui 
 	 * 									la modalità di pagamento specificata non è supportata
 	 * @throws CategoriaProdottoException 
+	 * @throws ErroreTipoSpedizioneException 
 	 ***/
 
-	public static Pagamento createPagamentoOrdine(int IDOrdine) throws OrdineVuotoException, SQLException, ModalitaAssenteException, CategoriaProdottoException {
-		PagamentoDAODataSource dao = new PagamentoDAODataSource();
-
-		PagamentoContrassegno pagamentoContrassegno = dao.doRetrieveCashByOrder(IDOrdine);
+	public static Pagamento createPagamentoOrdine(int IDOrdine, PagamentoDAODataSource paymentDAO) throws OrdineVuotoException, SQLException, ModalitaAssenteException, CategoriaProdottoException, ErroreTipoSpedizioneException {
+		
+		PagamentoContrassegno pagamentoContrassegno = paymentDAO.doRetrieveCashByOrder(IDOrdine);
 		if (pagamentoContrassegno != null) {
 			return pagamentoContrassegno;
 		}
 
-		PagamentoPaypal pagamentoPaypal = dao.doRetrievePaypalByOrder(IDOrdine);
+		PagamentoPaypal pagamentoPaypal = paymentDAO.doRetrievePaypalByOrder(IDOrdine);
 		if (pagamentoPaypal != null) {
 			return pagamentoPaypal;
 		}
 
-		PagamentoCartaCredito pagamentoCartaCredito = dao.doRetrieveCardByOrder(IDOrdine);
+		PagamentoCartaCredito pagamentoCartaCredito = paymentDAO.doRetrieveCardByOrder(IDOrdine);
 		if (pagamentoCartaCredito != null) {
 			return pagamentoCartaCredito;
 		}
@@ -121,11 +127,11 @@ public class PagamentoServiceImpl implements PagamentoService{
 	 * @throws ModalitaAssenteException : eccezione che gestisce il caso in cui 
 	 * 									la modalità di pagamento specificata non è supportata
 	 * @throws CategoriaProdottoException 
+	 * @throws ErroreTipoSpedizioneException 
 	 */
 
-	public static Pagamento createPagamento(int IDPayment) throws OrdineVuotoException, SQLException, ModalitaAssenteException, CategoriaProdottoException {
-		PagamentoDAODataSource dao = new PagamentoDAODataSource();
-
+	public static Pagamento createPagamento(int IDPayment, PagamentoDAODataSource dao) throws OrdineVuotoException, SQLException, ModalitaAssenteException, CategoriaProdottoException, ErroreTipoSpedizioneException {
+		
 		PagamentoContrassegno pagamentoContrassegno = dao.doRetrieveCashByKey(IDPayment);
 		if (pagamentoContrassegno != null) {
 			return pagamentoContrassegno;

@@ -14,6 +14,7 @@ import javax.sql.DataSource;
 
 import application.GestioneOrdiniService.ProxyOrdine;
 import application.GestioneOrdiniService.ReportSpedizione;
+import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 
 /**
@@ -27,7 +28,8 @@ import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
  * */
 
 public class ReportDAODataSource {
-	private static DataSource ds;
+	
+	/*private static DataSource ds;
 
 	static {
 		try {
@@ -39,8 +41,14 @@ public class ReportDAODataSource {
 		} catch (NamingException e) {
 			System.out.println("Error:" + e.getMessage());
 		}
+	}*/
+	
+	DataSource ds;
+	
+	public ReportDAODataSource(DataSource ds) {
+		this.ds = ds;
 	}
-
+	
 	private static final String TABLE_NAME = "Report_di_spedizione";
 	
 	/**
@@ -89,8 +97,9 @@ public class ReportDAODataSource {
 	 * 
 	 * @param IDOrdine : l'ordine
 	 * @return il report di spedizione relativo all'ordine con codice IDOrdine 
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
-	public synchronized ReportSpedizione doRetrieveReportByOrder(int IDOrdine) throws SQLException, OrdineVuotoException {
+	public synchronized ReportSpedizione doRetrieveReportByOrder(int IDOrdine) throws SQLException, OrdineVuotoException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -111,7 +120,7 @@ public class ReportDAODataSource {
 				dto.setImballaggio(rs.getString("IMBALLAGGIO"));
 				dto.setDataSpedizione(rs.getDate("DATASPEDIZIONE").toLocalDate());
 				dto.setOraSpedizione((rs.getTime("ORASPEDIZIONE")).toLocalTime());
-				OrdineDAODataSource orderDAO = new OrdineDAODataSource();
+				OrdineDAODataSource orderDAO = new OrdineDAODataSource(ds);
 				ProxyOrdine order = orderDAO.doRetrieveProxyByKey(rs.getInt("ORDINE"));
 				dto.setOrdine(order);
 			}
@@ -136,8 +145,9 @@ public class ReportDAODataSource {
 	 * 
 	 * @param IDReport : il codice identificativo del report
 	 * @return il report di spedizione avente codice IDReport 
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
-	public synchronized ReportSpedizione doRetrieveReportByKey(int IDReport) throws SQLException, OrdineVuotoException {
+	public synchronized ReportSpedizione doRetrieveReportByKey(int IDReport) throws SQLException, OrdineVuotoException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -158,7 +168,7 @@ public class ReportDAODataSource {
 				dto.setImballaggio(rs.getString("IMBALLAGGIO"));
 				dto.setDataSpedizione(rs.getDate("DATASPEDIZIONE").toLocalDate());
 				dto.setOraSpedizione((rs.getTime("ORASPEDIZIONE")).toLocalTime());
-				OrdineDAODataSource orderDAO = new OrdineDAODataSource();
+				OrdineDAODataSource orderDAO = new OrdineDAODataSource(ds);
 				ProxyOrdine order = orderDAO.doRetrieveProxyByKey(rs.getInt("ORDINE"));
 				dto.setOrdine(order);
 			}
@@ -187,8 +197,9 @@ public class ReportDAODataSource {
 	 * 
 	 * @return reports : le informazioni riguardanti i report degli ordini 
 	 * 					(da spedire, in preparazione, evasi) commissionati al negozio online
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
-	public synchronized Collection<ReportSpedizione> doRetrieveAll(String order, int page, int perPage) throws SQLException {
+	public synchronized Collection<ReportSpedizione> doRetrieveAll(String order, int page, int perPage) throws SQLException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;
@@ -250,7 +261,7 @@ public class ReportDAODataSource {
 				dto.setImballaggio(rs.getString("IMBALLAGGIO"));
 				dto.setDataSpedizione(rs.getDate("DATASPEDIZIONE").toLocalDate());
 				dto.setOraSpedizione((rs.getTime("ORASPEDIZIONE")).toLocalTime());
-				OrdineDAODataSource orderDAO = new OrdineDAODataSource();
+				OrdineDAODataSource orderDAO = new OrdineDAODataSource(ds);
 				ProxyOrdine ordine = orderDAO.doRetrieveProxyByKey(rs.getInt("ORDINE"));
 				dto.setOrdine(ordine);
 				reports.add(dto);

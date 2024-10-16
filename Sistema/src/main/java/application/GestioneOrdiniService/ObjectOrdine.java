@@ -3,7 +3,13 @@ package application.GestioneOrdiniService;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
 import application.RegistrazioneService.Indirizzo;
+import application.RegistrazioneService.RegistrazioneException.FormatoCAPException;
+import application.RegistrazioneService.RegistrazioneException.FormatoCittaException;
+import application.RegistrazioneService.RegistrazioneException.FormatoNumCivicoException;
+import application.RegistrazioneService.RegistrazioneException.FormatoProvinciaException;
+import application.RegistrazioneService.RegistrazioneException.FormatoViaException;
 
 /**
  * Questa classe astratta è la classe client del design pattern Proxy
@@ -150,10 +156,25 @@ public abstract class ObjectOrdine implements Cloneable{
 	 * @param indirizzoSpedizione : l'indirizzo presso cui spedire l'ordine
 	 * 
 	 * @return true se indirizzoSpedizione è espresso nel formato corretto; false altrimenti.
+	 * @throws FormatoProvinciaException  : eccezione che gestisce il caso in cui la provincia
+	 * 										non è espressa nel formato corretto
+	 * 
+	 * @throws FormatoCAPException : eccezione che gestisce il caso in cui il CAP non rispetta
+	 * 								 il formato
+	 * 
+	 * @throws FormatoCittaException : eccezione che gestisce il caso in cui la città non
+	 * 									è specificata nel formato corretto
+	 * 
+	 * @throws FormatoNumCivicoException : eccezione che gestisce il caso in cui il numero civico
+	 * 										non è specificato nel formato corretto
+	 * 
+	 * @throws FormatoViaException : eccezione che gestisce il caso in cui la via non è specificata nel formato
+	 * 									corretto 
+	 * 
 	 * 
 	 * */
 	
-	public static boolean checkValidate(Indirizzo indirizzoSpedizione) {
+	public static boolean checkValidate(Indirizzo indirizzoSpedizione) throws FormatoViaException, FormatoNumCivicoException, FormatoCittaException, FormatoCAPException, FormatoProvinciaException {
 		return Indirizzo.checkValidate(indirizzoSpedizione);
 	}
 	
@@ -339,9 +360,11 @@ public abstract class ObjectOrdine implements Cloneable{
 	 * 
 	 * @param spedizione : tipo di spedizione preferita 
 	 * 						dall'utente per il suo ordine espressa come oggetto di String.
+	 * @throws ErroreTipoSpedizioneException : per gestire l'errata specifica della
+	 * 											modalità di spedizione
 	 * */
 	
-	public void setSpedizioneAsString(String spedizione) {
+	public void setSpedizioneAsString(String spedizione) throws ErroreTipoSpedizioneException {
 		switch (spedizione.toUpperCase()) {
 		case "SPEDIZIONE_STANDARD", "SPEDIZIONE STANDARD":
 			this.spedizione = TipoSpedizione.Spedizione_standard;
@@ -353,7 +376,7 @@ public abstract class ObjectOrdine implements Cloneable{
 			this.spedizione = TipoSpedizione.Spedizione_assicurata;
 			break;
 		default:
-			throw new IllegalArgumentException("La spedizione da associare ad un ordine puo\' essere:\n-Spedizione standard;"
+			throw new ErroreTipoSpedizioneException("La spedizione da associare ad un ordine puo\' essere:\n-Spedizione standard;"
 					+ "\n-Spedizione prime;\n-Spedizione assicurata.");
 		}
 	}

@@ -8,6 +8,7 @@ import application.GestioneCarrelloService.CarrelloException.CarrelloVuotoExcept
 import application.GestioneCarrelloService.CarrelloException.ProdottoNonPresenteException;
 import application.GestioneCarrelloService.CarrelloException.ProdottoNulloException;
 import application.GestioneOrdiniService.OrdineException.ErroreSpedizioneOrdineException;
+import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
@@ -47,9 +48,10 @@ public interface GestioneOrdiniService {
 	 * @return gli ordini evasi dal negozio
 	 * 
 	 * @throws SQLException
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
 	
-	public Collection<ProxyOrdine> visualizzaOrdiniEvasi(int page, int perPage) throws SQLException;
+	public Collection<ProxyOrdine> visualizzaOrdiniEvasi(int page, int perPage) throws SQLException, ErroreTipoSpedizioneException;
 	
 	/**
 	 * Il metodo esprime il servizio di recupero degli ordini commissionati
@@ -63,9 +65,10 @@ public interface GestioneOrdiniService {
 	 * @return gli ordini da preparare alla spedizione
 	 * 
 	 * @throws SQLException 
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
 	
-	public Collection<ProxyOrdine> visualizzaOrdiniDaEvadere(int page, int perPage) throws SQLException;
+	public Collection<ProxyOrdine> visualizzaOrdiniDaEvadere(int page, int perPage) throws SQLException, ErroreTipoSpedizioneException;
 	
 	
 	/**
@@ -106,8 +109,9 @@ public interface GestioneOrdiniService {
 	 * @throws CloneNotSupportedException 
 	 * @throws CategoriaProdottoException 
 	 * @throws SottocategoriaProdottoException 
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
 	
-	public void preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException, CloneNotSupportedException, SottocategoriaProdottoException, CategoriaProdottoException;
+	public void preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException, CloneNotSupportedException, SottocategoriaProdottoException, CategoriaProdottoException, ErroreTipoSpedizioneException;
 
 }

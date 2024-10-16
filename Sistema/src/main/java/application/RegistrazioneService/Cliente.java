@@ -31,6 +31,8 @@ import storage.GestioneOrdiniDAO.OrdineDAODataSource;
 
 public class Cliente implements Cloneable{
 	
+	private OrdineDAODataSource orderDAO;
+	
 	/**
 	 * La classe enum Sesso rappresenta il concetto di genere
 	 * del cliente : F (femminile), M (maschile).
@@ -236,6 +238,34 @@ public class Cliente implements Cloneable{
 		this.proxyOrdini = new ArrayList<>();
 	}
 	
+	
+	public Cliente(String email, String nome, String cognome, Sesso sex, String telefono,
+			ArrayList<Indirizzo> indirizzi, OrdineDAODataSource orderDAO) {
+		
+		this.email = email;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.sex = sex;
+		this.telefono = telefono;
+		this.indirizzi = indirizzi;
+		this.proxyOrdini = new ArrayList<>();
+		this.orderDAO = orderDAO;
+	}
+	
+	public Cliente(String email, String nome, String cognome, Sesso sex, String telefono,
+			Indirizzo indirizzo, OrdineDAODataSource orderDAO) {
+		
+		this.email = email;
+		this.nome = nome;
+		this.cognome = cognome;
+		this.sex = sex;
+		this.telefono = telefono;
+		this.indirizzi = new ArrayList<>();
+		indirizzi.add(indirizzo);
+		this.proxyOrdini = new ArrayList<>();
+		this.orderDAO = orderDAO;
+	}
+	
 	/**
 	 * Il metodo fornisce l'indirizzo email del cliente
 	 * 
@@ -384,9 +414,9 @@ public class Cliente implements Cloneable{
 	 * */
 	public Collection<ProxyOrdine> mostraOrdiniCliente(int page, int perPage) {
 		if(proxyOrdini == null) {
-			OrdineDAODataSource orderDao = new OrdineDAODataSource();
+			
 			try {
-				Collection<ProxyOrdine> proxyOrders = orderDao.doRetrieveOrderToUser(email, "DATAORDINE", page, perPage);
+				Collection<ProxyOrdine> proxyOrders = orderDAO.doRetrieveOrderToUser(email, "DATAORDINE", page, perPage);
 				proxyOrdini = proxyOrders;
 			} catch (SQLException e) {
 				System.out.println("Errore nel recupero degli ordini del cliente\n");

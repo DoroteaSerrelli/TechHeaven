@@ -26,7 +26,7 @@ public class Carrello {
 	 * products : i prodotti presenti nel carrello.
 	 * */
 	
-	private List<ItemCarrello> products;
+	private ArrayList<ItemCarrello> products;
 	
 	/**
 	 * Costruttore di classe
@@ -141,7 +141,7 @@ public class Carrello {
 	 * @return products : i prodotti del carrello
 	 * */
 	
-	public List<ItemCarrello> getProducts() {
+	public ArrayList<ItemCarrello> getProducts() {
 		return  products;
 	}
 	

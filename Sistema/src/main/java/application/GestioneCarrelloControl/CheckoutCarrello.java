@@ -11,6 +11,10 @@ import application.GestioneOrdiniService.GestioneOrdiniServiceImpl;
 import application.GestioneOrdiniService.ObjectOrdine;
 import application.GestioneOrdiniService.ObjectOrdine.TipoConsegna;
 import application.GestioneOrdiniService.ObjectOrdine.TipoSpedizione;
+import application.GestioneOrdiniService.OrdineException.ErroreTipoConsegnaException;
+import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
+import application.GestioneOrdiniService.OrdineException.IndirizzoSpedizioneNulloException;
+import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 import application.GestioneOrdiniService.Ordine;
 import application.GestioneOrdiniService.OrdineException;
 import application.PagamentoService.Pagamento;
@@ -35,6 +39,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+
 import storage.AutenticazioneDAO.IndirizzoDAODataSource;
 
 /**
@@ -188,8 +194,10 @@ public class CheckoutCarrello extends HttpServlet {
         ProxyUtente user = (ProxyUtente) request.getSession().getAttribute("user");
         Pagamento pagamento = null;
         Boolean success = false ;
-        switch(metodoPagamento){
-            case "CreditCard":
+        GestioneOrdiniServiceImpl ordiniService = new GestioneOrdiniServiceImpl(OrdineDAODatasource orderDAO, UtenteDAODataSource userDAO, ProdottoDAODataSource productDAO);
+        
+        switch(metodoPagamento.toUpperCase()){
+            case "CARTA_CREDITO":
                 // Extract credit card details from the request
                 String titolare = request.getParameter("titolare");
                 String ccNumber = request.getParameter("cc_number");
@@ -200,16 +208,16 @@ public class CheckoutCarrello extends HttpServlet {
                     return;
                 }
                 // Initialize the credit card payment object
-                pagamento= new PagamentoCartaCredito(1, preview_order, (float) cart.totalAmount(), titolare, ccNumber);
-                System.out.println(titolare);
+                pagamento = ordiniService.creaPagamento_cartaCredito(cart, preview_order, metodoPagamento, titolare, ccNumber, ccExpiry, ccCvc);
+                //System.out.println(titolare);
                 success = processPayment(request, pagamento, user, cart, preview_order);                  
             break;
-            case "Paypal":
-                pagamento = new PagamentoPaypal(1, preview_order, (float) cart.totalAmount());
+            case "PAYPAL":
+                pagamento = ordiniService.creaPagamento_PaypalContrassegno(cart, preview_order, metodoPagamento);
                 success = processPayment(request, pagamento, user, cart, preview_order);
             break;    
-            case "Contrassegno":
-                pagamento = new PagamentoContrassegno(1, preview_order, (float) cart.totalAmount());
+            case "CONTRASSEGNO":
+                pagamento = ordiniService.creaPagamento_PaypalContrassegno(cart, preview_order, metodoPagamento);
                 success = processPayment(request, pagamento, user, cart, preview_order);
             break;    
         }
@@ -221,14 +229,16 @@ public class CheckoutCarrello extends HttpServlet {
     }
     private void elaborateCheckoutRequest(HttpServletRequest request, HttpServletResponse response) throws IOException{
         try {
-            int idIndirizzo = Integer.parseInt(request.getParameter("selectedAddress"));
+            String idIndirizzo = request.getParameter("selectedAddress");
             ProxyUtente user = (ProxyUtente)request.getSession().getAttribute("user");
-            Map<Integer, Indirizzo> addressMap = (Map<Integer, Indirizzo>) request.getSession().getAttribute("addressMap");
-            Indirizzo selectedAddress = addressMap.get(idIndirizzo);
+            GestioneOrdiniServiceImpl ordiniService = new GestioneOrdiniServiceImpl(OrdineDAODatasource orderDAO, UtenteDAODataSource userDAO, ProdottoDAODataSource productDAO, PagamentoDAODataSource productDAO);
+            //Map<Integer, Indirizzo> addressMap = (Map<Integer, Indirizzo>) request.getSession().getAttribute("addressMap");
+            //Indirizzo selectedAddress = addressMap.get(idIndirizzo);
             Carrello cart = (Carrello) request.getSession().getAttribute("usercart");
             String tipo_spedizione = request.getParameter("tipoSpedizione");
             String tipoConsegna = request.getParameter("modalitaConsegna");
-            Ordine preview_order = new Ordine(1, null, selectedAddress, TipoSpedizione.valueOf(tipo_spedizione), TipoConsegna.valueOf(tipoConsegna), user.mostraUtente().getProfile(), (ArrayList<ItemCarrello>) cart.getProducts());
+            Ordine preview_order = ordiniService.creaOrdine(cart, user, idIndirizzo, tipo_spedizione, tipoConsegna);
+        		
             preview_order.setData(LocalDate.now());
             preview_order.setOra(LocalTime.now()); 
             request.getSession().setAttribute("preview_order", preview_order);
@@ -243,19 +253,10 @@ public class CheckoutCarrello extends HttpServlet {
     }
     
     private void loadUserAddresses(HttpServletRequest request, ProxyUtente u) throws SQLException {
-        IndirizzoDAODataSource indDAO = new IndirizzoDAODataSource();
+        IndirizzoDAODataSource indDAO = new IndirizzoDAODataSource(new DataSource());
         ArrayList<Indirizzo> indirizzi = indDAO.doRetrieveAll("Indirizzo.via", u.getUsername());
         request.setAttribute("Indirizzi", indirizzi); 
        
     }
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

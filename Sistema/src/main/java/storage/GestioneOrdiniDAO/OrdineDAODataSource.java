@@ -9,14 +9,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import application.GestioneCarrelloService.ItemCarrello;
 import application.GestioneOrdiniService.Ordine;
 import application.GestioneOrdiniService.OrdineException.ErroreSpedizioneOrdineException;
+import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 import application.GestioneOrdiniService.ProxyOrdine;
 import application.GestioneOrdiniService.ReportSpedizione;
@@ -37,18 +35,10 @@ import storage.AutenticazioneDAO.ClienteDAODataSource;
  * */
 
 public class OrdineDAODataSource {
-	private static DataSource ds;
+	DataSource ds;
 
-	static {
-		try {
-			Context initCtx = new InitialContext();
-			Context envCtx = (Context) initCtx.lookup("java:comp/env");
-
-			ds = (DataSource) envCtx.lookup("jdbc/techheaven");
-
-		} catch (NamingException e) {
-			System.out.println("Error:" + e.getMessage());
-		}
+	public OrdineDAODataSource(DataSource ds) {
+		this.ds = ds;
 	}
 
 	private static final String TABLE_NAME = "ordine";
@@ -161,7 +151,7 @@ public class OrdineDAODataSource {
 		
 		//creare report di spedizione da associare all'ordine
 		
-		ReportDAODataSource reportDAO = new ReportDAODataSource();
+		ReportDAODataSource reportDAO = new ReportDAODataSource(ds);
 		reportDAO.doSave(report);
 	}
 	
@@ -170,9 +160,10 @@ public class OrdineDAODataSource {
 	 * a partire dal suo codice identificativo.
 	 * @param IDOrdine : l'ordine da cercare nel DB
 	 * @return dto : le informazioni essenziali dell'ordine cercato
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
 	
-	public synchronized ProxyOrdine doRetrieveProxyByKey(int IDOrdine) throws SQLException {
+	public synchronized ProxyOrdine doRetrieveProxyByKey(int IDOrdine) throws SQLException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -216,8 +207,9 @@ public class OrdineDAODataSource {
 	 * @return dto : tutte le informazioni dell'ordine cercato
 	 * @throws OrdineVuotoException 
 	 * @throws CategoriaProdottoException 
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
-	public synchronized Ordine doRetrieveFullOrderByKey(int IDOrdine) throws SQLException, OrdineVuotoException, CategoriaProdottoException {
+	public synchronized Ordine doRetrieveFullOrderByKey(int IDOrdine) throws SQLException, OrdineVuotoException, CategoriaProdottoException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -238,7 +230,7 @@ public class OrdineDAODataSource {
 			while (rs.next()) {
 				dto.setCodiceOrdine(rs.getInt("CODICEORDINE"));
 				dto.setStatoAsString(rs.getString("STATO"));
-				ClienteDAODataSource clientDAO = new ClienteDAODataSource();
+				ClienteDAODataSource clientDAO = new ClienteDAODataSource(ds);
 				Cliente client = clientDAO.doRetrieveByKey(rs.getString("EMAIL"));
 				dto.setAcquirente(client);
 				dto.setIndirizzoSpedizioneString(rs.getString("INDIRIZZOSPEDIZIONE"));
@@ -358,8 +350,9 @@ public class OrdineDAODataSource {
 	 * 
 	 * @return ordini : le informazioni essenziali degli ordini 
 	 * 					(da spedire, in preparazione, evasi) commissionati al negozio online
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
-	public synchronized Collection<ProxyOrdine> doRetrieveAll(String order, int page, int perPage) throws SQLException {
+	public synchronized Collection<ProxyOrdine> doRetrieveAll(String order, int page, int perPage) throws SQLException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;
@@ -451,8 +444,9 @@ public class OrdineDAODataSource {
 	 * 
 	 * @return ordini : le informazioni essenziali degli ordini 
 	 * 					(da spedire, in preparazione) commissionati al negozio online
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
-	public synchronized Collection<ProxyOrdine> doRetrieveOrderToShip(String order, int page, int perPage) throws SQLException {
+	public synchronized Collection<ProxyOrdine> doRetrieveOrderToShip(String order, int page, int perPage) throws SQLException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;
@@ -545,8 +539,9 @@ public class OrdineDAODataSource {
 	 * 
 	 * @return ordini : le informazioni essenziali degli ordini commissionati da un utente
 	 * 					al negozio online
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
-	public synchronized Collection<ProxyOrdine> doRetrieveOrderToUser(String email, String order, int page, int perPage) throws SQLException {
+	public synchronized Collection<ProxyOrdine> doRetrieveOrderToUser(String email, String order, int page, int perPage) throws SQLException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;
@@ -641,8 +636,9 @@ public class OrdineDAODataSource {
 	 * 
 	 * @return ordini : le informazioni essenziali degli ordini 
 	 * 					già spediti dal negozio online
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
-	public synchronized Collection<ProxyOrdine> doRetrieveOrderShipped(String order, int page, int perPage) throws SQLException {
+	public synchronized Collection<ProxyOrdine> doRetrieveOrderShipped(String order, int page, int perPage) throws SQLException, ErroreTipoSpedizioneException {
 		Connection connection = null;
 		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;
@@ -735,8 +731,9 @@ public class OrdineDAODataSource {
 	 * 
 	 * @return ordini : le informazioni essenziali degli ordini commissionati da un utente
 	 * 					al negozio online
+	 * @throws ErroreTipoSpedizioneException 
 	 * **/
-	public synchronized Collection<ProxyOrdine> doRetrieveOrderForDate(int page, int perPage, Date startDate, Date endDate) throws SQLException {
+	public synchronized Collection<ProxyOrdine> doRetrieveOrderForDate(int page, int perPage, Date startDate, Date endDate) throws SQLException, ErroreTipoSpedizioneException {
 	    Connection connection = null;
 	    Connection connection2 = null;
 	    PreparedStatement preparedStatement = null;

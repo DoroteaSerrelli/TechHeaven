@@ -46,6 +46,57 @@ private static final long serialVersionUID = 1L;
 	}
 	
 	/**
+	 * Classe statica per gestire la mancata specifica dell'indirizzo di spedizione
+	 * per l'ordine.
+	 * */
+	public static class IndirizzoSpedizioneNulloException extends OrdineException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public IndirizzoSpedizioneNulloException(String message) {
+			super(message);
+		}
+	}
+	
+	
+	/**
+	 * Classe statica per gestire la mancata/errata specifica della modalità di spedizione
+	 * per l'ordine.
+	 * */
+	public static class ErroreTipoSpedizioneException extends OrdineException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public ErroreTipoSpedizioneException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire la mancata/errata specifica della modalità di consegna
+	 * per l'ordine.
+	 * */
+	public static class ErroreTipoConsegnaException extends OrdineException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public ErroreTipoConsegnaException(String message) {
+			super(message);
+		}
+	}
+	
+	
+	
+	/**
 	 * Classe statica per gestire l'errore di spedizione di un ordine non ancora pronto
 	 * ossia avente stato "Spedito"
 	 * */

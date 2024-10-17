@@ -6,6 +6,7 @@ import java.util.Collection;
 
 import application.AutenticazioneService.AutenticazioneException.FormatoEmailException;
 import application.AutenticazioneService.AutenticazioneException.FormatoTelefonoException;
+import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
 import application.GestioneOrdiniService.ProxyOrdine;
 import application.RegistrazioneService.RegistrazioneException.FormatoCAPException;
 import application.RegistrazioneService.RegistrazioneException.FormatoCittaException;
@@ -411,8 +412,9 @@ public class Cliente implements Cloneable{
 	 * 
 	 * @return proxyOrdini : una collezione di oggetti di tipo ProxyOrdine che contiene gli
 	 * 				ordini fatti dall'utente presso il negozio online.
+	 * @throws ErroreTipoSpedizioneException 
 	 * */
-	public Collection<ProxyOrdine> mostraOrdiniCliente(int page, int perPage) {
+	public Collection<ProxyOrdine> mostraOrdiniCliente(int page, int perPage) throws ErroreTipoSpedizioneException {
 		if(proxyOrdini == null) {
 			
 			try {

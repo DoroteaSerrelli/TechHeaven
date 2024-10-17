@@ -253,6 +253,14 @@
     </filter-mapping>
     <filter-mapping>
         <filter-name>RoleAccessFilter</filter-name>
+        <url-pattern>/protected/gestoreOrdini/error_preparazioneOrdine.jsp</url-pattern>
+    </filter-mapping>
+     <filter-mapping>
+        <filter-name>RoleAccessFilter</filter-name>
+        <url-pattern>/error_preparazioneOrdine</url-pattern>
+    </filter-mapping>
+    <filter-mapping>
+        <filter-name>RoleAccessFilter</filter-name>
         <url-pattern>/fill_order_details</url-pattern>
     </filter-mapping>
     <filter-mapping>
@@ -348,6 +356,14 @@
     <servlet-mapping>
         <servlet-name>fill_order_detailsServlet</servlet-name>
         <url-pattern>/fill_order_details</url-pattern>
+    </servlet-mapping>
+    <servlet>
+        <servlet-name>error_orderServlet</servlet-name>
+        <jsp-file>/protected/gestoreOrdini/error_preparazioneOrdine.jsp</jsp-file>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>error_orderServlet</servlet-name>
+        <url-pattern>/error_preparazioneOrdine</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>GestioneCatalogoServlet</servlet-name>

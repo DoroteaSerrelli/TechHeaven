@@ -196,6 +196,11 @@ public class GestioneOrdiniController extends HttpServlet {
                     HashMap hs = new HashMap();
                     for(ItemCarrello item : order_products){
                         ProxyProdotto pr = pdao.doRetrieveProxyByKey(item.getCodiceProdotto());
+                        if(pr.getQuantita()<item.getQuantita()){
+                            request.getSession().removeAttribute("proxy_ordine");                                         
+                            response.sendRedirect(request.getContextPath()+"/error_preparazioneOrdine");                            
+                            return;
+                        }
                         hs.put(item.getCodiceProdotto(),  pr.getQuantita());                    
                     }
                     request.getSession().setAttribute("order_products", order_products);                  
@@ -232,6 +237,7 @@ public class GestioneOrdiniController extends HttpServlet {
                     ReportSpedizione report = new ReportSpedizione(order_proxy.getCodiceOrdine(), corriere, imballaggio, order_proxy);          
                 
                     gos.preparazioneSpedizioneOrdine(order, report);
+                    System.out.println("ID ordine:"+order.getCodiceOrdine());
                     request.getSession().setAttribute("error", "Ordine Spedito Con Successo!");
                     
                     request.getSession().removeAttribute("proxy_ordine");                    
@@ -326,4 +332,15 @@ public class GestioneOrdiniController extends HttpServlet {
             }
         }
     }
+
+    /**
+     * Returns a short description of the servlet.
+     *
+     * @return a String containing servlet description
+     */
+    @Override
+    public String getServletInfo() {
+        return "Short description";
+    }// </editor-fold>
+
 }

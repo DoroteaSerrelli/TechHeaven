@@ -111,5 +111,71 @@ private static final long serialVersionUID = 1L;
 			super(message);
 		}
 	}
+	
+	/**
+	 * Classe statica per gestire il caso in cui il cliente ha richiesto un numero
+	 * di pezzi per un prodotto maggiore rispetto alle scorte disponibili per
+	 * il suddetto prodotto.
+	 * */
+	public static class MancanzaPezziException extends OrdineException {
+		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public MancanzaPezziException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire il caso in cui il gestore degli ordini
+	 * ha specificato una quantità dei prodotti non corrispondente a
+	 * quella richiesta dal cliente.
+	 * */
+	public static class FormatoQuantitaException extends OrdineException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoQuantitaException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire il caso in cui il gestore degli ordini
+	 * ha specificato l'imballaggio nel formato non corretto.
+	 * */
+	public static class FormatoImballaggioException extends OrdineException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoImballaggioException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire il caso in cui il gestore degli ordini
+	 * ha specificato l'azienda di spedizione nel formato non corretto.
+	 * */
+	public static class FormatoCorriereException extends OrdineException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoCorriereException(String message) {
+			super(message);
+		}
+	}
+	
 }

@@ -1,7 +1,18 @@
 package application.GestioneOrdiniService;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
+import application.GestioneCarrelloService.ItemCarrello;
+import application.GestioneOrdiniService.OrdineException.FormatoCorriereException;
+import application.GestioneOrdiniService.OrdineException.FormatoImballaggioException;
+import application.GestioneOrdiniService.OrdineException.FormatoQuantitaException;
+import application.GestioneOrdiniService.OrdineException.MancanzaPezziException;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
+import application.NavigazioneService.ProxyProdotto;
+import storage.NavigazioneDAO.ProdottoDAODataSource;
 
 /**
  * Questa classe esprime il concetto di report di spedizione di un ordine :
@@ -19,6 +30,12 @@ import java.time.LocalTime;
  * */
 
 public class ReportSpedizione {
+	
+	private ProdottoDAODataSource productDAO;
+	
+	public ReportSpedizione(ProdottoDAODataSource productDAO) {
+		this.productDAO = productDAO;
+	}
 
 	/**
 	 * numeroReport : codice univoco che identifica il report
@@ -62,6 +79,39 @@ public class ReportSpedizione {
 	 * */
 	
 	private ObjectOrdine ordine;
+	
+	
+	public boolean checkValidateReport(ArrayList<ItemCarrello> prodotti, ArrayList<Integer> quantità, String imballaggio, String corriere) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, MancanzaPezziException, FormatoQuantitaException, FormatoImballaggioException, FormatoCorriereException {
+		
+		String corrierePattern = "^[A-Za-z\s]+$";
+		
+		ArrayList<ProxyProdotto> proxyProducts = new ArrayList<>();
+		
+		for(ItemCarrello i : prodotti) {
+			proxyProducts.add(productDAO.doRetrieveProxyByKey(i.getCodiceProdotto()));
+		}
+		
+		for(int i = 0; i < prodotti.size(); i++) {
+			if(prodotti.get(i).getQuantita() > proxyProducts.get(i).getQuantita()) {
+				throw new MancanzaPezziException("I pezzi del prodotto con codice " + prodotti.get(i).getCodiceProdotto() + " richiesti dal cliente non sono disponibili in magazzino.");
+			}
+		}
+		
+		for(int i = 0; i < prodotti.size(); i++) {
+			if(quantità.get(i) < 0 ||  quantità.get(i) < prodotti.get(i).getQuantita()) {
+				throw new FormatoQuantitaException("Specificare la quantità del prodotto" + prodotti.get(i).getCodiceProdotto() +" pari a quella richiesta dal cliente.");
+			}
+		}
+		
+		if(imballaggio.isBlank())
+			throw new FormatoImballaggioException("Questo campo non deve essere vuoto");
+		
+		if(!corriere.matches(corrierePattern))
+			throw new FormatoCorriereException("L’azienda di spedizione deve essere composta da lettere e, eventualmente, spazi.");
+		
+		return true;
+		
+	}
 	
 	/**
 	 * Costruttore di classe di default.

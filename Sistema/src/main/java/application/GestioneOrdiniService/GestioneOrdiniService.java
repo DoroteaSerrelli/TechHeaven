@@ -101,6 +101,7 @@ public interface GestioneOrdiniService {
 	 * 
 	 * @param order : l'ordine da evadere
 	 * @param report : il report di spedizione di order
+	 * @return l'ordine spedito
 	 * 
 	 * @throws SQLException 
 	 * @throws ModalitaAssenteException : gestire una modalità di pagamento non consentita nel sito di e-commerce
@@ -112,6 +113,6 @@ public interface GestioneOrdiniService {
 	 * @throws ErroreTipoSpedizioneException 
 	 * **/
 	
-	public void preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException, CloneNotSupportedException, SottocategoriaProdottoException, CategoriaProdottoException, ErroreTipoSpedizioneException;
+	public Ordine preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException, CloneNotSupportedException, SottocategoriaProdottoException, CategoriaProdottoException, ErroreTipoSpedizioneException;
 
 }

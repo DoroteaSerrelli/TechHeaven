@@ -4,8 +4,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import javax.servlet.http.HttpServletRequest;
+
 import application.GestioneCarrelloService.*;
-import application.GestioneCarrelloService.Carrello;
 import application.GestioneCarrelloService.CarrelloException.CarrelloVuotoException;
 import application.GestioneCarrelloService.CarrelloException.ProdottoNonPresenteException;
 import application.GestioneCarrelloService.CarrelloException.ProdottoNulloException;
@@ -14,7 +15,11 @@ import application.GestioneOrdiniService.ObjectOrdine.TipoSpedizione;
 import application.GestioneOrdiniService.OrdineException.ErroreSpedizioneOrdineException;
 import application.GestioneOrdiniService.OrdineException.ErroreTipoConsegnaException;
 import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
+import application.GestioneOrdiniService.OrdineException.FormatoCorriereException;
+import application.GestioneOrdiniService.OrdineException.FormatoImballaggioException;
+import application.GestioneOrdiniService.OrdineException.FormatoQuantitaException;
 import application.GestioneOrdiniService.OrdineException.IndirizzoSpedizioneNulloException;
+import application.GestioneOrdiniService.OrdineException.MancanzaPezziException;
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
@@ -246,13 +251,29 @@ public class GestioneOrdiniServiceImpl implements GestioneOrdiniService{
 		return gestioneCarrelloService.svuotaCarrello(cart);
 	}
 
-
+	
+	public ReportSpedizione creaReportSpedizione(Ordine ordineSelezionato, ArrayList<ItemCarrello> prodottiRichiesti, ArrayList<Integer> quantità, String imballaggio, String corriere) throws SottocategoriaProdottoException, CategoriaProdottoException, MancanzaPezziException, FormatoQuantitaException, FormatoImballaggioException, FormatoCorriereException, SQLException, CloneNotSupportedException {
+		
+		if(ReportSpedizione.checkValidateReport(prodottiRichiesti, quantità, imballaggio, corriere, productDAO)) {
+			
+			ReportSpedizione report = new ReportSpedizione(ordineSelezionato.getCodiceOrdine(), corriere, imballaggio, ordineSelezionato);          
+	        return report;
+			
+		}
+		
+		return null;
+	}
+	
+	
+	
+	
 	/**
 	 * Il metodo implementa il servizio di preparazione di un ordine, commissionato
 	 * da un cliente verso il negozio online, alla spedizione.
 	 * 
 	 * @param order : l'ordine da evadere
 	 * @param report : il report di spedizione di order
+	 * @return l'ordine spedito
 	 * 
 	 * @throws SQLException 
 	 * @throws ModalitaAssenteException : gestire una modalità di pagamento non consentita nel sito di e-commerce
@@ -265,7 +286,7 @@ public class GestioneOrdiniServiceImpl implements GestioneOrdiniService{
 	 * **/
 
 	@Override
-	public void preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException, CloneNotSupportedException, SottocategoriaProdottoException, CategoriaProdottoException, ErroreTipoSpedizioneException {
+	public Ordine preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException, CloneNotSupportedException, SottocategoriaProdottoException, CategoriaProdottoException, ErroreTipoSpedizioneException {
 		//Si imposta lo stato dell'ordine in 'SPEDITO'
 		order.setStatoAsString("SPEDITO");
 
@@ -288,5 +309,7 @@ public class GestioneOrdiniServiceImpl implements GestioneOrdiniService{
 			//aggiornamento quantità
 			productDAO.updateQuantity(0, quantity - item.getQuantita());
 		}
+		
+		return order;
 	}
 }

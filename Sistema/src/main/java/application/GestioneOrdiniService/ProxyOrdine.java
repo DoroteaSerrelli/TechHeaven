@@ -2,6 +2,7 @@ package application.GestioneOrdiniService;
 
 import java.sql.SQLException;
 
+import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.RegistrazioneService.Indirizzo;
@@ -28,6 +29,8 @@ import storage.GestioneOrdiniDAO.OrdineDAODataSource;
 
 public class ProxyOrdine extends ObjectOrdine implements Cloneable{
 	
+	private OrdineDAODataSource orderDAO;
+	
 	/**
 	 * ordinativo : riferimento all'ordine effettivo, presente nel negozio online.
 	 * */
@@ -40,6 +43,15 @@ public class ProxyOrdine extends ObjectOrdine implements Cloneable{
 	public ProxyOrdine() {
 		super();
 		ordinativo = null;
+	}
+	
+	/**
+	 * Costruttore di classe.
+	 * */
+	public ProxyOrdine(OrdineDAODataSource orderDAO) {
+		super();
+		ordinativo = null;
+		this.orderDAO = orderDAO;
 	}
 	
 	/**
@@ -67,13 +79,13 @@ public class ProxyOrdine extends ObjectOrdine implements Cloneable{
 	 * 
 	 * @throws OrdineVuotoException 
 	 * @throws CategoriaProdottoException 
+	 * @throws ErroreTipoSpedizioneException 
 	 * */
 	
-	public Ordine mostraOrdine() throws OrdineVuotoException, CategoriaProdottoException {
+	public Ordine mostraOrdine() throws OrdineVuotoException, CategoriaProdottoException, ErroreTipoSpedizioneException {
 		if(ordinativo == null) {
-			OrdineDAODataSource orderDao = new OrdineDAODataSource();
 			try {
-				Ordine real = orderDao.doRetrieveFullOrderByKey(this.getCodiceOrdine());
+				Ordine real = orderDAO.doRetrieveFullOrderByKey(this.getCodiceOrdine());
 				ordinativo = real;
 			} catch (SQLException e) {
 				System.out.println("Errore nel recupero dell'ordine\n");

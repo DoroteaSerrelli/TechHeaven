@@ -136,7 +136,7 @@ public class OrdineDAODataSource {
 	 * @throws OrdineVuotoException 
 	 * @throws CloneNotSupportedException 
 	 * **/
-	public synchronized void doSaveToShip(Ordine order, ReportSpedizione report) throws SQLException, ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, CloneNotSupportedException {
+	public synchronized boolean doSaveToShip(Ordine order, ReportSpedizione report) throws SQLException, ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, CloneNotSupportedException {
 		
 		if(!order.getStatoAsString().equals("Spedito"))
 			throw new ErroreSpedizioneOrdineException("Non e\' possibile completare l'operazione perche\' l'ordine non ha lo stato \"Spedito\"");
@@ -144,7 +144,7 @@ public class OrdineDAODataSource {
 		//rimuovere l'ordine preesistente (per CASCADE viene rimosso anche l'oggetto Pagamento)
 		if(!doDelete(order.getCodiceOrdine())) {
 			System.out.println("L'ordine non esiste!");
-			return;
+			return false;
 		}
 		//creare l'ordine
 		doSave(order);
@@ -153,6 +153,8 @@ public class OrdineDAODataSource {
 		
 		ReportDAODataSource reportDAO = new ReportDAODataSource(ds);
 		reportDAO.doSave(report);
+		
+		return true;
 	}
 	
 	/**

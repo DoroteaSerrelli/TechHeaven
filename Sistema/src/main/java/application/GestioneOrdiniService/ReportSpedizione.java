@@ -81,12 +81,11 @@ public class ReportSpedizione {
 	private ObjectOrdine ordine;
 	
 	
-	public boolean checkValidateReport(ArrayList<ItemCarrello> prodotti, ArrayList<Integer> quantità, String imballaggio, String corriere) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, MancanzaPezziException, FormatoQuantitaException, FormatoImballaggioException, FormatoCorriereException {
+	public static boolean checkValidateReport(ArrayList<ItemCarrello> prodotti, ArrayList<Integer> quantità, String imballaggio, String corriere, ProdottoDAODataSource productDAO) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, MancanzaPezziException, FormatoQuantitaException, FormatoImballaggioException, FormatoCorriereException {
 		
 		String corrierePattern = "^[A-Za-z\s]+$";
 		
 		ArrayList<ProxyProdotto> proxyProducts = new ArrayList<>();
-		
 		for(ItemCarrello i : prodotti) {
 			proxyProducts.add(productDAO.doRetrieveProxyByKey(i.getCodiceProdotto()));
 		}

@@ -128,7 +128,7 @@ private static final String TABLE_NAME = "richiesta_fornitura";
 				dto.setEmailFornitore(rs.getString("EMAILFORNITORE"));
 				dto.setDescrizione(rs.getString("DESCRIZIONE"));
 				dto.setQuantitaRifornimento(rs.getInt("QUANTITàRIFORNIMENTO"));
-				ProdottoDAODataSource productDAO = new ProdottoDAODataSource();
+				ProdottoDAODataSource productDAO = new ProdottoDAODataSource(ds);
 				ProxyProdotto product = productDAO.doRetrieveProxyByKey(rs.getInt("PRODOTTO"));
 				dto.setProdotto(product);
 			}
@@ -181,7 +181,7 @@ private static final String TABLE_NAME = "richiesta_fornitura";
 				dto.setEmailFornitore(rs.getString("EMAILFORNITORE"));
 				dto.setDescrizione(rs.getString("DESCRIZIONE"));
 				dto.setQuantitaRifornimento(rs.getInt("QUANTITàRIFORNIMENTO"));
-				ProdottoDAODataSource productDAO = new ProdottoDAODataSource();
+				ProdottoDAODataSource productDAO = new ProdottoDAODataSource(ds);
 				ProxyProdotto product = productDAO.doRetrieveProxyByKey(rs.getInt("PRODOTTO"));
 				dto.setProdotto(product);
 			}
@@ -279,7 +279,7 @@ private static final String TABLE_NAME = "richiesta_fornitura";
 				dto.setEmailFornitore(rs.getString("EMAILFORNITORE"));
 				dto.setDescrizione(rs.getString("DESCRIZIONE"));
 				dto.setQuantitaRifornimento(rs.getInt("QUANTITàRIFORNIMENTO"));
-				ProdottoDAODataSource productDAO = new ProdottoDAODataSource();
+				ProdottoDAODataSource productDAO = new ProdottoDAODataSource(ds);
 				ProxyProdotto product = productDAO.doRetrieveProxyByKey(rs.getInt("PRODOTTO"));
 				dto.setProdotto(product);
 				supplyRequests.add(dto);

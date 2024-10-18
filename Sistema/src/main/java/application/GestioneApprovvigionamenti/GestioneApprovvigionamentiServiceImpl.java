@@ -3,12 +3,15 @@ package application.GestioneApprovvigionamenti;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import application.AutenticazioneService.AutenticazioneException.FormatoEmailException;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.DescrizioneDettaglioException;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.FornitoreException;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.FormatoFornitoreException;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.ProdottoVendibileException;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.QuantitaProdottoDisponibileException;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.QuantitaProdottoException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
+import application.NavigazioneService.ProxyProdotto;
 import storage.GestioneApprovvigionamentiDAO.*;
 
 /**
@@ -26,6 +29,12 @@ import storage.GestioneApprovvigionamentiDAO.*;
  * */
 
 public class GestioneApprovvigionamentiServiceImpl implements GestioneApprovvigionamentiService {
+	
+	private ApprovvigionamentoDAODataSource supplyDAO;
+	
+	public GestioneApprovvigionamentiServiceImpl(ApprovvigionamentoDAODataSource supplyDAO) {
+		this.supplyDAO = supplyDAO;
+	}
 	
 	/**
 	 * Il metodo implementa il servizio di visualizzazione delle richieste 
@@ -50,25 +59,52 @@ public class GestioneApprovvigionamentiServiceImpl implements GestioneApprovvigi
 	 * */
 	
 	@Override
-	public Collection<RichiestaApprovvigionamento> visualizzaRichiesteFornitura(int page, int perPage) throws FornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
-		ApprovvigionamentoDAODataSource supplyDao = new ApprovvigionamentoDAODataSource();
-		return supplyDao.doRetrieveAll(null, page, perPage);
+	public Collection<RichiestaApprovvigionamento> visualizzaRichiesteFornitura(int page, int perPage) throws FormatoFornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
+		return supplyDAO.doRetrieveAll(null, page, perPage);
 	}
-	
 	
 	/**
 	 * Il metodo implementa il servizio di memorizzazione di una richiesta 
 	 * di approvvigionamento di un prodotto dell'e-commerce.
 	 * 
-	 * @param supply : la richiesta di rifornimento effettuata da memorizzare
+	 * @param fornitore : il nominativo del fornitore
+	 * @param emailFornitore : l'email del fornitore
+	 * @param descrizione : la descrizione da corredo per la 
+	 * 						richiesta di rifornimento del prodotto.
+	 * @param quantità : la quantità di prodotto che si 
+	 * 					 richiede per il rifornimento.
+	 * @param prodotto : il prodotto per cui si effettua la
+	 * 					 richiesta di approvvigionamento.
 	 * 
-	 * @throws SQLException 
+	 * @return requestSupply : la richiesta di approvvigionamento
+	 * 
+	 * @throws QuantitaProdottoDisponibileException : eccezione lanciata nel momento in cui il prodotto non è esaurito in
+	 * 													magazzino. 
+	 * 
+	 * @throws FormatoFornitoreException : eccezione lanciata nel caso di formato non corretto delle informazioni 
+	 * 								relative ad un fornitore.
+	 * 
+	 * @throws QuantitaProdottoException : eccezione lanciata nel caso di quantità di un prodotto non valida
+	 * 
+	 * @throws DescrizioneDettaglioException : eccezione lanciata nel caso in cui la descrizione da allegare è vuota
+	 * 
+	 * @throws ProdottoVendibileException : eccezione lanciata nel caso in cui si fa richiesta di rifornimento 
+	 * 										di un prodotto non venduto dal negozio online
+	 * 
+	 * @throws FormatoEmailException : eccezione che gestisce il caso in cui l'email del fornitore è espressa nel
+	 * 									formato non corretto
+	 * 
 	 * */
 	
 	@Override
-	public void effettuaRichiestaApprovvigionamento(RichiestaApprovvigionamento supply) throws SQLException {
-		ApprovvigionamentoDAODataSource supplyDao = new ApprovvigionamentoDAODataSource();
-		supplyDao.doSave(supply);
+	public RichiestaApprovvigionamento effettuaRichiestaApprovvigionamento(ProxyProdotto product, int quantity, String supplier, String emailSupplier, String description) throws QuantitaProdottoException, DescrizioneDettaglioException, ProdottoVendibileException, QuantitaProdottoDisponibileException, FormatoFornitoreException, FormatoEmailException, SQLException {
+		
+		if(RichiestaApprovvigionamento.checkValidate(supplier, emailSupplier, description, quantity, product)) {
+			RichiestaApprovvigionamento requestSupply = new RichiestaApprovvigionamento(supplier, emailSupplier, description, quantity, product);
+			supplyDAO.doSave(requestSupply);
+			return requestSupply;
+		}
+		
+		return null;
 	}
-
 }

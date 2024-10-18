@@ -17,7 +17,7 @@ import application.NavigazioneService.ProdottoException.SottocategoriaProdottoEx
 import application.NavigazioneService.ProxyProdotto;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamento;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.DescrizioneDettaglioException;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.FornitoreException;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.FormatoFornitoreException;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.ProdottoVendibileException;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.QuantitaProdottoException;
 import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
@@ -35,9 +35,16 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
  * */
 
 public class ApprovvigionamentoDAODataSource {
-	private static DataSource ds;
+	
+	DataSource ds;
+	
+	public ApprovvigionamentoDAODataSource(DataSource ds) {
+		this.ds = ds;
+	}
+	
+	//private static DataSource ds;
 
-	static {
+	/*static {
 		try {
 			Context initCtx = new InitialContext();
 			Context envCtx = (Context) initCtx.lookup("java:comp/env");
@@ -47,7 +54,7 @@ public class ApprovvigionamentoDAODataSource {
 		} catch (NamingException e) {
 			System.out.println("Error:" + e.getMessage());
 		}
-	}
+	}*/
 	
 private static final String TABLE_NAME = "richiesta_fornitura";
 	
@@ -100,14 +107,14 @@ private static final String TABLE_NAME = "richiesta_fornitura";
 	 * 
 	 * @param IDProdotto : il codice del prodotto
 	 * @return l'insieme delle richieste di approvvigionamento fatte per un prodotto con codice IDProdotto 
-	 * @throws FornitoreException 
+	 * @throws FormatoFornitoreException 
 	 * @throws DescrizioneDettaglioException 
 	 * @throws QuantitaProdottoException 
 	 * @throws ProdottoVendibileException 
 	 * @throws CategoriaProdottoException 
 	 * @throws SottocategoriaProdottoException 
 	 * **/
-	public synchronized RichiestaApprovvigionamento doRetrieveReportByOrder(int IDProdotto) throws SQLException, FornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SottocategoriaProdottoException, CategoriaProdottoException {
+	public synchronized RichiestaApprovvigionamento doRetrieveReportByOrder(int IDProdotto) throws SQLException, FormatoFornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -153,14 +160,14 @@ private static final String TABLE_NAME = "richiesta_fornitura";
 	 * 
 	 * @param IDSupplyRequest : il codice identificativo della richiesta di rifornimento
 	 * @return la richiesta di rifornimento avente codice IDSupplyRequest 
-	 * @throws FornitoreException 
+	 * @throws FormatoFornitoreException 
 	 * @throws DescrizioneDettaglioException 
 	 * @throws QuantitaProdottoException 
 	 * @throws ProdottoVendibileException 
 	 * @throws CategoriaProdottoException 
 	 * @throws SottocategoriaProdottoException 
 	 * **/
-	public synchronized RichiestaApprovvigionamento doRetrieveReportByKey(int IDSupplyRequest) throws SQLException, OrdineVuotoException, FornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SottocategoriaProdottoException, CategoriaProdottoException {
+	public synchronized RichiestaApprovvigionamento doRetrieveReportByKey(int IDSupplyRequest) throws SQLException, OrdineVuotoException, FormatoFornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
@@ -210,14 +217,14 @@ private static final String TABLE_NAME = "richiesta_fornitura";
 	 * @param perPage : il numero di ordini da inserire per ogni record/pagina
 	 * 
 	 * @return supplyRequests : le informazioni riguardanti le richieste di rifornimento
-	 * @throws FornitoreException 
+	 * @throws FormatoFornitoreException 
 	 * @throws DescrizioneDettaglioException 
 	 * @throws QuantitaProdottoException 
 	 * @throws ProdottoVendibileException 
 	 * @throws CategoriaProdottoException 
 	 * @throws SottocategoriaProdottoException 
 	 * **/
-	public synchronized Collection<RichiestaApprovvigionamento> doRetrieveAll(String order, int page, int perPage) throws SQLException, FornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SottocategoriaProdottoException, CategoriaProdottoException {
+	public synchronized Collection<RichiestaApprovvigionamento> doRetrieveAll(String order, int page, int perPage) throws SQLException, FormatoFornitoreException, DescrizioneDettaglioException, QuantitaProdottoException, ProdottoVendibileException, SottocategoriaProdottoException, CategoriaProdottoException {
 		Connection connection = null;
 		Connection connection2 = null;
 		PreparedStatement preparedStatement = null;

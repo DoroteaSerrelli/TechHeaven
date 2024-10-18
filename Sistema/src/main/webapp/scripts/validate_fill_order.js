@@ -8,7 +8,7 @@ function validateSupplyRequestForm(){
     }   
     function validateCompanyName(){
         let n= document.forms["supplyingRequestForm"]["fornitore"].value;
-        var nominativoPattern = /^[a-zA-Z0-9]+(?: [a-zA-Z0-9]+)*$/;
+        var nominativoPattern = /^[a-zA-Z0-9 ]+$/;
         
         var error = document.getElementById("errormsg");        
         if(!n.match(nominativoPattern)){
@@ -27,7 +27,7 @@ function validateSupplyRequestForm(){
     }
     function validateCompanyEmail(){
         let n= document.forms["supplyingRequestForm"]["email_fornitore"].value;
-        var emailPattern = /^[\w]+@[\w.-]+\.[a-zA-Z]{2,}$/;
+        var emailPattern = /^\S+@\S+\.\S+$/;
         var error = document.getElementById("errormsg");               
         if(!n.match(emailPattern)){
             error.innerHTML="L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com)";

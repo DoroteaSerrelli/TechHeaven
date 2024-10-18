@@ -34,14 +34,14 @@ public class RichiestaApprovvigionamentoException extends Exception{
 	 * Classe statica per gestire errori nel formato di nominativo o email 
 	 * del fornitore.
 	 * */
-	public static class FornitoreException extends RichiestaApprovvigionamentoException {
+	public static class FormatoFornitoreException extends RichiestaApprovvigionamentoException {
 		private static final long serialVersionUID = 1L;
 
 		/**
 		 * Costruttore di classe con messaggio personalizzato.
 		 * @param message il messaggio dell'eccezione da far visualizzare
 		 * */
-		public FornitoreException(String message) {
+		public FormatoFornitoreException(String message) {
 			super(message);
 		}
 	}
@@ -77,6 +77,24 @@ public class RichiestaApprovvigionamentoException extends Exception{
 			super(message);
 		}
 	}
+	
+	
+	/**
+	 * Classe statica per gestire la richiesta di approvvigionamento di un prodotto
+	 * che non ha numero di scorte in magazzino pari a 0.
+	 * */
+	public static class QuantitaProdottoDisponibileException extends RichiestaApprovvigionamentoException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public QuantitaProdottoDisponibileException(String message) {
+			super(message);
+		}
+	}
+	
 	
 	/**
 	 * Classe statica per gestire la richiesta di approvvigionamento di un prodotto

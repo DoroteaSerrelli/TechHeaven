@@ -67,7 +67,7 @@ CREATE TABLE prodotto(
 CodiceProdotto int NOT NULL,
 Nome varchar(80) NOT NULL,
 TopDescrizione text NOT NULL,
-Dettagli text,
+Dettagli text NOT NULL,
 Prezzo float NOT NULL,
 Categoria varchar(30) NOT NULL,
 Sottocategoria varchar(50),

@@ -10,6 +10,7 @@ import application.GestioneCatalogoService.CatalogoException.ErroreSpecificaAggi
 import application.GestioneCatalogoService.CatalogoException.ProdottoAggiornatoException;
 import application.GestioneCatalogoService.CatalogoException.ProdottoInCatalogoException;
 import application.GestioneCatalogoService.CatalogoException.ProdottoNonInCatalogoException;
+import application.GestioneCatalogoService.CatalogoException.ProdottoNulloException;
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProdottoException.AppartenenzaSottocategoriaException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
@@ -122,10 +123,13 @@ public interface GestioneCatalogoService {
 	 * 											di una sottocategoria
 	 * 
 	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
-	 * 										di una categoria 
+	 * 										di una categoria
+	 * 
+	 * @throws ProdottoNulloException : gestisce il caso in cui non venga specificato il 
+	 * 									prodotto da rimuovere
 	 * */
 	
-	public Collection<ProxyProdotto> rimozioneProdottoDaCatalogo(ProxyProdotto product, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException;
+	public Collection<ProxyProdotto> rimozioneProdottoDaCatalogo(ProxyProdotto product, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException, ProdottoNulloException;
 	
 	/**
 	 * Il metodo definisce il servizio di aggiornamento delle seguenti specifiche del prodotto: 

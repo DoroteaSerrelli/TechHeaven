@@ -1,6 +1,7 @@
 package application.GestioneCatalogoService;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -16,6 +17,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
 import application.GestioneCatalogoService.CatalogoException.ProdottoInCatalogoException;
+import application.GestioneCatalogoService.CatalogoException.ProdottoNonInCatalogoException;
+import application.GestioneCatalogoService.CatalogoException.ProdottoNulloException;
 import application.GestioneOrdiniService.OrdineException.IndirizzoSpedizioneNulloException;
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProxyProdotto;
@@ -590,5 +593,67 @@ public class GestioneCatalogoServiceImplTest {
 		Mockito.verify(productDAO).doSave(new Prodotto(32, name, topDescription, details, price, Categoria.valueOf(category.toUpperCase()), Sottocategoria.valueOf(subCategory.toUpperCase()), brand, model, quantity, inCatalogo, inVetrina));
 	}
 
+
+	/**
+	 * TEST CASES PER LA RIMOZIONE DI UN PRODOTTO DAL CATALOGO
+	 * 
+	 * TC15.1_1: non viene specificato il prodotto da rimuovere
+	 * 
+	 * TC15.1_2: viene specificato il prodotto da rimuovere dal catalogo
+	 * 			 del negozio
+	 * 
+	 * */
+
+	public void TC15_1_1() {
+
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
+		ProxyProdotto product2 = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
+
+		Collection<ProxyProdotto> catalogue = new ArrayList<>();
+		catalogue.add(product1);
+		catalogue.add(product2);
+
+		int page = 1;
+		int perPage = 5;
+
+		ProxyProdotto toRemove = null;
+
+		assertThrows(ProdottoNulloException.class, () -> {
+			catalogoService.rimozioneProdottoDaCatalogo(toRemove, page, perPage);
+		});
+
+	}
+
+	public void TC15_1_2() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ProdottoNulloException {
+
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
+		ProxyProdotto product2 = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
+
+		Collection<ProxyProdotto> catalogue = new ArrayList<>();
+		catalogue.add(product1);
+		catalogue.add(product2);
+
+		int page = 1;
+		int perPage = 5;
+
+		ProxyProdotto toRemove = product1;
+		
+		Collection<ProxyProdotto> newCatalogue = catalogue;
+		newCatalogue.remove(product1);
+		
+		Mockito.when(productDAO.doRetrieveProxyByKey(toRemove.getCodiceProdotto())).thenReturn(product1);
+		Mockito.when(productDAO.doDelete(toRemove.getCodiceProdotto())).thenReturn(true);
+		Mockito.when(productDAO.doRetrieveAllExistent(null, page, perPage)).thenReturn(newCatalogue);
+		
+		Collection<ProxyProdotto> updatedCatalogue = catalogoService.rimozioneProdottoDaCatalogo(toRemove, page, perPage);
+		
+		assertFalse(updatedCatalogue.contains(product1));
+		Mockito.verify(productDAO).doDelete(product1.getCodiceProdotto());
+
+	}
 
 }

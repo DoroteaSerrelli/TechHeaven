@@ -4,6 +4,7 @@ import application.GestioneCatalogoService.CatalogoException.ErroreSpecificaAggi
 import application.GestioneCatalogoService.CatalogoException.ProdottoAggiornatoException;
 import application.GestioneCatalogoService.CatalogoException.ProdottoInCatalogoException;
 import application.GestioneCatalogoService.CatalogoException.ProdottoNonInCatalogoException;
+import application.GestioneCatalogoService.CatalogoException.ProdottoNulloException;
 import application.NavigazioneService.ObjectProdotto;
 import application.NavigazioneService.ObjectProdotto.Categoria;
 import application.NavigazioneService.ObjectProdotto.Sottocategoria;
@@ -158,10 +159,14 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 * 
 	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
 	 * 										di una categoria 
+	 * @throws ProdottoNulloException : gestisce il caso in cui non venga specificato il prodotto da rimuovere
 	 * */
 
 	@Override
-	public Collection<ProxyProdotto> rimozioneProdottoDaCatalogo(ProxyProdotto product, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException {
+	public Collection<ProxyProdotto> rimozioneProdottoDaCatalogo(ProxyProdotto product, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException, ProdottoNulloException {
+		
+		if(product == null)
+			throw new ProdottoNulloException("Specificare il prodotto da rimuovere dal catalogo del negozio");
 		
 		ProxyProdotto notInCatalogue = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
 		if (notInCatalogue == null || !notInCatalogue.isInCatalogo())
@@ -203,7 +208,6 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 * 													aggiornare.
 	 * 
 	 */
-
 
 	@Override
 	public Collection<ProxyProdotto> aggiornamentoSpecificheProdotto(Prodotto product, String infoSelected,

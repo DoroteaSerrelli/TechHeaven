@@ -31,7 +31,23 @@ public class ProdottoException extends Exception{
 		super(message);
 	}
 
+	/**
+	 * Classe statica per gestire l'inserimento di un codice per il prodotto 
+	 * non numerico.
+	 * */
+	public static class FormatoCodiceException extends ProdottoException {
+		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoCodiceException(String message) {
+			super(message);
+		}
+	}
+
+	
 	/**
 	 * Classe statica per gestire l'inserimento di un prodotto in una categoria
 	 * non ammissibile.
@@ -95,5 +111,104 @@ public class ProdottoException extends Exception{
 			super(message);
 		}
 	}
+	
+	/**
+	 * Classe statica per gestire l'inserimento del nome del prodotto nel formato
+	 * errato.
+	 * */
+	public static class FormatoNomeException extends ProdottoException {
+		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoNomeException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire l'inserimento del modello del prodotto nel formato
+	 * errato.
+	 * */
+	public static class FormatoModelloException extends ProdottoException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoModelloException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire l'inserimento della marca del prodotto nel formato
+	 * errato.
+	 * */
+	public static class FormatoMarcaException extends ProdottoException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoMarcaException(String message) {
+			super(message);
+		}
+	}
+	
+	
+	/**
+	 * Classe statica per gestire l'inserimento della descrizione
+	 * in evidenza del prodotto nel formato
+	 * errato.
+	 * */
+	public static class FormatoTopDescrizioneException extends ProdottoException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoTopDescrizioneException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire l'inserimento della descrizione
+	 * di dettaglio del prodotto nel formato
+	 * errato.
+	 * */
+	public static class FormatoDettagliException extends ProdottoException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoDettagliException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire l'inserimento della sottocategoria
+	 * di un prodotto che non appartiene alla categoria specificata 
+	 * per quel prodotto.
+	 * */
+	public static class AppartenenzaSottocategoriaException extends ProdottoException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public AppartenenzaSottocategoriaException(String message) {
+			super(message);
+		}
+	}
 }

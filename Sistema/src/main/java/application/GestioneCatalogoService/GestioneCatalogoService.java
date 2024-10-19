@@ -11,10 +11,18 @@ import application.GestioneCatalogoService.CatalogoException.ProdottoAggiornatoE
 import application.GestioneCatalogoService.CatalogoException.ProdottoInCatalogoException;
 import application.GestioneCatalogoService.CatalogoException.ProdottoNonInCatalogoException;
 import application.NavigazioneService.Prodotto;
+import application.NavigazioneService.ProdottoException.AppartenenzaSottocategoriaException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.FormatoCodiceException;
+import application.NavigazioneService.ProdottoException.FormatoDettagliException;
+import application.NavigazioneService.ProdottoException.FormatoMarcaException;
+import application.NavigazioneService.ProdottoException.FormatoModelloException;
+import application.NavigazioneService.ProdottoException.FormatoNomeException;
+import application.NavigazioneService.ProdottoException.FormatoTopDescrizioneException;
 import application.NavigazioneService.ProdottoException.PrezzoProdottoException;
 import application.NavigazioneService.ProdottoException.QuantitaProdottoException;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
+import storage.NavigazioneDAO.ProdottoDAODataSource;
 import application.NavigazioneService.ProxyProdotto;
 
 /**
@@ -80,9 +88,20 @@ public interface GestioneCatalogoService {
 	 * 
 	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
 	 * 										di una categoria 
+	 * @throws FormatoDettagliException 
+	 * @throws FormatoTopDescrizioneException 
+	 * @throws PrezzoProdottoException 
+	 * @throws FormatoMarcaException 
+	 * @throws FormatoModelloException 
+	 * @throws FormatoNomeException 
+	 * @throws QuantitaProdottoException 
+	 * @throws AppartenenzaSottocategoriaException 
+	 * @throws FormatoCodiceException 
+	 * @throws NumberFormatException 
 	 * */
 	
-	public Collection<ProxyProdotto> aggiuntaProdottoInCatalogo(Prodotto product, int page, int perPage) throws SQLException, ProdottoInCatalogoException, CategoriaProdottoException, SottocategoriaProdottoException;
+	public Collection<ProxyProdotto> aggiuntaProdottoInCatalogo(String codice, String nome, String marca, String modello, String topDescrizione, String dettagli, float prezzo, 
+			int quantita, String categoria, String sottocategoria, boolean inCatalogo, boolean inVetrina, ProdottoDAODataSource productDAO, int page, int perPage) throws SQLException, ProdottoInCatalogoException, CategoriaProdottoException, SottocategoriaProdottoException, QuantitaProdottoException, FormatoNomeException, FormatoModelloException, FormatoMarcaException, PrezzoProdottoException, FormatoTopDescrizioneException, FormatoDettagliException, AppartenenzaSottocategoriaException, NumberFormatException, FormatoCodiceException;
 	
 	/**
 	 * Il metodo definisce il servizio di rimozione di

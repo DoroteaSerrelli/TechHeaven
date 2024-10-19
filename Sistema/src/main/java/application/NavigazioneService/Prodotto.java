@@ -21,44 +21,12 @@ public class Prodotto extends ObjectProdotto{
 	private byte[] topImmagine;
 	
 	/**
-	 * dettagli : testo dettagliato che elenca le specifiche del prodotto 
-	 * (es. componenti, finalità del prodotto, corretto utilizzo, ...)
-	 * */
-	
-	private String dettagli;
-	
-	/**
 	 * galleriaImmagini : le immagini che forniscono un particolare
 	 * del prodotto in vendita
 	 * */
 	
 	private ArrayList<byte[]> galleriaImmagini;
 	
-	/**
-	 * Il metodo verifica se i dati inseriti, relativi ad un prodotto, rispettano
-	 * il relativo formato.
-	 * 
-	 * @param codice : il codice del prodotto
-	 * @param nome : il nome del prodotto
-	 * @param topDescrizione : la descrizione di presentazione del prodotto
-	 * @param prezzo : il prezzo del prodotto
-	 * @param marca : il produttore del prodotto
-	 * @param modello : il modello del prodotto
-	 * @param quantita : il numero di scorte in magazzino del prodotto
-	 * @param dettagli : la descrizione dettagliata del prodotto
-	 * 
-	 * @return true se i dati sono stati inseriti con il formato corretto; false altrimenti.
-	 * 
-	 * */
-	
-	public static boolean checkValidateDetails(int codice, String nome, String topDescrizione, float prezzo, 
-			String marca, String modello, int quantita, String dettagli) {
-		checkValidate(codice, nome, topDescrizione, prezzo, marca, modello, quantita);
-		String descriptionPattern = "^[a-zA-Z0-9\s]{1,200}$";
-		String numbersPattern = "^[0-9]$";
-		return !(dettagli.isBlank() || dettagli.matches(numbersPattern) 
-				|| !dettagli.matches(descriptionPattern));
-	}
 	
 	/**
 	 * Costruttore di classe di default.
@@ -94,10 +62,10 @@ public class Prodotto extends ObjectProdotto{
 			Categoria categoria, String marca, String modello, int quantita,
 			boolean inCatalogo, boolean inVetrina) {
 		
-		super(codiceProdotto, nomeProdotto, topDescrizione, prezzo,
+		super(codiceProdotto, nomeProdotto, topDescrizione, dettagli, prezzo,
 			categoria, marca, modello, quantita,
 			inCatalogo, inVetrina);
-		this.dettagli = dettagli;
+		
 		this.topImmagine = null;
 		this.galleriaImmagini = null;
 	}
@@ -128,10 +96,10 @@ public class Prodotto extends ObjectProdotto{
 			Categoria categoria, Sottocategoria sottocategoria, String marca, String modello, int quantita,
 			boolean inCatalogo, boolean inVetrina) {
 		
-		super(codiceProdotto, nomeProdotto, topDescrizione, prezzo,
+		super(codiceProdotto, nomeProdotto, topDescrizione, dettagli, prezzo,
 				categoria, sottocategoria, marca, modello, quantita,
 				inCatalogo, inVetrina);
-		this.dettagli = dettagli;
+		
 		this.topImmagine = null;
 		this.galleriaImmagini = null;
 	}
@@ -156,25 +124,6 @@ public class Prodotto extends ObjectProdotto{
 		this.topImmagine = topImmagine;
 	}
 	
-	/**
-	 * Il metodo fornisce la descrizione dettagliata del prodotto.
-	 * 
-	 * @return dettagli : specifica tecnica del prodotto
-	 * */
-	
-	public String getDettagli() {
-		return dettagli;
-	}
-	
-	/**
-	 * Il metodo imposta la specifica tecnica del prodotto.
-	 * 
-	 * @param dettagli: descrizione dettagliata del prodotto
-	 * */
-	
-	public void setDettagli(String dettagli) {
-		this.dettagli = dettagli;
-	}
 	
 	/**
 	 * Il metodo fornisce la galleria di immagini dettagliate associata al prodotto

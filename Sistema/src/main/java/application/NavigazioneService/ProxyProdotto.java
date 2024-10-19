@@ -47,20 +47,20 @@ public class ProxyProdotto extends ObjectProdotto{
 	}
 
 
-	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,
+	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, String dettagli, float prezzo,
 			Categoria categoria, String marca, String modello, int quantita,
 			boolean inCatalogo, boolean inVetrina, ProdottoDAODataSource productDAO) {
-		super(codiceProdotto, nomeProdotto, topDescrizione, prezzo,
+		super(codiceProdotto, nomeProdotto, topDescrizione, dettagli, prezzo,
 				categoria, marca, modello, quantita,
 				inCatalogo, inVetrina);
 
 		this.productDAO = productDAO;
 	}
 
-	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,
+	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, String dettagli, float prezzo,
 			Categoria categoria, Sottocategoria sottocategoria, String marca, String modello, int quantita,
 			boolean inCatalogo, boolean inVetrina, ProdottoDAODataSource productDAO) {
-		super(codiceProdotto, nomeProdotto, topDescrizione, prezzo,
+		super(codiceProdotto, nomeProdotto, topDescrizione, dettagli, prezzo,
 				categoria, sottocategoria, marca, modello, quantita,
 				inCatalogo, inVetrina);
 
@@ -87,10 +87,10 @@ public class ProxyProdotto extends ObjectProdotto{
 	 * 
 	 * */
 
-	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,
+	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, String dettagli, float prezzo,
 			Categoria categoria, String marca, String modello, int quantita,
 			boolean inCatalogo, boolean inVetrina) {
-		super(codiceProdotto, nomeProdotto, topDescrizione, prezzo,
+		super(codiceProdotto, nomeProdotto, topDescrizione, dettagli, prezzo,
 				categoria, marca, modello, quantita,
 				inCatalogo, inVetrina);
 	}
@@ -116,10 +116,10 @@ public class ProxyProdotto extends ObjectProdotto{
 	 * 
 	 * */
 
-	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, float prezzo,
+	public ProxyProdotto(int codiceProdotto, String nomeProdotto, String topDescrizione, String dettagli, float prezzo,
 			Categoria categoria, Sottocategoria sottocategoria, String marca, String modello, int quantita,
 			boolean inCatalogo, boolean inVetrina) {
-		super(codiceProdotto, nomeProdotto, topDescrizione, prezzo,
+		super(codiceProdotto, nomeProdotto, topDescrizione, dettagli, prezzo,
 				categoria, sottocategoria, marca, modello, quantita,
 				inCatalogo, inVetrina);
 	}

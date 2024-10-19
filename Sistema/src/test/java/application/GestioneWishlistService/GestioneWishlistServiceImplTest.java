@@ -55,7 +55,7 @@ public class GestioneWishlistServiceImplTest {
 		ProdottoDAODataSource productDAO = Mockito.mock(ProdottoDAODataSource.class); 
 
 		ProxyUtente user = new ProxyUtente(username, password, new ArrayList<>());
-		ProxyProdotto product = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", Float.parseFloat("229.90"), 
+		ProxyProdotto product = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
 
 		Wishlist wishlistUser = new Wishlist(user);
@@ -86,7 +86,7 @@ public class GestioneWishlistServiceImplTest {
 		ProdottoDAODataSource productDAO = Mockito.mock(ProdottoDAODataSource.class); 
 
 		ProxyUtente user = new ProxyUtente(username, password, new ArrayList<>());
-		ProxyProdotto product = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", Float.parseFloat("229.90"), 
+		ProxyProdotto product = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
 
 		Wishlist wishlistUser = new Wishlist(user);
@@ -113,10 +113,10 @@ public class GestioneWishlistServiceImplTest {
 
 		ProxyUtente user = new ProxyUtente(username, password, new ArrayList<>());
 
-		ProxyProdotto product1 = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", Float.parseFloat("229.90"), 
+		ProxyProdotto product1 = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(1, "Apple Watch SE", "Prova", Float.parseFloat("240.00"), 
+		ProxyProdotto product2 = new ProxyProdotto(1, "Apple Watch SE", "Prova", "Prova", Float.parseFloat("240.00"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.SMARTWATCH, "Apple", "Watch SE", 110, true, false, productDAO);
 
 
@@ -168,7 +168,7 @@ public class GestioneWishlistServiceImplTest {
 
 		ProxyUtente user = new ProxyUtente(username, password, new ArrayList<>());
 
-		ProxyProdotto product = new ProxyProdotto(9, "Ariete Handy Force - Scopa elettrica con Filo", "Prova", Float.parseFloat("46.00"), 
+		ProxyProdotto product = new ProxyProdotto(9, "Ariete Handy Force - Scopa elettrica con Filo", "Prova", "Prova", Float.parseFloat("46.00"), 
 				Categoria.PICCOLI_ELETTRODOMESTICI, "Ariete", "Handy Force", 68, true, false, productDAO);
 
 
@@ -200,10 +200,10 @@ public class GestioneWishlistServiceImplTest {
 
 		ProxyUtente user = new ProxyUtente(username, password, new ArrayList<>());
 
-		ProxyProdotto product1 = new ProxyProdotto(9, "Ariete Handy Force - Scopa elettrica con Filo", "Prova", Float.parseFloat("46.00"), 
+		ProxyProdotto product1 = new ProxyProdotto(9, "Ariete Handy Force - Scopa elettrica con Filo", "Prova", "Prova", Float.parseFloat("46.00"), 
 				Categoria.PICCOLI_ELETTRODOMESTICI, "Ariete", "Handy Force", 68, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(1, "Apple Watch SE", "Prova", Float.parseFloat("240.00"), 
+		ProxyProdotto product2 = new ProxyProdotto(1, "Apple Watch SE", "Prova", "Prova", Float.parseFloat("240.00"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.SMARTWATCH, "Apple", "Watch SE", 110, true, false, productDAO);
 
 

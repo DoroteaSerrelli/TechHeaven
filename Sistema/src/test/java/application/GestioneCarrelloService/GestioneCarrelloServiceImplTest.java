@@ -58,7 +58,7 @@ public class GestioneCarrelloServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", Float.parseFloat("234.50"), 
+		ProxyProdotto product = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false, productDAO);
 
 		ItemCarrello itemToInsert = new ItemCarrello();
@@ -76,7 +76,7 @@ public class GestioneCarrelloServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova",  "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
 		ItemCarrello itemToInsert = new ItemCarrello();
@@ -95,10 +95,10 @@ public class GestioneCarrelloServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova",  "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -124,7 +124,7 @@ public class GestioneCarrelloServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -149,10 +149,10 @@ public class GestioneCarrelloServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(10, "Bosch lavatrice a carica frontale", "Prova", Float.parseFloat("590.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(10, "Bosch lavatrice a carica frontale", "Prova", "Prova", Float.parseFloat("590.50"), 
 				Categoria.GRANDI_ELETTRODOMESTICI, "Bosch", "QualcheModello", 112, true, false, productDAO);
 
 
@@ -185,10 +185,10 @@ public class GestioneCarrelloServiceImplTest {
 	public void TC9_2_1_1() throws ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException, ProdottoPresenteException {
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova",  Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(13, "Amazfit T-Rex 2", "Prova", Float.parseFloat("160.00"), 
+		ProxyProdotto product2 = new ProxyProdotto(13, "Amazfit T-Rex 2", "Prova", "Prova", Float.parseFloat("160.00"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.SMARTWATCH, "Amazfit", "T-Rex2", 10, true, false, productDAO);
 
 
@@ -232,10 +232,10 @@ public class GestioneCarrelloServiceImplTest {
 	public void TC9_3_1_1() throws ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException, ProdottoPresenteException, QuantitaProdottoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova",  Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(14, "Samsung Galaxy Tab A7 Lite", "Prova", Float.parseFloat("110.00"), 
+		ProxyProdotto product2 = new ProxyProdotto(14, "Samsung Galaxy Tab A7 Lite", "Prova", "Prova",  Float.parseFloat("110.00"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy Tab A7 Lite", 70, true, false, productDAO);
 
 
@@ -271,10 +271,10 @@ public class GestioneCarrelloServiceImplTest {
 	public void TC9_3_1_2() throws ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException, ProdottoPresenteException, QuantitaProdottoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova",  Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(14, "Samsung Galaxy Tab A7 Lite", "Prova", Float.parseFloat("110.00"), 
+		ProxyProdotto product2 = new ProxyProdotto(14, "Samsung Galaxy Tab A7 Lite", "Prova", "Prova",  Float.parseFloat("110.00"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy Tab A7 Lite", 70, true, false, productDAO);
 
 
@@ -335,10 +335,10 @@ public class GestioneCarrelloServiceImplTest {
 	public void TC9_4_1_1() throws ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException, ProdottoPresenteException, QuantitaProdottoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova",  Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(14, "Samsung Galaxy Tab A7 Lite", "Prova", Float.parseFloat("110.00"), 
+		ProxyProdotto product2 = new ProxyProdotto(14, "Samsung Galaxy Tab A7 Lite", "Prova", "Prova",  Float.parseFloat("110.00"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy Tab A7 Lite", 70, true, false, productDAO);
 
 
@@ -374,10 +374,10 @@ public class GestioneCarrelloServiceImplTest {
 	public void TC9_4_1_2() throws ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException, ProdottoPresenteException, QuantitaProdottoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova",  Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(14, "Samsung Galaxy Tab A7 Lite", "Prova", Float.parseFloat("110.00"), 
+		ProxyProdotto product2 = new ProxyProdotto(14, "Samsung Galaxy Tab A7 Lite", "Prova", "Prova",  Float.parseFloat("110.00"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy Tab A7 Lite", 70, true, false, productDAO);
 
 

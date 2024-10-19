@@ -76,7 +76,7 @@ public class GestioneApprovvigionamentiServiceImplTest {
 	@Test
 	public void TC13_1_1() {
 		
-		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false);
 		
 		int quantity = 2;
@@ -93,7 +93,7 @@ public class GestioneApprovvigionamentiServiceImplTest {
 	@Test
 	public void TC13_1_2() {
 		
-		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
 		
 		int errorQuantity = -2;
@@ -110,7 +110,7 @@ public class GestioneApprovvigionamentiServiceImplTest {
 	@Test
 	public void TC13_1_3() {
 		
-		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
 		
 		int quantity = 2;
@@ -127,7 +127,7 @@ public class GestioneApprovvigionamentiServiceImplTest {
 	@Test
 	public void TC13_1_4() {
 		
-		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
 		
 		int quantity = 2;
@@ -144,7 +144,7 @@ public class GestioneApprovvigionamentiServiceImplTest {
 	@Test
 	public void TC13_1_5() {
 		
-		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
 		
 		int quantity = 2;
@@ -161,7 +161,7 @@ public class GestioneApprovvigionamentiServiceImplTest {
 	@Test
 	public void TC13_1_6() throws QuantitaProdottoException, DescrizioneDettaglioException, ProdottoVendibileException, QuantitaProdottoDisponibileException, FormatoFornitoreException, FormatoEmailException, SQLException {
 		
-		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
 		
 		int quantity = 2;

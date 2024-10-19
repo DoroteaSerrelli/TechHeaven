@@ -147,10 +147,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -195,10 +195,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -245,10 +245,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -295,10 +295,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -350,10 +350,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -409,10 +409,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -468,10 +468,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -527,10 +527,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -586,10 +586,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -682,10 +682,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -730,10 +730,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -780,10 +780,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -830,10 +830,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -885,10 +885,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -974,10 +974,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -1022,10 +1022,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -1072,10 +1072,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -1122,10 +1122,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -1177,10 +1177,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
 		ItemCarrello item1 = new ItemCarrello();
@@ -1284,10 +1284,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 2, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
 
 		ArrayList<ProxyProdotto> proxyProducts = new ArrayList<>();
@@ -1357,10 +1357,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 2, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
 
 		ArrayList<ProxyProdotto> proxyProducts = new ArrayList<>();
@@ -1429,10 +1429,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 2, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
 
 		ArrayList<ProxyProdotto> proxyProducts = new ArrayList<>();
@@ -1502,10 +1502,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 2, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
 
 		ArrayList<ProxyProdotto> proxyProducts = new ArrayList<>();
@@ -1575,10 +1575,10 @@ public class GestioneOrdiniServiceImplTest {
 
 		Carrello cart = new Carrello();
 
-		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", Float.parseFloat("454.50"), 
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 2, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", Float.parseFloat("254.50"), 
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
 
 		ArrayList<ProxyProdotto> proxyProducts = new ArrayList<>();

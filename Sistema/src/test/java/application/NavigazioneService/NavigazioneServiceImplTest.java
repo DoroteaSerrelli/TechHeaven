@@ -43,8 +43,8 @@ public class NavigazioneServiceImplTest {
 	public void TC7_1_1() throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException {
 		
 		Collection<ProxyProdotto> smallCatalogue = new ArrayList<>();
-		ProxyProdotto p1 = new ProxyProdotto(1, "Tablet", "Prova", Float.valueOf("129.99"), Categoria.TELEFONIA, "Lenovo", "TabM11", 20, true, true);
-		ProxyProdotto p2 = new ProxyProdotto(2, "Lavatrice", "Prova", Float.valueOf("439.99"), Categoria.GRANDI_ELETTRODOMESTICI, "Candy", "White-X", 5, true, false);
+		ProxyProdotto p1 = new ProxyProdotto(1, "Tablet", "Prova", "Prova", Float.valueOf("129.99"), Categoria.TELEFONIA, "Lenovo", "TabM11", 20, true, true);
+		ProxyProdotto p2 = new ProxyProdotto(2, "Lavatrice", "Prova", "Prova", Float.valueOf("439.99"), Categoria.GRANDI_ELETTRODOMESTICI, "Candy", "White-X", 5, true, false);
 		
 		smallCatalogue.add(p1);
 		smallCatalogue.add(p2);
@@ -63,8 +63,8 @@ public class NavigazioneServiceImplTest {
 	public void TC7_1_2() throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException {
 		
 		Collection<ProxyProdotto> smallCatalogue = new ArrayList<>();
-		ProxyProdotto p1 = new ProxyProdotto(1, "Tablet", "Prova", Float.valueOf("129.99"), Categoria.TELEFONIA, "Lenovo", "TabM11", 20, true, true);
-		ProxyProdotto p2 = new ProxyProdotto(2, "Smartphone", "Prova", Float.valueOf("439.99"), Categoria.TELEFONIA, "Samsung", "S9Plus", 5, true, false);
+		ProxyProdotto p1 = new ProxyProdotto(1, "Tablet", "Prova", "Prova", Float.valueOf("129.99"), Categoria.TELEFONIA, "Lenovo", "TabM11", 20, true, true);
+		ProxyProdotto p2 = new ProxyProdotto(2, "Smartphone", "Prova", "Prova", Float.valueOf("439.99"), Categoria.TELEFONIA, "Samsung", "S9Plus", 5, true, false);
 		
 		smallCatalogue.add(p1);
 		smallCatalogue.add(p2);
@@ -96,8 +96,8 @@ public class NavigazioneServiceImplTest {
 	public void TC8_1_1() throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException {
 		
 		Collection<ProxyProdotto> smallCatalogue = new ArrayList<>();
-		ProxyProdotto p1 = new ProxyProdotto(1, "Tablet", "Prova", Float.valueOf("129.99"), Categoria.TELEFONIA, "Lenovo", "TabM11", 20, true, true);
-		ProxyProdotto p2 = new ProxyProdotto(2, "Smartphone", "Prova", Float.valueOf("439.99"), Categoria.TELEFONIA, "Samsung", "S9Plus", 5, true, false);
+		ProxyProdotto p1 = new ProxyProdotto(1, "Tablet", "Prova", "Prova", Float.valueOf("129.99"), Categoria.TELEFONIA, "Lenovo", "TabM11", 20, true, true);
+		ProxyProdotto p2 = new ProxyProdotto(2, "Smartphone", "Prova", "Prova", Float.valueOf("439.99"), Categoria.TELEFONIA, "Samsung", "S9Plus", 5, true, false);
 		
 		smallCatalogue.add(p1);
 		smallCatalogue.add(p2);
@@ -116,8 +116,8 @@ public class NavigazioneServiceImplTest {
 	public void TC8_1_2() throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException {
 		
 		Collection<ProxyProdotto> smallCatalogue = new ArrayList<>();
-		ProxyProdotto p1 = new ProxyProdotto(1, "Tablet", "Prova", Float.valueOf("129.99"), Categoria.TELEFONIA, "Lenovo", "TabM11", 20, true, true);
-		ProxyProdotto p2 = new ProxyProdotto(2, "Smartphone", "Prova", Float.valueOf("439.99"), Categoria.TELEFONIA, "Samsung", "S9Plus", 5, true, false);
+		ProxyProdotto p1 = new ProxyProdotto(1, "Tablet", "Prova", "Prova", Float.valueOf("129.99"), Categoria.TELEFONIA, "Lenovo", "TabM11", 20, true, true);
+		ProxyProdotto p2 = new ProxyProdotto(2, "Smartphone", "Prova", "Prova", Float.valueOf("439.99"), Categoria.TELEFONIA, "Samsung", "S9Plus", 5, true, false);
 		
 		smallCatalogue.add(p1);
 		smallCatalogue.add(p2);
@@ -136,8 +136,8 @@ public class NavigazioneServiceImplTest {
 	public void TC8_1_3() throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException {
 		
 		Collection<ProxyProdotto> smallCatalogue = new ArrayList<>();
-		ProxyProdotto p1 = new ProxyProdotto(1, "Tablet", "Prova", Float.valueOf("129.99"), Categoria.TELEFONIA, "Lenovo", "TabM11", 20, true, true);
-		ProxyProdotto p2 = new ProxyProdotto(2, "Smartphone", "Prova", Float.valueOf("439.99"), Categoria.TELEFONIA, "Samsung", "S9Plus", 5, true, false);
+		ProxyProdotto p1 = new ProxyProdotto(1, "Tablet", "Prova", "Prova", Float.valueOf("129.99"), Categoria.TELEFONIA, "Lenovo", "TabM11", 20, true, true);
+		ProxyProdotto p2 = new ProxyProdotto(2, "Smartphone", "Prova", "Prova", Float.valueOf("439.99"), Categoria.TELEFONIA, "Samsung", "S9Plus", 5, true, false);
 		
 		smallCatalogue.add(p1);
 		smallCatalogue.add(p2);

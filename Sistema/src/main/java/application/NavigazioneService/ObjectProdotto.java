@@ -74,12 +74,12 @@ public abstract class ObjectProdotto {
 	 * */
 
 	private String topDescrizione;
-	
+
 	/**
 	 * dettagli : testo dettagliato che elenca le specifiche del prodotto 
 	 * (es. componenti, finalità del prodotto, corretto utilizzo, ...)
 	 * */
-	
+
 	private String dettagli;
 
 	/**
@@ -181,11 +181,11 @@ public abstract class ObjectProdotto {
 		String brandPattern = "^[A-Za-z ]+$";
 		ProxyProdotto retrieved = null;
 		int codiceProdotto;
-		
+
 		try {
 			codiceProdotto = Integer.parseInt(codice);
 		}catch(NumberFormatException ex) {
-			
+
 			throw new FormatoCodiceException("Il codice del prodotto deve contenere numeri");
 		}
 		if((retrieved = productDAO.doRetrieveProxyByKey(codiceProdotto)) != null && retrieved.isInCatalogo())
@@ -205,10 +205,10 @@ public abstract class ObjectProdotto {
 
 		if(topDescrizione.isBlank())
 			throw new FormatoTopDescrizioneException("La descrizione di presentazione non può essere vuota");
-		
+
 		if(dettagli.isBlank())
 			throw new FormatoDettagliException("La descrizione di dettaglio non può essere vuota");
-		
+
 		if(quantita < 1)
 			throw new QuantitaProdottoException("La quantità di un prodotto disponibile deve essere almeno 1");
 
@@ -258,17 +258,17 @@ public abstract class ObjectProdotto {
 		String namePattern = "^[a-zA-Z0-9 ]+$";
 		String modelPattern = "^[A-Za-z0-9]+([-]?[A-Za-z0-9]+)*(\s?[A-Za-z0-9]+)*$";
 		String brandPattern = "^[A-Za-z ]+$";
-		
+
 		ProxyProdotto retrieved = null;
 		int codiceProdotto;
-		
+
 		try {
 			codiceProdotto = Integer.parseInt(codice);
 		}catch(NumberFormatException ex) {
-			
+
 			throw new FormatoCodiceException("Il codice del prodotto deve contenere numeri");
 		}
-		
+
 		if((retrieved = productDAO.doRetrieveProxyByKey(codiceProdotto)) != null && retrieved.isInCatalogo())
 			throw new ProdottoInCatalogoException("Il prodotto con il codice inserito esiste nel catalogo");
 
@@ -286,11 +286,11 @@ public abstract class ObjectProdotto {
 
 		if(topDescrizione.isBlank())
 			throw new FormatoTopDescrizioneException("La descrizione di presentazione non può essere vuota");
-		
+
 		if(dettagli.isBlank())
 			throw new FormatoDettagliException("La descrizione di dettaglio non può essere vuota");
 
-		
+
 		if(quantita < 1)
 			throw new QuantitaProdottoException("La quantità di un prodotto disponibile deve essere almeno 1");
 
@@ -298,12 +298,12 @@ public abstract class ObjectProdotto {
 				&& !categoria.equalsIgnoreCase("PICCOLI_ELETTRODOMESTICI") 
 				&& !categoria.equalsIgnoreCase("GRANDI_ELETTRODOMESTICI"))
 			throw new CategoriaProdottoException("La categoria inserita non esiste. Sono ammesse come categorie : TELEFONIA, PRODOTTI_ELETTRONICA, PICCOLI_ELETTRODOMESTICI, GRANDI_ELETTRODOMESTICI.");
-		
+
 		if(!sottocategoria.equalsIgnoreCase("SMARTWATCH") && !sottocategoria.equalsIgnoreCase("PC")
 				&& !sottocategoria.equalsIgnoreCase("SMARTPHONE")
 				&& !sottocategoria.equalsIgnoreCase("TABLET"))
 			throw new SottocategoriaProdottoException("La sottocategoria specificata non esiste. Sono ammesse le seguenti sottocategorie: TABLET, SMARTPHONE, PC, SMARTWATCH.");
-		
+
 		if(categoria.equalsIgnoreCase("TELEFONIA")) {
 			if(!sottocategoria.equalsIgnoreCase("TABLET") && !sottocategoria.equalsIgnoreCase("SMARTPHONE"))
 				throw new AppartenenzaSottocategoriaException("Errata sottocategoria.\n Se specificata, le sottocategorie ammissibili per un prodotto sono:\r\n"
@@ -311,7 +311,7 @@ public abstract class ObjectProdotto {
 						+ "-	PC e SMARTWATCH per la categoria PRODOTTI ELETTRONICA.\r\n"
 						+ "");
 		}
-		
+
 		if(categoria.equalsIgnoreCase("PRODOTTI_ELETTRONICA")) {
 			if(!sottocategoria.equalsIgnoreCase("PC") && !sottocategoria.equalsIgnoreCase("SMARTWATCH"))
 				throw new AppartenenzaSottocategoriaException("Errata sottocategoria.\n Se specificata, le sottocategorie ammissibili per un prodotto sono:\r\n"
@@ -319,7 +319,122 @@ public abstract class ObjectProdotto {
 						+ "-	PC e SMARTWATCH per la categoria PRODOTTI ELETTRONICA.\r\n"
 						+ "");
 		}
-			
+
+		return true;
+	}
+
+
+	/**
+	 * Verifica correttezza descrizione in evidenza
+	 * 
+	 * */
+
+	public static boolean checkValidateTopDescrizione(String topDescrizione) throws FormatoTopDescrizioneException {
+
+		if(topDescrizione.isBlank())
+			throw new FormatoTopDescrizioneException("La descrizione di presentazione non può essere vuota");
+
+		return true;
+	}
+
+	/**
+	 * Verifica correttezza descrizione in dettaglio
+	 * 
+	 * */
+
+	public static boolean checkValidateDettagli(String dettagli) throws FormatoDettagliException {
+
+		if(dettagli.isBlank())
+			throw new FormatoDettagliException("La descrizione di dettaglio non può essere vuota");
+
+		return true;
+	}
+
+	/**
+	 * Verifica correttezza modello
+	 * 
+	 * */
+
+	public static boolean checkValidateModello(String modello) throws FormatoModelloException {
+		String modelPattern = "^[A-Za-z0-9]+([-]?[A-Za-z0-9]+)*(\s?[A-Za-z0-9]+)*$";
+
+		if(!modello.matches(modelPattern))
+			throw new FormatoModelloException("Il modello deve contenere lettere e, eventualmente, numeri, spazi e trattini");
+
+		return true;
+	}
+
+	/**
+	 * Verifica correttezza marca
+	 * 
+	 * */
+
+	public static boolean checkValidateMarca(String marca) throws FormatoMarcaException {
+		String brandPattern = "^[A-Za-z ]+$";
+
+		if(!marca.matches(brandPattern))
+			throw new FormatoMarcaException("La marca del prodotto deve contenere lettere e, eventualmente, spazi");
+
+		return true;
+	}
+
+	/**
+	 * Verifica correttezza categoria
+	 * @throws CategoriaProdottoException 
+	 * 
+	 * */
+
+	public static boolean checkValidateCategoria(String categoria) throws CategoriaProdottoException {
+
+		if(!categoria.equalsIgnoreCase("TELEFONIA") && !categoria.equalsIgnoreCase("PRODOTTI_ELETTRONICA")
+				&& !categoria.equalsIgnoreCase("PICCOLI_ELETTRODOMESTICI") 
+				&& !categoria.equalsIgnoreCase("GRANDI_ELETTRODOMESTICI"))
+			throw new CategoriaProdottoException("La categoria inserita non esiste. Sono ammesse come categorie : TELEFONIA, PRODOTTI_ELETTRONICA, PICCOLI_ELETTRODOMESTICI, GRANDI_ELETTRODOMESTICI.");
+
+		return true;
+	}
+	
+	
+	/**
+	 * Verifica correttezza sottocategoria
+	 * 
+	 * */
+
+	
+	public static boolean checkValidateSottocategoria(String sottocategoria) throws  SottocategoriaProdottoException{
+
+		if(!sottocategoria.equalsIgnoreCase("SMARTWATCH") && !sottocategoria.equalsIgnoreCase("PC")
+				&& !sottocategoria.equalsIgnoreCase("SMARTPHONE")
+				&& !sottocategoria.equalsIgnoreCase("TABLET"))
+			throw new SottocategoriaProdottoException("La sottocategoria specificata non esiste. Sono ammesse le seguenti sottocategorie: TABLET, SMARTPHONE, PC, SMARTWATCH.");
+		return true;
+	}
+
+	/**
+	 * Verifica correttezza dell'appartenenza della 
+	 * sottocategoria alla categoria specificata per il prodotto.
+	 * @throws SottocategoriaProdottoException 
+	 *  
+	 * 
+	 * */
+
+	public static boolean checkValidateAppartenenzaSottocategoria(String categoria, String sottocategoria) throws  AppartenenzaSottocategoriaException{
+
+		if(categoria.equalsIgnoreCase("TELEFONIA")) {
+			if(!sottocategoria.equalsIgnoreCase("TABLET") && !sottocategoria.equalsIgnoreCase("SMARTPHONE"))
+				throw new AppartenenzaSottocategoriaException("Errata sottocategoria.\n Se specificata, le sottocategorie ammissibili per un prodotto sono:\r\n"
+						+ "-	TABLET e SMARTPHONE per la categoria TELEFONIA;\r\n"
+						+ "-	PC e SMARTWATCH per la categoria PRODOTTI ELETTRONICA.\r\n"
+						+ "");
+		}
+
+		if(categoria.equalsIgnoreCase("PRODOTTI_ELETTRONICA")) {
+			if(!sottocategoria.equalsIgnoreCase("PC") && !sottocategoria.equalsIgnoreCase("SMARTWATCH"))
+				throw new AppartenenzaSottocategoriaException("Errata sottocategoria.\n Se specificata, le sottocategorie ammissibili per un prodotto sono:\r\n"
+						+ "-	TABLET e SMARTPHONE per la categoria TELEFONIA;\r\n"
+						+ "-	PC e SMARTWATCH per la categoria PRODOTTI ELETTRONICA.\r\n"
+						+ "");
+		}
 		return true;
 	}
 
@@ -479,23 +594,23 @@ public abstract class ObjectProdotto {
 	public void setTopDescrizione(String topDescrizione) {
 		this.topDescrizione = topDescrizione;
 	}
-	
+
 	/**
 	 * Il metodo fornisce la descrizione dettagliata del prodotto.
 	 * 
 	 * @return dettagli : specifica tecnica del prodotto
 	 * */
-	
+
 	public String getDettagli() {
 		return dettagli;
 	}
-	
+
 	/**
 	 * Il metodo imposta la specifica tecnica del prodotto.
 	 * 
 	 * @param dettagli: descrizione dettagliata del prodotto
 	 * */
-	
+
 	public void setDettagli(String dettagli) {
 		this.dettagli = dettagli;
 	}
@@ -810,7 +925,23 @@ public abstract class ObjectProdotto {
 				&& nomeProdotto.equals(other.nomeProdotto)
 				&& marca.equals(other.marca)
 				&& modello.equals(other.modello)
-				&& prezzo == other.prezzo;
+				&& prezzo == other.prezzo
+				&& topDescrizione.equals(other.topDescrizione)
+				&& dettagli.equals(other.dettagli)
+				&& categoria.toString().equals(other.categoria.toString())
+				&& equalsSottocategoria(other.sottocategoria);
+				
+	}
+	
+	public boolean equalsSottocategoria(Sottocategoria otherSubcategory) {
+		if(sottocategoria == null && otherSubcategory == null)
+			return true;
+		if(sottocategoria != null && otherSubcategory != null) {
+			if(sottocategoria.toString().equals(otherSubcategory.toString()))
+				return true;
+		}
+		
+		return false;
 	}
 
 

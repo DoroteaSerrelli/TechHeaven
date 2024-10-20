@@ -159,10 +159,15 @@ public interface GestioneCatalogoService {
 	 * 
 	 * @throws ErroreSpecificaAggiornamentoException : eccezione lanciata per gestire il mancato/incorretto inserimento della specifica del prodotto da
 	 * 													aggiornare.
+	 * @throws FormatoTopDescrizioneException 
+	 * @throws FormatoDettagliException 
+	 * @throws FormatoModelloException 
+	 * @throws FormatoMarcaException 
+	 * @throws AppartenenzaSottocategoriaException 
 	 * 
 	 */
 	
-	public Collection<ProxyProdotto> aggiornamentoSpecificheProdotto(Prodotto product, String infoSelected, String updatedData, int page, int perPage) throws ProdottoAggiornatoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException ;
+	public Collection<ProxyProdotto> aggiornamentoSpecificheProdotto(Prodotto product, String infoSelected, String updatedData, int page, int perPage) throws ProdottoAggiornatoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException ;
 	
 	/**
 	 * Il metodo definisce il servizio di aggiornamento dell'inserimento o della

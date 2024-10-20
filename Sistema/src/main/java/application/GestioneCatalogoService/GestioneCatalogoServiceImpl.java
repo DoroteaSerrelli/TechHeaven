@@ -48,13 +48,13 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
  * @author Dorotea Serrelli
  */
 public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
-	
+
 	private ProdottoDAODataSource productDAO;
-	
+
 	public GestioneCatalogoServiceImpl(ProdottoDAODataSource productDAO) {
 		this.productDAO = productDAO;
 	}
-	
+
 	/**
 	 * Il metodo implementa il servizio di visualizzazione
 	 * dell'elenco dei prodotti presenti nel catalogo.
@@ -76,7 +76,7 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 
 	@Override
 	public Collection<ProxyProdotto> visualizzaCatalogo(int page, int perPage) throws SQLException, CategoriaProdottoException, SottocategoriaProdottoException {
-		
+
 		return productDAO.doRetrieveAllExistent("NOME", page, perPage);
 	}
 
@@ -117,7 +117,7 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	@Override
 	public Collection<ProxyProdotto> aggiuntaProdottoInCatalogo(String codice, String nome, String marca, String modello, String topDescrizione, String dettagli, float prezzo, 
 			int quantita, String categoria, String sottocategoria, boolean inCatalogo, boolean inVetrina, ProdottoDAODataSource productDAO, int page, int perPage) throws SQLException, ProdottoInCatalogoException, CategoriaProdottoException, SottocategoriaProdottoException, QuantitaProdottoException, FormatoNomeException, FormatoModelloException, FormatoMarcaException, PrezzoProdottoException, FormatoTopDescrizioneException, FormatoDettagliException, AppartenenzaSottocategoriaException, NumberFormatException, FormatoCodiceException {
-		
+
 		if(sottocategoria == null) {
 			if(Prodotto.checkValidate(codice, nome, marca, modello, topDescrizione, dettagli, prezzo, quantita, categoria, productDAO)) {
 				Prodotto product = new Prodotto(Integer.parseInt(codice), nome, topDescrizione, dettagli, prezzo, Categoria.valueOf(categoria), marca, modello, quantita, inCatalogo, inVetrina);
@@ -125,7 +125,7 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 
 				return productDAO.doRetrieveAllExistent(null, page, perPage);
 			}
-			
+
 		}else {
 			if(Prodotto.checkValidate(codice, nome, marca, modello, topDescrizione, dettagli, prezzo, quantita, categoria, sottocategoria, productDAO)) {
 				Prodotto product = new Prodotto(Integer.parseInt(codice), nome, topDescrizione, dettagli, prezzo, Categoria.valueOf(categoria), Sottocategoria.valueOf(sottocategoria), marca, modello, quantita, inCatalogo, inVetrina);
@@ -134,7 +134,7 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 				return productDAO.doRetrieveAllExistent(null, page, perPage);
 			}
 		}
-		
+
 		return null;
 	}
 
@@ -164,10 +164,10 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 
 	@Override
 	public Collection<ProxyProdotto> rimozioneProdottoDaCatalogo(ProxyProdotto product, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException, ProdottoNulloException {
-		
+
 		if(product == null)
 			throw new ProdottoNulloException("Specificare il prodotto da rimuovere dal catalogo del negozio");
-		
+
 		ProxyProdotto notInCatalogue = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
 		if (notInCatalogue == null || !notInCatalogue.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto da rimuovere non e\' presente nel catalogo.");
@@ -177,7 +177,7 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}
 
-	
+
 	/**
 	 * Il metodo implementa il servizio di aggiornamento delle seguenti specifiche del prodotto: 
 	 * modello, marca, descrizione in evidenza, descrizione dettagliata, categoria, 
@@ -206,70 +206,100 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 * 
 	 * @throws ErroreSpecificaAggiornamentoException : eccezione lanciata per gestire il mancato/incorretto inserimento della specifica del prodotto da
 	 * 													aggiornare.
+	 * @throws FormatoTopDescrizioneException 
+	 * @throws FormatoDettagliException 
+	 * @throws FormatoModelloException 
+	 * @throws FormatoMarcaException 
+	 * @throws AppartenenzaSottocategoriaException 
 	 * 
 	 */
 
 	@Override
 	public Collection<ProxyProdotto> aggiornamentoSpecificheProdotto(Prodotto product, String infoSelected,
-			String updatedData, int page, int perPage) throws ProdottoAggiornatoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException {
-		
+			String updatedData, int page, int perPage) throws ProdottoAggiornatoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException {
+
 		Prodotto retrieved = productDAO.doRetrieveCompleteByKey(product.getCodiceProdotto());
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
-		
+
 		switch(infoSelected) {
-			case "DESCRIZIONE_EVIDENZA" :
-				if(retrieved.getTopDescrizione().equals(updatedData))
-					throw new ProdottoAggiornatoException("Il prodotto da aggiornare ha gia\' la descrizione in evidenza aggiornata!");
-				productDAO.updateData(product.getCodiceProdotto(), "TOPDESCRIZIONE", updatedData);
-				break;
-				
-			case "DESCRIZIONE_DETTAGLIATA" :
-				if(retrieved.getDettagli().equals(updatedData))
-					throw new ProdottoAggiornatoException("Il prodotto da aggiornare ha gia\' la descrizione dettagliata aggiornata!");
-				productDAO.updateData(product.getCodiceProdotto(), "DETTAGLI", updatedData);
-				break;
-			
-			case "MODELLO" :
-				if(retrieved.getModello().equals(updatedData))
-					throw new ProdottoAggiornatoException("Il prodotto da aggiornare ha gia\' il modello aggiornato!");
-				productDAO.updateData(product.getCodiceProdotto(), "MODELLO", updatedData);
-				break;
-			
-			case "MARCA" :
-				if(retrieved.getMarca().equals(updatedData))
-					throw new ProdottoAggiornatoException("Il prodotto da aggiornare ha gia\' la marca aggiornata!");
-				productDAO.updateData(product.getCodiceProdotto(), "MARCA", updatedData);
-				break;
-		
-			case "CATEGORIA" :
-				if(Categoria.valueOf(updatedData) == null) //updatedData non è un elemento di Categoria
-					throw new CategoriaProdottoException("Le categorie ammissibili sono TELEFONIA, PRODOTTI ELETTRONICA, GRANDI ELETTRODOMESTICI, PICCOLI ELETTRODOMESTICI");
-				
-				if(retrieved.getCategoriaAsString().equals(updatedData))
-					throw new ProdottoAggiornatoException("Il prodotto da aggiornare ha gia\' la categoria aggiornata!");
-				productDAO.updateData(product.getCodiceProdotto(), "CATEGORIA", updatedData);
-				break;
-			
-			case "SOTTOCATEGORIA" :
-				if(Sottocategoria.valueOf(updatedData) == null) //updatedData non è un elemento di Sottocategoria
-					throw new SottocategoriaProdottoException("Se specificata, le sottocategorie ammissibili per un prodotto sono:"
-			        		+ "\n- TABLET e SMARTPHONE per la categoria TELEFONIA;"
-			        		+ "\n- PC e SMARTWATCH per la categoria PRODOTTI ELETTRONICA.");
-				
-				if(retrieved.getSottocategoriaAsString().equals(updatedData))
-					throw new ProdottoAggiornatoException("Il prodotto da aggiornare ha gia\' la sottocategoria aggiornata!");
-				productDAO.updateData(product.getCodiceProdotto(), "SOTTOCATEGORIA", updatedData);
-				break;
-			
-			default:
-				throw new ErroreSpecificaAggiornamentoException("La specifica del prodotto da aggiornare non esiste.");
+		case "DESCRIZIONE_EVIDENZA" :
+			if(!ObjectProdotto.checkValidateTopDescrizione(updatedData))
+				throw new FormatoTopDescrizioneException("La descrizione di presentazione non può essere vuota");
+
+			if(retrieved.getTopDescrizione().equals(updatedData))
+				throw new ProdottoAggiornatoException("Non è possibile associare la descrizione di presentazione inserita con il prodotto specificato.\nInserisci un'altra descrizione di presentazione.");
+			productDAO.updateData(product.getCodiceProdotto(), "TOPDESCRIZIONE", updatedData);
+
+			break;
+
+		case "DESCRIZIONE_DETTAGLIATA" :
+
+			if(!ObjectProdotto.checkValidateDettagli(updatedData))
+				throw new FormatoDettagliException("La descrizione di dettaglio non può essere vuota");
+
+			if(retrieved.getDettagli().equals(updatedData))
+				throw new ProdottoAggiornatoException("Non è possibile associare la descrizione di dettaglio inserita con il prodotto specificato.\nInserisci un'altra descrizione di dettaglio.");
+			productDAO.updateData(product.getCodiceProdotto(), "DETTAGLI", updatedData);
+			break;
+
+		case "MODELLO" :
+
+			if(!ObjectProdotto.checkValidateModello(updatedData))
+				throw new FormatoModelloException("Il modello deve contenere lettere e, eventualmente, numeri, spazi e trattini");
+
+			if(retrieved.getModello().equals(updatedData))
+				throw new ProdottoAggiornatoException("Non è possibile associare il modello inserito con il prodotto specificato.\nInserisci un altro modello.");
+			productDAO.updateData(product.getCodiceProdotto(), "MODELLO", updatedData);
+			break;
+
+		case "MARCA" :
+
+			if(!ObjectProdotto.checkValidateMarca(updatedData))
+				throw new FormatoMarcaException("La marca del prodotto deve contenere lettere e, eventualmente, spazi");
+
+			if(retrieved.getMarca().equals(updatedData))
+				throw new ProdottoAggiornatoException("Non è possibile associare la marca inserita con il prodotto specificato.\nInserisci un'altra marca.");
+			productDAO.updateData(product.getCodiceProdotto(), "MARCA", updatedData);
+			break;
+
+		case "CATEGORIA" :
+
+			if(!ObjectProdotto.checkValidateCategoria(updatedData))
+				throw new CategoriaProdottoException("La categoria inserita non esiste. Sono ammesse come categorie : TELEFONIA, PRODOTTI_ELETTRONICA, PICCOLI_ELETTRODOMESTICI, GRANDI_ELETTRODOMESTICI.");
+
+			if(retrieved.getCategoriaAsString().equals(updatedData))
+				throw new ProdottoAggiornatoException("Non è possibile associare la categoria inserita con il prodotto specificato.\nInserisci un'altra categoria.");
+			productDAO.updateData(product.getCodiceProdotto(), "CATEGORIA", updatedData);
+			break;
+
+		case "SOTTOCATEGORIA" :
+
+			if(!ObjectProdotto.checkValidateSottocategoria(updatedData))
+				throw new SottocategoriaProdottoException("La sottocategoria specificata non esiste. Sono ammesse le seguenti sottocategorie: TABLET, SMARTPHONE, PC, SMARTWATCH.");
+
+			if(retrieved.getSottocategoriaAsString().equals(updatedData))
+				throw new ProdottoAggiornatoException("Non è possibile associare la sottocategoria inserita con il prodotto specificato.\nInserisci un'altro sottocategoria.");
+
+			if(!ObjectProdotto.checkValidateAppartenenzaSottocategoria(product.getCategoriaAsString(), updatedData))
+				throw new AppartenenzaSottocategoriaException("Errata sottocategoria.\n Se specificata, le sottocategorie ammissibili per un prodotto sono:\r\n"
+						+ "-	TABLET e SMARTPHONE per la categoria TELEFONIA;\r\n"
+						+ "-	PC e SMARTWATCH per la categoria PRODOTTI ELETTRONICA.\r\n"
+						+ "");
+
+			productDAO.updateData(product.getCodiceProdotto(), "SOTTOCATEGORIA", updatedData);
+
+			break;
+
+		default:
+			throw new ErroreSpecificaAggiornamentoException("Seleziona un'informazione da modificare:\n-modello, \n-marca,"
+					+ "\n-descrizione in evidenza, \n-descrizione dettagliata,\n-categoria,\n-sottocategoria.");
 		}
-		
+
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}
-	
-	
+
+
 	/**
 	 * Il metodo definisce il servizio di aggiornamento dell'inserimento o della
 	 * rimozione di un prodotto del catalogo
@@ -294,18 +324,18 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
 	 * 	
 	 */
-	
+
 	public Collection<ProxyProdotto> aggiornamentoProdottoInVetrina(Prodotto product, int updatedData, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException{
 		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
-		
+
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
 		else 
 			productDAO.updateDataView(product.getCodiceProdotto(), updatedData);
-		
+
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}
-	
+
 	/**
 	 * Il metodo implementa il servizio di aggiornamento della quantità di scorte
 	 * in magazzino di un prodotto del catalogo.
@@ -332,19 +362,19 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 * @throws QuantitaProdottoException : eccezione lanciata per gestire un valore non valido per quantity
 	 * 
 	 * */
-	
+
 	public Collection<ProxyProdotto> aggiornamentoDisponibilitàProdotto(Prodotto product, int quantity, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, QuantitaProdottoException{
 		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
-		
+
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
 		if(quantity <= 0 || quantity < retrieved.getQuantita())
 			throw new QuantitaProdottoException("La quantita\' di scorte in magazzino del prodotto deve essere positiva e maggiore del numero di scorte attuali del prodotto, ovvero maggiore di " + retrieved.getQuantita());
-		
+
 		productDAO.updateQuantity(product.getCodiceProdotto(), quantity);
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}
-	
+
 	/**
 	 * Il metodo implementa il servizio di aggiornamento del prezzo di un prodotto
 	 * presente nel catalogo del negozio.
@@ -371,20 +401,20 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 * @throws PrezzoProdottoException : eccezione lanciata per gestire un valore non valido associato a price
 	 * 
 	 * */
-	
+
 	public Collection<ProxyProdotto> aggiornamentoPrezzoProdotto(Prodotto product, float price, int page, int perPage) throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, PrezzoProdottoException{
 		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
-		
+
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
 		if(price < 0.0)
 			throw new PrezzoProdottoException("Il prezzo del prodotto non e\' ammissibile.");
-		
+
 		productDAO.updatePrice(product.getCodiceProdotto(), price);
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}
-	
-	
+
+
 	/**
 	 * Il metodo implementa il servizio di aggiunta dell' immagine di presentazione ad un
 	 * prodotto presente nel catalogo del negozio.
@@ -408,17 +438,17 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 * 
 	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
 	 * */
-	
+
 	public Collection<ProxyProdotto> inserimentoTopImmagine(Prodotto product, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException{
 		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
-		
+
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
-		
+
 		PhotoControl.updateTopImage(product.getCodiceProdotto(), image);
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}
-	
+
 	/**
 	 * Il metodo implementa il servizio di aggiunta di un'immagine di dettaglio alla galleria immagini 
 	 * di un prodotto presente nel catalogo del negozio.
@@ -441,18 +471,18 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 * 
 	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
 	 * */
-	
+
 	public Collection<ProxyProdotto> inserimentoImmagineInGalleriaImmagini(Prodotto product, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException{
 		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
-		
+
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
-		
+
 		PhotoControl.addPhotoInGallery(product.getCodiceProdotto(), image);
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}
-	
-	
+
+
 	/**
 	 * Il metodo implementa il servizio di rimozione di un'immagine di dettaglio alla galleria immagini 
 	 * di un prodotto presente nel catalogo del negozio.
@@ -477,14 +507,14 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
 	 * @throws IOException 
 	 */
-	
+
 	public Collection<ProxyProdotto> cancellazioneImmagineInGalleria(Prodotto product, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, IOException{
 		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
-		
+
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
 		int imgCode = PhotoControl.retrievePhotoInGallery(product.getCodiceProdotto(), image);
-		
+
 		PhotoControl.deletePhotoInGallery(product.getCodiceProdotto(), imgCode);
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}

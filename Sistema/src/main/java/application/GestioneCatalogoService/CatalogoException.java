@@ -48,6 +48,23 @@ public class CatalogoException extends Exception{
 	}
 	
 	/**
+	 * Classe statica per gestire il caso in cui non venga specificato
+	 * il prodotto per fare un'azione (Es. rimozione o aggiornamento).
+	 * */
+	public static class ProdottoNulloException extends CatalogoException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public ProdottoNulloException(String message) {
+			super(message);
+		}
+	}
+	
+	
+	/**
 	 * Classe statica per gestire la rimozione di un prodotto
 	 * non presente nel catalogo.
 	 * */

@@ -11,6 +11,8 @@ import application.NavigazioneService.ObjectProdotto.Sottocategoria;
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProdottoException.AppartenenzaSottocategoriaException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.DettagliImmagineNonPresenteException;
+import application.NavigazioneService.ProdottoException.ErroreDettagliImmagineException;
 import application.NavigazioneService.ProdottoException.ErroreTopImmagineException;
 import application.NavigazioneService.ProdottoException.FormatoCodiceException;
 import application.NavigazioneService.ProdottoException.FormatoDettagliException;
@@ -538,15 +540,24 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 * 										di una categoria
 	 * 
 	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
+	 * @throws ErroreSpecificaAggiornamentoException 
+	 * @throws ErroreDettagliImmagineException 
 	 * */
 
-	public Collection<ProxyProdotto> inserimentoImmagineInGalleriaImmagini(Prodotto product, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException{
+	public Collection<ProxyProdotto> inserimentoImmagineInGalleriaImmagini(Prodotto product, String information, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, ErroreDettagliImmagineException{
 		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
-
+		
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
 
+		if(!information.equalsIgnoreCase("AGGIUNTA_DETT_IMMAGINE"))
+			throw new ErroreSpecificaAggiornamentoException("Per inserire un'immagine di dettaglio per un prodotto, seleziona l'apposita scelta.");
+		
+		if(image == null)
+			throw new ErroreDettagliImmagineException("Inserire un'immagine di dettaglio del prodotto");
+			
 		pcDAO.addPhotoInGallery(product.getCodiceProdotto(), image);
+		
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}
 
@@ -574,15 +585,28 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 * 
 	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
 	 * @throws IOException 
+	 * @throws ErroreSpecificaAggiornamentoException 
+	 * @throws ErroreDettagliImmagineException 
+	 * @throws DettagliImmagineNonPresenteException 
 	 */
 
-	public Collection<ProxyProdotto> cancellazioneImmagineInGalleria(Prodotto product, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, IOException{
+	public Collection<ProxyProdotto> cancellazioneImmagineInGalleria(Prodotto product, String information, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, IOException, ErroreSpecificaAggiornamentoException, ErroreDettagliImmagineException, DettagliImmagineNonPresenteException{
 		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
 
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
+		
+		if(!information.equalsIgnoreCase("RIMOZIONE_DETT_IMMAGINE"))
+			throw new ErroreSpecificaAggiornamentoException("Per rimuovere un'immagine di dettaglio per un prodotto, seleziona l'apposita scelta.");
+		
+		if(image == null)
+			throw new ErroreDettagliImmagineException("Inserire un'immagine di dettaglio del prodotto");
+			
 		int imgCode = pcDAO.retrievePhotoInGallery(product.getCodiceProdotto(), image);
-
+		
+		if(imgCode == -1)
+			throw new DettagliImmagineNonPresenteException("L'immagine di dettaglio specificata non è associata al prodotto. Scegliere un'altra immagine di dettaglio.");
+		
 		pcDAO.deletePhotoInGallery(product.getCodiceProdotto(), imgCode);
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}

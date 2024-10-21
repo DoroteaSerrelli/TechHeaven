@@ -244,4 +244,37 @@ public class ProdottoException extends Exception{
 		}
 	}
 	
+	/**
+	 * Classe statica per gestire il mancato inserimento della immagine
+	 * di dettaglio di un prodotto.
+	 * */
+	public static class ErroreDettagliImmagineException extends ProdottoException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public ErroreDettagliImmagineException(String message) {
+			super(message);
+		}
+	}
+	
+	/**
+	 * Classe statica per gestire l'inserimento di un'immagine di dettaglio
+	 * da rimuovere, che non appartiene alla galleria di immagini del prodotto.
+	 * */
+	public static class DettagliImmagineNonPresenteException extends ProdottoException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public DettagliImmagineNonPresenteException(String message) {
+			super(message);
+		}
+	}
+	
+	
 }

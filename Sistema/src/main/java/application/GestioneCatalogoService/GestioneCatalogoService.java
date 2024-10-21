@@ -14,6 +14,8 @@ import application.GestioneCatalogoService.CatalogoException.ProdottoNulloExcept
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProdottoException.AppartenenzaSottocategoriaException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.DettagliImmagineNonPresenteException;
+import application.NavigazioneService.ProdottoException.ErroreDettagliImmagineException;
 import application.NavigazioneService.ProdottoException.ErroreTopImmagineException;
 import application.NavigazioneService.ProdottoException.FormatoCodiceException;
 import application.NavigazioneService.ProdottoException.FormatoDettagliException;
@@ -311,8 +313,7 @@ public interface GestioneCatalogoService {
 	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
 	 * */
 	
-	public Collection<ProxyProdotto> inserimentoImmagineInGalleriaImmagini(Prodotto product, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException;
-	
+	public Collection<ProxyProdotto> inserimentoImmagineInGalleriaImmagini(Prodotto product, String information, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, ErroreDettagliImmagineException;
 	/**
 	 * Il metodo definisce il servizio di rimozione di un'immagine di dettaglio alla galleria immagini 
 	 * di un prodotto presente nel catalogo del negozio.
@@ -338,5 +339,5 @@ public interface GestioneCatalogoService {
 	 * @throws IOException 
 	 */
 	
-	public Collection<ProxyProdotto> cancellazioneImmagineInGalleria(Prodotto product, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, IOException;
+	public Collection<ProxyProdotto> cancellazioneImmagineInGalleria(Prodotto product, String information, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, IOException, ErroreSpecificaAggiornamentoException, ErroreDettagliImmagineException, DettagliImmagineNonPresenteException;
 }

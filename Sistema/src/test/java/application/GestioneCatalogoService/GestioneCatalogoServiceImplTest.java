@@ -35,6 +35,8 @@ import application.NavigazioneService.ObjectProdotto.Categoria;
 import application.NavigazioneService.ObjectProdotto.Sottocategoria;
 import application.NavigazioneService.ProdottoException.AppartenenzaSottocategoriaException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.DettagliImmagineNonPresenteException;
+import application.NavigazioneService.ProdottoException.ErroreDettagliImmagineException;
 import application.NavigazioneService.ProdottoException.ErroreTopImmagineException;
 import application.NavigazioneService.ProdottoException.FormatoCodiceException;
 import application.NavigazioneService.ProdottoException.FormatoDettagliException;
@@ -1835,7 +1837,19 @@ public class GestioneCatalogoServiceImplTest {
 	 * 			   la nuova immagine di presentazione è stata specificata
 	 * 
 	 * */
+	
+	public static byte[] inputStreamToByteArray(InputStream inputStream) throws IOException {
+        try (ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
+            byte[] data = new byte[1024]; // Dimensione del buffer
+            int bytesRead;
 
+            while ((bytesRead = inputStream.read(data, 0, data.length)) != -1) {
+                buffer.write(data, 0, bytesRead);
+            }
+            return buffer.toByteArray();
+        }
+    }
+	
 	@Test
 	public void TC16_5_1_1() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
 		
@@ -1860,21 +1874,8 @@ public class GestioneCatalogoServiceImplTest {
 		});
 	}
 	
-	
-	public static byte[] inputStreamToByteArray(InputStream inputStream) throws IOException {
-        try (ByteArrayOutputStream buffer = new ByteArrayOutputStream()) {
-            byte[] data = new byte[1024]; // Dimensione del buffer
-            int bytesRead;
-
-            while ((bytesRead = inputStream.read(data, 0, data.length)) != -1) {
-                buffer.write(data, 0, bytesRead);
-            }
-            return buffer.toByteArray();
-        }
-    }
-	
 	@Test
-	public void TC16_5_1_2() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, ProdottoAggiornatoException, QuantitaProdottoException, ErroreTopImmagineException, IOException {
+	public void TC16_5_1_2() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, ProdottoAggiornatoException, ErroreTopImmagineException, IOException {
 
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
@@ -1935,9 +1936,325 @@ public class GestioneCatalogoServiceImplTest {
 		assertTrue(updatedCatalogue.contains(product2));
 		assertEquals(image, updatedProduct.getTopImmagine());
 		
+	}
+	
+	
+	/**
+	 * TEST CASES AGGIUNTA IMMAGINE DI DETTAGLIO PER UN PRODOTTO
+	 * 
+	 * TC16_6.1_1: prodotto selezionato dal catalogo, 
+	 * 			   informazione da modificare è aggiunta immagine di dettaglio per il prodotto,
+	 * 			   la nuova immagine di dettaglio non è stata specificata
+	 * 
+	 * TC16_6.1_2: prodotto selezionato dal catalogo, 
+	 * 			   informazione da modificare è aggiunta immagine di dettaglio per il prodotto,
+	 * 			   la nuova immagine di dettaglio è stata specificata
+	 * 
+	 * */
+
+	@Test
+	public void TC16_6_1_1() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
+		
+		ProxyProdotto doUpdateProxy = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
+
+		Prodotto doUpdate = new Prodotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false);
+
+
+		//deve essere AGGIUNTA_DETT_IMMAGINE
+		String infoToUpdate = "AGGIUNTA_DETT_IMMAGINE"; 
+
+		InputStream updatedData = null;
+		int page = 1;
+		int perPage = 5;
+
+		Mockito.when(productDAO.doRetrieveProxyByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(doUpdateProxy);
+
+		assertThrows(ErroreDettagliImmagineException.class, () -> {
+			catalogoService.inserimentoImmagineInGalleriaImmagini(doUpdate, infoToUpdate, updatedData, page, perPage);
+		});
+	}
+	
+	
+	@Test
+	public void TC16_6_1_2() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, IOException, ErroreDettagliImmagineException {
+
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
+		
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
+
+		ProxyProdotto product3 = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false, productDAO);
+
+
+		ProxyProdotto doUpdateProxy = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
+
+		Prodotto doUpdate = new Prodotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false);
+
+		Collection<ProxyProdotto> catalogue = new ArrayList<>();
+		catalogue.add(product1);
+		catalogue.add(product2);
+		catalogue.add(product3);
+
+
+		//deve essere AGGIUNTA_DETT_IMMAGINE
+		String infoToUpdate = "AGGIUNTA_DETT_IMMAGINE"; 
+		
+		InputStream image1 = new ByteArrayInputStream(new byte[]{
+	            (byte) 0x00, (byte) 0x50, (byte) 0x4E, (byte) 0x47, (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A, // Header PNG
+	            (byte) 0x00, (byte) 0x90, (byte) 0x00, (byte) 0x0D, (byte) 0x49, (byte) 0x44, (byte) 0x41, (byte) 0x54, // IHDR
+	            (byte) 0x10, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, // 1x1 pixel
+	            (byte) 0x08, (byte) 0x00, (byte) 0x10, (byte) 0x00, (byte) 0x01, (byte) 0xB3, (byte) 0x51, (byte) 0x22, // Bit depth and color type
+	            (byte) 0x00, (byte) 0x08, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, // IDAT chunk
+	            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, // IEND
+	            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00
+			});
+		
+		InputStream updatedData = new ByteArrayInputStream(new byte[]{
+            (byte) 0x89, (byte) 0x50, (byte) 0x4E, (byte) 0x47, (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A, // Header PNG
+            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x0D, (byte) 0x49, (byte) 0x44, (byte) 0x41, (byte) 0x54, // IHDR
+            (byte) 0x10, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, // 1x1 pixel
+            (byte) 0x08, (byte) 0x00, (byte) 0x10, (byte) 0x00, (byte) 0x01, (byte) 0xB3, (byte) 0x51, (byte) 0x22, // Bit depth and color type
+            (byte) 0x00, (byte) 0x08, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, // IDAT chunk
+            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, // IEND
+            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00
+		});
+		
+		int page = 1;
+		int perPage = 5;
+
+		Prodotto updatedProduct = new Prodotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 2, true, false);
+		byte[] imageByte1 = inputStreamToByteArray(image1);
+		byte[] imageByte2 = inputStreamToByteArray(updatedData);
+		ArrayList<byte[]> images = new ArrayList<>();
+		images.add(imageByte1);
+		images.add(imageByte2);
+		updatedProduct.setGalleriaImmagini(images);
+		
+		Collection<ProxyProdotto> expectedCatalogue = new ArrayList<>();
+		expectedCatalogue.add(product1);
+		expectedCatalogue.add(product2);
+		expectedCatalogue.add(product3);
+
+		Mockito.when(productDAO.doRetrieveProxyByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(doUpdateProxy);
+		Mockito.when(productDAO.doRetrieveAllExistent(null, page, perPage)).thenReturn(expectedCatalogue);
+
+		Collection<ProxyProdotto> updatedCatalogue = catalogoService.inserimentoImmagineInGalleriaImmagini(doUpdate, infoToUpdate, updatedData, page, perPage);
+		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(updatedProduct);
+		
+		Mockito.verify(PhotoControlDAO);
+		
+		PhotoControlDAO.addPhotoInGallery(doUpdateProxy.getCodiceProdotto(), updatedData);
+		assertEquals(updatedCatalogue, expectedCatalogue);
+		assertTrue(updatedCatalogue.contains(product2));
+		assertEquals(product2.mostraProdotto().getGalleriaImmagini(), images);
+		
+	}
+	
+	/**
+	 * TEST CASES AGGIUNTA IMMAGINE DI DETTAGLIO PER UN PRODOTTO
+	 * 
+	 * TC16_7.1_1: prodotto selezionato dal catalogo, 
+	 * 			   informazione da modificare è rimozione immagine di dettaglio per il prodotto,
+	 * 			   l'immagine di dettaglio non è stata specificata
+	 * 
+	 * TC16_7.1_2: prodotto selezionato dal catalogo, 
+	 * 			   informazione da modificare è rimozione immagine di dettaglio per il prodotto,
+	 * 			   l'immagine di dettaglio è stata specificata, ma non appartiene alla
+	 * 			   galleria di immagini del prodotto
+	 * 
+	 * TC16_7.1_3: prodotto selezionato dal catalogo, 
+	 * 			   informazione da modificare è rimozione immagine di dettaglio per il prodotto,
+	 * 			   l'immagine di dettaglio è stata specificata ed appartiene alla
+	 * 			   galleria di immagini del prodotto
+	 * 
+	 * */
+
+	@Test
+	public void TC16_7_1_1() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
+		
+		ProxyProdotto doUpdateProxy = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
+
+		Prodotto doUpdate = new Prodotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false);
+
+
+		//deve essere RIMOZIONE_DETT_IMMAGINE
+		String infoToUpdate = "RIMOZIONE_DETT_IMMAGINE"; 
+
+		InputStream updatedData = null;
+		int page = 1;
+		int perPage = 5;
+
+		Mockito.when(productDAO.doRetrieveProxyByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(doUpdateProxy);
+
+		assertThrows(ErroreDettagliImmagineException.class, () -> {
+			catalogoService.cancellazioneImmagineInGalleria(doUpdate, infoToUpdate, updatedData, page, perPage);
+		});
+	}
+	
+	
+	@Test
+	public void TC16_7_1_2() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, IOException, ErroreDettagliImmagineException {
+
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
+		
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
+
+		ProxyProdotto product3 = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false, productDAO);
+
+
+		ProxyProdotto doUpdateProxy = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
+
+		Prodotto doUpdate = new Prodotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false);
+
+		Collection<ProxyProdotto> catalogue = new ArrayList<>();
+		catalogue.add(product1);
+		catalogue.add(product2);
+		catalogue.add(product3);
+
+
+		//deve essere RIMOZIONE_DETT_IMMAGINE
+		String infoToUpdate = "RIMOZIONE_DETT_IMMAGINE"; 
+		
+		InputStream image1 = new ByteArrayInputStream(new byte[]{
+	            (byte) 0x00, (byte) 0x50, (byte) 0x4E, (byte) 0x47, (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A, // Header PNG
+	            (byte) 0x00, (byte) 0x90, (byte) 0x00, (byte) 0x0D, (byte) 0x49, (byte) 0x44, (byte) 0x41, (byte) 0x54, // IHDR
+	            (byte) 0x10, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, // 1x1 pixel
+	            (byte) 0x08, (byte) 0x00, (byte) 0x10, (byte) 0x00, (byte) 0x01, (byte) 0xB3, (byte) 0x51, (byte) 0x22, // Bit depth and color type
+	            (byte) 0x00, (byte) 0x08, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, // IDAT chunk
+	            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, // IEND
+	            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00
+			});
+		
+		InputStream updatedData = new ByteArrayInputStream(new byte[]{
+            (byte) 0x89, (byte) 0x50, (byte) 0x4E, (byte) 0x47, (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A, // Header PNG
+            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x0D, (byte) 0x49, (byte) 0x44, (byte) 0x41, (byte) 0x54, // IHDR
+            (byte) 0x10, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, // 1x1 pixel
+            (byte) 0x08, (byte) 0x00, (byte) 0x10, (byte) 0x00, (byte) 0x01, (byte) 0xB3, (byte) 0x51, (byte) 0x22, // Bit depth and color type
+            (byte) 0x00, (byte) 0x08, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, // IDAT chunk
+            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, // IEND
+            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00
+		});
+		
+		byte[] imageByte1 = inputStreamToByteArray(image1);
+		byte[] imageByte2 = inputStreamToByteArray(updatedData);
+		ArrayList<byte[]> images = new ArrayList<>();
+		images.add(imageByte1);
+		//images.add(imageByte2);
+		doUpdate.setGalleriaImmagini(images);
+		
+		int page = 1;
+		int perPage = 5;
+
+		Mockito.when(productDAO.doRetrieveProxyByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(doUpdateProxy);
+		Mockito.when(PhotoControlDAO.retrievePhotoInGallery(doUpdateProxy.getCodiceProdotto(), updatedData)).thenReturn(-1);
+
+		
+		assertThrows(DettagliImmagineNonPresenteException.class, () -> {
+			catalogoService.cancellazioneImmagineInGalleria(doUpdate, infoToUpdate, updatedData, page, perPage);
+		});
 		
 	}
 	
 	
-	
+	@Test
+	public void TC16_7_1_3() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, IOException, ErroreDettagliImmagineException, DettagliImmagineNonPresenteException {
+
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
+		
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
+
+		ProxyProdotto product3 = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false, productDAO);
+
+
+		ProxyProdotto doUpdateProxy = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
+
+		Prodotto doUpdate = new Prodotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false);
+
+		Collection<ProxyProdotto> catalogue = new ArrayList<>();
+		catalogue.add(product1);
+		catalogue.add(product2);
+		catalogue.add(product3);
+
+
+		//deve essere RIMOZIONE_DETT_IMMAGINE
+		String infoToUpdate = "RIMOZIONE_DETT_IMMAGINE"; 
+		
+		InputStream image1 = new ByteArrayInputStream(new byte[]{
+	            (byte) 0x00, (byte) 0x50, (byte) 0x4E, (byte) 0x47, (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A, // Header PNG
+	            (byte) 0x00, (byte) 0x90, (byte) 0x00, (byte) 0x0D, (byte) 0x49, (byte) 0x44, (byte) 0x41, (byte) 0x54, // IHDR
+	            (byte) 0x10, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, // 1x1 pixel
+	            (byte) 0x08, (byte) 0x00, (byte) 0x10, (byte) 0x00, (byte) 0x01, (byte) 0xB3, (byte) 0x51, (byte) 0x22, // Bit depth and color type
+	            (byte) 0x00, (byte) 0x08, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, // IDAT chunk
+	            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, // IEND
+	            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00
+			});
+		
+		InputStream updatedData = new ByteArrayInputStream(new byte[]{
+            (byte) 0x89, (byte) 0x50, (byte) 0x4E, (byte) 0x47, (byte) 0x0D, (byte) 0x0A, (byte) 0x1A, (byte) 0x0A, // Header PNG
+            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x0D, (byte) 0x49, (byte) 0x44, (byte) 0x41, (byte) 0x54, // IHDR
+            (byte) 0x10, (byte) 0x00, (byte) 0x00, (byte) 0x01, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x01, // 1x1 pixel
+            (byte) 0x08, (byte) 0x00, (byte) 0x10, (byte) 0x00, (byte) 0x01, (byte) 0xB3, (byte) 0x51, (byte) 0x22, // Bit depth and color type
+            (byte) 0x00, (byte) 0x08, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, // IDAT chunk
+            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00, // IEND
+            (byte) 0x00, (byte) 0x00, (byte) 0x00, (byte) 0x00
+		});
+		
+		byte[] imageByte1 = inputStreamToByteArray(image1);
+		byte[] imageByte2 = inputStreamToByteArray(updatedData);
+		ArrayList<byte[]> images = new ArrayList<>();
+		images.add(imageByte1);
+		images.add(imageByte2);
+		doUpdate.setGalleriaImmagini(images);
+		
+		int page = 1;
+		int perPage = 5;
+
+		Mockito.when(productDAO.doRetrieveProxyByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(doUpdateProxy);
+		Mockito.when(PhotoControlDAO.retrievePhotoInGallery(doUpdateProxy.getCodiceProdotto(), updatedData)).thenReturn(2);
+		
+		Collection<ProxyProdotto> expectedCatalogue = new ArrayList<>();
+		expectedCatalogue.add(product1);
+		expectedCatalogue.add(product2);
+		expectedCatalogue.add(product3);
+		
+		Prodotto updatedProduct = new Prodotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 2, true, false);
+		
+		ArrayList<byte[]> updatedImages = new ArrayList<>();
+		updatedImages.add(imageByte1);
+		updatedProduct.setGalleriaImmagini(updatedImages);
+		
+		Mockito.when(productDAO.doRetrieveAllExistent(null, page, perPage)).thenReturn(expectedCatalogue);
+		
+		Collection<ProxyProdotto> updatedCatalogue = catalogoService.cancellazioneImmagineInGalleria(doUpdate, infoToUpdate, updatedData, page, perPage);
+		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(updatedProduct);
+		
+		Mockito.verify(PhotoControlDAO);
+		
+		PhotoControlDAO.deletePhotoInGallery(doUpdateProxy.getCodiceProdotto(), 2);
+		assertEquals(updatedCatalogue, expectedCatalogue);
+		assertTrue(updatedCatalogue.contains(product2));
+		assertEquals(product2.mostraProdotto().getGalleriaImmagini(), updatedImages);
+		assertFalse(product2.mostraProdotto().getGalleriaImmagini().contains(imageByte2));
+		
+	}
 }

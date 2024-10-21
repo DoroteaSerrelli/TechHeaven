@@ -330,30 +330,86 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 */
 
 	public Collection<ProxyProdotto> aggiornamentoProdottoInVetrina(Prodotto product, String information, String updatedData, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException, ErroreSpecificaAggiornamentoException, FormatoVetrinaException, ProdottoAggiornatoException{
-		
+
 		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
-		
+
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
-		
+
 		if(!information.equalsIgnoreCase("VETRINA"))
 			throw new ErroreSpecificaAggiornamentoException("Per modificare la messa in evidenza di un prodotto per la vetrina virtuale, seleziona l'apposita scelta.");
-		
-		
+
+
 		if(!ObjectProdotto.checkValidateVetrina(updatedData))
 			throw new FormatoVetrinaException("Per aggiungere un prodotto in vetrina inserire TRUE,\nmentre per rimuovere un prodotto in vetrina inserire FALSE");
-		
+
 		int updatedDataInt;
 		if(updatedData.equalsIgnoreCase("TRUE"))
 			updatedDataInt = 1;
 		else
 			updatedDataInt = 0;
-		
+
 		if(product.isInVetrina() == Boolean.parseBoolean(updatedData))
 			throw new ProdottoAggiornatoException("Il valore di messa in evidenza del prodotto inserito è già associato.");
-			
 		else 
 			productDAO.updateDataView(product.getCodiceProdotto(), updatedDataInt);
+
+		return productDAO.doRetrieveAllExistent(null, page, perPage);
+	}
+
+	/**
+	 * Il metodo implementa il servizio di aggiornamento del prezzo di un prodotto
+	 * presente nel catalogo del negozio.
+	 * I prodotti in catalogo sono restituiti dal metodo secondo il meccanismo
+	 * della paginazione.
+	 * 
+	 * @param product : il prodotto per il quale aggiornare il prezzo (non contiene i dati aggiornati)
+	 * @param price : il prezzo del prodotto da impostare
+	 * @param page : numero della pagina
+	 * @param perPage: numero di prodotti per pagina
+	 * 
+	 * @return il catalogo dei prodotti aggiornato, contenente product con il prezzo
+	 * 		   pari a price
+	 * 
+	 * @throws SQLException 
+	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 											di una sottocategoria
+	 * 
+	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 										di una categoria
+	 * 
+	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
+	 * 	
+	 * @throws PrezzoProdottoException : eccezione lanciata per gestire un valore non valido associato a price
+	 * @throws ErroreSpecificaAggiornamentoException 
+	 * @throws ProdottoAggiornatoException 
+	 * 
+	 * */
+
+	public Collection<ProxyProdotto> aggiornamentoPrezzoProdotto(Prodotto product, String information, String price, int page, int perPage) throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, PrezzoProdottoException, ErroreSpecificaAggiornamentoException, ProdottoAggiornatoException{
+		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
+
+		if(retrieved == null || !retrieved.isInCatalogo())
+			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
+
+		if(!information.equalsIgnoreCase("PREZZO"))
+			throw new ErroreSpecificaAggiornamentoException("Per modificare il prezzo di un prodotto, seleziona l'apposita scelta.");
+
+		float priceFloat ;
+		try {
+			priceFloat = Float.parseFloat(price);
+
+			if(priceFloat < 0.0)
+				throw new PrezzoProdottoException("Il prezzo deve essere un numero con la virgola arrotondato in centesimi");
+
+		}catch(NumberFormatException | NullPointerException e) {
+			throw new PrezzoProdottoException("Il prezzo deve essere un numero con la virgola arrotondato in centesimi");
+		}
+
+		if(product.getPrezzo() == priceFloat)
+			throw new ProdottoAggiornatoException("Il prezzo inserito è già associato al prodotto.");
+		else
+			productDAO.updatePrice(product.getCodiceProdotto(), priceFloat);
 
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}
@@ -382,57 +438,36 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
 	 * 	
 	 * @throws QuantitaProdottoException : eccezione lanciata per gestire un valore non valido per quantity
+	 * @throws ProdottoAggiornatoException 
+	 * @throws ErroreSpecificaAggiornamentoException 
 	 * 
 	 * */
 
-	public Collection<ProxyProdotto> aggiornamentoDisponibilitàProdotto(Prodotto product, int quantity, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, QuantitaProdottoException{
+	public Collection<ProxyProdotto> aggiornamentoDisponibilitàProdotto(Prodotto product, String information, String quantity, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, QuantitaProdottoException, ProdottoAggiornatoException, ErroreSpecificaAggiornamentoException{
 		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
 
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
-		if(quantity <= 0 || quantity < retrieved.getQuantita())
-			throw new QuantitaProdottoException("La quantita\' di scorte in magazzino del prodotto deve essere positiva e maggiore del numero di scorte attuali del prodotto, ovvero maggiore di " + retrieved.getQuantita());
+		
+		if(!information.equalsIgnoreCase("QUANTITA"))
+			throw new ErroreSpecificaAggiornamentoException("Per modificare la quantità disponibile di un prodotto, seleziona l'apposita scelta.");
 
-		productDAO.updateQuantity(product.getCodiceProdotto(), quantity);
-		return productDAO.doRetrieveAllExistent(null, page, perPage);
-	}
+		int quantityInt;
 
-	/**
-	 * Il metodo implementa il servizio di aggiornamento del prezzo di un prodotto
-	 * presente nel catalogo del negozio.
-	 * I prodotti in catalogo sono restituiti dal metodo secondo il meccanismo
-	 * della paginazione.
-	 * 
-	 * @param product : il prodotto per il quale aggiornare il prezzo (non contiene i dati aggiornati)
-	 * @param price : il prezzo del prodotto da impostare
-	 * @param page : numero della pagina
-	 * @param perPage: numero di prodotti per pagina
-	 * 
-	 * @return il catalogo dei prodotti aggiornato, contenente product con il prezzo
-	 * 		   pari a price
-	 * 
-	 * @throws SQLException 
-	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
-	 * 											di una sottocategoria
-	 * 
-	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
-	 * 										di una categoria
-	 * 
-	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
-	 * 	
-	 * @throws PrezzoProdottoException : eccezione lanciata per gestire un valore non valido associato a price
-	 * 
-	 * */
+		try {
+			quantityInt = Integer.parseInt(quantity);
 
-	public Collection<ProxyProdotto> aggiornamentoPrezzoProdotto(Prodotto product, float price, int page, int perPage) throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, PrezzoProdottoException{
-		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
-
-		if(retrieved == null || !retrieved.isInCatalogo())
-			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
-		if(price < 0.0)
-			throw new PrezzoProdottoException("Il prezzo del prodotto non e\' ammissibile.");
-
-		productDAO.updatePrice(product.getCodiceProdotto(), price);
+			if(quantityInt <= 0)
+				throw new QuantitaProdottoException("La quantità di un prodotto disponibile deve essere almeno 1");
+		
+		}catch(NumberFormatException e) {
+			throw new QuantitaProdottoException("La quantità di un prodotto disponibile deve essere almeno 1");
+		}
+		if(product.getQuantita() == quantityInt)
+			throw new ProdottoAggiornatoException("Il numero di scorte inserito è già associato al prodotto.");
+		else
+			productDAO.updateQuantity(product.getCodiceProdotto(), quantityInt);
+		
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}
 

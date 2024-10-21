@@ -201,35 +201,6 @@ public interface GestioneCatalogoService {
 	 */
 	
 	public Collection<ProxyProdotto> aggiornamentoProdottoInVetrina(Prodotto product, String information, String updatedData, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException, ErroreSpecificaAggiornamentoException, FormatoVetrinaException, ProdottoAggiornatoException;
-			
-	/**
-	 * Il metodo definisce il servizio di aggiornamento della quantità di scorte
-	 * in magazzino di un prodotto del catalogo.
-	 * I prodotti in catalogo sono restituiti dal metodo secondo il meccanismo
-	 * della paginazione.
-	 * 
-	 * @param product : il prodotto per il quale aggiornare la quantità (non contiene i dati aggiornati)
-	 * @param quantity : la nuova quantità di scorte da impostare
-	 * @param page : numero della pagina
-	 * @param perPage: numero di prodotti per pagina
-	 * 
-	 * @return il catalogo dei prodotti aggiornato, contenente product con la disponibilità
-	 * 		   di scorte in magazzino pari a quantity
-	 * 
-	 * @throws SQLException 
-	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
-	 * 											di una sottocategoria
-	 * 
-	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
-	 * 										di una categoria
-	 * 
-	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
-	 * 	
-	 * @throws QuantitaProdottoException : eccezione lanciata per gestire un valore non valido per quantity
-	 * 
-	 * */
-	
-	public Collection<ProxyProdotto> aggiornamentoDisponibilitàProdotto(Prodotto product, int quantity, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, QuantitaProdottoException;
 	
 	/**
 	 * Il metodo definisce il servizio di aggiornamento del prezzo di un prodotto
@@ -258,9 +229,38 @@ public interface GestioneCatalogoService {
 	 * 
 	 * */
 	
-	public Collection<ProxyProdotto> aggiornamentoPrezzoProdotto(Prodotto product, float price, int page, int perPage) throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, PrezzoProdottoException;
+	public Collection<ProxyProdotto> aggiornamentoPrezzoProdotto(Prodotto product, String information, String price, int page, int perPage) throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, PrezzoProdottoException, ErroreSpecificaAggiornamentoException, ProdottoAggiornatoException;
 	
 	
+	/**
+	 * Il metodo definisce il servizio di aggiornamento della quantità di scorte
+	 * in magazzino di un prodotto del catalogo.
+	 * I prodotti in catalogo sono restituiti dal metodo secondo il meccanismo
+	 * della paginazione.
+	 * 
+	 * @param product : il prodotto per il quale aggiornare la quantità (non contiene i dati aggiornati)
+	 * @param quantity : la nuova quantità di scorte da impostare
+	 * @param page : numero della pagina
+	 * @param perPage: numero di prodotti per pagina
+	 * 
+	 * @return il catalogo dei prodotti aggiornato, contenente product con la disponibilità
+	 * 		   di scorte in magazzino pari a quantity
+	 * 
+	 * @throws SQLException 
+	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 											di una sottocategoria
+	 * 
+	 * @throws CategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
+	 * 										di una categoria
+	 * 
+	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
+	 * 	
+	 * @throws QuantitaProdottoException : eccezione lanciata per gestire un valore non valido per quantity
+	 * 
+	 * */
+	
+	public Collection<ProxyProdotto> aggiornamentoDisponibilitàProdotto(Prodotto product, String information, String quantity, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, QuantitaProdottoException, ProdottoAggiornatoException, ErroreSpecificaAggiornamentoException;
+		
 	/**
 	 * Il metodo definisce il servizio di aggiunta dell' immagine di presentazione ad un
 	 * prodotto presente nel catalogo del negozio.
@@ -287,7 +287,6 @@ public interface GestioneCatalogoService {
 	
 	public Collection<ProxyProdotto> inserimentoTopImmagine(Prodotto product, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException;
 
-	
 	/**
 	 * Il metodo definisce il servizio di aggiunta di un'immagine di dettaglio alla galleria immagini 
 	 * di un prodotto presente nel catalogo del negozio.

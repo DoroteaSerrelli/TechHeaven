@@ -943,6 +943,7 @@ public abstract class ObjectProdotto {
 				&& prezzo == other.prezzo
 				&& topDescrizione.equals(other.topDescrizione)
 				&& dettagli.equals(other.dettagli)
+				&& quantita == other.quantita
 				&& categoria.toString().equals(other.categoria.toString())
 				&& equalsSottocategoria(other.sottocategoria)
 				&& inVetrina == other.inVetrina;

@@ -1566,4 +1566,252 @@ public class GestioneCatalogoServiceImplTest {
 
 	}
 
+
+	/**
+	 * TEST CASES MODIFICA DEL PREZZO DI UN PRODOTTO
+	 * 
+	 * TC16_3.1_1: prodotto selezionato dal catalogo, 
+	 * 			   informazione da modificare è il prezzo di un prodotto,
+	 * 			   il nuovo valore non è un numero con la virgola arrotondato in centesimi
+	 * 
+	 * TC16_3.1_2: prodotto selezionato dal catalogo, 
+	 * 			   informazione da modificare è il prezzo di un prodotto,
+	 * 			   il nuovo valore è un numero con la virgola arrotondato in centesimi,
+	 * 			   nuovo prezzo == vecchio prezzo
+	 * 
+	 * TC16_3.1_3: prodotto selezionato dal catalogo, 
+	 * 			   informazione da modificare è il prezzo di un prodotto,
+	 * 			   il nuovo valore è un numero con la virgola arrotondato in centesimi,
+	 * 			   nuovo prezzo != vecchio prezzo
+	 * 
+	 * */
+
+	@Test
+	public void TC16_3_1_1() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
+
+		ProxyProdotto doUpdateProxy = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false, productDAO);
+
+		Prodotto doUpdate = new Prodotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
+
+
+		//deve essere PREZZO
+		String infoToUpdate = "PREZZO"; 
+
+		String updatedData = "";
+		int page = 1;
+		int perPage = 5;
+
+		Mockito.when(productDAO.doRetrieveProxyByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(doUpdateProxy);
+
+		assertThrows(PrezzoProdottoException.class, () -> {
+			catalogoService.aggiornamentoPrezzoProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
+		});
+	}
+
+	@Test
+	public void TC16_3_1_2() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
+
+		ProxyProdotto doUpdateProxy = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false, productDAO);
+
+		Prodotto doUpdate = new Prodotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
+
+
+		//deve essere PREZZO
+		String infoToUpdate = "PREZZO"; 
+
+		String updatedData = "454.50";
+		int page = 1;
+		int perPage = 5;
+
+		Mockito.when(productDAO.doRetrieveProxyByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(doUpdateProxy);
+
+		assertThrows(ProdottoAggiornatoException.class, () -> {
+			catalogoService.aggiornamentoPrezzoProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
+		});
+
+	}
+
+	@Test
+	public void TC16_3_1_3() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, ProdottoAggiornatoException, PrezzoProdottoException {
+
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
+		ProxyProdotto product2 = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
+
+		ProxyProdotto product3 = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false, productDAO);
+
+
+		ProxyProdotto doUpdateProxy = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false, productDAO);
+
+		Prodotto doUpdate = new Prodotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
+
+
+		Collection<ProxyProdotto> catalogue = new ArrayList<>();
+		catalogue.add(product1);
+		catalogue.add(product2);
+		catalogue.add(product3);
+
+
+		//deve essere PREZZO
+		String infoToUpdate = "PREZZO"; 
+
+		String updatedData = "359.99";
+		float updatedDataFloat = Float.parseFloat(updatedData);
+		int page = 1;
+		int perPage = 5;
+
+		ProxyProdotto updatedProduct = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("359.99"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, Boolean.parseBoolean(updatedData), productDAO);
+
+
+		Collection<ProxyProdotto> expectedCatalogue = new ArrayList<>();
+		expectedCatalogue.add(updatedProduct);
+		expectedCatalogue.add(product2);
+		expectedCatalogue.add(product3);
+
+		Mockito.when(productDAO.doRetrieveProxyByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(doUpdateProxy);
+		Mockito.when(productDAO.updatePrice(doUpdate.getCodiceProdotto(), updatedDataFloat)).thenReturn(true);
+		Mockito.when(productDAO.doRetrieveAllExistent(null, page, perPage)).thenReturn(expectedCatalogue);
+
+		Collection<ProxyProdotto> updatedCatalogue = catalogoService.aggiornamentoPrezzoProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
+
+		Mockito.verify(productDAO).updatePrice(doUpdate.getCodiceProdotto(), updatedDataFloat);
+		assertEquals(updatedCatalogue, expectedCatalogue);
+		assertTrue(updatedCatalogue.contains(updatedProduct));
+		assertFalse(updatedCatalogue.contains(doUpdateProxy));
+
+	}
+
+	/**
+	 * TEST CASES MODIFICA DELLA QUANTITA' DI UN PRODOTTO
+	 * 
+	 * TC16_4.1_1: prodotto selezionato dal catalogo, 
+	 * 			   informazione da modificare è la quantità in magazzino del prodotto,
+	 * 			   il nuovo valore non è un intero positivo
+	 * 
+	 * TC16_4.1_2: prodotto selezionato dal catalogo, 
+	 * 			   informazione da modificare è la quantità in magazzino del prodotto,
+	 * 			   il nuovo valore è un intero positivo,
+	 * 			   nuova quantità == vecchia quantità
+	 * 
+	 * TC16_4.1_3: prodotto selezionato dal catalogo, 
+	 * 			   informazione da modificare è la quantità in magazzino del prodotto,
+	 * 			   il nuovo valore è un intero positivo,
+	 * 			   nuova quantità != vecchia quantità
+	 * 
+	 * */
+
+	@Test
+	public void TC16_4_1_1() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
+		
+		ProxyProdotto doUpdateProxy = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
+
+		Prodotto doUpdate = new Prodotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false);
+
+
+		//deve essere QUANTITA
+		String infoToUpdate = "QUANTITA"; 
+
+		String updatedData = "-23";
+		int page = 1;
+		int perPage = 5;
+
+		Mockito.when(productDAO.doRetrieveProxyByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(doUpdateProxy);
+
+		assertThrows(QuantitaProdottoException.class, () -> {
+			catalogoService.aggiornamentoDisponibilitàProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
+		});
+	}
+
+	@Test
+	public void TC16_4_1_2() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
+
+		ProxyProdotto doUpdateProxy = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
+
+		Prodotto doUpdate = new Prodotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false);
+
+		//deve essere PREZZO
+		String infoToUpdate = "QUANTITA"; 
+
+		String updatedData = "4";
+		int page = 1;
+		int perPage = 5;
+
+		Mockito.when(productDAO.doRetrieveProxyByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(doUpdateProxy);
+
+		assertThrows(ProdottoAggiornatoException.class, () -> {
+			catalogoService.aggiornamentoDisponibilitàProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
+		});
+
+	}
+
+	@Test
+	public void TC16_4_1_3() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, ProdottoAggiornatoException, QuantitaProdottoException {
+
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
+		
+		ProxyProdotto product2 = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
+
+		ProxyProdotto product3 = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false, productDAO);
+
+
+		ProxyProdotto doUpdateProxy = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false, productDAO);
+
+		Prodotto doUpdate = new Prodotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false);
+
+
+		Collection<ProxyProdotto> catalogue = new ArrayList<>();
+		catalogue.add(product1);
+		catalogue.add(product2);
+		catalogue.add(product3);
+
+
+		//deve essere QUANTITA
+		String infoToUpdate = "QUANTITA"; 
+
+		String updatedData = "2";
+		int updatedDataInt = Integer.parseInt(updatedData);
+		int page = 1;
+		int perPage = 5;
+
+		ProxyProdotto updatedProduct = new ProxyProdotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 2, true, false, productDAO);
+
+
+		Collection<ProxyProdotto> expectedCatalogue = new ArrayList<>();
+		expectedCatalogue.add(product1);
+		expectedCatalogue.add(updatedProduct);
+		expectedCatalogue.add(product3);
+
+		Mockito.when(productDAO.doRetrieveProxyByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(doUpdateProxy);
+		Mockito.when(productDAO.updateQuantity(doUpdate.getCodiceProdotto(), updatedDataInt)).thenReturn(true);
+		Mockito.when(productDAO.doRetrieveAllExistent(null, page, perPage)).thenReturn(expectedCatalogue);
+
+		Collection<ProxyProdotto> updatedCatalogue = catalogoService.aggiornamentoDisponibilitàProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
+
+		Mockito.verify(productDAO).updateQuantity(doUpdate.getCodiceProdotto(), updatedDataInt);
+		assertEquals(updatedCatalogue, expectedCatalogue);
+		assertTrue(updatedCatalogue.contains(updatedProduct));
+		assertFalse(updatedCatalogue.contains(doUpdateProxy));
+
+	}
+	
+
 }

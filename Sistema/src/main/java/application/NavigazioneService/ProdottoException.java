@@ -228,4 +228,20 @@ public class ProdottoException extends Exception{
 		}
 	}
 	
+	/**
+	 * Classe statica per gestire il mancato inserimento della immagine
+	 * di presentazione di un prodotto.
+	 * */
+	public static class ErroreTopImmagineException extends ProdottoException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public ErroreTopImmagineException(String message) {
+			super(message);
+		}
+	}
+	
 }

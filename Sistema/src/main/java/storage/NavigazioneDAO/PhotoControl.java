@@ -6,7 +6,8 @@ import java.util.LinkedList;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +26,7 @@ import java.sql.ResultSet;
  * */
 
 public class PhotoControl {
-	private static DataSource ds;
+	/*private static DataSource ds;
 
 	static {
 		try {
@@ -37,6 +38,12 @@ public class PhotoControl {
 		} catch (NamingException e) {
 			System.out.println("Error:" + e.getMessage());
 		}
+	}*/
+	
+	private DataSource ds;
+	
+	public PhotoControl() {
+		this.ds = new DataSource();
 	}
 
 
@@ -45,7 +52,7 @@ public class PhotoControl {
 	 * @param id è il codice univoco del prodotto
 	 * @return bt l'immagine di presentazione del prodotto
 	 * */
-	public static synchronized byte[] loadTopImage(int id) throws SQLException {
+	public synchronized byte[] loadTopImage(int id) throws SQLException {
 
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -88,7 +95,7 @@ public class PhotoControl {
 	 * @param idP è l'identificativo numerico del prodotto
 	 * @param photo è l'immagine di presentazione da associare al prodotto con codice idP
 	 * */
-	public static synchronized void updateTopImage(int idP, InputStream photo) throws SQLException {
+	public synchronized void updateTopImage(int idP, InputStream photo) throws SQLException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
@@ -124,7 +131,7 @@ public class PhotoControl {
 	 * del prodotto
 	 * @return bt l'immagine di dettaglio, con codice idI, del prodotto con codice idP
 	 * */
-	public static synchronized byte[] loadPhotoOfGallery(int idP, int idI) throws SQLException {
+	public synchronized byte[] loadPhotoOfGallery(int idP, int idI) throws SQLException {
 
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -169,7 +176,7 @@ public class PhotoControl {
 	 * @param idP è il codice del prodotto
 	 * @return photos gli identificativi delle immagini di dettaglio del prodotto con codice idP
 	 * */
-	public static synchronized LinkedList<Integer> loadPhotoGallery(int idP) throws SQLException {
+	public synchronized LinkedList<Integer> loadPhotoGallery(int idP) throws SQLException {
 
 		Connection connection = null;
 		PreparedStatement stmt = null;
@@ -213,7 +220,7 @@ public class PhotoControl {
 	 * @param idP l'identificativo numerico del prodotto
 	 * @param photo l'immagine di dettaglio da memorizzare
 	 * */
-	public static synchronized void addPhotoInGallery(int idP, InputStream photo) throws SQLException {
+	public synchronized void addPhotoInGallery(int idP, InputStream photo) throws SQLException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
@@ -247,7 +254,7 @@ public class PhotoControl {
 	 * @param idP l'identificativo numerico del prodotto
 	 * @param idI il codice dell'immagine di dettaglio da rimuovere
 	 * */
-	public static synchronized void deletePhotoInGallery(int idP, int idI) throws SQLException {
+	public synchronized void deletePhotoInGallery(int idP, int idI) throws SQLException {
 		Connection con = null;
 		PreparedStatement stmt = null;
 		try {
@@ -278,7 +285,7 @@ public class PhotoControl {
 	 * @param photo l'immagine di dettaglio da recuperare
 	 * @throws IOException 
 	 * */
-	public static synchronized int retrievePhotoInGallery(int idP, InputStream photo) throws SQLException, IOException {
+	public synchronized int retrievePhotoInGallery(int idP, InputStream photo) throws SQLException, IOException {
 
 		Connection connection = null;
 		PreparedStatement stmt = null;

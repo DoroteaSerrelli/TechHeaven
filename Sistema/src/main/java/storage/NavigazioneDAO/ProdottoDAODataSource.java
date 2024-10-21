@@ -6,10 +6,11 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Collection;
 import java.util.LinkedList;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
+
 import java.util.ArrayList;
 
-
-import javax.sql.DataSource;
 
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
@@ -30,11 +31,13 @@ import application.NavigazioneService.ProxyProdotto;
 
 public class ProdottoDAODataSource{
 	DataSource ds;
+	PhotoControl pcDAO;
 
 	private static final String TABLE_NAME = "prodotto";
 
-	public ProdottoDAODataSource(DataSource dataSource) throws SQLException{
+	public ProdottoDAODataSource(DataSource dataSource, PhotoControl pcDAO) throws SQLException{
 		this.ds = dataSource;
+		this.pcDAO = pcDAO;
 	}
 	
 	
@@ -183,10 +186,10 @@ public class ProdottoDAODataSource{
 				dto.setInCatalogo(rs.getInt("INCATALOGO") == 1 ? true : false);
 				dto.setInVetrina(rs.getInt("INVETRINA") == 1 ? true : false);
 				dto.setTopImmagine(rs.getBytes("TOPIMMAGINE"));
-				LinkedList<Integer> idImages = PhotoControl.loadPhotoGallery(IDProduct);
+				LinkedList<Integer> idImages = pcDAO.loadPhotoGallery(IDProduct);
 				ArrayList<byte[]> photos = new ArrayList<>();
 				for(Integer idImg : idImages)
-					photos.add(PhotoControl.loadPhotoOfGallery(IDProduct, idImg));
+					photos.add(pcDAO.loadPhotoOfGallery(IDProduct, idImg));
 				dto.setGalleriaImmagini(photos);
 			}
 

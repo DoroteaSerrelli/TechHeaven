@@ -11,6 +11,7 @@ import application.NavigazioneService.ObjectProdotto.Sottocategoria;
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProdottoException.AppartenenzaSottocategoriaException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.ErroreTopImmagineException;
 import application.NavigazioneService.ProdottoException.FormatoCodiceException;
 import application.NavigazioneService.ProdottoException.FormatoDettagliException;
 import application.NavigazioneService.ProdottoException.FormatoMarcaException;
@@ -51,9 +52,11 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
 public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 
 	private ProdottoDAODataSource productDAO;
+	private PhotoControl pcDAO;
 
-	public GestioneCatalogoServiceImpl(ProdottoDAODataSource productDAO) {
+	public GestioneCatalogoServiceImpl(ProdottoDAODataSource productDAO, PhotoControl pcDAO) {
 		this.productDAO = productDAO;
+		this.pcDAO = pcDAO;
 	}
 
 	/**
@@ -494,15 +497,23 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 * 										di una categoria
 	 * 
 	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
+	 * @throws ErroreSpecificaAggiornamentoException 
+	 * @throws ErroreTopImmagineException 
 	 * */
 
-	public Collection<ProxyProdotto> inserimentoTopImmagine(Prodotto product, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException{
+	public Collection<ProxyProdotto> inserimentoTopImmagine(Prodotto product, String information, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, ErroreTopImmagineException{
 		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
 
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
-
-		PhotoControl.updateTopImage(product.getCodiceProdotto(), image);
+		
+		if(!information.equalsIgnoreCase("TOP_IMMAGINE"))
+			throw new ErroreSpecificaAggiornamentoException("Per modificare l'immagine di presentazione di un prodotto, seleziona l'apposita scelta.");
+		
+		if(image == null)
+			throw new ErroreTopImmagineException("Inserire un'immagine di presentazione del prodotto");
+			
+		pcDAO.updateTopImage(product.getCodiceProdotto(), image);
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}
 
@@ -535,7 +546,7 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
 
-		PhotoControl.addPhotoInGallery(product.getCodiceProdotto(), image);
+		pcDAO.addPhotoInGallery(product.getCodiceProdotto(), image);
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}
 
@@ -570,9 +581,9 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
-		int imgCode = PhotoControl.retrievePhotoInGallery(product.getCodiceProdotto(), image);
+		int imgCode = pcDAO.retrievePhotoInGallery(product.getCodiceProdotto(), image);
 
-		PhotoControl.deletePhotoInGallery(product.getCodiceProdotto(), imgCode);
+		pcDAO.deletePhotoInGallery(product.getCodiceProdotto(), imgCode);
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}
 }

@@ -14,6 +14,7 @@ import application.GestioneCatalogoService.CatalogoException.ProdottoNulloExcept
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProdottoException.AppartenenzaSottocategoriaException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.ErroreTopImmagineException;
 import application.NavigazioneService.ProdottoException.FormatoCodiceException;
 import application.NavigazioneService.ProdottoException.FormatoDettagliException;
 import application.NavigazioneService.ProdottoException.FormatoMarcaException;
@@ -285,8 +286,8 @@ public interface GestioneCatalogoService {
 	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
 	 * */
 	
-	public Collection<ProxyProdotto> inserimentoTopImmagine(Prodotto product, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException;
-
+	public Collection<ProxyProdotto> inserimentoTopImmagine(Prodotto product, String information, InputStream image, int page, int perPage) throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, ErroreTopImmagineException;
+		
 	/**
 	 * Il metodo definisce il servizio di aggiunta di un'immagine di dettaglio alla galleria immagini 
 	 * di un prodotto presente nel catalogo del negozio.

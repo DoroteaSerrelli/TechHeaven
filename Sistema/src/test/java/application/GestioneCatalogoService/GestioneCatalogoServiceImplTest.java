@@ -36,6 +36,7 @@ import application.NavigazioneService.ProdottoException.FormatoMarcaException;
 import application.NavigazioneService.ProdottoException.FormatoModelloException;
 import application.NavigazioneService.ProdottoException.FormatoNomeException;
 import application.NavigazioneService.ProdottoException.FormatoTopDescrizioneException;
+import application.NavigazioneService.ProdottoException.FormatoVetrinaException;
 import application.NavigazioneService.ProdottoException.PrezzoProdottoException;
 import application.NavigazioneService.ProdottoException.QuantitaProdottoException;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
@@ -645,21 +646,21 @@ public class GestioneCatalogoServiceImplTest {
 		int perPage = 5;
 
 		ProxyProdotto toRemove = product1;
-		
+
 		Collection<ProxyProdotto> newCatalogue = catalogue;
 		newCatalogue.remove(product1);
-		
+
 		Mockito.when(productDAO.doRetrieveProxyByKey(toRemove.getCodiceProdotto())).thenReturn(product1);
 		Mockito.when(productDAO.doDelete(toRemove.getCodiceProdotto())).thenReturn(true);
 		Mockito.when(productDAO.doRetrieveAllExistent(null, page, perPage)).thenReturn(newCatalogue);
-		
+
 		Collection<ProxyProdotto> updatedCatalogue = catalogoService.rimozioneProdottoDaCatalogo(toRemove, page, perPage);
-		
+
 		assertFalse(updatedCatalogue.contains(product1));
 		Mockito.verify(productDAO).doDelete(product1.getCodiceProdotto());
 	}
-	
-	
+
+
 	/**
 	 * TEST CASES PER LA MODIFICA DELLE SPECIFICHE DI UN PRODOTTO: 
 	 * DESCRIZIONE IN EVIDENZA.
@@ -685,125 +686,125 @@ public class GestioneCatalogoServiceImplTest {
 	 * 				nuova top descrizione != vecchia top descrizione
 	 * 
 	 * */
-	
+
 	@Test
 	public void TC16_1_1_1() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String errorInfoToUpdate = "ERRORE"; 
-		
+
 		String updatedData = "";
 		int page = 1;
 		int perPage = 5;
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
-		
+
 		assertThrows(ErroreSpecificaAggiornamentoException.class, () -> {
 			catalogoService.aggiornamentoSpecificheProdotto(doUpdate, errorInfoToUpdate, updatedData, page, perPage);
 		});
-		
+
 	}
-	
+
 	@Test
 	public void TC16_1_1_2() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "DESCRIZIONE_EVIDENZA"; 
-		
+
 		String updatedData = "";
 		int page = 1;
 		int perPage = 5;
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
-		
+
 		assertThrows(FormatoTopDescrizioneException.class, () -> {
 			catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
 		});
-		
+
 	}
-	
+
 	@Test
 	public void TC16_1_1_3() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "DESCRIZIONE_EVIDENZA"; 
-		
+
 		String updatedData = "Prova";
 		int page = 1;
 		int perPage = 5;
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
-		
+
 		assertThrows(ProdottoAggiornatoException.class, () -> {
 			catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
 		});
-		
+
 	}
-	
+
 	@Test
 	public void TC16_1_1_4() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoAggiornatoException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException {
-		
+
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
 		ProxyProdotto product2 = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
-		
+
 		ProxyProdotto doUpdateProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Collection<ProxyProdotto> catalogue = new ArrayList<>();
 		catalogue.add(product1);
 		catalogue.add(product2);
 		catalogue.add(doUpdateProduct);
-		
-		
+
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "DESCRIZIONE_EVIDENZA"; 
-		
+
 		String updatedData = "Questa descrizione è una prova";
 		int page = 1;
 		int perPage = 5;
-		
+
 		ProxyProdotto updatedProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", updatedData, "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Collection<ProxyProdotto> expectedCatalogue = new ArrayList<>();
 		expectedCatalogue.add(product1);
 		expectedCatalogue.add(updatedProduct);
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
 		Mockito.when(productDAO.updateData(doUpdate.getCodiceProdotto(), "TOPDESCRIZIONE", updatedData)).thenReturn(true);
 		Mockito.when(productDAO.doRetrieveAllExistent(null, page, perPage)).thenReturn(expectedCatalogue);
-		
+
 		Collection<ProxyProdotto> updatedCatalogue = catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
-		
+
 		Mockito.verify(productDAO).updateData(doUpdate.getCodiceProdotto(), "TOPDESCRIZIONE", updatedData);
 		assertEquals(updatedCatalogue, expectedCatalogue);
 		assertTrue(updatedCatalogue.contains(updatedProduct));
 		assertFalse(updatedCatalogue.contains(doUpdateProduct));
-		
+
 	}
-	
-	
+
+
 	/**
 	 * TEST CASES PER LA MODIFICA DELLE SPECIFICHE DI UN PRODOTTO: 
 	 * DESCRIZIONE DI DETTAGLIO.
@@ -826,105 +827,105 @@ public class GestioneCatalogoServiceImplTest {
 	 * 				nuova descrizione dettaglio != vecchia descrizione dettaglio
 	 * 
 	 * */
-	
+
 	@Test
 	public void TC16_1_1_5() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "DESCRIZIONE_DETTAGLIATA"; 
-		
+
 		String updatedData = "";
 		int page = 1;
 		int perPage = 5;
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
-		
+
 		assertThrows(FormatoDettagliException.class, () -> {
 			catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
 		});
-		
+
 	}
-	
-	
+
+
 	@Test
 	public void TC16_1_1_6() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "DESCRIZIONE_DETTAGLIATA"; 
-		
+
 		String updatedData = "Prova";
 		int page = 1;
 		int perPage = 5;
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
-		
+
 		assertThrows(ProdottoAggiornatoException.class, () -> {
 			catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
 		});
-		
+
 	}
-	
-	
+
+
 	@Test
 	public void TC16_1_1_7() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoAggiornatoException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException {
-		
+
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
 		ProxyProdotto product2 = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
-		
+
 		ProxyProdotto doUpdateProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Collection<ProxyProdotto> catalogue = new ArrayList<>();
 		catalogue.add(product1);
 		catalogue.add(product2);
 		catalogue.add(doUpdateProduct);
-		
-		
+
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "DESCRIZIONE_DETTAGLIATA"; 
-		
+
 		String updatedData = "Questa descrizione di dettaglio è una prova";
 		int page = 1;
 		int perPage = 5;
-		
+
 		ProxyProdotto updatedProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", updatedData, Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Collection<ProxyProdotto> expectedCatalogue = new ArrayList<>();
 		expectedCatalogue.add(product1);
 		expectedCatalogue.add(updatedProduct);
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
 		Mockito.when(productDAO.updateData(doUpdate.getCodiceProdotto(), "DETTAGLI", updatedData)).thenReturn(true);
 		Mockito.when(productDAO.doRetrieveAllExistent(null, page, perPage)).thenReturn(expectedCatalogue);
-		
+
 		Collection<ProxyProdotto> updatedCatalogue = catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
-		
+
 		Mockito.verify(productDAO).updateData(doUpdate.getCodiceProdotto(), "DETTAGLI", updatedData);
 		assertEquals(updatedCatalogue, expectedCatalogue);
 		assertTrue(updatedCatalogue.contains(updatedProduct));
 		assertFalse(updatedCatalogue.contains(doUpdateProduct));
-		
+
 	}
-	
-	
+
+
 	/**
 	 * TEST CASES PER LA MODIFICA DELLE SPECIFICHE DI UN PRODOTTO: 
 	 * MODELLO.
@@ -947,104 +948,104 @@ public class GestioneCatalogoServiceImplTest {
 	 * 				nuovo modello != vecchio modello
 	 * 
 	 * */
-	
+
 	@Test
 	public void TC16_1_1_8() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "MODELLO"; 
-		
+
 		String updatedData = "%errorModello-&";
 		int page = 1;
 		int perPage = 5;
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
-		
+
 		assertThrows(FormatoModelloException.class, () -> {
 			catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
 		});
-		
+
 	}
-	
-	
+
+
 	@Test
 	public void TC16_1_1_9() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "MODELLO"; 
-		
+
 		String updatedData = "Redmi Note 13";
 		int page = 1;
 		int perPage = 5;
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
-		
+
 		assertThrows(ProdottoAggiornatoException.class, () -> {
 			catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
 		});
-		
+
 	}
-	
-	
+
+
 	@Test
 	public void TC16_1_2_0() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoAggiornatoException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException {
-		
+
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
 		ProxyProdotto product2 = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
-		
+
 		ProxyProdotto doUpdateProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Collection<ProxyProdotto> catalogue = new ArrayList<>();
 		catalogue.add(product1);
 		catalogue.add(product2);
 		catalogue.add(doUpdateProduct);
-		
-		
+
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "MODELLO"; 
-		
+
 		String updatedData = "PROVA56-3";
 		int page = 1;
 		int perPage = 5;
-		
+
 		ProxyProdotto updatedProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", updatedData, 180, true, false);
-		
-		
+
+
 		Collection<ProxyProdotto> expectedCatalogue = new ArrayList<>();
 		expectedCatalogue.add(product1);
 		expectedCatalogue.add(updatedProduct);
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
 		Mockito.when(productDAO.updateData(doUpdate.getCodiceProdotto(), "MODELLO", updatedData)).thenReturn(true);
 		Mockito.when(productDAO.doRetrieveAllExistent(null, page, perPage)).thenReturn(expectedCatalogue);
-		
+
 		Collection<ProxyProdotto> updatedCatalogue = catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
-		
+
 		Mockito.verify(productDAO).updateData(doUpdate.getCodiceProdotto(), "MODELLO", updatedData);
 		assertEquals(updatedCatalogue, expectedCatalogue);
 		assertTrue(updatedCatalogue.contains(updatedProduct));
 		assertFalse(updatedCatalogue.contains(doUpdateProduct));
-		
+
 	}
-	
+
 	/**
 	 * TEST CASES PER LA MODIFICA DELLE SPECIFICHE DI UN PRODOTTO: 
 	 * MARCA.
@@ -1067,104 +1068,104 @@ public class GestioneCatalogoServiceImplTest {
 	 * 				nuova marca != vecchia marca
 	 * 
 	 * */
-	
+
 	@Test
 	public void TC16_1_2_1() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "MARCA"; 
-		
+
 		String updatedData = "errorMARC4-";
 		int page = 1;
 		int perPage = 5;
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
-		
+
 		assertThrows(FormatoMarcaException.class, () -> {
 			catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
 		});
-		
+
 	}
-	
-	
+
+
 	@Test
 	public void TC16_1_2_2() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "MARCA"; 
-		
+
 		String updatedData = "Xiaomi";
 		int page = 1;
 		int perPage = 5;
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
-		
+
 		assertThrows(ProdottoAggiornatoException.class, () -> {
 			catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
 		});
-		
+
 	}
-	
-	
+
+
 	@Test
 	public void TC16_1_2_3() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoAggiornatoException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException {
-		
+
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
 		ProxyProdotto product2 = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
-		
+
 		ProxyProdotto doUpdateProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Collection<ProxyProdotto> catalogue = new ArrayList<>();
 		catalogue.add(product1);
 		catalogue.add(product2);
 		catalogue.add(doUpdateProduct);
-		
-		
+
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "MARCA"; 
-		
+
 		String updatedData = "NUOVA MARCA";
 		int page = 1;
 		int perPage = 5;
-		
+
 		ProxyProdotto updatedProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, updatedData, "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Collection<ProxyProdotto> expectedCatalogue = new ArrayList<>();
 		expectedCatalogue.add(product1);
 		expectedCatalogue.add(updatedProduct);
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
 		Mockito.when(productDAO.updateData(doUpdate.getCodiceProdotto(), "MARCA", updatedData)).thenReturn(true);
 		Mockito.when(productDAO.doRetrieveAllExistent(null, page, perPage)).thenReturn(expectedCatalogue);
-		
+
 		Collection<ProxyProdotto> updatedCatalogue = catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
-		
+
 		Mockito.verify(productDAO).updateData(doUpdate.getCodiceProdotto(), "MARCA", updatedData);
 		assertEquals(updatedCatalogue, expectedCatalogue);
 		assertTrue(updatedCatalogue.contains(updatedProduct));
 		assertFalse(updatedCatalogue.contains(doUpdateProduct));
-		
+
 	}
-	
+
 	/**
 	 * TEST CASES PER LA MODIFICA DELLE SPECIFICHE DI UN PRODOTTO: 
 	 * CATEGORIA.
@@ -1190,104 +1191,104 @@ public class GestioneCatalogoServiceImplTest {
 	 * 				nuova categoria != vecchia categoria
 	 * 
 	 * */
-	
+
 	@Test
 	public void TC16_1_2_4() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "CATEGORIA"; 
-		
+
 		String updatedData = "errorCATEGORIA";
 		int page = 1;
 		int perPage = 5;
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
-		
+
 		assertThrows(CategoriaProdottoException.class, () -> {
 			catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
 		});
-		
+
 	}
-	
-	
+
+
 	@Test
 	public void TC16_1_2_5() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "CATEGORIA"; 
-		
+
 		String updatedData = "TELEFONIA";
 		int page = 1;
 		int perPage = 5;
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
-		
+
 		assertThrows(ProdottoAggiornatoException.class, () -> {
 			catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
 		});
-		
+
 	}
-	
-	
+
+
 	@Test
 	public void TC16_1_2_6() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoAggiornatoException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException {
-		
+
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
 		ProxyProdotto product2 = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
-		
+
 		ProxyProdotto doUpdateProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Collection<ProxyProdotto> catalogue = new ArrayList<>();
 		catalogue.add(product1);
 		catalogue.add(product2);
 		catalogue.add(doUpdateProduct);
-		
-		
+
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "CATEGORIA"; 
-		
+
 		String updatedData = "PRODOTTI_ELETTRONICA";
 		int page = 1;
 		int perPage = 5;
-		
+
 		ProxyProdotto updatedProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.valueOf(updatedData), Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Collection<ProxyProdotto> expectedCatalogue = new ArrayList<>();
 		expectedCatalogue.add(product1);
 		expectedCatalogue.add(updatedProduct);
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
 		Mockito.when(productDAO.updateData(doUpdate.getCodiceProdotto(), "CATEGORIA", updatedData)).thenReturn(true);
 		Mockito.when(productDAO.doRetrieveAllExistent(null, page, perPage)).thenReturn(expectedCatalogue);
-		
+
 		Collection<ProxyProdotto> updatedCatalogue = catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
-		
+
 		Mockito.verify(productDAO).updateData(doUpdate.getCodiceProdotto(), "CATEGORIA", updatedData);
 		assertEquals(updatedCatalogue, expectedCatalogue);
 		assertTrue(updatedCatalogue.contains(updatedProduct));
 		assertFalse(updatedCatalogue.contains(doUpdateProduct));
-		
+
 	}
-	
+
 	/**
 	 * TEST CASES PER LA MODIFICA DELLE SPECIFICHE DI UN PRODOTTO: 
 	 * SOTTOCATEGORIA.
@@ -1322,123 +1323,247 @@ public class GestioneCatalogoServiceImplTest {
 	 * 				sottocategoria è associata alla categoria del prodotto
 	 * 
 	 * */
-	
+
 	@Test
 	public void TC16_1_2_7() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "SOTTOCATEGORIA"; 
-		
+
 		String updatedData = "errorSOTTOCATEGORIA";
 		int page = 1;
 		int perPage = 5;
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
-		
+
 		assertThrows(SottocategoriaProdottoException.class, () -> {
 			catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
 		});
-		
+
 	}
-	
-	
+
+
 	@Test
 	public void TC16_1_2_8() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "SOTTOCATEGORIA"; 
-		
+
 		String updatedData = "SMARTPHONE";
 		int page = 1;
 		int perPage = 5;
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
-		
+
 		assertThrows(ProdottoAggiornatoException.class, () -> {
 			catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
 		});
-		
+
 	}
-	
+
 	@Test
 	public void TC16_1_2_9() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "SOTTOCATEGORIA"; 
-		
+
 		String updatedData = "PC";
 		int page = 1;
 		int perPage = 5;
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
-		
+
 		assertThrows(AppartenenzaSottocategoriaException.class, () -> {
 			catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
 		});
-		
+
 	}
-	
+
 	@Test
 	public void TC16_1_3_0() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoAggiornatoException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException {
-		
+
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
 		ProxyProdotto product2 = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
-		
+
 		ProxyProdotto doUpdateProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Collection<ProxyProdotto> catalogue = new ArrayList<>();
 		catalogue.add(product1);
 		catalogue.add(product2);
 		catalogue.add(doUpdateProduct);
-		
-		
+
+
 		//deve essere DESCRIZIONE_EVIDENZA, DESCRIZIONE_DETTAGLIATA, MODELLO, MARCA, 
 		//CATEGORIA, SOTTOCATEGORIA
 		String infoToUpdate = "SOTTOCATEGORIA"; 
-		
+
 		String updatedData = "TABLET";
 		int page = 1;
 		int perPage = 5;
-		
+
 		ProxyProdotto updatedProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.valueOf(updatedData), "Xiaomi", "Redmi Note 13", 180, true, false);
-		
-		
+
+
 		Collection<ProxyProdotto> expectedCatalogue = new ArrayList<>();
 		expectedCatalogue.add(product1);
 		expectedCatalogue.add(updatedProduct);
-		
+
 		Mockito.when(productDAO.doRetrieveCompleteByKey(doUpdate.getCodiceProdotto())).thenReturn(doUpdate);
 		Mockito.when(productDAO.updateData(doUpdate.getCodiceProdotto(), "SOTTOCATEGORIA", updatedData)).thenReturn(true);
 		Mockito.when(productDAO.doRetrieveAllExistent(null, page, perPage)).thenReturn(expectedCatalogue);
-		
+
 		Collection<ProxyProdotto> updatedCatalogue = catalogoService.aggiornamentoSpecificheProdotto(doUpdate, infoToUpdate, updatedData, page, perPage);
-		
+
 		Mockito.verify(productDAO).updateData(doUpdate.getCodiceProdotto(), "SOTTOCATEGORIA", updatedData);
 		assertEquals(updatedCatalogue, expectedCatalogue);
 		assertTrue(updatedCatalogue.contains(updatedProduct));
 		assertFalse(updatedCatalogue.contains(doUpdateProduct));
-		
+
 	}
-	
+
+	/**
+	 * TEST CASES MODIFICA DELLA MESSA IN EVIDENZA DI UN PRODOTTO
+	 * 
+	 * TC16_2.1_1: prodotto selezionato dal catalogo, 
+	 * 			   informazione da modificare è la messa in evidenza di un prodotto,
+	 * 			   il nuovo valore non appartiene a {0, 1}
+	 * 
+	 * TC16_2.1_2: prodotto selezionato dal catalogo, 
+	 * 			   informazione da modificare è la messa in evidenza di un prodotto,
+	 * 			   il nuovo valore appartiene a {0, 1},
+	 * 			   nuovo valore vetrina == vecchio valore vetrina
+	 * 
+	 * TC16_2.1_3: prodotto selezionato dal catalogo, 
+	 * 			   informazione da modificare è la messa in evidenza di un prodotto,
+	 * 			   il nuovo valore appartiene a {0, 1},
+	 * 			   nuovo valore vetrina != vecchio valore vetrina
+	 * 
+	 * */
+
+	@Test
+	public void TC16_2_1_1() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
+
+		ProxyProdotto doUpdateProxy = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false, productDAO);
+
+		Prodotto doUpdate = new Prodotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false);
+
+
+		//deve essere VETRINA
+		String infoToUpdate = "VETRINA"; 
+
+		String updatedData = "";
+		int page = 1;
+		int perPage = 5;
+
+		Mockito.when(productDAO.doRetrieveProxyByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(doUpdateProxy);
+
+		assertThrows(FormatoVetrinaException.class, () -> {
+			catalogoService.aggiornamentoProdottoInVetrina(doUpdate, infoToUpdate, updatedData, page, perPage);
+		});
+	}
+
+	@Test
+	public void TC16_2_1_2() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
+
+		ProxyProdotto doUpdateProxy = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false, productDAO);
+
+		Prodotto doUpdate = new Prodotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false);
+
+
+		//deve essere VETRINA
+		String infoToUpdate = "VETRINA"; 
+
+		String updatedData = "FALSE";
+		int page = 1;
+		int perPage = 5;
+
+		Mockito.when(productDAO.doRetrieveProxyByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(doUpdateProxy);
+
+		assertThrows(ProdottoAggiornatoException.class, () -> {
+			catalogoService.aggiornamentoProdottoInVetrina(doUpdate, infoToUpdate, updatedData, page, perPage);
+		});
+
+	}
+
+	@Test
+	public void TC16_2_1_3() throws SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, FormatoVetrinaException, ProdottoAggiornatoException {
+
+		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
+		ProxyProdotto product2 = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
+
+		ProxyProdotto product3 = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false, productDAO);
+
+
+		ProxyProdotto doUpdateProxy = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false, productDAO);
+
+		Prodotto doUpdate = new Prodotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false);
+
+
+
+		Collection<ProxyProdotto> catalogue = new ArrayList<>();
+		catalogue.add(product1);
+		catalogue.add(product2);
+		catalogue.add(product3);
+
+
+		//deve essere VETRINA
+		String infoToUpdate = "VETRINA"; 
+
+		String updatedData = "TRUE";
+		int updatedDataInt = 1;
+		int page = 1;
+		int perPage = 5;
+
+		ProxyProdotto updatedProduct = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, Boolean.parseBoolean(updatedData), productDAO);
+
+
+		Collection<ProxyProdotto> expectedCatalogue = new ArrayList<>();
+		expectedCatalogue.add(product1);
+		expectedCatalogue.add(product2);
+		expectedCatalogue.add(updatedProduct);
+
+		Mockito.when(productDAO.doRetrieveProxyByKey(doUpdateProxy.getCodiceProdotto())).thenReturn(doUpdateProxy);
+		Mockito.when(productDAO.updateDataView(doUpdate.getCodiceProdotto(), updatedDataInt)).thenReturn(true);
+		Mockito.when(productDAO.doRetrieveAllExistent(null, page, perPage)).thenReturn(expectedCatalogue);
+
+		Collection<ProxyProdotto> updatedCatalogue = catalogoService.aggiornamentoProdottoInVetrina(doUpdate, infoToUpdate, updatedData, page, perPage);
+
+		Mockito.verify(productDAO).updateDataView(doUpdate.getCodiceProdotto(), updatedDataInt);
+		assertEquals(updatedCatalogue, expectedCatalogue);
+		assertTrue(updatedCatalogue.contains(updatedProduct));
+		assertFalse(updatedCatalogue.contains(doUpdateProxy));
+
+	}
+
 }

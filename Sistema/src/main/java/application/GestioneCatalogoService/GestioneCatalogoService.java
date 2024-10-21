@@ -20,6 +20,7 @@ import application.NavigazioneService.ProdottoException.FormatoMarcaException;
 import application.NavigazioneService.ProdottoException.FormatoModelloException;
 import application.NavigazioneService.ProdottoException.FormatoNomeException;
 import application.NavigazioneService.ProdottoException.FormatoTopDescrizioneException;
+import application.NavigazioneService.ProdottoException.FormatoVetrinaException;
 import application.NavigazioneService.ProdottoException.PrezzoProdottoException;
 import application.NavigazioneService.ProdottoException.QuantitaProdottoException;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
@@ -184,6 +185,10 @@ public interface GestioneCatalogoService {
 	 * @return il catalogo dei prodotti aggiornato, contenente product con il campo inVetrina = updatedData
 	 * 
 	 * @throws SQLException 
+	 * 
+	 * @throws ErroreSpecificaAggiornamentoException: ecceziona lanciata per gestire l'invocazione del metodo senza
+	 * 												  aver selezionato "VETRINA" come informazione da modificare
+	 * 
 	 * @throws SottocategoriaProdottoException : eccezione lanciata per gestire l'inserimento errato 
 	 * 											di una sottocategoria
 	 * 
@@ -191,11 +196,12 @@ public interface GestioneCatalogoService {
 	 * 										di una categoria
 	 * 
 	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
+	 * @throws ProdottoAggiornatoException 
 	 * 	
 	 */
 	
-	public Collection<ProxyProdotto> aggiornamentoProdottoInVetrina(Prodotto product, int updatedData, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException ;
-	
+	public Collection<ProxyProdotto> aggiornamentoProdottoInVetrina(Prodotto product, String information, String updatedData, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException, ErroreSpecificaAggiornamentoException, FormatoVetrinaException, ProdottoAggiornatoException;
+			
 	/**
 	 * Il metodo definisce il servizio di aggiornamento della quantità di scorte
 	 * in magazzino di un prodotto del catalogo.

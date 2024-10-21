@@ -211,4 +211,21 @@ public class ProdottoException extends Exception{
 			super(message);
 		}
 	}
+	
+	/**
+	 * Classe statica per gestire l'inserimento della messa in evidenza
+	 * di un prodotto non espressa nel corretto formato.
+	 * */
+	public static class FormatoVetrinaException extends ProdottoException {
+		private static final long serialVersionUID = 1L;
+
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public FormatoVetrinaException(String message) {
+			super(message);
+		}
+	}
+	
 }

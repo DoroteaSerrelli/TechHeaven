@@ -17,6 +17,7 @@ import application.NavigazioneService.ProdottoException.FormatoMarcaException;
 import application.NavigazioneService.ProdottoException.FormatoModelloException;
 import application.NavigazioneService.ProdottoException.FormatoNomeException;
 import application.NavigazioneService.ProdottoException.FormatoTopDescrizioneException;
+import application.NavigazioneService.ProdottoException.FormatoVetrinaException;
 import application.NavigazioneService.ProdottoException.PrezzoProdottoException;
 import application.NavigazioneService.ProdottoException.QuantitaProdottoException;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
@@ -322,16 +323,37 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	 * 										di una categoria
 	 * 
 	 * @throws ProdottoNonInCatalogoException : eccezione lanciata per gestire la mancanza del prodotto product in catalogo
+	 * @throws ErroreSpecificaAggiornamentoException 
+	 * @throws FormatoVetrinaException 
+	 * @throws ProdottoAggiornatoException 
 	 * 	
 	 */
 
-	public Collection<ProxyProdotto> aggiornamentoProdottoInVetrina(Prodotto product, int updatedData, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException{
+	public Collection<ProxyProdotto> aggiornamentoProdottoInVetrina(Prodotto product, String information, String updatedData, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException, ErroreSpecificaAggiornamentoException, FormatoVetrinaException, ProdottoAggiornatoException{
+		
 		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
-
+		
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
+		
+		if(!information.equalsIgnoreCase("VETRINA"))
+			throw new ErroreSpecificaAggiornamentoException("Per modificare la messa in evidenza di un prodotto per la vetrina virtuale, seleziona l'apposita scelta.");
+		
+		
+		if(!ObjectProdotto.checkValidateVetrina(updatedData))
+			throw new FormatoVetrinaException("Per aggiungere un prodotto in vetrina inserire TRUE,\nmentre per rimuovere un prodotto in vetrina inserire FALSE");
+		
+		int updatedDataInt;
+		if(updatedData.equalsIgnoreCase("TRUE"))
+			updatedDataInt = 1;
+		else
+			updatedDataInt = 0;
+		
+		if(product.isInVetrina() == Boolean.parseBoolean(updatedData))
+			throw new ProdottoAggiornatoException("Il valore di messa in evidenza del prodotto inserito è già associato.");
+			
 		else 
-			productDAO.updateDataView(product.getCodiceProdotto(), updatedData);
+			productDAO.updateDataView(product.getCodiceProdotto(), updatedDataInt);
 
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}

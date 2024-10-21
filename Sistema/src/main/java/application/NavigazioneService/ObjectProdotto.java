@@ -11,6 +11,7 @@ import application.NavigazioneService.ProdottoException.FormatoMarcaException;
 import application.NavigazioneService.ProdottoException.FormatoModelloException;
 import application.NavigazioneService.ProdottoException.FormatoNomeException;
 import application.NavigazioneService.ProdottoException.FormatoTopDescrizioneException;
+import application.NavigazioneService.ProdottoException.FormatoVetrinaException;
 import application.NavigazioneService.ProdottoException.PrezzoProdottoException;
 import application.NavigazioneService.ProdottoException.QuantitaProdottoException;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
@@ -435,6 +436,20 @@ public abstract class ObjectProdotto {
 						+ "-	PC e SMARTWATCH per la categoria PRODOTTI ELETTRONICA.\r\n"
 						+ "");
 		}
+		return true;
+	}
+	
+	/**
+	 * Verifica correttezza messa in evidenza del prodotto
+	 * @throws FormatoVetrinaException 
+	 * 
+	 * */
+
+	
+	public static boolean checkValidateVetrina(String vetrina) throws  SottocategoriaProdottoException, FormatoVetrinaException{
+
+		if(!vetrina.equalsIgnoreCase("TRUE") && !vetrina.equalsIgnoreCase("FALSE"))
+			throw new FormatoVetrinaException("Per aggiungere un prodotto in vetrina inserire TRUE,\nmentre per rimuovere un prodotto in vetrina inserire FALSE");
 		return true;
 	}
 
@@ -929,7 +944,9 @@ public abstract class ObjectProdotto {
 				&& topDescrizione.equals(other.topDescrizione)
 				&& dettagli.equals(other.dettagli)
 				&& categoria.toString().equals(other.categoria.toString())
-				&& equalsSottocategoria(other.sottocategoria);
+				&& equalsSottocategoria(other.sottocategoria)
+				&& inVetrina == other.inVetrina;
+	
 				
 	}
 	

@@ -1,5 +1,5 @@
 function validate() {
-	if (!validateEmail() || !validateName() || !validateSurname() || !validateAddress() || !validatePhoneNumber() || !validatePassword()) return false;
+	if (!validateEmail() || !validateName() || !validateSurname() ||!validateUsername() || !validatePhoneNumber() || !validatePassword() || !validateAddress()) return false;
 }
 
 function validateEmail() {

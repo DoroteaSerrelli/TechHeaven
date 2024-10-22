@@ -157,6 +157,7 @@ public class AutenticazioneController extends HttpServlet {
 							break;   
 						}
 					}
+                                        else roleMatched = false;
 				}
 				if(!roleMatched){
 					// In caso di assenza del ruolo richiesto, si genera un errore e si ridireziona l'utente alla

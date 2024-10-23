@@ -91,7 +91,7 @@ public class UpdateProfileController extends HttpServlet {
 		try { 
 			String updated_email = (String)request.getParameter("email");
 			String updated_tel =   (String)request.getParameter("telefono");
-
+                        String information = (String) request.getParameter("information");                 
 			//Recupero utente dalla sessione
 			ProxyUtente user = getUser(request);
 
@@ -106,7 +106,7 @@ public class UpdateProfileController extends HttpServlet {
 
 			//Si verifica quale campo vuole cambiare l'utente
 
-			if (updated_email != null && !updated_email.isEmpty()) {
+			if (information.equals("email") && updated_email != null && !updated_email.isEmpty()) {
                                 request.getSession().setAttribute("field", "email");  // Assuming we are working with addresses                           
 				//Si verifica se updated_email è uguale all'email associata all'utente nel database
 				Utente real_user = user.mostraUtente();
@@ -119,7 +119,7 @@ public class UpdateProfileController extends HttpServlet {
 				updated_user = as.aggiornaProfilo(user, "EMAIL", updated_email);     
 			}
 
-			if (updated_tel != null &&  !updated_tel.isEmpty()) {                           
+			if (information.equals("telefono") && updated_tel != null &&  !updated_tel.isEmpty()) {                           
                                 request.getSession().setAttribute("field", "telefono");
 				//Si verifica se updated_tel è uguale al recapito telefonico associato all'utente nel database
 
@@ -132,7 +132,15 @@ public class UpdateProfileController extends HttpServlet {
 
 				updated_user = as.aggiornaProfilo(updated_user, "TELEFONO", updated_tel);
 			}
-
+                        else {
+                            request.getSession().setAttribute("error", """
+                                                                       Visualizzazione pagina di modifica account con
+                                                                       messaggio di errore : Seleziona un'informazione 
+                                                                       da modificare : telefono o email. """);
+                            System.out.println(request.getSession().getAttribute("Sono qui"));
+                            response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
+                            return;                       
+                        }
 			request.getSession().setAttribute("user", updated_user);
 			response.sendRedirect(request.getContextPath()+"/AreaRiservata");      
 

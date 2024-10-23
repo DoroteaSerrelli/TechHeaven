@@ -54,14 +54,15 @@ function showUpdateForm(field, action) {
                     break;
                 default:
                     document.getElementById('conf_button').value = "Aggiorna";
-                    document.getElementById('updateInfoForm').action = 'UpdateProfileController';
+                    //document.getElementById('updateInfoForm').action = 'UpdateProfileController';
                     break;    
             }
         }
         else{
             clickedOptionId = field; // For non-address fields, use the field directly
             document.getElementById('conf_button').value = "Aggiorna";
-            document.getElementById('updateInfoForm').action = 'UpdateProfileController';
+            if(field===null) field='email';
+            document.getElementById('updateInfoForm').action = 'UpdateProfileController?information='+field;
         }
         // Highlight the selected option
         var options = document.querySelectorAll('.update_bar ul li a');

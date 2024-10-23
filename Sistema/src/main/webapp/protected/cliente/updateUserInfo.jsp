@@ -120,7 +120,7 @@
 	<div class="container">
 		<div class="form-container">
 			<form id="updateInfoForm" name="client"
-				action="UpdateProfileController" method="post">
+				action="UpdateProfileController?information=email" method="post">
 				<div class="row" id="updateEmail">
 					<div class="input-wrapper">
 						<p>Email:</p>

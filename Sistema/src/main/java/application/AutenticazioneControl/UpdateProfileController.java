@@ -91,7 +91,11 @@ public class UpdateProfileController extends HttpServlet {
 		try { 
 			String updated_email = (String)request.getParameter("email");
 			String updated_tel =   (String)request.getParameter("telefono");
-                        String information = (String) request.getParameter("information");                 
+                        String information = (String) request.getParameter("information");
+                       
+                        if(!information.equals("telefono") && !information.equals("email")){                  
+                            throw new InformazioneDaModificareException("ex");                   
+                        }
 			//Recupero utente dalla sessione
 			ProxyUtente user = getUser(request);
 
@@ -131,16 +135,7 @@ public class UpdateProfileController extends HttpServlet {
 				}
 
 				updated_user = as.aggiornaProfilo(updated_user, "TELEFONO", updated_tel);
-			}
-                        else {
-                            request.getSession().setAttribute("error", """
-                                                                       Visualizzazione pagina di modifica account con
-                                                                       messaggio di errore : Seleziona un'informazione 
-                                                                       da modificare : telefono o email. """);
-                            System.out.println(request.getSession().getAttribute("Sono qui"));
-                            response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
-                            return;                       
-                        }
+			}             
 			request.getSession().setAttribute("user", updated_user);
 			response.sendRedirect(request.getContextPath()+"/AreaRiservata");      
 
@@ -222,7 +217,7 @@ public class UpdateProfileController extends HttpServlet {
 		}catch(InformazioneDaModificareException ex) {
 			
 			String errorMsg = "Seleziona un'informazione da modificare : telefono o email.";
-			request.setAttribute("error", errorMsg);
+			request.getSession().setAttribute("error", errorMsg);
 			AutenticazioneController cont = new AutenticazioneController();
 			
 			try {
@@ -232,7 +227,7 @@ public class UpdateProfileController extends HttpServlet {
 				request.setAttribute("error", error);
 				response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
 			}
-			request.getRequestDispatcher("updateUserInfo").forward(request, response);
+			request.getRequestDispatcher("UpdateUserInfo").forward(request, response);
 
 		}catch(SQLException e){
 			

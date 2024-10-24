@@ -22,7 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
+/* Servlet che gestisce l'aggiornamento degli indirizzi dell'utente.
 /**
  *
  * @author raffy
@@ -30,34 +30,38 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdateAddressController", urlPatterns = {"/UpdateAddressController"})
 public class UpdateAddressController extends HttpServlet {
 
-	/**
+        /**
+	 * serialVersionUID : È un campo statico finale a lungo raggio utilizzato 
+	 * per la serializzazione dell'oggetto.
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
 
-	/**
-	 * Handles the HTTP <code>GET</code> method.
-	 *
-	 * @param request servlet request
-	 * @param response servlet response
-	 * @throws ServletException if a servlet-specific error occurs
-	 * @throws IOException if an I/O error occurs
-	 */
+		/**
+        * Gestisce la richiesta HTTP GET, inoltrandola al metodo doPost.
+        *
+        * @param request : servlet request
+        * @param response : servlet response
+        * @throws ServletException : se si verifica un errore specifico della servlet
+        * @throws IOException : se si verifica un errore di I/O
+        */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
-	/**
-	 * Handles the HTTP <code>POST</code> method.
-	 *
-	 * @param request servlet request
-	 * @param response servlet response
-	 * @throws ServletException if a servlet-specific error occurs
-	 * @throws IOException if an I/O error occurs
-	 */
+		/**
+        * Gestisce la richiesta HTTP POST.
+        *
+        * Questo metodo permette all'utente di aggiungere, rimuovere o aggiornare i propri indirizzi.
+        *
+        * @param request : servlet request
+        * @param response : servlet response
+        * @throws ServletException : se si verifica un errore specifico della servlet
+        * @throws IOException : se si verifica un errore di I/O
+        */	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -175,7 +179,12 @@ public class UpdateAddressController extends HttpServlet {
             }    
 	}
 
-
+        /**
+	 * Recupera l'utente corrente dalla sessione HTTP.
+	 *
+	 * @param request : La richiesta HTTP.
+	 * @return user : L'utente corrente, se presente nella sessione. Altrimenti, null.
+	 */
 	private ProxyUtente getUser(HttpServletRequest request) {
 
 		ProxyUtente user = (ProxyUtente) request.getSession().getAttribute("user");

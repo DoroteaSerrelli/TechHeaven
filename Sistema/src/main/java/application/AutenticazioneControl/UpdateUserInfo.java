@@ -49,6 +49,10 @@ public class UpdateUserInfo extends HttpServlet {
                 Logger.getLogger(AreaRiservata.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
+        if(request.getSession().getAttribute("error")!=null){
+            request.setAttribute("error", request.getSession().getAttribute("error")); 
+            request.getSession().removeAttribute("error");
+        }
         // Forward to JSP
         request.getRequestDispatcher("protected/cliente/updateUserInfo.jsp").forward(request, response);
     }

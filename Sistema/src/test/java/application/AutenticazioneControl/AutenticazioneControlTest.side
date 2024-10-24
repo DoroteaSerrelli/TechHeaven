@@ -1824,7 +1824,7 @@
     }]
   }, {
     "id": "e535b084-6cbf-4588-8ae9-7c7c25dbdb1c",
-    "name": "TC5_1_1Test Da Completare",
+    "name": "TC5_1_1Test",
     "commands": [{
       "id": "bdfe9f47-e8b7-4e9a-b0d0-735445022174",
       "comment": "",
@@ -1865,6 +1865,19 @@
       "target": "document.getElementById('updateInfoForm').submit();",
       "targets": [],
       "value": ""
+    }, {
+      "id": "43cc3f69-0125-4219-a2d2-d743451edaa8",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=errorSession",
+      "targets": [
+        ["id=errorSession", "id"],
+        ["css=#errorSession", "css:finder"],
+        ["xpath=//p[@id='errorSession']", "xpath:attributes"],
+        ["xpath=//form[@id='updateInfoForm']/div[4]/p[2]", "xpath:idRelative"],
+        ["xpath=//p[2]", "xpath:position"]
+      ],
+      "value": "Seleziona un'informazione da modificare : telefono o email."
     }]
   }, {
     "id": "59f0c56d-2791-4b94-b66a-a1e816d2291b",
@@ -2009,6 +2022,84 @@
       "value": ""
     }, {
       "id": "79c3f718-d6a0-44a5-939d-17205977d638",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=errorSession",
+      "targets": [
+        ["id=errorSession", "id"],
+        ["css=#errorSession", "css:finder"],
+        ["xpath=//p[@id='errorSession']", "xpath:attributes"],
+        ["xpath=//form[@id='updateInfoForm']/div[4]/p[2]", "xpath:idRelative"],
+        ["xpath=//p[2]", "xpath:position"],
+        ["xpath=//p[contains(.,'Non è possibile associare questa email al tuo account. Inserisci una altra email.')]", "xpath:innerText"]
+      ],
+      "value": "Non è possibile associare questa email al tuo account. Inserisci una altra email."
+    }]
+  }, {
+    "id": "ccfa0c4e-8352-4ad6-b652-a4974566546d",
+    "name": "TC5_1_4Test",
+    "commands": [{
+      "id": "4050db6e-85c2-4cbe-8924-7fcac779d32e",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/AreaRiservata",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fdd21e72-4953-4a76-a8d6-b5126dd6dc76",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1486x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c9f8f453-1e1b-4012-8672-ef2bf90a9f8c",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//img[@alt='ModificaAccount']",
+      "targets": [
+        ["css=a:nth-child(2) > img", "css:finder"],
+        ["xpath=//img[@alt='ModificaAccount']", "xpath:img"],
+        ["xpath=//div[@id='product1']/a/img", "xpath:idRelative"],
+        ["xpath=//div/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5fa8a342-24df-4464-a5f3-d4ff27b45533",
+      "comment": "",
+      "command": "click",
+      "target": "name=email",
+      "targets": [
+        ["name=email", "name"],
+        ["css=.input-wrapper > #email", "css:finder"],
+        ["xpath=//input[@id='email']", "xpath:attributes"],
+        ["xpath=//div[@id='updateEmail']/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "324abd46-c8ae-4bba-bf64-30386166dc5f",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "doroteaserrelli@gmail.com"
+    }, {
+      "id": "65b379f3-7c9d-4eed-8d13-f4d143e10020",
+      "comment": "",
+      "command": "click",
+      "target": "id=conf_button",
+      "targets": [
+        ["id=conf_button", "id"],
+        ["name=update", "name"],
+        ["css=#conf_button", "css:finder"],
+        ["xpath=//input[@id='conf_button']", "xpath:attributes"],
+        ["xpath=//form[@id='updateInfoForm']/input", "xpath:idRelative"],
+        ["xpath=//div/form/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2edbbd31-fb41-4c18-8ca9-f1a109513e37",
       "comment": "",
       "command": "assertText",
       "target": "id=errorSession",

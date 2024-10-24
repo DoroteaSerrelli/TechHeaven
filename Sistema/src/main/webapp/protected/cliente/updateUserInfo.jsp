@@ -182,19 +182,21 @@
 					<p id="error"></p>
 					<p id="errorSession" style="display: none;"></p>
 					<%
-				String err = (String) request.getSession().getAttribute("error");
+				String err = (String) request.getAttribute("error");                  
 				if (err != null && !err.isEmpty()) {
+                                    //Provo a fare l'escape del apostrofo perchè sembra dargli fastidio.
+                                    String escapedErr = err.replace("'", "\\'").replace("\"", "\\\"").replace("\n", "\\n");
 				%>
 					<script>
 				const element = document.getElementById('errorSession');
 				if(element.style.display === "none" || element.style.visibility === "hidden"){
 					document.getElementById('errorSession').style.display = "block";
-	        		document.getElementById('errorSession').textContent = '<%=err%>';
+                                        document.getElementById('errorSession').textContent = '<%=escapedErr%>';
 				}else
-					document.getElementById('errorSession').textContent = '<%=err%>';
+					document.getElementById('errorSession').textContent = '<%=escapedErr%>';
 				</script>
 					<%
-				request.getSession().removeAttribute("error");
+				//request.removeAttribute("error");
 				}
 				%>
 				</div>

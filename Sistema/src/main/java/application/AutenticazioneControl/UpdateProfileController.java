@@ -224,10 +224,10 @@ public class UpdateProfileController extends HttpServlet {
 				cont.loadUserAddresses(request);
 			} catch (SQLException e) {
 				String error = "Errore nel recupero della tua rubrica degli indirizzi.";
-				request.setAttribute("error", error);
+				request.getSession().setAttribute("error", error);
 				response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
 			}
-			request.getRequestDispatcher("UpdateUserInfo").forward(request, response);
+			response.sendRedirect("/UpdateUserInfo");
 
 		}catch(SQLException e){
 			

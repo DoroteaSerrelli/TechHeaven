@@ -88,10 +88,10 @@ function validateAddress() {
 
 	const errorMessages = {
 		road: "La via deve contenere solo lettere e spazi",
-		cv: "Il numero civico è composto da numeri e, eventualmente, una lettera",
-		cap: "Il CAP deve essere formato da 5 numeri",
-		province: "La provincia è composta da due lettere maiuscole",
-		city: "La città deve essere composta solo da lettere e spazi"
+		cv: "Il numero civico è composto da numeri e, eventualmente, una lettera.",
+		cap: "Il CAP deve essere formato da 5 numeri.",
+		province: "La provincia è composta da due lettere maiuscole.",
+		city: "La città deve essere composta solo da lettere e spazi."
 	};
 
 	let anyInvalid = false;
@@ -126,8 +126,7 @@ function validateAddress() {
 
 function validatePhoneNumber() {
 	let n = document.forms["client"]["phoneNumber"].value;
-	var pattern = "^[0-9]{3}-[0-9]{3}-[0-9]{4}$";
-
+	var pattern = /^[0-9]{3}-[0-9]{3}-[0-9]{4}$/;
 	if (!n.match(pattern)) {
 		const element = document.getElementById('errorSession');
 		if (element.style.display === 'block') {

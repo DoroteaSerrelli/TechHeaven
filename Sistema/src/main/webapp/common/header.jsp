@@ -3,7 +3,7 @@
 	integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw=="
 	crossorigin="anonymous"></script>
 
-<script src="<%=request.getContextPath()%>/scripts/navi_script.js"></script>
+<script src="<%=request.getContextPath()%>/scripts/navi_script.js?ts=<%=System.currentTimeMillis()%>""></script>
 <script src="<%=request.getContextPath()%>/scripts/cartAndSearch_functions.js?ts=<%=System.currentTimeMillis()%>"></script>
 <link rel="stylesheet" href="<%=request.getContextPath()%>/style/style.css">
 
@@ -82,6 +82,13 @@
 							width="30" height="30" alt="Search">
 					</button>
 					<input id="searchInput" type="text" name="keyword" required="">
+                                            <% String search_error = (String)request.getSession().getAttribute("empty_search");
+                                               if(search_error==null) search_error="";
+                                            %>
+                                        <p id="searchError" style="color:red; font-size: 18px"><%=search_error%></p>
+                                        <% 
+                                            request.getSession().removeAttribute("empty_search");
+                                        %>
 				</form>
 			</li>
 		</ul>

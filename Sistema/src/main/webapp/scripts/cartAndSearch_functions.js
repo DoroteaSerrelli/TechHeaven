@@ -151,8 +151,16 @@ function updateCartItem(productId, updatedPrice, updatedQuantity) {
 
     // Validate search input
     function validateSearch() {
-        var searchInput = document.getElementById("searchInput").value.trim();
-        return searchInput.length !== 0;
+        const searchInput = document.getElementById('searchInput').value.trim();
+        const errorElement = document.getElementById('searchError');
+
+        if (searchInput === "") {
+           errorElement.textContent = "Compila questo campo.";
+           return false;
+        } else {
+           errorElement.textContent = "";
+           return true;
+        }
     }    
     
    document.addEventListener('DOMContentLoaded', (event) => {

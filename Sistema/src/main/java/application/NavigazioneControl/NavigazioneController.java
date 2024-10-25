@@ -38,11 +38,9 @@ public class NavigazioneController extends HttpServlet {
         if (keyword == null || keyword.isEmpty()) {
         // Handle the case where id parameter is missing
         // For example, you could return an error response or redirect the user
-            if(keyword==null){
-                System.out.println("keyword");
-                response.sendRedirect(request.getContextPath() + "/");
-                return;
-            }
+            request.getSession().setAttribute("empty_search", "Compila questo campo.");
+            response.sendRedirect(request.getContextPath() + "/");
+            return;           
         }  
         int page = 1;
         try {

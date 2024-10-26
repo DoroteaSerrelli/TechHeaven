@@ -41,6 +41,7 @@ public class NavigazioneControllerTest {
 		
 		navigazioneController.processRequest(request, response);
 		
+		verify(request.getSession()).setAttribute("empty_search", "Compila questo campo.");
 		verify(response).sendRedirect(request.getContextPath() + "/index.jsp");
 	}
 	
@@ -61,6 +62,7 @@ public class NavigazioneControllerTest {
 		
 		navigazioneController.processRequest(request, response);
 		
+		verify(request.getSession()).setAttribute("empty_search", "Compila questo campo.");
 		verify(response).sendRedirect(request.getContextPath() + "/index.jsp");
 	}
 	
@@ -86,7 +88,7 @@ public class NavigazioneControllerTest {
 		navigazioneController.processRequest(request, response);
 		
 		verify(request.getSession()).setAttribute("keyword", keyword);
-		verify(response).sendRedirect(request.getContextPath() + "/index.jsp");
+		verify(response).sendRedirect(request.getContextPath() + "/");
 		
 	}
 	

@@ -77,7 +77,7 @@ function attachDeleteButtonListeners() {
                 console.log("Image data:", productImage);
 
                    $.ajax({
-                        url: window.contextPath + '/ImageUpdater',
+                        url: window.contextPath + '/ModificaImmaginiProdotto',
                         method: 'POST',
                         data: {
                             gallery_photoActions: 'delete',

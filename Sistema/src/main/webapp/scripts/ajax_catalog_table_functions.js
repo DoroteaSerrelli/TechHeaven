@@ -89,7 +89,7 @@ function addOriginalProductDetailsToForm(productDetails) {
 
 function fetchSessionData(callback) {
     $.ajax({
-        url: `${window.contextPath}/FetchSessionData`,
+        url: `${window.contextPath}/GestioneGalleriaImmagini`,
         method: 'GET',
         success: function(response) {
             //Stampa debug Ricezione Galleria tramite ajax (Recupero degli Oggetti in Sessione)
@@ -199,7 +199,7 @@ function openModifyForm(product) {
     populateFields(product);   
     // Set other fields as needed
 
-    $('#productForm').attr('action', `${window.contextPath}/ModifyProductsInCatalog`);
+    $('#productForm').attr('action', `${window.contextPath}/ModificaInfoProdottoController`);
 }
 
 function openDeleteForm(product) {

@@ -1,14 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package application.NavigazioneControl;
 
 import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collection;
-import java.util.HashMap;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,33 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 public class ResultsPage extends HttpServlet {
 
     /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet ResultsPage</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet ResultsPage at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
-        }
-    }
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /**
+	/**
      * Handles the HTTP <code>GET</code> method.
      *
      * @param request servlet request
@@ -60,25 +32,22 @@ public class ResultsPage extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+    	
         Collection<ProxyProdotto> searchResult = (Collection<ProxyProdotto>) request.getSession().getAttribute("products");
+        
         if(searchResult==null){
             String keyword = (String) request.getParameter("keyword");
             response.sendRedirect(request.getContextPath() + "/NavigazioneController?keyword="+keyword);
             return;
         }
+        
         String keyword = (String) request.getSession().getAttribute("keyword");
         request.setAttribute("keyword", keyword);
-   //     PaginationUtils.setPaginationAttributes(request, searchResult, keyword, 10);
-        request.getSession().getAttribute("search_type");
+
         request.setAttribute("page",(int)request.getSession().getAttribute("page"));
         request.setAttribute("hasNextPage", request.getSession().getAttribute("hasNextPage"));
-           
-        // Forward to JSPorder_products_available
-        request.getRequestDispatcher("common/searchResults.jsp").forward(request, response);
         
-        //Clear Session Attributes
-        //request.getSession().removeAttribute("searchResult");
-        //request.getSession().removeAttribute("keyword");
+        request.getRequestDispatcher("common/searchResults.jsp").forward(request, response);
     }
 
     /**
@@ -92,17 +61,7 @@ public class ResultsPage extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        doGet(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

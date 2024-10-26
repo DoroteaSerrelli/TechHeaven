@@ -1,14 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package application.GestioneCatalogoControl;
 
 import application.NavigazioneService.Prodotto;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -17,83 +12,142 @@ import javax.imageio.ImageIO;
 import net.coobird.thumbnailator.Thumbnails;
 
 /**
- *
+ * Questa classe fornisce metodi per la manipolazione delle immagini,
+ * inclusi il ridimensionamento, la conversione tra byte array e BufferedImage
+ * e la codifica delle immagini in formato Base64.
+ * 
  * @author raffa
  */
+
 public class ImageResizer {
-    
-   // Convert byte[] to BufferedImage
-    public static BufferedImage byteArrayToImage(byte[] imageBytes) throws IOException {
-        ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
-        return ImageIO.read(bis);
-    }
 
-    // Convert BufferedImage to byte[]
-    public static byte[] imageToByteArray(BufferedImage image, String format) throws IOException {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        ImageIO.write(image, format, baos); // e.g., "jpg"
-        return baos.toByteArray();
-    }
-    
-    // Method to encode BufferedImage back to base64 (if needed)
-    public static String encodeImageToBase64(BufferedImage image, String format) throws IOException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        ImageIO.write(image, format, bos);
-        byte[] imageBytes = bos.toByteArray();
-        return Base64.getEncoder().encodeToString(imageBytes);
-    }
+	/**
+     * Converte un array di byte in un oggetto BufferedImage.
+     *
+     * @param imageBytes: l'array di byte che rappresenta l'immagine.
+     * 
+     * @return Un oggetto BufferedImage corrispondente all'immagine.
+     * 
+     * @throws IOException: se si verifica un errore durante la lettura dell'immagine.
+     */
+	
+	public static BufferedImage byteArrayToImage(byte[] imageBytes) throws IOException {
+		ByteArrayInputStream bis = new ByteArrayInputStream(imageBytes);
+		return ImageIO.read(bis);
+	}
 
-    // Method to resize an image using Thumbnailator
-    public static BufferedImage resizeImage(BufferedImage originalImage, int width, int height) throws IOException {
-        return Thumbnails.of(originalImage)
-                         .size(width, height)
-                         .asBufferedImage();
-    }
+	/**
+     * Converte un oggetto BufferedImage in un array di byte.
+     *
+     * @param image : l'immagine da convertire.
+     * @param format: il formato dell'immagine (ad esempio, "jpg").
+     * 
+     * @return Un array di byte che rappresenta l'immagine.
+     * 
+     * @throws IOException; se si verifica un errore durante la scrittura dell'immagine.
+     */
+	
+	public static byte[] imageToByteArray(BufferedImage image, String format) throws IOException {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		ImageIO.write(image, format, baos);
+		return baos.toByteArray();
+	}
 
-  // Utility Method to Process Gallery Images as byte[] and Convert to Base64 After Resizing
-public static ArrayList<String> processGalleryAndConvertToBase64(List<byte[]> galleryImages, int width, int height) throws IOException {
-    ArrayList<String> resizedBase64Gallery = new ArrayList<>();
+	/**
+     * Codifica un oggetto BufferedImage in formato Base64.
+     *
+     * @param image: l'mmagine da codificare.
+     * @param format: il formato dell'immagine (ad esempio, "jpg").
+     * 
+     * @return una stringa che rappresenta l'immagine codificata in Base64.
+     * 
+     * @throws IOException: se si verifica un errore durante la scrittura dell'immagine.
+     */
+	
+	public static String encodeImageToBase64(BufferedImage image, String format) throws IOException {
+		ByteArrayOutputStream bos = new ByteArrayOutputStream();
+		ImageIO.write(image, format, bos);
+		byte[] imageBytes = bos.toByteArray();
+		return Base64.getEncoder().encodeToString(imageBytes);
+	}
 
-    for (byte[] imageBytes : galleryImages) {
-        if(imageBytes==null || imageBytes.length==0);
-        else{
-        // Convert byte array to BufferedImage
-        BufferedImage galleryImage = byteArrayToImage(imageBytes);
+	/**
+     * Ridimensiona un'immagine utilizzando la libreria Thumbnailator.
+     *
+     * @param originalImage: l'immagine originale da ridimensionare.
+     * @param width : la nuova larghezza dell'immagine.
+     * @param height: la nuova altezza dell'immagine.
+     * 
+     * @return Un oggetto BufferedImage che rappresenta l'immagine ridimensionata.
+     * 
+     * @throws IOException: se si verifica un errore durante il ridimensionamento dell'immagine.
+     */
+	
+	public static BufferedImage resizeImage(BufferedImage originalImage, int width, int height) throws IOException {
+		return Thumbnails.of(originalImage)
+				.size(width, height)
+				.asBufferedImage();
+	}
 
-        // Resize each gallery image (example: 200x200 pixels)
-        BufferedImage resizedGalleryImage = resizeImage(galleryImage, width, height);
+	/**
+     * Elabora le immagini di una galleria in formato byte[] e 
+     * le converte in Base64 dopo il ridimensionamento.
+     *
+     * @param galleryImages: la lista di immagini in formato byte[] da elaborare.
+     * @param width: la larghezza desiderata per le immagini ridimensionate.
+     * @param height: l'altezza desiderata per le immagini ridimensionate.
+     * 
+     * @return Una lista di stringhe in formato Base64 che rappresentano le immagini ridimensionate.
+     * 
+     * @throws IOException: se si verifica un errore durante l'elaborazione delle immagini.
+     */
+	
+	public static ArrayList<String> processGalleryAndConvertToBase64(List<byte[]> galleryImages, int width, int height) throws IOException {
+		ArrayList<String> resizedBase64Gallery = new ArrayList<>();
 
-        // Convert resized image to byte array
-        byte[] resizedImageBytes = imageToByteArray(resizedGalleryImage, "jpg");
+		for (byte[] imageBytes : galleryImages) {
+			if(imageBytes==null || imageBytes.length==0);
+			else{
+				
+				//Conversione di un array di byte in un oggetto BufferedImage
+				BufferedImage galleryImage = byteArrayToImage(imageBytes);
 
-        // Convert the resized byte array back to base64 for storage/display purposes
-        String resizedBase64Image = Base64.getEncoder().encodeToString(resizedImageBytes);
-        
-        // Add the base64 image to the list
-        resizedBase64Gallery.add("data:image/jpeg;base64," + resizedBase64Image);
-        }
-    }
+				//Ridimensiona ogni immagine di dettaglio presente in galleria (es: 200x200 px)
+				BufferedImage resizedGalleryImage = resizeImage(galleryImage, width, height);
 
-    return resizedBase64Gallery;
-}
-    // Utility Method That Resizes Top Image And Gives It Back as A (Resized) Byte Array
-    public static byte[] resizeTopImage(Prodotto selectedProd, int width, int height) throws IOException{
-        //Store the decoded base 64 image as a BufferedImage <---- Forse c'è modo di saltare
-        //questo passaggio con I byte? :_)
-        // Resize the top image (selectedProd.getTopImmagine() returns a byte[])
-        BufferedImage toResize = ImageResizer.byteArrayToImage(selectedProd.getTopImmagine());
-        //DEBUG PRINT ORIGINAL IMAGE SIZE BEFORE RESIZING:
-        //System.out.println("Original Top Image Dimensions: " + toResize.getWidth() + "x" + toResize.getHeight());
+				//Conversione di un immagine ridimensionata in array di byte
+				byte[] resizedImageBytes = imageToByteArray(resizedGalleryImage, "jpg");
 
-        // Resize the image to 100x100 pixels
-        BufferedImage resizedImage = ImageResizer.resizeImage(toResize, width, height);
-        //DEBUG PRINT RESIZED IMAGE SIZE:
-      //  System.out.println("Resized Top Image Dimensions: " + resizedImage.getWidth() + "x" + resizedImage.getHeight());
+				//Conversione dell'array di byte avente immagini ridimensionate in base64 
+				//al fine di archiviarle o visualizzarle
+				String resizedBase64Image = Base64.getEncoder().encodeToString(resizedImageBytes);
 
-        // Convert resized image back to byte[]
-        byte[] resizedImageBytes = ImageResizer.imageToByteArray(resizedImage, "jpg");
-        
-        return resizedImageBytes;
-    }
+				resizedBase64Gallery.add("data:image/jpeg;base64," + resizedBase64Image);
+			}
+		}
+
+		return resizedBase64Gallery;
+	}
+	
+	/**
+     * Ridimensiona l'immagine di presentazione di un prodotto e restituisce il risultato come un array di byte.
+     *
+     * @param selectedProd: il prodotto di cui si desidera ridimensionare 
+     * 						l'immagine in primo piano.
+     * @param width: la larghezza desiderata per l'immagine ridimensionata.
+     * @param height: l'altezza desiderata per l'immagine ridimensionata.
+     * 
+     * @return Un array di byte che rappresenta l'immagine di presentazione ridimensionata.
+     * 
+     * @throws IOException: se si verifica un errore durante il ridimensionamento dell'immagine.
+     */
+	
+	public static byte[] resizeTopImage(Prodotto selectedProd, int width, int height) throws IOException{
+		
+		BufferedImage toResize = ImageResizer.byteArrayToImage(selectedProd.getTopImmagine());
+		BufferedImage resizedImage = ImageResizer.resizeImage(toResize, width, height);
+		
+		return ImageResizer.imageToByteArray(resizedImage, "jpg");
+	}
 
 }

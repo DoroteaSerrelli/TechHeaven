@@ -1,45 +1,47 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package application.NavigazioneControl;
 
 import application.GestioneApprovigionamentiControl.GestioneApprovigionamentiController;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamento;
 import application.GestioneCatalogoService.GestioneCatalogoServiceImpl;
 import application.GestioneOrdiniService.GestioneOrdiniServiceImpl;
-import application.GestioneOrdiniService.Ordine;
+import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
 import application.GestioneOrdiniService.ProxyOrdine;
 import application.NavigazioneService.NavigazioneService;
 import application.NavigazioneService.NavigazioneServiceImpl;
-import application.NavigazioneService.ObjectProdotto.Categoria;
-import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProdottoException;
 import application.NavigazioneService.ProxyProdotto;
-import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
-import storage.NavigazioneDAO.ProdottoDAODataSource;
 
 /**
  *
  * @author raffy
  */
+
 public class PaginationUtils {
-    public static Collection<ProxyProdotto> performPagination(NavigazioneServiceImpl productService, String keyword, int page, int resultsPerPage, String searchType) {
-        ProdottoDAODataSource pdao = new ProdottoDAODataSource();
+
+	private NavigazioneService navi_service;
+	private GestioneCatalogoServiceImpl catalogoService;
+	private GestioneOrdiniServiceImpl ordiniService;
+
+	public PaginationUtils(NavigazioneServiceImpl navi_service, GestioneCatalogoServiceImpl catalogoService, GestioneOrdiniServiceImpl ordiniService) {
+		this.catalogoService = catalogoService;
+		this.navi_service = navi_service;
+		this.ordiniService = ordiniService;
+	}
+	
+    public Collection<ProxyProdotto> performPagination(String keyword, int page, int resultsPerPage, String searchType) {
+
         SearchResult res = new SearchResult();
         Collection <ProxyProdotto> results;
         switch (searchType) {
             case "bar" -> {
                 try {
-                    results = productService.ricercaProdottoBar(keyword, page, resultsPerPage);
+                    results = navi_service.ricercaProdottoBar(keyword, page, resultsPerPage);
                     return results;
                 } catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException ex) {
                     Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
@@ -49,7 +51,7 @@ public class PaginationUtils {
 
             case "menu" -> {
                 try {
-                    results = productService.ricercaProdottoMenu(Categoria.valueOf(keyword), page, resultsPerPage);
+                    results = navi_service.ricercaProdottoMenu(keyword, page, resultsPerPage);
                     return results;
                 } catch (SQLException | ProdottoException.CategoriaProdottoException | ProdottoException.SottocategoriaProdottoException ex) {
                     Logger.getLogger(PaginationUtils.class.getName()).log(Level.SEVERE, null, ex);
@@ -61,7 +63,9 @@ public class PaginationUtils {
         }
         return null;
     }
-    public static Collection<ProxyProdotto> performPagination(GestioneCatalogoServiceImpl catalogoService, int page, int resultsPerPage) {
+    
+    
+    public Collection<ProxyProdotto> performPagination(int page, int resultsPerPage) {
         try {      
             return catalogoService.visualizzaCatalogo(page, resultsPerPage);
         } catch (SQLException | ProdottoException.CategoriaProdottoException | ProdottoException.SottocategoriaProdottoException ex) {
@@ -70,7 +74,7 @@ public class PaginationUtils {
         return null;
     }
     
-    public static Collection<ProxyOrdine> performPagination(GestioneOrdiniServiceImpl ordiniService, int page, int resultsPerPage, String action) throws SQLException {
+    public Collection<ProxyOrdine> performPagination(int page, int resultsPerPage, String action) throws SQLException, ErroreTipoSpedizioneException {
         if(action.matches("fetch_da_spedire")){
            return ordiniService.visualizzaOrdiniDaEvadere(page, resultsPerPage); 
         }   
@@ -79,7 +83,7 @@ public class PaginationUtils {
         else return null;
     }  
     
-    NavigazioneService navi_service = new NavigazioneServiceImpl();
+    
     public void paginateSearchedProducts(HttpServletRequest request, int page, int resultsPerPage,String keyword, String searchType){
        //searchType ---> pseudo_action                 
        request.getSession().setAttribute("page", page);
@@ -98,14 +102,14 @@ public class PaginationUtils {
                    if(searchType!=null && searchType.equals("bar"))
                        currentPageResults = navi_service.ricercaProdottoBar(keyword, page, resultsPerPage);
                    else 
-                        currentPageResults = navi_service.ricercaProdottoMenu(Categoria.valueOf(keyword), page, resultsPerPage);
+                        currentPageResults = navi_service.ricercaProdottoMenu(keyword, page, resultsPerPage);
                    
                    request.getSession().setAttribute("products", currentPageResults);                  
                }          
                if(searchType!=null && searchType.equals("bar"))
                        nextPageResults = navi_service.ricercaProdottoBar(keyword, page+1, resultsPerPage);
                    else 
-                        nextPageResults = navi_service.ricercaProdottoMenu(Categoria.valueOf(keyword), page+1, resultsPerPage);
+                        nextPageResults = navi_service.ricercaProdottoMenu(keyword, page+1, resultsPerPage);
                    
                request.getSession().setAttribute("nextPageResults", nextPageResults);
                

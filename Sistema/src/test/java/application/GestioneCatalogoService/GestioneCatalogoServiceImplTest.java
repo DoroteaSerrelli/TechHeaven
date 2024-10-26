@@ -4,16 +4,11 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.when;
-
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Locale.Category;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -27,8 +22,6 @@ import application.GestioneCatalogoService.CatalogoException.ProdottoAggiornatoE
 import application.GestioneCatalogoService.CatalogoException.ProdottoInCatalogoException;
 import application.GestioneCatalogoService.CatalogoException.ProdottoNonInCatalogoException;
 import application.GestioneCatalogoService.CatalogoException.ProdottoNulloException;
-import application.GestioneOrdiniService.OrdineException.IndirizzoSpedizioneNulloException;
-import application.NavigazioneService.ObjectProdotto;
 import application.NavigazioneService.Prodotto;
 import application.NavigazioneService.ProxyProdotto;
 import application.NavigazioneService.ObjectProdotto.Categoria;

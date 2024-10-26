@@ -1,10 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/ServletListener.java to edit this template
- */
 package application.NavigazioneControl;
 
-import application.NavigazioneService.NavigazioneServiceImpl;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
@@ -14,30 +9,27 @@ import javax.servlet.ServletContextListener;
  * @author raffa
  */
 public class NewServletListener implements ServletContextListener {
-
+	
+	private PaginationUtils pu;
+	
+	//Costruttore per testing
+	public NewServletListener(PaginationUtils pu) {
+		this.pu = pu;
+	}
+	
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        // This is the code you want to execute
+        
         String categoria = "TELEFONIA"; 
-        System.out.println("SONO QUI");
-        sce.getServletContext().setAttribute("telefoni", PaginationUtils.performPagination(new NavigazioneServiceImpl(), categoria, 1, 6, "menu"));
-        // Assuming request and response objects are not available here,
-        // so you might need to adjust this part according to your requirement
-        //PaginationUtils.setPaginationAttributes(request, searchResult, categoria, 10);
+        sce.getServletContext().setAttribute("telefoni", pu.performPagination(categoria, 1, 6, "menu"));
 
-        // Storing searchResult in ServletContext for later retrieval
-        //DOPPIO FETCH ???? PAGINA INIZIALE
-        categoria = "GRANDI_ELETTRODOMESTICI"; 
-        System.out.println("SONO QUIx2");
-        sce.getServletContext().setAttribute("gr_elettr", PaginationUtils.performPagination(new NavigazioneServiceImpl(), categoria, 1, 6, "menu"));
-        
-        // Storing searchResult in ServletContext for later retrieval
-        
+        String categoria2 = "GRANDI_ELETTRODOMESTICI"; 
+        sce.getServletContext().setAttribute("gr_elettr", pu.performPagination(categoria2, 1, 6, "menu"));
         
     }
 
     @Override
     public void contextDestroyed(ServletContextEvent sce) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Invocato ContextDestroyed : operazione non supportata.");
     }
 }

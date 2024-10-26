@@ -38,6 +38,7 @@
             <!-- Your form for adding a new product -->                  
                         <h2>Aggiungi un nuovo prodotto</h2>
                         <form action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
+                             <input id="action" type = "hidden" value = "addProduct">
                              <div id="error"></div>
                                 <div class="form-group">                    
                                     <label for="productID"> ID Prodotto </label>

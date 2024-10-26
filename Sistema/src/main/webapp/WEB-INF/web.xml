@@ -54,12 +54,12 @@
         <servlet-class>application.NavigazioneControl.ProductInfos</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>ModifyProductsInCatalog</servlet-name>
-        <servlet-class>application.GestioneCatalogoControl.ModifyProductsInCatalog</servlet-class>
+        <servlet-name>ModificaInfoProdottoController</servlet-name>
+        <servlet-class>application.GestioneCatalogoControl.ModificaInfoProdottoController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>FetchSessionData</servlet-name>
-        <servlet-class>application.GestioneCatalogoControl.FetchSessionData</servlet-class>
+        <servlet-name>GestioneGalleriaImmagini</servlet-name>
+        <servlet-class>application.GestioneCatalogoControl.GestioneGalleriaImmagini</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CheckoutCarrello</servlet-name>
@@ -86,12 +86,12 @@
         <url-pattern>/image</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>ImageUpdater</servlet-name>
-        <servlet-class>application.GestioneCatalogoControl.ImageUpdater</servlet-class>
+        <servlet-name>ModificaImmaginiProdotto</servlet-name>
+        <servlet-class>application.GestioneCatalogoControl.ModificaImmaginiProdotto</servlet-class>
     </servlet>
     <servlet-mapping>
-        <servlet-name>ImageUpdater</servlet-name>
-        <url-pattern>/ImageUpdater</url-pattern>
+        <servlet-name>ModificaImmaginiProdotto</servlet-name>
+        <url-pattern>/ModificaImmaginiProdotto</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>GestioneWishlistController</servlet-name>
@@ -126,12 +126,12 @@
         <url-pattern>/ProductInfos</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>ModifyProductsInCatalog</servlet-name>
-        <url-pattern>/ModifyProductsInCatalog</url-pattern>
+        <servlet-name>ModificaInfoProdottoController</servlet-name>
+        <url-pattern>/ModificaInfoProdottoController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>FetchSessionData</servlet-name>
-        <url-pattern>/FetchSessionData</url-pattern>
+        <servlet-name>GestioneGalleriaImmagini</servlet-name>
+        <url-pattern>/GestioneGalleriaImmagini</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>common/Homepage.jsp</welcome-file>

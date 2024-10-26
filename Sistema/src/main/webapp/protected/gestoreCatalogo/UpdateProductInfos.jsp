@@ -187,7 +187,7 @@
                                 <!-- The log on the right -->                         
                                 <div style="flex: 1;">                      
                                       <!-- Image Preview -->                               
-                                    <form id="photoForm" action="${pageContext.request.contextPath}/ImageUpdater" method="post" enctype="multipart/form-data">
+                                    <form id="photoForm" action="${pageContext.request.contextPath}/ModificaImmaginiProdotto" method="post" enctype="multipart/form-data">
                                        <input type="hidden" id="productData" name="productData">
                                             <!-- Option Sections -->
                                             <div class="option-group">

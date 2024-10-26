@@ -1,11 +1,8 @@
 package application.GestioneApprovigionamentiControl;
 
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamento;
-import application.NavigazioneControl.PaginationUtils;
-import application.NavigazioneControl.SearchResult;
 import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collection;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -22,7 +19,6 @@ public class Approvigionamento extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private int perPage=50;
     
     /**
      * Handles the HTTP <code>GET</code> method.

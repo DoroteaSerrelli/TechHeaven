@@ -3,11 +3,17 @@ package application.GestioneApprovigionamentiControl;
 import application.AutenticazioneService.AutenticazioneException.FormatoEmailException;
 import application.GestioneApprovvigionamenti.GestioneApprovvigionamentiServiceImpl;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamento;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.FormatoFornitoreException;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.ProdottoVendibileException;
 import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.QuantitaProdottoDisponibileException;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.QuantitaProdottoException;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.CodiceRichiestaException;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.DescrizioneDettaglioException;
 import application.NavigazioneControl.PaginationUtils;
 import application.NavigazioneControl.SearchResult;
 import application.NavigazioneService.ProdottoException;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -32,47 +38,25 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
  */
 public class GestioneApprovigionamentiController extends HttpServlet {
 
-
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private int perPage=50;
-	
-	// This method retrieve the parameter action and last_action from the session that keeps track
-	// of the last selected action if they are different this means the user selected something different
-	// and I need to reset session attributes related to the other action to avoid trobules with pagination.
-	
-	private String retrieveActionAndDetectChanges(HttpServletRequest request){
-		String action = request.getParameter("action");
-		String lastAction = (String) request.getSession().getAttribute("last_action");
-
-		if (lastAction == null || !lastAction.equals(action)) {
-			// Action has changed, reset all session attributes related to pagination
-			request.getSession().removeAttribute("previosly_fetched_page");
-			request.getSession().removeAttribute("nextPageResults");
-			request.getSession().removeAttribute("supply_requests");
-			request.getSession().removeAttribute("hasNextPage");
-		}
-
-		// Update the session with the current action
-		request.getSession().setAttribute("last_action", action);
-		return action;
-	}
-
 	private ProdottoDAODataSource pdao;
 	private GestioneApprovvigionamentiServiceImpl gas;
 	private PaginationUtils pu;
-	private ApprovvigionamentoDAODataSource supplyDAO;
-	
-	@Override
-	public void init() throws ServletException {
-		supplyDAO = new ApprovvigionamentoDAODataSource(new DataSource());
-		gas = new GestioneApprovvigionamentiServiceImpl();
-		pdao = new ProdottoDAODataSource();
-		pu = new PaginationUtils();
+
+	//Costrutto per test
+	public GestioneApprovigionamentiController(int perPage, ProdottoDAODataSource productDAO, GestioneApprovvigionamentiServiceImpl gas, 
+			PaginationUtils pu) {
+		this.perPage = perPage;
+		this.pdao = productDAO;
+		this.pu = pu;
+		this.gas = gas;
 	}
-	
+
+
 	/**
 	 * Handles the HTTP <code>GET</code> method.
 	 *
@@ -82,7 +66,7 @@ public class GestioneApprovigionamentiController extends HttpServlet {
 	 * @throws IOException if an I/O error occurs
 	 */
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String action = retrieveActionAndDetectChanges(request);
 
@@ -158,7 +142,7 @@ public class GestioneApprovigionamentiController extends HttpServlet {
 				request.getSession().setAttribute("hasNextPage", hasNextPage);
 
 				response.sendRedirect(request.getContextPath() + "/Approvigionamento");
-			} catch (RichiestaApprovvigionamentoException.FormatoFornitoreException | RichiestaApprovvigionamentoException.DescrizioneDettaglioException | RichiestaApprovvigionamentoException.QuantitaProdottoException | RichiestaApprovvigionamentoException.ProdottoVendibileException | SQLException ex) {
+			} catch (FormatoFornitoreException | DescrizioneDettaglioException | QuantitaProdottoException | ProdottoVendibileException | SQLException ex) {
 				Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
 				request.getSession().setAttribute("error", ex);
 				//Servlet DO-GET GestioneOrdini TO-DO:
@@ -178,50 +162,97 @@ public class GestioneApprovigionamentiController extends HttpServlet {
 	 * @throws IOException if an I/O error occurs
 	 */
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		String productIdParam = request.getParameter("product_id");
 
 		if (productIdParam == null || productIdParam.isEmpty()) {
-			// Handle the case where product_id is missing
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Product ID is required.");
+
+			CodiceRichiestaException ex = new CodiceRichiestaException("Errore nella generazione del codice della richiesta (codice = null).\n Riprovare più tardi.");
+
+			request.getSession().setAttribute("error",ex.getMessage());                               
+			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
 			return;
+
 		}
 		try {
-
-			int productId = Integer.parseInt(productIdParam); 
-			ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);
-			int quantity = Integer.parseInt(request.getParameter("quantity"));
+			int productId = -1;
 			
+			try {
+				productId = Integer.parseInt(productIdParam); 
+			}catch (NumberFormatException e) {
+
+				CodiceRichiestaException ex = new CodiceRichiestaException("Errore nella generazione del codice della richiesta (codice non è un numero intero).\n Riprovare più tardi.");
+				request.getSession().setAttribute("error",ex.getMessage());                               
+				response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
+				return;
+			}
+			
+			ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);
+
+			if(prodotto == null || !prodotto.isInCatalogo()) {
+				ProdottoVendibileException ex = new ProdottoVendibileException("Non è possibile fare l'approvvigionamento di un prodotto non in catalogo.");
+				request.getSession().setAttribute("error",ex.getMessage());                               
+				response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
+				return;
+			}
+
+			int quantity = Integer.parseInt(request.getParameter("quantity"));
+
 			String fornitore = request.getParameter("fornitore");
 			String email_fornitore = request.getParameter("email_fornitore");
 			String descrizione = request.getParameter("descrizione");
-			
+
 			gas.effettuaRichiestaApprovvigionamento(prodotto, quantity, fornitore, email_fornitore, descrizione);
 			request.getSession().setAttribute("error", "Richiesta Approvigionamento Avvenuta Con Successo!");            
 			response.sendRedirect(request.getContextPath() + "/Approvigionamento");
-		
-		} catch (NumberFormatException e) {
-			// Handle invalid number format
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid Product ID format.");
-		} catch (SQLException | RichiestaApprovvigionamentoException.FormatoFornitoreException | RichiestaApprovvigionamentoException.QuantitaProdottoException | RichiestaApprovvigionamentoException.DescrizioneDettaglioException | RichiestaApprovvigionamentoException.ProdottoVendibileException ex) {
-			Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
-			request.getSession().setAttribute("error", "Richiesta approvigionamento non valida, c'è stato un errore.");
+
+		} catch (NumberFormatException | QuantitaProdottoException  e) {
+
+			QuantitaProdottoException ex = new QuantitaProdottoException("La quantità del prodotto specificata non è valida.");
+			request.getSession().setAttribute("error",ex.getMessage());                               
 			response.sendRedirect(request.getContextPath() + "/Approvigionamento");
-		} catch (ProdottoException.SottocategoriaProdottoException ex) {
-			Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (ProdottoException.CategoriaProdottoException ex) {
-			Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
-		} catch (QuantitaProdottoDisponibileException e) {
-			
-			Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, e);
-			request.getSession().setAttribute("error", e.getMessage());
+
+		}catch(DescrizioneDettaglioException |
+				FormatoFornitoreException | QuantitaProdottoDisponibileException |
+				FormatoEmailException ex) {
+
+			request.getSession().setAttribute("error",ex.getMessage());                               
 			response.sendRedirect(request.getContextPath() + "/Approvigionamento");
-			
-		} catch (FormatoEmailException e) {
-			Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, e);
-			request.getSession().setAttribute("error", e.getMessage());
-			response.sendRedirect(request.getContextPath() + "/Approvigionamento");
+
+		}catch(ProdottoVendibileException ex) {
+			request.getSession().setAttribute("error","Non è possibile fare l'approvvigionamento di un prodotto non in catalogo.");                               
+			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
+
+		} catch (SQLException ex) {
+			Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
+			request.getSession().setAttribute("error", "Errore nell'elaborazione della richiesta di approvigionamento: errore nell'accesso al database.");
+			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
+
+		} catch (SottocategoriaProdottoException | CategoriaProdottoException ex) {
+			Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
 		}
+
+	}
+
+	// This method retrieve the parameter action and last_action from the session that keeps track
+	// of the last selected action if they are different this means the user selected something different
+	// and I need to reset session attributes related to the other action to avoid trobules with pagination.
+
+	private String retrieveActionAndDetectChanges(HttpServletRequest request){
+		String action = request.getParameter("action");
+		String lastAction = (String) request.getSession().getAttribute("last_action");
+
+		if (lastAction == null || !lastAction.equals(action)) {
+			// Action has changed, reset all session attributes related to pagination
+			request.getSession().removeAttribute("previosly_fetched_page");
+			request.getSession().removeAttribute("nextPageResults");
+			request.getSession().removeAttribute("supply_requests");
+			request.getSession().removeAttribute("hasNextPage");
+		}
+
+		// Update the session with the current action
+		request.getSession().setAttribute("last_action", action);
+		return action;
 	}
 }

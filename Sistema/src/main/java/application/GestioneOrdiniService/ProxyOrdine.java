@@ -69,6 +69,16 @@ public class ProxyOrdine extends ObjectOrdine implements Cloneable{
         super(codice, stato, indirizzoSpedizione, spedizione, consegna);
         ordinativo = null;
     }
+	
+	/**
+	 * Costruttore di classe.
+	 * */
+	
+	public ProxyOrdine(OrdineDAODataSource orderDAO, int codice, Stato stato, Indirizzo indirizzoSpedizione, TipoSpedizione spedizione, TipoConsegna consegna) {
+        super(codice, stato, indirizzoSpedizione, spedizione, consegna);
+		ordinativo = null;
+		this.orderDAO = orderDAO;
+	}
 		
 	/**
 	 * Il metodo fornisce il riferimento all'oggetto Ordine.

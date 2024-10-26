@@ -29,7 +29,23 @@ public class RichiestaApprovvigionamentoException extends Exception{
 		super(message);
 	}
 
+	
+	/**
+	 * Classe statica per gestire errori nella specifica del codice della
+	 * richiesta di approvvigionamento.
+	 * */
+	public static class CodiceRichiestaException extends RichiestaApprovvigionamentoException {
+		private static final long serialVersionUID = 1L;
 
+		/**
+		 * Costruttore di classe con messaggio personalizzato.
+		 * @param message il messaggio dell'eccezione da far visualizzare
+		 * */
+		public CodiceRichiestaException(String message) {
+			super(message);
+		}
+	}
+	
 	/**
 	 * Classe statica per gestire errori nel formato di nominativo o email 
 	 * del fornitore.

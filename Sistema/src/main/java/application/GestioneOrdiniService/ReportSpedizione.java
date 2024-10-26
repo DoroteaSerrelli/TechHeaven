@@ -268,4 +268,43 @@ public class ReportSpedizione {
 	public void setOrdine(ObjectOrdine ordine) {
 		this.ordine = ordine;
 	}
+	
+	@Override
+	public int hashCode() {
+	    int result = Integer.hashCode(numeroReport);
+	    result = 31 * result + (corriere != null ? corriere.hashCode() : 0);
+	    result = 31 * result + (imballaggio != null ? imballaggio.hashCode() : 0);
+	    result = 31 * result + (dataSpedizione != null ? dataSpedizione.hashCode() : 0);
+	    result = 31 * result + (oraSpedizione != null ? oraSpedizione.hashCode() : 0);
+	    result = 31 * result + (ordine != null ? ordine.hashCode() : 0);
+	    return result;
+	}
+
+	
+	@Override
+	public boolean equals(Object obj) {
+	    // Verifica se l'oggetto è lo stesso
+	    if (this == obj) {
+	        return true;
+	    }
+	    
+	    // Verifica se l'oggetto è di tipo ReportSpedizione
+	    if (!(obj instanceof ReportSpedizione)) {
+	        return false;
+	    }
+	    
+	    // Cast dell'oggetto
+	    ReportSpedizione other = (ReportSpedizione) obj;
+
+	    // Confronto degli attributi significativi
+	    return this.numeroReport == other.numeroReport &&
+	           (this.corriere != null ? this.corriere.equals(other.corriere) : other.corriere == null) &&
+	           (this.imballaggio != null ? this.imballaggio.equals(other.imballaggio) : other.imballaggio == null) &&
+	           (this.dataSpedizione != null ? this.dataSpedizione.equals(other.dataSpedizione) : other.dataSpedizione == null) &&
+	           (this.oraSpedizione != null ? this.oraSpedizione.equals(other.oraSpedizione) : other.oraSpedizione == null) &&
+	           (this.ordine != null ? this.ordine.equals(other.ordine) : other.ordine == null);
+	}
+
+	
+	
 }

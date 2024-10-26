@@ -1,0 +1,383 @@
+{
+  "id": "ffb5c680-6e43-4e39-8789-45344ffc5378",
+  "version": "2.0",
+  "name": "GestioneWishlistControlTest",
+  "url": "https://localhost/",
+  "tests": [{
+    "id": "720cd7db-f517-40cb-8f53-5ad91d0906c7",
+    "name": "TC10_1_1_1Test",
+    "commands": [{
+      "id": "4454c38f-7440-4e52-b4a0-467b6dc4a5fc",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6811bbc8-bb17-4e4d-966f-0c978572759c",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1486x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "af89dd65-84df-4540-9092-fe691f137990",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Telefonia",
+      "targets": [
+        ["linkText=Telefonia", "linkText"],
+        ["css=#categories > li:nth-child(1) > a", "css:finder"],
+        ["xpath=(//a[contains(text(),'Telefonia')])[2]", "xpath:link"],
+        ["xpath=//ul[@id='categories']/li/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '/NavigazioneController?search_type=menu&keyword=TELEFONIA')])[2]", "xpath:href"],
+        ["xpath=//ul[2]/li/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4dd3e7c1-4648-49aa-8182-6f450ed56490",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=(//img[@alt='wishlist'])[1]",
+      "targets": [
+        ["css=.pro:nth-child(3) .wishlist", "css:finder"],
+        ["xpath=(//img[@alt='wishlist'])[3]", "xpath:img"],
+        ["xpath=//section[@id='product1']/div/div[3]/a[2]/img", "xpath:idRelative"],
+        ["xpath=//div[3]/a[2]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2f1f43b0-d781-4f26-82e8-bc1640855896",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "xpath=//p[contains(.,'Prodotto aggiunto nella wishlist con successo')]",
+      "targets": [
+        ["id=error", "id"],
+        ["css=#error", "css:finder"],
+        ["xpath=//p[@id='error']", "xpath:attributes"],
+        ["xpath=//div[@id='showpr']/div/p", "xpath:idRelative"],
+        ["xpath=//div/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Prodotto aggiunto nella wishlist con successo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "bcb41399-b99b-4e5c-8af2-f9c7d4110894",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "xpath=//div[@id='3']",
+      "targets": [
+        ["xpath=//div[@id='3']", "xpath:attributes"],
+        ["xpath=//div[@id='showpr']/div[2]", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "74b85fc2-ce77-44e0-9896-64a77718fbd3",
+    "name": "TC10_1_1_2Test",
+    "commands": [{
+      "id": "e0c1c13e-024a-41ce-b67c-f0b3df7081fd",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a9ac7088-444a-4117-a55f-43092d78c651",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1486x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "99d5040f-53aa-4194-ade0-d039ccecc5e0",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Telefonia",
+      "targets": [
+        ["linkText=Telefonia", "linkText"],
+        ["css=#categories > li:nth-child(1) > a", "css:finder"],
+        ["xpath=(//a[contains(text(),'Telefonia')])[2]", "xpath:link"],
+        ["xpath=//ul[@id='categories']/li/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '/NavigazioneController?search_type=menu&keyword=TELEFONIA')])[2]", "xpath:href"],
+        ["xpath=//ul[2]/li/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "de983dc8-0df2-4e9c-97f6-8db2ff9d2c3c",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=(//img[@alt='wishlist'])[1]",
+      "targets": [
+        ["css=.pro:nth-child(3) .wishlist", "css:finder"],
+        ["xpath=(//img[@alt='wishlist'])[3]", "xpath:img"],
+        ["xpath=//section[@id='product1']/div/div[3]/a[2]/img", "xpath:idRelative"],
+        ["xpath=//div[3]/a[2]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "016fdee9-61eb-4b80-9c32-445320588c0c",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "xpath=//p[contains(.,'Prodotto già presente nella wishlist')]",
+      "targets": [
+        ["id=error", "id"],
+        ["css=#error", "css:finder"],
+        ["xpath=//p[@id='error']", "xpath:attributes"],
+        ["xpath=//div[@id='showpr']/div/p", "xpath:idRelative"],
+        ["xpath=//div/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Prodotto già presente nella wishlist')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7091f332-2b2f-4a66-b3b7-9a3770f6680e",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "xpath=//div[@id='3']",
+      "targets": [
+        ["xpath=//div[@id='3']", "xpath:attributes"],
+        ["xpath=//div[@id='showpr']/div[2]", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "011d3e0d-a88e-4559-8f2b-eaeda9db7da8",
+    "name": "TC10_1_1_3Test",
+    "commands": [{
+      "id": "20de280e-ed69-44c6-b55b-bd6f2f441495",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "81decfed-2e3a-4a03-981b-19e8554277fa",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1486x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1e510660-1556-424e-ad5e-4569205fb5af",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Telefonia",
+      "targets": [
+        ["linkText=Telefonia", "linkText"],
+        ["css=#categories > li:nth-child(1) > a", "css:finder"],
+        ["xpath=(//a[contains(text(),'Telefonia')])[2]", "xpath:link"],
+        ["xpath=//ul[@id='categories']/li/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '/NavigazioneController?search_type=menu&keyword=TELEFONIA')])[2]", "xpath:href"],
+        ["xpath=//ul[2]/li/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "193ef432-9679-491f-bdf4-3085fe38ea33",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=(//img[@alt='wishlist'])[1]",
+      "targets": [
+        ["css=.pro:nth-child(3) .wishlist", "css:finder"],
+        ["xpath=(//img[@alt='wishlist'])[3]", "xpath:img"],
+        ["xpath=//section[@id='product1']/div/div[3]/a[2]/img", "xpath:idRelative"],
+        ["xpath=//div[3]/a[2]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "99ac0c11-70b8-4b01-9124-a2d9a387cc2d",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "xpath=//p[contains(.,'Prodotto aggiunto nella wishlist con successo')]",
+      "targets": [
+        ["id=error", "id"],
+        ["css=#error", "css:finder"],
+        ["xpath=//p[@id='error']", "xpath:attributes"],
+        ["xpath=//div[@id='showpr']/div/p", "xpath:idRelative"],
+        ["xpath=//div/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Prodotto aggiunto nella wishlist con successo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9ae7e51d-faac-470a-94cd-fb030beb9aef",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "xpath=//div[@id='3']",
+      "targets": [
+        ["xpath=//div[@id='3']", "xpath:attributes"],
+        ["xpath=//div[@id='showpr']/div[2]", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2e3b4f76-84e6-49ff-9291-a9b14e2aa8ef",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=(//a[contains(@href, '/NavigazioneController?search_type=menu&keyword=PRODOTTI_ELETTRONICA')])[2]",
+      "targets": [
+        ["css=#categories > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Prodotti\n\t\t\t\t\tElettronica')]", "xpath:link"],
+        ["xpath=//ul[@id='categories']/li[3]/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '/NavigazioneController?search_type=menu&keyword=PRODOTTI_ELETTRONICA')])[2]", "xpath:href"],
+        ["xpath=//ul[2]/li[3]/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8937bef6-026f-41d2-87a1-e46dc337c6fe",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=(//img[@alt='wishlist'])[2]",
+      "targets": [
+        ["css=.pro:nth-child(3) .wishlist", "css:finder"],
+        ["xpath=(//img[@alt='wishlist'])[3]", "xpath:img"],
+        ["xpath=//section[@id='product1']/div/div[3]/a[2]/img", "xpath:idRelative"],
+        ["xpath=//div[3]/a[2]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3ff72477-8a99-45ea-994b-fe630f8aa892",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "xpath=//div[@id='1']",
+      "targets": [
+        ["xpath=//div[@id='3']", "xpath:attributes"],
+        ["xpath=//div[@id='showpr']/div[2]", "xpath:idRelative"],
+        ["xpath=//div[4]/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "15a55954-f0fe-40e0-8e75-fcc4459fc91a",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "xpath=//p[contains(.,'Prodotto aggiunto nella wishlist con successo')]",
+      "targets": [
+        ["id=error", "id"],
+        ["css=#error", "css:finder"],
+        ["xpath=//p[@id='error']", "xpath:attributes"],
+        ["xpath=//div[@id='showpr']/div/p", "xpath:idRelative"],
+        ["xpath=//div/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Prodotto aggiunto nella wishlist con successo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "c9d763c9-8ba5-4d02-ae54-c385f69f20e8",
+    "name": "TC10_2_1_1Test",
+    "commands": [{
+      "id": "7da0492b-6aae-47a5-a9a1-e3d5f9b4f459",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/Wishlist",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bd574704-acc2-41b2-a4f9-29777809f4a6",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1486x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7521a3a4-9b0c-4043-a3b9-a38176f4813a",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//a[@id='removeBtn9']/button",
+      "targets": [
+        ["css=.delete_button", "css:finder"],
+        ["xpath=//a[@id='removeBtn9']/button", "xpath:idRelative"],
+        ["xpath=//a[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Rimuovi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ee29b5ef-3c37-4c8c-b37c-5573db1a4c1b",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//h4[contains(.,'La tua wishlist è vuota!')]",
+      "targets": [
+        ["css=#emptycart > h4", "css:finder"],
+        ["xpath=//div[@id='emptycart']/h4", "xpath:idRelative"],
+        ["xpath=//h4", "xpath:position"],
+        ["xpath=//h4[contains(.,'La tua wishlist è vuota!')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "41a150bc-6be1-4c91-b715-0a3f839b1792",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//p[contains(.,'Aggiungi uno dei nostri prodotti alla tua lista dei desideri.')]",
+      "targets": [
+        ["css=p:nth-child(2)", "css:finder"],
+        ["xpath=//div[@id='emptycart']/p", "xpath:idRelative"],
+        ["xpath=//div/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Aggiungi uno dei nostri prodotti alla tua lista dei desideri.')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "12b80d51-e283-4b69-8d18-1ec6b10d44fe",
+    "name": "TC10_2_1_2Test",
+    "commands": [{
+      "id": "619f78fd-3d74-4599-863f-24df85902f81",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/Wishlist",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a08f1dc9-c06a-47d6-af96-63e10b25bd12",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1486x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "400c1288-3a3b-424b-ab41-92fe2e926b4d",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//a[@id='removeBtn1']/button",
+      "targets": [
+        ["css=#removeBtn1 > .delete_button", "css:finder"],
+        ["xpath=//a[@id='removeBtn1']/button", "xpath:idRelative"],
+        ["xpath=//a[2]/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Rimuovi')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "903455f2-d576-450e-b217-c6f1d0460226",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//p[contains(.,'Prodotto rimosso con successo dalla wishlist')]",
+      "targets": [
+        ["id=error", "id"],
+        ["css=#error", "css:finder"],
+        ["xpath=//p[@id='error']", "xpath:attributes"],
+        ["xpath=//div[@id='showpr']/div/p", "xpath:idRelative"],
+        ["xpath=//div/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Prodotto rimosso con successo dalla wishlist')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "fd712651-e36b-4d2d-af25-fc107097a519",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "xpath=//div[@id='9']",
+      "targets": [
+        ["xpath=//div[@id='9']", "xpath:attributes"],
+        ["xpath=//div[@id='showpr']/div[3]", "xpath:idRelative"],
+        ["xpath=//div[4]/div[3]", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "3838c4a2-c483-4850-8cc0-89fbb2c9ef02",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["720cd7db-f517-40cb-8f53-5ad91d0906c7"]
+  }],
+  "urls": ["https://localhost/"],
+  "plugins": []
+}

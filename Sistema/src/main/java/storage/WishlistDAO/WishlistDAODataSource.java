@@ -11,7 +11,8 @@ import java.util.LinkedList;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 import application.GestioneWishlistService.Wishlist;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
@@ -412,14 +413,14 @@ public class WishlistDAODataSource{
 	 * Questo metodo restituisce la wishlist di un utente (vincolo: ogni utente ha una sola wishlist).
 	 * 
 	 * @param user : l'utente
-	 * @return la wishlist dell'utente user
+	 * @return dto : la wishlist dell'utente user
 	 * @throws CategoriaProdottoException 
 	 * */
 	public synchronized Wishlist doRetrieveAllWishUser(ProxyUtente user) throws SQLException, CategoriaProdottoException {
 		Connection connection = null;
 		PreparedStatement preparedStatement = null;
 
-		Wishlist wishlist = new Wishlist(user);
+		Wishlist dto = new Wishlist(user);
 
 		String selectSQL = "SELECT * FROM " + WishlistDAODataSource.TABLE_NAME + " WHERE UTENTE = ? ";
 
@@ -431,8 +432,7 @@ public class WishlistDAODataSource{
 			ResultSet rs = preparedStatement.executeQuery();
 
 			while (rs.next()) {
-				Wishlist dto = new Wishlist(user);
-
+				
 				dto.setId(rs.getInt("IDWISHLIST"));
 				dto.setProdotti(doRetrieveAllWishes("", dto));
 			}
@@ -446,7 +446,7 @@ public class WishlistDAODataSource{
 					connection.close();
 			}
 		}
-		return wishlist;
+		return dto;
 	}
 
 	/**

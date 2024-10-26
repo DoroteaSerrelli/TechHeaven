@@ -123,6 +123,7 @@ public class PaginationUtils {
                request.getSession().setAttribute("error", "Recupero Prodotti Fallito");
            } catch (Exception ex) {
                Logger.getLogger(GestioneApprovigionamentiController.class.getName()).log(Level.SEVERE, null, ex);
+               request.getSession().removeAttribute("products");
            }
         }   
     

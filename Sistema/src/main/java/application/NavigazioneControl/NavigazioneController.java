@@ -1,24 +1,11 @@
 package application.NavigazioneControl;
 
 import java.io.IOException;
-import java.sql.SQLException;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.apache.tomcat.jdbc.pool.DataSource;
-
-import application.GestioneCatalogoService.GestioneCatalogoServiceImpl;
-import application.GestioneOrdiniService.GestioneOrdiniServiceImpl;
-import application.NavigazioneService.NavigazioneServiceImpl;
-import storage.AutenticazioneDAO.UtenteDAODataSource;
-import storage.GestioneOrdiniDAO.OrdineDAODataSource;
-import storage.GestioneOrdiniDAO.PagamentoDAODataSource;
-import storage.NavigazioneDAO.PhotoControl;
-import storage.NavigazioneDAO.ProdottoDAODataSource;
 
 /**
  *
@@ -55,7 +42,7 @@ public class NavigazioneController extends HttpServlet {
 
 		String keyword = (String)request.getParameter("keyword");
 		if (keyword == null || keyword.isEmpty()) {
-
+			request.getSession().setAttribute("empty_search", "Compila questo campo.");
 			response.sendRedirect(request.getContextPath() + "/index.jsp");
 			return;
 
@@ -82,7 +69,7 @@ public class NavigazioneController extends HttpServlet {
 
 		if(searchType==null){
 			
-			response.sendRedirect(request.getContextPath() + "/index.jsp");
+			response.sendRedirect(request.getContextPath() + "/");
 			return;
 
 		}

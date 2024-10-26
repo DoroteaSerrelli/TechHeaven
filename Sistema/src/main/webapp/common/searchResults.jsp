@@ -63,9 +63,9 @@
                 <h4>Nessun prodotto trovato con la keyword: <%=request.getAttribute("keyword")%></h4>
         <%  } else{ %>
             <jsp:include page="/common/pagination_research.jsp"  flush="true"/>
-        <!--    <div class="errormsg">                                             
+            <div class="errormsg">                                             
                <p id="error" class="error"></p>                                        
-            </div> -->
+            </div> 
         <section id="product1">      
             <div class="pro-container"> 
                 <% 

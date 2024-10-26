@@ -15,6 +15,7 @@ import application.RegistrazioneService.RegistrazioneException;
 import application.RegistrazioneService.Utente;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -103,8 +104,9 @@ public class UpdateAddressController extends HttpServlet {
 			case "RemoveIndirizzo":
 
 				int idIndirizzoR = Integer.parseInt(request.getParameter("addressIndex"));
-				target_ind.setIDIndirizzo(idIndirizzoR);
-
+                                target_ind.setIDIndirizzo(idIndirizzoR);
+                                fetchIndexById(real_user, target_ind);                                				
+                                System.out.println(target_ind);
 				AutenticazioneServiceImpl asRem = new AutenticazioneServiceImpl();
 				updated_user= asRem.aggiornaRubricaIndirizzi(user, "RIMUOVERE-INDIRIZZO", target_ind);
 				break; 
@@ -121,7 +123,7 @@ public class UpdateAddressController extends HttpServlet {
 				
 				if(address.equals(target_ind)) { //l'indirizzo aggiornato già esiste nella rubrica degli indirizzi
 					
-					String errorMsg = "L\\'indirizzo inserito è già presente nella tua rubrica degli indirizzi.";
+					String errorMsg = "L'indirizzo inserito è già presente nella tua rubrica degli indirizzi.";
 					request.getSession().setAttribute("error", errorMsg);
 					response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
 					return;
@@ -155,13 +157,13 @@ public class UpdateAddressController extends HttpServlet {
 
 		}catch(IndirizzoEsistenteException ex) {
 
-			String errorMsg = "L\\'indirizzo inserito è già presente nella tua rubrica degli indirizzi.";
+			String errorMsg = "L'indirizzo inserito è già presente nella tua rubrica degli indirizzi.";
 			request.getSession().setAttribute("error", errorMsg);
 			response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
 
 		}catch(RimozioneIndirizzoException | ModificaIndirizzoException ex) {
 
-			String errorMsg = "L\\'indirizzo inserito non è presente nella tua rubrica degli indirizzi.";
+			String errorMsg = "L'indirizzo inserito non è presente nella tua rubrica degli indirizzi.";
 			request.getSession().setAttribute("error", errorMsg);                     
 			response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
 
@@ -193,4 +195,21 @@ public class UpdateAddressController extends HttpServlet {
 
 		return user;
 	}
+         /***  Recupera l'ID dell'indirizzo dalla lista in caso in cui le info non combaciano 
+         *    Si verifica quando l'utente inserisce le informazioni direttamente neò form senza
+         *   interagire con la Selezione Rapida (click su Indrizzo da modificare-eliminare)
+	 * @param user : Utente a cui appartiene la lista indirizzi.
+         * @param index: Indrizzo da controllare nella lista
+	 * @return user : L'utente corrente, se presente nella sessione. Altrimenti, null.
+	 */
+        private void fetchIndexById(Utente user, Indirizzo index){
+            ArrayList<Indirizzo> lista_indirizzi = user.getProfile().getIndirizzi();
+            if(lista_indirizzi.contains(index)){
+                for(Indirizzo ind : lista_indirizzi){
+                    if(index.equals(ind) && index.getIDIndirizzo()!=ind.getIDIndirizzo()){
+                        index.setIDIndirizzo(ind.getIDIndirizzo());                     
+                    } 
+                }
+            }
+        }      
 }

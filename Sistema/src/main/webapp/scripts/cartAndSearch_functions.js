@@ -59,7 +59,7 @@
                 if (action === "removeFromCart") {
                     removeCartItem(productId);
                 }              
-                if (callback) callback();
+                if (callback) callback(response);
                   // Display notification if needed
                 displayNotification(response.message, response.status);
                 // Display notification if needed
@@ -151,8 +151,16 @@ function updateCartItem(productId, updatedPrice, updatedQuantity) {
 
     // Validate search input
     function validateSearch() {
-        var searchInput = document.getElementById("searchInput").value.trim();
-        return searchInput.length !== 0;
+        const searchInput = document.getElementById('searchInput').value.trim();
+        const errorElement = document.getElementById('searchError');
+
+        if (searchInput === "") {
+           errorElement.textContent = "Compila questo campo.";
+           return false;
+        } else {
+           errorElement.textContent = "";
+           return true;
+        }
     }    
     
    document.addEventListener('DOMContentLoaded', (event) => {
@@ -172,9 +180,15 @@ function updateCartItem(productId, updatedPrice, updatedQuantity) {
 
 // Add to cart and redirect logic
 function addToCartAndRedirect(productId, action, cartUrl) {
-    modifyCart(productId, action, function () {
-        // This callback will be executed after the AJAX request is successful
-        window.location.href = cartUrl; // Redirect to the cart page
+    modifyCart(productId, action, function (response) {
+        // Check the status in the JSON response
+        if (response.status === "invalid") {
+            // Display the error message on the page (adjust this part based on your UI)
+            displayNotification(response.message);
+        } else {
+            // Redirect only if the action was successful
+            window.location.href = cartUrl;
+        }
     });
     
 }

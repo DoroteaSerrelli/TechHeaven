@@ -153,7 +153,7 @@ public class GestioneCarrelloController extends HttpServlet {
 
 				request.getSession().setAttribute("error", "Prodotto già presente nel carrello.");
 				request.getSession().setAttribute("status", "invalid");
-				prepareJsonOutputMessage("invalid", "Prodotto già presente nel carrello.", 0, 0, cart.totalAmount(), request, response);                        //response.sendError(1, "Item già inserito nel carrello");
+				prepareJsonOutputMessage("valid", "Prodotto già presente nel carrello.", 0, 0, cart.totalAmount(), request, response);                        //response.sendError(1, "Item già inserito nel carrello");
 
 			}
 
@@ -196,8 +196,7 @@ public class GestioneCarrelloController extends HttpServlet {
                         setInfoItemCarrello(prodotto, inCart);
                             
 			if(!cart.isPresent(inCart)){                    
-				prepareJsonOutputMessage("invalid", "Prodotto non presente nel carrello", 0, 0, 0, request, response);                            
-				response.sendRedirect(request.getContextPath() + "/cart");
+				prepareJsonOutputMessage("invalid", "Prodotto non presente nel carrello.", 0, 0, 0, request, response);                            
 				return;
 			}else{                          
                                 int quantità_carrello = fetchItemQuantity(cart, productId);
@@ -223,7 +222,6 @@ public class GestioneCarrelloController extends HttpServlet {
 
 		}catch(ProdottoNonPresenteException ex) {
 			prepareJsonOutputMessage("invalid", "Prodotto non presente nel carrello", 0, 0, 0, request, response);                            
-			response.sendRedirect(request.getContextPath() + "/cart");
 
 		}catch(ProdottoNulloException ex) {
 			prepareJsonOutputMessage("invalid", "Errore nell'aggiornamento della quantità del prodotto nel carrello. Riprova più tardi.", 0, 0, 0, request, response);

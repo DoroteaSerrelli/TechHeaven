@@ -167,7 +167,10 @@ public class GestioneCarrelloController extends HttpServlet {
 		}catch(ProdottoNulloException ex) {
 			prepareJsonOutputMessage("invalid", "Errore nell'aggiunta del prodotto nel carrello. Riprova più tardi.", 0, 0, 0, request, response);
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
-
+                } catch (QuantitaProdottoException ex) {
+			Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
+			prepareJsonOutputMessage("invalid", ex.getMessage(), 0, 0, 0, request, response);               
+                        
 		} catch (SQLException  | SottocategoriaProdottoException | CategoriaProdottoException ex) {
 			Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
 			prepareJsonOutputMessage("invalid", "Errore nell\\'operazione di aggiunta del prodotto nel carrello. Riprova più tardi.", 0, 0, 0, request, response);                            
@@ -434,4 +437,5 @@ public class GestioneCarrelloController extends HttpServlet {
             }
             return 0;
         }
+       
 }

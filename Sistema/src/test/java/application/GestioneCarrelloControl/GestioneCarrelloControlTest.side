@@ -544,7 +544,7 @@
       "id": "f707724d-1c27-401c-afdd-e6b01e76e470",
       "comment": "",
       "command": "click",
-      "target": "css=#item_10 h3",
+      "target": "css=#item_13 h3",
       "targets": [
         ["css=#item_10 h3", "css:finder"],
         ["xpath=//div[@id='item_10']/div[2]/div/a/h3", "xpath:idRelative"],
@@ -565,54 +565,26 @@
       ],
       "value": ""
     }, {
-      "id": "7791c2e0-eed2-42d3-bb51-e3c3df4dfc01",
-      "comment": "",
-      "command": "click",
-      "target": "xpath=//div[@id='item_12']/div[2]/div/a/h3",
-      "targets": [
-        ["css=h3:nth-child(1)", "css:finder"],
-        ["xpath=//div[@id='item_12']/div[2]/div/a/h3", "xpath:idRelative"],
-        ["xpath=//a/h3", "xpath:position"],
-        ["xpath=//h3[contains(.,'Rimuovi dal Carrello')]", "xpath:innerText"]
-      ],
-      "value": ""
-    }, {
-      "id": "cde4532c-7da5-49aa-9613-e9efc76773d5",
+      "id": "f5f07627-e2d1-426a-b89e-f71d39d34b58",
       "comment": "",
       "command": "assertElementPresent",
-      "target": "xpath=//p[contains(.,'Prodotto rimosso con successo dal carrello')]",
-      "targets": [
-        ["id=error", "id"],
-        ["css=#error", "css:finder"],
-        ["xpath=//p[@id='error']", "xpath:attributes"],
-        ["xpath=//div[4]/p", "xpath:position"],
-        ["xpath=//p[contains(.,'Prodotto rimosso con successo dal carrello')]", "xpath:innerText"]
-      ],
+      "target": "css=#item_12",
+      "targets": [],
       "value": ""
     }, {
-      "id": "f1d98de1-79e5-41c4-8f56-1c367918cb22",
+      "id": "1e5b2414-58a3-426d-ba12-6da07dd44d31",
       "comment": "",
-      "command": "assertElementPresent",
-      "target": "xpath=//h4[contains(.,'Il tuo carrello è vuoto!')]",
+      "command": "assertText",
+      "target": "id=total_amount",
       "targets": [
-        ["css=#emptycart > h4", "css:finder"],
-        ["xpath=//div[@id='emptycart']/h4", "xpath:idRelative"],
-        ["xpath=//h4", "xpath:position"],
-        ["xpath=//h4[contains(.,'Il tuo carrello è vuoto!')]", "xpath:innerText"]
+        ["id=total_amount", "id"],
+        ["css=#total_amount", "css:finder"],
+        ["xpath=//h3[@id='total_amount']", "xpath:attributes"],
+        ["xpath=//div[@id='complete_order']/h3", "xpath:idRelative"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'614,50€')]", "xpath:innerText"]
       ],
-      "value": ""
-    }, {
-      "id": "c97600fc-8ebf-4ed4-abd4-a0d3a2c08e51",
-      "comment": "",
-      "command": "assertElementPresent",
-      "target": "xpath=//p[contains(.,'Cerca il tuo prodotto nelle nostre categorie di prodotti.')]",
-      "targets": [
-        ["css=p:nth-child(2)", "css:finder"],
-        ["xpath=//div[@id='emptycart']/p", "xpath:idRelative"],
-        ["xpath=//div[8]/div/p", "xpath:position"],
-        ["xpath=//p[contains(.,'Cerca il tuo prodotto nelle nostre categorie di prodotti.')]", "xpath:innerText"]
-      ],
-      "value": ""
+      "value": "454,50€"
     }]
   }, {
     "id": "9be80af7-a9de-44c2-a14b-0113e65e4831",

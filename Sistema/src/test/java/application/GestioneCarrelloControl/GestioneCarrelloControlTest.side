@@ -614,6 +614,453 @@
       ],
       "value": ""
     }]
+  }, {
+    "id": "9be80af7-a9de-44c2-a14b-0113e65e4831",
+    "name": "TC9_3_1_1Test",
+    "commands": [{
+      "id": "bf480bbd-54b1-4a34-992c-f66ec4b28327",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/cart",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8e3bd5b3-1c22-484b-831d-438937b36a9e",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=total_amount",
+      "targets": [
+        ["id=total_amount", "id"],
+        ["css=#total_amount", "css:finder"],
+        ["xpath=//h3[@id='total_amount']", "xpath:attributes"],
+        ["xpath=//div[@id='complete_order']/h3", "xpath:idRelative"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'489,49€')]", "xpath:innerText"]
+      ],
+      "value": "564,50€"
+    }, {
+      "id": "1c8ab502-e892-4ae6-9873-c4c585dd5a60",
+      "comment": "",
+      "command": "type",
+      "target": "id=prod_quantità_14",
+      "targets": [],
+      "value": "4"
+    }, {
+      "id": "08db9a24-9439-4123-9f58-615c928801ed",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[@id='item_14']/div[2]/div/div/a[2]/img",
+      "targets": [
+        ["css=a:nth-child(3) > img", "css:finder"],
+        ["xpath=//div[@id='item_13']/div[2]/div/div/a[2]/img", "xpath:idRelative"],
+        ["xpath=//a[2]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fa97bafe-d334-4fd0-81f9-d124b3ef7ff0",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=total_amount",
+      "targets": [
+        ["id=total_amount", "id"],
+        ["css=#total_amount", "css:finder"],
+        ["xpath=//h3[@id='total_amount']", "xpath:attributes"],
+        ["xpath=//div[@id='complete_order']/h3", "xpath:idRelative"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'489,49€')]", "xpath:innerText"]
+      ],
+      "value": "894,50€"
+    }, {
+      "id": "59275dc6-78f8-48fd-9059-b703637193a5",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "id=item_12",
+      "targets": [
+        ["id=item_12", "id"],
+        ["css=#item_12", "css:finder"],
+        ["xpath=//div[@id='item_12']", "xpath:attributes"],
+        ["xpath=//div[@id='cart']/div[2]", "xpath:idRelative"],
+        ["xpath=//div/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "59474bbe-d549-4d66-b60c-f779f85ec52e",
+      "comment": "",
+      "command": "executeScript",
+      "target": "document.getElementById(\"prod_quantità_12\").setAttribute(\"max\", 200);",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "e5eb7606-7b47-4ced-8cbd-f1010f72a090",
+      "comment": "",
+      "command": "executeScript",
+      "target": "document.getElementById(\"prod_quantità_12\").value = 180; ",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fefe7270-1695-4e5b-8bbf-e404612a0b54",
+      "comment": "",
+      "command": "executeScript",
+      "target": "modifyCart(12, 'increaseQuantity', () => {});",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1f48b524-3640-4767-a33f-5dd192390575",
+      "comment": "",
+      "command": "assertText",
+      "target": "xpath=//div[@id='item_12']/div[2]/p",
+      "targets": [
+        ["css=.row > p", "css:finder"],
+        ["xpath=//div[@id='item_12']/div[2]/p", "xpath:idRelative"],
+        ["xpath=//div[2]/div[2]/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Quantità: 1')]", "xpath:innerText"]
+      ],
+      "value": "Quantità: 1"
+    }]
+  }, {
+    "id": "0a9c9aaa-9fd0-4771-ac80-cf1be9fbba97",
+    "name": "TC9_4_1_1Test",
+    "commands": [{
+      "id": "a5305d3c-b6e4-4ac5-880c-33f256a343e2",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/cart",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fc581436-1fd2-4d68-aa5c-a4b4af5c91f2",
+      "comment": "",
+      "command": "type",
+      "target": "id=prod_quantità_14",
+      "targets": [],
+      "value": "4"
+    }, {
+      "id": "e2bdc163-2d1c-4751-b95f-f0e2728c78c0",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[@id='item_14']/div[2]/div/div/a[2]/img",
+      "targets": [
+        ["css=a:nth-child(3) > img", "css:finder"],
+        ["xpath=//div[@id='item_13']/div[2]/div/div/a[2]/img", "xpath:idRelative"],
+        ["xpath=//a[2]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "bcbd4415-27f2-4d42-997d-bb5378407b05",
+      "comment": "",
+      "command": "type",
+      "target": "id=prod_quantità_12",
+      "targets": [],
+      "value": "25"
+    }, {
+      "id": "f073e337-6183-4ccc-9db7-8e93bce78168",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[@id='item_12']/div[2]/div/div/a[2]/img",
+      "targets": [
+        ["css=a:nth-child(3) > img", "css:finder"],
+        ["xpath=//div[@id='item_13']/div[2]/div/div/a[2]/img", "xpath:idRelative"],
+        ["xpath=//a[2]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "557924b0-8a6d-4373-b9ca-fec0f0bc37d2",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=total_amount",
+      "targets": [
+        ["id=total_amount", "id"],
+        ["css=#total_amount", "css:finder"],
+        ["xpath=//h3[@id='total_amount']", "xpath:attributes"],
+        ["xpath=//div[@id='complete_order']/h3", "xpath:idRelative"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'489,49€')]", "xpath:innerText"]
+      ],
+      "value": "11802,50€"
+    }, {
+      "id": "d608404f-9fa3-4987-a472-7fa2ae64fe60",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "id=item_12",
+      "targets": [
+        ["id=item_12", "id"],
+        ["css=#item_12", "css:finder"],
+        ["xpath=//div[@id='item_12']", "xpath:attributes"],
+        ["xpath=//div[@id='cart']/div[2]", "xpath:idRelative"],
+        ["xpath=//div/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e30f48d4-fa3a-4923-9fb7-8e2cf0fbaf0a",
+      "comment": "",
+      "command": "executeScript",
+      "target": "document.getElementById(\"prod_quantità_12\").value = 40; ",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "01df1592-9cdb-4dae-ae40-04464b872633",
+      "comment": "",
+      "command": "executeScript",
+      "target": "modifyCart(12, 'decreaseQuantity', () => {});",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "5a36630c-98b4-46e2-b8dd-a9a8e2c1031f",
+      "comment": "",
+      "command": "assertText",
+      "target": "xpath=//div[@id='item_12']/div[2]/p",
+      "targets": [
+        ["css=.row > p", "css:finder"],
+        ["xpath=//div[@id='item_12']/div[2]/p", "xpath:idRelative"],
+        ["xpath=//div[2]/div[2]/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Quantità: 1')]", "xpath:innerText"]
+      ],
+      "value": "Quantità: 25"
+    }, {
+      "id": "7db57025-4f3a-4a79-86fc-9b1a5acbd930",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=total_amount",
+      "targets": [],
+      "value": "11802,50€"
+    }, {
+      "id": "74f062fa-bb0b-4301-8b9b-e3e07d232093",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//p[contains(.,'La quantità inserita non è minore della quantità del prodotto nel carrello')]",
+      "targets": [
+        ["id=error", "id"],
+        ["css=#error", "css:finder"],
+        ["xpath=//p[@id='error']", "xpath:attributes"],
+        ["xpath=//div[3]/p", "xpath:position"],
+        ["xpath=//p[contains(.,'La quantità inserita non è minore della quantità del prodotto nel carrello')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "46db9472-10c7-48f7-a2ff-d72c72b7205f",
+    "name": "TC9_3_1_2Test",
+    "commands": [{
+      "id": "8430e389-b688-4bc7-9799-37b807cd9bfa",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/cart",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a7621b60-ef16-4da1-8bcd-6c884ba682e8",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=total_amount",
+      "targets": [
+        ["id=total_amount", "id"],
+        ["css=#total_amount", "css:finder"],
+        ["xpath=//h3[@id='total_amount']", "xpath:attributes"],
+        ["xpath=//div[@id='complete_order']/h3", "xpath:idRelative"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'489,49€')]", "xpath:innerText"]
+      ],
+      "value": "564,50€"
+    }, {
+      "id": "6f6f1841-c015-4b6e-bd33-7e5bbb15750c",
+      "comment": "",
+      "command": "type",
+      "target": "id=prod_quantità_14",
+      "targets": [],
+      "value": "4"
+    }, {
+      "id": "7a262f86-f201-4656-9cb5-04d5f3e6880c",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[@id='item_14']/div[2]/div/div/a[2]/img",
+      "targets": [
+        ["css=a:nth-child(3) > img", "css:finder"],
+        ["xpath=//div[@id='item_13']/div[2]/div/div/a[2]/img", "xpath:idRelative"],
+        ["xpath=//a[2]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7736ed2a-2192-4d80-9a1f-2461c82e4c87",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=total_amount",
+      "targets": [
+        ["id=total_amount", "id"],
+        ["css=#total_amount", "css:finder"],
+        ["xpath=//h3[@id='total_amount']", "xpath:attributes"],
+        ["xpath=//div[@id='complete_order']/h3", "xpath:idRelative"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'489,49€')]", "xpath:innerText"]
+      ],
+      "value": "894,50€"
+    }, {
+      "id": "cbd78161-8ef8-4bcc-b668-c2cd3bce6bc1",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "id=item_12",
+      "targets": [
+        ["id=item_12", "id"],
+        ["css=#item_12", "css:finder"],
+        ["xpath=//div[@id='item_12']", "xpath:attributes"],
+        ["xpath=//div[@id='cart']/div[2]", "xpath:idRelative"],
+        ["xpath=//div/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1d2e60a9-849e-4333-afb4-231f788f05a4",
+      "comment": "",
+      "command": "executeScript",
+      "target": "document.getElementById(\"prod_quantità_12\").setAttribute(\"max\", 200);",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ed6285a1-4bf0-45f9-a4ed-45f061fbecf4",
+      "comment": "",
+      "command": "executeScript",
+      "target": "document.getElementById(\"prod_quantità_12\").value = 40; ",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0a9766b9-3eac-46e4-8354-da8d9401bba3",
+      "comment": "",
+      "command": "executeScript",
+      "target": "modifyCart(12, 'increaseQuantity', () => {});",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "6421179d-77f6-401b-933d-cf66a501897e",
+      "comment": "",
+      "command": "assertText",
+      "target": "xpath=//div[@id='item_12']/div[2]/p",
+      "targets": [
+        ["css=.row > p", "css:finder"],
+        ["xpath=//div[@id='item_12']/div[2]/p", "xpath:idRelative"],
+        ["xpath=//div[2]/div[2]/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Quantità: 1')]", "xpath:innerText"]
+      ],
+      "value": "Quantità: 40"
+    }, {
+      "id": "22260e6f-3bca-4903-a043-aec0f050bc4c",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=total_amount",
+      "targets": [
+        ["id=total_amount", "id"],
+        ["css=#total_amount", "css:finder"],
+        ["xpath=//h3[@id='total_amount']", "xpath:attributes"],
+        ["xpath=//div[@id='complete_order']/h3", "xpath:idRelative"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'489,49€')]", "xpath:innerText"]
+      ],
+      "value": "18620,00€"
+    }]
+  }, {
+    "id": "2aa2c33b-5d73-4bc5-93c0-4f6e1a07f939",
+    "name": "TC9_4_1_2Test",
+    "commands": [{
+      "id": "99a5f724-c080-4340-a04f-9eff586dce43",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/cart",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b7892473-d749-48a9-8e97-f95037fab5bb",
+      "comment": "",
+      "command": "type",
+      "target": "id=prod_quantità_14",
+      "targets": [],
+      "value": "4"
+    }, {
+      "id": "429764b9-dc22-4793-99ed-29832193172b",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[@id='item_14']/div[2]/div/div/a[2]/img",
+      "targets": [
+        ["css=a:nth-child(3) > img", "css:finder"],
+        ["xpath=//div[@id='item_13']/div[2]/div/div/a[2]/img", "xpath:idRelative"],
+        ["xpath=//a[2]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "253ce520-e357-4e4a-bc1d-bf0fdb7df5e0",
+      "comment": "",
+      "command": "type",
+      "target": "id=prod_quantità_12",
+      "targets": [],
+      "value": "25"
+    }, {
+      "id": "f19527f1-6d4e-4390-84a3-2c5847560d8f",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[@id='item_12']/div[2]/div/div/a[2]/img",
+      "targets": [
+        ["css=a:nth-child(3) > img", "css:finder"],
+        ["xpath=//div[@id='item_13']/div[2]/div/div/a[2]/img", "xpath:idRelative"],
+        ["xpath=//a[2]/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1f2046e9-4425-4e62-8006-be3cc453fea8",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=total_amount",
+      "targets": [
+        ["id=total_amount", "id"],
+        ["css=#total_amount", "css:finder"],
+        ["xpath=//h3[@id='total_amount']", "xpath:attributes"],
+        ["xpath=//div[@id='complete_order']/h3", "xpath:idRelative"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'489,49€')]", "xpath:innerText"]
+      ],
+      "value": "11802,50€"
+    }, {
+      "id": "2868cf02-9dcc-439c-a72c-e2522653c877",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "id=item_12",
+      "targets": [
+        ["id=item_12", "id"],
+        ["css=#item_12", "css:finder"],
+        ["xpath=//div[@id='item_12']", "xpath:attributes"],
+        ["xpath=//div[@id='cart']/div[2]", "xpath:idRelative"],
+        ["xpath=//div/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "280b00fd-a2d8-4c3f-a608-0a79a9de7b27",
+      "comment": "",
+      "command": "executeScript",
+      "target": "document.getElementById(\"prod_quantità_12\").value = 12; ",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "16d432e2-167f-48d2-b710-dab088638f0c",
+      "comment": "",
+      "command": "executeScript",
+      "target": "modifyCart(12, 'decreaseQuantity', () => {});",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a8bc5e83-7505-4cf7-94d0-3e1e3f77020a",
+      "comment": "",
+      "command": "assertText",
+      "target": "xpath=//div[@id='item_12']/div[2]/p",
+      "targets": [
+        ["css=.row > p", "css:finder"],
+        ["xpath=//div[@id='item_12']/div[2]/p", "xpath:idRelative"],
+        ["xpath=//div[2]/div[2]/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Quantità: 1')]", "xpath:innerText"]
+      ],
+      "value": "Quantità: 12"
+    }, {
+      "id": "4906b240-4220-4512-9fa7-c91455f7714c",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=total_amount",
+      "targets": [],
+      "value": "5894,00€"
+    }]
   }],
   "suites": [{
     "id": "bd4913cd-4df6-451c-bf57-79668f6d8a0d",

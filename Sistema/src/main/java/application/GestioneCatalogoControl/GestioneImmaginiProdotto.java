@@ -34,6 +34,9 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 /**
  * Servlet per la gestione dell'aggiornamento delle immagini di un prodotto.
  * Permette l'inserimento e la rimozione delle immagini nella galleria di un prodotto.
+ * Tale servlet, inoltre, gestisce la richiesta di recupero dei dati della galleria
+ * dalla sessione. Converte le immagini in formato base64 e restituisce
+ * i dati come risposta JSON.
  * 
  * @author raffa
  */
@@ -44,7 +47,7 @@ import org.apache.tomcat.jdbc.pool.DataSource;
 		maxRequestSize = 1024 * 1024 * 50 // 50MB
 		)
 
-public class ModificaImmaginiProdotto extends HttpServlet {
+public class GestioneImmaginiProdotto extends HttpServlet {
 
 	/**
 	 * Serial Version UID per la serializzazione della servlet.
@@ -80,20 +83,36 @@ public class ModificaImmaginiProdotto extends HttpServlet {
 	}
 
 	/**
-	 * Gestisce il metodo HTTP GET, ridirezionando ogni richiesta GET
-	 * al metodo doPost.
-	 *
-	 * @param request : la richiesta
-	 * @param response : la risposta
-	 * 
-	 * @throws ServletException : se si verifica un errore specifico del servlet
-	 * @throws IOException: se si verifica un errore di I/O
-	 */
+     * Gestisce le richieste GET per recuperare la galleria di immagini associate
+     * ad un prodotto.
+     *
+     * @param request : la richiesta HTTP contenente i dati del client.
+     * @param response : la risposta HTTP da inviare al client.
+     * @throws ServletException : se si verifica un errore durante la gestione della richiesta.
+     * @throws IOException : se si verifica un errore durante l'input/output.
+     */
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		doPost(request, response);
+		// Recupera la lista della galleria in formato base64 dalla sessione
+		
+				List<byte[]> originalGallery = (List<byte[]>) request.getSession().getAttribute("originalGallery");
+				List<String> base64Gallery = new ArrayList<>();
+				
+				if (originalGallery != null) {
+					base64Gallery = ImageResizer.processGalleryAndConvertToBase64(originalGallery, 500, 500);
+				}
+
+				// Converte in JSON
+				Gson gson = new Gson();
+				String base64GalleryJson = gson.toJson(base64Gallery);
+
+				// Trasmette la risposta
+				response.setContentType("application/json");
+				PrintWriter out = response.getWriter();
+				out.print("{ \"base64Gallery\": " + base64GalleryJson + " }");
+				out.flush();
 	}
 
 	/**
@@ -175,7 +194,7 @@ public class ModificaImmaginiProdotto extends HttpServlet {
 				}         
 
 			} catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | ErroreSpecificaAggiornamentoException | ErroreDettagliImmagineException | ErroreTopImmagineException ex) {
-				Logger.getLogger(ModificaImmaginiProdotto.class.getName()).log(Level.SEVERE, null, ex);
+				Logger.getLogger(GestioneImmaginiProdotto.class.getName()).log(Level.SEVERE, null, ex);
 				response.getWriter().write("An error occurred: " + ex.getMessage());
 				String message = "Si è verificato un errore: " + ex.getMessage();
 				sendGalleryUpdateOutcome(message, response);
@@ -218,7 +237,7 @@ public class ModificaImmaginiProdotto extends HttpServlet {
 				updatelog+= "L'Immagine Selezionata e' Stata Rimossa Con Successo dalla Galleria";
 
 			} catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | IOException | ErroreSpecificaAggiornamentoException | ErroreDettagliImmagineException | DettagliImmagineNonPresenteException ex) {
-				Logger.getLogger(ModificaImmaginiProdotto.class.getName()).log(Level.SEVERE, null, ex);
+				Logger.getLogger(GestioneImmaginiProdotto.class.getName()).log(Level.SEVERE, null, ex);
 				updatelog+= ex.getMessage();
 			}
 		}
@@ -244,7 +263,7 @@ public class ModificaImmaginiProdotto extends HttpServlet {
 		try (PrintWriter out = response.getWriter()) {
 			out.print(jsonResponse);
 		} catch (IOException ex) {
-			Logger.getLogger(ModificaImmaginiProdotto.class.getName()).log(Level.SEVERE, null, ex);
+			Logger.getLogger(GestioneImmaginiProdotto.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 

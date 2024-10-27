@@ -58,8 +58,8 @@
         <servlet-class>application.GestioneCatalogoControl.ModificaInfoProdottoController</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>GestioneGalleriaImmagini</servlet-name>
-        <servlet-class>application.GestioneCatalogoControl.GestioneGalleriaImmagini</servlet-class>
+        <servlet-name>GestioneImmaginiProdotto</servlet-name>
+        <servlet-class>application.GestioneCatalogoControl.GestioneImmaginiProdotto</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CheckoutCarrello</servlet-name>
@@ -130,8 +130,8 @@
         <url-pattern>/ModificaInfoProdottoController</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>GestioneGalleriaImmagini</servlet-name>
-        <url-pattern>/GestioneGalleriaImmagini</url-pattern>
+        <servlet-name>GestioneImmaginiProdotto</servlet-name>
+        <url-pattern>/GestioneImmaginiProdotto</url-pattern>
     </servlet-mapping>
     <welcome-file-list>
         <welcome-file>common/Homepage.jsp</welcome-file>

@@ -74,7 +74,6 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 		try {
 			productDAO = new ProdottoDAODataSource(new DataSource(), photoControl);
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -82,37 +81,46 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 
 	}
 
+	//Costruttore per test
+
+	public GestioneImmaginiProdotto(GestioneCatalogoServiceImpl gcs, ProdottoDAODataSource productDAO, DataSource ds, PhotoControl photoControl) {
+		this.ds = ds;
+		this.photoControl = photoControl;
+		this.productDAO = productDAO;
+		this.gcs = gcs;
+	}
+
 	/**
-     * Gestisce le richieste GET per recuperare la galleria di immagini associate
-     * ad un prodotto.
-     *
-     * @param request : la richiesta HTTP contenente i dati del client.
-     * @param response : la risposta HTTP da inviare al client.
-     * @throws ServletException : se si verifica un errore durante la gestione della richiesta.
-     * @throws IOException : se si verifica un errore durante l'input/output.
-     */
+	 * Gestisce le richieste GET per recuperare la galleria di immagini associate
+	 * ad un prodotto.
+	 *
+	 * @param request : la richiesta HTTP contenente i dati del client.
+	 * @param response : la risposta HTTP da inviare al client.
+	 * @throws ServletException : se si verifica un errore durante la gestione della richiesta.
+	 * @throws IOException : se si verifica un errore durante l'input/output.
+	 */
 
 	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// Recupera la lista della galleria in formato base64 dalla sessione
-		
-				List<byte[]> originalGallery = (List<byte[]>) request.getSession().getAttribute("originalGallery");
-				List<String> base64Gallery = new ArrayList<>();
-				
-				if (originalGallery != null) {
-					base64Gallery = ImageResizer.processGalleryAndConvertToBase64(originalGallery, 500, 500);
-				}
 
-				// Converte in JSON
-				Gson gson = new Gson();
-				String base64GalleryJson = gson.toJson(base64Gallery);
+		List<byte[]> originalGallery = (List<byte[]>) request.getSession().getAttribute("originalGallery");
+		List<String> base64Gallery = new ArrayList<>();
 
-				// Trasmette la risposta
-				response.setContentType("application/json");
-				PrintWriter out = response.getWriter();
-				out.print("{ \"base64Gallery\": " + base64GalleryJson + " }");
-				out.flush();
+		if (originalGallery != null) {
+			base64Gallery = ImageResizer.processGalleryAndConvertToBase64(originalGallery, 500, 500);
+		}
+
+		// Converte in JSON
+		Gson gson = new Gson();
+		String base64GalleryJson = gson.toJson(base64Gallery);
+
+		// Trasmette la risposta
+		response.setContentType("application/json");
+		PrintWriter out = response.getWriter();
+		out.print("{ \"base64Gallery\": " + base64GalleryJson + " }");
+		out.flush();
 	}
 
 	/**
@@ -132,7 +140,7 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 	 */
 
 	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
+	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {  
 
 		request.setCharacterEncoding("UTF-8");
@@ -150,56 +158,77 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 				//Si recuperano le immagini di dettaglio del prodotto dalla sessione
 				List<byte[]> originalGallery = (List<byte[]>) request.getSession().getAttribute("originalGallery"); 
 				String gallery_photoActions = (String) request.getParameter("gallery_photoActions");  
-				if(gallery_photoActions!=null && gallery_photoActions.equals("delete")){
+				
+				
+				
+				if(gallery_photoActions!=null && gallery_photoActions.equals("RIMOZIONE_DETT_IMMAGINE")){
 					deleteGalleryImage(request, response, originalGallery, product);
 				}
 				else{
-					Part filePart = request.getPart("presentazione"); // "presentazione" is the name attribute in the form                           
+					
+					Part filePart = request.getPart("presentazione"); // "presentazione" : nome parametro nl form                           
 					InputStream fileContent = retrieveFileContent(filePart);
-
-					byte [] inputImage = inputStreamToByteArray(fileContent);
-
+					
 					if(originalGallery==null || originalGallery.isEmpty()){
 						originalGallery = new ArrayList<>();
-					}                                   
-					if(main_photoAction!=null && main_photoAction.equals("add")){
+					}
+					
+					if(main_photoAction !=null && main_photoAction.equals("TOP_IMMAGINE")){
 
 						// Recupera il contenuto del file all'inizio e lo memorizza in un
 						// array di byte che viene riconvertito in un inputstream quando si aggiunge
 						// l'immagine al database.
+						
+						
+						if(fileContent == null) {
+						
+							throw new ErroreTopImmagineException ("Inserire un'immagine di presentazione del prodotto.");
+							
+						}
+						
+						byte[] inputImage = inputStreamToByteArray(fileContent);
+
 						gcs.inserimentoTopImmagine(product, "TOP_IMMAGINE", byteArrayToInputStream(inputImage), 1, perPage);
 						product.setTopImmagine(inputStreamToByteArray(fileContent));
-					}else
+						response.getWriter().write("TopImage successfully added");
+						return;
+					}
 
-						// Gestione azioni che non corrispondono all'aggiunta di una immagine di presentazione
-						throw new IllegalArgumentException("Unexpected value: " + main_photoAction);
+					if (gallery_photoActions != null && gallery_photoActions.equals("AGGIUNTA_DETT_IMMAGINE")) {
+						
+						if(fileContent == null) {
+							throw new ErroreDettagliImmagineException ("Inserire un'immagine di dettaglio del prodotto.");
+						}
+						
 
-
-					if (gallery_photoActions != null && gallery_photoActions.equals("addToGallery")) {
-
-						//Recupera la parte del file dalla richiesta
+						byte[] inputImage = inputStreamToByteArray(fileContent);
 
 						originalGallery.add(inputImage);
 						product.setGalleriaImmagini((ArrayList<byte[]>) originalGallery);
-
+						
 						gcs.inserimentoImmagineInGalleriaImmagini(product, "AGGIUNTA_DETT_IMMAGINE", byteArrayToInputStream(inputImage), 1, perPage);
+						response.getWriter().write("Detailed Image successfully added");
 						request.getSession().setAttribute("originalGallery", originalGallery);
 						updatelog+= "L'Immagine Inserita e' Stata Aggiunta Correttamente alla Galleria";
 
-					}else
-						throw new IllegalArgumentException("Unexpected gallery action: " + gallery_photoActions);
-
-
+					}
+					
 					sendGalleryUpdateOutcome(updatelog, response);
 				}         
 
-			} catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | ErroreSpecificaAggiornamentoException | ErroreDettagliImmagineException | ErroreTopImmagineException ex) {
+			} catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | ErroreSpecificaAggiornamentoException ex) {
 				Logger.getLogger(GestioneImmaginiProdotto.class.getName()).log(Level.SEVERE, null, ex);
 				response.getWriter().write("An error occurred: " + ex.getMessage());
 				String message = "Si è verificato un errore: " + ex.getMessage();
 				sendGalleryUpdateOutcome(message, response);
 
-			}       
+			} catch (ErroreDettagliImmagineException e) {
+				response.getWriter().write("Detailed Image not successfully added");
+				sendGalleryUpdateOutcome(e.getMessage(), response);
+			}catch (ErroreTopImmagineException e) {
+			response.getWriter().write("TopImage not successfully added");
+			sendGalleryUpdateOutcome(e.getMessage(), response);
+		} 
 		}     
 	}
 
@@ -213,14 +242,20 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 	 * @param product: il prodotto associato
 	 * 
 	 * @return un messaggio di log relativo all'aggiornamento
+	 * @throws IOException 
 	 */
 
-	private String deleteGalleryImage(HttpServletRequest request, HttpServletResponse response, List<byte[]> originalGallery, Prodotto product){
+	public String deleteGalleryImage(HttpServletRequest request, HttpServletResponse response, List<byte[]> originalGallery, Prodotto product) throws IOException{
 		String updatelog = "";
 
 		// Recupera l'indice dell'immagine dalla richiesta
-		int imageToRemoveIndex = Integer.parseInt(request.getParameter("imageIndex"));
-
+		int imageToRemoveIndex;
+		try {
+			imageToRemoveIndex = Integer.parseInt(request.getParameter("imageIndex"));
+		}catch(NumberFormatException e) {
+			response.getWriter().write("Image not successfully deleted."); 
+			return updatelog += "Inserire un'immagine di dettaglio del prodotto.";
+		}
 		// Verifica se l'indice è valido
 		if (imageToRemoveIndex >= 0 && imageToRemoveIndex < originalGallery.size()) {
 			try {
@@ -235,16 +270,17 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 				request.getSession().setAttribute("originalGallery", originalGallery);
 				response.getWriter().write("Image deleted successfully.");                                 
 				updatelog+= "L'Immagine Selezionata e' Stata Rimossa Con Successo dalla Galleria";
+				return updatelog;
 
 			} catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | IOException | ErroreSpecificaAggiornamentoException | ErroreDettagliImmagineException | DettagliImmagineNonPresenteException ex) {
 				Logger.getLogger(GestioneImmaginiProdotto.class.getName()).log(Level.SEVERE, null, ex);
 				updatelog+= ex.getMessage();
 			}
 		}
-		else{
-			updatelog+= "Non e' Stato Possibile Rimuovere L'Immagine dalla Galleria";
-		}
-		return updatelog;
+		response.getWriter().write("Image not successfully deleted."); 
+		return updatelog += "L'immagine di dettaglio specificata non è associata al prodotto.\n"
+				+ "Scegliere un'altra immagine di dettaglio.";
+
 	}
 
 	/**
@@ -254,7 +290,7 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 	 * @param response : la risposta elaborata dal server
 	 */
 
-	private void sendGalleryUpdateOutcome(String message, HttpServletResponse response){
+	public void sendGalleryUpdateOutcome(String message, HttpServletResponse response){
 		Gson gson = new Gson();
 		String jsonResponse = gson.toJson(message);
 		response.setContentType("application/json");
@@ -278,12 +314,14 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 	 */
 
 	private byte[] inputStreamToByteArray(InputStream inputStream) throws IOException {
+		
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];
 		int length;
 		while ((length = inputStream.read(buffer)) != -1) {
 			byteArrayOutputStream.write(buffer, 0, length);
 		}
+		
 		return byteArrayOutputStream.toByteArray();
 	}
 
@@ -315,7 +353,7 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 
 		if (filePart != null)
 			fileContent = filePart.getInputStream();          
-
+		
 		return fileContent;
 	}
 }

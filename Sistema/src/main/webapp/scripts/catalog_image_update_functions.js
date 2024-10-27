@@ -80,7 +80,7 @@ function attachDeleteButtonListeners() {
                         url: window.contextPath + '/ModificaImmaginiProdotto',
                         method: 'POST',
                         data: {
-                            gallery_photoActions: 'delete',
+                            gallery_photoActions: 'RIMOZIONE_DETT_IMMAGINE',
                             imageIndex: imageIndex,  // Send the base64 image to remove
                             product: JSON.stringify(productCopy) // Send product details as JSON
                         },

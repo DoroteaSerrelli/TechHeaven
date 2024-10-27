@@ -199,13 +199,13 @@
                                             </div>
                                             <div class="option">
                                                 <label for="add">Aggiungi Foto Presentazione</label>
-                                                <input type="radio" id="add" name="main_photoAction" value="add">
+                                                <input type="radio" id="add" name="main_photoAction" value="TOP_IMMAGINE">
                                             </div>
 
                                             <!-- Gallery Photo Actions -->
                                             <div class="option">
                                                 <label for="addToGallery">Aggiungi Foto Galleria</label>
-                                                <input type="radio" id="addToGallery" name="gallery_photoActions" value="addToGallery">
+                                                <input type="radio" id="addToGallery" name="AGGIUNTA_DETT_IMMAGINE" value="addToGallery">
                                             </div>
                                         </div>
 

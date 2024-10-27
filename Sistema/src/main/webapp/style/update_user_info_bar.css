@@ -71,6 +71,10 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     background: #f9f9f9;
 }
 
+.address-item{
+    cursor: pointer;
+}
+
 .errormsgAddress{
     justify-content: left;
     text-align: center; 

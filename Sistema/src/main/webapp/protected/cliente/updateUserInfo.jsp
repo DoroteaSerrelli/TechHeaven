@@ -64,8 +64,8 @@
                     // Generate HTML for displaying addresses
                     document.addEventListener('DOMContentLoaded', function() {
                         var addressList = document.getElementById('addressList');
-                        var addressHTML = '<div class="address-item" id="address_'+ '<%= indirizzoID %>' + '">' +
-                                '<p onclick="loadAddress(\'' + '<%= indirizzoID %>' + '\', currentAction)">'+
+                        var addressHTML = '<div onclick="loadAddress(\'' + '<%= indirizzoID %>' + '\', currentAction)" class="address-item" id="address_'+ '<%= indirizzoID %>' + '">' +
+                                '<p >'+
                           '<img class="arrow" id="arrow_' + <%= indirizzoID %> + '" src="images/site_images/modif_arrow.png" style="display:none;" />' 
                           +'Via: <%= indirizzo.getVia() %> <%= indirizzo.getNumCivico() %>' +
                             '</p>' +

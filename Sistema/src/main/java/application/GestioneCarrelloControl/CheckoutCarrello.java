@@ -188,7 +188,9 @@ public class CheckoutCarrello extends HttpServlet {
       return true;
 }
     private void finalizeOrder(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        String metodoPagamento = request.getParameter("metodoPagamento");
+        try{
+		String metodoPagamento = request.getParameter("metodoPagamento");
+		if(metodoPagamento==null || metodoPagamento.equals("")) throw new PagamentoException.ModalitaAssenteException("Specificare la modalità di pagamento: carta di credito, Paypal, contrassegno.");  
         Ordine preview_order = (Ordine) request.getSession().getAttribute("preview_order");
         Carrello cart = (Carrello) request.getSession().getAttribute("usercart");
         ProxyUtente user = (ProxyUtente) request.getSession().getAttribute("user");
@@ -226,6 +228,11 @@ public class CheckoutCarrello extends HttpServlet {
             return;
         }
         response.sendRedirect(request.getContextPath()+"/SuccessoPagamento");
+		} catch (PagamentoException.ModalitaAssenteException | PagamentoException.FormatoCVVCartaException | PagamentoException.FormatoDataCartaException | PagamentoException.FormatoTitolareCartaException | PagamentoException.FormatoNumeroCartaException ex) {
+            Logger.getLogger(CheckoutCarrello.class.getName()).log(Level.SEVERE, null, ex);
+            request.getSession().setAttribute("error", ex.getMessage());            
+            response.sendRedirect(request.getContextPath()+"/Pagamento");  
+        }
     }
     private void elaborateCheckoutRequest(HttpServletRequest request, HttpServletResponse response) throws IOException{
         try {

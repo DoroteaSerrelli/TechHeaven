@@ -2051,7 +2051,7 @@ public class GestioneCatalogoServiceImplTest {
 	}
 	
 	/**
-	 * TEST CASES AGGIUNTA IMMAGINE DI DETTAGLIO PER UN PRODOTTO
+	 * TEST CASES RIMOZIONE IMMAGINE DI DETTAGLIO PER UN PRODOTTO
 	 * 
 	 * TC16_7.1_1: prodotto selezionato dal catalogo, 
 	 * 			   informazione da modificare è rimozione immagine di dettaglio per il prodotto,

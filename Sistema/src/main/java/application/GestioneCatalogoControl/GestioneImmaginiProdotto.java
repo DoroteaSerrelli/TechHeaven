@@ -83,10 +83,7 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 
 	//Costruttore per test
 
-	public GestioneImmaginiProdotto(GestioneCatalogoServiceImpl gcs, ProdottoDAODataSource productDAO, DataSource ds, PhotoControl photoControl) {
-		this.ds = ds;
-		this.photoControl = photoControl;
-		this.productDAO = productDAO;
+	public GestioneImmaginiProdotto(GestioneCatalogoServiceImpl gcs) {
 		this.gcs = gcs;
 	}
 
@@ -158,34 +155,33 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 				//Si recuperano le immagini di dettaglio del prodotto dalla sessione
 				List<byte[]> originalGallery = (List<byte[]>) request.getSession().getAttribute("originalGallery"); 
 				String gallery_photoActions = (String) request.getParameter("gallery_photoActions");  
-				
-				
-				
+
+
+
 				if(gallery_photoActions!=null && gallery_photoActions.equals("RIMOZIONE_DETT_IMMAGINE")){
 					deleteGalleryImage(request, response, originalGallery, product);
 				}
 				else{
-					
+
 					Part filePart = request.getPart("presentazione"); // "presentazione" : nome parametro nl form                           
 					InputStream fileContent = retrieveFileContent(filePart);
-					
+
 					if(originalGallery==null || originalGallery.isEmpty()){
 						originalGallery = new ArrayList<>();
 					}
-					
+
 					if(main_photoAction !=null && main_photoAction.equals("TOP_IMMAGINE")){
 
 						// Recupera il contenuto del file all'inizio e lo memorizza in un
 						// array di byte che viene riconvertito in un inputstream quando si aggiunge
 						// l'immagine al database.
-						
-						
+
 						if(fileContent == null) {
-						
-							throw new ErroreTopImmagineException ("Inserire un'immagine di presentazione del prodotto.");
 							
+							throw new ErroreTopImmagineException ("Inserire un'immagine di presentazione del prodotto.");
+
 						}
-						
+
 						byte[] inputImage = inputStreamToByteArray(fileContent);
 
 						gcs.inserimentoTopImmagine(product, "TOP_IMMAGINE", byteArrayToInputStream(inputImage), 1, perPage);
@@ -195,24 +191,24 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 					}
 
 					if (gallery_photoActions != null && gallery_photoActions.equals("AGGIUNTA_DETT_IMMAGINE")) {
-						
+
 						if(fileContent == null) {
 							throw new ErroreDettagliImmagineException ("Inserire un'immagine di dettaglio del prodotto.");
 						}
-						
+
 
 						byte[] inputImage = inputStreamToByteArray(fileContent);
 
 						originalGallery.add(inputImage);
 						product.setGalleriaImmagini((ArrayList<byte[]>) originalGallery);
-						
+
 						gcs.inserimentoImmagineInGalleriaImmagini(product, "AGGIUNTA_DETT_IMMAGINE", byteArrayToInputStream(inputImage), 1, perPage);
 						response.getWriter().write("Detailed Image successfully added");
 						request.getSession().setAttribute("originalGallery", originalGallery);
 						updatelog+= "L'Immagine Inserita e' Stata Aggiunta Correttamente alla Galleria";
 
 					}
-					
+
 					sendGalleryUpdateOutcome(updatelog, response);
 				}         
 
@@ -225,10 +221,12 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 			} catch (ErroreDettagliImmagineException e) {
 				response.getWriter().write("Detailed Image not successfully added");
 				sendGalleryUpdateOutcome(e.getMessage(), response);
+
 			}catch (ErroreTopImmagineException e) {
-			response.getWriter().write("TopImage not successfully added");
-			sendGalleryUpdateOutcome(e.getMessage(), response);
-		} 
+
+				response.getWriter().write("TopImage not successfully added");
+				sendGalleryUpdateOutcome(e.getMessage(), response);
+			} 
 		}     
 	}
 
@@ -314,14 +312,14 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 	 */
 
 	private byte[] inputStreamToByteArray(InputStream inputStream) throws IOException {
-		
+
 		ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
 		byte[] buffer = new byte[1024];
 		int length;
 		while ((length = inputStream.read(buffer)) != -1) {
 			byteArrayOutputStream.write(buffer, 0, length);
 		}
-		
+
 		return byteArrayOutputStream.toByteArray();
 	}
 
@@ -353,7 +351,7 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 
 		if (filePart != null)
 			fileContent = filePart.getInputStream();          
-		
+
 		return fileContent;
 	}
 }

@@ -223,16 +223,20 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	@Override
 	public Collection<ProxyProdotto> aggiornamentoSpecificheProdotto(Prodotto product, String infoSelected,
 			String updatedData, int page, int perPage) throws ProdottoAggiornatoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException {
-
+		 System.out.println("SONO QUI IN AGGIORNAMENTO: " + product.toString());
 		Prodotto retrieved = productDAO.doRetrieveCompleteByKey(product.getCodiceProdotto());
+		System.out.println("SONO QUI IN AGGIORNAMENTO RETRIEVED: " + retrieved.toString());
+		
+		
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
-
+		
 		switch(infoSelected) {
+		
 		case "DESCRIZIONE_EVIDENZA" :
 			if(!ObjectProdotto.checkValidateTopDescrizione(updatedData))
 				throw new FormatoTopDescrizioneException("La descrizione di presentazione non può essere vuota");
-
+			
 			if(retrieved.getTopDescrizione().equals(updatedData))
 				throw new ProdottoAggiornatoException("Non è possibile associare la descrizione di presentazione inserita con il prodotto specificato.\nInserisci un'altra descrizione di presentazione.");
 			productDAO.updateData(product.getCodiceProdotto(), "TOPDESCRIZIONE", updatedData);
@@ -460,8 +464,9 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 		int quantityInt;
 
 		try {
-			quantityInt = Integer.parseInt(quantity);
-
+			double quantityDouble = Double.parseDouble(quantity);
+	        quantityInt = (int) quantityDouble;
+			
 			if(quantityInt <= 0)
 				throw new QuantitaProdottoException("La quantità di un prodotto disponibile deve essere almeno 1");
 		

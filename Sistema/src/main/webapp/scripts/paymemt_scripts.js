@@ -25,7 +25,7 @@ function validatePaymentForm() {
         return false;
     }
 
-    if (paymentMethod.value === "CreditCard") {
+    if (paymentMethod.value === "Carta_credito") {
         const titolare = document.getElementById('titolare').value;
         const ccNumber = document.getElementById('cc_number').value;
         const ccExpiry = document.getElementById('cc_expiry').value;

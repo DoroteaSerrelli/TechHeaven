@@ -2324,14 +2324,9 @@
     }, {
       "id": "12bcf143-2439-4610-b645-ebea413e7874",
       "comment": "",
-      "command": "assertText",
-      "target": "",
-      "targets": [
-        ["id=error province", "id"],
-        ["css=#error\\ province", "css:finder"],
-        ["xpath=//div[@id='error province']", "xpath:attributes"],
-        ["xpath=//div[7]/div/div/div", "xpath:position"]
-      ],
+      "command": "assertTitle",
+      "target": "TechHeaven - Area Riservata",
+      "targets": [],
       "value": ""
     }]
   }],

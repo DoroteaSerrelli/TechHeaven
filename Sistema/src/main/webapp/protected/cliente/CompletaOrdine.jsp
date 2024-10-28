@@ -133,7 +133,7 @@
                     Domicilio
                 </p>
                 <p>
-                    <input type="radio" name="modalitaConsegna" value="PuntoRitiro">
+                    <input type="radio" name="modalitaConsegna" value="Punto_ritiro">
                     Punto di Ritiro
                 </p>
                 <p>

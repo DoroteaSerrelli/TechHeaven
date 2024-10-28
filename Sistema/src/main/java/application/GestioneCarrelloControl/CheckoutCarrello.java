@@ -171,9 +171,9 @@ public class CheckoutCarrello extends HttpServlet {
         }
         // Check if card expiry is valid
         // Assuming the format is YYYY-MM-DD
-        String[] expiryParts = ccExpiry.split("-");  
-        int expYear = Integer.parseInt(expiryParts[0]);  // Year
-        int expMonth = Integer.parseInt(expiryParts[1]); // Month
+        String[] expiryParts = ccExpiry.split("/");  
+        int expYear = Integer.parseInt(expiryParts[1]);  // Year
+        int expMonth = Integer.parseInt(expiryParts[0]); // Month
 
         java.util.Calendar currentDate = java.util.Calendar.getInstance();
         int currentYear = currentDate.get(java.util.Calendar.YEAR);
@@ -188,7 +188,9 @@ public class CheckoutCarrello extends HttpServlet {
       return true;
 }
     private void finalizeOrder(HttpServletRequest request, HttpServletResponse response) throws IOException{
-        String metodoPagamento = request.getParameter("metodoPagamento");
+        try{
+		String metodoPagamento = request.getParameter("metodoPagamento");
+		if(metodoPagamento==null || metodoPagamento.equals("")) throw new PagamentoException.ModalitaAssenteException("Specificare la modalità di pagamento: carta di credito, Paypal, contrassegno.");  
         Ordine preview_order = (Ordine) request.getSession().getAttribute("preview_order");
         Carrello cart = (Carrello) request.getSession().getAttribute("usercart");
         ProxyUtente user = (ProxyUtente) request.getSession().getAttribute("user");
@@ -226,10 +228,16 @@ public class CheckoutCarrello extends HttpServlet {
             return;
         }
         response.sendRedirect(request.getContextPath()+"/SuccessoPagamento");
+		} catch (PagamentoException.ModalitaAssenteException | PagamentoException.FormatoCVVCartaException | PagamentoException.FormatoDataCartaException | PagamentoException.FormatoTitolareCartaException | PagamentoException.FormatoNumeroCartaException ex) {
+            Logger.getLogger(CheckoutCarrello.class.getName()).log(Level.SEVERE, null, ex);
+            request.getSession().setAttribute("error", ex.getMessage());            
+            response.sendRedirect(request.getContextPath()+"/Pagamento");  
+        }
     }
     private void elaborateCheckoutRequest(HttpServletRequest request, HttpServletResponse response) throws IOException{
         try {
             String idIndirizzo = request.getParameter("selectedAddress");
+			if( idIndirizzo==null || idIndirizzo.equals("")) throw new IndirizzoSpedizioneNulloException("Specificare l’indirizzo di spedizione per l’ordine. Per aggiungere un altro indirizzo, annulla l’acquisto e vai nell’area riservata.");
             ProxyUtente user = (ProxyUtente)request.getSession().getAttribute("user");
             GestioneOrdiniServiceImpl ordiniService = new GestioneOrdiniServiceImpl(OrdineDAODatasource orderDAO, UtenteDAODataSource userDAO, ProdottoDAODataSource productDAO, PagamentoDAODataSource productDAO);
             //Map<Integer, Indirizzo> addressMap = (Map<Integer, Indirizzo>) request.getSession().getAttribute("addressMap");
@@ -245,10 +253,10 @@ public class CheckoutCarrello extends HttpServlet {
             
             response.sendRedirect(request.getContextPath()+"/Pagamento");
             
-        } catch (OrdineException.OrdineVuotoException ex) {
+        } catch (IndirizzoSpedizioneNulloException | ErroreTipoSpedizioneException | SQLException | ErroreTipoConsegnaException | OrdineVuotoException ex) {
+            request.getSession().setAttribute("error", ex.getMessage());            
+            response.sendRedirect(request.getContextPath()+"/CheckoutCarrello");  
             Logger.getLogger(CheckoutCarrello.class.getName()).log(Level.SEVERE, null, ex);
-            request.getSession().setAttribute("error", ex);            
-            response.sendRedirect(request.getContextPath()+"/CheckoutCarrello");           
         }
     }
     

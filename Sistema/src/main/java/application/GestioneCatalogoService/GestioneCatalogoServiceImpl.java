@@ -170,7 +170,7 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 
 	@Override
 	public Collection<ProxyProdotto> rimozioneProdottoDaCatalogo(ProxyProdotto product, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException, ProdottoNulloException {
-
+		
 		if(product == null)
 			throw new ProdottoNulloException("Specificare il prodotto da rimuovere dal catalogo del negozio");
 

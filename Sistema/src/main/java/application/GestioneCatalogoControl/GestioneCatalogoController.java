@@ -90,8 +90,13 @@ public class GestioneCatalogoController extends HttpServlet {
 	public void init() throws ServletException {
 		ds = new DataSource();
 		photoControl = new PhotoControl(ds);
+		orderDAO = new OrdineDAODataSource(ds);
+		paymentDAO = new PagamentoDAODataSource(ds);
+
 		try {
 			productDAO = new ProdottoDAODataSource(ds, photoControl);
+			userDAO = new UtenteDAODataSource(ds);
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -103,7 +108,7 @@ public class GestioneCatalogoController extends HttpServlet {
 		pu = new PaginationUtils(ns, gcs, gos);
 	}
 
-
+	//Costruttore test
 	public GestioneCatalogoController(ProdottoDAODataSource productDAO, GestioneCatalogoServiceImpl gcs, PaginationUtils pu) {
 		this.gcs = gcs;
 		this.pu = pu;
@@ -220,6 +225,8 @@ public class GestioneCatalogoController extends HttpServlet {
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException { 
 
+		String product_id = (String) request.getParameter("productId");
+
 		String productName = request.getParameter("productName");
 		String topDescrizione = request.getParameter("topDescrizione");
 		String dettagli = request.getParameter("dettagli");
@@ -241,25 +248,17 @@ public class GestioneCatalogoController extends HttpServlet {
 		try {
 			String action = request.getParameter("action");
 
-			String product_id = (String) request.getParameter("productId");
 
 			int quantità = Integer.parseInt(quantity);
 			int prod_id = Integer.parseInt(product_id);
-			
-			//Si controlla se il prodotto appartiene ad una sottocategoria
-			Sottocategoria s_categoria;
 
-			if(sottocategoria==null || sottocategoria.equals("null")) 
-				s_categoria= null;
-			else 
-				s_categoria = Sottocategoria.valueOf(sottocategoria);
 
 			if(action.equals("addProduct")){
 				// Si recupera l'immagine di presentazione del prodotto
 				Part filePart = request.getPart("file"); 
-				
+
 				if(filePart == null) {
-					
+
 					gcs.aggiuntaProdottoInCatalogo(product_id, productName, marca, modello, topDescrizione, dettagli, price,
 							quantità, categoria, sottocategoria, inCatalogo, inVetrina, productDAO, 1, pr_pagina);
 
@@ -267,25 +266,39 @@ public class GestioneCatalogoController extends HttpServlet {
 				}
 
 				if (filePart != null) {
-					
+
 					gcs.aggiuntaProdottoInCatalogo(product_id, productName, marca, modello, topDescrizione, dettagli, price,
 							quantità, categoria, sottocategoria, inCatalogo, inVetrina, productDAO, 1, pr_pagina);
 
+					//Si controlla se il prodotto appartiene ad una sottocategoria
+					Sottocategoria s_categoria;
+
+					if(sottocategoria==null || sottocategoria.equals("null")) 
+						s_categoria= null;
+					else 
+						s_categoria = Sottocategoria.valueOf(sottocategoria);
+
 					Prodotto product = new Prodotto(prod_id, productName, topDescrizione, dettagli, price, Categoria.valueOf(categoria),
 							s_categoria, marca, modello, quantità, inCatalogo, inVetrina);  
-					
+
 					InputStream fileContent = filePart.getInputStream();
-					
+
 					gcs.inserimentoTopImmagine(product, "TOP_IMMAGINE", fileContent, 1, pr_pagina);
-					
+
 					request.getSession().setAttribute("error", "Prodotto Con Top immagine Aggiunto con Successo!");
 
 				}  
 
 			}else if(action.equals("deleteProduct")){
 
-				ProxyProdotto pr_todelete = new ProxyProdotto (prod_id, productName, topDescrizione, dettagli, price, Categoria.valueOf(categoria),
-						marca, modello, quantità, inCatalogo, inVetrina );
+				ProxyProdotto pr_todelete = null;
+
+				if(product_id != null) {
+					System.out.println("Sono qui dnetro!");
+					pr_todelete = new ProxyProdotto (prod_id, productName, topDescrizione, dettagli, price, Categoria.valueOf(categoria),
+							marca, modello, quantità, inCatalogo, inVetrina );
+				}
+				
 				try {              
 
 					gcs.rimozioneProdottoDaCatalogo(pr_todelete, 1, pr_pagina);

@@ -192,9 +192,14 @@ public class GestioneCatalogoControllerTest {
 		ProxyProdotto product2 = new ProxyProdotto(1, "Apple Watch SE", "Prova", "Prova", Float.parseFloat("240.00"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.SMARTWATCH, "Apple", "Watch SE", 110, true, false, productDAO);
 		
+		ProxyProdotto product3 = new ProxyProdotto(22, "Samsung Gear S2 Classic", "Lorem ipsum", "Lorem ipsum Lorem", Float.parseFloat("340.99"), 
+				Categoria.PRODOTTI_ELETTRONICA, "Samsung", "Gear-S2", 2, true, false, productDAO);
+
+		
 		Collection<ProxyProdotto> pageProducts = new ArrayList<>();
 		pageProducts.add(product1);
 		pageProducts.add(product2);
+		pageProducts.add(product3);
 		
 		
 		String code = "32";

@@ -80,13 +80,13 @@ public class GestioneCatalogoController extends HttpServlet {
 	private PaginationUtils pu;
 
 	private static int pr_pagina = 50;
-	
+
 	/**
 	 * Inizializza la servlet, configurando photoControl, productDAO, pu e gcs.
 	 *
 	 * @throws ServletException : se si verifica un errore durante l'inizializzazione
 	 */
-	
+
 	public void init() throws ServletException {
 		ds = new DataSource();
 		photoControl = new PhotoControl(ds);
@@ -102,34 +102,34 @@ public class GestioneCatalogoController extends HttpServlet {
 		gos = new GestioneOrdiniServiceImpl(orderDAO,userDAO, productDAO, paymentDAO);
 		pu = new PaginationUtils(ns, gcs, gos);
 	}
-	
-	
-	public void setGestioneCatalogoService(GestioneCatalogoServiceImpl gcs) {
-	    this.gcs = gcs;
+
+
+	public GestioneCatalogoController(ProdottoDAODataSource productDAO, GestioneCatalogoServiceImpl gcs, PaginationUtils pu) {
+		this.gcs = gcs;
+		this.pu = pu;
+		this.productDAO = productDAO;
 	}
 
-	
-	
-	
+
 	/**
-     * Gestisce le richieste GET per visualizzare i prodotti.
-     * Esegue la paginazione e restituisce i dati in formato JSON.
-     *
-     * @param request: la richiesta HTTP.
-     * @param response: la risposta HTTP.
-     * 
-     * @throws ServletException: se si verifica un errore nella servlet.
-     * @throws IOException: se si verifica un errore durante l'elaborazione 
-     * 						dell'input/output.
-     */
-	
+	 * Gestisce le richieste GET per visualizzare i prodotti.
+	 * Esegue la paginazione e restituisce i dati in formato JSON.
+	 *
+	 * @param request: la richiesta HTTP.
+	 * @param response: la risposta HTTP.
+	 * 
+	 * @throws ServletException: se si verifica un errore nella servlet.
+	 * @throws IOException: se si verifica un errore durante l'elaborazione 
+	 * 						dell'input/output.
+	 */
+
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		try{
 
 			int page = 1; 
-			
+
 			try{
 				if (request.getParameter("page") != null)
 					page = Integer.parseInt(
@@ -143,14 +143,14 @@ public class GestioneCatalogoController extends HttpServlet {
 			}      
 
 			Collection <ProxyProdotto> products = paginateProducts(request, page);
-			
+
 			Map <Integer, String> products_subcategories = new HashMap<>();
 			for(ProxyProdotto prod : products){
 				products_subcategories.put(prod.getCodiceProdotto(), prod.getSottocategoriaAsString());
 			}
 			request.getSession().setAttribute("products_subcategories", products_subcategories);
 			request.getSession().setAttribute("page", page);
-			
+
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
 
@@ -172,17 +172,17 @@ public class GestioneCatalogoController extends HttpServlet {
 	}
 
 	/**
-     * Esegue la paginazione dei prodotti.
-     *
-     * @param request: la richiesta HTTP.
-     * @param page: il numero della pagina da visualizzare.
-     * 
-     * @return una collezione di prodotti per la pagina richiesta.
-     * 
-     * @throws SQLException: se si verifica un errore durante l'accesso al database.
-     * @throws Exception: se si verifica un errore generico.
-     */
-	
+	 * Esegue la paginazione dei prodotti.
+	 *
+	 * @param request: la richiesta HTTP.
+	 * @param page: il numero della pagina da visualizzare.
+	 * 
+	 * @return una collezione di prodotti per la pagina richiesta.
+	 * 
+	 * @throws SQLException: se si verifica un errore durante l'accesso al database.
+	 * @throws Exception: se si verifica un errore generico.
+	 */
+
 	public Collection<ProxyProdotto> paginateProducts(HttpServletRequest request, int page) throws SQLException, Exception{
 
 		Collection <ProxyProdotto> currentPageResults;
@@ -206,16 +206,16 @@ public class GestioneCatalogoController extends HttpServlet {
 		return currentPageResults;
 	}
 
-	 /**
-     * Gestisce le richieste POST per aggiungere o rimuovere prodotti dal catalogo.
-     *
-     * @param request: la richiesta HTTP.
-     * @param response: la risposta HTTP.
-     * 
-     * @throws ServletException: se si verifica un errore nella servlet.
-     * @throws IOException: se si verifica un errore durante l'input/output.
-     */
-	
+	/**
+	 * Gestisce le richieste POST per aggiungere o rimuovere prodotti dal catalogo.
+	 *
+	 * @param request: la richiesta HTTP.
+	 * @param response: la risposta HTTP.
+	 * 
+	 * @throws ServletException: se si verifica un errore nella servlet.
+	 * @throws IOException: se si verifica un errore durante l'input/output.
+	 */
+
 	@Override
 	public void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException { 
@@ -237,41 +237,49 @@ public class GestioneCatalogoController extends HttpServlet {
 		String inCatalogoParam = request.getParameter("inCatalogo");
 		boolean inCatalogo = "true".equals(inCatalogoParam);
 
-
-		// Si recupera l'immagine di presentazione del prodotto
-		Part filePart = request.getPart("file"); 
-		String product_id = (String) request.getParameter("productId");
-
-		int prod_id = 1, quantità = 1;
-
 		//Retrieves the Action the Servlet needs to do With the Retrieved Products Information
 		try {
 			String action = request.getParameter("action");
+
+			String product_id = (String) request.getParameter("productId");
+
+			int quantità = Integer.parseInt(quantity);
+			int prod_id = Integer.parseInt(product_id);
+			
+			//Si controlla se il prodotto appartiene ad una sottocategoria
+			Sottocategoria s_categoria;
+
+			if(sottocategoria==null || sottocategoria.equals("null")) 
+				s_categoria= null;
+			else 
+				s_categoria = Sottocategoria.valueOf(sottocategoria);
+
 			if(action.equals("addProduct")){
+				// Si recupera l'immagine di presentazione del prodotto
+				Part filePart = request.getPart("file"); 
+				
+				if(filePart == null) {
+					
+					gcs.aggiuntaProdottoInCatalogo(product_id, productName, marca, modello, topDescrizione, dettagli, price,
+							quantità, categoria, sottocategoria, inCatalogo, inVetrina, productDAO, 1, pr_pagina);
 
-				gcs.aggiuntaProdottoInCatalogo(product_id, productName, marca, modello, topDescrizione, dettagli, price,
-						quantità, categoria, sottocategoria, inCatalogo, inVetrina, productDAO, 1, pr_pagina);
-
-				request.getSession().setAttribute("error", "Prodotto Aggiunto con Successo!");
+					request.getSession().setAttribute("error", "Prodotto Aggiunto con Successo!");
+				}
 
 				if (filePart != null) {
-
-					prod_id = Integer.parseInt(product_id);
-					quantità = Integer.parseInt(quantity);
-
-					//Si controlla se il prodotto appartiene ad una sottocategoria
-					Sottocategoria s_categoria;
-
-					if(sottocategoria==null || sottocategoria.equals("null")) 
-						s_categoria= null;
-					else 
-						s_categoria = Sottocategoria.valueOf(sottocategoria);
+					
+					gcs.aggiuntaProdottoInCatalogo(product_id, productName, marca, modello, topDescrizione, dettagli, price,
+							quantità, categoria, sottocategoria, inCatalogo, inVetrina, productDAO, 1, pr_pagina);
 
 					Prodotto product = new Prodotto(prod_id, productName, topDescrizione, dettagli, price, Categoria.valueOf(categoria),
 							s_categoria, marca, modello, quantità, inCatalogo, inVetrina);  
-
+					
 					InputStream fileContent = filePart.getInputStream();
+					
 					gcs.inserimentoTopImmagine(product, "TOP_IMMAGINE", fileContent, 1, pr_pagina);
+					
+					request.getSession().setAttribute("error", "Prodotto Con Top immagine Aggiunto con Successo!");
+
 				}  
 
 			}else if(action.equals("deleteProduct")){
@@ -302,7 +310,7 @@ public class GestioneCatalogoController extends HttpServlet {
 				FormatoNomeException | FormatoModelloException | FormatoMarcaException | PrezzoProdottoException
 				| FormatoTopDescrizioneException | FormatoDettagliException | AppartenenzaSottocategoriaException|
 				FormatoCodiceException | SottocategoriaProdottoException ex) {
-			
+
 			Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
 			request.getSession().setAttribute("error", ex.getMessage());
 			System.out.println(ex.getMessage());

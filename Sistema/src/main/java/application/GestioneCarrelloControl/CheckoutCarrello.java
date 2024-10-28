@@ -172,8 +172,8 @@ public class CheckoutCarrello extends HttpServlet {
         // Check if card expiry is valid
         // Assuming the format is YYYY-MM-DD
         String[] expiryParts = ccExpiry.split("/");  
-        int expYear = Integer.parseInt(expiryParts[0]);  // Year
-        int expMonth = Integer.parseInt(expiryParts[1]); // Month
+        int expYear = Integer.parseInt(expiryParts[1]);  // Year
+        int expMonth = Integer.parseInt(expiryParts[0]); // Month
 
         java.util.Calendar currentDate = java.util.Calendar.getInstance();
         int currentYear = currentDate.get(java.util.Calendar.YEAR);

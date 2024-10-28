@@ -473,7 +473,7 @@ public class GestioneCatalogoServiceImplTest {
 		String details = "Lorem Ipsum Lorem";
 		float price = Float.parseFloat("340.99");
 		int quantity = 2;
-		String category = "TELEFONIA";
+		String category = "PRODOTTI_ELETTRONICA";
 		String subCategory = null;
 		boolean inCatalogo = true;
 		boolean inVetrina = false;
@@ -516,7 +516,7 @@ public class GestioneCatalogoServiceImplTest {
 		String details = "Lorem Ipsum Lorem";
 		float price = Float.parseFloat("340.99");
 		int quantity = 2;
-		String category = "TELEFONIA";
+		String category = "PRODOTTI_ELETTRONICA";
 		String errorSubCategory = "ERRORE";
 		boolean inCatalogo = true;
 		boolean inVetrina = false;
@@ -543,7 +543,7 @@ public class GestioneCatalogoServiceImplTest {
 		String details = "Lorem Ipsum Lorem";
 		float price = Float.parseFloat("340.99");
 		int quantity = 2;
-		String category = "TELEFONIA";
+		String category = "PRODOTTI_ELETTRONICA";
 		String errorSubCategory = "PC";
 		boolean inCatalogo = true;
 		boolean inVetrina = false;

@@ -230,6 +230,7 @@ public class CheckoutCarrello extends HttpServlet {
     private void elaborateCheckoutRequest(HttpServletRequest request, HttpServletResponse response) throws IOException{
         try {
             String idIndirizzo = request.getParameter("selectedAddress");
+			if( idIndirizzo==null || idIndirizzo.equals("")) throw new IndirizzoSpedizioneNulloException("Specificare l’indirizzo di spedizione per l’ordine. Per aggiungere un altro indirizzo, annulla l’acquisto e vai nell’area riservata.");
             ProxyUtente user = (ProxyUtente)request.getSession().getAttribute("user");
             GestioneOrdiniServiceImpl ordiniService = new GestioneOrdiniServiceImpl(OrdineDAODatasource orderDAO, UtenteDAODataSource userDAO, ProdottoDAODataSource productDAO, PagamentoDAODataSource productDAO);
             //Map<Integer, Indirizzo> addressMap = (Map<Integer, Indirizzo>) request.getSession().getAttribute("addressMap");
@@ -245,10 +246,10 @@ public class CheckoutCarrello extends HttpServlet {
             
             response.sendRedirect(request.getContextPath()+"/Pagamento");
             
-        } catch (OrdineException.OrdineVuotoException ex) {
+        } catch (IndirizzoSpedizioneNulloException | ErroreTipoSpedizioneException | SQLException | ErroreTipoConsegnaException | OrdineVuotoException ex) {
+            request.getSession().setAttribute("error", ex.getMessage());            
+            response.sendRedirect(request.getContextPath()+"/CheckoutCarrello");  
             Logger.getLogger(CheckoutCarrello.class.getName()).log(Level.SEVERE, null, ex);
-            request.getSession().setAttribute("error", ex);            
-            response.sendRedirect(request.getContextPath()+"/CheckoutCarrello");           
         }
     }
     

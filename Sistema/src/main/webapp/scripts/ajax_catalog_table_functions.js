@@ -427,6 +427,7 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
             if (Object.keys(modifiedData).length > 0) {
                 const jsonData = JSON.stringify({
                     modifiedData: modifiedData,
+                    productId: productId,
                     originalProductDetails: JSON.parse(document.querySelector('input[name="originalProductDetails"]').value)
                 });
                 console.log('JSON Data to be sent:', jsonData);

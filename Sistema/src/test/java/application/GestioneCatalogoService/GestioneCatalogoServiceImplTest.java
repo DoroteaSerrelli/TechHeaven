@@ -544,7 +544,7 @@ public class GestioneCatalogoServiceImplTest {
 		float price = Float.parseFloat("340.99");
 		int quantity = 2;
 		String category = "PRODOTTI_ELETTRONICA";
-		String errorSubCategory = "PC";
+		String errorSubCategory = "SMARTPHONE";
 		boolean inCatalogo = true;
 		boolean inVetrina = false;
 

@@ -1502,7 +1502,7 @@ public class GestioneCatalogoServiceImplTest {
 		//deve essere VETRINA
 		String infoToUpdate = "VETRINA"; 
 
-		String updatedData = "FALSE";
+		String updatedData = "0";
 		int page = 1;
 		int perPage = 5;
 
@@ -1543,13 +1543,13 @@ public class GestioneCatalogoServiceImplTest {
 		//deve essere VETRINA
 		String infoToUpdate = "VETRINA"; 
 
-		String updatedData = "TRUE";
+		String updatedData = "1";
 		int updatedDataInt = 1;
 		int page = 1;
 		int perPage = 5;
 
 		ProxyProdotto updatedProduct = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
-				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, Boolean.parseBoolean(updatedData), productDAO);
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, true, productDAO);
 
 
 		Collection<ProxyProdotto> expectedCatalogue = new ArrayList<>();

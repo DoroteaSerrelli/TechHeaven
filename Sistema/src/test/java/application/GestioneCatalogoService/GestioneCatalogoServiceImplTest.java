@@ -1672,8 +1672,8 @@ public class GestioneCatalogoServiceImplTest {
 		int page = 1;
 		int perPage = 5;
 
-		ProxyProdotto updatedProduct = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("359.99"), 
-				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, Boolean.parseBoolean(updatedData), productDAO);
+		ProxyProdotto updatedProduct = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("359.99"), 
+				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false, productDAO);
 
 
 		Collection<ProxyProdotto> expectedCatalogue = new ArrayList<>();
@@ -1746,7 +1746,7 @@ public class GestioneCatalogoServiceImplTest {
 		Prodotto doUpdate = new Prodotto(0, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 4, true, false);
 
-		//deve essere PREZZO
+		//deve essere QUANTITA
 		String infoToUpdate = "QUANTITA"; 
 
 		String updatedData = "4";

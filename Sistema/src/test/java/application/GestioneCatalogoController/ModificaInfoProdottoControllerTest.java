@@ -98,7 +98,7 @@ public class ModificaInfoProdottoControllerTest {
 		
 		modificaController.doPost(request, response);
 		
-		String expectedJsonResponse = "{\"redirectUrl\":\"/test/Catalogo\",\"message\":\"Field aggiornata con successo:MARCA Nuovo Valorenull\\nField aggiornata con successo:MODELLO Nuovo ValoreNuovo RedmiNote 13\\n\"}";
+		String expectedJsonResponse = "{\"redirectUrl\":\"/test/Catalogo\",\"message\":\"Field aggiornata con successo:MODELLO Nuovo ValoreNuovo RedmiNote 13\\n\"}";
 		verify(response.getWriter()).write(expectedJsonResponse);
 
 	}
@@ -144,7 +144,7 @@ public class ModificaInfoProdottoControllerTest {
 		
 		modificaController.doPost(request, response);
 		
-		String expectedJsonResponse = "{\"redirectUrl\":\"/test/Catalogo\",\"message\":\"Field aggiornata con successo:MARCA Nuovo ValoreNuovaMarcaX\\nField aggiornata con successo:MODELLO Nuovo Valorenull\\n\"}";
+		String expectedJsonResponse = "{\"redirectUrl\":\"/test/Catalogo\",\"message\":\"Field aggiornata con successo:MARCA Nuovo ValoreNuovaMarcaX\\n\"}";
 		verify(response.getWriter()).write(expectedJsonResponse);
 	}
 	
@@ -189,7 +189,7 @@ public class ModificaInfoProdottoControllerTest {
 		
 		modificaController.doPost(request, response);
 		
-		String expectedJsonResponse = "{\"redirectUrl\":\"/test/Catalogo\",\"message\":\"Field aggiornata con successo:DESCRIZIONE_EVIDENZA Nuovo ValoreNuova descrizione top\\nField aggiornata con successo:DESCRIZIONE_DETTAGLIATA Nuovo Valorenull\\n\"}";
+		String expectedJsonResponse = "{\"redirectUrl\":\"/test/Catalogo\",\"message\":\"Field aggiornata con successo:DESCRIZIONE_EVIDENZA Nuovo ValoreNuova descrizione top\\n\"}";
 		verify(response.getWriter()).write(expectedJsonResponse);
 	}
 	
@@ -233,7 +233,7 @@ public class ModificaInfoProdottoControllerTest {
 		
 		modificaController.doPost(request, response);
 		
-		String expectedJsonResponse = "{\"redirectUrl\":\"/test/Catalogo\",\"message\":\"Field aggiornata con successo:DESCRIZIONE_EVIDENZA Nuovo Valorenull\\nField aggiornata con successo:DESCRIZIONE_DETTAGLIATA Nuovo ValoreNuova descrizione dettagli\\n\"}";
+		String expectedJsonResponse = "{\"redirectUrl\":\"/test/Catalogo\",\"message\":\"Field aggiornata con successo:DESCRIZIONE_DETTAGLIATA Nuovo ValoreNuova descrizione dettagli\\n\"}";
 		verify(response.getWriter()).write(expectedJsonResponse);
 	}
 	
@@ -319,7 +319,7 @@ public class ModificaInfoProdottoControllerTest {
 		
 		modificaController.doPost(request, response);
 		
-		String expectedJsonResponse = "{\"redirectUrl\":\"/test/Catalogo\",\"message\":\"Field aggiornata con successo:CATEGORIA Nuovo ValoreProdotti_Elettronica\\nField aggiornata con successo:SOTTOCATEGORIA Nuovo Valorenull\\n\"}";
+		String expectedJsonResponse = "{\"redirectUrl\":\"/test/Catalogo\",\"message\":\"Field aggiornata con successo:CATEGORIA Nuovo ValoreProdotti_Elettronica\\n\"}";
 		verify(response.getWriter()).write(expectedJsonResponse);
 	}
 	
@@ -362,7 +362,7 @@ public class ModificaInfoProdottoControllerTest {
 		
 		modificaController.doPost(request, response);
 		
-		String expectedJsonResponse = "{\"redirectUrl\":\"/test/Catalogo\",\"message\":\"Field aggiornata con successo:CATEGORIA Nuovo Valorenull\\nField aggiornata con successo:SOTTOCATEGORIA Nuovo ValoreTablet\\n\"}";
+		String expectedJsonResponse = "{\"redirectUrl\":\"/test/Catalogo\",\"message\":\"Field aggiornata con successo:SOTTOCATEGORIA Nuovo ValoreTablet\\n\"}";
 		verify(response.getWriter()).write(expectedJsonResponse);
 	}
 	

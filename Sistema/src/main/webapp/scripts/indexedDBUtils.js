@@ -68,7 +68,7 @@ function resetProductData(action) {
             // Redirect or perform other actions after the transaction completes
             transaction.oncomplete = function() {
                 console.log('Data cleared, redirecting...');
-                window.location.href = `${window.contextPath}/ModifyProductsInCatalog?action=`+action;
+                window.location.href = `${window.contextPath}/ModificaInfoProdottoController?action=`+action;
             };
 
             transaction.onerror = function(event) {

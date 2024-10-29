@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -141,61 +142,42 @@ public class ModificaInfoProdottoController extends HttpServlet {
 
 		JsonObject modifiedData = jsonObject.getAsJsonObject("modifiedData");
 		JsonObject originalProductDetails = jsonObject.getAsJsonObject("originalProductDetails");
+		//Estrae il codice del prodotto
+		String productId = jsonObject.get("productId").getAsString();
 		
 		//Per determinare struttura Json per test
-		//System.out.println("JSON RICEVUTO:" + jsonData);
-		//System.out.println("JSON ORIGINAL" + originalProductDetails);
+		System.out.println("JSON RICEVUTO:" + jsonData);
+		System.out.println("JSON ORIGINAL" + originalProductDetails);
+		System.out.println("JSON CODICE" + productId);
 		// Chiamata al metodo per aggiornare le informazioni del prodotto
 
 		String jsonResponse;
 		try {
-			jsonResponse = updateProductInfos(modifiedData, originalProductDetails, request, response);
+			jsonResponse = updateProductInfos(modifiedData, originalProductDetails, productId, request, response);
 			// Imposta il tipo di contenuto e la codifica della risposta
 			response.setContentType("application/json");
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write(jsonResponse);
 
-		} catch (ErroreSpecificaAggiornamentoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ProdottoAggiornatoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FormatoTopDescrizioneException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FormatoDettagliException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (FormatoModelloException e) {
 			
+		} catch (ErroreSpecificaAggiornamentoException |
+				ProdottoAggiornatoException|
+				FormatoDettagliException | 
+				FormatoModelloException |
+				FormatoTopDescrizioneException |
+				FormatoMarcaException |
+				AppartenenzaSottocategoriaException |
+				CategoriaProdottoException |
+				SottocategoriaProdottoException |
+				ProdottoNonInCatalogoException |
+				QuantitaProdottoException e) {
+
 			request.setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath()+"/UpdateProductInfos");
 			
-		} catch (FormatoMarcaException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (AppartenenzaSottocategoriaException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (SottocategoriaProdottoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (CategoriaProdottoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ProdottoNonInCatalogoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (QuantitaProdottoException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			request.getSession().setAttribute("error", e.getMessage());
+			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
 		}
 
 	}
@@ -230,7 +212,7 @@ public class ModificaInfoProdottoController extends HttpServlet {
 	 * @throws SottocategoriaProdottoException 
 	 */
 
-	public String updateProductInfos(JsonObject modifiedDataJson, JsonObject originalProductJson, HttpServletRequest request, HttpServletResponse response) 
+	public String updateProductInfos(JsonObject modifiedDataJson, JsonObject originalProductJson, String productId, HttpServletRequest request, HttpServletResponse response) 
 			throws IOException, ErroreSpecificaAggiornamentoException, ProdottoAggiornatoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException, SottocategoriaProdottoException, CategoriaProdottoException, ProdottoNonInCatalogoException, QuantitaProdottoException, SQLException {
 
 		String outputMessage = "";
@@ -244,7 +226,11 @@ public class ModificaInfoProdottoController extends HttpServlet {
 			// Estrai la categoria e la sottocategoria dal JsonObject
 		    String categoria = originalProductJson.has("categoria") ? originalProductJson.get("categoria").getAsString() : null;
 		    String sottocategoria = originalProductJson.has("sottocategoria") ? originalProductJson.get("sottocategoria").getAsString() : null;
-
+		    
+		    int codice = Integer.parseInt(productId);
+		    
+		    originalProduct.setCodiceProdotto(codice);
+		    
 		    // Imposta i valori estratti sull'oggetto Prodotto
 		    if (categoria != null) {
 		        originalProduct.setCategoria(categoria);
@@ -252,32 +238,46 @@ public class ModificaInfoProdottoController extends HttpServlet {
 		    if (sottocategoria != null) {
 		        originalProduct.setSottocategoria(sottocategoria);
 		    }
-
+		    
 		}
 
 		// Aggiorna i dettagli del prodotto se presenti nei dati modificati
-
+		
 		if (modifiedDataJson != null && !modifiedDataJson.isJsonNull()) {
 
 			Map<String, Map<String, String>> modifiedData = gson.fromJson(modifiedDataJson, Map.class);
-
+			
 			if (modifiedData.containsKey("productDetails")) {
 				Map<String, String> productDetails = modifiedData.get("productDetails");
-				outputMessage += updateProductDetail("MARCA", "marca", originalProduct, productDetails);
-				outputMessage += updateProductDetail("MODELLO", "modello", originalProduct, productDetails);
+				
+				if(productDetails.containsKey("marca"))
+					outputMessage += updateProductDetail("MARCA", "marca", originalProduct, productDetails);
+				
+				if(productDetails.containsKey("modello"))
+					outputMessage += updateProductDetail("MODELLO", "modello", originalProduct, productDetails);
 			}
 
 			if (modifiedData.containsKey("descriptions")) {
+
 				Map<String, String> descriptions = modifiedData.get("descriptions");
-				outputMessage += updateProductDetail("DESCRIZIONE_EVIDENZA", "topDescrizione", originalProduct, descriptions);
-				outputMessage += updateProductDetail("DESCRIZIONE_DETTAGLIATA", "dettagli", originalProduct, descriptions);
+				
+				if(descriptions.containsKey("topDescrizione"))
+					outputMessage += updateProductDetail("DESCRIZIONE_EVIDENZA", "topDescrizione", originalProduct, descriptions);
+				
+				
+				if(descriptions.containsKey("dettagli"))
+					outputMessage += updateProductDetail("DESCRIZIONE_DETTAGLIATA", "dettagli", originalProduct, descriptions);
 			}
 			
 			if (modifiedData.containsKey("category")) {
 				
 				Map<String, String> categories = modifiedData.get("category");
-				outputMessage += updateProductDetail("CATEGORIA", "categoria", originalProduct, categories);
-				outputMessage += updateProductDetail("SOTTOCATEGORIA", "sottocategoria", originalProduct, categories);
+				
+				if(categories.containsKey("categoria"))
+					outputMessage += updateProductDetail("CATEGORIA", "categoria", originalProduct, categories);
+				
+				if(categories.containsKey("sottocategoria"))
+					outputMessage += updateProductDetail("SOTTOCATEGORIA", "sottocategoria", originalProduct, categories);
 			}
 
 
@@ -289,7 +289,7 @@ public class ModificaInfoProdottoController extends HttpServlet {
 
 				try {
 
-					gcs.aggiornamentoPrezzoProdotto(originalProduct, "PREZZO",price, 1, pr_pagina);
+					gcs.aggiornamentoPrezzoProdotto(originalProduct, "PREZZO", price, 1, pr_pagina);
 					outputMessage += "Aggiornamento Prezzo Avvenuto con Successo!";
 
 				} catch (ProdottoException.CategoriaProdottoException | ProdottoException.SottocategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | ProdottoException.PrezzoProdottoException ex) {
@@ -302,7 +302,8 @@ public class ModificaInfoProdottoController extends HttpServlet {
 			if (modifiedData.containsKey("quantita")) { 
 
 				Map<String, String> quantitàStr = modifiedData.get("quantita");
-				String quantità = String.valueOf(quantitàStr);
+				
+				String quantità = String.valueOf(quantitàStr.get("quantita"));
 				
 				gcs.aggiornamentoDisponibilitàProdotto(originalProduct, "QUANTITA", quantità, 1, pr_pagina);
 				outputMessage += "Aggiornamento Quantità Avvenuto con Successo!";
@@ -318,7 +319,7 @@ public class ModificaInfoProdottoController extends HttpServlet {
                 outputMessage += updateInVetrina(originalProduct, inVetrina);
             }
 		}
-
+		
 		// Crea una mappa per memorizzare la risposta JSON
 		responseMap.put("message", outputMessage);
 		responseMap.put("redirectUrl", request.getContextPath() + "/Catalogo");
@@ -351,14 +352,16 @@ public class ModificaInfoProdottoController extends HttpServlet {
 			Map<String, String> modifiedDetails) throws FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException {
 
 		String modifiedValue = modifiedDetails.get(key);
+		
 		if (originalProduct != null) {
 			Object originalValue = getFieldByName(field, originalProduct); // Restituisce Object per gestire differenti tipi di dati da modificare
-
-			if (!originalValue.equals(convertToCorrectType(modifiedValue, originalValue))) {
+			System.out.println("ORIGINAL PRODUCT NON è NULL");
+			System.out.println("FIELD SCELTA: "+ field);
+			
 				try {
-					System.out.println("ORIGINAL PRODUCT NON è NULL");
-					gcs.aggiornamentoSpecificheProdotto(originalProduct, field, modifiedValue, 1, pr_pagina);
 					
+					gcs.aggiornamentoSpecificheProdotto(originalProduct, field, modifiedValue, 1, pr_pagina);
+					System.out.println("HO FATTO STO PER FARE RETURN");
 					return "Field aggiornata con successo:"+field+" Nuovo Valore"+modifiedValue+ "\n";
 
 				} catch (CatalogoException.ProdottoAggiornatoException | ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | CatalogoException.ErroreSpecificaAggiornamentoException ex) {
@@ -367,7 +370,7 @@ public class ModificaInfoProdottoController extends HttpServlet {
 					return ex.getMessage();                  
 				}
 			}
-		} else {
+		
 			if (modifiedValue != null && !modifiedValue.isEmpty()) {
 				try {
 					gcs.aggiornamentoSpecificheProdotto(originalProduct, field, modifiedValue, 1, pr_pagina);
@@ -378,7 +381,7 @@ public class ModificaInfoProdottoController extends HttpServlet {
 					return ex.getMessage();  
 				}
 			}
-		}
+		
 		return "Non è stato possibile aggiornare:"+field+" \n";
 	}
 

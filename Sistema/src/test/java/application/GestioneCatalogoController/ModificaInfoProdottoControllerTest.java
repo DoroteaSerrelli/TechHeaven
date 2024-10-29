@@ -409,5 +409,49 @@ public class ModificaInfoProdottoControllerTest {
 		verify(response.getWriter()).write(expectedJsonResponse);
 	}
 	
+
+	@Test
+	public void testDoPost_ModificaVetrinaSuccesso() throws IOException, ProdottoAggiornatoException, SottocategoriaProdottoException, CategoriaProdottoException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException, SQLException, ServletException {
+		
+		
+		Prodotto originalProduct = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
+		
+		
+		String inputJson = "{"
+		        + "\"modifiedData\": {"
+		        + "   \"inVetrina\": {"
+		        + "       \"inVetrina\": 1"
+		        + "   }"
+		        + "},"
+		        + "\"productId\": \"3\","
+		        + "\"originalProductDetails\": {"
+		        + "   \"marca\": \"Xiaomi\","
+		        + "   \"modello\": \"Redmi Note 13\","
+		        + "   \"nomeProdotto\": \"Xiaomi Redmi Note 13\","
+		        + "   \"prezzo\": 229.90,"
+		        + "   \"quantita\": 180,"
+		        + "   \"topDescrizione\": \"Prova\","
+		        + "   \"dettagli\": \"Prova\","
+		        + "   \"categoria\": \"Telefonia\","
+		        + "   \"sottocategoria\": \"Smartphone\","
+		        + "   \"inVetrina\": false,"
+		        + "   \"inCatalogo\": true"
+		        + "}"
+		        + "}";
+
+		
+		when(request.getReader()).thenReturn(new BufferedReader(new java.io.StringReader(inputJson)));
+		PrintWriter writer = mock(PrintWriter.class);
+		when(response.getWriter()).thenReturn(writer);
+		
+		modificaController = new ModificaInfoProdottoController(gcs);
+		
+		modificaController.doPost(request, response);
+		
+		String expectedJsonResponse = "{\"redirectUrl\":\"/test/Catalogo\",\"message\":\"Aggiornamento InVetrina Avvenuto con Successo!\"}";
+		verify(response.getWriter()).write(expectedJsonResponse);
+	}
+	
 	
 }

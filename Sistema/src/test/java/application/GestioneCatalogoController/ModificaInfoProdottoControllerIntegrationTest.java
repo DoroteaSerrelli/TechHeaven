@@ -18,8 +18,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import com.google.gson.Gson;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import application.GestioneCatalogoControl.ModificaInfoProdottoController;
@@ -33,9 +31,9 @@ import application.NavigazioneService.ObjectProdotto.Categoria;
 import application.NavigazioneService.ObjectProdotto.Sottocategoria;
 import application.NavigazioneService.ProdottoException.AppartenenzaSottocategoriaException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
-import application.NavigazioneService.ProdottoException.FormatoCodiceException;
 import application.NavigazioneService.ProdottoException.FormatoDettagliException;
 import application.NavigazioneService.ProdottoException.FormatoMarcaException;
+import application.NavigazioneService.ProdottoException.FormatoVetrinaException;
 import application.NavigazioneService.ProdottoException.QuantitaProdottoException;
 import application.NavigazioneService.ProdottoException.FormatoModelloException;
 import application.NavigazioneService.ProdottoException.FormatoTopDescrizioneException;
@@ -1269,7 +1267,169 @@ public class ModificaInfoProdottoControllerIntegrationTest {
 	 * 
 	 * */
 	
-	/*.....................*/
+	@Test
+	public void testDoPost_TC16_2_1_1() throws IOException, ProdottoAggiornatoException, SottocategoriaProdottoException, CategoriaProdottoException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException, SQLException, ServletException {
+		
+		ProxyProdotto originalProxyProduct = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false, productDAO);
+
+		Prodotto originalProduct = new Prodotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false);
+		
+		String inputJson = "{"
+		        + "\"modifiedData\": {"
+		        + "   \"inVetrina\": {"
+		        + "       \"inVetrina\": null"
+		        + "}"
+		        + "},"
+		        + "\"productId\": \"16\","
+		        + "\"originalProductDetails\": {"
+		        + "   \"marca\": \"Samsung\","
+		        + "   \"modello\": \"Galaxy A34\","
+		        + "   \"nomeProdotto\": \"Samsung Galaxy A34 5G\","
+		        + "   \"prezzo\": 234.50,"
+		        + "   \"quantita\": 0,"
+		        + "   \"topDescrizione\": \"Prova\","
+		        + "   \"dettagli\": \"Prova\","
+		        + "   \"categoria\": \"Telefonia\","
+		        + "   \"sottocategoria\": \"Smartphone\","
+		        + "   \"inVetrina\": false,"
+		        + "   \"inCatalogo\": true"
+		        + "}"
+		        + "}";
+		
+		String field = "VETRINA";
+		String modifiedValue = "";
+		
+		
+		when(request.getReader()).thenReturn(new BufferedReader(new java.io.StringReader(inputJson)));
+		PrintWriter writer = mock(PrintWriter.class);
+		when(response.getWriter()).thenReturn(writer);
+		
+		when(productDAO.doRetrieveProxyByKey(originalProduct.getCodiceProdotto())).thenReturn(originalProxyProduct);
+		
+		modificaController = new ModificaInfoProdottoController(gcs);
+		
+		modificaController.doPost(request, response);
+		
+		assertThrows(FormatoVetrinaException.class , () -> {
+			gcs.aggiornamentoProdottoInVetrina(originalProduct, field,  modifiedValue, 1, pr_pagina);           
+        });
+		
+	}
+	
+	@Test
+	public void testDoPost_TC16_2_1_2() throws IOException, ProdottoAggiornatoException, SottocategoriaProdottoException, CategoriaProdottoException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException, SQLException, ServletException {
+		
+		ProxyProdotto originalProxyProduct = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false, productDAO);
+
+		Prodotto originalProduct = new Prodotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false);
+		
+		String inputJson = "{"
+		        + "\"modifiedData\": {"
+		        + "   \"inVetrina\": {"
+		        + "       \"inVetrina\": 0"
+		        + "}"
+		        + "},"
+		        + "\"productId\": \"16\","
+		        + "\"originalProductDetails\": {"
+		        + "   \"marca\": \"Samsung\","
+		        + "   \"modello\": \"Galaxy A34\","
+		        + "   \"nomeProdotto\": \"Samsung Galaxy A34 5G\","
+		        + "   \"prezzo\": 234.50,"
+		        + "   \"quantita\": 0,"
+		        + "   \"topDescrizione\": \"Prova\","
+		        + "   \"dettagli\": \"Prova\","
+		        + "   \"categoria\": \"Telefonia\","
+		        + "   \"sottocategoria\": \"Smartphone\","
+		        + "   \"inVetrina\": false,"
+		        + "   \"inCatalogo\": true"
+		        + "}"
+		        + "}";
+		
+		String field = "VETRINA";
+		String modifiedValue = "0";
+		
+		
+		when(request.getReader()).thenReturn(new BufferedReader(new java.io.StringReader(inputJson)));
+		PrintWriter writer = mock(PrintWriter.class);
+		when(response.getWriter()).thenReturn(writer);
+		
+		when(productDAO.doRetrieveProxyByKey(originalProduct.getCodiceProdotto())).thenReturn(originalProxyProduct);
+		
+		modificaController = new ModificaInfoProdottoController(gcs);
+		
+		modificaController.doPost(request, response);
+		
+		assertThrows(ProdottoAggiornatoException.class , () -> {
+			gcs.aggiornamentoProdottoInVetrina(originalProduct, field,  modifiedValue, 1, pr_pagina);           
+        });
+		
+	}
+	
+	@Test
+	public void testDoPost_TC16_2_1_3() throws IOException, ProdottoAggiornatoException, SottocategoriaProdottoException, CategoriaProdottoException, ProdottoNonInCatalogoException, ErroreSpecificaAggiornamentoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException, SQLException, ServletException {
+		
+		ProxyProdotto originalProxyProduct = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false, productDAO);
+
+		Prodotto originalProduct = new Prodotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, false);
+
+		
+		String inputJson = "{"
+		        + "\"modifiedData\": {"
+		        + "   \"inVetrina\": {"
+		        + "       \"inVetrina\": 1"
+		        + "}"
+		        + "},"
+		        + "\"productId\": \"16\","
+		        + "\"originalProductDetails\": {"
+		        + "   \"marca\": \"Samsung\","
+		        + "   \"modello\": \"Galaxy A34\","
+		        + "   \"nomeProdotto\": \"Samsung Galaxy A34 5G\","
+		        + "   \"prezzo\": 234.50,"
+		        + "   \"quantita\": 0,"
+		        + "   \"topDescrizione\": \"Prova\","
+		        + "   \"dettagli\": \"Prova\","
+		        + "   \"categoria\": \"Telefonia\","
+		        + "   \"sottocategoria\": \"Smartphone\","
+		        + "   \"inVetrina\": false,"
+		        + "   \"inCatalogo\": true"
+		        + "}"
+		        + "}";
+		
+		String field = "VETRINA";
+		String modifiedValue = "1";
+		int modifiedValueInt = 1;
+		
+		Collection<ProxyProdotto> catalogo = new ArrayList<>();
+		catalogo.add(originalProxyProduct);
+		
+		when(request.getReader()).thenReturn(new BufferedReader(new java.io.StringReader(inputJson)));
+		PrintWriter writer = mock(PrintWriter.class);
+		when(response.getWriter()).thenReturn(writer);
+		
+		ProxyProdotto originalProductModified = new ProxyProdotto(16, "Samsung Galaxy A34 5G", "Prova", "Prova", Float.parseFloat("234.50"), 
+				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy A34", 0, true, true, productDAO);
+
+		catalogo.remove(originalProxyProduct);
+		catalogo.add(originalProductModified);
+		
+		when(productDAO.doRetrieveProxyByKey(originalProduct.getCodiceProdotto())).thenReturn(originalProxyProduct);
+		when(productDAO.updateDataView(originalProduct.getCodiceProdotto(), modifiedValueInt)).thenReturn(true);
+		when(productDAO.doRetrieveAllExistent(null, 1, pr_pagina)).thenReturn(catalogo);
+		
+		modificaController = new ModificaInfoProdottoController(gcs);
+		
+		modificaController.doPost(request, response);
+		
+		String expectedJsonResponse = "{\"redirectUrl\":\"/test/Catalogo\",\"message\":\"Aggiornamento InVetrina Avvenuto con Successo!\"}";
+		verify(response.getWriter()).write(expectedJsonResponse);
+	}
+		
 	
 	/**
 	 * TEST CASES MODIFICA DEL PREZZO DI UN PRODOTTO

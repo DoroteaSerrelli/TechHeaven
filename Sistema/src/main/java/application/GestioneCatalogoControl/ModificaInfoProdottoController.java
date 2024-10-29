@@ -13,6 +13,7 @@ import application.NavigazioneService.ProdottoException.FormatoDettagliException
 import application.NavigazioneService.ProdottoException.FormatoMarcaException;
 import application.NavigazioneService.ProdottoException.FormatoModelloException;
 import application.NavigazioneService.ProdottoException.FormatoTopDescrizioneException;
+import application.NavigazioneService.ProdottoException.FormatoVetrinaException;
 import application.NavigazioneService.ProdottoException.QuantitaProdottoException;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 import storage.NavigazioneDAO.PhotoControl;
@@ -170,7 +171,8 @@ public class ModificaInfoProdottoController extends HttpServlet {
 				CategoriaProdottoException |
 				SottocategoriaProdottoException |
 				ProdottoNonInCatalogoException |
-				QuantitaProdottoException e) {
+				QuantitaProdottoException |
+				FormatoVetrinaException e) {
 
 			request.setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath()+"/UpdateProductInfos");
@@ -179,7 +181,6 @@ public class ModificaInfoProdottoController extends HttpServlet {
 			request.getSession().setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
 		}
-
 	}
 
 	/**
@@ -210,10 +211,11 @@ public class ModificaInfoProdottoController extends HttpServlet {
 	 * @throws ProdottoNonInCatalogoException 
 	 * @throws CategoriaProdottoException 
 	 * @throws SottocategoriaProdottoException 
+	 * @throws FormatoVetrinaException 
 	 */
 
 	public String updateProductInfos(JsonObject modifiedDataJson, JsonObject originalProductJson, String productId, HttpServletRequest request, HttpServletResponse response) 
-			throws IOException, ErroreSpecificaAggiornamentoException, ProdottoAggiornatoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException, SottocategoriaProdottoException, CategoriaProdottoException, ProdottoNonInCatalogoException, QuantitaProdottoException, SQLException {
+			throws IOException, ErroreSpecificaAggiornamentoException, ProdottoAggiornatoException, FormatoTopDescrizioneException, FormatoDettagliException, FormatoModelloException, FormatoMarcaException, AppartenenzaSottocategoriaException, SottocategoriaProdottoException, CategoriaProdottoException, ProdottoNonInCatalogoException, QuantitaProdottoException, SQLException, FormatoVetrinaException {
 
 		String outputMessage = "";
 		Gson gson = new Gson();
@@ -312,11 +314,10 @@ public class ModificaInfoProdottoController extends HttpServlet {
 			
             if (modifiedData.containsKey("inVetrina")) {
                 Map<String, String> inVetrinaMap = modifiedData.get("inVetrina");
-                String inVetrinaValue = inVetrinaMap.get("inVetrina"); 
+                String inVetrinaValue = String.valueOf(inVetrinaMap.get("inVetrina")); 
                 
-                int inVetrina = Integer.parseInt(inVetrinaValue);
-				gcs.aggiornamentoProdottoInVetrina(product, inVetrina, 1, pr_pagina); // Assuming a setter exists for InVetrina           
-                outputMessage += updateInVetrina(originalProduct, inVetrina);
+                gcs.aggiornamentoProdottoInVetrina(originalProduct, "VETRINA",  inVetrinaValue, 1, pr_pagina);           
+                outputMessage += "Aggiornamento InVetrina Avvenuto con Successo!";
             }
 		}
 		

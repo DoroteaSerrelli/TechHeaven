@@ -394,14 +394,14 @@ public abstract class ObjectProdotto {
 
 		return true;
 	}
-	
-	
+
+
 	/**
 	 * Verifica correttezza sottocategoria
 	 * 
 	 * */
 
-	
+
 	public static boolean checkValidateSottocategoria(String sottocategoria) throws  SottocategoriaProdottoException{
 
 		if(!sottocategoria.equalsIgnoreCase("SMARTWATCH") && !sottocategoria.equalsIgnoreCase("PC")
@@ -438,18 +438,34 @@ public abstract class ObjectProdotto {
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Verifica correttezza messa in evidenza del prodotto
 	 * @throws FormatoVetrinaException 
 	 * 
 	 * */
 
-	
+
 	public static boolean checkValidateVetrina(String vetrina) throws  SottocategoriaProdottoException, FormatoVetrinaException{
 
+		/*
 		if(!vetrina.equalsIgnoreCase("TRUE") && !vetrina.equalsIgnoreCase("FALSE"))
 			throw new FormatoVetrinaException("Per aggiungere un prodotto in vetrina inserire TRUE,\nmentre per rimuovere un prodotto in vetrina inserire FALSE");
+		return true;*/
+
+		try {
+			double viewDouble = Double.parseDouble(vetrina);
+			int updatedDataInt = (int) viewDouble;
+			vetrina = String.valueOf(updatedDataInt);
+
+			if(!vetrina.equals("0") && !vetrina.equals("1"))
+				throw new FormatoVetrinaException("Per aggiungere un prodotto in vetrina inserire 1,\nmentre per rimuovere un prodotto in vetrina inserire 0");
+		
+		}catch(NumberFormatException e) {
+			
+			throw new FormatoVetrinaException("Per aggiungere un prodotto in vetrina inserire 1,\nmentre per rimuovere un prodotto in vetrina inserire 0");
+		}
+		
 		return true;
 	}
 
@@ -947,10 +963,10 @@ public abstract class ObjectProdotto {
 				&& categoria.toString().equals(other.categoria.toString())
 				&& equalsSottocategoria(other.sottocategoria)
 				&& inVetrina == other.inVetrina;
-	
-				
+
+
 	}
-	
+
 	public boolean equalsSottocategoria(Sottocategoria otherSubcategory) {
 		if(sottocategoria == null && otherSubcategory == null)
 			return true;
@@ -958,7 +974,7 @@ public abstract class ObjectProdotto {
 			if(sottocategoria.toString().equals(otherSubcategory.toString()))
 				return true;
 		}
-		
+
 		return false;
 	}
 

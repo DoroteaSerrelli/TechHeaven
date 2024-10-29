@@ -341,28 +341,32 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 	public Collection<ProxyProdotto> aggiornamentoProdottoInVetrina(Prodotto product, String information, String updatedData, int page, int perPage) throws SQLException, ProdottoNonInCatalogoException, SottocategoriaProdottoException, CategoriaProdottoException, ErroreSpecificaAggiornamentoException, FormatoVetrinaException, ProdottoAggiornatoException{
 
 		ProxyProdotto retrieved = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
-
+		
 		if(retrieved == null || !retrieved.isInCatalogo())
 			throw new ProdottoNonInCatalogoException("Il prodotto che si intende modificare non esiste nel catalogo del negozio.");
-
+		
 		if(!information.equalsIgnoreCase("VETRINA"))
 			throw new ErroreSpecificaAggiornamentoException("Per modificare la messa in evidenza di un prodotto per la vetrina virtuale, seleziona l'apposita scelta.");
-
-
+		
 		if(!ObjectProdotto.checkValidateVetrina(updatedData))
 			throw new FormatoVetrinaException("Per aggiungere un prodotto in vetrina inserire TRUE,\nmentre per rimuovere un prodotto in vetrina inserire FALSE");
-
-		int updatedDataInt;
-		if(updatedData.equalsIgnoreCase("TRUE"))
+		
+		double viewDouble = Double.parseDouble(updatedData);
+        int updatedDataInt = (int) viewDouble;
+		
+        System.out.println("INVETRINA VALORE METODO : " + updatedDataInt);
+		
+		int productInVetrina = product.isInVetrina() ? 1 : 0; 
+		/*if(updatedData.equalsIgnoreCase("TRUE"))
 			updatedDataInt = 1;
 		else
-			updatedDataInt = 0;
+			updatedDataInt = 0;*/
 
-		if(product.isInVetrina() == Boolean.parseBoolean(updatedData))
+		if(productInVetrina == updatedDataInt)
 			throw new ProdottoAggiornatoException("Il valore di messa in evidenza del prodotto inserito è già associato.");
 		else 
 			productDAO.updateDataView(product.getCodiceProdotto(), updatedDataInt);
-
+		System.out.println("VALORE DI PRODUCTINVETRINA: " + productInVetrina);
 		return productDAO.doRetrieveAllExistent(null, page, perPage);
 	}
 

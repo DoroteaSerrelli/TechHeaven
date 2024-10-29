@@ -1,6 +1,3 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,11 +8,11 @@
 	href="<%= request.getContextPath()%>/style/style.css">
 </head>
 <body>
-	<%@include file="../../common/header.jsp"%>
+	<%@include file="/common/header.jsp"%>
 	<h2>Pagamento confermato</h2>
-	<p>Il pagamento Ã¨ stato confermato con successo. Grazie per averci
+	<p>Il pagamento è stato confermato con successo. Grazie per averci
 		scelto. Controlla nella tua area riservata lo stato di avanzamento del
 		tuo ordine.</p>
-	<%@include file="../../common/footer.jsp"%>
+	<%@include file="/common/footer.jsp"%>
 </body>
 </html>

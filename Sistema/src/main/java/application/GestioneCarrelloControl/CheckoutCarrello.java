@@ -159,6 +159,10 @@ public class CheckoutCarrello extends HttpServlet {
             System.out.println(ex.getMessage());
             request.getSession().setAttribute("error", ex.getMessage());        
             return false;
+        }catch(ConcurrentModificationException ce){
+            Logger.getLogger(CheckoutCarrello.class.getName()).log(Level.SEVERE, null, ce);
+            System.out.println(ce.getMessage());
+            return true;
         }  
     }
     

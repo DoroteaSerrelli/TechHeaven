@@ -171,6 +171,11 @@
                             <label for="quantità">Quantità</label>
                             <input type="number" id="quantità" name="quantità" oninput="validateProductID(this, 'Quantità')"> 
                             <div id="prodQuantitàError" class="erromsg" style="display:none;"></div>  
+                            <label for="inVetrina">In Vetrina</label>
+                            <input type="radio" id="inVetrinaTrue" name="inVetrina" value="1">
+                            <label for="inVetrinaTrue">Si</label>
+                            <input type="radio" id="inVetrinaFalse" name="inVetrina" value="0">
+                            <label for="inVetrinaFalse">No</label>
                         </div>
                         <button class="confirm_button" id="submitBtn" type="submit">Update</button>
                       <a href="<%=request.getContextPath()%>/GestioneCatalogo"><button class="cancel_button" type="button"> Annulla</button></a>
@@ -187,7 +192,7 @@
                                 <!-- The log on the right -->                         
                                 <div style="flex: 1;">                      
                                       <!-- Image Preview -->                               
-                                    <form id="photoForm" action="${pageContext.request.contextPath}/ModificaImmaginiProdotto" method="post" enctype="multipart/form-data">
+                                    <form id="photoForm" action="${pageContext.request.contextPath}/ImageUpdater" method="post" enctype="multipart/form-data">
                                        <input type="hidden" id="productData" name="productData">
                                             <!-- Option Sections -->
                                             <div class="option-group">
@@ -199,13 +204,13 @@
                                             </div>
                                             <div class="option">
                                                 <label for="add">Aggiungi Foto Presentazione</label>
-                                                <input type="radio" id="add" name="main_photoAction" value="TOP_IMMAGINE">
+                                                <input type="radio" id="add" name="main_photoAction" value="add">
                                             </div>
 
                                             <!-- Gallery Photo Actions -->
                                             <div class="option">
                                                 <label for="addToGallery">Aggiungi Foto Galleria</label>
-                                                <input type="radio" id="addToGallery" name="AGGIUNTA_DETT_IMMAGINE" value="addToGallery">
+                                                <input type="radio" id="addToGallery" name="gallery_photoActions" value="addToGallery">
                                             </div>
                                         </div>
 

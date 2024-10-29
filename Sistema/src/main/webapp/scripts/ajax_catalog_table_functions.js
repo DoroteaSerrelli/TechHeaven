@@ -89,7 +89,7 @@ function addOriginalProductDetailsToForm(productDetails) {
 
 function fetchSessionData(callback) {
     $.ajax({
-        url: `${window.contextPath}/GestioneImmaginiProdotto`,
+        url: `${window.contextPath}/FetchSessionData`,
         method: 'GET',
         success: function(response) {
             //Stampa debug Ricezione Galleria tramite ajax (Recupero degli Oggetti in Sessione)
@@ -199,7 +199,7 @@ function openModifyForm(product) {
     populateFields(product);   
     // Set other fields as needed
 
-    $('#productForm').attr('action', `${window.contextPath}/ModificaInfoProdottoController`);
+    $('#productForm').attr('action', `${window.contextPath}/ModifyProductsInCatalog`);
 }
 
 function openDeleteForm(product) {
@@ -415,7 +415,13 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
                     };
                 }
             }
-
+            
+            // Get inVetrina as an integer
+            const inVetrinaValue = formData.get('inVetrina');
+            if (inVetrinaValue !== null) {
+                modifiedData['inVetrina'] = parseInt(inVetrinaValue, 10); // Convert to integer
+            }
+            
             // Add Quantity
             const quantita = formData.get('quantità');
             if (quantita) {
@@ -427,7 +433,6 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
             if (Object.keys(modifiedData).length > 0) {
                 const jsonData = JSON.stringify({
                     modifiedData: modifiedData,
-                    productId: productId,
                     originalProductDetails: JSON.parse(document.querySelector('input[name="originalProductDetails"]').value)
                 });
                 console.log('JSON Data to be sent:', jsonData);

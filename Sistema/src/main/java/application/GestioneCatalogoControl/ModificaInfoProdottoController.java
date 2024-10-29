@@ -308,6 +308,15 @@ public class ModificaInfoProdottoController extends HttpServlet {
 				outputMessage += "Aggiornamento Quantità Avvenuto con Successo!";
 
 			}
+			
+            if (modifiedData.containsKey("inVetrina")) {
+                Map<String, String> inVetrinaMap = modifiedData.get("inVetrina");
+                String inVetrinaValue = inVetrinaMap.get("inVetrina"); 
+                
+                int inVetrina = Integer.parseInt(inVetrinaValue);
+				gcs.aggiornamentoProdottoInVetrina(product, inVetrina, 1, pr_pagina); // Assuming a setter exists for InVetrina           
+                outputMessage += updateInVetrina(originalProduct, inVetrina);
+            }
 		}
 
 		// Crea una mappa per memorizzare la risposta JSON

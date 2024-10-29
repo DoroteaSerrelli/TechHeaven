@@ -87,20 +87,18 @@ public class GestioneOrdiniController extends HttpServlet {
 
 			e.printStackTrace();
 		}
-		OrdineDAODataSource orderDAO = new OrdineDAODataSource(ds);
-		GestioneOrdiniServiceImpl gos = new GestioneOrdiniServiceImpl(orderDAO, userDAO, pdao, paymentDAO);
+		orderDAO = new OrdineDAODataSource(ds);
+		gos = new GestioneOrdiniServiceImpl(orderDAO, userDAO, pdao, paymentDAO);
 		pu = new PaginationUtils(ns, gcs, gos);
 
 	}
 
 	//Costruttore per il test
 
-	public GestioneOrdiniController(GestioneOrdiniServiceImpl gos, OrdineDAODataSource orderDAO,
-			ProdottoDAODataSource pdao, PaginationUtils pu) {
-
-		this.gos = gos;
+	public GestioneOrdiniController(ProdottoDAODataSource productDAO, OrdineDAODataSource orderDAO, GestioneOrdiniServiceImpl gos, PaginationUtils pu) {
+		this.pdao = productDAO;
 		this.orderDAO = orderDAO;
-		this.pdao = pdao;
+		this.gos = gos;
 		this.pu = pu;
 	}
 
@@ -115,7 +113,7 @@ public class GestioneOrdiniController extends HttpServlet {
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		//Visualizza prodotti selezionato forse il retrieve lo faccio con ajax <._.>
+		
 		int page = 1;
 		String action = "";
 		String status = "Richiesta_effettuata";
@@ -132,6 +130,7 @@ public class GestioneOrdiniController extends HttpServlet {
 			Logger.getLogger(GestioneOrdiniController.class.getName()).log(Level.SEVERE, null, e);
 			page=1;
 		}
+		
 		// Perform pagination and fetch products for the requested page
 		//Collection<ProxyOrdine> orders_to_send = (Collection<ProxyOrdine>) request.getSession().getAttribute("products");
 		Ordine ordine = new Ordine();
@@ -248,7 +247,7 @@ public class GestioneOrdiniController extends HttpServlet {
 				order_proxy.setStato(ObjectOrdine.Stato.Spedito);
 				order.setStato(ObjectOrdine.Stato.Spedito);
 				order.setProdotti(carrello);
-
+				
 				ReportSpedizione report = gos.creaReportSpedizione(order, carrello, quantities, imballaggio, corriere);//new ReportSpedizione(order_proxy.getCodiceOrdine(), corriere, imballaggio, order_proxy);          
 
 				gos.preparazioneSpedizioneOrdine(order, report);

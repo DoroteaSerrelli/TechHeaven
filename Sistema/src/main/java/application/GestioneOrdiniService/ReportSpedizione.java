@@ -3,6 +3,7 @@ package application.GestioneOrdiniService;
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import application.GestioneCarrelloService.ItemCarrello;
 import application.GestioneOrdiniService.OrdineException.FormatoCorriereException;
@@ -97,8 +98,8 @@ public class ReportSpedizione {
 		}
 		
 		for(int i = 0; i < prodotti.size(); i++) {
-			if(quantità.get(i) < 0 ||  quantità.get(i) < prodotti.get(i).getQuantita()) {
-				throw new FormatoQuantitaException("Specificare la quantità del prodotto" + prodotti.get(i).getCodiceProdotto() +" pari a quella richiesta dal cliente.");
+			if(quantità.get(i) < 0 ||  quantità.get(i) < prodotti.get(i).getQuantita() || quantità.get(i) > prodotti.get(i).getQuantita()) {
+				throw new FormatoQuantitaException("Specificare la quantità del prodotto " + prodotti.get(i).getCodiceProdotto() +" pari a quella richiesta dal cliente.");
 			}
 		}
 		
@@ -295,14 +296,25 @@ public class ReportSpedizione {
 	    
 	    // Cast dell'oggetto
 	    ReportSpedizione other = (ReportSpedizione) obj;
-
+	    
+	    //prende ora e minuti
+	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+	    
+	    
 	    // Confronto degli attributi significativi
-	    return this.numeroReport == other.numeroReport &&
+	    return 
 	           (this.corriere != null ? this.corriere.equals(other.corriere) : other.corriere == null) &&
 	           (this.imballaggio != null ? this.imballaggio.equals(other.imballaggio) : other.imballaggio == null) &&
 	           (this.dataSpedizione != null ? this.dataSpedizione.equals(other.dataSpedizione) : other.dataSpedizione == null) &&
-	           (this.oraSpedizione != null ? this.oraSpedizione.equals(other.oraSpedizione) : other.oraSpedizione == null) &&
+	           (this.oraSpedizione != null ? (this.oraSpedizione.format(formatter)).equals((other.oraSpedizione).format(formatter)) : other.oraSpedizione == null) &&
 	           (this.ordine != null ? this.ordine.equals(other.ordine) : other.ordine == null);
+	}
+
+	@Override
+	public String toString() {
+		return "ReportSpedizione [productDAO=" + productDAO + ", numeroReport=" + numeroReport + ", corriere="
+				+ corriere + ", imballaggio=" + imballaggio + ", dataSpedizione=" + dataSpedizione + ", oraSpedizione="
+				+ oraSpedizione + ", ordine=" + ordine + "]";
 	}
 
 	

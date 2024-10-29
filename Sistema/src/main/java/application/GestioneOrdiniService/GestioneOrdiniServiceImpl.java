@@ -289,23 +289,24 @@ public class GestioneOrdiniServiceImpl implements GestioneOrdiniService{
 	public Ordine preparazioneSpedizioneOrdine(Ordine order, ReportSpedizione report) throws ErroreSpedizioneOrdineException, OrdineVuotoException, ModalitaAssenteException, SQLException, CloneNotSupportedException, SottocategoriaProdottoException, CategoriaProdottoException, ErroreTipoSpedizioneException {
 		//Si imposta lo stato dell'ordine in 'SPEDITO'
 		order.setStatoAsString("SPEDITO");
-
+		
 		//Ritrovare il pagamento dell'ordine
 		Pagamento payment = PagamentoServiceImpl.createPagamentoOrdine(order.getCodiceOrdine(), paymentDAO);
 
 		//Aggiornamento ordine nel Database
 		orderDAO.doSaveToShip(order, report);
-
+		
 		//Reinserire il pagamento (il metodo doSaveToShip rimuove il pagamento per aggiornare lo stato dell'ordine)
 		PagamentoService gestionePagamentoService = new PagamentoServiceImpl(paymentDAO);
 		gestionePagamentoService.effettuaPagamento(payment);
 
 		//Aggiornamento delle quantità dei prodotti ordinati in magazzino
 		ArrayList<ItemCarrello> orderedProducts = order.getProdotti();
-
+		
 		for(ItemCarrello item : orderedProducts) {
 			//recupero numero scorte in magazzino per quel prodotto
 			int quantity = (productDAO.doRetrieveCompleteByKey(item.getCodiceProdotto())).getQuantita();
+
 			//aggiornamento quantità
 			productDAO.updateQuantity(0, quantity - item.getQuantita());
 		}

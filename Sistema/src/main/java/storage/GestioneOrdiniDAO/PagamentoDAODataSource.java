@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
 
-import javax.sql.DataSource;
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 import application.PagamentoService.Pagamento;
 import application.PagamentoService.PagamentoCartaCredito;

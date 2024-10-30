@@ -1,4 +1,4 @@
-package application.GestioneCatalogoController;
+package application.GestioneCatalogoControl;
 
 import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -103,7 +103,7 @@ public class GestioneCatalogoControllerTest {
 		catalogoController.doPost(request, response);
 		
 		verify(request.getSession()).setAttribute("error", "Prodotto Aggiunto con Successo!");
-		verify(response).sendRedirect(request.getContextPath() + "/GestioneCatalogo");
+		verify(response).sendRedirect(request.getContextPath() + "/Catalogo");
 		
 	}
 
@@ -178,7 +178,7 @@ public class GestioneCatalogoControllerTest {
 		catalogoController.doPost(request, response);
 		
 		verify(request.getSession()).setAttribute("error", "Prodotto Con Top immagine Aggiunto con Successo!");
-		verify(response).sendRedirect(request.getContextPath() + "/GestioneCatalogo");
+		verify(response).sendRedirect(request.getContextPath() + "/Catalogo");
 		
 	}	
 	
@@ -244,7 +244,7 @@ public class GestioneCatalogoControllerTest {
 		catalogoController.doPost(request, response);
 		
 		verify(request.getSession()).setAttribute("error", "Prodotto Eliminato con Successo!");
-		verify(response).sendRedirect(request.getContextPath() + "/GestioneCatalogo");
+		verify(response).sendRedirect(request.getContextPath() + "/Catalogo");
 		
 	}	
 	

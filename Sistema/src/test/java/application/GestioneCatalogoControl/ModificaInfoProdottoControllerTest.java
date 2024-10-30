@@ -1,4 +1,4 @@
-package application.GestioneCatalogoController;
+package application.GestioneCatalogoControl;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;

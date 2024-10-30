@@ -1,36 +1,40 @@
 package application.GestioneApprovigionamentiControl;
 
-import application.AutenticazioneService.AutenticazioneException.FormatoEmailException;
-import application.GestioneApprovvigionamenti.GestioneApprovvigionamentiServiceImpl;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamento;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.FormatoFornitoreException;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.ProdottoVendibileException;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.QuantitaProdottoDisponibileException;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.QuantitaProdottoException;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.CodiceRichiestaException;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.DescrizioneDettaglioException;
-import application.NavigazioneControl.PaginationUtils;
-import application.NavigazioneControl.SearchResult;
-import application.NavigazioneService.ProdottoException;
-import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
-import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
-import application.NavigazioneService.ProxyProdotto;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 
-import storage.GestioneApprovvigionamentiDAO.ApprovvigionamentoDAODataSource;
+import application.AutenticazioneService.AutenticazioneException.FormatoEmailException;
+import application.GestioneApprovvigionamenti.GestioneApprovvigionamentiServiceImpl;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamento;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.CodiceRichiestaException;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.DescrizioneDettaglioException;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.FormatoFornitoreException;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.ProdottoVendibileException;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.QuantitaProdottoDisponibileException;
+import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.QuantitaProdottoException;
+import application.GestioneCatalogoService.GestioneCatalogoServiceImpl;
+import application.GestioneOrdiniService.GestioneOrdiniServiceImpl;
+import application.NavigazioneControl.PaginationUtils;
+import application.NavigazioneService.NavigazioneServiceImpl;
+import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
+import application.NavigazioneService.ProxyProdotto;
+import storage.AutenticazioneDAO.UtenteDAODataSource;
+import storage.GestioneOrdiniDAO.OrdineDAODataSource;
+import storage.GestioneOrdiniDAO.PagamentoDAODataSource;
+import storage.NavigazioneDAO.PhotoControl;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
+import storage.GestioneApprovvigionamentiDAO.ApprovvigionamentoDAODataSource;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 /**
  *
@@ -46,13 +50,36 @@ public class GestioneApprovigionamentiController extends HttpServlet {
 	private ProdottoDAODataSource pdao;
 	private GestioneApprovvigionamentiServiceImpl gas;
 	private PaginationUtils pu;
+	
+	public void init() throws ServletException {
+		DataSource ds = new DataSource();
+		PhotoControl photoControl = new PhotoControl(ds);
+		OrdineDAODataSource orderDAO = new OrdineDAODataSource(ds);
+		PagamentoDAODataSource paymentDAO = new PagamentoDAODataSource(ds);
+		UtenteDAODataSource userDAO = null;
+		ApprovvigionamentoDAODataSource supplyDAO = new ApprovvigionamentoDAODataSource(ds);
+		try {
+			pdao = new ProdottoDAODataSource(ds, photoControl);
+			userDAO = new UtenteDAODataSource(ds);
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		NavigazioneServiceImpl ns = new NavigazioneServiceImpl(pdao);
+		GestioneCatalogoServiceImpl gcs = new GestioneCatalogoServiceImpl(pdao, photoControl);
+		GestioneOrdiniServiceImpl gos = new GestioneOrdiniServiceImpl(orderDAO, userDAO, pdao, paymentDAO);
+		pu = new PaginationUtils(ns, gcs, gos);
+		gas = new GestioneApprovvigionamentiServiceImpl(supplyDAO);
+	}
+
+	
+	
 	//Costrutto per test
-	public GestioneApprovigionamentiController(int perPage, ProdottoDAODataSource productDAO, GestioneApprovvigionamentiServiceImpl gas, 
+	public GestioneApprovigionamentiController(ProdottoDAODataSource pdao, GestioneApprovvigionamentiServiceImpl gas, 
 			PaginationUtils pu) {
-		this.perPage = perPage;
-		this.pdao = productDAO;
 		this.pu = pu;
+		this.pdao = pdao;
 		this.gas = gas;
 	}
 
@@ -65,6 +92,7 @@ public class GestioneApprovigionamentiController extends HttpServlet {
 	 * @throws ServletException if a servlet-specific error occurs
 	 * @throws IOException if an I/O error occurs
 	 */
+	
 	@Override
 	public void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -209,7 +237,7 @@ public class GestioneApprovigionamentiController extends HttpServlet {
 
 		} catch (NumberFormatException | QuantitaProdottoException  e) {
 
-			QuantitaProdottoException ex = new QuantitaProdottoException("La quantità del prodotto specificata non è valida.");
+			QuantitaProdottoException ex = new QuantitaProdottoException("La quantità del prodotto specificata non è valida");
 			request.getSession().setAttribute("error",ex.getMessage());                               
 			response.sendRedirect(request.getContextPath() + "/Approvigionamento");
 

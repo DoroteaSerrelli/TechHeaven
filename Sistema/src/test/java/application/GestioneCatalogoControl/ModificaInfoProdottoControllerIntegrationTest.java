@@ -1,4 +1,4 @@
-package application.GestioneCatalogoController;
+package application.GestioneCatalogoControl;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;

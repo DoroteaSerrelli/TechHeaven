@@ -1,4 +1,4 @@
-package application.GestioneCatalogoController;
+package application.GestioneCatalogoControl;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
@@ -904,7 +904,7 @@ public class GestioneCatalogoControllerIntegrationTest {
 		catalogoController.doPost(request, response);
 		
 		verify(request.getSession()).setAttribute("error", "Prodotto Aggiunto con Successo!");
-		verify(response).sendRedirect(request.getContextPath() + "/GestioneCatalogo");
+		verify(response).sendRedirect(request.getContextPath() + "/Catalogo");
 		
 	}
 	
@@ -1116,7 +1116,7 @@ public class GestioneCatalogoControllerIntegrationTest {
 		catalogoController.doPost(request, response);
 		
 		verify(request.getSession()).setAttribute("error", "Prodotto Aggiunto con Successo!");
-		verify(response).sendRedirect(request.getContextPath() + "/GestioneCatalogo");
+		verify(response).sendRedirect(request.getContextPath() + "/Catalogo");
 		
 	}
 
@@ -1248,7 +1248,7 @@ public class GestioneCatalogoControllerIntegrationTest {
 		catalogoController.doPost(request, response);
 		
 		verify(request.getSession()).setAttribute("error", "Prodotto Eliminato con Successo!");
-		verify(response).sendRedirect(request.getContextPath() + "/GestioneCatalogo");
+		verify(response).sendRedirect(request.getContextPath() + "/Catalogo");
 		
 	}
 }

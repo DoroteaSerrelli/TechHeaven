@@ -79,7 +79,7 @@ public class GestioneApprovvigionamentiServiceImplTest {
 		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false);
 		
-		int quantity = 2;
+		int quantity = 21;
 		String supplier = "Esprinet";
 		String emailSupplier = "info@esprinet.com";
 		String description = "Prova";

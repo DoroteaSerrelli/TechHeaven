@@ -294,7 +294,7 @@ public class GestioneCatalogoController extends HttpServlet {
 				ProxyProdotto pr_todelete = null;
 
 				if(product_id != null) {
-					System.out.println("Sono qui dnetro!");
+
 					pr_todelete = new ProxyProdotto (prod_id, productName, topDescrizione, dettagli, price, Categoria.valueOf(categoria),
 							marca, modello, quantità, inCatalogo, inVetrina );
 				}

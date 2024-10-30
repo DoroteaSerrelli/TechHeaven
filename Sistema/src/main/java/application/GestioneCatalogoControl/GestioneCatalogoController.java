@@ -310,7 +310,7 @@ public class GestioneCatalogoController extends HttpServlet {
 				}
 			}
 
-			response.sendRedirect(request.getContextPath() + "/GestioneCatalogo");
+			response.sendRedirect(request.getContextPath() + "/Catalogo");
 
 		} catch (NumberFormatException | SQLException ex) {
 			Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);

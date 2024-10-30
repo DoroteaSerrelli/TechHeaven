@@ -144,19 +144,19 @@ public class RichiestaApprovvigionamento {
 			int quantità, ProxyProdotto prodotto) throws QuantitaProdottoDisponibileException, FormatoFornitoreException, FormatoEmailException, DescrizioneDettaglioException, QuantitaProdottoException {
 
 		if(prodotto.getQuantita() != 0)
-			throw new QuantitaProdottoDisponibileException("In magazzino sono ancora disponibili delle scorte per il prodotto specificato.");
-		
+			throw new QuantitaProdottoDisponibileException("In magazzino sono ancora disponibili delle scorte per il prodotto specificato");
+
 		if(quantità <= 0)
-			throw new QuantitaProdottoException("La quantità del prodotto specificata non è valida.");
-		
+			throw new QuantitaProdottoException("La quantità del prodotto specificata non è valida");
+
 		if(!checkValidateNominativo(fornitore))
-			throw new FormatoFornitoreException("Il nome del fornitore deve essere una sequenza di lettere, spazi ed, eventualmente, numeri.");
+			throw new FormatoFornitoreException("Il nome del fornitore deve essere una sequenza di lettere, spazi ed, eventualmente, numeri");
 
 		if(!checkValidateEmail(emailFornitore))
-			throw new FormatoEmailException("L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com).");
+			throw new FormatoEmailException("L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com)");
 
 		if(descrizione.isBlank())
-			throw new DescrizioneDettaglioException("Questo campo non puo\' essere vuoto.");
+			throw new DescrizioneDettaglioException("Questo campo non puo\' essere vuoto");
 
 		return true;
 
@@ -432,6 +432,37 @@ public class RichiestaApprovvigionamento {
 		else
 			this.prodotto = prodotto;
 	}
+
+	/**
+	 * Verifica se due oggetti RichiestaApprovvigionamento sono uguali.
+	 * Due richieste di approvvigionamento sono considerate uguali se 
+	 * i loro codici, fornitori, email dei fornitori, descrizioni e quantità
+	 * sono identici.
+	 * 
+	 * @param obj l'oggetto da confrontare con l'istanza corrente
+	 * @return true se gli oggetti sono uguali, false altrimenti
+	 */
+	@Override
+	public boolean equals(Object obj) {
+		// Controlla se l'oggetto da confrontare è la stessa istanza
+		if (this == obj) {
+			return true;
+		}
+		// Controlla se l'oggetto è null o se le classi non corrispondono
+		if (obj == null || getClass() != obj.getClass()) {
+			return false;
+		}
+		// Cast dell'oggetto a RichiestaApprovvigionamento
+		RichiestaApprovvigionamento that = (RichiestaApprovvigionamento) obj;
+		// Confronta i campi significativi per determinare l'uguaglianza
+		return codice == that.codice &&
+				quantità == that.quantità &&
+				fornitore.equals(that.fornitore) &&
+				emailFornitore.equals(that.emailFornitore) &&
+				descrizione.equals(that.descrizione) &&
+				prodotto.equals(that.prodotto);
+	}
+
 
 	/**
 	 * Il metodo fornisce in formato stringa le caratteristiche associate ad

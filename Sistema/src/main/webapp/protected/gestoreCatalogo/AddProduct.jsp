@@ -24,13 +24,16 @@
             fromAnotherPage = true;
         </script> 
         <script src="${pageContext.request.contextPath}/scripts/indexedDBUtils.js"></script>    
-        <div id="error">
+        <div class="errormsg">
             <% String errormsg="";
                 errormsg= (String)request.getSession().getAttribute("error");
-                if(errormsg==null) errormsg="";                                                       
+                String status = (String) request.getSession().getAttribute("status");
+                if(errormsg==null) errormsg="";
+                if(status==null) status="";
             %>
-            <h2> <%=errormsg%> </h2>
+            <p id="addPrError" class="error <%=status%>"> <%=errormsg%> </p>
             <%request.getSession().removeAttribute("error");%>
+            <%request.getSession().removeAttribute("status");%>
         </div>   
          <jsp:include page="/protected/gestoreCatalogo/catalogo_toolbar.jsp"  flush="true"/>                         
      <div class="section-p1">  

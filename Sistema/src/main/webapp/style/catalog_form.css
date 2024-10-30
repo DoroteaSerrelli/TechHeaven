@@ -15,6 +15,12 @@ Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css
     max-width: 600px;
 }
 
+#addPrError.error.invalid{
+    text-align: center; 
+    word-break: break-word; 
+    max-width: 600px; margin: 0 auto
+}
+
 .form-group {
     margin-bottom: 15px;
 }

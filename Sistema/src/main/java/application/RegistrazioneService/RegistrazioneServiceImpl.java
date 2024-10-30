@@ -114,7 +114,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 	 * */
 
 	@Override
-	public ProxyUtente registraCliente(String username, String password, String email, String nome, String cognome, Sesso sex, String telefono,
+	public ProxyUtente registraCliente(String username, String password, String email, String nome, String cognome, String sex, String telefono,
 			Indirizzo indirizzo) throws UtentePresenteException, SQLException, EmailPresenteException, FormatoViaException, FormatoNumCivicoException, FormatoCittaException, FormatoCAPException, FormatoProvinciaException, FormatoUsernameException, FormatoPasswordException, FormatoEmailException, FormatoNomeException, FormatoCognomeException, FormatoGenereException, FormatoTelefonoException, EmailEsistenteException {
 		if(ObjectUtente.checkUsername(username)) {
 			if(userDAO.doRetrieveProxyUserByKey(username) == null) {
@@ -124,7 +124,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 
 							if(Cliente.checkValidate(nome, cognome, sex, telefono, indirizzo)) {
 
-								Cliente profile = new Cliente(email, nome, cognome, sex, telefono, indirizzo);
+								Cliente profile = new Cliente(email, nome, cognome, Sesso.valueOf(sex), telefono, indirizzo);
 								Utente user = new Utente(username, password, profile);
 
 								try {
@@ -218,7 +218,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 	 * */
 
 	@Override
-	public ProxyUtente registraGestoreOrdini(String username, String password, String email, String nome, String cognome, Sesso sex, String telefono,
+	public ProxyUtente registraGestoreOrdini(String username, String password, String email, String nome, String cognome, String sex, String telefono,
 			Indirizzo indirizzo, Ruolo isOrderManager) throws FormatoViaException, FormatoNumCivicoException, FormatoCittaException, FormatoCAPException, FormatoProvinciaException, FormatoUsernameException, FormatoPasswordException, UtentePresenteException, SQLException, FormatoEmailException, FormatoNomeException, FormatoCognomeException, FormatoGenereException, FormatoTelefonoException, EmailEsistenteException {
 		if(ObjectUtente.checkUsername(username)) {
 			if(userDAO.doRetrieveProxyUserByKey(username) == null) {
@@ -227,7 +227,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 						if(profileDAO.doRetrieveByKey(email) == null) {
 
 							if(Cliente.checkValidate(nome, cognome, sex, telefono, indirizzo)) {
-								Cliente profile = new Cliente(email, nome, cognome, sex, telefono, indirizzo);
+								Cliente profile = new Cliente(email, nome, cognome, Sesso.valueOf(sex), telefono, indirizzo);
 								Utente user = new Utente(username, password, profile, isOrderManager);
 
 								try {
@@ -324,7 +324,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 	 * 
 	 * */
 	@Override
-	public ProxyUtente registraGestoreCatalogo(String username, String password, String email, String nome, String cognome, Sesso sex, String telefono,
+	public ProxyUtente registraGestoreCatalogo(String username, String password, String email, String nome, String cognome, String sex, String telefono,
 			Indirizzo indirizzo, Ruolo isCatalogManager) throws FormatoViaException, FormatoNumCivicoException, FormatoCittaException, FormatoCAPException, FormatoProvinciaException, FormatoUsernameException, FormatoPasswordException, UtentePresenteException, SQLException, FormatoEmailException, FormatoNomeException, FormatoCognomeException, FormatoGenereException, FormatoTelefonoException, EmailEsistenteException {
 		if(ObjectUtente.checkUsername(username)) {
 			if(userDAO.doRetrieveProxyUserByKey(username) == null) {
@@ -333,7 +333,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 						if(profileDAO.doRetrieveByKey(email) == null) {
 
 							if(Cliente.checkValidate(nome, cognome, sex, telefono, indirizzo)) {
-								Cliente profile = new Cliente(email, nome, cognome, sex, telefono, indirizzo);
+								Cliente profile = new Cliente(email, nome, cognome, Sesso.valueOf(sex), telefono, indirizzo);
 								Utente user = new Utente(username, password, profile, isCatalogManager);
 
 								try {

@@ -124,7 +124,7 @@ public class Cliente implements Cloneable{
 	 * 									numero di telefono con il formato corretto.
 	 * 
 	 * */
-	public static boolean checkValidate(String nome, String cognome, Sesso sex, String telefono,
+	public static boolean checkValidate(String nome, String cognome, String sex, String telefono,
 			Indirizzo indirizzo) throws FormatoViaException, FormatoNumCivicoException, FormatoCittaException, FormatoCAPException, FormatoProvinciaException, FormatoEmailException, FormatoNomeException, FormatoCognomeException, FormatoGenereException, FormatoTelefonoException {
 		
 		
@@ -138,11 +138,11 @@ public class Cliente implements Cloneable{
 		if(!cognome.matches(nomeCognomePattern))
 			throw new FormatoCognomeException("Il cognome deve contenere solo lettere e, eventualmente, spazi.");
 		
-		if(sex == null)
+		if(sex == null || sex.isBlank() || (!(sex.equalsIgnoreCase(Sesso.M.toString())) && !(sex.equalsIgnoreCase(Sesso.F.toString()))))
 			throw new FormatoGenereException("Specificare il genere.");
 		
 		if(!telefono.matches(telefonoPattern))
-			throw new FormatoTelefonoException("Il formato del numero di telelfono deve essere xxx-xxx-xxxx.");
+			throw new FormatoTelefonoException("Il formato del numero di telefono deve essere xxx-xxx-xxxx.");
 		
 		/*
 		 * Si effettua la verifica dell'indirizzo inserito invocando il metodo checkValidate della

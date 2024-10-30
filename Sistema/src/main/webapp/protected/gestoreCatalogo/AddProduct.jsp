@@ -31,7 +31,7 @@
                 if(errormsg==null) errormsg="";
                 if(status==null) status="";
             %>
-            <p style="text-align: center" class="error <%=status%>"> <%=errormsg%> </p>
+            <p id="addPrError" class="error <%=status%>"> <%=errormsg%> </p>
             <%request.getSession().removeAttribute("error");%>
             <%request.getSession().removeAttribute("status");%>
         </div>   

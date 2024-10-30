@@ -102,9 +102,9 @@ public class ModificaInfoProdottoController extends HttpServlet {
 
 		if(request.getParameter("action") != null){
 			action = request.getParameter("action");
-			request.getSession().setAttribute("action", action);
+			request.getSession().setAttribute("displayGalleryForm", action);
 		}else
-			request.getSession().setAttribute("action", "modify");
+			request.getSession().setAttribute("displayGalleryForm", "modify");
 
 		response.sendRedirect(request.getContextPath()+"/UpdateProductInfos");
 	}

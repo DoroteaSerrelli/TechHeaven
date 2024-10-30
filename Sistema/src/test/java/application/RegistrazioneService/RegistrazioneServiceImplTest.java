@@ -5,6 +5,9 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -512,13 +515,28 @@ public class RegistrazioneServiceImplTest {
 		//Assert
 		assertNotNull(result);
 		assertEquals(username, result.getUsername());
-
+		assertEquals(hashPassword(password).toString(), result.getPassword());
+		
 		//Verify
 		verify(profileDAO).doSave(any(Cliente.class));
 		verify(userDAO).doSave(any(Utente.class));
 		verify(roleDAO).doSave(any(Utente.class), any(Ruolo.class));
 		verify(addressDAO).doSave(any(Indirizzo.class), eq(username));
 
+	}
+	
+	private StringBuilder hashPassword(String password) {
+		StringBuilder hashString = new StringBuilder();
+		try {
+			MessageDigest md = MessageDigest.getInstance("SHA-512");
+			byte[] bytes = md.digest(password.getBytes(StandardCharsets.UTF_8));
+			for (int i = 0; i < bytes.length; i++) {
+				hashString.append(Integer.toHexString((bytes[i] & 0xFF) | 0x100).toLowerCase(), 1, 3);
+			}
+		} catch (NoSuchAlgorithmException e) {
+			System.out.println(e);
+		}
+		return hashString;
 	}
 
 }

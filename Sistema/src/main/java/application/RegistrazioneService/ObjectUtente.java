@@ -312,4 +312,37 @@ public abstract class ObjectUtente implements Cloneable{
 	        throw new AssertionError();
 	    }
 	}
+	
+	/**
+	 * Il metodo confronta due oggetti ObjectUtente per verificare se sono considerati
+	 * equivalenti. Due oggetti sono considerati uguali se hanno lo stesso username e
+	 * la stessa password. Inoltre, vengono confrontati anche i ruoli associati all'utente.
+	 *
+	 * @param obj L'oggetto da confrontare con l'istanza corrente.
+	 * @return true se gli oggetti sono considerati uguali, false altrimenti.
+	 */
+	@Override
+	public boolean equals(Object obj) {
+	    
+	    if (this == obj) {
+	        return true;
+	    }
+	    
+	    if (obj == null || getClass() != obj.getClass()) {
+	        return false;
+	    }
+	    
+	    ObjectUtente other = (ObjectUtente) obj;
+
+	    // Confronto degli attributi username e password
+	    boolean usernameEquals = (username != null) ? username.equals(other.username) : other.username == null;
+	    boolean passwordEquals = (password != null) ? password.equals(other.password) : other.password == null;
+
+	    // Confronto dei ruoli
+	    boolean ruoliEquals = (ruoli != null) ? ruoli.equals(other.ruoli) : other.ruoli == null;
+
+	    // Ritorna true solo se tutti i confronti sono veri
+	    return usernameEquals && passwordEquals && ruoliEquals;
+	}
+
 }

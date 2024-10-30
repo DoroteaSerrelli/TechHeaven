@@ -148,8 +148,8 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 								} catch (SQLException e) {
 									System.out.println("Errore nella memorizzazione nel Database dell'indirizzo dell'utente.");
 								}
-
-								return new ProxyUtente(user.getUsername(), user.getPassword(), user.getRuoli());
+								
+								return new ProxyUtente(username, password, user.getRuoli());
 
 							}
 						} throw new EmailEsistenteException("Non è possibile associare l'email inserita al tuo account. Riprova la registrazione inserendo un'altra email.");
@@ -157,7 +157,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 					return null;
 				}
 			}
-			throw new UtentePresenteException("Non è possibile associare l'username inserita al tuo account. Riprova la registrazione"+
+			throw new UtentePresenteException("Non è possibile associare l'username inserita al tuo account. Riprova la registrazione "+
 					"inserendo un'altra username.");
 		}
 		return null;
@@ -252,7 +252,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 									System.out.println("Errore nella memorizzazione nel Database dell'indirizzo dell'utente.");
 								}
 
-								return new ProxyUtente(user.getUsername(), user.getPassword(), user.getRuoli());
+								return new ProxyUtente(username, password, user.getRuoli());
 							}
 						} 
 						throw new EmailEsistenteException("Non è possibile associare l'email inserita al tuo account. Riprova la registrazione inserendo un'altra email.");
@@ -357,7 +357,7 @@ public class RegistrazioneServiceImpl implements RegistrazioneService{
 								} catch (SQLException e) {
 									System.out.println("Errore nella memorizzazione nel Database dell'indirizzo dell'utente.");
 								}
-								return new ProxyUtente(user.getUsername(), user.getPassword(), user.getRuoli());
+								return new ProxyUtente(username, password, user.getRuoli());
 							}
 						}
 						throw new EmailEsistenteException("Non è possibile associare l'email inserita al tuo account. Riprova la registrazione inserendo un'altra email.");

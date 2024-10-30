@@ -89,7 +89,7 @@ function addOriginalProductDetailsToForm(productDetails) {
 
 function fetchSessionData(callback) {
     $.ajax({
-        url: `${window.contextPath}/FetchSessionData`,
+        url: `${window.contextPath}/GestioneImmaginiProdotto`,
         method: 'GET',
         success: function(response) {
             //Stampa debug Ricezione Galleria tramite ajax (Recupero degli Oggetti in Sessione)

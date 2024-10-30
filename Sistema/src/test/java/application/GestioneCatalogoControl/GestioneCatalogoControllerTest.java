@@ -1,4 +1,4 @@
-package application.GestioneCatalogoController;
+package application.GestioneCatalogoControl;
 
 import static org.mockito.Mockito.*;
 import org.junit.jupiter.api.BeforeEach;

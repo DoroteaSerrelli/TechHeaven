@@ -3,6 +3,7 @@ package application.NavigazioneService;
 import java.sql.SQLException;
 import java.util.Collection;
 
+import application.NavigazioneService.NavigazioneException.ErroreRicercaCategoriaException;
 import application.NavigazioneService.ObjectProdotto.Categoria;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
@@ -63,15 +64,16 @@ public class NavigazioneServiceImpl implements NavigazioneService{
 	 * @throws SQLException 
 	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws ErroreRicercaCategoriaException 
 	 * */
 	@Override
-	public Collection<ProxyProdotto> ricercaProdottoMenu(String c, int page, int perPage) throws SQLException, CategoriaProdottoException, SottocategoriaProdottoException {
+	public Collection<ProxyProdotto> ricercaProdottoMenu(String c, int page, int perPage) throws SQLException, CategoriaProdottoException, SottocategoriaProdottoException, ErroreRicercaCategoriaException {
 		
 		if(!c.equalsIgnoreCase(Categoria.GRANDI_ELETTRODOMESTICI.toString()) &&
 				!c.equalsIgnoreCase(Categoria.PICCOLI_ELETTRODOMESTICI.toString()) &&
 				!c.equalsIgnoreCase(Categoria.PRODOTTI_ELETTRONICA.toString()) &&
 				!c.equalsIgnoreCase(Categoria.TELEFONIA.toString()))
-			return null;
+			throw new ErroreRicercaCategoriaException("Non esiste la categoria scelta per la ricerca");
 		
 		return productDAO.searchingByCategory(null, c, page, perPage);
 	}

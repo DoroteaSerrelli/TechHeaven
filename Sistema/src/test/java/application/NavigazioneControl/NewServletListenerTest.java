@@ -18,6 +18,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import application.NavigazioneService.ProxyProdotto;
+import application.NavigazioneService.NavigazioneException.ErroreRicercaCategoriaException;
 import application.NavigazioneService.ObjectProdotto.Categoria;
 import application.NavigazioneService.ObjectProdotto.Sottocategoria;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
@@ -33,7 +34,7 @@ public class NewServletListenerTest {
 	private ProdottoDAODataSource productDAO;
 	
 	@Test
-	public void testContextInitialized() throws IOException {
+	public void testContextInitialized() throws IOException, ErroreRicercaCategoriaException {
 		productDAO = mock(ProdottoDAODataSource.class);
 		pu = mock(PaginationUtils.class);
 		ServletContextEvent sce = mock(ServletContextEvent.class);

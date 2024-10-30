@@ -3,6 +3,8 @@ package application.NavigazioneControl;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 
+import application.NavigazioneService.NavigazioneException.ErroreRicercaCategoriaException;
+
 /**
  * Web application lifecycle listener.
  *
@@ -21,10 +23,20 @@ public class NewServletListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent sce) {
         
         String categoria = "TELEFONIA"; 
-        sce.getServletContext().setAttribute("telefoni", pu.performPagination(categoria, 1, 6, "menu"));
+        try {
+			sce.getServletContext().setAttribute("telefoni", pu.performPagination(categoria, 1, 6, "menu"));
+		} catch (ErroreRicercaCategoriaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
         String categoria2 = "GRANDI_ELETTRODOMESTICI"; 
-        sce.getServletContext().setAttribute("gr_elettr", pu.performPagination(categoria2, 1, 6, "menu"));
+        try {
+			sce.getServletContext().setAttribute("gr_elettr", pu.performPagination(categoria2, 1, 6, "menu"));
+		} catch (ErroreRicercaCategoriaException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
     }
 

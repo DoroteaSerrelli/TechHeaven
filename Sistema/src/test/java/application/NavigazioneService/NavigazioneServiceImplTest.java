@@ -1,6 +1,7 @@
 package application.NavigazioneService;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 
@@ -12,6 +13,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import application.NavigazioneService.NavigazioneException.ErroreRicercaCategoriaException;
 import application.NavigazioneService.ObjectProdotto.Categoria;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
@@ -36,11 +38,12 @@ public class NavigazioneServiceImplTest {
 	 * @throws SQLException 
 	 * @throws SottocategoriaProdottoException 
 	 * @throws CategoriaProdottoException 
+	 * @throws ErroreRicercaCategoriaException 
 	 * 
 	 * */
 	
 	@Test
-	public void TC7_1_1() throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException {
+	public void TC7_1_1() throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException, ErroreRicercaCategoriaException {
 		
 		Collection<ProxyProdotto> smallCatalogue = new ArrayList<>();
 		ProxyProdotto p1 = new ProxyProdotto(1, "Tablet", "Prova", "Prova", Float.valueOf("129.99"), Categoria.TELEFONIA, "Lenovo", "TabM11", 20, true, true);
@@ -51,16 +54,15 @@ public class NavigazioneServiceImplTest {
 		
 		int page = 1, perPage = 3;
 		String errorCategory = "errorCategory";
-		Mockito.when(productDAO.searchingByCategory(null, errorCategory, page, perPage)).thenReturn(null);
+
+		assertThrows(ErroreRicercaCategoriaException.class , () -> {
+			navigazioneService.ricercaProdottoMenu(errorCategory, page, perPage);
+		});
 		
-		Collection<ProxyProdotto> results = navigazioneService.ricercaProdottoMenu(errorCategory, page, perPage);
-		
-		assertEquals(null, results);
-		verify(productDAO, times(0)).searchingByCategory(null, errorCategory, page, perPage);
 	}
 	
 	@Test
-	public void TC7_1_2() throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException {
+	public void TC7_1_2() throws CategoriaProdottoException, SottocategoriaProdottoException, SQLException, ErroreRicercaCategoriaException {
 		
 		Collection<ProxyProdotto> smallCatalogue = new ArrayList<>();
 		ProxyProdotto p1 = new ProxyProdotto(1, "Tablet", "Prova", "Prova", Float.valueOf("129.99"), Categoria.TELEFONIA, "Lenovo", "TabM11", 20, true, true);

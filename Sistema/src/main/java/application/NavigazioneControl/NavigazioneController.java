@@ -37,7 +37,11 @@ public class NavigazioneController extends HttpServlet {
 	 */
 	protected void processRequest(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
+		
+		// Imposta l'attributo di sessione previous_page con l'URL corrente
+	    String currentPage = request.getRequestURI();
+	    request.getSession().setAttribute("previous_page", currentPage);
+		
 		//Visualizzazione e paginazione dei risultati.
 
 		String keyword = (String)request.getParameter("keyword");
@@ -75,7 +79,7 @@ public class NavigazioneController extends HttpServlet {
 		}
 		pu.detectActionChanges(request, searchType);
 
-		pu.paginateSearchedProducts(request, page, perPage, keyword, searchType);
+		pu.paginateSearchedProducts(request, response, page, perPage, keyword, searchType);
 		response.sendRedirect(request.getContextPath() + "/ResultsPage");
 
 	}

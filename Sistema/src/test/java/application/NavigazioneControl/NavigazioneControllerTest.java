@@ -115,7 +115,7 @@ public class NavigazioneControllerTest {
 		
 		verify(request.getSession()).setAttribute("keyword", keyword);
 		verify(pu).detectActionChanges(request, searchType);
-		verify(pu).paginateSearchedProducts(request, 1, perPage, keyword, searchType);
+		verify(pu).paginateSearchedProducts(request, response, 1, perPage, keyword, searchType);
 		verify(response).sendRedirect(request.getContextPath() + "/ResultsPage");
 		
 	}

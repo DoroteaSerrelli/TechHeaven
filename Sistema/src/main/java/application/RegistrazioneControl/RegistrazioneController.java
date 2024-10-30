@@ -6,17 +6,37 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
+
+import application.AutenticazioneService.AutenticazioneException.EmailEsistenteException;
+import application.AutenticazioneService.AutenticazioneException.FormatoEmailException;
+import application.AutenticazioneService.AutenticazioneException.FormatoTelefonoException;
 import application.RegistrazioneService.Cliente;
 import application.RegistrazioneService.Indirizzo;
 import application.RegistrazioneService.ProxyUtente;
 import application.RegistrazioneService.RegistrazioneException.EmailPresenteException;
+import application.RegistrazioneService.RegistrazioneException.FormatoCAPException;
+import application.RegistrazioneService.RegistrazioneException.FormatoCittaException;
+import application.RegistrazioneService.RegistrazioneException.FormatoCognomeException;
+import application.RegistrazioneService.RegistrazioneException.FormatoGenereException;
+import application.RegistrazioneService.RegistrazioneException.FormatoNomeException;
+import application.RegistrazioneService.RegistrazioneException.FormatoNumCivicoException;
+import application.RegistrazioneService.RegistrazioneException.FormatoPasswordException;
+import application.RegistrazioneService.RegistrazioneException.FormatoProvinciaException;
+import application.RegistrazioneService.RegistrazioneException.FormatoUsernameException;
+import application.RegistrazioneService.RegistrazioneException.FormatoViaException;
 import application.RegistrazioneService.RegistrazioneException.UtentePresenteException;
 import application.RegistrazioneService.RegistrazioneServiceImpl;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import storage.AutenticazioneDAO.ClienteDAODataSource;
 import storage.AutenticazioneDAO.IndirizzoDAODataSource;
+import storage.AutenticazioneDAO.RuoloDAODataSource;
+import storage.AutenticazioneDAO.UtenteDAODataSource;
 
 /**
  * Servlet che gestisce la registrazione di un nuovo utente.
@@ -32,7 +52,51 @@ public class RegistrazioneController extends HttpServlet {
 	 * per la serializzazione dell'oggetto.
 	 */
 	private static final long serialVersionUID = 1L;
-
+	
+	private UtenteDAODataSource userDAO;
+	private DataSource ds;
+	private RuoloDAODataSource roleDAO;
+	private ClienteDAODataSource profileDAO;
+	private IndirizzoDAODataSource addressDAO;
+	private RegistrazioneServiceImpl rs;
+	
+	
+	/**
+	 * Inizializza la servlet, configurando photoControl, productDAO, pu e gcs.
+	 *
+	 * @throws ServletException : se si verifica un errore durante l'inizializzazione
+	 */
+	
+	@Override
+	public void init() throws ServletException {
+		
+		ds = new DataSource();
+		try {
+			userDAO = new UtenteDAODataSource(ds);
+			roleDAO = new RuoloDAODataSource(ds);
+			profileDAO = new ClienteDAODataSource(ds);
+			addressDAO = new IndirizzoDAODataSource(ds);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		rs = new RegistrazioneServiceImpl(userDAO, roleDAO, profileDAO, addressDAO);
+	}
+	
+	
+	//Costruttore per il testing
+	
+	public RegistrazioneController(RegistrazioneServiceImpl rs, UtenteDAODataSource userDAO,
+			RuoloDAODataSource roleDAO, ClienteDAODataSource profileDAO, IndirizzoDAODataSource addressDAO) {
+		
+		this.rs = rs;
+		this.roleDAO = roleDAO;
+		this.userDAO = userDAO;
+		this.profileDAO = profileDAO;
+		this.addressDAO = addressDAO;
+		
+	}
+	
 	/**
 	 * Gestisce la richiesta HTTP GET.
 	 *
@@ -66,7 +130,7 @@ public class RegistrazioneController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-		RegistrazioneServiceImpl reg = new RegistrazioneServiceImpl();
+		
 		String username= request.getParameter("username");
 		String password= request.getParameter("password");
 		String email= request.getParameter("email");
@@ -80,31 +144,40 @@ public class RegistrazioneController extends HttpServlet {
 		String cap= request.getParameter("cap");
 		String provincia= request.getParameter("province");
 		String sesso= request.getParameter("sesso");
-
-		Indirizzo indirizzo = new Indirizzo(via, cv, citta, cap, provincia);
+		
 		ProxyUtente u;
 
 		try {
-			u = reg.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.valueOf(sesso), telefono, indirizzo);
+			
+			Indirizzo indirizzo = new Indirizzo(via, cv, citta, cap, provincia);
+			Indirizzo.checkValidate(indirizzo);
+			
+			u = rs.registraCliente(username, password, email, nome, cognome, sesso, telefono, indirizzo);
 			//Non ci sono utenti nel database con il nome utente pari a 'username' o con indirizzo di posta pari a 'email'
-			IndirizzoDAODataSource indDAO = new IndirizzoDAODataSource();
 
-			ArrayList <Indirizzo> indirizzi = indDAO.doRetrieveAll("Indirizzo.via", u.getUsername());        
+			ArrayList <Indirizzo> indirizzi = addressDAO.doRetrieveAll("Indirizzo.via", u.getUsername());        
 			request.getSession().setAttribute("user", u);
 			request.setAttribute("Indirizzi",indirizzi);
 			response.sendRedirect(request.getContextPath() + "/AreaRiservata");
 
 		}catch(NullPointerException e) {
-			String message = "Non e\' possibile associare l'username inserita al tuo account.\n "
-					+ "Riprova la registrazione inserendo un'altra username.";
-			request.getSession().setAttribute("error", message);
+	
+			request.getSession().setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
 
-		}catch (UtentePresenteException | EmailPresenteException e) {
+		}catch (UtentePresenteException | EmailPresenteException | EmailEsistenteException e) {
 			request.getSession().setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
 
 		}catch(SQLException e) {
+			Logger.getLogger(RegistrazioneController.class.getName()).log(Level.SEVERE, null, e);
+			request.getSession().setAttribute("error", e.getMessage());
+			response.sendRedirect(request.getContextPath()+"/Registrazione");
+			
+		} catch (FormatoUsernameException | FormatoViaException | FormatoNumCivicoException | FormatoCittaException |
+				FormatoCAPException| FormatoProvinciaException |
+				FormatoPasswordException | FormatoEmailException | FormatoNomeException |
+				FormatoCognomeException | FormatoGenereException | FormatoTelefonoException e) {
 			Logger.getLogger(RegistrazioneController.class.getName()).log(Level.SEVERE, null, e);
 			request.getSession().setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath()+"/Registrazione");

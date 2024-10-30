@@ -20,6 +20,7 @@ import application.RegistrazioneService.RegistrazioneException.FormatoPasswordEx
 import application.RegistrazioneService.RegistrazioneException.FormatoProvinciaException;
 import application.RegistrazioneService.RegistrazioneException.FormatoNomeException;
 import application.RegistrazioneService.RegistrazioneException.FormatoNumCivicoException;
+import application.RegistrazioneService.Cliente.Sesso;
 import application.RegistrazioneService.RegistrazioneException.EmailPresenteException;
 import application.RegistrazioneService.RegistrazioneException.FormatoCAPException;
 import application.RegistrazioneService.RegistrazioneException.FormatoCittaException;
@@ -184,324 +185,340 @@ public class RegistrazioneServiceImplTest {
 		String email = "email@example.com";
 		String nome = "Pippo";
 		String cognome = "Pluto";
-		String telefono = "111 234 4444";
+		String telefono = "111-234-4444";
+		String sesso= "M";
+		
 		Indirizzo indirizzo = new Indirizzo(1, "FantasyLand", "12", "Disney", "00000", "FL"); 
 
 		// Act & Assert
 		assertThrows(FormatoUsernameException.class, () -> {
-			registrazioneService.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.M, telefono,
+			registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, telefono,
 					indirizzo);
 		});
 	}
-	
+
 	@Test
 	public void TC1_1_2() throws SQLException {
 		String username = "topolino";
-		String password = "newPassword";
+		String password = "newPassword12";
 		String email = "email@example.com";
 		String nome = "Pippo";
 		String cognome = "Pluto";
-		String telefono = "111 234 4444";
+		String telefono = "111-234-4444";
+		String sesso= "M";
 		ArrayList<Ruolo> mickeyRoles = new ArrayList<>();
 		mickeyRoles.add(new Ruolo("Cliente"));
 		Indirizzo indirizzo = new Indirizzo(1, "FantasyLand", "12", "Disney", "00000", "FL"); 
-		
+
 		ProxyUtente topolino = new ProxyUtente("topolino", "Minnie4Ever", mickeyRoles, userDAO);
-		
+
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(topolino);
-		
+
 		// Act & Assert
 		assertThrows(UtentePresenteException.class, () -> {
-			registrazioneService.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.M, telefono,
+			registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, telefono,
 					indirizzo);
 		});
 	}
-	
+
 	@Test
 	public void TC1_1_3() throws SQLException {
-		String username = "topolino";
+		String username = "paperino";
 		String password = "errorNewPassword";
 		String email = "email@example.com";
 		String nome = "Pippo";
 		String cognome = "Pluto";
-		String telefono = "111 234 4444";
-		
+		String telefono = "111-234-4444";
+		String sesso= "M";
+
 		Indirizzo indirizzo = new Indirizzo(1, "FantasyLand", "12", "Disney", "00000", "FL"); 
-		
-		
+
+
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(null);
-		
+
 		// Act & Assert
 		assertThrows(FormatoPasswordException.class, () -> {
-			registrazioneService.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.M, telefono,
+			registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, telefono,
 					indirizzo);
 		});
 	}
-	
+
 	@Test
 	public void TC1_1_4() throws SQLException {
-		String username = "topolino";
+		String username = "paperino";
 		String password = "newPassword56";
 		String email = "email@example.com";
 		String nome = "Pippo2";
 		String cognome = "Pluto";
-		String telefono = "111 234 4444";
-		
+		String telefono = "111-234-4444";
+		String sesso= "M";
+
 		Indirizzo indirizzo = new Indirizzo(1, "FantasyLand", "12", "Disney", "00000", "FL"); 
-		
-		
+
+
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(null);
-		
+
 		// Act & Assert
 		assertThrows(FormatoNomeException.class, () -> {
-			registrazioneService.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.M, telefono,
+			registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, telefono,
 					indirizzo);
 		});
 	}
-	
+
 	@Test
 	public void TC1_1_5() throws SQLException {
-		String username = "topolino";
+		String username = "paperino";
 		String password = "newPassword56";
 		String email = "email@example.com";
 		String nome = "Pippo";
 		String cognome = "Plu8 to";
-		String telefono = "111 234 4444";
-		
+		String telefono = "111-234-4444";
+		String sesso= "M";
+
 		Indirizzo indirizzo = new Indirizzo(1, "FantasyLand", "12", "Disney", "00000", "FL"); 
-		
-		
+
+
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(null);
-		
+
 		// Act & Assert
 		assertThrows(FormatoCognomeException.class, () -> {
-			registrazioneService.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.M, telefono,
+			registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, telefono,
 					indirizzo);
 		});
 	}
-	
+
 	@Test
 	public void TC1_1_6() throws SQLException {
-		String username = "topolino";
+		String username = "paperino";
 		String password = "newPassword56";
 		String email = "email@example.com";
 		String nome = "Pippo";
 		String cognome = "Pluto";
-		String telefono = "111 234 4444";
+		String telefono = "111-234-4444";
+		String sesso= null;
 		
 		Indirizzo indirizzo = new Indirizzo(1, "FantasyLand", "12", "Disney", "00000", "FL"); 
-		
-		
+
+
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(null);
-		
+
 		// Act & Assert
 		assertThrows(FormatoGenereException.class, () -> {
-			registrazioneService.registraCliente(username, password, email, nome, cognome, null, telefono,
+			registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, telefono,
 					indirizzo);
 		});
 	}
-	
+
 	@Test
 	public void TC1_1_7() throws SQLException {
-		String username = "topolino";
+		String username = "paperino";
 		String password = "newPassword56";
 		String email = "erroremail.example.com";
 		String nome = "Pippo";
 		String cognome = "Pluto";
-		String telefono = "111 234 4444";
-		
+		String telefono = "111-234-4444";
+		String sesso= "M";
+
 		Indirizzo indirizzo = new Indirizzo(1, "FantasyLand", "12", "Disney", "00000", "FL"); 
-		
-		
+
+
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(null);
-		
+
 		// Act & Assert
 		assertThrows(FormatoEmailException.class, () -> {
-			registrazioneService.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.M, telefono,
+			registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, telefono,
 					indirizzo);
 		});
 	}
-	
+
 	@Test
 	public void TC1_1_8() throws SQLException {
-		String username = "topolino";
+		String username = "paperino";
 		String password = "newPassword56";
-		String email = "pippoemail@example.com";
+		String email = "topolino.email@example.com";
 		String nome = "Pippo";
 		String cognome = "Pluto";
-		String telefono = "111 234 4444";
-		
+		String telefono = "111-234-4444";
+		String sesso= "M";
+
 		Indirizzo indirizzo = new Indirizzo(1, "FantasyLand", "12", "Disney", "00000", "FL"); 
-		
+
 		ArrayList<Ruolo> mickeyRoles = new ArrayList<>();
 		mickeyRoles.add(new Ruolo("Cliente"));
-		Cliente mickeyProfile = new Cliente(email, "Mickey", "Mouse", Cliente.Sesso.M, "111-222-4444", indirizzo);
-		
+		Cliente mickeyProfile = new Cliente(email, "Mickey", "Mouse", Sesso.valueOf(sesso), "111-222-4444", indirizzo);
+
 		//Utente topolino = new Utente("topolino", "Minnie4Ever", mickeyProfile);
-		
-		
+
+
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(null);
 		Mockito.when(profileDAO.doRetrieveByKey(email)).thenReturn(mickeyProfile);
-		
+
 		// Act & Assert
 		assertThrows(EmailEsistenteException.class, () -> {
-			registrazioneService.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.M, telefono,
+			registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, telefono,
 					indirizzo);
 		});
 	}
-	
+
 	@Test
 	public void TC1_1_9() throws SQLException {
-		String username = "topolino";
+		String username = "paperino";
 		String password = "newPassword56";
 		String email = "pippoemail@example.com";
 		String nome = "Pippo";
 		String cognome = "Pluto";
-		String errortelefono = "111 234 4444";
-		
+		String errorTelefono = "111 234 4444";
+		String sesso= "M";
+
 		Indirizzo indirizzo = new Indirizzo(1, "FantasyLand", "12", "Disney", "00000", "FL"); 
-		
+
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(null);
 		Mockito.when(profileDAO.doRetrieveByKey(email)).thenReturn(null);
-		
+
 		// Act & Assert
 		assertThrows(FormatoTelefonoException.class, () -> {
-			registrazioneService.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.M, errortelefono,
+			registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, errorTelefono,
 					indirizzo);
 		});
 	}
-	
+
 	@Test
 	public void TC1_2_0() throws SQLException {
-		String username = "topolino";
+		String username = "paperino";
 		String password = "newPassword56";
 		String email = "pippoemail@example.com";
 		String nome = "Pippo";
 		String cognome = "Pluto";
 		String telefono = "111-234-4444";
-		
+		String sesso= "M";
+
 		Indirizzo indirizzo = new Indirizzo(1, "Fant8asyLand", "12", "Disney", "00000", "FL"); 
-		
+
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(null);
 		Mockito.when(profileDAO.doRetrieveByKey(email)).thenReturn(null);
-		
+
 		// Act & Assert
 		assertThrows(FormatoViaException.class, () -> {
-			registrazioneService.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.M, telefono,
+			registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, telefono,
 					indirizzo);
 		});
 	}
-	
+
 	@Test
 	public void TC1_2_1() throws SQLException {
-		String username = "topolino";
+		String username = "paperino";
 		String password = "newPassword56";
 		String email = "pippoemail@example.com";
 		String nome = "Pippo";
 		String cognome = "Pluto";
 		String telefono = "111-234-4444";
-		
+		String sesso= "M";
+
 		Indirizzo indirizzo = new Indirizzo(1, "FantasyLand", "1RR 2", "Disney", "00000", "FL"); 
-		
+
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(null);
 		Mockito.when(profileDAO.doRetrieveByKey(email)).thenReturn(null);
-		
+
 		// Act & Assert
 		assertThrows(FormatoNumCivicoException.class, () -> {
-			registrazioneService.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.M, telefono,
+			registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, telefono,
 					indirizzo);
 		});
 	}
-	
+
 	@Test
 	public void TC1_2_2() throws SQLException {
-		String username = "topolino";
+		String username = "paperino";
 		String password = "newPassword56";
 		String email = "pippoemail@example.com";
 		String nome = "Pippo";
 		String cognome = "Pluto";
 		String telefono = "111-234-4444";
-		
+		String sesso= "M";
+
 		Indirizzo indirizzo = new Indirizzo(1, "FantasyLand", "12", "Dis5ney", "00000", "FL"); 
-		
+
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(null);
 		Mockito.when(profileDAO.doRetrieveByKey(email)).thenReturn(null);
-		
+
 		// Act & Assert
 		assertThrows(FormatoCittaException.class, () -> {
-			registrazioneService.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.M, telefono,
+			registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, telefono,
 					indirizzo);
 		});
 	}
-	
+
 	@Test
 	public void TC1_2_3() throws SQLException {
-		String username = "topolino";
+		String username = "paperino";
 		String password = "newPassword56";
 		String email = "pippoemail@example.com";
 		String nome = "Pippo";
 		String cognome = "Pluto";
 		String telefono = "111-234-4444";
-		
+		String sesso= "M";
+
 		Indirizzo indirizzo = new Indirizzo(1, "FantasyLand", "12", "Disney", "000", "FL"); 
-		
+
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(null);
 		Mockito.when(profileDAO.doRetrieveByKey(email)).thenReturn(null);
-		
+
 		// Act & Assert
 		assertThrows(FormatoCAPException.class, () -> {
-			registrazioneService.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.M, telefono,
+			registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, telefono,
 					indirizzo);
 		});
 	}
-	
+
 	@Test
 	public void TC1_2_4() throws SQLException {
-		String username = "topolino";
+		String username = "paperino";
 		String password = "newPassword56";
 		String email = "pippoemail@example.com";
 		String nome = "Pippo";
 		String cognome = "Pluto";
 		String telefono = "111-234-4444";
-		
+		String sesso= "M";
+
 		Indirizzo indirizzo = new Indirizzo(1, "FantasyLand", "12", "Disney", "00000", "Fl"); 
-		
+
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(null);
 		Mockito.when(profileDAO.doRetrieveByKey(email)).thenReturn(null);
-		
+
 		// Act & Assert
 		assertThrows(FormatoProvinciaException.class, () -> {
-			registrazioneService.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.M, telefono,
+			registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, telefono,
 					indirizzo);
 		});
 	}
-	
+
 	@Test
 	public void TC1_2_5() throws SQLException, UtentePresenteException, EmailPresenteException, FormatoViaException, FormatoNumCivicoException, FormatoCittaException, FormatoCAPException, FormatoProvinciaException, FormatoUsernameException, FormatoPasswordException, FormatoEmailException, FormatoNomeException, FormatoCognomeException, FormatoGenereException, FormatoTelefonoException, EmailEsistenteException {
-		String username = "topolino";
+		String username = "paperino";
 		String password = "newPassword56";
 		String email = "pippoemail@example.com";
 		String nome = "Pippo";
 		String cognome = "Pluto";
 		String telefono = "111-234-4444";
-		
+		String sesso= "M";
+
 		Indirizzo indirizzo = new Indirizzo(1, "FantasyLand", "12", "Disney", "00000", "FL"); 
-		
+
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(null);
 		Mockito.when(profileDAO.doRetrieveByKey(email)).thenReturn(null);
-		
-		ProxyUtente result = registrazioneService.registraCliente(username, password, email, nome, cognome, Cliente.Sesso.M, telefono, indirizzo);
+
+		ProxyUtente result = registrazioneService.registraCliente(username, password, email, nome, cognome, sesso, telefono, indirizzo);
 
 		//Assert
-        assertNotNull(result);
-        assertEquals(username, result.getUsername());
-        
-        //Verify
-        verify(profileDAO).doSave(any(Cliente.class));
-        verify(userDAO).doSave(any(Utente.class));
-        verify(roleDAO).doSave(any(Utente.class), any(Ruolo.class));
-        verify(addressDAO).doSave(any(Indirizzo.class), eq(username));
-		
+		assertNotNull(result);
+		assertEquals(username, result.getUsername());
+
+		//Verify
+		verify(profileDAO).doSave(any(Cliente.class));
+		verify(userDAO).doSave(any(Utente.class));
+		verify(roleDAO).doSave(any(Utente.class), any(Ruolo.class));
+		verify(addressDAO).doSave(any(Indirizzo.class), eq(username));
+
 	}
 
 }

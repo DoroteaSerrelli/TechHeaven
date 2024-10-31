@@ -23,11 +23,11 @@
                  <a href="<%=request.getContextPath()%>/AggiuntaAlCatalogo"><img src="${pageContext.request.contextPath}/view/img/addprodotto.png" alt="Aggiungi un nuovo prodotto"></a>
                  <h6>Aggiungi un nuovo prodotto</h6>
              </div>
-              <div class="fe-box" id="removeProduct" onclick="if(fromAnotherPage)resetProductData('delete')">
+              <div class="fe-box" id="removeProduct" onclick="resetProductData('delete')">
                          <a href="javascript:void(0)"><img src="${pageContext.request.contextPath}/images/site_images/removeprodotto.png" alt="Elimina un prodotto"></a>
                          <h6>Elimina un prodotto</h6>
              </div>
-             <div class="fe-box" id="modifyProperties" onclick="if(fromAnotherPage)resetProductData('modify')">
+             <div class="fe-box" id="modifyProperties" onclick="resetProductData('modify')">
                  <a href="javascript:void(0)"> <img src="${pageContext.request.contextPath}/images/site_images/modproperties.png" alt="Modifica caratteristiche prodotto"> </a>
                  <h6>Modifica caratteristiche prodotto</h6>
              </div>

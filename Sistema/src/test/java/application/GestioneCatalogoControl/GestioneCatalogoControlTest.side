@@ -4328,7 +4328,7 @@
       ],
       "value": ""
     }, {
-      "id": "341e18c7-5578-47fb-9470-f2a68e3e0b73",
+      "id": "2b006f35-f474-4873-908c-7aab2385b389",
       "comment": "",
       "command": "type",
       "target": "id=productFilter",
@@ -4341,17 +4341,232 @@
       ],
       "value": "HP"
     }, {
-      "id": "883245ab-4ab5-4d42-a7da-b11947fd7d07",
+      "id": "1d416d1f-de2a-46dc-8616-8d0047c23a00",
       "comment": "",
       "command": "click",
       "target": "xpath=//td[@class='productName']/h3[text()='HP 15s-fq5040nl']/ancestor::tr//button[1]",
       "targets": [],
       "value": ""
     }, {
-      "id": "9d65d584-0b23-4d9e-8e79-d500b65012bb",
+      "id": "16957bc5-623f-44c3-8587-07e7f4cc57da",
       "comment": "",
       "command": "executeScript",
-      "target": "",
+      "target": "$('#modifyPropertiesForm input[name=\"productId\"]').remove();",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "98c02688-5fe0-4920-a9e8-f2aa37c59406",
+      "comment": "",
+      "command": "click",
+      "target": "id=submitBtn",
+      "targets": [
+        ["id=submitBtn", "id"],
+        ["css=#submitBtn", "css:finder"],
+        ["xpath=//button[@id='submitBtn']", "xpath:attributes"],
+        ["xpath=//form[@id='productForm']/button", "xpath:idRelative"],
+        ["xpath=//section[2]/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "5b0f3d07-3d5e-4226-99c4-16d94fd42c00",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//p[contains(.,'Specificare il prodotto da rimuovere dal catalogo del negozio')]",
+      "targets": [
+        ["css=.error", "css:finder"],
+        ["xpath=//section[@id='modifyPropertiesForm']/div/p", "xpath:idRelative"],
+        ["xpath=//div/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Specificare il prodotto da rimuovere dal catalogo del negozio')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "2ee20800-7908-4e7c-8136-3fa9b9a32bf1",
+    "name": "TC15_1_2Test",
+    "commands": [{
+      "id": "50513e9b-957a-4fd3-8b42-04b47cb9624b",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "99e67628-6aa4-404c-bf8b-d76d9b70505f",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1460x701",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0106f8d7-aa00-4c87-bd27-2892250b1090",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Autenticazione",
+      "targets": [
+        ["linkText=Autenticazione", "linkText"],
+        ["css=#navbar > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Autenticazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Autenticazione')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Autenticazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d8821591-eea0-4d25-8a01-139adaf8e437",
+      "comment": "",
+      "command": "click",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "3f4e7ac8-a4f7-4719-9958-cace60335413",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "mariaGestoreCatalogo"
+    }, {
+      "id": "d28e496b-4c23-47b4-80e8-8be8214fe912",
+      "comment": "",
+      "command": "click",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "13c86795-6fbf-405e-8d0e-be954090a92f",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "01maria01"
+    }, {
+      "id": "4afda82e-c2f2-4932-92ce-5978962b2211",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fb9d03f4-1865-4569-9b0a-8e6ca24e887d",
+      "comment": "",
+      "command": "click",
+      "target": "name=ruolo",
+      "targets": [
+        ["name=ruolo", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='ruolo']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "21ac2324-0971-4771-8475-86f773d03382",
+      "comment": "",
+      "command": "select",
+      "target": "name=ruolo",
+      "targets": [],
+      "value": "label=GestoreCatalogo"
+    }, {
+      "id": "99cba1da-9611-41d3-9502-d8b3b87de0d4",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(2)",
+      "targets": [
+        ["css=option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='GestoreCatalogo']", "xpath:attributes"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'GestoreCatalogo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f2bb128d-f852-47e7-b9a5-120c317139e7",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "91c136d5-cf52-4302-9895-ad07e28bf3b8",
+      "comment": "",
+      "command": "click",
+      "target": "css=#removeProduct img",
+      "targets": [
+        ["css=#removeProduct img", "css:finder"],
+        ["xpath=//img[@alt='Elimina un prodotto']", "xpath:img"],
+        ["xpath=//div[@id='removeProduct']/a/img", "xpath:idRelative"],
+        ["xpath=//div[3]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "60f887ca-a44c-4595-a159-7ac2c06a34a4",
+      "comment": "",
+      "command": "type",
+      "target": "id=productFilter",
+      "targets": [
+        ["id=productFilter", "id"],
+        ["css=#productFilter", "css:finder"],
+        ["xpath=//input[@id='productFilter']", "xpath:attributes"],
+        ["xpath=//section[@id='viewProductsForm']/input", "xpath:idRelative"],
+        ["xpath=//section/input", "xpath:position"]
+      ],
+      "value": "HP"
+    }, {
+      "id": "8eb09ccf-99ec-4c38-b5e6-c2228076dece",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//td[@class='productName']/h3[text()='HP 15s-fq5040nl']/ancestor::tr//button[1]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b5432db7-ffcf-427d-8ec5-d5e490651e3c",
+      "comment": "",
+      "command": "click",
+      "target": "id=submitBtn",
+      "targets": [
+        ["id=submitBtn", "id"],
+        ["css=#submitBtn", "css:finder"],
+        ["xpath=//button[@id='submitBtn']", "xpath:attributes"],
+        ["xpath=//form[@id='productForm']/button", "xpath:idRelative"],
+        ["xpath=//section[2]/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f620bc8c-48ff-4758-ab56-5ceecb38c14a",
+      "comment": "",
+      "command": "verifyTitle",
+      "target": "TechHeaven - Catalogo",
       "targets": [],
       "value": ""
     }]

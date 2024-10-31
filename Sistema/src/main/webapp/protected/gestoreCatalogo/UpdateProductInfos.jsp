@@ -104,10 +104,11 @@
                             un prodotto nullo.
                              -->   
                         <div class="errormsg">
-                            <% errormsg= (String)request.getSession().getAttribute("error");%>
+                             <% errormsg= (String)request.getSession().getAttribute("error");
+                            if(errormsg==null) errormsg="";    %>
                             <p class="error"><%=errormsg%></p>
                         </div>                     
-                    <% request.getSession().removeAttribute("deleteError");%>
+                    <% request.getSession().removeAttribute("error");%>
                     <h2 id="changeable">Modifica Prodotto</h2>
                     <form id="productForm" action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
                         <!-- Product Details Group -->                       

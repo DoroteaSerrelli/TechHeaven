@@ -20,6 +20,11 @@ import application.RegistrazioneService.Ruolo;
 import application.AutenticazioneService.AutenticazioneException.FormatoRuoloException;
 import application.AutenticazioneService.AutenticazioneException.RuoloInesistenteException;
 import storage.AutenticazioneDAO.IndirizzoDAODataSource;
+import storage.AutenticazioneDAO.UtenteDAODataSource;
+import storage.AutenticazioneDAO.RuoloDAODataSource;
+import storage.AutenticazioneDAO.ClienteDAODataSource;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
 
 /**
  * Questa servlet gestisce l'autenticazione degli utenti e le loro informazioni.
@@ -45,6 +50,35 @@ public class AutenticazioneController extends HttpServlet {
 	 * serialVersionUID : è un campo statico finale utilizzato per la serializzazione dell'oggetto.
 	 */
 	private static final long serialVersionUID = 1L;
+	private AutenticazioneServiceImpl loginService;
+	private IndirizzoDAODataSource addressDAO;
+
+	public void init() throws ServletException {
+		DataSource ds = new DataSource();
+		UtenteDAODataSource userDAO = null;
+		RuoloDAODataSource roleDAO = null;
+		ClienteDAODataSource profileDAO = null;
+
+		try {
+			roleDAO = new RuoloDAODataSource(ds);
+			profileDAO = new ClienteDAODataSource(ds);
+			addressDAO = new IndirizzoDAODataSource(ds);
+			userDAO = new UtenteDAODataSource(ds);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		loginService = new AutenticazioneServiceImpl(userDAO, roleDAO, profileDAO, addressDAO);
+	}
+
+
+	//Costrutto per test
+	public AutenticazioneController(AutenticazioneServiceImpl loginService, IndirizzoDAODataSource addressDAO) {
+		this.addressDAO = addressDAO;
+		this.loginService = loginService;
+	}
+
 
 	/**
 	 * Questo metodo gestisce le richieste HTTP GET. 
@@ -72,11 +106,10 @@ public class AutenticazioneController extends HttpServlet {
 		// Verifica valore parametro action
 		String action = request.getParameter("action");
 		if (action != null && !action.isEmpty()) {
-			// Forward to updateUserInfo.jsp if action is specified
-			if (action.equals("updateUserInfo")) {
+
+			if (action.equals("updateUserInfo"))
 				response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
-			}           
-		} else {
+			else 
 			// Forward alla pagina AreaRiservata.jsp se non è stata specificata alcuna azione action
 			request.getRequestDispatcher("AreaRiservata").forward(request, response);
 		}
@@ -106,7 +139,6 @@ public class AutenticazioneController extends HttpServlet {
 				String password = request.getParameter("password");
 				ProxyUtente resultedUser;
 
-				AutenticazioneServiceImpl loginService = new AutenticazioneServiceImpl();
 				resultedUser = loginService.login(username, password);
 
 				if (resultedUser!=null) {
@@ -128,18 +160,19 @@ public class AutenticazioneController extends HttpServlet {
 				// Recupero oggetto user dalla sessione
 				ProxyUtente resultedUser = (ProxyUtente) request.getSession().getAttribute("user");                               
 				String ruolo = request.getParameter("ruolo");
-				
+
 				if(!ruolo.equals("Cliente") && !ruolo.equals("GestoreCatalogo") && !ruolo.equals("GestoreOrdini")) {
 					FormatoRuoloException e = new FormatoRuoloException("Il ruolo specificato non esiste.");
 					request.getSession().setAttribute("errorMessage", e.getMessage());
 					response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
+					return;
 				}
-					
+
 				loadUserAddresses(request);
 
 				ArrayList<Ruolo> ruoli = resultedUser.getRuoli();
 				boolean roleMatched = true; // Flag per verificare se il ruolo scelto è stato trovato
-				
+
 				for (Ruolo r : ruoli) { 
 					if (r.getNomeRuolo().equals(ruolo)) {                                          
 						switch (ruolo) {
@@ -157,7 +190,7 @@ public class AutenticazioneController extends HttpServlet {
 							break;   
 						}
 					}
-                                        else roleMatched = false;
+					else roleMatched = false;
 				}
 				if(!roleMatched){
 					// In caso di assenza del ruolo richiesto, si genera un errore e si ridireziona l'utente alla
@@ -192,8 +225,8 @@ public class AutenticazioneController extends HttpServlet {
 	public void loadUserAddresses(HttpServletRequest request) throws SQLException {
 		ProxyUtente u = (ProxyUtente) request.getSession().getAttribute("user");
 		if (u != null) {
-			IndirizzoDAODataSource indDAO = new IndirizzoDAODataSource();
-			ArrayList<Indirizzo> indirizzi = indDAO.doRetrieveAll("Indirizzo.via", u.getUsername());
+
+			ArrayList<Indirizzo> indirizzi = addressDAO.doRetrieveAll("Indirizzo.via", u.getUsername());
 			request.setAttribute("Indirizzi", indirizzi); 
 		}
 	}

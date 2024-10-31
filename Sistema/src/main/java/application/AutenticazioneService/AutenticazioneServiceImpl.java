@@ -78,11 +78,11 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 
 		ProxyUtente userReal;
 		if((userReal = userDAO.doRetrieveProxyUserByKey(username)) == null)
-			throw new UtenteInesistenteException("Username o password non valide");
+			throw new UtenteInesistenteException("Username o password non corretti");
 		else {
 			Utente client = new Utente("", password, null);
 			if(!client.getPassword().equals(userReal.getPassword()))
-				throw new UtenteInesistenteException("Username o password non valide");
+				throw new UtenteInesistenteException("Username o password non corretti");
 		}
 		userReal.setRuoli(roleDAO.doRetrieveByKey(userReal.getUsername()));
 

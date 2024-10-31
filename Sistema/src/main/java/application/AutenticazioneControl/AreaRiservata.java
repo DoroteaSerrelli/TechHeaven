@@ -11,6 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
+
 import storage.AutenticazioneDAO.IndirizzoDAODataSource;
 
 /**
@@ -20,13 +23,31 @@ import storage.AutenticazioneDAO.IndirizzoDAODataSource;
  */
 
 public class AreaRiservata extends HttpServlet {
-
+	
+	private IndirizzoDAODataSource addressDAO;
+	
 	/**
 	 * serialVersionUID : È un campo statico finale a lungo raggio utilizzato 
 	 * per la serializzazione dell'oggetto.
 	 */
 
 	private static final long serialVersionUID = 1L;
+	
+	public void init() throws ServletException {
+		DataSource ds = new DataSource();
+		try {
+			addressDAO = new IndirizzoDAODataSource(ds);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+	}
+
+	//Costrutto per test
+	public AreaRiservata(IndirizzoDAODataSource address) {
+		this.addressDAO = address;
+	}
+	
 
 	/**
 	 * Gestisce le richieste HTTP GET alla servlet. 
@@ -107,8 +128,8 @@ public class AreaRiservata extends HttpServlet {
 	 * @throws SQLException : se si verifica un errore con il database
 	 */ 
 	private void loadUserAddresses(HttpServletRequest request, ProxyUtente u) throws SQLException {
-		IndirizzoDAODataSource indDAO = new IndirizzoDAODataSource();
-		ArrayList<Indirizzo> indirizzi = indDAO.doRetrieveAll("Indirizzo.via", u.getUsername());
+		
+		ArrayList<Indirizzo> indirizzi = addressDAO.doRetrieveAll("Indirizzo.via", u.getUsername());
 		request.setAttribute("Indirizzi", indirizzi); 
 
 	}

@@ -318,6 +318,7 @@ public class GestioneCatalogoController extends HttpServlet {
 					Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
 					request.getSession().setAttribute("error", ex.getMessage());
 					response.sendRedirect(request.getContextPath()+"/UpdateProductInfos");
+					return;
 				}
 			}
 

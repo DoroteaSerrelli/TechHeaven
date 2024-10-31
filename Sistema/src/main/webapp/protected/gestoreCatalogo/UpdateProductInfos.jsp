@@ -86,18 +86,28 @@
                                  <th><strong>TopDescr</strong></th><!-- Top Descrizione -->
                                  <th><strong>Prezzo</strong></th><!-- Prezzo -->
                              </tr>
-                        <div id="error">
-                            <% String errormsg="";
-                                errormsg= (String)request.getAttribute("error");
-                                if(errormsg==null) errormsg="";                                                       
-                            %>
-                            <%=errormsg%>
-                        </div>                                          
-                    <%%>
+                             <!-- Sezione Errore per Quando l'Utente si trova nel Catalogo o quando visualizza
+                                 la lista dei prodotti da selezionare per modifica o cancellazione.
+                             -->    
+                            <div id="error">
+                                <% String errormsg="";
+                                    errormsg= (String)request.getAttribute("error");
+                                    if(errormsg==null) errormsg="";                    
+                                %>
+                                <%=errormsg%>
+                            </div>                   
                          </table> 
                        <div id="pagination"></div>
             </section>
-                         <section id="modifyPropertiesForm" class="form-section hidden">                            
+                  <section id="modifyPropertiesForm" class="form-section hidden">
+                        <!-- Sezione Errore per Quando l'Utente si trova nel Catalogo e tenta di cancellare
+                            un prodotto nullo.
+                             -->   
+                        <div class="errormsg">
+                            <% errormsg= (String)request.getSession().getAttribute("error");%>
+                            <p class="error"><%=errormsg%></p>
+                        </div>                     
+                    <% request.getSession().removeAttribute("deleteError");%>
                     <h2 id="changeable">Modifica Prodotto</h2>
                     <form id="productForm" action="${pageContext.request.contextPath}/GestioneCatalogoController" method="post" enctype="multipart/form-data">
                         <!-- Product Details Group -->                       

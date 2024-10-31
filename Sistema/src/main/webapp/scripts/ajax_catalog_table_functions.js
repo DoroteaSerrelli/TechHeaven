@@ -9,7 +9,7 @@ function enableModify(){
     $('#modifyPropertiesForm input[name="marca"]').attr('readonly', false);
     $('#modifyPropertiesForm input[name="price"]').attr('readonly', false);
     $('#modifyPropertiesForm input[name="modello"]').attr('readonly', false);
-    $('#modifyPropertiesForm input[name="quantità"]').attr('readonly', false);
+    $('#modifyPropertiesForm input[name="quantita"]').attr('readonly', false);
     
     //Textareas
     $('#modifyPropertiesForm textarea[name="topDescrizione"]').attr('readonly', false);
@@ -28,7 +28,7 @@ function disableModify(){
     $('#modifyPropertiesForm input[name="marca"]').attr('readonly', true);
     $('#modifyPropertiesForm input[name="price"]').attr('readonly', true);
     $('#modifyPropertiesForm input[name="modello"]').attr('readonly', true);
-    $('#modifyPropertiesForm input[name="quantità"]').attr('readonly', true);
+    $('#modifyPropertiesForm input[name="quantita"]').attr('readonly', true);
     
     //Textareas
     $('#modifyPropertiesForm textarea[name="topDescrizione"]').attr('readonly', true);
@@ -47,7 +47,7 @@ function populateFields(product){
     $('#modifyPropertiesForm input[name="marca"]').val(product.marca);
     $('#modifyPropertiesForm input[name="price"]').val(product.prezzo);
     $('#modifyPropertiesForm input[name="modello"]').val(product.modello);
-    $('#modifyPropertiesForm input[name="quantità"]').val(product.quantita);
+    $('#modifyPropertiesForm input[name="quantita"]').val(product.quantita);
     
     $('#modifyPropertiesForm textarea[name="topDescrizione"]').val(product.topDescrizione);
     $('#modifyPropertiesForm textarea[name="dettagli"]').val(product.dettagli); 
@@ -423,7 +423,7 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
             }
             
             // Add Quantity
-            const quantita = formData.get('quantità');
+            const quantita = formData.get('quantita');
             if (quantita) {
                 modifiedData['quantita'] = 
                         { quantita };

@@ -169,7 +169,7 @@
                         <!-- Image and Other Details -->
                         <div class="form-group">
                             <label for="quantità">Quantità</label>
-                            <input type="number" id="quantità" name="quantità" oninput="validateProductID(this, 'Quantità')"> 
+                            <input type="number" id="quantità" name="quantita" oninput="validateProductID(this, 'Quantità')"> 
                             <div id="prodQuantitàError" class="erromsg" style="display:none;"></div>  
                             <label for="inVetrina">In Vetrina</label>
                             <input type="radio" id="inVetrinaTrue" name="inVetrina" value="1">

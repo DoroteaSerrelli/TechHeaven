@@ -248,15 +248,21 @@ public class GestioneCatalogoController extends HttpServlet {
 		try {
 			String action = request.getParameter("action");
 
-
-			int quantità = Integer.parseInt(quantity);
-			int prod_id = Integer.parseInt(product_id);
-
-
 			if(action.equals("addProduct")){
 				// Si recupera l'immagine di presentazione del prodotto
 				Part filePart = request.getPart("file"); 
-
+				int quantità = -1;
+				
+				try {
+					quantità = Integer.parseInt(quantity);
+					
+				}catch (NumberFormatException e) {
+					QuantitaProdottoException ex = new QuantitaProdottoException("La quantità di un prodotto disponibile deve essere almeno 1");
+					Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
+					request.getSession().setAttribute("error", ex.getMessage());
+					System.out.println(ex.getMessage());
+					response.sendRedirect(request.getContextPath()+"/AggiuntaAlCatalogo");
+				}
 				if(filePart == null) {
 
 					gcs.aggiuntaProdottoInCatalogo(product_id, productName, marca, modello, topDescrizione, dettagli, price,
@@ -278,6 +284,8 @@ public class GestioneCatalogoController extends HttpServlet {
 					else 
 						s_categoria = Sottocategoria.valueOf(sottocategoria);
 
+					int prod_id = Integer.parseInt(product_id);
+
 					Prodotto product = new Prodotto(prod_id, productName, topDescrizione, dettagli, price, Categoria.valueOf(categoria),
 							s_categoria, marca, modello, quantità, inCatalogo, inVetrina);  
 
@@ -294,11 +302,13 @@ public class GestioneCatalogoController extends HttpServlet {
 				ProxyProdotto pr_todelete = null;
 
 				if(product_id != null) {
+					int prod_id = Integer.parseInt(product_id);
+					int quantità = Integer.parseInt(quantity);
 
 					pr_todelete = new ProxyProdotto (prod_id, productName, topDescrizione, dettagli, price, Categoria.valueOf(categoria),
 							marca, modello, quantità, inCatalogo, inVetrina );
 				}
-				
+
 				try {              
 
 					gcs.rimozioneProdottoDaCatalogo(pr_todelete, 1, pr_pagina);
@@ -307,6 +317,7 @@ public class GestioneCatalogoController extends HttpServlet {
 				} catch (ProdottoNonInCatalogoException | ProdottoNulloException ex) {
 					Logger.getLogger(GestioneCatalogoController.class.getName()).log(Level.SEVERE, null, ex);
 					request.getSession().setAttribute("error", ex.getMessage());
+					response.sendRedirect(request.getContextPath()+"/UpdateProductInfos");
 				}
 			}
 

@@ -1189,6 +1189,11 @@ public class GestioneCatalogoControllerIntegrationTest {
 		});
 		
 		catalogoController.doPost(request, response);
+		
+		String exMessage = "Specificare il prodotto da rimuovere dal catalogo del negozio";
+		
+		verify(request.getSession()).setAttribute("error", exMessage);
+		verify(response).sendRedirect(request.getContextPath()+"/UpdateProductInfos");
 	}
 	
 	@Test

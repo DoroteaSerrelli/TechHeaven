@@ -4570,6 +4570,632 @@
       "targets": [],
       "value": ""
     }]
+  }, {
+    "id": "784227e4-46d9-4f86-9f69-3809b6ec8f2a",
+    "name": "TC16_1_1_1Test",
+    "commands": [{
+      "id": "f4a04a45-a367-4629-becb-6f20c5378443",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f5cc97a9-89a2-469e-994f-ec323af6265e",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1460x701",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8b78edca-24dd-4a5f-ad8a-3caa739b34b9",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Autenticazione",
+      "targets": [
+        ["linkText=Autenticazione", "linkText"],
+        ["css=#navbar > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Autenticazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Autenticazione')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Autenticazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "c1daa28a-2390-448f-92ed-bc9a9b606849",
+      "comment": "",
+      "command": "click",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "718c1b45-a44b-4042-80e6-fb097e9593a4",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "mariaGestoreCatalogo"
+    }, {
+      "id": "f5a50f4c-14dd-4927-b098-60e27b798e59",
+      "comment": "",
+      "command": "click",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b71aed22-08aa-4e58-a8fe-4a5a95bf169d",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "01maria01"
+    }, {
+      "id": "f7ed3d6a-0e59-4a40-b350-c30a6d6bfacd",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "92725e26-eb40-4864-8735-a5bf949dbf85",
+      "comment": "",
+      "command": "click",
+      "target": "name=ruolo",
+      "targets": [
+        ["name=ruolo", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='ruolo']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "b66ce8bb-3f5e-4bec-b226-cb922b0a4abd",
+      "comment": "",
+      "command": "select",
+      "target": "name=ruolo",
+      "targets": [],
+      "value": "label=GestoreCatalogo"
+    }, {
+      "id": "ee0f3da4-88cf-4f05-ac5e-cafc0ac3c070",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(2)",
+      "targets": [
+        ["css=option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='GestoreCatalogo']", "xpath:attributes"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'GestoreCatalogo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "8fb78c30-f390-4428-b718-7c0deb53dcbc",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ea7daca0-29dd-4956-a9a2-d1000bab8306",
+      "comment": "",
+      "command": "click",
+      "target": "css=#modifyProperties img",
+      "targets": [
+        ["css=#modifyProperties img", "css:finder"],
+        ["xpath=//img[@alt='Modifica caratteristiche prodotto']", "xpath:img"],
+        ["xpath=//div[@id='modifyProperties']/a/img", "xpath:idRelative"],
+        ["xpath=//div[4]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4e3136d4-56d2-4c3d-a784-70bb890905c3",
+      "comment": "",
+      "command": "type",
+      "target": "id=productFilter",
+      "targets": [
+        ["id=productFilter", "id"],
+        ["css=#productFilter", "css:finder"],
+        ["xpath=//input[@id='productFilter']", "xpath:attributes"],
+        ["xpath=//section[@id='viewProductsForm']/input", "xpath:idRelative"],
+        ["xpath=//section/input", "xpath:position"]
+      ],
+      "value": "Xiaomi Redmi Note 13"
+    }, {
+      "id": "aea289a7-2b9d-4f51-a934-60d80c4cd3f9",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//td[@class='productName']/h3[text()='Xiaomi Redmi Note 13']/ancestor::tr//button[1]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bc30af5f-376d-4d86-9849-d0a72ec6e8ef",
+      "comment": "",
+      "command": "executeScript",
+      "target": "const errorInfoToUpdate = \"ERRORE\";",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "74a129bb-81fe-4bf0-ac94-615d2f901c89",
+    "name": "TC16_1_1_2Test",
+    "commands": [{
+      "id": "3770025c-fb25-4f3e-894b-72c494534eb9",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "214cbdeb-1c6d-4eb9-b5f0-47167aeeac98",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1460x701",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c7a6d90f-c75d-4ec4-bf80-10e0b06467ff",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Autenticazione",
+      "targets": [
+        ["linkText=Autenticazione", "linkText"],
+        ["css=#navbar > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Autenticazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Autenticazione')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Autenticazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "410127db-b2ec-4907-a36b-f8136476ad39",
+      "comment": "",
+      "command": "click",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fa186502-721b-4126-b914-b519063946fd",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "mariaGestoreCatalogo"
+    }, {
+      "id": "ff8ae198-d668-41d3-ba27-888b9e72fa7e",
+      "comment": "",
+      "command": "click",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a0515033-30ab-461c-9fd6-a9852f3b178e",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "01maria01"
+    }, {
+      "id": "70bd909b-b064-4654-91c2-b8b33605cae2",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "75dbf6e2-be03-445f-b455-be6881a016c5",
+      "comment": "",
+      "command": "click",
+      "target": "name=ruolo",
+      "targets": [
+        ["name=ruolo", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='ruolo']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "43f075af-cd77-4654-b53b-61933e8acb70",
+      "comment": "",
+      "command": "select",
+      "target": "name=ruolo",
+      "targets": [],
+      "value": "label=GestoreCatalogo"
+    }, {
+      "id": "11519890-638d-48e7-b0bc-5a2b8a7aa85b",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(2)",
+      "targets": [
+        ["css=option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='GestoreCatalogo']", "xpath:attributes"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'GestoreCatalogo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "0471d3c1-5773-4609-8bde-9cf602c1d4f3",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "77f468be-9a20-41c9-80fa-471fd175a575",
+      "comment": "",
+      "command": "click",
+      "target": "css=#modifyProperties img",
+      "targets": [
+        ["css=#modifyProperties img", "css:finder"],
+        ["xpath=//img[@alt='Modifica caratteristiche prodotto']", "xpath:img"],
+        ["xpath=//div[@id='modifyProperties']/a/img", "xpath:idRelative"],
+        ["xpath=//div[4]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f65484d3-973d-42db-9d1b-02cd67d242ee",
+      "comment": "",
+      "command": "type",
+      "target": "id=productFilter",
+      "targets": [
+        ["id=productFilter", "id"],
+        ["css=#productFilter", "css:finder"],
+        ["xpath=//input[@id='productFilter']", "xpath:attributes"],
+        ["xpath=//section[@id='viewProductsForm']/input", "xpath:idRelative"],
+        ["xpath=//section/input", "xpath:position"]
+      ],
+      "value": "Xiaomi Redmi Note 13"
+    }, {
+      "id": "5d69fe9b-c59d-4a85-8f9b-a2c99ec7d85d",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//td[@class='productName']/h3[text()='Xiaomi Redmi Note 13']/ancestor::tr//button[1]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ef757efe-15e4-4380-a96e-287ae1b131e0",
+      "comment": "",
+      "command": "check",
+      "target": "id=descriptionCheckbox",
+      "targets": [
+        ["id=descriptionCheckbox", "id"],
+        ["name=descriptionCheckbox", "name"],
+        ["css=#descriptionCheckbox", "css:finder"],
+        ["xpath=//input[@id='descriptionCheckbox']", "xpath:attributes"],
+        ["xpath=//form[@id='productForm']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4afd0eec-84eb-4314-8d6f-ae4fe7945c64",
+      "comment": "",
+      "command": "executeScript",
+      "target": "document.getElementById('descriptionCheckbox').dispatchEvent(new Event('change'));",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fad58fbf-9f60-4eef-a857-339565353266",
+      "comment": "",
+      "command": "executeScript",
+      "target": "document.getElementsByName('topDescrizione')[0].value = '';",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "33f75fb6-2e1a-4734-95ec-72f8045c69c0",
+      "comment": "",
+      "command": "click",
+      "target": "id=submitBtn",
+      "targets": [
+        ["id=submitBtn", "id"],
+        ["css=#submitBtn", "css:finder"],
+        ["xpath=//button[@id='submitBtn']", "xpath:attributes"],
+        ["xpath=//form[@id='productForm']/button", "xpath:idRelative"],
+        ["xpath=//section[2]/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7aea4843-b363-46eb-b095-ef08f163e343",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=prodDescrizioneError",
+      "targets": [
+        ["id=prodDescrizioneError", "id"],
+        ["css=#prodDescrizioneError", "css:finder"],
+        ["xpath=//div[@id='prodDescrizioneError']", "xpath:attributes"],
+        ["xpath=//div[@id='descriptionGroup']/div", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div", "xpath:position"]
+      ],
+      "value": "La descrizione di presentazione non può essere vuota"
+    }]
+  }, {
+    "id": "951bd026-63f5-44f8-8bbc-306600da80b3",
+    "name": "TC16_1_1_3Test",
+    "commands": [{
+      "id": "f43e8c75-2bb1-450d-af58-37f31fefe3c4",
+      "comment": "",
+      "command": "open",
+      "target": "/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2016cc4c-ff52-4c7d-a68e-dd93e5b36614",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1460x701",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fc0440c7-9606-4974-aa20-be8e7fe3e28a",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Autenticazione",
+      "targets": [
+        ["linkText=Autenticazione", "linkText"],
+        ["css=#navbar > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Autenticazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Autenticazione')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Autenticazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1bf0b20c-f43d-4204-aff7-b6e352ae5e6a",
+      "comment": "",
+      "command": "click",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "51a953b4-dd95-4686-8935-8a0458a33e2d",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "mariaGestoreCatalogo"
+    }, {
+      "id": "41689eac-3d6f-44e1-b0db-b9f46128cc82",
+      "comment": "",
+      "command": "click",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8b799d01-8077-4fa8-8faa-9398729f334f",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "01maria01"
+    }, {
+      "id": "04a11a27-e3a2-4398-bc1e-64fa48d3ccb9",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "1cf60945-d332-4480-b29c-c454fbb441cf",
+      "comment": "",
+      "command": "click",
+      "target": "name=ruolo",
+      "targets": [
+        ["name=ruolo", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='ruolo']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "188a1ba2-87c4-4d3c-a2a0-a7a5fd70d76c",
+      "comment": "",
+      "command": "select",
+      "target": "name=ruolo",
+      "targets": [],
+      "value": "label=GestoreCatalogo"
+    }, {
+      "id": "9bb961ea-56cd-41df-8d77-506f14ed5bc4",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(2)",
+      "targets": [
+        ["css=option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='GestoreCatalogo']", "xpath:attributes"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'GestoreCatalogo')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7e5b9227-c54d-45af-bee0-527fbfe70bb6",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "e61eaa2e-9b5f-4824-8812-9eb43f020fd1",
+      "comment": "",
+      "command": "click",
+      "target": "css=#modifyProperties img",
+      "targets": [
+        ["css=#modifyProperties img", "css:finder"],
+        ["xpath=//img[@alt='Modifica caratteristiche prodotto']", "xpath:img"],
+        ["xpath=//div[@id='modifyProperties']/a/img", "xpath:idRelative"],
+        ["xpath=//div[4]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f23160bb-148a-4cc2-9385-fe9112a352da",
+      "comment": "",
+      "command": "type",
+      "target": "id=productFilter",
+      "targets": [
+        ["id=productFilter", "id"],
+        ["css=#productFilter", "css:finder"],
+        ["xpath=//input[@id='productFilter']", "xpath:attributes"],
+        ["xpath=//section[@id='viewProductsForm']/input", "xpath:idRelative"],
+        ["xpath=//section/input", "xpath:position"]
+      ],
+      "value": "Xiaomi Redmi Note 13"
+    }, {
+      "id": "27259e88-c092-4dbd-a5e6-c7d46514020a",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//td[@class='productName']/h3[text()='Xiaomi Redmi Note 13']/ancestor::tr//button[1]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d9f7ba8c-6dc7-4729-8894-d12da880c7b5",
+      "comment": "",
+      "command": "check",
+      "target": "id=descriptionCheckbox",
+      "targets": [
+        ["id=descriptionCheckbox", "id"],
+        ["name=descriptionCheckbox", "name"],
+        ["css=#descriptionCheckbox", "css:finder"],
+        ["xpath=//input[@id='descriptionCheckbox']", "xpath:attributes"],
+        ["xpath=//form[@id='productForm']/div[2]/input", "xpath:idRelative"],
+        ["xpath=//div[2]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "618387ba-1481-420f-8a55-2cabe896015c",
+      "comment": "",
+      "command": "executeScript",
+      "target": "document.getElementById('descriptionCheckbox').dispatchEvent(new Event('change'));",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "87a41137-8131-4e9e-9032-00e32f45c375",
+      "comment": "",
+      "command": "type",
+      "target": "name=topDescrizione",
+      "targets": [
+        ["name=topDescrizione", "name"],
+        ["css=textarea:nth-child(2)", "css:finder"],
+        ["xpath=//textarea[@name='topDescrizione']", "xpath:attributes"],
+        ["xpath=//div[@id='descriptionGroup']/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "Prova"
+    }, {
+      "id": "c9e4a067-e002-4d98-b0c8-06e88b1c932a",
+      "comment": "",
+      "command": "click",
+      "target": "id=submitBtn",
+      "targets": [
+        ["id=submitBtn", "id"],
+        ["css=#submitBtn", "css:finder"],
+        ["xpath=//button[@id='submitBtn']", "xpath:attributes"],
+        ["xpath=//form[@id='productForm']/button", "xpath:idRelative"],
+        ["xpath=//section[2]/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "640f3655-bab6-472e-aa77-78679498c067",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=updateMessage",
+      "targets": [
+        ["id=updateMessage", "id"],
+        ["css=#updateMessage", "css:finder"],
+        ["xpath=//p[@id='updateMessage']", "xpath:attributes"],
+        ["xpath=//div[3]/p", "xpath:position"]
+      ],
+      "value": "La descrizione di presentazione non può essere vuota"
+    }]
   }],
   "suites": [{
     "id": "a03eb085-1e87-4aaa-a955-faafbb51ce39",

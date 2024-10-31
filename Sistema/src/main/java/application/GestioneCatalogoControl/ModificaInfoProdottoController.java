@@ -152,14 +152,9 @@ public class ModificaInfoProdottoController extends HttpServlet {
 		System.out.println("JSON CODICE" + productId);
 		// Chiamata al metodo per aggiornare le informazioni del prodotto
 
-		String jsonResponse;
+		String jsonResponse="";
 		try {
 			jsonResponse = updateProductInfos(modifiedData, originalProductDetails, productId, request, response);
-			// Imposta il tipo di contenuto e la codifica della risposta
-			response.setContentType("application/json");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(jsonResponse);
-
 			
 		} catch (ErroreSpecificaAggiornamentoException |
 				ProdottoAggiornatoException|
@@ -173,14 +168,22 @@ public class ModificaInfoProdottoController extends HttpServlet {
 				ProdottoNonInCatalogoException |
 				QuantitaProdottoException |
 				FormatoVetrinaException e) {
-
-			request.setAttribute("error", e.getMessage());
-			response.sendRedirect(request.getContextPath()+"/UpdateProductInfos");
+			// Crea una mappa per memorizzare la risposta di errore JSON
+			Map<String, String> responseMap = new HashMap<>();
+			responseMap.put("message", e.getMessage());
+			responseMap.put("redirectUrl", request.getContextPath() + "/UpdateProductInfos");
+			request.getSession().setAttribute("error", e.getMessage());
+			// Conversione della mappa in una stringa JSON
+			jsonResponse = gson.toJson(responseMap);
 			
 		} catch (SQLException e) {
 			request.getSession().setAttribute("error", e.getMessage());
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
 		}
+		// Imposta il tipo di contenuto e la codifica della risposta
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(jsonResponse);
 	}
 
 	/**

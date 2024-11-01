@@ -417,6 +417,10 @@ document.getElementById('submitBtn').addEventListener('click', e => {
         if (document.getElementById('pricingCheckbox').checked) {
             updateGroupData('pricing', ['price'], 'productDetailsField');
         }
+         // Include category and subcategory if category checkbox is selected
+        if (document.getElementById('categoryCheckbox').checked) {
+            updateGroupData('category', ['categoria', 'sottocategoria'], 'productDetailsField');
+        }
 
 
         const inVetrinaTrue = document.getElementById('inVetrinaTrue');

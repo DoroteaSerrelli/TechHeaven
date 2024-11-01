@@ -82,7 +82,17 @@ function addOriginalProductDetailsToForm(productDetails) {
         hiddenOriginalProduct.name = 'originalProductDetails';
         form.appendChild(hiddenOriginalProduct);
     }
+    // Check if the hidden input for original quantity already exists
+    let hiddenOriginalQuantity = document.querySelector('input[name="originalQuantity"]');
+    if (!hiddenOriginalQuantity) {
+        hiddenOriginalQuantity = document.createElement('input');
+        hiddenOriginalQuantity.type = 'hidden';
+        hiddenOriginalQuantity.name = 'originalQuantity';
+        form.appendChild(hiddenOriginalQuantity);
+    }
     
+    // Set the value of the hidden input to the original quantity
+    hiddenOriginalQuantity.value = productDetails.quantita;
     // Set the value of the hidden input to the JSON string
     hiddenOriginalProduct.value = originalProductJson;
 }
@@ -93,7 +103,7 @@ function fetchSessionData(callback) {
         method: 'GET',
         success: function(response) {
             //Stampa debug Ricezione Galleria tramite ajax (Recupero degli Oggetti in Sessione)
-          //  console.log('Session data retrieved successfully:', response);
+           console.log('Session data retrieved successfully:', response);
             const base64Gallery = response.base64Gallery;
             if (callback) {
                 callback(base64Gallery);
@@ -199,7 +209,7 @@ function openModifyForm(product) {
     populateFields(product);   
     // Set other fields as needed
 
-    $('#productForm').attr('action', `${window.contextPath}/ModifyProductsInCatalog`);
+    $('#productForm').attr('action', `${window.contextPath}/ModificaInfoProdottoController`);
 }
 
 function openDeleteForm(product) {
@@ -333,23 +343,18 @@ $(document).ready(function() {
     
 });
 
-
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', () => {
     // Toggle group visibility based on checkbox selection
-    document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
+    document.querySelectorAll('input[type="checkbox"]').forEach(checkbox => {
         checkbox.addEventListener('change', function() {
             const group = this.parentElement.querySelector('div');
-            if (this.checked) {
-                group.classList.remove('hidden');
-            } else {
-                group.classList.add('hidden');
-            }
+            group.classList.toggle('hidden', !this.checked);
         });
     });
 });
 
-document.getElementById('submitBtn').addEventListener('click', function(e) {
-    e.preventDefault(); // Prevent the default form submission
+document.getElementById('submitBtn').addEventListener('click', e => {
+     e.preventDefault(); // Prevent the default form submission
     const form = document.getElementById('productForm');
     const formData = new FormData(form);
     
@@ -363,113 +368,112 @@ document.getElementById('submitBtn').addEventListener('click', function(e) {
         // Directly submit the form for deletion without extra data handling
         form.submit(); // Programmatically submit the form
         
-    } else {
-        if(validateModifyForm()){
-            const modifiedData = {};
-            const productId = formData.get('productId');
-            // Check and add Product Details Group
-            if (document.getElementById('productDetailsCheckbox').checked) {
-                const productName = formData.get('productName');
-                const marca = formData.get('marca');
-                const modello = formData.get('modello');
+    } else { 
+        $('#modifyPropertiesForm input[name="productId"]').attr('disabled', false);
+      if(validateModifyForm()){
+        const form = document.getElementById('productForm');
+        const formData = new FormData(form);
+        const modifiedData = {};
 
-                if (productName && marca && modello) {
-                    modifiedData['productDetails'] = {
-                        productName,
-                        marca,
-                        modello
-                    };
+        // Retrieve productId as an integer, ensuring it’s not null or empty
+        const productId = parseInt(formData.get('productId'), 10);
+        console.log(productId);
+
+        // Helper function to populate modifiedData with selected fields
+        const updateGroupData = (groupKey, fields, radioGroupName) => {
+            const groupData = {};
+            fields.forEach(field => {
+                const value = formData.get(field);
+
+                // Find the radio button associated with this field
+                const radioElement = document.querySelector(`input[name="${radioGroupName}"][value="${field}"]`);
+
+                // Check if the radio button exists and is selected
+                if (radioElement && radioElement.checked && value) {
+                    groupData[field] = value;
                 }
+            });
+            // Handle 'quantita' field specifically, included within this function
+            const quantitaValue = formData.get('quantita'); // Get the quantity value
+            const quantitaRadio = document.querySelector(`input[name="${radioGroupName}"][value="quantita"]`); // Select the radio button for quantita
+
+            // If the quantita radio button is selected and has a value, add it to groupData
+            if (quantitaRadio && quantitaRadio.checked && quantitaValue) {
+                groupData['quantita'] = { 'quantita': quantitaValue }; // Wrap in an object
             }
 
-            // Check and add Description Group
-            if (document.getElementById('descriptionCheckbox').checked) {
-                const topDescrizione = formData.get('topDescrizione');
-                const dettagli = formData.get('dettagli');
-                if (topDescrizione && dettagli) {
-                    modifiedData['descriptions'] = {
-                        topDescrizione,
-                        dettagli
-                    };
-                }
+            if (Object.keys(groupData).length > 0) {
+                modifiedData[groupKey] = groupData;
             }
+        };
 
-            // Check and add Pricing Group
-            if (document.getElementById('pricingCheckbox').checked) {
-                const price = formData.get('price');
+        // Update groups if their checkboxes are checked
+        if (document.getElementById('productDetailsCheckbox').checked) {
+            updateGroupData('productDetails', ['productName', 'marca', 'modello'], 'productDetailsField');
+        }
+        if (document.getElementById('descriptionCheckbox').checked) {
+            updateGroupData('descriptions', ['topDescrizione', 'dettagli'], 'productDetailsField');
+        }
+        if (document.getElementById('pricingCheckbox').checked) {
+            updateGroupData('pricing', ['price'], 'productDetailsField');
+        }
+         // Include category and subcategory if category checkbox is selected
+        if (document.getElementById('categoryCheckbox').checked) {
+            updateGroupData('category', ['categoria', 'sottocategoria'], 'productDetailsField');
+        }
 
-                if (price) {
-                    modifiedData['pricing'] = { price };
-                }
-            }
 
-            // Check and add Category Group
-            if (document.getElementById('categoryCheckbox').checked) {
-                const categoria = formData.get('categoria');
-                const sottocategoria = formData.get('sottocategoria');
+        const inVetrinaTrue = document.getElementById('inVetrinaTrue');
+        const inVetrinaFalse = document.getElementById('inVetrinaFalse');
+        if (inVetrinaTrue.checked) {
+            modifiedData['inVetrina'] = { 'inVetrina': inVetrinaTrue.value }; // Wrap in an object
+        } else if (inVetrinaFalse.checked) {
+            modifiedData['inVetrina'] = { 'inVetrina': inVetrinaFalse.value }; // Wrap in an object
+        }
 
-                if (categoria && sottocategoria) {
-                    modifiedData['category'] = {
-                        categoria,
-                        sottocategoria
-                    };
-                }
-            }
-            
-            // Get inVetrina as an integer
-            const inVetrinaValue = formData.get('inVetrina');
-            if (inVetrinaValue !== null) {
-                modifiedData['inVetrina'] = parseInt(inVetrinaValue, 10); // Convert to integer
-            }
-            
-            // Add Quantity
-            const quantita = formData.get('quantita');
-            if (quantita) {
-                modifiedData['quantita'] = 
-                        { quantita };
-            }
+        // Send AJAX request if there is data to submit
+        if (Object.keys(modifiedData).length > 0) {
+            const jsonData = JSON.stringify({
+                productId,
+                modifiedData,
+                originalProductDetails: JSON.parse(document.querySelector('input[name="originalProductDetails"]').value)
+            });
 
-            // Final Validation before submission
-            if (Object.keys(modifiedData).length > 0) {
-                const jsonData = JSON.stringify({
-                    modifiedData: modifiedData,
-                    originalProductDetails: JSON.parse(document.querySelector('input[name="originalProductDetails"]').value)
-                });
-                console.log('JSON Data to be sent:', jsonData);
-                // Submit the form after preparing all the data
-                $.ajax({
-                    url: form.action,
-                    method: 'POST',
-                    contentType: 'application/json',
-                    data: jsonData,
-                    success: function(response) {
-                        // Assuming the response is a JSON object with message and redirectUrl
-                        console.log(response);
-                       // clearCachedProduct();
-                        // Store the message in sessionStorage or localStorage
-                        sessionStorage.setItem('outputMessage', response.message);
-
-                        // Redirect to the provided URL
+            console.log('Data to be sent:', jsonData);
+            $.ajax({
+                url: form.action,
+                method: 'POST',
+                contentType: 'application/json',
+                data: jsonData,
+                success: response => {
+                    // Split the response to get status and message
+                    const responseParts = response.message.split(": ", 2); // Split into two parts: status and message
+                    const status = responseParts[0]; // This is the status
+                    const message = responseParts[1]; // This is the actual message
+                    //Resetto il Messaggio visualizzato nella riga con id: errormsg
+                    document.getElementById('addPrError').innerHTML="";
+                    document.getElementById('addPrError').classList.remove('invalid');
+                    if (status === "invalid") {
+                        //Assegno il messaggio alla sezione per visualizzare eventuali errori
+                        document.getElementById('addPrError').innerHTML=message;
+                        document.getElementById('addPrError').classList.add('invalid');
+                        console.log(message); // Optionally show the error message
+                }   else
                         window.location.href = response.redirectUrl;
-                    },
-                    error: function(xhr, status, error) {
-                        //clearCachedProduct();
-                        // Assuming the response is a JSON object with message and redirectUrl
-                        // Store the message in sessionStorage or localStorage
-                        sessionStorage.setItem('outputMessage', xhr.message);
+                },
+                error: (xhr, status, error) =>  {
+                    // Assuming the response is a JSON object with message and redirectUrl
+                    // Store the message in sessionStorage or localStorage
+                    console.log(xhr.message);
+                    sessionStorage.setItem('outputMessage', xhr.message);
 
-                        // Redirect to the provided URL
-                        window.location.href = xhr.redirectUrl;
-                    }
-                });
-
-            } else {
-                alert('Assicurati di modificare almeno una sezione e verifica che tutti i campi siano riempiti correttamente.');
-            }
+                    // Redirect to the provided URL
+                    window.location.href = xhr.redirectUrl;
+                }
+            });
+        } else {
+            alert("Seleziona un'informazione da modificare: modello, marca, descrizione in evidenza, descrizione dettagliata, categoria, sottocategoria.");
         }
-        else{
-            alert('Ci sono errori nei dati da modificare, correggili prima di riprovare.');
-        }
-} 
+    }
+    }
 });
-  

@@ -29,6 +29,17 @@ function validatePrice(input, object) {
 
 function validateProductNameorModel(input, object) {
     const productNameRegex = /^[A-Za-z0-9\s]+$/;
+    const productModelRegex = /^[A-Za-z0-9\s-]+$/;
+    if(object===('Modello')){
+        if(!productModelRegex.test(input.value)) {
+            addInvalidMessage("Il "+ object +" deve contenere lettere e, eventualmente numeri, spazi e trattini","prod"+object+"Error");  	     			
+            return false;
+        }
+        else{
+            removeInvalidMessage("prod"+object+"Error");         
+            return true;
+        }
+    }
     if (!productNameRegex.test(input.value)) {
         addInvalidMessage("Il "+ object +" deve contenere numeri e/o lettere","prod"+object+"Error");  	     			
         return false;
@@ -40,7 +51,7 @@ function validateProductNameorModel(input, object) {
 }
 
 function validateBrand(input){
-     const productBrandRegex = /^[A-Za-z]+$/;
+     const productBrandRegex = /^[A-Za-z ]+$/;
     if (!productBrandRegex.test(input.value)) {
         addInvalidMessage("La marca del prodotto deve contenere lettere ed eventualmente spazi", "prodBrandError");	     			
         return false;

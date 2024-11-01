@@ -18,7 +18,7 @@ function validateProductID(input, object) {
 function validatePrice(input, object) {
     var priceRegex = /^[0-9]+(\.[0-9]+)?$/; // Allow whole numbers and decimal numbers
     if (!priceRegex.test(input.value)) {
-        addInvalidMessage("Questo campo non può essere vuoto", "prod" + object + "Error");
+        addInvalidMessage("Il prezzo deve essere un numero con la virgola arrotondato in centesimi", "prod" + object + "Error");
         return false;
     } else {
         removeInvalidMessage("prod" + object + "Error");

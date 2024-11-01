@@ -393,15 +393,6 @@ document.getElementById('submitBtn').addEventListener('click', e => {
                     groupData[field] = value;
                 }
             });
-            // Handle 'quantita' field specifically, included within this function
-            const quantitaValue = formData.get('quantita'); // Get the quantity value
-            const quantitaRadio = document.querySelector(`input[name="${radioGroupName}"][value="quantita"]`); // Select the radio button for quantita
-
-            // If the quantita radio button is selected and has a value, add it to groupData
-            if (quantitaRadio && quantitaRadio.checked && quantitaValue) {
-                groupData['quantita'] = { 'quantita': quantitaValue }; // Wrap in an object
-            }
-
             if (Object.keys(groupData).length > 0) {
                 modifiedData[groupKey] = groupData;
             }
@@ -421,8 +412,15 @@ document.getElementById('submitBtn').addEventListener('click', e => {
         if (document.getElementById('categoryCheckbox').checked) {
             updateGroupData('category', ['categoria', 'sottocategoria'], 'productDetailsField');
         }
-
-
+         // Handle 'quantita' field specifically, included within this function
+            const quantitaValue = formData.get('quantita'); // Get the quantity value
+           const quantitaRadio = document.querySelector(`input[name="productDetailsField"][value="quantita"]`);
+           
+            // If the quantita radio button is selected and has a value, add it to groupData
+            if (quantitaRadio && quantitaRadio.checked && quantitaValue) {
+                modifiedData['quantita'] = { 'quantita': quantitaValue }; // Wrap in an object
+            }
+        
         const inVetrinaTrue = document.getElementById('inVetrinaTrue');
         const inVetrinaFalse = document.getElementById('inVetrinaFalse');
         if (inVetrinaTrue.checked) {

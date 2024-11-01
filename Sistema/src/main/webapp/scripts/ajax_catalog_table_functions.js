@@ -426,9 +426,9 @@ document.getElementById('submitBtn').addEventListener('click', e => {
         const inVetrinaTrue = document.getElementById('inVetrinaTrue');
         const inVetrinaFalse = document.getElementById('inVetrinaFalse');
         if (inVetrinaTrue.checked) {
-            modifiedData['inVetrina'] = 1;
+            modifiedData['inVetrina'] = { 'inVetrina': inVetrinaTrue.value }; // Wrap in an object
         } else if (inVetrinaFalse.checked) {
-            modifiedData['inVetrina'] = 0;
+            modifiedData['inVetrina'] = { 'inVetrina': inVetrinaFalse.value }; // Wrap in an object
         }
 
         // Send AJAX request if there is data to submit

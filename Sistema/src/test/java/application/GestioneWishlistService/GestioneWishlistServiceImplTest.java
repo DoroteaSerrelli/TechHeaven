@@ -203,10 +203,10 @@ public class GestioneWishlistServiceImplTest {
 		ProxyProdotto product1 = new ProxyProdotto(9, "Ariete Handy Force - Scopa elettrica con Filo", "Prova", "Prova", Float.parseFloat("46.00"), 
 				Categoria.PICCOLI_ELETTRODOMESTICI, "Ariete", "Handy Force", 68, true, false, productDAO);
 
-		ProxyProdotto product2 = new ProxyProdotto(1, "Apple Watch SE", "Prova", "Prova", Float.parseFloat("240.00"), 
-				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.SMARTWATCH, "Apple", "Watch SE", 110, true, false, productDAO);
-
-
+		ProxyProdotto product2 = new ProxyProdotto(7, "Dyson Supersonic asciuga capelli", "Prova", "Prova", Float.parseFloat("1399.00"), 
+				Categoria.PICCOLI_ELETTRODOMESTICI, "Dyson", "Supersonic", 45, true, true, productDAO);
+		
+		
 		Wishlist wishlistUser = new Wishlist(user);
 		wishlistUser.setId(1);
 		Collection<ProxyProdotto> productsWish = new ArrayList<>();

@@ -55,7 +55,7 @@ public class Wishlist extends HttpServlet {
 			throws ServletException, IOException {
 		
 		if(request.getSession().getAttribute("Wishlist")==null){
-			System.out.println("STO IN WISHLIST.JAVA");
+			
 			response.sendRedirect(request.getContextPath() + "/GestioneWishlistController?action=viewwishlist");
 			return;
 		}

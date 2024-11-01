@@ -4,8 +4,9 @@
  */
 function validateProductID(input, object) {
     var pridRegex = /^[0-9]+$/;
-    if (!pridRegex.test(input.value)) {      
-        addInvalidMessage(object+" deve essere numerico", "prod"+object+"Error");			
+    if (!pridRegex.test(input.value)) {
+        if(object==='Quantità'){addInvalidMessage("La quantità di un prodotto disponibile deve essere almeno 1", "prod"+object+"Error");}
+        else addInvalidMessage(object+" deve essere numerico", "prod"+object+"Error");			
         return false;
     }
     else{

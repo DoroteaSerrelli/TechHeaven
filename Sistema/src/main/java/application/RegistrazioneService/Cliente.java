@@ -491,4 +491,36 @@ public class Cliente implements Cloneable{
 	    }
 	    return clone;
 	}
+	
+	/**
+	 * Confronta questo oggetto Cliente con un altro oggetto per determinare
+	 * se sono uguali. Due oggetti Cliente sono considerati uguali se i loro
+	 * attributi email, nome, cognome, sesso e telefono sono uguali.
+	 * 
+	 * @param obj L'oggetto da confrontare con l'istanza corrente.
+	 * @return true se gli oggetti sono uguali, false altrimenti.
+	 */
+	@Override
+	public boolean equals(Object obj) {
+	    // Verifica se l'oggetto passato è una referenza a questo stesso oggetto
+	    if (this == obj) {
+	        return true;
+	    }
+	    
+	    // Verifica se l'oggetto passato è di tipo Cliente
+	    if (obj instanceof Cliente) {
+	        Cliente other = (Cliente) obj;
+
+	        // Confronta gli attributi significativi per determinare l'uguaglianza
+	        return (email != null ? email.equals(other.email) : other.email == null) &&
+	               (nome != null ? nome.equals(other.nome) : other.nome == null) &&
+	               (cognome != null ? cognome.equals(other.cognome) : other.cognome == null) &&
+	               (sex != null ? sex.equals(other.sex) : other.sex == null) &&
+	               (telefono != null ? telefono.equals(other.telefono) : other.telefono == null);
+	    }
+	    
+	    // Se l'oggetto non è di tipo Cliente, restituisci false
+	    return false;
+	}
+
 }

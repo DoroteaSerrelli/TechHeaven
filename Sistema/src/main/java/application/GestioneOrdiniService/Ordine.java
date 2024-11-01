@@ -173,5 +173,55 @@ public class Ordine extends ObjectOrdine implements Cloneable{
 		}
 		return clone;
 	}
+	
+	/**
+	 * Confronta l'oggetto corrente con un altro oggetto per verificare
+	 * se sono equivalenti. Due ordini sono considerati equivalenti se
+	 * hanno lo stesso codice, lo stesso acquirente e lo stesso insieme
+	 * di prodotti, indipendentemente dall'ordine in cui appaiono.
+	 *
+	 * @param obj l'oggetto da confrontare con l'oggetto corrente
+	 * @return true se gli oggetti sono equivalenti, false altrimenti
+	 */
+	@Override
+	public boolean equals(Object obj) {
+	    // Verifica se l'oggetto confrontato è la stessa istanza
+	    if (this == obj) {
+	        return true;
+	    }
+	    
+	    // Controlla se l'oggetto è un'istanza di Ordine
+	    if (!(obj instanceof Ordine)) {
+	        return false;
+	    }
+	    
+	    // Cast dell'oggetto a Ordine
+	    Ordine other = (Ordine) obj;
+	    
+	    // Confronto dei codici degli ordini
+	    if (this.getCodiceOrdine() != other.getCodiceOrdine()) {
+	        return false;
+	    }
+	    
+	    // Confronto degli acquirenti
+	    if (!this.acquirente.equals(other.acquirente)) {
+	        return false;
+	    }
+	    
+	    // Confronto della lista di prodotti
+	    if (this.prodotti.size() != other.prodotti.size()) {
+	        return false;
+	    }
+	    
+	    // Verifica che tutti i prodotti siano equivalenti
+	    for (ItemCarrello item : this.prodotti) {
+	        if (!other.prodotti.contains(item)) {
+	            return false;
+	        }
+	    }
+	    
+	    return true; // Gli ordini sono equivalenti
+	}
+
 
 }

@@ -50,20 +50,45 @@ public class PagamentoServiceImpl implements PagamentoService{
 	public  <T extends Pagamento> Pagamento effettuaPagamento(T payment) throws OrdineVuotoException, SQLException, ModalitaAssenteException, CloneNotSupportedException {
 		
 		if (payment instanceof PagamentoContrassegno) {
-			PagamentoContrassegno pagamentoContrassegno = (PagamentoContrassegno) payment.clone();
+			
+			PagamentoContrassegno pagamentoContrassegno = new PagamentoContrassegno();
+			pagamentoContrassegno.setCodicePagamento(payment.getCodicePagamento());
+			pagamentoContrassegno.setOrdine(payment.getOrdine());
+			pagamentoContrassegno.setDataPagamento(payment.getDataPagamento());
+			pagamentoContrassegno.setOraPagamento(payment.getOraPagamento());
+			pagamentoContrassegno.setImporto(payment.getImporto());
+			
 			paymentDAO.doSaveCash(pagamentoContrassegno);
 			return pagamentoContrassegno;
 		}
 
 		if (payment instanceof PagamentoPaypal) {
-			PagamentoPaypal pagamentoPaypal = (PagamentoPaypal) payment.clone();
+			
+			PagamentoPaypal pagamentoPaypal = new PagamentoPaypal();
+			pagamentoPaypal.setCodicePagamento(payment.getCodicePagamento());
+			pagamentoPaypal.setOrdine(payment.getOrdine());
+			pagamentoPaypal.setDataPagamento(payment.getDataPagamento());
+			pagamentoPaypal.setOraPagamento(payment.getOraPagamento());
+			pagamentoPaypal.setImporto(payment.getImporto());
 			paymentDAO.doSavePaypal(pagamentoPaypal);
+			
+			
 			return pagamentoPaypal;
 		}
 
 		if (payment instanceof PagamentoCartaCredito) {
-			PagamentoCartaCredito pagamentoCarta = (PagamentoCartaCredito) payment.clone();
+			PagamentoCartaCredito pagamentoCartaOther = (PagamentoCartaCredito) payment.clone();
+			PagamentoCartaCredito pagamentoCarta = new PagamentoCartaCredito();
+			pagamentoCarta.setCodicePagamento(pagamentoCartaOther.getCodicePagamento());
+			pagamentoCarta.setOrdine(pagamentoCartaOther.getOrdine());
+			pagamentoCarta.setDataPagamento(pagamentoCartaOther.getDataPagamento());
+			pagamentoCarta.setOraPagamento(pagamentoCartaOther.getOraPagamento());
+			pagamentoCarta.setImporto(pagamentoCartaOther.getImporto());
+			pagamentoCarta.setTitolare(pagamentoCartaOther.getTitolare());
+			pagamentoCarta.setNumeroCarta(pagamentoCartaOther.getNumeroCarta());
+			
 			paymentDAO.doSaveCard(pagamentoCarta);
+			
 			return pagamentoCarta;
 		}
 

@@ -190,4 +190,39 @@ public class PagamentoCartaCredito extends Pagamento implements Cloneable{
 		clone.numeroCarta = this.numeroCarta;
 		return clone;
 	}
+	
+	
+	/**
+	 * Verifica se due oggetti PagamentoCartaCredito sono uguali.
+	 * Due oggetti sono considerati uguali se hanno lo stesso codice di pagamento, 
+	 * ordine, importo, nome del titolare e numero della carta.
+	 * 
+	 * @param obj L'oggetto da confrontare con l'istanza corrente.
+	 * @return true se l'oggetto specificato è uguale all'istanza corrente, 
+	 *         false altrimenti.
+	 */
+	
+	@Override
+	public boolean equals(Object obj) {
+	    
+	    if (this == obj) return true;
+
+	    if (obj == null || getClass() != obj.getClass()) return false;
+
+	    // Cast dell'oggetto a PagamentoCartaCredito
+	    PagamentoCartaCredito other = (PagamentoCartaCredito) obj;
+	    
+	    if (!super.equals(obj)) return false;
+	    
+	   
+	    // Confronto del titolare
+	    if (!titolare.equals(other.titolare)) return false;
+
+	    // Confronto del numero della carta
+	    return numeroCarta.equals(other.numeroCarta);
+	   
+	}
+
+	
+	
 }

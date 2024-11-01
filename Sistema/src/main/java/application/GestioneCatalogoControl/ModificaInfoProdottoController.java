@@ -371,7 +371,7 @@ public class ModificaInfoProdottoController extends HttpServlet {
 				} catch (CatalogoException.ProdottoAggiornatoException | ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | CatalogoException.ErroreSpecificaAggiornamentoException ex) {
 					Logger.getLogger(ModificaInfoProdottoController.class.getName()).log(Level.SEVERE, null, ex);
 					System.out.println(ex);
-					return ex.getMessage();                  
+					return "invalid: "+ex.getMessage();                  
 				}
 			}
 		
@@ -382,7 +382,7 @@ public class ModificaInfoProdottoController extends HttpServlet {
 					return "Field aggiornata con successo:"+field+" Nuovo Valore"+modifiedValue+ "\n";
 				} catch (CatalogoException.ProdottoAggiornatoException | ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | CatalogoException.ErroreSpecificaAggiornamentoException ex) {
 					Logger.getLogger(ModificaInfoProdottoController.class.getName()).log(Level.SEVERE, null, ex);
-					return ex.getMessage();  
+				    return "invalid: "+ex.getMessage(); 
 				}
 			}
 		

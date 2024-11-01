@@ -103,10 +103,11 @@
                         <!-- Sezione Errore per Quando l'Utente si trova nel Catalogo e tenta di cancellare
                             un prodotto nullo.
                              -->   
-                        <div class="errormsg">
-                             <% errormsg= (String)request.getSession().getAttribute("error");
-                            if(errormsg==null) errormsg="";    %>
-                            <p class="error"><%=errormsg%></p>
+                             <div class="errormsg">
+                            <% errormsg= (String)request.getSession().getAttribute("error");
+                            String status="invalid";
+                            if(errormsg==null){ errormsg=""; status=""; }  %>
+                            <p id="addPrError" class="error"><%=errormsg%></p>
                         </div>                     
                     <% request.getSession().removeAttribute("error");%>
                     <h2 id="changeable">Modifica Prodotto</h2>
@@ -120,11 +121,14 @@
                             <div id="productDetailsGroup" class="hidden">                              
                                 <label for="productName">Nome Prodotto</label>
                                 <input type="text" id="productName" name="productName">
+                                <input type="radio" name="productDetailsField" value="productName"> <!-- Single-update radio -->
                                 <label for="marca">Marca</label>
                                 <input type="text" id="marca" name="marca" oninput="validateBrand(this)">
+                                <input type="radio" name="productDetailsField" value="marca"> <!-- Single-update radio -->
                                 <div id="prodBrandError" class="erromsg" style="display:none;"></div> 
                                 <label for="modello">Modello</label>
                                 <input type="text" id="modello" name="modello" oninput="validateProductNameorModel(this, 'Modello')">
+                                <input type="radio" name="productDetailsField" value="modello"> <!-- Single-update radio -->
                                 <div id="prodModelloError" class="erromsg" style="display:none;"></div>
                             </div>                          
                         </div>
@@ -134,10 +138,10 @@
                         <input type="checkbox" id="descriptionCheckbox" name="descriptionCheckbox">
                         <label for="descriptionCheckbox">Update Descriptions</label>
                         <div id="descriptionGroup" class="hidden">
-                            <label for="TopDescrizione">Top Descrizione</label>
-                            <textarea name="topDescrizione" rows="5" cols="40" oninput="validateDettailsAndDescription(this, 'Descrizione')"></textarea>
+                            <label for="TopDescrizione">Top Descrizione <input type="radio" name="productDetailsField" value="topDescrizione"> <!-- Single-update radio -->  </label>
+                            <textarea name="topDescrizione" rows="5" cols="40" oninput="validateDettailsAndDescription(this, 'Descrizione')"></textarea>                                      
                             <div id="prodDescrizioneError" class="erromsg" style="display:none;"></div>                           
-                            <label for="Dettagli">Dettagli</label>
+                            <label for="Dettagli">Dettagli <input type="radio" name="productDetailsField" value="dettagli"></label>
                             <textarea name="dettagli" rows="5" cols="40" oninput="validateDettailsAndDescription(this, 'Dettagli')"></textarea>
                             <div id="prodDettagliError" class="erromsg" style="display:none;"></div>
                         </div>
@@ -150,6 +154,7 @@
                         <div id="pricingGroup" class="hidden">
                             <label for="prezzo">Prezzo</label>
                             <input type="text" name="price" oninput="validatePrice(this, 'Prezzo')">
+                            <input type="radio" name="productDetailsField" value="price"> 
                             <div id="prodPrezzoError" class="erromsg" style="display:none;"></div>  
                         </div>
                     </div>
@@ -179,7 +184,7 @@
 
                         <!-- Image and Other Details -->
                         <div class="form-group">
-                            <label for="quantità">Quantità</label>
+                            <label for="quantità">Quantità <input type="radio" name="productDetailsField" value="quantita"> </label>
                             <input type="number" id="quantità" name="quantita" oninput="validateProductID(this, 'Quantità')"> 
                             <div id="prodQuantitàError" class="erromsg" style="display:none;"></div>  
                             <label for="inVetrina">In Vetrina</label>

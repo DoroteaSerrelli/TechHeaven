@@ -370,104 +370,106 @@ document.getElementById('submitBtn').addEventListener('click', e => {
         
     } else { 
         $('#modifyPropertiesForm input[name="productId"]').attr('disabled', false);
-    const form = document.getElementById('productForm');
-    const formData = new FormData(form);
-    const modifiedData = {};
-    
-    // Retrieve productId as an integer, ensuring it’s not null or empty
-    const productId = parseInt(formData.get('productId'), 10);
-    console.log(productId);
+      if(validateModifyForm()){
+        const form = document.getElementById('productForm');
+        const formData = new FormData(form);
+        const modifiedData = {};
 
-    // Helper function to populate modifiedData with selected fields
-    const updateGroupData = (groupKey, fields, radioGroupName) => {
-        const groupData = {};
-        fields.forEach(field => {
-            const value = formData.get(field);
+        // Retrieve productId as an integer, ensuring it’s not null or empty
+        const productId = parseInt(formData.get('productId'), 10);
+        console.log(productId);
 
-            // Find the radio button associated with this field
-            const radioElement = document.querySelector(`input[name="${radioGroupName}"][value="${field}"]`);
+        // Helper function to populate modifiedData with selected fields
+        const updateGroupData = (groupKey, fields, radioGroupName) => {
+            const groupData = {};
+            fields.forEach(field => {
+                const value = formData.get(field);
 
-            // Check if the radio button exists and is selected
-            if (radioElement && radioElement.checked && value) {
-                groupData[field] = value;
+                // Find the radio button associated with this field
+                const radioElement = document.querySelector(`input[name="${radioGroupName}"][value="${field}"]`);
+
+                // Check if the radio button exists and is selected
+                if (radioElement && radioElement.checked && value) {
+                    groupData[field] = value;
+                }
+            });
+            // Handle 'quantita' field specifically, included within this function
+            const quantitaValue = formData.get('quantita'); // Get the quantity value
+            const quantitaRadio = document.querySelector(`input[name="${radioGroupName}"][value="quantita"]`); // Select the radio button for quantita
+
+            // If the quantita radio button is selected and has a value, add it to groupData
+            if (quantitaRadio && quantitaRadio.checked && quantitaValue) {
+                groupData['quantita'] = { 'quantita': quantitaValue }; // Wrap in an object
             }
-        });
-        // Handle 'quantita' field specifically, included within this function
-        const quantitaValue = formData.get('quantita'); // Get the quantity value
-        const quantitaRadio = document.querySelector(`input[name="${radioGroupName}"][value="quantita"]`); // Select the radio button for quantita
 
-        // If the quantita radio button is selected and has a value, add it to groupData
-        if (quantitaRadio && quantitaRadio.checked && quantitaValue) {
-            groupData['quantita'] = { 'quantita': quantitaValue }; // Wrap in an object
+            if (Object.keys(groupData).length > 0) {
+                modifiedData[groupKey] = groupData;
+            }
+        };
+
+        // Update groups if their checkboxes are checked
+        if (document.getElementById('productDetailsCheckbox').checked) {
+            updateGroupData('productDetails', ['productName', 'marca', 'modello'], 'productDetailsField');
+        }
+        if (document.getElementById('descriptionCheckbox').checked) {
+            updateGroupData('descriptions', ['topDescrizione', 'dettagli'], 'productDetailsField');
+        }
+        if (document.getElementById('pricingCheckbox').checked) {
+            updateGroupData('pricing', ['price'], 'productDetailsField');
         }
 
-        if (Object.keys(groupData).length > 0) {
-            modifiedData[groupKey] = groupData;
+
+        const inVetrinaTrue = document.getElementById('inVetrinaTrue');
+        const inVetrinaFalse = document.getElementById('inVetrinaFalse');
+        if (inVetrinaTrue.checked) {
+            modifiedData['inVetrina'] = 1;
+        } else if (inVetrinaFalse.checked) {
+            modifiedData['inVetrina'] = 0;
         }
-    };
 
-    // Update groups if their checkboxes are checked
-    if (document.getElementById('productDetailsCheckbox').checked) {
-        updateGroupData('productDetails', ['productName', 'marca', 'modello'], 'productDetailsField');
-    }
-    if (document.getElementById('descriptionCheckbox').checked) {
-        updateGroupData('descriptions', ['topDescrizione', 'dettagli'], 'productDetailsField');
-    }
-    if (document.getElementById('pricingCheckbox').checked) {
-        updateGroupData('pricing', ['price'], 'productDetailsField');
-    }
+        // Send AJAX request if there is data to submit
+        if (Object.keys(modifiedData).length > 0) {
+            const jsonData = JSON.stringify({
+                productId,
+                modifiedData,
+                originalProductDetails: JSON.parse(document.querySelector('input[name="originalProductDetails"]').value)
+            });
 
+            console.log('Data to be sent:', jsonData);
+            $.ajax({
+                url: form.action,
+                method: 'POST',
+                contentType: 'application/json',
+                data: jsonData,
+                success: response => {
+                    // Split the response to get status and message
+                    const responseParts = response.message.split(": ", 2); // Split into two parts: status and message
+                    const status = responseParts[0]; // This is the status
+                    const message = responseParts[1]; // This is the actual message
+                    //Resetto il Messaggio visualizzato nella riga con id: errormsg
+                    document.getElementById('addPrError').innerHTML="";
+                    document.getElementById('addPrError').classList.remove('invalid');
+                    if (status === "invalid") {
+                        //Assegno il messaggio alla sezione per visualizzare eventuali errori
+                        document.getElementById('addPrError').innerHTML=message;
+                        document.getElementById('addPrError').classList.add('invalid');
+                        console.log(message); // Optionally show the error message
+                }   else
+                        window.location.href = response.redirectUrl;
+                },
+                error: (xhr, status, error) =>  {
+                    // Assuming the response is a JSON object with message and redirectUrl
+                    // Store the message in sessionStorage or localStorage
+                    console.log(xhr.message);
+                    sessionStorage.setItem('outputMessage', xhr.message);
 
-    const inVetrinaTrue = document.getElementById('inVetrinaTrue');
-    const inVetrinaFalse = document.getElementById('inVetrinaFalse');
-    if (inVetrinaTrue.checked) {
-        modifiedData['inVetrina'] = 1;
-    } else if (inVetrinaFalse.checked) {
-        modifiedData['inVetrina'] = 0;
-    }
-
-    // Send AJAX request if there is data to submit
-    if (Object.keys(modifiedData).length > 0) {
-        const jsonData = JSON.stringify({
-            productId,
-            modifiedData,
-            originalProductDetails: JSON.parse(document.querySelector('input[name="originalProductDetails"]').value)
-        });
-        
-        console.log('Data to be sent:', jsonData);
-        $.ajax({
-            url: form.action,
-            method: 'POST',
-            contentType: 'application/json',
-            data: jsonData,
-            success: response => {
-                // Split the response to get status and message
-                const responseParts = response.message.split(": ", 2); // Split into two parts: status and message
-                const status = responseParts[0]; // This is the status
-                const message = responseParts[1]; // This is the actual message
-                //Resetto il Messaggio visualizzato nella riga con id: errormsg
-                document.getElementById('addPrError').innerHTML="";
-                document.getElementById('addPrError').classList.remove('invalid');
-                if (status === "invalid") {
-                    //Assegno il messaggio alla sezione per visualizzare eventuali errori
-                    document.getElementById('addPrError').innerHTML=message;
-                    document.getElementById('addPrError').classList.add('invalid');
-                    console.log(message); // Optionally show the error message
-            }   else
-                    window.location.href = response.redirectUrl;
-            },
-            error: (xhr, status, error) =>  {
-                // Assuming the response is a JSON object with message and redirectUrl
-                // Store the message in sessionStorage or localStorage
-                console.log(xhr.message);
-                sessionStorage.setItem('outputMessage', xhr.message);
-
-                // Redirect to the provided URL
-                window.location.href = xhr.redirectUrl;
-            }
-        });
-    } else {
-        alert("Seleziona un'informazione da modificare: modello, marca, descrizione in evidenza, descrizione dettagliata, categoria, sottocategoria.");
+                    // Redirect to the provided URL
+                    window.location.href = xhr.redirectUrl;
+                }
+            });
+        } else {
+            alert("Seleziona un'informazione da modificare: modello, marca, descrizione in evidenza, descrizione dettagliata, categoria, sottocategoria.");
+        }
     }
     }
 });

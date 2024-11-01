@@ -1248,14 +1248,14 @@ public class GestioneCatalogoServiceImplTest {
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 0, true, false);
 		ProxyProdotto product2 = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
-				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
+				Categoria.TELEFONIA, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
 
 		ProxyProdotto doUpdateProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
 
 
 		Prodotto doUpdate = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
-				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
+				Categoria.TELEFONIA, "Xiaomi", "Redmi Note 13", 180, true, false);
 
 
 		Collection<ProxyProdotto> catalogue = new ArrayList<>();
@@ -1273,7 +1273,7 @@ public class GestioneCatalogoServiceImplTest {
 		int perPage = 5;
 
 		ProxyProdotto updatedProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
-				Categoria.valueOf(updatedData), Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
+				Categoria.valueOf(updatedData), "Xiaomi", "Redmi Note 13", 180, true, false);
 
 
 		Collection<ProxyProdotto> expectedCatalogue = new ArrayList<>();

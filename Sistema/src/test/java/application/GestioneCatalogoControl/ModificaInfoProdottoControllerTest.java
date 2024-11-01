@@ -285,7 +285,7 @@ public class ModificaInfoProdottoControllerTest {
 		
 		
 		Prodotto originalProduct = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
-				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
+				Categoria.TELEFONIA, "Xiaomi", "Redmi Note 13", 180, true, false);
 		
 		
 		String inputJson = "{"
@@ -304,7 +304,7 @@ public class ModificaInfoProdottoControllerTest {
 		        + "   \"topDescrizione\": \"Prova\","
 		        + "   \"dettagli\": \"Prova\","
 		        + "   \"categoria\": \"Telefonia\","
-		        + "   \"sottocategoria\": \"Smartphone\","
+		        + "   \"sottocategoria\": \"\","
 		        + "   \"inVetrina\": false,"
 		        + "   \"inCatalogo\": true"
 		        + "}"

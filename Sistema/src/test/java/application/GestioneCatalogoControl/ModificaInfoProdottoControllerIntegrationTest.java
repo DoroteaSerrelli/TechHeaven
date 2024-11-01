@@ -942,10 +942,10 @@ public class ModificaInfoProdottoControllerIntegrationTest {
 		
 		
 		Prodotto originalProduct = new Prodotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
-				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false);
+				Categoria.TELEFONIA, "Xiaomi", "Redmi Note 13", 180, true, false);
 		
 		ProxyProdotto originalProxyProduct = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
-				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
+				Categoria.TELEFONIA, "Xiaomi", "Redmi Note 13", 180, true, false, productDAO);
 		
 		
 		Collection<ProxyProdotto> catalogo = new ArrayList<>();
@@ -982,7 +982,7 @@ public class ModificaInfoProdottoControllerIntegrationTest {
 		when(response.getWriter()).thenReturn(writer);
 		
 		ProxyProdotto originalProductModified = new ProxyProdotto(3, "Xiaomi Redmi Note 13", "Prova", "Prova", Float.parseFloat("229.90"), 
-				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.SMARTPHONE, "Xiaomi", modifiedValue, 180, true, false, productDAO);
+				Categoria.PRODOTTI_ELETTRONICA, "Xiaomi", modifiedValue, 180, true, false, productDAO);
 		
 		catalogo.remove(originalProxyProduct);
 		catalogo.add(originalProductModified);

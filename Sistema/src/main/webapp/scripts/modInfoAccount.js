@@ -23,12 +23,12 @@ function showUpdateForm(field, action) {
         var clickedOptionId;
         if(field==='address'){
             switch(action){
-                case 'AddIndirizzo':                    
+                case 'AGGIUNGERE-INDIRIZZO':                    
                     document.getElementById('conf_button').value = "Aggiungi Indirizzo";
-                    document.getElementById('updateInfoForm').action = 'UpdateAddressController?action=AddIndirizzo';
+                    document.getElementById('updateInfoForm').action = 'UpdateAddressController?action=AGGIUNGERE-INDIRIZZO';
                     clickedOptionId = 'addAddress'; // Set the correct ID for highlighting
                     break;
-                case 'UpdateIndirizzo':                    
+                case 'AGGIORNARE-INDIRIZZO':                    
                     if(addresses.length > 0){
                         loadAddress(addresses[0].id, 'UpdateIndirizzo');
                     }
@@ -40,7 +40,7 @@ function showUpdateForm(field, action) {
                     document.getElementById('conf_button').value = "Modifica Indirizzo";
                     clickedOptionId = 'modifyAddress'; // Set the correct ID for highlighting
                     break; 
-                case 'RemoveIndirizzo':
+                case 'RIMUOVERE-INDIRIZZO':
                     if(addresses.length > 0){
                         loadAddress(addresses[0].id, action);
                     }

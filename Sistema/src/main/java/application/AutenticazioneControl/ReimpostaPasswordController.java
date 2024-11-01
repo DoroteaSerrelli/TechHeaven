@@ -1,9 +1,11 @@
 package application.AutenticazioneControl;
 
 import application.AutenticazioneService.AutenticazioneException.UtenteInesistenteException;
+import application.AutenticazioneService.AutenticazioneException.FormatoEmailException;
 import application.AutenticazioneService.AutenticazioneException.FormatoPasswordException;
 import application.AutenticazioneService.AutenticazioneException.PasswordEsistenteException;
 import application.AutenticazioneService.AutenticazioneServiceImpl;
+import application.RegistrazioneService.Cliente;
 import application.RegistrazioneService.ProxyUtente;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -12,6 +14,12 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
+
+import storage.AutenticazioneDAO.ClienteDAODataSource;
+import storage.AutenticazioneDAO.IndirizzoDAODataSource;
+import storage.AutenticazioneDAO.RuoloDAODataSource;
 import storage.AutenticazioneDAO.UtenteDAODataSource;
 
 /**
@@ -30,6 +38,35 @@ public class ReimpostaPasswordController extends HttpServlet {
 	 * per la serializzazione dell'oggetto.
 	 */
 	private static final long serialVersionUID = 1L;
+	private UtenteDAODataSource userDAO;
+	private AutenticazioneServiceImpl loginService;
+
+
+	public void init() throws ServletException {
+		DataSource ds = new DataSource();
+		RuoloDAODataSource roleDAO = null;
+		ClienteDAODataSource profileDAO = null;
+		IndirizzoDAODataSource addressDAO = null;
+		try {
+			roleDAO = new RuoloDAODataSource(ds);
+			profileDAO = new ClienteDAODataSource(ds);
+			addressDAO = new IndirizzoDAODataSource(ds);
+			userDAO = new UtenteDAODataSource(ds);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		loginService = new AutenticazioneServiceImpl(userDAO, roleDAO, profileDAO, addressDAO);
+	}
+
+
+	//Costrutto per test
+	public ReimpostaPasswordController(AutenticazioneServiceImpl loginService, UtenteDAODataSource userDAO) {
+		this.userDAO = userDAO;
+		this.loginService = loginService;
+	}
+
 
 	/**
 	 * Questo metodo gestisce le richieste HTTP GET. 
@@ -74,18 +111,23 @@ public class ReimpostaPasswordController extends HttpServlet {
 				username = request.getParameter("username");
 				email = request.getParameter("email");
 
-				UtenteDAODataSource userDao = new UtenteDAODataSource();
-				ProxyUtente userUsername = userDao.doRetrieveProxyUserByKey(username);
+				ProxyUtente userUsername = userDAO.doRetrieveProxyUserByKey(username);
 
-				if(!userUsername.getUsername().isEmpty()) {
+				if(userUsername != null) {
 					String emailRetrieved = userUsername.mostraUtente().getProfile().getEmail();
 
-					if(emailRetrieved.equals(email)) {
-						request.getSession().setAttribute("username", username);
-						request.getSession().setAttribute("email", email);
-						response.sendRedirect(request.getContextPath() + "/protected/cliente/creaPassword.jsp");
+					if(Cliente.checkValidateEmail(email)) {
+						if(emailRetrieved.equals(email)) {
+							request.getSession().setAttribute("username", username);
+							request.getSession().setAttribute("email", email);
+							response.sendRedirect(request.getContextPath() + "/protected/cliente/creaPassword.jsp");
+						}else {
+							request.getSession().setAttribute("error","Username o email non valide");                               
+							response.sendRedirect(request.getContextPath() + "/resetPassword");
+							return;
+						}
 					}else {
-						request.getSession().setAttribute("error","Username o email non valide");                               
+						request.getSession().setAttribute("error","L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com).");                               
 						response.sendRedirect(request.getContextPath() + "/resetPassword");
 						return;
 					}
@@ -101,12 +143,13 @@ public class ReimpostaPasswordController extends HttpServlet {
 				email = (String) request.getSession().getAttribute("email");
 				String password = request.getParameter("password");
 
-				AutenticazioneServiceImpl loginService = new AutenticazioneServiceImpl();
 				loginService.resetPassword(username, email, password);
-				response.sendRedirect(request.getContextPath() + "/Autenticazione");
-
+				
 				request.getSession().removeAttribute("username");
 				request.getSession().removeAttribute("email");
+				
+				response.sendRedirect(request.getContextPath() + "/Autenticazione");
+
 
 				break;
 			}
@@ -114,10 +157,14 @@ public class ReimpostaPasswordController extends HttpServlet {
 		} catch (UtenteInesistenteException | FormatoPasswordException |PasswordEsistenteException ex) {
 			request.getSession().setAttribute("error", ex.getMessage());
 			response.sendRedirect(request.getContextPath() + "/protected/cliente/creaPassword.jsp");
-
+			return;
+			
 		}catch(SQLException ex) {
 			request.getSession().setAttribute("error", ex.getMessage());
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
+		} catch (FormatoEmailException e) {
+			request.getSession().setAttribute("error",e.getMessage());                               
+			response.sendRedirect(request.getContextPath() + "/resetPassword");
 		}
 	}
 }

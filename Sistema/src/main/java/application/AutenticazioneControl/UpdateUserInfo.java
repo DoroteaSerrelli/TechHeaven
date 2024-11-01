@@ -1,13 +1,8 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
 package application.AutenticazioneControl;
 
 import application.RegistrazioneService.Indirizzo;
 import application.RegistrazioneService.ProxyUtente;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -16,6 +11,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import org.apache.tomcat.jdbc.pool.DataSource;
+
 import storage.AutenticazioneDAO.IndirizzoDAODataSource;
 
 /**
@@ -25,6 +23,31 @@ import storage.AutenticazioneDAO.IndirizzoDAODataSource;
 public class UpdateUserInfo extends HttpServlet {
 
     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	
+	private IndirizzoDAODataSource addressDAO;
+	
+	
+	public void init() throws ServletException {
+		DataSource ds = new DataSource();
+
+		try {
+			addressDAO = new IndirizzoDAODataSource(ds);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+
+
+	//Costrutto per test
+	public UpdateUserInfo(IndirizzoDAODataSource addressDAO) {
+		this.addressDAO = addressDAO;
+	}
+	
+	/**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
      *
@@ -33,6 +56,7 @@ public class UpdateUserInfo extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
+	
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         ProxyUtente u = (ProxyUtente) request.getSession().getAttribute("user");
@@ -56,13 +80,14 @@ public class UpdateUserInfo extends HttpServlet {
         // Forward to JSP
         request.getRequestDispatcher("protected/cliente/updateUserInfo.jsp").forward(request, response);
     }
+    
     private void loadUserAddresses(HttpServletRequest request, ProxyUtente u) throws SQLException {
-        IndirizzoDAODataSource indDAO = new IndirizzoDAODataSource();
-        ArrayList<Indirizzo> indirizzi = indDAO.doRetrieveAll("Indirizzo.via", u.getUsername());
+        
+        ArrayList<Indirizzo> indirizzi = addressDAO.doRetrieveAll("Indirizzo.via", u.getUsername());
         request.setAttribute("Indirizzi", indirizzi); 
        
     }
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -90,15 +115,5 @@ public class UpdateUserInfo extends HttpServlet {
             throws ServletException, IOException {
         processRequest(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }// </editor-fold>
 
 }

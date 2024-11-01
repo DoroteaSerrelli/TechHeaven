@@ -77,9 +77,12 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 	public ProxyUtente login(String username, String password) throws SQLException, UtenteInesistenteException {
 
 		ProxyUtente userReal;
-		if((userReal = userDAO.doRetrieveProxyUserByKey(username)) == null)
+		if((userReal = userDAO.doRetrieveProxyUserByKey(username)) == null) {
 			throw new UtenteInesistenteException("Username o password non corretti");
+			
+		}
 		else {
+
 			Utente client = new Utente("", password, null);
 			if(!client.getPassword().equals(userReal.getPassword()))
 				throw new UtenteInesistenteException("Username o password non corretti");
@@ -183,12 +186,13 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 						+ "al profilo dell'utente");
 			else {
 				if(updatedData.equals(userReal.getProfile().getEmail()))
-					throw new EmailEsistenteException("Email inserita già associata all'utente");
+					throw new EmailEsistenteException("Non è possibile associare questa email al tuo account. Inserisci una altra email.");
 				else {
 					if(!Cliente.checkValidateEmail(updatedData))
-						throw new FormatoEmailException("Formato della nuova email non valido");
+						throw new FormatoEmailException("L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com).");
 
 					ProxyUtente updatedUser = new ProxyUtente(userReal.getUsername(), userReal.getPassword(), userReal.getRuoli(), userDAO);
+					updatedUser.setPassword(userReal.getPassword());
 					if(profileDAO.updateEmail(userReal.getProfile().getEmail(), updatedData))
 						updatedUser.mostraUtente().getProfile().setEmail(updatedData);
 
@@ -209,8 +213,11 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 						throw new FormatoTelefonoException("Formato del nuovo numero di telefono non valido");
 
 					ProxyUtente updatedUser = new ProxyUtente(userReal.getUsername(), userReal.getPassword(), userReal.getRuoli(), userDAO);
+					updatedUser.setPassword(userReal.getPassword());
+
 					if(profileDAO.updateTelephone(userReal.getProfile().getEmail(), updatedData))
 						updatedUser.mostraUtente().getProfile().setTelefono(updatedData);
+					
 					return updatedUser;
 				}
 			}
@@ -270,7 +277,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 					if(Indirizzo.checkValidate(updatedData)) {
 
 						if(addresses.contains(updatedData))
-							throw new IndirizzoEsistenteException("Indirizzo inserito già associato all'utente");
+							throw new IndirizzoEsistenteException("L'indirizzo inserito è già presente nella tua rubrica degli indirizzi.");
 
 
 						addressDAO.doSave(updatedData, user.getUsername());
@@ -301,10 +308,9 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 						+ " all'utente");
 			else {
 				ArrayList<Indirizzo> addresses = addressDAO.doRetrieveAll("", user.getUsername());
-
-				try{
-					if(Indirizzo.checkValidate(updatedData)) {
-
+				
+				
+					if(updatedData != null) {
 
 						if(!addresses.contains(updatedData)) {
 
@@ -312,22 +318,10 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 						}
 						addressDAO.doDeleteAddress(updatedData.getIDIndirizzo(), user.getUsername());
 						return user;
+					}else {
+						throw new FormatoIndirizzoException("Specificare l'indirizzo di spedizione da rimuovere.");
 					}
-				} catch (FormatoViaException ex) {
-					throw new FormatoViaException("La via deve contenere solo lettere e spazi");
-
-				}catch(FormatoNumCivicoException e) {
-					throw new FormatoNumCivicoException("Il numero civico è composto da numeri e, eventualmente, una lettera.");
-
-				}catch(FormatoCittaException e) {
-					throw new FormatoCittaException("La città deve essere composta solo da lettere e spazi.");
-
-				}catch(FormatoCAPException e) {
-					throw new FormatoCAPException("Il CAP deve essere formato da 5 numeri.");
-
-				}catch(FormatoProvinciaException e) {
-					throw new FormatoProvinciaException("La provincia è composta da due lettere maiuscole.");
-				}
+				
 			}
 		}
 
@@ -364,6 +358,7 @@ public class AutenticazioneServiceImpl implements AutenticazioneService{
 							throw new FormatoProvinciaException("La nuova provincia è composta da due lettere maiuscole.");
 						}
 					}
+						
 				}
 
 				throw new ModificaIndirizzoException("L'indirizzo inserito non è presente nella tua rubrica degli indirizzi.");			

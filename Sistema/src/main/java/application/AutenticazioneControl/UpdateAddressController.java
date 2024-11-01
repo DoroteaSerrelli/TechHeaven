@@ -9,7 +9,10 @@ import application.AutenticazioneService.AutenticazioneException.ModificaIndiriz
 import application.AutenticazioneService.AutenticazioneException.UtenteInesistenteException;
 import application.AutenticazioneService.AutenticazioneServiceImpl;
 import application.RegistrazioneService.Indirizzo;
+import storage.AutenticazioneDAO.ClienteDAODataSource;
 import storage.AutenticazioneDAO.IndirizzoDAODataSource;
+import storage.AutenticazioneDAO.RuoloDAODataSource;
+import storage.AutenticazioneDAO.UtenteDAODataSource;
 import application.RegistrazioneService.ProxyUtente;
 import application.RegistrazioneService.RegistrazioneException;
 import application.RegistrazioneService.Utente;
@@ -23,46 +26,77 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-/* Servlet che gestisce l'aggiornamento degli indirizzi dell'utente.
+
+import org.apache.tomcat.jdbc.pool.DataSource;
+
 /**
- *
+ * Servlet che gestisce l'aggiornamento degli indirizzi dell'utente.
  * @author raffy
  */
 @WebServlet(name = "UpdateAddressController", urlPatterns = {"/UpdateAddressController"})
 public class UpdateAddressController extends HttpServlet {
 
-        /**
+	/**
 	 * serialVersionUID : È un campo statico finale a lungo raggio utilizzato 
 	 * per la serializzazione dell'oggetto.
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private AutenticazioneServiceImpl loginService;
+	private IndirizzoDAODataSource addressDao;
+
+	public void init() throws ServletException {
+		DataSource ds = new DataSource();
+		UtenteDAODataSource userDAO = null;
+		RuoloDAODataSource roleDAO = null;
+		ClienteDAODataSource profileDAO = null;
+		IndirizzoDAODataSource addressDAO = null;
+		try {
+			roleDAO = new RuoloDAODataSource(ds);
+			profileDAO = new ClienteDAODataSource(ds);
+			addressDAO = new IndirizzoDAODataSource(ds);
+			userDAO = new UtenteDAODataSource(ds);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		loginService = new AutenticazioneServiceImpl(userDAO, roleDAO, profileDAO, addressDAO);
+	}
 
 
-		/**
-        * Gestisce la richiesta HTTP GET, inoltrandola al metodo doPost.
-        *
-        * @param request : servlet request
-        * @param response : servlet response
-        * @throws ServletException : se si verifica un errore specifico della servlet
-        * @throws IOException : se si verifica un errore di I/O
-        */
+	//Costrutto per test
+	public UpdateAddressController(IndirizzoDAODataSource addressDAO, AutenticazioneServiceImpl loginService) {
+		this.loginService = loginService;
+		this.addressDao = addressDAO;
+
+	}	
+
+
+	/**
+	 * Gestisce la richiesta HTTP GET, inoltrandola al metodo doPost.
+	 *
+	 * @param request : servlet request
+	 * @param response : servlet response
+	 * @throws ServletException : se si verifica un errore specifico della servlet
+	 * @throws IOException : se si verifica un errore di I/O
+	 */
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		doPost(request, response);
 	}
 
-		/**
-        * Gestisce la richiesta HTTP POST.
-        *
-        * Questo metodo permette all'utente di aggiungere, rimuovere o aggiornare i propri indirizzi.
-        *
-        * @param request : servlet request
-        * @param response : servlet response
-        * @throws ServletException : se si verifica un errore specifico della servlet
-        * @throws IOException : se si verifica un errore di I/O
-        */	
+	/**
+	 * Gestisce la richiesta HTTP POST.
+	 *
+	 * Questo metodo permette all'utente di aggiungere, rimuovere o aggiornare i propri indirizzi.
+	 *
+	 * @param request : servlet request
+	 * @param response : servlet response
+	 * @throws ServletException : se si verifica un errore specifico della servlet
+	 * @throws IOException : se si verifica un errore di I/O
+	 */	
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -76,8 +110,6 @@ public class UpdateAddressController extends HttpServlet {
 			String citta = request.getParameter("newCitta");
 			String provincia = request.getParameter("newProvincia");
 
-			Indirizzo target_ind = new Indirizzo(via, numCivico, citta, cap, provincia);
-
 			ProxyUtente user = getUser(request);
 
 			//Se l'utente che richiede l'operazione non è autenticato, egli viene indirizzato alla pagina di login
@@ -87,49 +119,73 @@ public class UpdateAddressController extends HttpServlet {
 				return;
 			}
 
-			ProxyUtente updated_user = user;
+			ProxyUtente updated_user = null;
 
-			Utente real_user = user.mostraUtente();
-                        
-                        request.getSession().setAttribute("field", "address");  // Field Selezionata per modifica
-                        request.getSession().setAttribute("currentAction", request.getParameter("action"));    
+			request.getSession().setAttribute("field", "address");  // Field Selezionata per modifica
+			request.getSession().setAttribute("currentAction", request.getParameter("action"));    
+			Indirizzo target_ind = new Indirizzo(via, numCivico, citta, cap, provincia);
+
 			switch(action){
 
-			case "AddIndirizzo":
+			case "AGGIUNGERE-INDIRIZZO":
 
-				AutenticazioneServiceImpl asAdd = new AutenticazioneServiceImpl();
-				updated_user= asAdd.aggiornaRubricaIndirizzi(user, "AGGIUNGERE-INDIRIZZO", target_ind);
+				updated_user= loginService.aggiornaRubricaIndirizzi(user, "AGGIUNGERE-INDIRIZZO", target_ind);
 				break;
 
-			case "RemoveIndirizzo":
+			case "RIMUOVERE-INDIRIZZO":
 
-				int idIndirizzoR = Integer.parseInt(request.getParameter("addressIndex"));
-                                target_ind.setIDIndirizzo(idIndirizzoR);
-                                fetchIndexById(real_user, target_ind);                                				
-                                System.out.println(target_ind);
-				AutenticazioneServiceImpl asRem = new AutenticazioneServiceImpl();
-				updated_user= asRem.aggiornaRubricaIndirizzi(user, "RIMUOVERE-INDIRIZZO", target_ind);
+				Utente real_user = user.mostraUtente();
+
+				int idIndirizzoR = -1;
+				String addressIndex = request.getParameter("addressIndex");
+
+				if(addressIndex!= null && !addressIndex.isBlank())
+					idIndirizzoR = Integer.parseInt(request.getParameter("addressIndex"));
+				else
+					throw new FormatoIndirizzoException("Specificare l'indirizzo di spedizione da rimuovere.");
+
+				Indirizzo target_indRem = new Indirizzo(idIndirizzoR, via, numCivico, citta, cap, provincia);
+
+				//target_ind.setIDIndirizzo(idIndirizzoR);
+				//fetchIndexById(real_user, target_ind);                                				
+				System.out.println("USER prima della chiamata: " + user);
+				System.out.println("TARGET_IND prima della chiamata: " + target_indRem);
+				System.out.println("ACTION: " + action);
+
+
+				updated_user = loginService.aggiornaRubricaIndirizzi(user, "RIMUOVERE-INDIRIZZO", target_indRem);
+
+				System.out.println("UPDATED_USER dopo la chiamata: " + updated_user);
+
 				break; 
 
-			case "UpdateIndirizzo":
+			case "AGGIORNARE-INDIRIZZO":
 
-				int idIndirizzoU = real_user.getProfile().getIndirizzi().get(0).getIDIndirizzo();
-				if(request.getParameter("addressIndex")!=null)
+				Utente realUser = user.mostraUtente();
+
+				int idIndirizzoU = -1;
+
+				if(request.getParameter("addressIndex")!= null && !request.getParameter("addressIndex").isBlank())
 					idIndirizzoU = Integer.parseInt(request.getParameter("addressIndex"));                    
+				else {
+					throw new ModificaIndirizzoException("L'indirizzo inserito non è presente nella tua rubrica degli indirizzi.");			
+				}
+
 				target_ind.setIDIndirizzo(idIndirizzoU);
-				AutenticazioneServiceImpl asUp = new AutenticazioneServiceImpl();
-				IndirizzoDAODataSource addressDao = new IndirizzoDAODataSource();
-				Indirizzo address = addressDao.doRetrieveByKey(idIndirizzoU, user.getUsername());
 				
+				//Indirizzo address = addressDao.doRetrieveByKey(idIndirizzoU, user.getUsername());
+
+				/*
 				if(address.equals(target_ind)) { //l'indirizzo aggiornato già esiste nella rubrica degli indirizzi
-					
+
 					String errorMsg = "L'indirizzo inserito è già presente nella tua rubrica degli indirizzi.";
 					request.getSession().setAttribute("error", errorMsg);
 					response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
 					return;
-				}
-					
-				updated_user= asUp.aggiornaRubricaIndirizzi(user, "AGGIORNARE-INDIRIZZO", target_ind);
+				}*/
+
+					updated_user = loginService.aggiornaRubricaIndirizzi(user, "AGGIORNARE-INDIRIZZO", target_ind);
+				
 				break;  
 
 			default:
@@ -141,7 +197,7 @@ public class UpdateAddressController extends HttpServlet {
 			}
 			request.getSession().setAttribute("user", updated_user);
 			response.sendRedirect(request.getContextPath() + "/AreaRiservata");      
-
+			
 		}catch(InformazioneDaModificareException ex) {
 
 			String errorMsg = "Seleziona una informazione da modificare : AGGIUNGERE-INDIRIZZO, RIMUOVERE-INDIRIZZO, AGGIORNARE-INDIRIZZO.";
@@ -151,8 +207,8 @@ public class UpdateAddressController extends HttpServlet {
 		}catch(FormatoIndirizzoException ex) {
 
 			request.getSession().setAttribute("error", ex.getMessage());
-                        request.getSession().setAttribute("field", "address");  // Assuming we are working with addresses
-                        request.getSession().setAttribute("currentAction", request.getParameter("action"));
+			request.getSession().setAttribute("field", "address");  // Assuming we are working with addresses
+			request.getSession().setAttribute("currentAction", request.getParameter("action"));
 			response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
 
 		}catch(IndirizzoEsistenteException ex) {
@@ -175,13 +231,13 @@ public class UpdateAddressController extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");          
 
 		} catch (AutenticazioneException.ProfiloInesistenteException | RegistrazioneException.FormatoViaException | RegistrazioneException.FormatoNumCivicoException | RegistrazioneException.FormatoCittaException | RegistrazioneException.FormatoCAPException | RegistrazioneException.FormatoProvinciaException ex) {
-                Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex);
-                        request.getSession().setAttribute("error", ex.getMessage());
+			Logger.getLogger(UpdateAddressController.class.getName()).log(Level.SEVERE, null, ex);
+			request.getSession().setAttribute("error", ex.getMessage());
 			response.sendRedirect(request.getContextPath() + "/UpdateUserInfo");
-            }    
+		}    
 	}
 
-        /**
+	/**
 	 * Recupera l'utente corrente dalla sessione HTTP.
 	 *
 	 * @param request : La richiesta HTTP.
@@ -195,21 +251,24 @@ public class UpdateAddressController extends HttpServlet {
 
 		return user;
 	}
-         /***  Recupera l'ID dell'indirizzo dalla lista in caso in cui le info non combaciano 
-         *    Si verifica quando l'utente inserisce le informazioni direttamente neò form senza
-         *   interagire con la Selezione Rapida (click su Indrizzo da modificare-eliminare)
+
+	/***  
+	 * Recupera l'ID dell'indirizzo dalla lista in caso in cui le info non combaciano 
+	 * Si verifica quando l'utente inserisce le informazioni direttamente nel form senza
+	 * interagire con la Selezione Rapida (click su Indrizzo da modificare-eliminare)
+	 * 
 	 * @param user : Utente a cui appartiene la lista indirizzi.
-         * @param index: Indrizzo da controllare nella lista
+	 * @param index: Indrizzo da controllare nella lista
 	 * @return user : L'utente corrente, se presente nella sessione. Altrimenti, null.
 	 */
-        private void fetchIndexById(Utente user, Indirizzo index){
-            ArrayList<Indirizzo> lista_indirizzi = user.getProfile().getIndirizzi();
-            if(lista_indirizzi.contains(index)){
-                for(Indirizzo ind : lista_indirizzi){
-                    if(index.equals(ind) && index.getIDIndirizzo()!=ind.getIDIndirizzo()){
-                        index.setIDIndirizzo(ind.getIDIndirizzo());                     
-                    } 
-                }
-            }
-        }      
+	private void fetchIndexById(Utente user, Indirizzo index){
+		ArrayList<Indirizzo> lista_indirizzi = user.getProfile().getIndirizzi();
+		if(lista_indirizzi.contains(index)){
+			for(Indirizzo ind : lista_indirizzi){
+				if(index.equals(ind) && index.getIDIndirizzo()!=ind.getIDIndirizzo()){
+					index.setIDIndirizzo(ind.getIDIndirizzo());                     
+				} 
+			}
+		}
+	}      
 }

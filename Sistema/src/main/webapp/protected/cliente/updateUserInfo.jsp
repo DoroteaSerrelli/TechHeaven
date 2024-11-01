@@ -98,13 +98,13 @@
 			<li><a id="telefono" href="#"
 				onclick="showUpdateForm('telefono')">Modifica numero di telefono</a></li>
 			<li><a id="addAddress" href="#"
-				onclick="showUpdateForm('address', 'AddIndirizzo')">Aggiungi un
+				onclick="showUpdateForm('address', 'AGGIUNGERE-INDIRIZZO')">Aggiungi un
 					Indirizzo</a></li>
 			<li><a id="modifyAddress" href="#"
-				onclick="showUpdateForm('address', 'UpdateIndirizzo')">Modifica
+				onclick="showUpdateForm('address', 'AGGIORNARE-INDIRIZZO')">Modifica
 					un Indirizzo</a></li>
 			<li><a id="deleteAddress" href="#"
-				onclick="showUpdateForm('address', 'RemoveIndirizzo')">Elimina
+				onclick="showUpdateForm('address', 'RIMUOVERE-INDIRIZZO')">Elimina
 					un Indirizzo</a></li>
 			<li><a href="#" id="close" onClick="closeUpdateBar()"> <svg
 						xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24"

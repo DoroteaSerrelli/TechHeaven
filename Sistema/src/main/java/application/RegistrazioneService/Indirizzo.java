@@ -183,7 +183,7 @@ public class Indirizzo implements Cloneable{
 	 * */
 
 	public void setIDIndirizzo(int iDIndirizzo) {
-		IDIndirizzo = iDIndirizzo;
+		this.IDIndirizzo = iDIndirizzo;
 	}
 
 	/**

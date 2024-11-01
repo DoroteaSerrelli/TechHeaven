@@ -51,7 +51,7 @@ function validateProductNameorModel(input, object) {
 }
 
 function validateBrand(input){
-     const productBrandRegex = /^[A-Za-z]+$/;
+     const productBrandRegex = /^[A-Za-z ]+$/;
     if (!productBrandRegex.test(input.value)) {
         addInvalidMessage("La marca del prodotto deve contenere lettere ed eventualmente spazi", "prodBrandError");	     			
         return false;

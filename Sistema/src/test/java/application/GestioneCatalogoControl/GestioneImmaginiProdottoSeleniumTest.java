@@ -434,4 +434,164 @@ public class GestioneImmaginiProdottoSeleniumTest {
             driver.quit();
         }
     } 
+       @Test
+    public void TC16_7_1_1() throws Exception {
+      
+        // Set Chrome options (optional)
+        ChromeOptions options = new ChromeOptions();
+        options.addArguments("--start-maximized"); // Start browser maximized
+
+        // Create a new instance of the Chrome driver
+        WebDriver driver = new ChromeDriver(options);
+        driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); // Set implicit wait
+
+        try {
+            // 1. Open the base URL
+            driver.get("https://localhost/"); // Update with your actual base URL
+
+            // 2. Set window size (not necessary as we start maximized)
+            // You can set a specific size if needed
+            driver.manage().window().setSize(new org.openqa.selenium.Dimension(1460, 701));
+
+            // 3. Click on 'Autenticazione' link
+            driver.findElement(By.linkText("Autenticazione")).click();
+
+            // 4. Click on username input field
+            WebElement usernameField = driver.findElement(By.name("username"));
+            usernameField.click();
+
+            // 5. Type username
+            usernameField.sendKeys("mariaGestoreCatalogo");
+
+            // 6. Click on password input field
+            WebElement passwordField = driver.findElement(By.name("password"));
+            passwordField.click();
+
+            // 7. Type password
+            passwordField.sendKeys("01maria01");
+
+            // 8. Click on submit button
+            driver.findElement(By.name("submit")).click();
+
+            // 9. Click on ruolo
+            driver.findElement(By.name("ruolo")).click();
+
+            // 10. Select 'GestoreCatalogo' from the dropdown
+            Select roleSelect = new Select(driver.findElement(By.name("ruolo")));
+            roleSelect.selectByVisibleText("GestoreCatalogo");
+
+            // 11. Click on the second option in the dropdown
+            // (This step is redundant after selecting by visible text)
+            // If needed: driver.findElement(By.cssSelector("option:nth-child(2)")).click();
+
+            // 12. Click on submit button again
+            driver.findElement(By.name("submit")).click();
+
+            // 13. Click on the modify properties image
+            driver.findElement(By.cssSelector("#modifyProperties img")).click();
+
+            // 14. Type in product filter
+            WebElement productFilterField = driver.findElement(By.id("productFilter"));
+            productFilterField.sendKeys("Apple AirPods Pro 2");
+
+            // 15. Click on the specific product's button
+            driver.findElement(By.xpath("//td[@class='productName']/h3[text()='Apple AirPods Pro 2']/ancestor::tr//button[1]")).click();
+            // Simple version for testing
+            String script = """
+    var button = document.createElement('button');
+    button.innerHTML = 'Delete Null Image';
+    button.className = 'delete-image-btn'; // Class to match your existing buttons
+    button.setAttribute('data-image-index', '0'); // Set to a dummy index
+    document.body.appendChild(button);
+    if (typeof attachDeleteButtonListeners === 'function') {
+        attachDeleteButtonListeners(); // This will call the function defined in the JSP
+    }
+  """;
+
+            // Execute the script in the browser context
+            ((JavascriptExecutor) driver).executeScript(script);
+            WebElement deleteButton = driver.findElement(By.cssSelector(".delete-image-btn[data-image-index='0']"));
+            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", deleteButton); // Check the message in the log
+            String responseMessage = driver.findElement(By.id("updatePhotoLog")).getText();
+
+            // Verify the response message
+            if (responseMessage.contains("Inserire un'immagine di dettaglio del prodotto.")) {
+                System.out.println("Null image deletion test passed: " + responseMessage);
+            } else {
+                System.out.println("Unexpected response or failure: " + responseMessage);
+            }
+            
+        } catch (Exception e) {
+            e.printStackTrace(); // Print stack trace for any exceptions
+        } finally {
+            // Close the browser
+            driver.quit();
+        }
+    } 
+    @Test
+    public void TC16_7_1_3() throws Exception {
+      
+        // Set Chrome options (optional)
+    ChromeOptions options = new ChromeOptions();
+    options.addArguments("--start-maximized"); // Start browser maximized
+
+    // Create a new instance of the Chrome driver
+    WebDriver driver = new ChromeDriver(options);
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); // Set implicit wait
+
+    try {
+        // 1. Open the base URL
+        driver.get("https://localhost/"); // Update with your actual base URL
+
+        // 2. Click on 'Autenticazione' link
+        driver.findElement(By.linkText("Autenticazione")).click();
+
+        // 3. Fill in authentication details
+        driver.findElement(By.name("username")).sendKeys("mariaGestoreCatalogo");
+        driver.findElement(By.name("password")).sendKeys("01maria01");
+        driver.findElement(By.name("submit")).click();
+
+        // 4. Select 'GestoreCatalogo' from the dropdown
+        Select roleSelect = new Select(driver.findElement(By.name("ruolo")));
+        roleSelect.selectByVisibleText("GestoreCatalogo");
+        driver.findElement(By.name("submit")).click();
+
+        // 5. Click on the modify properties image
+        driver.findElement(By.cssSelector("#modifyProperties img")).click();
+
+        // 6. Type in product filter
+        driver.findElement(By.id("productFilter")).sendKeys("Apple AirPods Pro 2");
+
+        // 7. Click on the specific product's button
+        driver.findElement(By.xpath("//td[@class='productName']/h3[text()='Apple AirPods Pro 2']/ancestor::tr//button[1]")).click();
+
+        // 8. Wait for and click the delete button
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement deleteButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".delete-image-btn[data-image-index='0']")));
+        deleteButton.click();
+        
+        System.out.println("Delete button clicked successfully.");
+        
+        // 9. Wait for the message to appear and check its content
+        WebElement messageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='updatePhotoLog']/h2")));
+
+        // 10. Get the text from the element
+        String actualMessage = messageElement.getText();  
+        String expectedMessage = "L'Immagine Selezionata e' Stata Rimossa Con Successo dalla Galleria";  // Expected text
+
+        // Check if the actual message matches the expected message
+        if (actualMessage.equals(expectedMessage)) {
+            System.out.println("Success message verified: " + actualMessage);
+        } else {
+            System.out.println("Text does not match! Expected: " + expectedMessage + ", but got: " + actualMessage);
+        }
+
+        // Additional steps can be added as necessary
+    } catch (Exception e) {
+        e.printStackTrace(); // Print stack trace for any exceptions
+    } finally {
+        // Close the browser
+        driver.quit();
+    }
+    }
 }

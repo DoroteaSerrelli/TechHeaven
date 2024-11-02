@@ -247,7 +247,6 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 		try {
 			imageToRemoveIndex = Integer.parseInt(request.getParameter("imageIndex"));
 		}catch(NumberFormatException e) {
-			response.getWriter().write("Image not successfully deleted."); 
 			return updatelog += "Inserire un'immagine di dettaglio del prodotto.";
 		}
 		// Verifica se l'indice è valido
@@ -262,7 +261,6 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 
 				// Aggiorna l'attributo di sessione con la galleria modificata
 				request.getSession().setAttribute("originalGallery", originalGallery);
-				response.getWriter().write("Image deleted successfully.");                                 
 				updatelog+= "L'Immagine Selezionata e' Stata Rimossa Con Successo dalla Galleria";
 				return updatelog;
 
@@ -271,7 +269,6 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 				updatelog+= ex.getMessage();
 			}
 		}
-		response.getWriter().write("Image not successfully deleted."); 
 		return updatelog += "L'immagine di dettaglio specificata non è associata al prodotto.\n"
 				+ "Scegliere un'altra immagine di dettaglio.";
 

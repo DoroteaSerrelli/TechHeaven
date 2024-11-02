@@ -121,14 +121,13 @@
                             <div id="productDetailsGroup" class="hidden">                              
                                 <label for="productName">Nome Prodotto</label>
                                 <input type="text" id="productName" name="productName">
-                                <input type="radio" name="productDetailsField" value="productName"> <!-- Single-update radio -->
+                                <input type="radio" name="productDetailsField" value="marca"> <!-- Single-update radio -->
                                 <label for="marca">Marca</label>
                                 <input type="text" id="marca" name="marca" oninput="validateBrand(this)">
-                                <input type="radio" name="productDetailsField" value="marca"> <!-- Single-update radio -->
+                                <input type="radio" name="productDetailsField" value="modello"> <!-- Single-update radio -->
                                 <div id="prodBrandError" class="erromsg" style="display:none;"></div> 
                                 <label for="modello">Modello</label>
                                 <input type="text" id="modello" name="modello" oninput="validateProductNameorModel(this, 'Modello')">
-                                <input type="radio" name="productDetailsField" value="modello"> <!-- Single-update radio -->
                                 <div id="prodModelloError" class="erromsg" style="display:none;"></div>
                             </div>                          
                         </div>
@@ -164,14 +163,14 @@
                         <input type="checkbox" id="categoryCheckbox" name="categoryCheckbox">
                         <label for="categoryCheckbox">Update Category</label>
                         <div id="categoryGroup" class="hidden">
-                            <label for="categoria">Categoria</label>
+                            <label for="categoria">Categoria <input type="radio" name="productDetailsField" value="categoria"></label>
                             <select name="categoria">
                                 <option value="GRANDI_ELETTRODOMESTICI">Grandi Elettrodomestici</option>
                                 <option value="PICCOLI_ELETTRODOMESTICI">Piccoli Elettrodomestici</option>
                                 <option value="TELEFONIA">Telefonia</option>
                                 <option value="PRODOTTI_ELETTRONICA">Prodotti Elettronica</option>
                             </select>
-                            <label for="sottocategoria">Sottocategoria</label>
+                            <label for="sottocategoria">Sottocategoria <input type="radio" name="productDetailsField" value="sottocategoria"></label>
                             <select name="sottocategoria">
                                 <option value="null">Nessuna Sottocategoria</option>
                                 <option value="TABLET">Tablet</option>
@@ -208,7 +207,7 @@
                                 <!-- The log on the right -->                         
                                 <div style="flex: 1;">                      
                                       <!-- Image Preview -->                               
-                                    <form id="photoForm" action="${pageContext.request.contextPath}/ImageUpdater" method="post" enctype="multipart/form-data">
+                                    <form id="photoForm" action="${pageContext.request.contextPath}/GestioneImmaginiProdotto" method="post" enctype="multipart/form-data">
                                        <input type="hidden" id="productData" name="productData">
                                             <!-- Option Sections -->
                                             <div class="option-group">
@@ -216,17 +215,17 @@
                                             <!-- Main Photo Actions -->
                                             <div class="option">
                                                 <label for="update">Aggiorna Foto</label>
-                                                <input type="radio" id="update" name="main_photoAction" value="update">
+                                                <input type="radio" id="update" name="main_photoAction" value="TOP_IMMAGINE">
                                             </div>
                                             <div class="option">
                                                 <label for="add">Aggiungi Foto Presentazione</label>
-                                                <input type="radio" id="add" name="main_photoAction" value="add">
+                                                <input type="radio" id="add" name="main_photoAction" value="TOP_IMMAGINE">
                                             </div>
 
                                             <!-- Gallery Photo Actions -->
                                             <div class="option">
                                                 <label for="addToGallery">Aggiungi Foto Galleria</label>
-                                                <input type="radio" id="addToGallery" name="gallery_photoActions" value="addToGallery">
+                                                <input type="radio" id="addToGallery" name="gallery_photoActions" value="AGGIUNTA_DETT_IMMAGINE">
                                             </div>
                                         </div>
 

@@ -203,7 +203,6 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 						product.setGalleriaImmagini((ArrayList<byte[]>) originalGallery);
 
 						gcs.inserimentoImmagineInGalleriaImmagini(product, "AGGIUNTA_DETT_IMMAGINE", byteArrayToInputStream(inputImage), 1, perPage);
-						response.getWriter().write("Detailed Image successfully added");
 						request.getSession().setAttribute("originalGallery", originalGallery);
 						updatelog+= "L'Immagine Inserita e' Stata Aggiunta Correttamente alla Galleria";
 
@@ -214,17 +213,14 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 
 			} catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | ErroreSpecificaAggiornamentoException ex) {
 				Logger.getLogger(GestioneImmaginiProdotto.class.getName()).log(Level.SEVERE, null, ex);
-				response.getWriter().write("An error occurred: " + ex.getMessage());
 				String message = "Si è verificato un errore: " + ex.getMessage();
 				sendGalleryUpdateOutcome(message, response);
 
 			} catch (ErroreDettagliImmagineException e) {
-				response.getWriter().write("Detailed Image not successfully added");
 				sendGalleryUpdateOutcome(e.getMessage(), response);
 
 			}catch (ErroreTopImmagineException e) {
 
-				response.getWriter().write("TopImage not successfully added");
 				sendGalleryUpdateOutcome(e.getMessage(), response);
 			} 
 		}     

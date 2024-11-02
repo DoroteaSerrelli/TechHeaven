@@ -143,9 +143,9 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 		if(quantity > product.getQuantita())
 			throw new QuantitaProdottoException("La quantità specificata supera il numero di scorte possibili del prodotto in magazzino.");
 		
-		if(item.getQuantita() <= quantity)
+		if(item.getQuantita() <= quantity) {
 			throw new QuantitaProdottoException("La quantità specificata è maggiore o uguale rispetto alla quantità del prodotto " + item.getNomeProdotto() + " nel carrello.");
-		
+		}
 		if(quantity == 0)
 			throw new QuantitaProdottoException("La quantità specificata è zero.");
 		else

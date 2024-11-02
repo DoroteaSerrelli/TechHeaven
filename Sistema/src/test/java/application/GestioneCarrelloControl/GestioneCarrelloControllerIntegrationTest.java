@@ -1,6 +1,7 @@
 package application.GestioneCarrelloControl;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -8,15 +9,16 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import application.GestioneCarrelloService.Carrello;
 import application.GestioneCarrelloService.GestioneCarrelloServiceImpl;
 import application.GestioneCarrelloService.ItemCarrello;
@@ -32,8 +34,7 @@ import application.NavigazioneService.ProdottoException.CategoriaProdottoExcepti
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
 
-public class GestioneCarrelloControllerTest {
-
+public class GestioneCarrelloControllerIntegrationTest {
 	private GestioneCarrelloController carrelloController;
 	private GestioneCarrelloServiceImpl gc;
 	private ProdottoDAODataSource productDAO;
@@ -46,7 +47,7 @@ public class GestioneCarrelloControllerTest {
 	public void setUp() throws ServletException, IOException {
 
 		productDAO = mock(ProdottoDAODataSource.class);
-		gc = mock(GestioneCarrelloServiceImpl.class);
+		gc = new GestioneCarrelloServiceImpl(productDAO);
 
 		outputStream = mock(ServletOutputStream.class);
 		request = mock(HttpServletRequest.class);
@@ -92,7 +93,8 @@ public class GestioneCarrelloControllerTest {
 		inCart.setPrezzo(product.getPrezzo());
 		inCart.setModello(product.getModello());
 		inCart.setDettagli(product.getTopDescrizione());
-
+		
+		Carrello cart = new Carrello();
 
 		String action = "addToCart";
 		String productId = "16";
@@ -102,14 +104,17 @@ public class GestioneCarrelloControllerTest {
 		when(request.getSession().getAttribute("products_available_inStock")).thenReturn(null);
 		when(request.getParameter("productId")).thenReturn(productId);
 		when(productDAO.doRetrieveProxyByKey(productIdInt)).thenReturn(product);
-		when(request.getSession().getAttribute("usercart")).thenReturn(null);
+		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
 
-		when(gc.aggiungiAlCarrello(any(), any())).thenThrow(new QuantitaProdottoException("Non è disponibile il prodotto per l’acquisto"));
-
+		
 		PrintWriter writer = mock(PrintWriter.class);
 		when(response.getWriter()).thenReturn(writer);
 
 		carrelloController.doGet(request, response);
+		
+		assertThrows(QuantitaProdottoException.class, () -> {
+			gc.aggiungiAlCarrello(cart, inCart);
+		});
 
 		String jsonResponse = "{\"updatedQuantity\":0,\"totalAmount\":\"0,00\",\"updatedPrice\":\"0,00\",\"message\":\"Non è disponibile il prodotto per l’acquisto\",\"status\":\"invalid\"}";
 
@@ -124,7 +129,7 @@ public class GestioneCarrelloControllerTest {
 
 		carrelloController = new GestioneCarrelloController(productDAO, gc);
 
-		Carrello cart = mock(Carrello.class);
+		Carrello cart = new Carrello();
 
 		ProxyProdotto product = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova",  "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
@@ -147,13 +152,13 @@ public class GestioneCarrelloControllerTest {
 		when(request.getSession().getAttribute("products_available_inStock")).thenReturn(null);
 		when(request.getParameter("productId")).thenReturn(productId);
 		when(productDAO.doRetrieveProxyByKey(productIdInt)).thenReturn(product);
-		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-
-
-
-		when(gc.aggiungiAlCarrello(any(), any())).thenReturn(cart);
-		when(cart.totalAmount()).thenReturn(454.50);
-
+		when(request.getSession().getAttribute("usercart")).thenReturn(new Carrello());
+		
+		Carrello expectedCart = new Carrello();
+		expectedCart.addProduct(inCart);
+		
+		Carrello realCart = gc.aggiungiAlCarrello(cart, inCart);
+		
 		PrintWriter writer = mock(PrintWriter.class);
 		when(response.getWriter()).thenReturn(writer);
 
@@ -162,6 +167,7 @@ public class GestioneCarrelloControllerTest {
 		String jsonResponse = "{\"updatedQuantity\":1,\"totalAmount\":\"454,50\",\"updatedPrice\":\"454,50\",\"message\":\"Prodotto aggiunto nel carrello con successo\",\"status\":\"valid\"}";
 
 		 
+		assertEquals(expectedCart, realCart);
 		verify(response.getWriter()).write(jsonResponse);
 		verify(request.getSession()).setAttribute("error", "Prodotto aggiunto nel carrello con successo");
 		verify(request.getSession()).setAttribute("status", "valid");
@@ -173,7 +179,7 @@ public class GestioneCarrelloControllerTest {
 
 		carrelloController = new GestioneCarrelloController(productDAO, gc);
 
-		Carrello cart = mock(Carrello.class);
+		Carrello cart = new Carrello();
 
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova",  "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
@@ -181,17 +187,14 @@ public class GestioneCarrelloControllerTest {
 		ProxyProdotto product2 = new ProxyProdotto(25, "Apple AirPods Pro 2", "Prova", "Prova", Float.parseFloat("254.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, "Apple", "AirPods Pro 2", 0, true, false, productDAO);
 
-		ArrayList<ItemCarrello> itemsCart = new ArrayList<>();
+		
 		ItemCarrello item1 = new ItemCarrello();
 		item1.setCodiceProdotto(product1.getCodiceProdotto());
 		item1.setNomeProdotto(product1.getNomeProdotto());
 		item1.setPrezzo(product1.getPrezzo());
 		item1.setCategoria(product1.getCategoria());
 
-		itemsCart.add(item1);
-
-		when(cart.getProducts()).thenReturn(itemsCart);
-		when(cart.getNumProdotti()).thenReturn(1);
+		cart.addProduct(item1);
 
 		ItemCarrello inCart = new ItemCarrello();
 		inCart.setCodiceProdotto(product2.getCodiceProdotto());
@@ -212,17 +215,19 @@ public class GestioneCarrelloControllerTest {
 		when(request.getParameter("productId")).thenReturn(productId);
 		when(productDAO.doRetrieveProxyByKey(productIdInt)).thenReturn(product2);
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-
-		when(gc.aggiungiAlCarrello(any(), any())).thenThrow(new QuantitaProdottoException("Non è disponibile il prodotto per l’acquisto"));
-
+		
 		PrintWriter writer = mock(PrintWriter.class);
 		when(response.getWriter()).thenReturn(writer);
 
 		carrelloController.doGet(request, response);
+		
+		assertThrows(QuantitaProdottoException.class, () ->{
+			gc.aggiungiAlCarrello(cart, inCart);
+		});
 
 		String jsonResponse = "{\"updatedQuantity\":0,\"totalAmount\":\"0,00\",\"updatedPrice\":\"0,00\",\"message\":\"Non è disponibile il prodotto per l’acquisto\",\"status\":\"invalid\"}";
 
-		 
+		
 		verify(response.getWriter()).write(jsonResponse);
 		verify(response).sendRedirect(request.getContextPath() + "/cart");
 
@@ -233,22 +238,19 @@ public class GestioneCarrelloControllerTest {
 
 		carrelloController = new GestioneCarrelloController(productDAO, gc);
 
-		Carrello cart = mock(Carrello.class);
+		Carrello cart = new Carrello();
 
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
-		ArrayList<ItemCarrello> itemsCart = new ArrayList<>();
 		ItemCarrello item1 = new ItemCarrello();
 		item1.setCodiceProdotto(product1.getCodiceProdotto());
 		item1.setNomeProdotto(product1.getNomeProdotto());
 		item1.setPrezzo(product1.getPrezzo());
 		item1.setCategoria(product1.getCategoria());
 
-		itemsCart.add(item1);
+		cart.addProduct(item1);
 
-		when(cart.getProducts()).thenReturn(itemsCart);
-		when(cart.getNumProdotti()).thenReturn(1);
 
 		ItemCarrello inCart = new ItemCarrello();
 		inCart.setCodiceProdotto(product1.getCodiceProdotto());
@@ -269,20 +271,17 @@ public class GestioneCarrelloControllerTest {
 		when(request.getParameter("productId")).thenReturn(productId);
 		when(productDAO.doRetrieveProxyByKey(productIdInt)).thenReturn(product1);
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-		when(cart.isPresent(inCart)).thenReturn(true);
-		
-		when(cart.totalAmount()).thenReturn(454.50);
-		
-		when(gc.aggiungiAlCarrello(cart, inCart)).thenThrow(new ProdottoPresenteException("Prodotto già presente nel carrello"));
 
 		PrintWriter writer = mock(PrintWriter.class);
 		when(response.getWriter()).thenReturn(writer);
-		
-		
+
 		carrelloController.doGet(request, response);
 		
-		System.out.println("CART AMOUNT:" + cart.totalAmount());
-		
+		assertThrows(ProdottoPresenteException.class, () -> {
+			gc.aggiungiAlCarrello(cart, inCart);
+			
+		});
+
 		String jsonResponse = "{\"updatedQuantity\":0,\"totalAmount\":\"454,50\",\"updatedPrice\":\"0,00\",\"message\":\"Prodotto già presente nel carrello\",\"status\":\"invalid\"}";
 
 		 
@@ -296,7 +295,7 @@ public class GestioneCarrelloControllerTest {
 
 		carrelloController = new GestioneCarrelloController(productDAO, gc);
 
-		Carrello cart = mock(Carrello.class);
+		Carrello cart = new Carrello();
 
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova", Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
@@ -304,18 +303,13 @@ public class GestioneCarrelloControllerTest {
 		ProxyProdotto product2 = new ProxyProdotto(10, "Bosch lavatrice a carica frontale", "Prova", "Prova", Float.parseFloat("590.50"), 
 				Categoria.GRANDI_ELETTRODOMESTICI, "Bosch", "QualcheModello", 112, true, false, productDAO);
 
-		ArrayList<ItemCarrello> itemsCart = new ArrayList<>();
-
 		ItemCarrello item1 = new ItemCarrello();
 		item1.setCodiceProdotto(product1.getCodiceProdotto());
 		item1.setNomeProdotto(product1.getNomeProdotto());
 		item1.setPrezzo(product1.getPrezzo());
 		item1.setCategoria(product1.getCategoria());
 
-		itemsCart.add(item1);
-
-		when(cart.getProducts()).thenReturn(itemsCart);
-		when(cart.getNumProdotti()).thenReturn(1);
+		cart.addProduct(item1);
 
 		ItemCarrello inCart = new ItemCarrello();
 		inCart.setCodiceProdotto(product2.getCodiceProdotto());
@@ -337,9 +331,14 @@ public class GestioneCarrelloControllerTest {
 		when(productDAO.doRetrieveProxyByKey(productIdInt)).thenReturn(product2);
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
 
-		when(gc.aggiungiAlCarrello(any(), any())).thenReturn(cart);
-		when(cart.totalAmount()).thenReturn((double) 1045);
-
+		Carrello expectedCart = new Carrello();
+		expectedCart.addProduct(item1);
+		expectedCart.addProduct(inCart);
+		
+		Carrello cart2 = new Carrello();
+		cart2.addProduct(item1);
+		Carrello realCart = gc.aggiungiAlCarrello(cart2, inCart);
+		
 		PrintWriter writer = mock(PrintWriter.class);
 		when(response.getWriter()).thenReturn(writer);
 
@@ -347,7 +346,7 @@ public class GestioneCarrelloControllerTest {
 
 		String jsonResponse = "{\"updatedQuantity\":1,\"totalAmount\":\"1045,00\",\"updatedPrice\":\"590,50\",\"message\":\"Prodotto aggiunto nel carrello con successo\",\"status\":\"valid\"}";
 
-		 
+		assertEquals(expectedCart, realCart);
 		verify(response.getWriter()).write(jsonResponse);
 		verify(request.getSession()).setAttribute("error", "Prodotto aggiunto nel carrello con successo");
 		verify(request.getSession()).setAttribute("status", "valid");
@@ -367,7 +366,7 @@ public class GestioneCarrelloControllerTest {
 		
 		carrelloController = new GestioneCarrelloController(productDAO, gc);
 		
-		Carrello cart = mock(Carrello.class);
+		Carrello cart = new Carrello();
 
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova",  Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
@@ -375,8 +374,7 @@ public class GestioneCarrelloControllerTest {
 		ProxyProdotto product2 = new ProxyProdotto(13, "Amazfit T-Rex 2", "Prova", "Prova", Float.parseFloat("160.00"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.SMARTWATCH, "Amazfit", "T-Rex2", 10, true, false, productDAO);
 
-		ArrayList<ItemCarrello> itemsCart = new ArrayList<>();
-
+		
 		ItemCarrello item1 = new ItemCarrello();
 		item1.setCodiceProdotto(product1.getCodiceProdotto());
 		item1.setNomeProdotto(product1.getNomeProdotto());
@@ -392,8 +390,8 @@ public class GestioneCarrelloControllerTest {
 		item2.setModello(product2.getModello());
 		item2.setDettagli(product2.getTopDescrizione());
 
-		itemsCart.add(item1);
-		itemsCart.add(item2);
+		cart.addProduct(item1);
+		cart.addProduct(item2);
 
 
 		String action = "removeFromCart";
@@ -403,8 +401,6 @@ public class GestioneCarrelloControllerTest {
 
 		hs.put(13, 10); //id AmazFit, quantità AmazFit
 
-		when(cart.getProducts()).thenReturn(itemsCart);
-		when(cart.getNumProdotti()).thenReturn(2);
 		
 		when(request.getParameter("action")).thenReturn(action);
 		when(request.getParameter("productId")).thenReturn(pid);
@@ -413,13 +409,13 @@ public class GestioneCarrelloControllerTest {
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
 
 		
-		ArrayList<ItemCarrello> itemsCartUpdated = new ArrayList<>();
-
-		itemsCartUpdated.add(item1);
-
-		when(cart.isPresent(item2)).thenReturn(true);
-		when(gc.rimuoviDalCarrello(cart, item2)).thenReturn(cart);
-		when(cart.totalAmount()).thenReturn(454.50);
+		Carrello expectedCart = new Carrello();
+		expectedCart.addProduct(item1);
+		
+		Carrello temp = new Carrello();
+		temp.addProduct(item2);
+		temp.addProduct(item1);
+		Carrello realCart = gc.rimuoviDalCarrello(temp, item2);
 		
 		PrintWriter writer = mock(PrintWriter.class);
 		when(response.getWriter()).thenReturn(writer);
@@ -430,6 +426,7 @@ public class GestioneCarrelloControllerTest {
 
 		hs.remove(13);
 		
+		assertEquals(realCart, expectedCart);
 		verify(response.getWriter()).write(jsonResponseString);
 		verify(request.getSession()).setAttribute("products_available_inStock", hs);
 		verify(request.getSession()).setAttribute("usercart", cart);
@@ -454,7 +451,7 @@ public class GestioneCarrelloControllerTest {
 		
 		carrelloController = new GestioneCarrelloController(productDAO, gc);
 		
-		Carrello cart = mock(Carrello.class);
+		Carrello cart = new Carrello();
 
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova",  Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
@@ -462,9 +459,8 @@ public class GestioneCarrelloControllerTest {
 		ProxyProdotto product2 = new ProxyProdotto(14, "Samsung Galaxy Tab A7 Lite", "Prova", "Prova",  Float.parseFloat("110.00"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy Tab A7 Lite", 70, true, false, productDAO);
 
-		ArrayList<ItemCarrello> itemsCart = new ArrayList<>();
-
-		ItemCarrello item1 = new ItemCarrello();
+		
+		ItemCarrello item1 = new ItemCarrello(); //item da modificare
 		item1.setCodiceProdotto(product1.getCodiceProdotto());
 		item1.setNomeProdotto(product1.getNomeProdotto());
 		item1.setCategoria(product1.getCategoria());
@@ -483,18 +479,15 @@ public class GestioneCarrelloControllerTest {
 		item2.setDettagli(product2.getTopDescrizione());
 		item2.setQuantita(4);
 
-		itemsCart.add(item1);
-		itemsCart.add(item2);
+		cart.addProduct(item1);
+		cart.addProduct(item2);
 		
 		int quantityItem1 = 180;
-
 
 		String action = "increaseQuantity";
 		String pid = "12";
 		int pidInt = 12;
 
-		when(cart.getProducts()).thenReturn(itemsCart);
-		when(cart.getNumProdotti()).thenReturn(5);
 		
 		when(request.getParameter("action")).thenReturn(action);
 		when(request.getParameter("productId")).thenReturn(pid);
@@ -502,16 +495,17 @@ public class GestioneCarrelloControllerTest {
 		
 		when(productDAO.doRetrieveProxyByKey(pidInt)).thenReturn(product1);
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-		when(cart.isPresent(item1)).thenReturn(true);
 		
-		when(gc.aumentaQuantitaNelCarrello(cart, item1, quantityItem1)).thenThrow(new QuantitaProdottoException("La quantità specificata supera il numero di scorte possibili del prodotto in magazzino."));
 		
 		PrintWriter writer = mock(PrintWriter.class);
 		when(response.getWriter()).thenReturn(writer);
-
-		when(cart.totalAmount()).thenReturn(894.50);
 		
 		carrelloController.doGet(request, response);
+		
+		assertThrows(QuantitaProdottoException.class, () -> {
+			gc.aumentaQuantitaNelCarrello(cart, item1, quantityItem1);
+			
+		});
 		
 		String jsonResponseString = "{\"updatedQuantity\":0,\"totalAmount\":\"894,50\",\"updatedPrice\":\"0,00\",\"message\":\"La quantità specificata supera il numero di scorte possibili del prodotto in magazzino.\",\"status\":\"invalid\"}";
 		
@@ -525,7 +519,7 @@ public class GestioneCarrelloControllerTest {
 		
 		carrelloController = new GestioneCarrelloController(productDAO, gc);
 		
-		Carrello cart = mock(Carrello.class);
+		Carrello cart = new Carrello();
 
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova",  Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
@@ -533,9 +527,8 @@ public class GestioneCarrelloControllerTest {
 		ProxyProdotto product2 = new ProxyProdotto(14, "Samsung Galaxy Tab A7 Lite", "Prova", "Prova",  Float.parseFloat("110.00"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy Tab A7 Lite", 70, true, false, productDAO);
 
-		ArrayList<ItemCarrello> itemsCart = new ArrayList<>();
-
-		ItemCarrello item1 = new ItemCarrello();
+		
+		ItemCarrello item1 = new ItemCarrello();	//item da modificare
 		item1.setCodiceProdotto(product1.getCodiceProdotto());
 		item1.setNomeProdotto(product1.getNomeProdotto());
 		item1.setCategoria(product1.getCategoria());
@@ -554,8 +547,8 @@ public class GestioneCarrelloControllerTest {
 		item2.setDettagli(product2.getTopDescrizione());
 		item2.setQuantita(4);
 
-		itemsCart.add(item1);
-		itemsCart.add(item2);
+		cart.addProduct(item1);
+		cart.addProduct(item2);
 		
 		int quantityItem1 = 40;
 
@@ -564,19 +557,31 @@ public class GestioneCarrelloControllerTest {
 		String pid = "12";
 		int pidInt = 12;
 
-		when(cart.getProducts()).thenReturn(itemsCart);
-		when(cart.getNumProdotti()).thenReturn(5);
-		
+
 		when(request.getParameter("action")).thenReturn(action);
 		when(request.getParameter("productId")).thenReturn(pid);
 		when(request.getParameter("prod_quantità")).thenReturn(String.valueOf(quantityItem1));
 		
 		when(productDAO.doRetrieveProxyByKey(pidInt)).thenReturn(product1);
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-		when(cart.isPresent(item1)).thenReturn(true);
 		
-		when(gc.aumentaQuantitaNelCarrello(cart, item1, quantityItem1)).thenReturn(cart);
-		when(cart.totalAmount()).thenReturn(40*454.50 + 4*110.00);
+		Carrello expectedCart = new Carrello();
+		
+		ItemCarrello updatedItem1 = new ItemCarrello();
+		updatedItem1.setCodiceProdotto(product1.getCodiceProdotto());
+		updatedItem1.setNomeProdotto(product1.getNomeProdotto());
+		updatedItem1.setCategoria(product1.getCategoria());
+		updatedItem1.setMarca(product1.getMarca());
+		updatedItem1.setPrezzo(product1.getPrezzo());
+		updatedItem1.setModello(product1.getModello());
+		updatedItem1.setDettagli(product1.getTopDescrizione());
+		updatedItem1.setQuantita(40);
+		
+		expectedCart.addProduct(updatedItem1);
+		expectedCart.addProduct(item2);
+		
+		Carrello realCart = gc.aumentaQuantitaNelCarrello(cart, item1, quantityItem1);
+		
 		PrintWriter writer = mock(PrintWriter.class);
 		when(response.getWriter()).thenReturn(writer);
 
@@ -585,6 +590,7 @@ public class GestioneCarrelloControllerTest {
 		
 		String jsonResponseString = "{\"updatedQuantity\":40,\"totalAmount\":\"18620,00\",\"updatedPrice\":\"18180,00\",\"message\":\"Quantità modificata nel carrello con successo\",\"status\":\"valid\"}";
 		
+		assertEquals(realCart, expectedCart);
 		verify(response.getWriter()).write(jsonResponseString);
 		verify(request.getSession()).setAttribute("usercart", cart); 
 		
@@ -606,15 +612,13 @@ public class GestioneCarrelloControllerTest {
 		
 		carrelloController = new GestioneCarrelloController(productDAO, gc);
 		
-		Carrello cart = mock(Carrello.class);
+		Carrello cart = new Carrello();
 
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova",  Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
 
 		ProxyProdotto product2 = new ProxyProdotto(14, "Samsung Galaxy Tab A7 Lite", "Prova", "Prova",  Float.parseFloat("110.00"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy Tab A7 Lite", 70, true, false, productDAO);
-
-		ArrayList<ItemCarrello> itemsCart = new ArrayList<>();
 
 		ItemCarrello item1 = new ItemCarrello();
 		item1.setCodiceProdotto(product1.getCodiceProdotto());
@@ -626,7 +630,7 @@ public class GestioneCarrelloControllerTest {
 		item1.setDettagli(product1.getTopDescrizione());
 		item1.setQuantita(25);
 
-		ItemCarrello item2 = new ItemCarrello();	
+		ItemCarrello item2 = new ItemCarrello();	//item da rimuovere
 		item2.setCodiceProdotto(product2.getCodiceProdotto());
 		item2.setNomeProdotto(product2.getNomeProdotto());
 		item2.setCategoria(product2.getCategoria());
@@ -636,8 +640,8 @@ public class GestioneCarrelloControllerTest {
 		item2.setDettagli(product2.getTopDescrizione());
 		item2.setQuantita(4);
 
-		itemsCart.add(item1);
-		itemsCart.add(item2);
+		cart.addProduct(item1);
+		cart.addProduct(item2);
 		
 		int quantityItem1 = 40;
 
@@ -646,25 +650,17 @@ public class GestioneCarrelloControllerTest {
 		String pid = "12";
 		int pidInt = 12;
 
-		when(cart.getProducts()).thenReturn(itemsCart);
-		when(cart.getNumProdotti()).thenReturn(5);
-		
 		when(request.getParameter("action")).thenReturn(action);
 		when(request.getParameter("productId")).thenReturn(pid);
 		when(request.getParameter("prod_quantità")).thenReturn(String.valueOf(quantityItem1));
 		
 		when(productDAO.doRetrieveProxyByKey(pidInt)).thenReturn(product1);
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-		when(cart.isPresent(item1)).thenReturn(true);
-		
-		
+
 		PrintWriter writer = mock(PrintWriter.class);
 		when(response.getWriter()).thenReturn(writer);
 
-		when(cart.totalAmount()).thenReturn(110*4+25*454.50);
-		
 		carrelloController.doGet(request, response);
-		
 		
 		String jsonResponseString = "{\"updatedQuantity\":0,\"totalAmount\":\"11802,50\",\"updatedPrice\":\"0,00\",\"message\":\"La quantità inserita non è minore della quantità del prodotto nel carrello\",\"status\":\"invalid\"}";
 		
@@ -678,7 +674,7 @@ public class GestioneCarrelloControllerTest {
 		
 		carrelloController = new GestioneCarrelloController(productDAO, gc);
 		
-		Carrello cart = mock(Carrello.class);
+		Carrello cart = new Carrello();
 
 		ProxyProdotto product1 = new ProxyProdotto(12, "HP 15s-fq5040nl", "Prova", "Prova",  Float.parseFloat("454.50"), 
 				Categoria.PRODOTTI_ELETTRONICA, Sottocategoria.PC, "HP", "15s-fq5040nl", 80, true, false, productDAO);
@@ -686,8 +682,7 @@ public class GestioneCarrelloControllerTest {
 		ProxyProdotto product2 = new ProxyProdotto(14, "Samsung Galaxy Tab A7 Lite", "Prova", "Prova",  Float.parseFloat("110.00"), 
 				Categoria.TELEFONIA, Sottocategoria.SMARTPHONE, "Samsung", "Galaxy Tab A7 Lite", 70, true, false, productDAO);
 
-		ArrayList<ItemCarrello> itemsCart = new ArrayList<>();
-
+		
 		ItemCarrello item1 = new ItemCarrello();
 		item1.setCodiceProdotto(product1.getCodiceProdotto());
 		item1.setNomeProdotto(product1.getNomeProdotto());
@@ -698,7 +693,7 @@ public class GestioneCarrelloControllerTest {
 		item1.setDettagli(product1.getTopDescrizione());
 		item1.setQuantita(25);
 
-		ItemCarrello item2 = new ItemCarrello();	
+		ItemCarrello item2 = new ItemCarrello();	//item da rimuovere
 		item2.setCodiceProdotto(product2.getCodiceProdotto());
 		item2.setNomeProdotto(product2.getNomeProdotto());
 		item2.setCategoria(product2.getCategoria());
@@ -708,40 +703,63 @@ public class GestioneCarrelloControllerTest {
 		item2.setDettagli(product2.getTopDescrizione());
 		item2.setQuantita(4);
 
-		itemsCart.add(item1);
-		itemsCart.add(item2);
+		cart.addProduct(item1);
+		cart.addProduct(item2);
 		
 		int quantityItem1 = 12;
-
 
 		String action = "decreaseQuantity";
 		String pid = "12";
 		int pidInt = 12;
 
-		when(cart.getProducts()).thenReturn(itemsCart);
-		when(cart.getNumProdotti()).thenReturn(5);
-		
 		when(request.getParameter("action")).thenReturn(action);
 		when(request.getParameter("productId")).thenReturn(pid);
 		when(request.getParameter("prod_quantità")).thenReturn(String.valueOf(quantityItem1));
 		
 		when(productDAO.doRetrieveProxyByKey(pidInt)).thenReturn(product1);
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-		when(cart.isPresent(item1)).thenReturn(true);
-		
 		
 		PrintWriter writer = mock(PrintWriter.class);
 		when(response.getWriter()).thenReturn(writer);
 		
-		when(gc.decrementaQuantitaNelCarrello(cart, item1, quantityItem1)).thenReturn(cart);
+		Carrello expectedCart = new Carrello();
 		
-		when(cart.totalAmount()).thenReturn(110*4+12*454.50);
+		ItemCarrello updatedItem1 = new ItemCarrello();
+		updatedItem1.setCodiceProdotto(product1.getCodiceProdotto());
+		updatedItem1.setNomeProdotto(product1.getNomeProdotto());
+		updatedItem1.setCategoria(product1.getCategoria());
+		updatedItem1.setMarca(product1.getMarca());
+		updatedItem1.setPrezzo(product1.getPrezzo());
+		updatedItem1.setModello(product1.getModello());
+		updatedItem1.setDettagli(product1.getTopDescrizione());
+		updatedItem1.setQuantita(12);
+		
+		expectedCart.addProduct(updatedItem1);
+		expectedCart.addProduct(item2);
+		
+		Carrello temp = new Carrello();
+
+		ItemCarrello item1Temp = new ItemCarrello();
+		item1Temp.setCodiceProdotto(product1.getCodiceProdotto());
+		item1Temp.setNomeProdotto(product1.getNomeProdotto());
+		item1Temp.setCategoria(product1.getCategoria());
+		item1Temp.setMarca(product1.getMarca());
+		item1Temp.setPrezzo(product1.getPrezzo());
+		item1Temp.setModello(product1.getModello());
+		item1Temp.setDettagli(product1.getTopDescrizione());
+		item1Temp.setQuantita(25);
+		
+		temp.addProduct(item1Temp);
+		temp.addProduct(item2);
+		
+		
+		Carrello realCart = gc.decrementaQuantitaNelCarrello(temp, item1, quantityItem1);
 		
 		carrelloController.doGet(request, response);
 		
-		
 		String jsonResponseString = "{\"updatedQuantity\":12,\"totalAmount\":\"5894,00\",\"updatedPrice\":\"5454,00\",\"message\":\"Quantità modificata nel carrello con successo\",\"status\":\"valid\"}";
 		
+		assertEquals(realCart, expectedCart);
 		verify(response.getWriter()).write(jsonResponseString);
 		verify(request.getSession()).setAttribute("usercart", cart);
 		

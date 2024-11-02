@@ -1,20 +1,15 @@
 package application.GestioneCarrelloControl;
 
-import application.GestioneApprovvigionamenti.GestioneApprovvigionamentiServiceImpl;
 import application.GestioneCarrelloService.Carrello;
 import application.GestioneCarrelloService.CarrelloException.ProdottoPresenteException;
 import application.GestioneCarrelloService.CarrelloException.ProdottoNonPresenteException;
 import application.GestioneCarrelloService.CarrelloException.ProdottoNulloException;
 import application.GestioneCarrelloService.CarrelloException.CarrelloVuotoException;
 import application.GestioneCarrelloService.CarrelloException.QuantitaProdottoException;
-import application.GestioneCatalogoService.GestioneCatalogoServiceImpl;
-import application.GestioneOrdiniService.GestioneOrdiniServiceImpl;
-import application.NavigazioneControl.PaginationUtils;
 import application.GestioneCarrelloService.GestioneCarrelloServiceImpl;
 import application.GestioneCarrelloService.ItemCarrello;
 import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
-import application.NavigazioneService.NavigazioneServiceImpl;
 import application.NavigazioneService.ProxyProdotto;
 import com.google.gson.Gson;
 import java.io.IOException;
@@ -31,10 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 
-import storage.AutenticazioneDAO.UtenteDAODataSource;
-import storage.GestioneApprovvigionamentiDAO.ApprovvigionamentoDAODataSource;
-import storage.GestioneOrdiniDAO.OrdineDAODataSource;
-import storage.GestioneOrdiniDAO.PagamentoDAODataSource;
 import storage.NavigazioneDAO.PhotoControl;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
 
@@ -166,12 +157,10 @@ public class GestioneCarrelloController extends HttpServlet {
 			ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);                   
 			inCart = new ItemCarrello();
 			Carrello cart = getUserCart(request);
+
 			setInfoItemCarrello(prodotto, inCart);
 
 			if(!cart.isPresent(inCart)){
-				System.out.println("STO FACENDO L'AGGIUNTA");
-
-
 
 				gc.aggiungiAlCarrello(cart, inCart);
 
@@ -191,10 +180,11 @@ public class GestioneCarrelloController extends HttpServlet {
 				prepareJsonOutputMessage("valid", "Prodotto aggiunto nel carrello con successo", updatedPrice, inCart.getQuantita(), totalAmount, request, response);                   
 			}else {  
 
-				request.getSession().setAttribute("error", "Prodotto già presente nel carrello.");
+				request.getSession().setAttribute("error", "Prodotto già presente nel carrello");
 				request.getSession().setAttribute("status", "invalid");
-				prepareJsonOutputMessage("valid", "Prodotto già presente nel carrello.", 0, 0, cart.totalAmount(), request, response);                        //response.sendError(1, "Item già inserito nel carrello");
-
+				prepareJsonOutputMessage("invalid", "Prodotto già presente nel carrello", 0, 0, cart.totalAmount(), request, response);                        //response.sendError(1, "Item già inserito nel carrello");
+				response.sendRedirect(request.getContextPath() + "/cart");
+				return;
 			}
 
 			request.getSession().setAttribute("products_available_inStock", hs); 
@@ -214,16 +204,15 @@ public class GestioneCarrelloController extends HttpServlet {
 			response.sendRedirect(request.getContextPath() + "/common/paginaErrore.jsp");
 
 		} catch (QuantitaProdottoException ex) {
-			System.out.println("SONO IN ECCEZIONE");
-			Logger.getLogger(GestioneCarrelloController.class.getName()).log(Level.SEVERE, null, ex);
+
 			prepareJsonOutputMessage("invalid", ex.getMessage(), 0, 0, 0, request, response);
-			return;
+			response.sendRedirect(request.getContextPath() + "/cart");
 		}
 
 	}
 
 	public void increaseQuantity(HttpServletRequest request, HttpServletResponse response) throws IOException{
-		System.out.println("SONO IN INCREASE");
+
 		int productId = parseProductId(request.getParameter("productId"));
 		int quantità = parseQuantity(request.getParameter("prod_quantità"));
 
@@ -234,17 +223,17 @@ public class GestioneCarrelloController extends HttpServlet {
 
 			Carrello cart = getUserCart(request);
 			setInfoItemCarrello(prodotto, inCart);
-			System.out.println("PRODOTTI CARRELLO: " + cart.getNumProdotti());
-			System.out.println("ISPRESENT: " + cart.isPresent(inCart));
+
 			if(!cart.isPresent(inCart)){                    
 				prepareJsonOutputMessage("invalid", "Prodotto non presente nel carrello.", 0, 0, 0, request, response);                            
 				return;
 			}else{
-				System.out.println("SONO DENTRO SECONDO RAMO IF");
+
 				int quantità_carrello = fetchItemQuantity(cart, productId);
 				int quantità_deposito =  prodotto.getQuantita();
+
 				try {
-					
+
 					gc.aumentaQuantitaNelCarrello(cart, inCart, quantità);                               
 					double updatedPrice = inCart.getPrezzo() * quantità;
 					double totalAmount = cart.totalAmount();
@@ -295,11 +284,13 @@ public class GestioneCarrelloController extends HttpServlet {
 				response.sendRedirect(request.getContextPath() + "/cart");
 				return;
 			}else{
+
 				int quantità_deposito =  prodotto.getQuantita();
 				int quantità_carrello = fetchItemQuantity(cart, productId);
+
 				if(quantità > 0 && quantità < quantità_carrello && quantità_carrello<=quantità_deposito){
 					inCart.setQuantita(quantità_carrello);
-					System.out.println(inCart.getQuantita());
+
 					gc.decrementaQuantitaNelCarrello(cart, inCart, quantità);                        
 					double updatedPrice = inCart.getPrezzo() * quantità;
 					double totalAmount = cart.totalAmount();
@@ -310,12 +301,12 @@ public class GestioneCarrelloController extends HttpServlet {
 					prepareJsonOutputMessage("invalid", "La quantità inserita non è minore della quantità del prodotto nel carrello", 0, 0, cart.totalAmount(), request, response);                    
 					response.sendRedirect(request.getContextPath() + "/cart");
 					return;
-					
+
 				}else if(quantità == 0){
 					prepareJsonOutputMessage("invalid", "La quantità inserita è 0", 0, 0, cart.totalAmount(), request, response);                      
 					response.sendRedirect(request.getContextPath() + "/cart");
 					return;
-					
+
 				}else if(inCart.getQuantita() > quantità_deposito && quantità_deposito != 0){
 					//il prodotto inserito nel carrello ha subito nel corso del tempo una diminuzione delle sue scorte in magazzino
 					gc.decrementaQuantitaNelCarrello(cart, inCart, inCart.getQuantita()-1);
@@ -355,14 +346,13 @@ public class GestioneCarrelloController extends HttpServlet {
 
 	public void removeFromCart(HttpServletRequest request, HttpServletResponse response) throws IOException{
 		try{
-			System.out.println("IN REMOVEFROMCART ");
+
 			String pid = request.getParameter("productId");
 			HashMap hs = (HashMap) request.getSession().getAttribute("products_available_inStock"); 
 			int productId = 0;
-			System.out.println("PID PASSATO PRIMA DI IF: " + pid);
+
 			if (pid != null && !pid.isEmpty()) {
 
-				System.out.println("PID PASSATO: " + pid);
 				productId = Integer.parseInt(pid);
 
 				ProxyProdotto prodotto = pdao.doRetrieveProxyByKey(productId);
@@ -375,10 +365,10 @@ public class GestioneCarrelloController extends HttpServlet {
 
 				if(cart.isPresent(inCart)){
 					int quantità_deposito =  prodotto.getQuantita();
-					System.out.println("SONO PRIMA DI RIMOZIONE");
+
 					gc.rimuoviDalCarrello(cart, inCart);
-					System.out.println("SONO PRIMA DI JSON");
-					// Rimuovo la Quantità Max in deposito dalla Mappa che gestisce il Range, usando l'ID 
+
+					// Si rimuove la Quantità Max in deposito dalla Mappa che gestisce il Range, usando l'ID 
 					// del prodotto come chiave.
 
 					hs.remove(productId);
@@ -465,6 +455,7 @@ public class GestioneCarrelloController extends HttpServlet {
 
 	private Carrello getUserCart(HttpServletRequest request) {
 		Carrello cart = (Carrello) request.getSession().getAttribute("usercart");
+
 		if (cart == null) {
 			cart = new Carrello();
 		}

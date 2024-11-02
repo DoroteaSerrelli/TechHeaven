@@ -94,8 +94,11 @@ public class Carrello {
 	public boolean isPresent(ItemCarrello product) throws ProdottoNulloException{
 		if(product == null)
 			throw new ProdottoNulloException("Non e\' stato specificato nessun prodotto da verificare all'interno del carrello.");
-
+		
 		boolean exist = false;
+		
+		if(products == null || products.size() == 0)
+			return exist;
 		
 		for(ItemCarrello c: products) {
 			if(c.getCodiceProdotto() == product.getCodiceProdotto()) {
@@ -176,5 +179,43 @@ public class Carrello {
 				
 		return Math.round(price*100.00)/100.00;
 	}
+	
+	/**
+	 * Confronta l'oggetto corrente con un altro oggetto per determinare 
+	 * se sono uguali. Due carrelli sono considerati uguali se contengono 
+	 * gli stessi prodotti nella stessa quantità.
+	 *
+	 * @param obj l'oggetto da confrontare con l'istanza corrente
+	 * @return true se l'oggetto specificato è uguale all'istanza corrente; 
+	 *         false altrimenti
+	 */
+	@Override
+	public boolean equals(Object obj) {
+	    
+	    if (this == obj) {
+	        return true;
+	    }
+
+	    if (obj == null || getClass() != obj.getClass()) {
+	        return false;
+	    }
+
+
+	    Carrello other = (Carrello) obj;
+	    
+	    // Controlla se la dimensione dei prodotti è uguale
+	    if (this.products.size() != other.products.size()) {
+	        return false;
+	    }
+	    
+	    // Verifica se tutti i prodotti presenti sono gli stessi
+	    for (ItemCarrello item : this.products) {
+	        if (!other.products.contains(item)) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+
 	
 }

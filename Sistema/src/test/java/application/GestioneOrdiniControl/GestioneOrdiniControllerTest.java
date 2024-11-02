@@ -232,8 +232,8 @@ public class GestioneOrdiniControllerTest {
 		for(String quantity : itemAmounts)
 			quantities.add(Integer.parseInt(quantity));
 		
-		when(request.getParameterValues("product_id")).thenReturn(productIds);
-		when(request.getParameterValues("item_amount")).thenReturn(itemAmounts);
+		when(request.getParameterValues("product_id[]")).thenReturn(productIds);
+		when(request.getParameterValues("item_amount[]")).thenReturn(itemAmounts);
 		
 		String imballaggio = "Cartone, scotch";
 		String corriere = "Spedizioni Damato Napoli";

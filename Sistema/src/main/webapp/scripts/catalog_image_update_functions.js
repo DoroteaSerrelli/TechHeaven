@@ -121,11 +121,20 @@ document.getElementById('imageUploadBtn').addEventListener('click', function(e) 
     const fileInput = document.getElementById('file'); // Select the file input
     // Check if any file is selected
     if (fileInput.files.length === 0) {
-        // Optionally, you can log or display a message to the user
-        console.log("No file selected.");
-        document.getElementById("updatePhotoLog").innerHTML = `<h2 style="color:red;">Inserire un'immagine di presentazione del prodotto.</h2>`;
-        return; // Exit if no file is selected
-    }
+          // Check if a radio button in the main_photoAction group is selected
+        const mainPhotoActionSelected = document.querySelector('input[name="main_photoAction"]:checked');
+        const galleryPhotoActionSelected = document.querySelector('input[name="gallery_photoActions"]:checked');
+
+        if (galleryPhotoActionSelected) {
+            // No radio button is selected, display an error message
+            document.getElementById("updatePhotoLog").innerHTML = `<h2 style="color:red;">Inserire un'immagine di dettaglio del prodotto.</h2>`;
+            return; // Exit if no radio button is selected
+        }
+        else if(mainPhotoActionSelected){
+            document.getElementById("updatePhotoLog").innerHTML = `<h2 style="color:red;">Inserire un'immagine di presentazione del prodotto.</h2>`;
+            return; // Exit if no radio button is selected
+        }
+    }  
     // Add other form data (product information)
     retrieveAllData(function(data) {
         const { product } = data;

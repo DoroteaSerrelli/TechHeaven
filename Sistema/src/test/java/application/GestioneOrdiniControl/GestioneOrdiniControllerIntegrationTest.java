@@ -182,8 +182,8 @@ public class GestioneOrdiniControllerIntegrationTest {
 
 		String[] productIds = {String.valueOf(p1.getCodiceProdotto()), String.valueOf(p2.getCodiceProdotto())};
 		String[] itemAmounts = {String.valueOf(p1.getQuantita()), String.valueOf(p2.getQuantita())};
-		when(request.getParameterValues("product_id")).thenReturn(productIds);
-		when(request.getParameterValues("item_amount")).thenReturn(itemAmounts);
+		when(request.getParameterValues("product_id[]")).thenReturn(productIds);
+		when(request.getParameterValues("item_amount[]")).thenReturn(itemAmounts);
 
 		String imballaggio = "Cartone, scotch";
 		String corriere = "Spedizioni Damato Napoli";
@@ -261,8 +261,8 @@ public class GestioneOrdiniControllerIntegrationTest {
 
 		String[] productIds = {String.valueOf(p1.getCodiceProdotto()), String.valueOf(p2.getCodiceProdotto())};
 		String[] itemAmounts = {String.valueOf(28), String.valueOf(3)};
-		when(request.getParameterValues("product_id")).thenReturn(productIds);
-		when(request.getParameterValues("item_amount")).thenReturn(itemAmounts);
+		when(request.getParameterValues("product_id[]")).thenReturn(productIds);
+		when(request.getParameterValues("item_amount[]")).thenReturn(itemAmounts);
 
 		String imballaggio = "Cartone, scotch";
 		String corriere = "Spedizioni Damato Napoli";
@@ -330,8 +330,8 @@ public class GestioneOrdiniControllerIntegrationTest {
 
 		String[] productIds = {String.valueOf(p1.getCodiceProdotto()), String.valueOf(p2.getCodiceProdotto())};
 		String[] itemAmounts = {String.valueOf(12), String.valueOf(7)};
-		when(request.getParameterValues("product_id")).thenReturn(productIds);
-		when(request.getParameterValues("item_amount")).thenReturn(itemAmounts);
+		when(request.getParameterValues("product_id[]")).thenReturn(productIds);
+		when(request.getParameterValues("item_amount[]")).thenReturn(itemAmounts);
 
 		String imballaggio = "";
 		String corriere = "Spedizioni Damato Napoli";
@@ -399,8 +399,8 @@ public class GestioneOrdiniControllerIntegrationTest {
 
 		String[] productIds = {String.valueOf(p1.getCodiceProdotto()), String.valueOf(p2.getCodiceProdotto())};
 		String[] itemAmounts = {String.valueOf(12), String.valueOf(7)};
-		when(request.getParameterValues("product_id")).thenReturn(productIds);
-		when(request.getParameterValues("item_amount")).thenReturn(itemAmounts);
+		when(request.getParameterValues("product_id[]")).thenReturn(productIds);
+		when(request.getParameterValues("item_amount[]")).thenReturn(itemAmounts);
 
 		String imballaggio = "Cartone, scotch";
 		String corriere = "<azienda> di spedizione 1234!";
@@ -477,8 +477,8 @@ public class GestioneOrdiniControllerIntegrationTest {
 
 		String[] productIds = {String.valueOf(p1.getCodiceProdotto()), String.valueOf(p2.getCodiceProdotto())};
 		String[] itemAmounts = {String.valueOf(12), String.valueOf(7)};
-		when(request.getParameterValues("product_id")).thenReturn(productIds);
-		when(request.getParameterValues("item_amount")).thenReturn(itemAmounts);
+		when(request.getParameterValues("product_id[]")).thenReturn(productIds);
+		when(request.getParameterValues("item_amount[]")).thenReturn(itemAmounts);
 
 		String imballaggio = "Cartone, scotch";
 		String corriere = "Spedizioni Damato Napoli";

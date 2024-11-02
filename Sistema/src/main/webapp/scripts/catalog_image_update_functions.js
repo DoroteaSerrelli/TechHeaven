@@ -118,6 +118,14 @@ document.getElementById('imageUploadBtn').addEventListener('click', function(e) 
 
     const form = document.getElementById('photoForm');
     const formData = new FormData(form);
+    const fileInput = document.getElementById('file'); // Select the file input
+    // Check if any file is selected
+    if (fileInput.files.length === 0) {
+        // Optionally, you can log or display a message to the user
+        console.log("No file selected.");
+        document.getElementById("updatePhotoLog").innerHTML = `<h2 style="color:red;">Inserire un'immagine di presentazione del prodotto.</h2>`;
+        return; // Exit if no file is selected
+    }
     // Add other form data (product information)
     retrieveAllData(function(data) {
         const { product } = data;
@@ -133,6 +141,7 @@ document.getElementById('imageUploadBtn').addEventListener('click', function(e) 
             contentType: false,
             success: function(response) {
                 console.log("Image uploaded successfully.");
+                if(response==='Immagine inserita con successo.')window.location.href = window.contextPath+"/Catalogo";
                 // Fetch and update session data for the current product
                 fetchSessionData(function(base64Gallery) {
                     updateGallery(base64Gallery); // Update the gallery UI with the updated session data
@@ -148,6 +157,7 @@ document.getElementById('imageUploadBtn').addEventListener('click', function(e) 
                 } catch (e) {
                     console.error('Could not parse error response as JSON:', e);
                 }
+                errorMessage = xhr.responseText || errorMessage;  // Use raw response text as a fallback
                 // Display the error message on the right side of the form
                 document.getElementById("updatePhotoLog").innerHTML = `<h2 style="color:red;">${errorMessage}</h2>`;
             }

@@ -186,7 +186,7 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 
 						gcs.inserimentoTopImmagine(product, "TOP_IMMAGINE", byteArrayToInputStream(inputImage), 1, perPage);
 						product.setTopImmagine(inputStreamToByteArray(fileContent));
-						response.getWriter().write("TopImage successfully added");
+						sendGalleryUpdateOutcome("Immagine inserita con successo.", response);
 						return;
 					}
 

@@ -1,0 +1,190 @@
+{
+  "id": "a2c2f765-6509-42ba-9145-d12537b2d714",
+  "version": "2.0",
+  "name": "GestioneOrdiniControlTest",
+  "url": "https://localhost/",
+  "tests": [{
+    "id": "dba6a866-28f3-467f-9377-88bec154c450",
+    "name": "TC12_1_1_1Test",
+    "commands": [{
+      "id": "a89e1417-de78-45c2-94be-0641278bad8f",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9c686e5c-7937-49de-9e85-1ad8b42de1f5",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Autenticazione",
+      "targets": [
+        ["linkText=Autenticazione", "linkText"],
+        ["css=#navbar > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Autenticazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Autenticazione')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Autenticazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f0b50400-acf9-4b65-a5da-9c7e5d0e224d",
+      "comment": "",
+      "command": "click",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d7e9683d-20ce-4dad-91f6-7606cec35ed6",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "fulvioGestoreOrdini"
+    }, {
+      "id": "b3bad868-d2b5-4fda-a224-3ffe5be42c08",
+      "comment": "",
+      "command": "click",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "851c7a03-4042-41db-b74f-3052d75e2d8c",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "fulvio0"
+    }, {
+      "id": "5011b5de-2d98-496d-a94b-0997a58a01b3",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fd1eb7dd-8bbf-4962-b4e5-4b0220be0e56",
+      "comment": "",
+      "command": "click",
+      "target": "name=ruolo",
+      "targets": [
+        ["name=ruolo", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='ruolo']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2315c08b-9640-4754-b793-be26fddc9445",
+      "comment": "",
+      "command": "select",
+      "target": "name=ruolo",
+      "targets": [],
+      "value": "label=GestoreOrdini"
+    }, {
+      "id": "57ed90ab-bd59-4f3f-b9ac-37aa9fe954a0",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(2)",
+      "targets": [
+        ["css=option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='GestoreOrdini']", "xpath:attributes"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'GestoreOrdini')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "edca2516-1410-4375-b408-5b03d292f971",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f1c32b0f-f89a-4847-baf1-01e331fb72b9",
+      "comment": "",
+      "command": "click",
+      "target": "css=tr:nth-child(2) input:nth-child(2)",
+      "targets": [
+        ["css=tr:nth-child(2) input:nth-child(2)", "css:finder"],
+        ["xpath=(//input[@value='Accetta'])[2]", "xpath:attributes"],
+        ["xpath=//table[@id='showpr']/tbody/tr[2]/td/form/input[2]", "xpath:idRelative"],
+        ["xpath=//tr[2]/td/form/input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "182de53d-2a0b-46fb-b62a-84203f38da96",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "TechHeaven - Errore Ordine",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7ce394e4-d93e-4d16-bf29-c45685e74731",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//p[contains(.,'Telefono: 000-111-2222')]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4255cbd8-f874-43d1-82ff-f191545a1e85",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//p[contains(.,'Email: sabrina.30@gmail.com')]",
+      "targets": [
+        ["css=ul:nth-child(3) > li:nth-child(2) > p", "css:finder"],
+        ["xpath=//li[2]/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Email: sabrina.30@gmail.com')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "4b3b0fe7-af28-4f2b-aec5-ad476b2852cc",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=h2:nth-child(2)",
+      "targets": [],
+      "value": "Non è possibile soddisfare il numero di pezzi richiesti dal cliente. Si prega di contattare il cliente ai seguenti recapiti:"
+    }]
+  }],
+  "suites": [{
+    "id": "c41fa7ce-19cc-42ae-bc1d-7240f569af57",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["dba6a866-28f3-467f-9377-88bec154c450"]
+  }],
+  "urls": ["https://localhost/"],
+  "plugins": []
+}

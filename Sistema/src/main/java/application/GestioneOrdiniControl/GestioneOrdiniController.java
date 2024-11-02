@@ -227,8 +227,8 @@ public class GestioneOrdiniController extends HttpServlet {
 
 			try {
 				ArrayList <ItemCarrello> carrello = (ArrayList <ItemCarrello>)request.getSession().getAttribute("order_products");
-				String[] productIds = request.getParameterValues("product_id");
-				String[] itemAmounts = request.getParameterValues("item_amount");
+				String[] productIds = request.getParameterValues("product_id[]");
+				String[] itemAmounts = request.getParameterValues("item_amount[]");
 				ArrayList<Integer> quantities = new ArrayList<>();
 				
 				for(String quantity : itemAmounts)

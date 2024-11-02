@@ -176,7 +176,7 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 
 		ProxyProdotto notInCatalogue = productDAO.doRetrieveProxyByKey(product.getCodiceProdotto());
 		if (notInCatalogue == null || !notInCatalogue.isInCatalogo())
-			throw new ProdottoNonInCatalogoException("Il prodotto da rimuovere non e\' presente nel catalogo.");
+			throw new ProdottoNonInCatalogoException("Il prodotto da rimuovere non è presente nel catalogo.");
 		else
 			productDAO.doDelete(product.getCodiceProdotto());
 

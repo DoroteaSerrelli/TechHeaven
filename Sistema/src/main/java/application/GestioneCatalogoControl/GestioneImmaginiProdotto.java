@@ -159,11 +159,11 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 
 
 				if(gallery_photoActions!=null && gallery_photoActions.equals("RIMOZIONE_DETT_IMMAGINE")){
-					deleteGalleryImage(request, response, originalGallery, product);
+					updatelog += deleteGalleryImage(request, response, originalGallery, product);
 				}
 				else{
 
-					Part filePart = request.getPart("presentazione"); // "presentazione" : nome parametro nl form                           
+					Part filePart = request.getPart("presentazione"); // "presentazione" : nome parametro nel form                           
 					InputStream fileContent = retrieveFileContent(filePart);
 
 					if(originalGallery==null || originalGallery.isEmpty()){
@@ -186,7 +186,7 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 
 						gcs.inserimentoTopImmagine(product, "TOP_IMMAGINE", byteArrayToInputStream(inputImage), 1, perPage);
 						product.setTopImmagine(inputStreamToByteArray(fileContent));
-						sendGalleryUpdateOutcome("Immagine inserita con successo.", response);
+						sendGalleryUpdateOutcome("Immagine di presentazion inserita con successo.", response);
 						return;
 					}
 
@@ -204,12 +204,11 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 
 						gcs.inserimentoImmagineInGalleriaImmagini(product, "AGGIUNTA_DETT_IMMAGINE", byteArrayToInputStream(inputImage), 1, perPage);
 						request.getSession().setAttribute("originalGallery", originalGallery);
-						updatelog+= "L'Immagine Inserita e' Stata Aggiunta Correttamente alla Galleria";
+						updatelog+= "L'immagine inserita è stata aggiunta correttamente alla galleria";
 
 					}
-
-					sendGalleryUpdateOutcome(updatelog, response);
-				}         
+				} 
+				sendGalleryUpdateOutcome(updatelog, response);
 
 			} catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | ErroreSpecificaAggiornamentoException ex) {
 				Logger.getLogger(GestioneImmaginiProdotto.class.getName()).log(Level.SEVERE, null, ex);
@@ -261,7 +260,7 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 
 				// Aggiorna l'attributo di sessione con la galleria modificata
 				request.getSession().setAttribute("originalGallery", originalGallery);
-				updatelog+= "L'Immagine Selezionata e' Stata Rimossa Con Successo dalla Galleria";
+				updatelog+= "L'immagine selezionata è stata rimossa con successo dalla galleria";
 				return updatelog;
 
 			} catch (ProdottoException.SottocategoriaProdottoException | ProdottoException.CategoriaProdottoException | SQLException | CatalogoException.ProdottoNonInCatalogoException | IOException | ErroreSpecificaAggiornamentoException | ErroreDettagliImmagineException | DettagliImmagineNonPresenteException ex) {

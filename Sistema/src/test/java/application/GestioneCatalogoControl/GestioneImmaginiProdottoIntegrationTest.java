@@ -25,7 +25,6 @@ import org.junit.jupiter.api.Test;
 
 import com.google.gson.Gson;
 
-import application.GestioneCatalogoControl.GestioneImmaginiProdotto;
 import application.GestioneCatalogoService.GestioneCatalogoServiceImpl;
 import application.GestioneCatalogoService.CatalogoException.ErroreSpecificaAggiornamentoException;
 import application.GestioneCatalogoService.CatalogoException.ProdottoNonInCatalogoException;
@@ -137,7 +136,9 @@ public class GestioneImmaginiProdottoIntegrationTest {
 
 		immaginiController.doPost(request, response);
 
-		verify(response.getWriter()).write("TopImage not successfully added");
+		String message = "Inserire un'immagine di presentazione del prodotto.";
+		String jsonResponse = gson.toJson(message);
+		verify(response.getWriter()).print(jsonResponse);   
 	}
 
 	@Test
@@ -193,7 +194,9 @@ public class GestioneImmaginiProdottoIntegrationTest {
 
 		immaginiController.doPost(request, response);
 
-		verify(response.getWriter()).write("TopImage successfully added");                                 
+		String message = "Immagine di presentazion inserita con successo.";
+		String jsonResponse = gson.toJson(message);
+		verify(response.getWriter()).print(jsonResponse);                                  
 	}
 	
 	/**
@@ -270,7 +273,9 @@ public class GestioneImmaginiProdottoIntegrationTest {
 
 		immaginiController.doPost(request, response);
 
-		verify(response.getWriter()).write("Detailed Image not successfully added");  
+		String message = "Inserire un'immagine di dettaglio del prodotto.";
+		String jsonResponse = gson.toJson(message);
+		verify(response.getWriter()).print(jsonResponse);    
 
 	}
 	
@@ -340,7 +345,9 @@ public class GestioneImmaginiProdottoIntegrationTest {
 
 		immaginiController.doPost(request, response);
 
-		verify(response.getWriter()).write("Detailed Image successfully added");  
+		String message = "L'immagine inserita è stata aggiunta correttamente alla galleria";
+		String jsonResponse = gson.toJson(message);
+		verify(response.getWriter()).print(jsonResponse); 
 
 	}
 
@@ -429,7 +436,9 @@ public class GestioneImmaginiProdottoIntegrationTest {
 		
 		immaginiController.doPost(request, response);
 
-		verify(response.getWriter()).write("Image not successfully deleted.");                                 
+		String message = "Inserire un'immagine di dettaglio del prodotto.";
+		String jsonResponse = gson.toJson(message);
+		verify(response.getWriter()).print(jsonResponse);                                  
 
 	}
 	
@@ -500,7 +509,10 @@ public class GestioneImmaginiProdottoIntegrationTest {
 
 		immaginiController.doPost(request, response);
 
-		verify(response.getWriter()).write("Image not successfully deleted.");
+		String message = "L'immagine di dettaglio specificata non è associata al prodotto.\n"
+				+ "Scegliere un'altra immagine di dettaglio.";
+		String jsonResponse = gson.toJson(message);
+		verify(response.getWriter()).print(jsonResponse);  
 	}
 
 	@Test
@@ -572,7 +584,9 @@ public class GestioneImmaginiProdottoIntegrationTest {
 		immaginiController.doPost(request, response);
 
 		verify(request.getSession()).setAttribute("originalGallery",  newImages);
-		verify(response.getWriter()).write("Image deleted successfully.");                                 
+		String message ="L'immagine selezionata è stata rimossa con successo dalla galleria";
+		String jsonResponse = gson.toJson(message);
+		verify(response.getWriter()).print(jsonResponse);                             
 	}
 	
 }

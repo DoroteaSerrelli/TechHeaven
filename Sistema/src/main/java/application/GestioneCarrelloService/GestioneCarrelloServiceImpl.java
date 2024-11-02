@@ -71,7 +71,7 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 		ProxyProdotto product = productDAO.doRetrieveProxyByKey(item.getCodiceProdotto());
 		
 		if(product.getQuantita() == 0)
-			throw new QuantitaProdottoException("Non è disponibile il prodotto per l\\’acquisto");
+			throw new QuantitaProdottoException("Non è disponibile il prodotto per l’acquisto");
 		
 		cart.addProduct(item);
 		return cart;
@@ -111,10 +111,10 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 		ProxyProdotto product = productDAO.doRetrieveProxyByKey(item.getCodiceProdotto());
 		
 		if(quantity > product.getQuantita())
-			throw new QuantitaProdottoException("La quantita\' specificata supera il numero di scorte possibili del prodotto in magazzino.");
+			throw new QuantitaProdottoException("La quantità specificata supera il numero di scorte possibili del prodotto in magazzino.");
 		
 		if(item.getQuantita() >= quantity)
-			throw new QuantitaProdottoException("La quantita\' specificata è minore o uguale rispetto alla quantita\' del prodotto " + item.getNomeProdotto() + " nel carrello.");
+			throw new QuantitaProdottoException("La quantità specificata è minore o uguale rispetto alla quantita\' del prodotto " + item.getNomeProdotto() + " nel carrello.");
 		else
 			cart.updateProductQuantity(item, quantity);
 
@@ -141,13 +141,13 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 		ProxyProdotto product = productDAO.doRetrieveProxyByKey(item.getCodiceProdotto());
 		
 		if(quantity > product.getQuantita())
-			throw new QuantitaProdottoException("La quantita\' specificata supera il numero di scorte possibili del prodotto in magazzino.");
+			throw new QuantitaProdottoException("La quantità specificata supera il numero di scorte possibili del prodotto in magazzino.");
 		
 		if(item.getQuantita() <= quantity)
-			throw new QuantitaProdottoException("La quantita\' specificata è maggiore o uguale rispetto alla quantita\' del prodotto " + item.getNomeProdotto() + " nel carrello.");
+			throw new QuantitaProdottoException("La quantità specificata è maggiore o uguale rispetto alla quantità del prodotto " + item.getNomeProdotto() + " nel carrello.");
 		
 		if(quantity == 0)
-			throw new QuantitaProdottoException("La quantita\' specificata è nulla.");
+			throw new QuantitaProdottoException("La quantità specificata è zero.");
 		else
 			cart.updateProductQuantity(item, quantity);
 		

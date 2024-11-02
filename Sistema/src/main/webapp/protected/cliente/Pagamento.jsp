@@ -33,7 +33,7 @@
                     %>
             </div>   
         <h1>Seleziona Metodo di Pagamento:</h1>
-       <form action="<%=request.getContextPath()%>/CheckoutCarrello" method="POST" onsubmit="return validatePaymentForm()">
+       <form action="<%=request.getContextPath()%>/PagamentoController" method="POST" onsubmit="return validatePaymentForm()">
            <input type="hidden" name="action" value="confirmPayment">
             <div class="payment_methods" onchange="toggleCreditCardFields()">
                 <p>
@@ -74,7 +74,7 @@
                     <div id="errorcc_cvc"></div>
             </div>
             <input value="Conferma Pagamento" type="submit" class="confirm_button" name="submit">
-            <button class="delete_button"><a href="/CheckoutCarrello?action=annullaPagamento">Annulla Pagamento</a></button>               
+            <button class="delete_button"><a href="/PagamentoController?action=annullaPagamento">Annulla Pagamento</a></button>               
        </form>
     </div>         
     </body>

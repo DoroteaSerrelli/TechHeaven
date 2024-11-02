@@ -1,6 +1,8 @@
 package application.GestioneOrdiniService;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Collection;
 
@@ -159,6 +161,8 @@ public class GestioneOrdiniServiceImpl implements GestioneOrdiniService{
 
 		order.setAcquirente(user.mostraUtente().getProfile());
 		order.setProdotti(cart.getProducts());
+		order.setData(LocalDate.now());
+		order.setOra(LocalTime.now()); 
 
 		return order;
 	}

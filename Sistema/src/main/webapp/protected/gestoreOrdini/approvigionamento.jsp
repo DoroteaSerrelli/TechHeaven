@@ -28,14 +28,7 @@
             <%}          
         %>
     </head>
-    <body>
-        <div id="error">
-            <% String errormsg="";
-                errormsg= (String)request.getAttribute("error");
-                if(errormsg==null) errormsg="";                                                       
-            %>
-            <h4><%=errormsg%></h4>
-        </div>
+    <body>      
         <jsp:include page="/protected/gestoreOrdini/toolbar.jsp"  flush="true"/>       
         <jsp:include page="/common/header.jsp"  flush="true"/>
         <button id="sidebar_toggle"><img src="<%= request.getContextPath()%>/images/site_images/sidebar_toggle.png" onclick="toggleSidebar()"></button>
@@ -44,7 +37,13 @@
         <!-- Search Input Field -->
         <!-- Pagination links -->
         <jsp:include page="/common/pagination.jsp"  flush="true"/>       
-        
+         <div id="error">
+            <% String errormsg="";
+                errormsg= (String)request.getAttribute("error");
+                if(errormsg==null) errormsg="";                                                       
+            %>
+            <h4><%=errormsg%></h4>
+        </div>
         <table id="showpr" style="width: 80%; margin: 0 auto">
             <tr>
                 <th><strong>Codice Prodotto</strong></th><!-- Codice Prodotto -->

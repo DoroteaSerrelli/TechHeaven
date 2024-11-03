@@ -301,8 +301,27 @@
     }, {
       "id": "0f625f72-de58-44aa-b0c5-8a7fad7f536c",
       "comment": "",
+      "command": "click",
+      "target": "css=.confirm_button",
+      "targets": [
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@value='Conferma Ordine']", "xpath:attributes"],
+        ["xpath=//div[@id='showpr']/form/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "757c5a23-1f11-48fa-a792-397e38243a04",
+      "comment": "",
       "command": "executeScript",
-      "target": "document.querySelector('form[action*=\"CheckoutCarrello\"]').submit();",
+      "target": "document.querySelectorAll('input[name=\"metodoPagamento\"]').forEach(rb => rb.checked = false)",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a077b9da-39ff-4842-b95a-1067921f8409",
+      "comment": "",
+      "command": "executeScript",
+      "target": "document.querySelector('form[action*=\"PagamentoController\"]').removeAttribute('onsubmit');",
       "targets": [],
       "value": ""
     }, {
@@ -310,13 +329,6 @@
       "comment": "",
       "command": "verifyElementPresent",
       "target": "xpath=//h1[contains(.,'Seleziona Metodo di Pagamento:')]",
-      "targets": [],
-      "value": ""
-    }, {
-      "id": "a077b9da-39ff-4842-b95a-1067921f8409",
-      "comment": "",
-      "command": "executeScript",
-      "target": "document.querySelector('form[action*=\"CheckoutCarrello\"]').removeAttribute('onsubmit');",
       "targets": [],
       "value": ""
     }, {
@@ -844,9 +856,15 @@
     }, {
       "id": "4c123513-5fdc-4ec1-b351-fefc6959473d",
       "comment": "",
-      "command": "assertAlert",
-      "target": "La carta di credito è scaduta.",
-      "targets": [],
+      "command": "assertElementPresent",
+      "target": "xpath=//p[contains(.,'La data di scadenza della carta non è valida.')]",
+      "targets": [
+        ["id=error", "id"],
+        ["css=#error", "css:finder"],
+        ["xpath=//p[@id='error']", "xpath:attributes"],
+        ["xpath=//div/p", "xpath:position"],
+        ["xpath=//p[contains(.,'La data di scadenza della carta non è valida.')]", "xpath:innerText"]
+      ],
       "value": ""
     }]
   }, {
@@ -1507,7 +1525,7 @@
       "id": "c77274a8-a188-4660-9c0a-d04cac5ec884",
       "comment": "",
       "command": "executeScript",
-      "target": "document.querySelector('form[action*=\"CheckoutCarrello\"]').removeAttribute('onsubmit');",
+      "target": "document.querySelector('form[action*=\"PagamentoController\"]').removeAttribute('onsubmit');",
       "targets": [],
       "value": ""
     }, {
@@ -1965,7 +1983,7 @@
       "id": "fc4fd990-a092-412b-be2a-9e8982cfd77f",
       "comment": "",
       "command": "executeScript",
-      "target": "document.querySelector('form[action*=\"CheckoutCarrello\"]').removeAttribute('onsubmit');",
+      "target": "document.querySelector('form[action*=\"PagamentoController\"]').removeAttribute('onsubmit');",
       "targets": [],
       "value": ""
     }, {

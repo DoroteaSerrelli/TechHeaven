@@ -1,0 +1,1286 @@
+{
+  "id": "89401cf5-bb57-4b4d-bb30-0f50cd41a45d",
+  "version": "2.0",
+  "name": "GestioneApprovvigionamentiControlTest",
+  "url": "https://localhost/",
+  "tests": [{
+    "id": "e1f7558d-6298-4f79-b2ba-ca191c9e4e98",
+    "name": "TC13_1_1Test",
+    "commands": [{
+      "id": "4230e6f6-66c0-41f6-8eb3-004992b85d68",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "16ab3481-f64c-4575-8af7-b6ac72363da2",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Autenticazione",
+      "targets": [
+        ["linkText=Autenticazione", "linkText"],
+        ["css=#navbar > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Autenticazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Autenticazione')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Autenticazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "00de1e7c-7b2a-4bd6-94d7-3f4898fda68b",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "fulvioGestoreOrdini"
+    }, {
+      "id": "b2dfda86-5362-413b-8980-aed652adb2e3",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "fulvio0"
+    }, {
+      "id": "c9ed7afd-0ad3-4d2d-abae-d9d94b684ccd",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a43d9da9-99c3-41b4-9d0c-6231a9768ea6",
+      "comment": "",
+      "command": "click",
+      "target": "name=ruolo",
+      "targets": [
+        ["name=ruolo", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='ruolo']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ac81bf7c-ca31-4fda-9331-ce0881d55c32",
+      "comment": "",
+      "command": "select",
+      "target": "name=ruolo",
+      "targets": [],
+      "value": "label=GestoreOrdini"
+    }, {
+      "id": "b7fb9524-1877-44ac-b8c9-e9d5a6da4f08",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(2)",
+      "targets": [
+        ["css=option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='GestoreOrdini']", "xpath:attributes"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'GestoreOrdini')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "60f1550d-5ddc-4100-bc43-58adf13863d8",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "70e17ef7-dec3-41af-a247-a3c8d33b754f",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//img[@alt='Approvvigionamento']",
+      "targets": [
+        ["css=#supplyingRequest img", "css:finder"],
+        ["xpath=//img[@alt='Approvvigionamento']", "xpath:img"],
+        ["xpath=//div[@id='supplyingRequest']/a/img", "xpath:idRelative"],
+        ["xpath=//div[4]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5950df8e-cd59-439c-9d95-5874b9d1958b",
+      "comment": "",
+      "command": "type",
+      "target": "id=productFilter",
+      "targets": [
+        ["id=productFilter", "id"],
+        ["css=#productFilter", "css:finder"],
+        ["xpath=//input[@id='productFilter']", "xpath:attributes"],
+        ["xpath=//body/input", "xpath:position"]
+      ],
+      "value": "HP 15s-fq5040nl"
+    }, {
+      "id": "3f9fb228-62ed-4514-9935-10f53024972c",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//td[@class='productName']/h3[text()='HP 15s-fq5040nl']/ancestor::tr//button[1]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f83a216e-239b-4c7d-9b0b-bb434302fd38",
+      "comment": "",
+      "command": "type",
+      "target": "name=quantity",
+      "targets": [
+        ["name=quantity", "name"],
+        ["css=.row:nth-child(2) input", "css:finder"],
+        ["xpath=//input[@name='quantity']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "21"
+    }, {
+      "id": "117c8097-f37d-44d8-a601-1df65e16c9ad",
+      "comment": "",
+      "command": "type",
+      "target": "name=fornitore",
+      "targets": [
+        ["name=fornitore", "name"],
+        ["css=.row:nth-child(3) input:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='fornitore']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Esprinet"
+    }, {
+      "id": "dee50dbf-6998-453e-9881-b7ba60ddd1c9",
+      "comment": "",
+      "command": "type",
+      "target": "name=email_fornitore",
+      "targets": [
+        ["name=email_fornitore", "name"],
+        ["css=input:nth-child(4)", "css:finder"],
+        ["xpath=//input[@name='email_fornitore']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[2]/div/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "info@esprinet.com"
+    }, {
+      "id": "bb83c582-9631-47c7-9a1a-cb657be36e00",
+      "comment": "",
+      "command": "type",
+      "target": "name=descrizione",
+      "targets": [
+        ["name=descrizione", "name"],
+        ["css=textarea", "css:finder"],
+        ["xpath=//textarea[@name='descrizione']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[3]/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "Prova"
+    }, {
+      "id": "6ea73b28-3888-4b17-8846-9d81a76a276a",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=(//button[@type='submit'])[2]",
+      "targets": [
+        ["css=.confirm_button:nth-child(7)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/button", "xpath:idRelative"],
+        ["xpath=//body/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Submit Request')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "f36ce9b2-66b8-4627-b1ab-84c099832c40",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//h4[contains(.,'In magazzino sono ancora disponibili delle scorte per il prodotto specificato.')]",
+      "targets": [
+        ["css=#error > h4", "css:finder"],
+        ["xpath=//div[@id='error']/h4", "xpath:idRelative"],
+        ["xpath=//h4", "xpath:position"],
+        ["xpath=//h4[contains(.,'In magazzino sono ancora disponibili delle scorte per il prodotto specificato.')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "8d8bc902-8107-4dfd-a6a4-d655cf6d5dbe",
+    "name": "TC13_1_2Test",
+    "commands": [{
+      "id": "de14ab39-254b-4339-aa0c-dbf1db36c997",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "285afaf5-c7cf-4bb5-b199-12cb11573428",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Autenticazione",
+      "targets": [
+        ["linkText=Autenticazione", "linkText"],
+        ["css=#navbar > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Autenticazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Autenticazione')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Autenticazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "eac4681e-3071-4cdd-9736-593433dfa691",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "fulvioGestoreOrdini"
+    }, {
+      "id": "f6a82166-662d-4939-b25e-5b78e9b9b455",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "fulvio0"
+    }, {
+      "id": "58201799-58b0-471d-868d-e0d102d60338",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a7243f0a-1797-40b8-8b91-38e22ebf8914",
+      "comment": "",
+      "command": "click",
+      "target": "name=ruolo",
+      "targets": [
+        ["name=ruolo", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='ruolo']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d8c1ddbb-343c-4376-868a-cd35e1840673",
+      "comment": "",
+      "command": "select",
+      "target": "name=ruolo",
+      "targets": [],
+      "value": "label=GestoreOrdini"
+    }, {
+      "id": "b1f8aa54-6dc2-433b-bb93-df7c626a5094",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(2)",
+      "targets": [
+        ["css=option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='GestoreOrdini']", "xpath:attributes"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'GestoreOrdini')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "fe778e98-a41b-4a87-880d-1d8d9b6a130f",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "07572eee-1ff9-4917-9b7c-3e09fd4b41d2",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//img[@alt='Approvvigionamento']",
+      "targets": [
+        ["css=#supplyingRequest img", "css:finder"],
+        ["xpath=//img[@alt='Approvvigionamento']", "xpath:img"],
+        ["xpath=//div[@id='supplyingRequest']/a/img", "xpath:idRelative"],
+        ["xpath=//div[4]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fc24cdd6-1535-47bb-a84e-204b3e6a0a36",
+      "comment": "",
+      "command": "type",
+      "target": "id=productFilter",
+      "targets": [
+        ["id=productFilter", "id"],
+        ["css=#productFilter", "css:finder"],
+        ["xpath=//input[@id='productFilter']", "xpath:attributes"],
+        ["xpath=//body/input", "xpath:position"]
+      ],
+      "value": "HP 15s-fq5040nl"
+    }, {
+      "id": "9ed032a1-8c14-4a60-a308-f14cdf78151c",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//td[@class='productName']/h3[text()='HP 15s-fq5040nl']/ancestor::tr//button[1]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8cfb4fe5-b6d3-4fcc-b122-1d1ca57a6ba1",
+      "comment": "",
+      "command": "type",
+      "target": "name=quantity",
+      "targets": [
+        ["name=quantity", "name"],
+        ["css=.row:nth-child(2) input", "css:finder"],
+        ["xpath=//input[@name='quantity']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "-2"
+    }, {
+      "id": "e4af54e0-3818-495a-a7be-7b890e6c1a44",
+      "comment": "",
+      "command": "type",
+      "target": "name=fornitore",
+      "targets": [
+        ["name=fornitore", "name"],
+        ["css=.row:nth-child(3) input:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='fornitore']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Esprinet"
+    }, {
+      "id": "c06088c1-0900-4aaf-acce-bb5a532676dd",
+      "comment": "",
+      "command": "type",
+      "target": "name=email_fornitore",
+      "targets": [
+        ["name=email_fornitore", "name"],
+        ["css=input:nth-child(4)", "css:finder"],
+        ["xpath=//input[@name='email_fornitore']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[2]/div/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "info@esprinet.com"
+    }, {
+      "id": "4bd59c90-b9ba-42a3-9fbf-509b1e6f8623",
+      "comment": "",
+      "command": "type",
+      "target": "name=descrizione",
+      "targets": [
+        ["name=descrizione", "name"],
+        ["css=textarea", "css:finder"],
+        ["xpath=//textarea[@name='descrizione']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[3]/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "Prova"
+    }, {
+      "id": "b1eee2a1-0f96-41d9-88f3-513eb2db14dd",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=(//button[@type='submit'])[2]",
+      "targets": [
+        ["css=.confirm_button:nth-child(7)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/button", "xpath:idRelative"],
+        ["xpath=//body/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Submit Request')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "99c999ff-91cd-49bb-9a00-25e35724d6c9",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//h4[contains(.,'La quantità del prodotto specificata non è valida.')]",
+      "targets": [
+        ["css=#error > h4", "css:finder"],
+        ["xpath=//div[@id='error']/h4", "xpath:idRelative"],
+        ["xpath=//h4", "xpath:position"],
+        ["xpath=//h4[contains(.,'La quantità del prodotto specificata non è valida.')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "4b6f4208-0748-4153-ae80-97f62e22a783",
+    "name": "TC13_1_3Test",
+    "commands": [{
+      "id": "76e24292-98f9-497f-903f-3e51f30db466",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "bcb6ca41-da13-4a24-ac11-768ebdbd0564",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Autenticazione",
+      "targets": [
+        ["linkText=Autenticazione", "linkText"],
+        ["css=#navbar > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Autenticazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Autenticazione')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Autenticazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "34680c73-9960-4e22-8c21-3ce88910ff83",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "fulvioGestoreOrdini"
+    }, {
+      "id": "11389b38-f726-4dfd-8682-1d720e93742e",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "fulvio0"
+    }, {
+      "id": "6eafc14a-0f7a-416e-916e-ea3379033cb5",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fc247dd2-5da2-4247-84e3-879e7d4f83f6",
+      "comment": "",
+      "command": "click",
+      "target": "name=ruolo",
+      "targets": [
+        ["name=ruolo", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='ruolo']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "2a0d68b6-cdef-4888-a110-0d535e44fb8d",
+      "comment": "",
+      "command": "select",
+      "target": "name=ruolo",
+      "targets": [],
+      "value": "label=GestoreOrdini"
+    }, {
+      "id": "b75c631d-a6f6-4f22-92fd-cdcf306dfb64",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(2)",
+      "targets": [
+        ["css=option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='GestoreOrdini']", "xpath:attributes"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'GestoreOrdini')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "d9001ac4-4a2b-4159-ba37-fd6c62b3bf7f",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "491b9dfa-01a0-440d-844f-d68e92da7734",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//img[@alt='Approvvigionamento']",
+      "targets": [
+        ["css=#supplyingRequest img", "css:finder"],
+        ["xpath=//img[@alt='Approvvigionamento']", "xpath:img"],
+        ["xpath=//div[@id='supplyingRequest']/a/img", "xpath:idRelative"],
+        ["xpath=//div[4]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "fa658419-d431-414a-a2c5-d646a38fa5b6",
+      "comment": "",
+      "command": "type",
+      "target": "id=productFilter",
+      "targets": [
+        ["id=productFilter", "id"],
+        ["css=#productFilter", "css:finder"],
+        ["xpath=//input[@id='productFilter']", "xpath:attributes"],
+        ["xpath=//body/input", "xpath:position"]
+      ],
+      "value": "HP 15s-fq5040nl"
+    }, {
+      "id": "85e0fdf7-f4de-421e-a122-64aeae116ad6",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//td[@class='productName']/h3[text()='HP 15s-fq5040nl']/ancestor::tr//button[1]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a1da9354-f0c1-463a-81cd-cefdb984570c",
+      "comment": "",
+      "command": "type",
+      "target": "name=quantity",
+      "targets": [
+        ["name=quantity", "name"],
+        ["css=.row:nth-child(2) input", "css:finder"],
+        ["xpath=//input[@name='quantity']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "2"
+    }, {
+      "id": "0f78758b-89e1-4770-b95f-4d9cc06f5de4",
+      "comment": "",
+      "command": "type",
+      "target": "name=fornitore",
+      "targets": [
+        ["name=fornitore", "name"],
+        ["css=.row:nth-child(3) input:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='fornitore']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Esprinet\\\\**"
+    }, {
+      "id": "5df1ff23-d53f-4d05-8b0a-215a0a23d429",
+      "comment": "",
+      "command": "type",
+      "target": "name=email_fornitore",
+      "targets": [
+        ["name=email_fornitore", "name"],
+        ["css=input:nth-child(4)", "css:finder"],
+        ["xpath=//input[@name='email_fornitore']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[2]/div/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "info@esprinet.com"
+    }, {
+      "id": "a6059142-47eb-4539-9d51-f9cb05b79a31",
+      "comment": "",
+      "command": "type",
+      "target": "name=descrizione",
+      "targets": [
+        ["name=descrizione", "name"],
+        ["css=textarea", "css:finder"],
+        ["xpath=//textarea[@name='descrizione']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[3]/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "Prova"
+    }, {
+      "id": "31446ca2-3c04-42f1-af6f-cc25b96d9770",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=(//button[@type='submit'])[2]",
+      "targets": [
+        ["css=.confirm_button:nth-child(7)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/button", "xpath:idRelative"],
+        ["xpath=//body/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Submit Request')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "735aaaff-7858-4a16-9e07-5430b5368fb1",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//h3[contains(.,'Il fornitore deve essere una sequenza di lettere, spazi ed, eventualmente, numeri')]",
+      "targets": [
+        ["id=errormsg", "id"],
+        ["css=#errormsg", "css:finder"],
+        ["xpath=//h3[@id='errormsg']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[4]/h3", "xpath:idRelative"],
+        ["xpath=//div[4]/h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'Il fornitore deve essere una sequenza di lettere, spazi ed, eventualmente, numeri')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "bde4558b-e2dc-4550-b0d8-1f48cfafdecf",
+    "name": "TC13_1_4Test",
+    "commands": [{
+      "id": "4e9f1d73-ae07-42a5-acc2-b1d24b5f9b58",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "47c3e1fe-9e08-4e08-82db-761d0b85be7b",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Autenticazione",
+      "targets": [
+        ["linkText=Autenticazione", "linkText"],
+        ["css=#navbar > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Autenticazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Autenticazione')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Autenticazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "91cba442-3e69-4450-9d7b-a80ee393cd46",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "fulvioGestoreOrdini"
+    }, {
+      "id": "c056024b-bad5-45fd-89f5-74b380c93a25",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "fulvio0"
+    }, {
+      "id": "6738d7a5-7296-47cb-8e81-5586104ec171",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "ef7d646a-414f-4a2f-b9e1-a0e8213596f1",
+      "comment": "",
+      "command": "click",
+      "target": "name=ruolo",
+      "targets": [
+        ["name=ruolo", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='ruolo']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6861ddda-a504-4558-868c-0546d211df3c",
+      "comment": "",
+      "command": "select",
+      "target": "name=ruolo",
+      "targets": [],
+      "value": "label=GestoreOrdini"
+    }, {
+      "id": "eefa10dc-44dd-4a49-b27b-c2169fbb5981",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(2)",
+      "targets": [
+        ["css=option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='GestoreOrdini']", "xpath:attributes"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'GestoreOrdini')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b5d00e55-fbc6-4baf-8ceb-da13d1e0cd23",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "de152611-cf53-47f2-b030-95ab8243a5c4",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//img[@alt='Approvvigionamento']",
+      "targets": [
+        ["css=#supplyingRequest img", "css:finder"],
+        ["xpath=//img[@alt='Approvvigionamento']", "xpath:img"],
+        ["xpath=//div[@id='supplyingRequest']/a/img", "xpath:idRelative"],
+        ["xpath=//div[4]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7fafa454-028c-4836-a1a0-6a2d88ce0a9b",
+      "comment": "",
+      "command": "type",
+      "target": "id=productFilter",
+      "targets": [
+        ["id=productFilter", "id"],
+        ["css=#productFilter", "css:finder"],
+        ["xpath=//input[@id='productFilter']", "xpath:attributes"],
+        ["xpath=//body/input", "xpath:position"]
+      ],
+      "value": "HP 15s-fq5040nl"
+    }, {
+      "id": "f77d79f8-7c18-4132-a91c-1afbc9df52ee",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//td[@class='productName']/h3[text()='HP 15s-fq5040nl']/ancestor::tr//button[1]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c3d4a6b2-a64a-468d-b974-819f11a881f4",
+      "comment": "",
+      "command": "type",
+      "target": "name=quantity",
+      "targets": [
+        ["name=quantity", "name"],
+        ["css=.row:nth-child(2) input", "css:finder"],
+        ["xpath=//input[@name='quantity']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "2"
+    }, {
+      "id": "6ee11f20-31a6-47f5-8aa5-5d2825bf81df",
+      "comment": "",
+      "command": "type",
+      "target": "name=fornitore",
+      "targets": [
+        ["name=fornitore", "name"],
+        ["css=.row:nth-child(3) input:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='fornitore']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Esprinet"
+    }, {
+      "id": "cd5d2c18-d659-4b6c-ba4f-1581bca3b5b6",
+      "comment": "",
+      "command": "type",
+      "target": "name=email_fornitore",
+      "targets": [
+        ["name=email_fornitore", "name"],
+        ["css=input:nth-child(4)", "css:finder"],
+        ["xpath=//input[@name='email_fornitore']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[2]/div/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "info@"
+    }, {
+      "id": "b85694fa-3dcd-4af7-abd1-12062749b8e6",
+      "comment": "",
+      "command": "type",
+      "target": "name=descrizione",
+      "targets": [
+        ["name=descrizione", "name"],
+        ["css=textarea", "css:finder"],
+        ["xpath=//textarea[@name='descrizione']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[3]/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "Prova"
+    }, {
+      "id": "ac5b721a-27c2-483c-b1fb-3db54b010c40",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=(//button[@type='submit'])[2]",
+      "targets": [
+        ["css=.confirm_button:nth-child(7)", "css:finder"],
+        ["xpath=(//button[@type='submit'])[2]", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/button", "xpath:idRelative"],
+        ["xpath=//body/form/button", "xpath:position"],
+        ["xpath=//button[contains(.,'Submit Request')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "7aad45dd-be79-4651-ad96-d80d80ded788",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//h3[contains(.,'L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com)')]",
+      "targets": [
+        ["id=errormsg", "id"],
+        ["css=#errormsg", "css:finder"],
+        ["xpath=//h3[@id='errormsg']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[4]/h3", "xpath:idRelative"],
+        ["xpath=//div[4]/h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com)')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "3b3a5077-f5c7-46fb-a5b7-134ffe21d21f",
+    "name": "TC13_1_5Test",
+    "commands": [{
+      "id": "d1d7067e-6244-41ff-b4cc-a7520256e322",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "d035af37-1abf-4fc4-9f4f-df50909b42b6",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Autenticazione",
+      "targets": [
+        ["linkText=Autenticazione", "linkText"],
+        ["css=#navbar > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Autenticazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Autenticazione')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Autenticazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "ceab294f-a00a-4ba9-b225-377c7ae95ca8",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "fulvioGestoreOrdini"
+    }, {
+      "id": "04822b7e-bc92-4fec-8f1d-79ba00ee1a4e",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "fulvio0"
+    }, {
+      "id": "11ac8583-ac90-48e6-bb76-1da8012219e4",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "7e1edcd7-a60b-4372-b913-0fa2fd21f170",
+      "comment": "",
+      "command": "click",
+      "target": "name=ruolo",
+      "targets": [
+        ["name=ruolo", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='ruolo']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5448a223-daf0-45c6-93bd-d2ffd1caa2f4",
+      "comment": "",
+      "command": "select",
+      "target": "name=ruolo",
+      "targets": [],
+      "value": "label=GestoreOrdini"
+    }, {
+      "id": "c8d7a879-249b-431c-8a2c-f6b06c5477ee",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(2)",
+      "targets": [
+        ["css=option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='GestoreOrdini']", "xpath:attributes"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'GestoreOrdini')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "6c5a3e50-8c8e-4967-aa7c-c4825b2539b0",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a5cb34ff-9072-42ae-82ba-268fd07e8558",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//img[@alt='Approvvigionamento']",
+      "targets": [
+        ["css=#supplyingRequest img", "css:finder"],
+        ["xpath=//img[@alt='Approvvigionamento']", "xpath:img"],
+        ["xpath=//div[@id='supplyingRequest']/a/img", "xpath:idRelative"],
+        ["xpath=//div[4]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0dafc09d-37f6-4e01-b4de-ad2d537501b9",
+      "comment": "",
+      "command": "type",
+      "target": "id=productFilter",
+      "targets": [
+        ["id=productFilter", "id"],
+        ["css=#productFilter", "css:finder"],
+        ["xpath=//input[@id='productFilter']", "xpath:attributes"],
+        ["xpath=//body/input", "xpath:position"]
+      ],
+      "value": "HP 15s-fq5040nl"
+    }, {
+      "id": "6d3f84bd-69ec-4fe2-993d-82609d00d3d6",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//td[@class='productName']/h3[text()='HP 15s-fq5040nl']/ancestor::tr//button[1]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "22817957-5890-4a60-9e4c-5f7423dd1d28",
+      "comment": "",
+      "command": "type",
+      "target": "name=quantity",
+      "targets": [
+        ["name=quantity", "name"],
+        ["css=.row:nth-child(2) input", "css:finder"],
+        ["xpath=//input[@name='quantity']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "2"
+    }, {
+      "id": "1efa731e-f8ab-4e0b-90f1-136011349d5c",
+      "comment": "",
+      "command": "type",
+      "target": "name=fornitore",
+      "targets": [
+        ["name=fornitore", "name"],
+        ["css=.row:nth-child(3) input:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='fornitore']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Esprinet"
+    }, {
+      "id": "8ab461cc-434c-4006-a8a1-10c6f17fc221",
+      "comment": "",
+      "command": "type",
+      "target": "name=email_fornitore",
+      "targets": [
+        ["name=email_fornitore", "name"],
+        ["css=input:nth-child(4)", "css:finder"],
+        ["xpath=//input[@name='email_fornitore']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[2]/div/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "info@esprinet.com"
+    }, {
+      "id": "a676c4b5-ba86-4034-8ecf-8cfeb7bc7c7a",
+      "comment": "",
+      "command": "type",
+      "target": "name=descrizione",
+      "targets": [
+        ["name=descrizione", "name"],
+        ["css=textarea", "css:finder"],
+        ["xpath=//textarea[@name='descrizione']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[3]/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "443b12a7-e8d4-4bec-8a8c-add40256493a",
+      "comment": "",
+      "command": "executeScript",
+      "target": "document.getElementById('supplyingRequestForm').submit()",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9ee62d7a-25b3-40d6-89d9-7c9a22c1af8d",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//div[@id='error']/h4",
+      "targets": [
+        ["css=#error > h4", "css:finder"],
+        ["xpath=//div[@id='error']/h4", "xpath:idRelative"],
+        ["xpath=//h4", "xpath:position"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "658335a3-d8ec-4dda-8632-a433068f7e89",
+    "name": "TC13_1_6Test",
+    "commands": [{
+      "id": "aebadf2d-5b0f-474d-949e-78350872c81f",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4b6ca83a-9d7b-47fb-ab06-a212d1c70ee4",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Autenticazione",
+      "targets": [
+        ["linkText=Autenticazione", "linkText"],
+        ["css=#navbar > li:nth-child(2) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Autenticazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[2]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Autenticazione')]", "xpath:href"],
+        ["xpath=//li[2]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Autenticazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "3cb81fb6-cacd-4c48-a631-d3e6d62e9131",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(5) input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "fulvioGestoreOrdini"
+    }, {
+      "id": "acb6b2fe-bc1f-434d-9ce8-b2da07371ec8",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=password", "name"],
+        ["css=.row:nth-child(6) input", "css:finder"],
+        ["xpath=//input[@name='password']", "xpath:attributes"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "fulvio0"
+    }, {
+      "id": "f7a0612c-3c50-44cb-b00e-36cdc7f33ae3",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[3]/div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "15ea4ada-4aca-497d-9998-7e657bd2a7ae",
+      "comment": "",
+      "command": "click",
+      "target": "name=ruolo",
+      "targets": [
+        ["name=ruolo", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='ruolo']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0f0e50a7-94f7-436a-857d-8fea36cda99a",
+      "comment": "",
+      "command": "select",
+      "target": "name=ruolo",
+      "targets": [],
+      "value": "label=GestoreOrdini"
+    }, {
+      "id": "fc630456-2fbc-46fb-aeaf-854865a07b34",
+      "comment": "",
+      "command": "click",
+      "target": "css=option:nth-child(2)",
+      "targets": [
+        ["css=option:nth-child(2)", "css:finder"],
+        ["xpath=//option[@value='GestoreOrdini']", "xpath:attributes"],
+        ["xpath=//option[2]", "xpath:position"],
+        ["xpath=//option[contains(.,'GestoreOrdini')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "3a083377-c3a8-49d2-b656-741b54c7a400",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "82bb7aad-46ce-4c81-a272-9960b7ca288f",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//img[@alt='Approvvigionamento']",
+      "targets": [
+        ["css=#supplyingRequest img", "css:finder"],
+        ["xpath=//img[@alt='Approvvigionamento']", "xpath:img"],
+        ["xpath=//div[@id='supplyingRequest']/a/img", "xpath:idRelative"],
+        ["xpath=//div[4]/a/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "094ce640-14dd-4f97-9dde-2c47d31007c4",
+      "comment": "",
+      "command": "type",
+      "target": "id=productFilter",
+      "targets": [
+        ["id=productFilter", "id"],
+        ["css=#productFilter", "css:finder"],
+        ["xpath=//input[@id='productFilter']", "xpath:attributes"],
+        ["xpath=//body/input", "xpath:position"]
+      ],
+      "value": "HP 15s-fq5040nl"
+    }, {
+      "id": "d35cc63f-3594-4329-b5b6-6fd235f09e26",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//td[@class='productName']/h3[text()='HP 15s-fq5040nl']/ancestor::tr//button[1]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3d8efd0b-b8de-4e8f-bcd3-f903d01ffb01",
+      "comment": "",
+      "command": "type",
+      "target": "name=quantity",
+      "targets": [
+        ["name=quantity", "name"],
+        ["css=.row:nth-child(2) input", "css:finder"],
+        ["xpath=//input[@name='quantity']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div/div/input", "xpath:idRelative"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "2"
+    }, {
+      "id": "522f6b8c-104a-4c8a-9946-1def4d4a8fce",
+      "comment": "",
+      "command": "type",
+      "target": "name=fornitore",
+      "targets": [
+        ["name=fornitore", "name"],
+        ["css=.row:nth-child(3) input:nth-child(2)", "css:finder"],
+        ["xpath=//input[@name='fornitore']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[2]/div/input", "xpath:idRelative"],
+        ["xpath=//div[2]/div/input", "xpath:position"]
+      ],
+      "value": "Esprinet"
+    }, {
+      "id": "db45d367-4e9d-4aa7-9c20-3e4136b8fa52",
+      "comment": "",
+      "command": "type",
+      "target": "name=email_fornitore",
+      "targets": [
+        ["name=email_fornitore", "name"],
+        ["css=input:nth-child(4)", "css:finder"],
+        ["xpath=//input[@name='email_fornitore']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[2]/div/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
+      ],
+      "value": "info@esprinet.com"
+    }, {
+      "id": "6ebfa8fc-be6f-4a03-ac70-f4be2e87410a",
+      "comment": "",
+      "command": "type",
+      "target": "name=descrizione",
+      "targets": [
+        ["name=descrizione", "name"],
+        ["css=textarea", "css:finder"],
+        ["xpath=//textarea[@name='descrizione']", "xpath:attributes"],
+        ["xpath=//form[@id='supplyingRequestForm']/div[3]/div/textarea", "xpath:idRelative"],
+        ["xpath=//textarea", "xpath:position"]
+      ],
+      "value": "Prova"
+    }, {
+      "id": "e40914b2-29f2-4588-af8f-9186c14fd805",
+      "comment": "",
+      "command": "executeScript",
+      "target": "document.getElementById('supplyingRequestForm').submit()",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "be940ce4-3e72-4528-ba09-f194779200af",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//h4[contains(.,'Richiesta Approvigionamento Avvenuta Con Successo!')]",
+      "targets": [
+        ["css=#error > h4", "css:finder"],
+        ["xpath=//div[@id='error']/h4", "xpath:idRelative"],
+        ["xpath=//h4", "xpath:position"],
+        ["xpath=//h4[contains(.,'Richiesta Approvigionamento Avvenuta Con Successo!')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "12c8dc0f-a77f-44cf-ad93-5c95e624bf49",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["e1f7558d-6298-4f79-b2ba-ca191c9e4e98"]
+  }],
+  "urls": ["https://localhost/"],
+  "plugins": []
+}

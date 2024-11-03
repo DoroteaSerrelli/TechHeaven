@@ -6,7 +6,7 @@
 
 
 <%@page contentType="text/html" pageEncoding="UTF-8"
-	import="application.RegistrazioneService.Indirizzo,
+	import="application.Registrazione.RegistrazioneService.Indirizzo,
 				  java.util.ArrayList"%>
 <!DOCTYPE html>
 <html lang="it">

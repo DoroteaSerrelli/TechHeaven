@@ -11,13 +11,14 @@ import java.util.LinkedList;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
 
-import application.RegistrazioneService.Cliente;
-import application.RegistrazioneService.Ruolo;
-import application.RegistrazioneService.Utente;
-import application.RegistrazioneService.Indirizzo;
-import application.RegistrazioneService.ProxyUtente;
+import org.apache.tomcat.jdbc.pool.DataSource;
+
+import application.Registrazione.RegistrazioneService.Cliente;
+import application.Registrazione.RegistrazioneService.Indirizzo;
+import application.Registrazione.RegistrazioneService.ProxyUtente;
+import application.Registrazione.RegistrazioneService.Ruolo;
+import application.Registrazione.RegistrazioneService.Utente;
 
 /**
  * Questa classe di data access object (DAO) gestisce le operazioni CRUD (Create, Read, Update, Delete) 
@@ -242,8 +243,8 @@ public class UtenteDAODataSource{
 	/**
 	 * Il metodo recupera le informazioni complete di 
 	 * un utente specifico dal database, in base al suo username.
-	 * @see application.RegistrazioneService.Utente
-	 * @see application.RegistrazioneService.ProxyUtente
+	 * @see application.Registrazione.RegistrazioneService.Utente
+	 * @see application.Registrazione.RegistrazioneService.ProxyUtente
 	 * 
 	 * @param username : username dell'utente da recuperare.
 	 * @return Restituisce un oggetto `Utente` contenente tutte le informazioni dell'utente specificato,

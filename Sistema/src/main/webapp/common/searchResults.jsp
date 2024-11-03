@@ -9,14 +9,7 @@
 				  java.text.DecimalFormat,
 				  java.net.URLEncoder,
 				  com.google.gson.Gson,
-				  java.util.Base64,
-				  application.NavigazioneService.NavigazioneServiceImpl,
-				  java.lang.String,
-				  java.util.Set,
-				  java.util.HashSet,
-				  application.NavigazioneService.ProxyProdotto,
-				  java.util.Collection,
-				  application.NavigazioneService.Prodotto"%>
+				  java.util.Base64,application.Navigazione.NavigazioneService.NavigazioneServiceImpl,java.lang.String,java.util.Set,java.util.HashSet,application.Navigazione.NavigazioneService.ProxyProdotto,java.util.Collection,application.Navigazione.NavigazioneService.Prodotto"%>
 
 <%
     Collection<ProxyProdotto> products = (Collection<ProxyProdotto>) request.getSession().getAttribute("products"); 

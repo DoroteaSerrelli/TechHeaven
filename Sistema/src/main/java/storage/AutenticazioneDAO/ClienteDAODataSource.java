@@ -6,9 +6,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.sql.DataSource;
+import org.apache.tomcat.jdbc.pool.DataSource;
 
-import application.RegistrazioneService.Cliente;
+import application.Registrazione.RegistrazioneService.Cliente;
 
 
 public class ClienteDAODataSource{

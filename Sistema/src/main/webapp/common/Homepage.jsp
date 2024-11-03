@@ -1,7 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"
 	import="java.util.Currency,
-				  java.text.NumberFormat,
-				  application.NavigazioneService.ProxyProdotto,
+				  java.text.NumberFormat,application.Navigazione.NavigazioneService.ProxyProdotto,
 				  java.util.Collection"%>
 <%
 Collection<ProxyProdotto> telefoni = (Collection<ProxyProdotto>) application.getAttribute("telefoni");

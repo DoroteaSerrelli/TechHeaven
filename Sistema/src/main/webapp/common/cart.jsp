@@ -2,8 +2,7 @@
 <%@page import="java.text.NumberFormat"%>
 <%@page import="java.util.HashMap"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"
-	import="application.GestioneCarrelloService.ItemCarrello,
-				  application.GestioneCarrelloService.Carrello"%>
+	import="application.GestioneCarrello.GestioneCarrelloService.ItemCarrello,application.GestioneCarrello.GestioneCarrelloService.Carrello"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>

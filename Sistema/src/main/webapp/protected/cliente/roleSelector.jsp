@@ -5,10 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"
-	import="application.RegistrazioneService.ProxyUtente,
-				  application.RegistrazioneService.Utente,
-				  java.util.ArrayList,
-				  application.RegistrazioneService.Ruolo"%>
+	import="application.Registrazione.RegistrazioneService.ProxyUtente,application.Registrazione.RegistrazioneService.Utente,java.util.ArrayList,application.Registrazione.RegistrazioneService.Ruolo"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>

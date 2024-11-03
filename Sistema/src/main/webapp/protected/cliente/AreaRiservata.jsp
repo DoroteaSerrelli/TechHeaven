@@ -5,12 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"
-	import="application.AutenticazioneControl.AutenticazioneController,
-				  application.RegistrazioneService.ProxyUtente,
-				  application.RegistrazioneService.Indirizzo,
-				  java.util.ArrayList,
-				  application.RegistrazioneService.Ruolo,
-				  application.RegistrazioneService.Utente"%>
+	import="application.Autenticazione.AutenticazioneControl.AutenticazioneController,application.Registrazione.RegistrazioneService.ProxyUtente,application.Registrazione.RegistrazioneService.Indirizzo,java.util.ArrayList,application.Registrazione.RegistrazioneService.Ruolo,application.Registrazione.RegistrazioneService.Utente"%>
 
 <%
 ProxyUtente u = (ProxyUtente) request.getSession().getAttribute("user");

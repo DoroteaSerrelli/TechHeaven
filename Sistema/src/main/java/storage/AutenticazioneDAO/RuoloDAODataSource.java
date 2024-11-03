@@ -9,10 +9,11 @@ import java.util.Collection;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
 
-import application.RegistrazioneService.Ruolo;
-import application.RegistrazioneService.Utente;
+import org.apache.tomcat.jdbc.pool.DataSource;
+
+import application.Registrazione.RegistrazioneService.Ruolo;
+import application.Registrazione.RegistrazioneService.Utente;
 
 /**
  * Questa classe implementa il Data Access Object (DAO) per l'entità Ruolo nel database.

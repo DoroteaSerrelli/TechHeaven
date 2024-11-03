@@ -5,11 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"
-	import="application.AutenticazioneControl.AutenticazioneController,
-			  application.RegistrazioneService.ProxyUtente,
-			  java.util.ArrayList,
-			  application.RegistrazioneService.Ruolo,
-			  application.RegistrazioneService.Utente"%>
+	import="application.Autenticazione.AutenticazioneControl.AutenticazioneController,application.Registrazione.RegistrazioneService.ProxyUtente,java.util.ArrayList,application.Registrazione.RegistrazioneService.Ruolo,application.Registrazione.RegistrazioneService.Utente"%>
 
 <!DOCTYPE html>
 <html lang="en">

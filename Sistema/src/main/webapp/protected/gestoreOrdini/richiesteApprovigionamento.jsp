@@ -6,7 +6,7 @@
 
 
 <%@page contentType="text/html" pageEncoding="UTF-8"
-		import = "application.GestioneApprovvigionamenti.RichiestaApprovvigionamento,
+		import = "application.GestioneApprovvigionamenti.GestioneApprovvigionamentiService.RichiestaApprovvigionamento,
 				  java.util.Collection"%>
 <!DOCTYPE html>
 <html lang = "en">

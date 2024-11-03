@@ -9,9 +9,8 @@
 <%@page import="java.net.URLEncoder"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"
-		import = "application.NavigazioneService.ProxyProdotto,
-				  java.util.Collection,
-				  application.GestioneWishlistService.Wishlist"%>
+		import = "application.Navigazione.NavigazioneService.ProxyProdotto,
+				  java.util.Collection,application.GestioneWishlist.GestioneWishlistService.Wishlist"%>
 <!DOCTYPE html>
 <html lang = "en">
     <head>

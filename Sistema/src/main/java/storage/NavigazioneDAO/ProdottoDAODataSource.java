@@ -9,21 +9,20 @@ import java.util.LinkedList;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 
+import application.Navigazione.NavigazioneService.Prodotto;
+import application.Navigazione.NavigazioneService.ProxyProdotto;
+import application.Navigazione.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.Navigazione.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
+
 import java.util.ArrayList;
-
-
-import application.NavigazioneService.Prodotto;
-import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
-import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
-import application.NavigazioneService.ProxyProdotto;
 
 /**
  * Classe DAO per la gestione di un prodotto.
  * Questa classe implementa le operazioni CRUD (Create, Read, Update, Delete)
  * per i prodotti memorizzati nel database relazionale.
  * 
- * @see application.NavigazioneService.Prodotto
- * @see application.NavigazioneService.ProxyProdotto
+ * @see application.Navigazione.NavigazioneService.Prodotto
+ * @see application.Navigazione.NavigazioneService.ProxyProdotto
  * @see storage.NavigazioneDAO.PhotoControl
  * 
  * @author Dorotea Serrelli
@@ -97,8 +96,8 @@ public class ProdottoDAODataSource{
 	 * @return dto: un oggetto della classe ProxyProdotto contenente le informazioni
 	 * 				essenziali del prodotto con codice IDProduct 
 	 * 
-	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
-	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
+	 * @throws CategoriaProdottoException : @see application.Navigazione.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws SottocategoriaProdottoException : @see application.Navigazione.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * */
 	
 	public synchronized ProxyProdotto doRetrieveProxyByKey(int IDProduct) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
@@ -152,8 +151,8 @@ public class ProdottoDAODataSource{
 	 * @return dto: un oggetto della classe Prodotto contenente tutte le informazioni
 	 * 				del prodotto con codice IDProduct 
 	 * 
-	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
-	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
+	 * @throws CategoriaProdottoException : @see application.Navigazione.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws SottocategoriaProdottoException : @see application.Navigazione.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * */
 	
 	public synchronized Prodotto doRetrieveCompleteByKey(int IDProduct) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
@@ -252,8 +251,8 @@ public class ProdottoDAODataSource{
 	 * 
 	 * @return products : i prodotti presenti nel database ordinati per order
 	 * 
-	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
-	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
+	 * @throws CategoriaProdottoException : @see application.Navigazione.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws SottocategoriaProdottoException : @see application.Navigazione.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * */
 	
 	public synchronized Collection<ProxyProdotto> doRetrieveAll(String order, int page, int perPage) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
@@ -349,8 +348,8 @@ public class ProdottoDAODataSource{
 	 * 
 	 * @return products : i prodotti rimossi dal catalogo ordinati per order
 	 * 
-	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
-	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
+	 * @throws CategoriaProdottoException : @see application.Navigazione.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws SottocategoriaProdottoException : @see application.Navigazione.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * */
 	
 	public synchronized Collection<ProxyProdotto> doRetrieveAllDeleted(String order, int page, int perPage) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
@@ -449,8 +448,8 @@ public class ProdottoDAODataSource{
 	 * 
 	 * @return products : i prodotti del catalogo ordinati per order
 	 * 
-	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
-	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
+	 * @throws CategoriaProdottoException : @see application.Navigazione.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws SottocategoriaProdottoException : @see application.Navigazione.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * */
 	
 	public synchronized Collection<ProxyProdotto> doRetrieveAllExistent(String order, int page, int perPage) throws SQLException, CategoriaProdottoException, SottocategoriaProdottoException {
@@ -552,8 +551,8 @@ public class ProdottoDAODataSource{
 	 * 						nel modello, nel brand, nella descrizione in evidenza o nella descrizione 
 	 * 						dettagliata la parola searchTerm.
 	 * 
-	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
-	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
+	 * @throws CategoriaProdottoException : @see application.Navigazione.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws SottocategoriaProdottoException : @see application.Navigazione.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * */
 	
 	public synchronized Collection<ProxyProdotto> searching(String order, String searchTerm, int page, int perPage) throws SQLException, SottocategoriaProdottoException, CategoriaProdottoException {
@@ -668,8 +667,8 @@ public class ProdottoDAODataSource{
 	 * @return products : i prodotti del catalogo, ordinati per order, appartenenti alla
 	 * 						categoria category
 	 * 
-	 * @throws CategoriaProdottoException : @see application.NavigazioneService.ProdottoException.CategoriaProdottoException
-	 * @throws SottocategoriaProdottoException : @see application.NavigazioneService.ProdottoException.SottocategoriaProdottoException
+	 * @throws CategoriaProdottoException : @see application.Navigazione.NavigazioneService.ProdottoException.CategoriaProdottoException
+	 * @throws SottocategoriaProdottoException : @see application.Navigazione.NavigazioneService.ProdottoException.SottocategoriaProdottoException
 	 * */
 	
 	public synchronized Collection<ProxyProdotto> searchingByCategory(String order, String category, int page, int perPage) throws SQLException, CategoriaProdottoException, SottocategoriaProdottoException {

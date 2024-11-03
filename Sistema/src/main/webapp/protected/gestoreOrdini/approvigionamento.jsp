@@ -5,8 +5,7 @@
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"
-		import = "java.util.HashMap,
-				  application.NavigazioneService.ProxyProdotto,
+		import = "java.util.HashMap,application.Navigazione.NavigazioneService.ProxyProdotto,
 				  java.util.Collection"%>
 <!DOCTYPE html>
 <html lang="en">

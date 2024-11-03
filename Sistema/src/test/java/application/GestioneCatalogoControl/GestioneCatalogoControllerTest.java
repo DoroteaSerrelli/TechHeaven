@@ -5,13 +5,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import java.util.*;
 
-import application.GestioneCatalogoControl.GestioneCatalogoController;
-import application.GestioneCatalogoService.GestioneCatalogoServiceImpl;
-import application.NavigazioneControl.PaginationUtils;
-import application.NavigazioneService.ProxyProdotto;
+import application.GestioneCatalogo.GestioneCatalogoControl.GestioneCatalogoController;
+import application.GestioneCatalogo.GestioneCatalogoService.GestioneCatalogoServiceImpl;
+import application.Navigazione.NavigazioneControl.PaginationUtils;
+import application.Navigazione.NavigazioneService.ProxyProdotto;
+import application.Navigazione.NavigazioneService.ObjectProdotto.Categoria;
+import application.Navigazione.NavigazioneService.ObjectProdotto.Sottocategoria;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
-import application.NavigazioneService.ObjectProdotto.Categoria;
-import application.NavigazioneService.ObjectProdotto.Sottocategoria;
 
 import javax.servlet.ServletException;
 import javax.servlet.ServletOutputStream;

@@ -11,9 +11,10 @@ import java.util.logging.Logger;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
 
-import application.RegistrazioneService.Indirizzo;
+import org.apache.tomcat.jdbc.pool.DataSource;
+
+import application.Registrazione.RegistrazioneService.Indirizzo;
 
 /**
  * 
@@ -21,9 +22,9 @@ import application.RegistrazioneService.Indirizzo;
  * Questa classe implementa le operazioni CRUD (Create, Read, Update, Delete)
  * per gli indirizzi di un cliente memorizzati nel database relazionale.
  * 
- * @see application.RegistrazioneService.Indirizzo
- * @see application.RegistrazioneService.Utente
- * @see application.RegistrazioneService.ProxyUtente
+ * @see application.Registrazione.RegistrazioneService.Indirizzo
+ * @see application.Registrazione.RegistrazioneService.Utente
+ * @see application.Registrazione.RegistrazioneService.ProxyUtente
  * 
  * 
  * @author Dorotea Serrelli

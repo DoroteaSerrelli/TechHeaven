@@ -3,10 +3,13 @@ package application.GestioneCarrelloService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import application.GestioneCarrelloService.CarrelloException.CarrelloVuotoException;
-import application.GestioneCarrelloService.CarrelloException.ProdottoNonPresenteException;
-import application.GestioneCarrelloService.CarrelloException.ProdottoNulloException;
-import application.GestioneCarrelloService.CarrelloException.ProdottoPresenteException;
+import application.GestioneCarrello.GestioneCarrelloService.Carrello;
+import application.GestioneCarrello.GestioneCarrelloService.ItemCarrello;
+import application.GestioneCarrello.GestioneCarrelloService.CarrelloException.CarrelloVuotoException;
+import application.GestioneCarrello.GestioneCarrelloService.CarrelloException.ProdottoNonPresenteException;
+import application.GestioneCarrello.GestioneCarrelloService.CarrelloException.ProdottoNulloException;
+import application.GestioneCarrello.GestioneCarrelloService.CarrelloException.ProdottoPresenteException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class CarrelloTest {

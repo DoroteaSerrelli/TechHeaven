@@ -9,18 +9,19 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import javax.sql.DataSource;
+import org.apache.tomcat.jdbc.pool.DataSource;
 
-import application.GestioneCarrelloService.ItemCarrello;
-import application.GestioneOrdiniService.Ordine;
-import application.GestioneOrdiniService.OrdineException.ErroreSpedizioneOrdineException;
-import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
-import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
-import application.GestioneOrdiniService.ProxyOrdine;
-import application.GestioneOrdiniService.ReportSpedizione;
-import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
-import application.PagamentoService.PagamentoException.ModalitaAssenteException;
-import application.RegistrazioneService.Cliente;
+import application.GestioneCarrello.GestioneCarrelloService.ItemCarrello;
+import application.GestioneOrdini.GestioneOrdiniService.Ordine;
+import application.GestioneOrdini.GestioneOrdiniService.ProxyOrdine;
+import application.GestioneOrdini.GestioneOrdiniService.ReportSpedizione;
+import application.GestioneOrdini.GestioneOrdiniService.OrdineException.ErroreSpedizioneOrdineException;
+import application.GestioneOrdini.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
+import application.GestioneOrdini.GestioneOrdiniService.OrdineException.OrdineVuotoException;
+import application.Navigazione.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.Pagamento.PagamentoService.PagamentoException.ModalitaAssenteException;
+import application.Registrazione.RegistrazioneService.Cliente;
+
 import java.sql.Statement;
 import storage.AutenticazioneDAO.ClienteDAODataSource;
 

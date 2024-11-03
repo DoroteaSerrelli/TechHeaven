@@ -5,7 +5,7 @@
 --%>
 
 <%@page import="java.util.ArrayList"%>
-<%@page import="application.GestioneCatalogoControl.ImageResizer"%>
+<%@page import="application.GestioneCatalogo.GestioneCatalogoControl.ImageResizer"%>
 <%@page import="com.google.gson.Gson"%>
 <%@page import="java.util.List"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>

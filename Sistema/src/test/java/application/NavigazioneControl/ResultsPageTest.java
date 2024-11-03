@@ -16,9 +16,10 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.Test;
 
-import application.NavigazioneService.ProxyProdotto;
-import application.NavigazioneService.ObjectProdotto.Categoria;
-import application.NavigazioneService.ObjectProdotto.Sottocategoria;
+import application.Navigazione.NavigazioneControl.ResultsPage;
+import application.Navigazione.NavigazioneService.ProxyProdotto;
+import application.Navigazione.NavigazioneService.ObjectProdotto.Categoria;
+import application.Navigazione.NavigazioneService.ObjectProdotto.Sottocategoria;
 
 public class ResultsPageTest {
 	private ResultsPage resultsPage;

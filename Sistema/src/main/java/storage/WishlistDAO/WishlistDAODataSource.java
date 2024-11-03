@@ -14,17 +14,17 @@ import javax.naming.NamingException;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 
-import application.GestioneWishlistService.Wishlist;
-import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
-import application.NavigazioneService.ProxyProdotto;
-import application.RegistrazioneService.ProxyUtente;
+import application.GestioneWishlist.GestioneWishlistService.Wishlist;
+import application.Navigazione.NavigazioneService.ProxyProdotto;
+import application.Navigazione.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.Registrazione.RegistrazioneService.ProxyUtente;
 
 /**
  * Classe DAO per la gestione di una wishlist.
  * Questa classe implementa le operazioni CRUD (Create, Read, Update, Delete)
  * per le wishlist di un cliente memorizzate nel database relazionale.
- * @see application.GestioneWishlistService.Wishlist
- * @see application.GestioneWishlistService.WishlistException
+ * @see application.GestioneWishlist.GestioneWishlistService.Wishlist
+ * @see application.GestioneWishlist.GestioneWishlistService.WishlistException
  * 
  * @author Dorotea Serrelli
  * */

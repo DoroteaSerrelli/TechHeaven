@@ -15,18 +15,23 @@ import org.mockito.Mockito;
 import storage.AutenticazioneDAO.UtenteDAODataSource;
 import storage.GestioneOrdiniDAO.PagamentoDAODataSource;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
-import application.GestioneCarrelloService.Carrello;
-import application.GestioneCarrelloService.ItemCarrello;
-import application.GestioneOrdiniService.ObjectOrdine;
-import application.GestioneOrdiniService.Ordine;
-import application.NavigazioneService.ProxyProdotto;
-import application.NavigazioneService.ObjectProdotto.Categoria;
-import application.NavigazioneService.ObjectProdotto.Sottocategoria;
-import application.PagamentoService.PagamentoException.ModalitaAssenteException;
-import application.RegistrazioneService.Cliente;
-import application.RegistrazioneService.Indirizzo;
-import application.RegistrazioneService.ProxyUtente;
-import application.RegistrazioneService.Utente;
+import application.GestioneCarrello.GestioneCarrelloService.Carrello;
+import application.GestioneCarrello.GestioneCarrelloService.ItemCarrello;
+import application.GestioneOrdini.GestioneOrdiniService.ObjectOrdine;
+import application.GestioneOrdini.GestioneOrdiniService.Ordine;
+import application.Navigazione.NavigazioneService.ProxyProdotto;
+import application.Navigazione.NavigazioneService.ObjectProdotto.Categoria;
+import application.Navigazione.NavigazioneService.ObjectProdotto.Sottocategoria;
+import application.Pagamento.PagamentoService.Pagamento;
+import application.Pagamento.PagamentoService.PagamentoCartaCredito;
+import application.Pagamento.PagamentoService.PagamentoContrassegno;
+import application.Pagamento.PagamentoService.PagamentoPaypal;
+import application.Pagamento.PagamentoService.PagamentoServiceImpl;
+import application.Pagamento.PagamentoService.PagamentoException.ModalitaAssenteException;
+import application.Registrazione.RegistrazioneService.Cliente;
+import application.Registrazione.RegistrazioneService.Indirizzo;
+import application.Registrazione.RegistrazioneService.ProxyUtente;
+import application.Registrazione.RegistrazioneService.Utente;
 
 public class PagamentoServiceImplTest {
 

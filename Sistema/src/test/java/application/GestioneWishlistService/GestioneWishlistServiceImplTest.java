@@ -10,15 +10,18 @@ import org.mockito.Mockito;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.*;
-import application.GestioneWishlistService.WishlistException.ProdottoNonPresenteException;
-import application.GestioneWishlistService.WishlistException.ProdottoNulloException;
-import application.GestioneWishlistService.WishlistException.ProdottoPresenteException;
-import application.GestioneWishlistService.WishlistException.WishlistVuotaException;
-import application.NavigazioneService.ProxyProdotto;
-import application.NavigazioneService.ObjectProdotto.Categoria;
-import application.NavigazioneService.ObjectProdotto.Sottocategoria;
-import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
-import application.RegistrazioneService.ProxyUtente;
+
+import application.GestioneWishlist.GestioneWishlistService.GestioneWishlistServiceImpl;
+import application.GestioneWishlist.GestioneWishlistService.Wishlist;
+import application.GestioneWishlist.GestioneWishlistService.WishlistException.ProdottoNonPresenteException;
+import application.GestioneWishlist.GestioneWishlistService.WishlistException.ProdottoNulloException;
+import application.GestioneWishlist.GestioneWishlistService.WishlistException.ProdottoPresenteException;
+import application.GestioneWishlist.GestioneWishlistService.WishlistException.WishlistVuotaException;
+import application.Navigazione.NavigazioneService.ProxyProdotto;
+import application.Navigazione.NavigazioneService.ObjectProdotto.Categoria;
+import application.Navigazione.NavigazioneService.ObjectProdotto.Sottocategoria;
+import application.Navigazione.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.Registrazione.RegistrazioneService.ProxyUtente;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
 import storage.WishlistDAO.WishlistDAODataSource;
 

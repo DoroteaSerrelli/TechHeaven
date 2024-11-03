@@ -9,15 +9,16 @@ import java.util.List;
 
 import org.apache.tomcat.jdbc.pool.DataSource;
 
-import application.PagamentoService.Pagamento;
-import application.PagamentoService.PagamentoCartaCredito;
-import application.PagamentoService.PagamentoContrassegno;
-import application.PagamentoService.PagamentoException.ModalitaAssenteException;
-import application.PagamentoService.PagamentoPaypal;
-import application.PagamentoService.PagamentoServiceImpl;
-import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
-import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
-import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.GestioneOrdini.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
+import application.GestioneOrdini.GestioneOrdiniService.OrdineException.OrdineVuotoException;
+import application.Navigazione.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.Pagamento.PagamentoService.Pagamento;
+import application.Pagamento.PagamentoService.PagamentoCartaCredito;
+import application.Pagamento.PagamentoService.PagamentoContrassegno;
+import application.Pagamento.PagamentoService.PagamentoPaypal;
+import application.Pagamento.PagamentoService.PagamentoServiceImpl;
+import application.Pagamento.PagamentoService.PagamentoException.ModalitaAssenteException;
+
 import java.sql.Statement;
 
 /**

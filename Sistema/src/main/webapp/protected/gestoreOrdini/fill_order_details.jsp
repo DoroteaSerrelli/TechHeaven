@@ -6,12 +6,8 @@
 
 
 <%@page contentType="text/html" pageEncoding="UTF-8"
-		import = "java.util.HashMap,
-				  application.NavigazioneService.ProxyProdotto,
-				  application.NavigazioneService.Prodotto,
-				  application.GestioneCarrelloService.ItemCarrello,
-				  java.util.ArrayList,
-				  application.GestioneOrdiniService.Ordine"%>
+		import = "java.util.HashMap,application.Navigazione.NavigazioneService.ProxyProdotto,application.Navigazione.NavigazioneService.Prodotto,application.GestioneCarrello.GestioneCarrelloService.ItemCarrello,
+				  java.util.ArrayList,application.GestioneOrdini.GestioneOrdiniService.Ordine"%>
 				  
 <!DOCTYPE html>
 <html lang = "en">

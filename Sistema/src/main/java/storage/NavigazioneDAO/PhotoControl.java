@@ -20,7 +20,7 @@ import java.sql.ResultSet;
  * dell'immagine di presentazione (topImage) di un prodotto e della galleria di immagini
  * di dettaglio ad esso associate.
  * 
- * @see application.NavigazioneService.Prodotto
+ * @see application.Navigazione.NavigazioneService.Prodotto
  * 
  * @author Dorotea Serrelli
  * */
@@ -42,8 +42,8 @@ public class PhotoControl {
 	
 	private DataSource ds;
 	
-	public PhotoControl() {
-		this.ds = new DataSource();
+	public PhotoControl(DataSource ds) {
+		this.ds = ds;
 	}
 
 

@@ -19,9 +19,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.ByteArrayOutputStream;
 
-import application.GestioneCatalogoControl.ImageResizer;
-import application.NavigazioneService.Prodotto;
-import application.NavigazioneService.ProxyProdotto;
+import application.GestioneCatalogo.GestioneCatalogoControl.ImageResizer;
+import application.Navigazione.NavigazioneControl.ImageServlet;
+import application.Navigazione.NavigazioneService.Prodotto;
+import application.Navigazione.NavigazioneService.ProxyProdotto;
 import storage.NavigazioneDAO.PhotoControl;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
 

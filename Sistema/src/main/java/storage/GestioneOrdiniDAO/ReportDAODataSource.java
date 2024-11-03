@@ -10,12 +10,13 @@ import java.util.LinkedList;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
 
-import application.GestioneOrdiniService.ProxyOrdine;
-import application.GestioneOrdiniService.ReportSpedizione;
-import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
-import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
+import org.apache.tomcat.jdbc.pool.DataSource;
+
+import application.GestioneOrdini.GestioneOrdiniService.ProxyOrdine;
+import application.GestioneOrdini.GestioneOrdiniService.ReportSpedizione;
+import application.GestioneOrdini.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
+import application.GestioneOrdini.GestioneOrdiniService.OrdineException.OrdineVuotoException;
 
 /**
  * Classe DAO per la gestione dei report di spedizione

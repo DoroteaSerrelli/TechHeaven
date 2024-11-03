@@ -6,15 +6,15 @@
 
 <%@page import="java.util.Map"%>
 <%@page import="java.util.HashMap"%>
-<%@page import="application.RegistrazioneService.Cliente"%>
-<%@page import="application.RegistrazioneService.Utente"%>
+<%@page import="application.Registrazione.RegistrazioneService.Cliente"%>
+<%@page import="application.Registrazione.RegistrazioneService.Utente"%>
 <%@page import="java.util.Currency"%>
 <%@page import="java.text.NumberFormat"%>
-<%@page import="application.GestioneCarrelloService.ItemCarrello"%>
-<%@page import="application.GestioneCarrelloService.Carrello"%>
-<%@page import="application.RegistrazioneService.Indirizzo"%>
+<%@page import="application.GestioneCarrello.GestioneCarrelloService.ItemCarrello"%>
+<%@page import="application.GestioneCarrello.GestioneCarrelloService.Carrello"%>
+<%@page import="application.Registrazione.RegistrazioneService.Indirizzo"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="application.RegistrazioneService.ProxyUtente"%>
+<%@page import="application.Registrazione.RegistrazioneService.ProxyUtente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html lang='it'>

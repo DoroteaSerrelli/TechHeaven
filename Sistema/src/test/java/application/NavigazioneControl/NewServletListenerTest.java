@@ -17,10 +17,12 @@ import java.util.Collection;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import application.NavigazioneService.ProxyProdotto;
-import application.NavigazioneService.NavigazioneException.ErroreRicercaCategoriaException;
-import application.NavigazioneService.ObjectProdotto.Categoria;
-import application.NavigazioneService.ObjectProdotto.Sottocategoria;
+import application.Navigazione.NavigazioneControl.NewServletListener;
+import application.Navigazione.NavigazioneControl.PaginationUtils;
+import application.Navigazione.NavigazioneService.ProxyProdotto;
+import application.Navigazione.NavigazioneService.NavigazioneException.ErroreRicercaCategoriaException;
+import application.Navigazione.NavigazioneService.ObjectProdotto.Categoria;
+import application.Navigazione.NavigazioneService.ObjectProdotto.Sottocategoria;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
 
 public class NewServletListenerTest {

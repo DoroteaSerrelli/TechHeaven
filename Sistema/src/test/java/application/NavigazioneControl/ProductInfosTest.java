@@ -19,10 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.tomcat.jdbc.pool.DataSource;
 import org.junit.Test;
 
-import application.NavigazioneService.NavigazioneServiceImpl;
-import application.NavigazioneService.Prodotto;
-import application.NavigazioneService.ObjectProdotto.Categoria;
-import application.NavigazioneService.ObjectProdotto.Sottocategoria;
+import application.Navigazione.NavigazioneControl.ProductInfos;
+import application.Navigazione.NavigazioneService.NavigazioneServiceImpl;
+import application.Navigazione.NavigazioneService.Prodotto;
+import application.Navigazione.NavigazioneService.ObjectProdotto.Categoria;
+import application.Navigazione.NavigazioneService.ObjectProdotto.Sottocategoria;
 import storage.NavigazioneDAO.PhotoControl;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
 

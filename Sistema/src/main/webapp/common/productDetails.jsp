@@ -7,8 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"
 	import="java.util.List, 
 				  java.util.Currency,
-				  java.text.NumberFormat,
-				  application.NavigazioneService.Prodotto"%>
+				  java.text.NumberFormat,application.Navigazione.NavigazioneService.Prodotto"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>

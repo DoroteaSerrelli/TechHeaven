@@ -13,10 +13,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
-import application.NavigazioneService.NavigazioneException.ErroreRicercaCategoriaException;
-import application.NavigazioneService.ObjectProdotto.Categoria;
-import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
-import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
+import application.Navigazione.NavigazioneService.NavigazioneServiceImpl;
+import application.Navigazione.NavigazioneService.ProxyProdotto;
+import application.Navigazione.NavigazioneService.NavigazioneException.ErroreRicercaCategoriaException;
+import application.Navigazione.NavigazioneService.ObjectProdotto.Categoria;
+import application.Navigazione.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.Navigazione.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
 
 public class NavigazioneServiceImplTest {

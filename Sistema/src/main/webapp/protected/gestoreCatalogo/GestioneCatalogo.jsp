@@ -5,10 +5,10 @@
 --%>
 
 <%@page import="java.util.Collection"%>
-<%@page import="application.NavigazioneService.ProxyProdotto"%>
-<%@page import="application.RegistrazioneService.Ruolo"%>
+<%@page import="application.Navigazione.NavigazioneService.ProxyProdotto"%>
+<%@page import="application.Registrazione.RegistrazioneService.Ruolo"%>
 <%@page import="java.util.ArrayList"%>
-<%@page import="application.RegistrazioneService.Utente"%>
+<%@page import="application.Registrazione.RegistrazioneService.Utente"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <!DOCTYPE html>

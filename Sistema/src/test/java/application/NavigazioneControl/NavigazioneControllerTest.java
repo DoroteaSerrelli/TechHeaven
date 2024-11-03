@@ -13,6 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.jupiter.api.Test;
 
+import application.Navigazione.NavigazioneControl.NavigazioneController;
+import application.Navigazione.NavigazioneControl.PaginationUtils;
+
 public class NavigazioneControllerTest {
 	
 	private NavigazioneController navigazioneController;

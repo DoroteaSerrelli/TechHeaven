@@ -10,17 +10,19 @@ import java.util.LinkedList;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
-import javax.sql.DataSource;
 
-import application.NavigazioneService.ProdottoException.CategoriaProdottoException;
-import application.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
-import application.NavigazioneService.ProxyProdotto;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamento;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.DescrizioneDettaglioException;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.FormatoFornitoreException;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.ProdottoVendibileException;
-import application.GestioneApprovvigionamenti.RichiestaApprovvigionamentoException.QuantitaProdottoException;
-import application.GestioneOrdiniService.OrdineException.OrdineVuotoException;
+import org.apache.tomcat.jdbc.pool.DataSource;
+
+import application.GestioneApprovvigionamenti.GestioneApprovvigionamentiService.RichiestaApprovvigionamento;
+import application.GestioneApprovvigionamenti.GestioneApprovvigionamentiService.RichiestaApprovvigionamentoException.DescrizioneDettaglioException;
+import application.GestioneApprovvigionamenti.GestioneApprovvigionamentiService.RichiestaApprovvigionamentoException.FormatoFornitoreException;
+import application.GestioneApprovvigionamenti.GestioneApprovvigionamentiService.RichiestaApprovvigionamentoException.ProdottoVendibileException;
+import application.GestioneApprovvigionamenti.GestioneApprovvigionamentiService.RichiestaApprovvigionamentoException.QuantitaProdottoException;
+import application.GestioneOrdini.GestioneOrdiniService.OrdineException.OrdineVuotoException;
+import application.Navigazione.NavigazioneService.ProxyProdotto;
+import application.Navigazione.NavigazioneService.ProdottoException.CategoriaProdottoException;
+import application.Navigazione.NavigazioneService.ProdottoException.SottocategoriaProdottoException;
+import storage.NavigazioneDAO.PhotoControl;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
 
 /**
@@ -135,7 +137,7 @@ private static final String TABLE_NAME = "richiesta_fornitura";
 				dto.setEmailFornitore(rs.getString("EMAILFORNITORE"));
 				dto.setDescrizione(rs.getString("DESCRIZIONE"));
 				dto.setQuantitaRifornimento(rs.getInt("QUANTITàRIFORNIMENTO"));
-				ProdottoDAODataSource productDAO = new ProdottoDAODataSource(ds);
+				ProdottoDAODataSource productDAO = new ProdottoDAODataSource(ds, new PhotoControl(ds));
 				ProxyProdotto product = productDAO.doRetrieveProxyByKey(rs.getInt("PRODOTTO"));
 				dto.setProdotto(product);
 			}
@@ -188,7 +190,7 @@ private static final String TABLE_NAME = "richiesta_fornitura";
 				dto.setEmailFornitore(rs.getString("EMAILFORNITORE"));
 				dto.setDescrizione(rs.getString("DESCRIZIONE"));
 				dto.setQuantitaRifornimento(rs.getInt("QUANTITàRIFORNIMENTO"));
-				ProdottoDAODataSource productDAO = new ProdottoDAODataSource(ds);
+				ProdottoDAODataSource productDAO = new ProdottoDAODataSource(ds, new PhotoControl(ds));
 				ProxyProdotto product = productDAO.doRetrieveProxyByKey(rs.getInt("PRODOTTO"));
 				dto.setProdotto(product);
 			}
@@ -286,7 +288,7 @@ private static final String TABLE_NAME = "richiesta_fornitura";
 				dto.setEmailFornitore(rs.getString("EMAILFORNITORE"));
 				dto.setDescrizione(rs.getString("DESCRIZIONE"));
 				dto.setQuantitaRifornimento(rs.getInt("QUANTITàRIFORNIMENTO"));
-				ProdottoDAODataSource productDAO = new ProdottoDAODataSource(ds);
+				ProdottoDAODataSource productDAO = new ProdottoDAODataSource(ds, new PhotoControl(ds));
 				ProxyProdotto product = productDAO.doRetrieveProxyByKey(rs.getInt("PRODOTTO"));
 				dto.setProdotto(product);
 				supplyRequests.add(dto);

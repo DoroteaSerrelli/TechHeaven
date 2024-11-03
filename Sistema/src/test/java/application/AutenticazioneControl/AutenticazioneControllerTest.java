@@ -19,13 +19,14 @@ import javax.servlet.http.HttpServletResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import application.RegistrazioneService.Indirizzo;
-import application.AutenticazioneService.AutenticazioneServiceImpl;
-import application.AutenticazioneService.AutenticazioneException.FormatoRuoloException;
-import application.AutenticazioneService.AutenticazioneException.RuoloInesistenteException;
-import application.AutenticazioneService.AutenticazioneException.UtenteInesistenteException;
-import application.RegistrazioneService.ProxyUtente;
-import application.RegistrazioneService.Ruolo;
+import application.Autenticazione.AutenticazioneControl.AutenticazioneController;
+import application.Autenticazione.AutenticazioneService.AutenticazioneServiceImpl;
+import application.Autenticazione.AutenticazioneService.AutenticazioneException.FormatoRuoloException;
+import application.Autenticazione.AutenticazioneService.AutenticazioneException.RuoloInesistenteException;
+import application.Autenticazione.AutenticazioneService.AutenticazioneException.UtenteInesistenteException;
+import application.Registrazione.RegistrazioneService.Indirizzo;
+import application.Registrazione.RegistrazioneService.ProxyUtente;
+import application.Registrazione.RegistrazioneService.Ruolo;
 import storage.AutenticazioneDAO.IndirizzoDAODataSource;
 
 public class AutenticazioneControllerTest {

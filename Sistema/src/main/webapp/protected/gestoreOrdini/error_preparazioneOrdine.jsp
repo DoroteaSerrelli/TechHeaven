@@ -5,8 +5,8 @@
 --%>
 
 
-<%@page import="application.RegistrazioneService.Cliente"%>
-<%@page import="application.GestioneOrdiniService.Ordine"%>
+<%@page import="application.Registrazione.RegistrazioneService.Cliente"%>
+<%@page import="application.GestioneOrdini.GestioneOrdiniService.Ordine"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>

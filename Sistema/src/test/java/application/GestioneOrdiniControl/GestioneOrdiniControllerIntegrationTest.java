@@ -281,7 +281,7 @@ public class GestioneOrdiniControllerIntegrationTest {
 		String message = "Specificare la quantità del prodotto 9 pari a quella richiesta dal cliente.";
 
 		verify(request.getSession()).setAttribute("error", message); 
-		verify(response).sendRedirect(request.getContextPath()+"/GestioneOrdini");
+		verify(response).sendRedirect(request.getContextPath()+"/fill_order_details");
 
 	}
 
@@ -350,7 +350,7 @@ public class GestioneOrdiniControllerIntegrationTest {
 		String message = "Questo campo non deve essere vuoto";
 
 		verify(request.getSession()).setAttribute("error", message); 
-		verify(response).sendRedirect(request.getContextPath()+"/GestioneOrdini");
+		verify(response).sendRedirect(request.getContextPath()+"/fill_order_details");
 
 	}
 
@@ -419,7 +419,7 @@ public class GestioneOrdiniControllerIntegrationTest {
 		String message = "L’azienda di spedizione deve essere composta da lettere e, eventualmente, spazi.";
 
 		verify(request.getSession()).setAttribute("error", message); 
-		verify(response).sendRedirect(request.getContextPath()+"/GestioneOrdini");
+		verify(response).sendRedirect(request.getContextPath()+"/fill_order_details");
 	}
 
 	@Test

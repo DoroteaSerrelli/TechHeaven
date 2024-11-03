@@ -76,7 +76,7 @@ function addCharacterLimitValidation(textareaId, charCountId, charWarningId, max
         // Specific validation for Corriere (letters and spaces only)
         if (textarea.id === 'Corriere'){ 
             if(!/^[A-Za-z\s]+$/.test(value) || value.trim() === '') {
-                addInvalidMessage(`L’azienda di spedizione deve essere composta da lettere e spazi`, errorElement.id);           
+                addInvalidMessage(`L’azienda di spedizione deve essere composta da lettere e, eventualmente, spazi.`, errorElement.id);           
             }
              else {
                 removeInvalidMessage(errorElement.id);

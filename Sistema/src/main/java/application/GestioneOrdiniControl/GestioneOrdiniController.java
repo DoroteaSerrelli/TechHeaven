@@ -277,8 +277,22 @@ public class GestioneOrdiniController extends HttpServlet {
 
 			
 			} catch (FormatoImballaggioException | FormatoCorriereException | FormatoQuantitaException e) {
-				request.getSession().setAttribute("error", e.getMessage()); 
-				response.sendRedirect(request.getContextPath()+"/GestioneOrdini");
+				  // Imposto il Messaggio + lo status della Richiesta
+				request.getSession().setAttribute("error", e.getMessage());
+				request.getSession().setAttribute("status", "invalid");
+
+				// In base alla classe dell'eccezione lanciata passo un parametro field
+				// che mi permette di fare apparire l'errore nel posto giusto, al di sopra
+				// del campo errato
+				if (e.getClass().equals(FormatoImballaggioException.class)) {
+					request.getSession().setAttribute("field", "imballaggio");
+				} else if (e.getClass().equals(FormatoCorriereException.class)) {
+					request.getSession().setAttribute("field", "corriere");
+				} else if (e.getClass().equals(FormatoQuantitaException.class)) {
+					request.getSession().setAttribute("field", "quantità");
+				}
+				// Redirect alla pagina per completare l'ordine.
+				response.sendRedirect(request.getContextPath() + "/fill_order_details");
 
 			} catch(IOException | NumberFormatException | SQLException e){} 
 			

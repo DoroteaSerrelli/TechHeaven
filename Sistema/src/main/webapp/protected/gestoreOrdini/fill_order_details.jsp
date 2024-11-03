@@ -29,6 +29,17 @@
             ArrayList<ItemCarrello> order_products = (ArrayList<ItemCarrello>) request.getSession().getAttribute("order_products");
             HashMap order_products_available = (HashMap) request.getSession().getAttribute("order_products_available");
         %>
+		<div class="errormsg">
+		<% String errormsg="";
+			errormsg= (String)request.getSession().getAttribute("error");
+			String status = (String) request.getSession().getAttribute("status");
+			String field = (String) request.getSession().getAttribute("field");
+			request.getSession().removeAttribute("error");
+			request.getSession().removeAttribute("status");
+			request.getSession().removeAttribute("field");
+			if(errormsg==null) errormsg="";                                                       
+		%>
+        </div> 
     </head>
     <body>
        <jsp:include page="/common/header.jsp"  flush="true"/>
@@ -57,7 +68,10 @@
         <div class="section-p1">             
             <h1>Informazioni di spedizione:</h1>
             <form id="fill_order_form" class="reg_form" action="<%=request.getContextPath()%>/GestioneOrdiniController?action=complete_order" method="post">
-                <p>Lista Prodotti E Relative Quantità Richieste:</p>
+                 <% if(field!=null && field.equals("quantità")){%>
+					<h2 style="text-align: center" class="error <%=status%>"><%=errormsg%></h2>
+                <% }%>
+				<p>Lista Prodotti E Relative Quantità Richieste:</p>
                 <% for (ItemCarrello item : order_products){%>
                 <div class="row">
                     <h2>ID: <%= item.getCodiceProdotto()%></h2>
@@ -79,14 +93,22 @@
                     <span id="charCountImballaggio">0/100</span> <!-- Added for character count -->
                     <span id="charWarningImballaggio" class="warning">Superato il limite di caratteri ammissibili!</span><br>                
                 </div>
-                <div id="errorImballaggio" class="erromsg"></div>
+                <div id="errorImballaggio" class="erromsg">
+					 <% if(field!=null && field.equals("imballaggio")){%>
+                            <%=errormsg%>
+                        <% }%>
+				</div>
                 <p>Inserisci informazioni sull'azienda di spedizioni:</p>
                 <div class="input-wrapper">                   
                     <textarea id="Corriere" name="Corriere" rows="4" cols="50" required></textarea>
                     <span id="charCountCorriere">0/60</span> <!-- Added for character count -->
                     <span id="charWarningCorriere" class="warning">Superato il limite di caratteri ammissibili!</span><br>                 
                 </div>
-                <div id="errorCorriere" class="erromsg"></div>
+                <div id="errorCorriere" class="erromsg">
+					  <% if(field!=null && field.equals("corriere")){%>
+                            <%=errormsg%>
+                        <% }%>
+				</div>
                 <button class="confirm_button" onClick="setActionForOrderSent()" type="submit">Conferma Preparazione Ordine</button>
                 <button class="cancel_button"  onclick="setActionAndRedirect('incomplete_order')" type="submit">Annulla Preparazione Ordine</button></a>      
             </form><!--<a href="GestioneOrdiniController?action=incomplete_order" >-->

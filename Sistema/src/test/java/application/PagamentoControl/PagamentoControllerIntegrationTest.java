@@ -1,7 +1,10 @@
 package application.PagamentoControl;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -18,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
 import application.GestioneCarrelloService.Carrello;
 import application.GestioneCarrelloService.ItemCarrello;
 import application.GestioneCarrelloService.CarrelloException.CarrelloVuotoException;
@@ -26,6 +30,7 @@ import application.GestioneCarrelloService.CarrelloException.ProdottoNulloExcept
 import application.GestioneCarrelloService.CarrelloException.ProdottoPresenteException;
 import application.GestioneOrdiniService.GestioneOrdiniServiceImpl;
 import application.GestioneOrdiniService.ObjectOrdine;
+import application.GestioneOrdiniService.ObjectOrdine.Stato;
 import application.GestioneOrdiniService.Ordine;
 import application.GestioneOrdiniService.OrdineException.ErroreTipoConsegnaException;
 import application.GestioneOrdiniService.OrdineException.ErroreTipoSpedizioneException;
@@ -48,26 +53,35 @@ import application.RegistrazioneService.Indirizzo;
 import application.RegistrazioneService.ProxyUtente;
 import application.RegistrazioneService.Utente;
 import storage.AutenticazioneDAO.UtenteDAODataSource;
+import storage.GestioneOrdiniDAO.OrdineDAODataSource;
+import storage.GestioneOrdiniDAO.PagamentoDAODataSource;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
 
-public class PagamentoControllerTest {
-
+public class PagamentoControllerIntegrationTest {
+	
 	private PagamentoController pagamentoController;
 	private GestioneOrdiniServiceImpl gos;
 	private PagamentoServiceImpl ps;
 	private ProdottoDAODataSource productDAO;
 	private UtenteDAODataSource userDAO;
-
+	private OrdineDAODataSource orderDAO;
+	private PagamentoDAODataSource paymentDAO;
+	
 	private ServletOutputStream outputStream;
 	private HttpServletRequest request;
 	private HttpServletResponse response;
-
+	
 	@BeforeEach
 	public void setUp() throws IOException {
-		gos = mock(GestioneOrdiniServiceImpl.class);
+		
 		productDAO = mock(ProdottoDAODataSource.class);
 		userDAO = mock(UtenteDAODataSource.class);
-
+		orderDAO = mock(OrdineDAODataSource.class);
+		paymentDAO = mock(PagamentoDAODataSource.class);
+		
+		
+		gos = new GestioneOrdiniServiceImpl(orderDAO, userDAO, productDAO, paymentDAO);
+		
 		outputStream = mock(ServletOutputStream.class);
 		request = mock(HttpServletRequest.class);
 		response = mock(HttpServletResponse.class);
@@ -75,9 +89,9 @@ public class PagamentoControllerTest {
 		when(request.getSession()).thenReturn(mock(javax.servlet.http.HttpSession.class));
 		when(request.getContextPath()).thenReturn("/test");
 	}
-
-
-
+	
+	
+	
 	/**
 	 * TEST CASES PER ACQUISTO PRODOTTI NEL CARRELLO (CHECK-OUT CARRELLO) - CON CARTA DI CREDITO
 	 * 
@@ -140,9 +154,9 @@ public class PagamentoControllerTest {
 
 	@Test
 	public void testDoPost_TC11_1_1_4() throws ProdottoPresenteException, ProdottoNulloException, SQLException, OrdineVuotoException, IOException, ServletException {
-
+		
 		pagamentoController = new PagamentoController(gos, ps);
-
+		
 		String username = "sabrina";
 		String password = "30sabriNa02";
 		String email = "sabrina.30@gmail.com";
@@ -184,7 +198,7 @@ public class PagamentoControllerTest {
 		String modSpedizione = "SPEDIZIONE_STANDARD";
 		String modConsegna = "PUNTO_RITIRO";
 		String modPagamento = "";
-
+		
 		when(request.getParameter("action")).thenReturn(action);
 		when(request.getParameter("selectedAddress")).thenReturn(idIndirizzo);
 		when(request.getSession().getAttribute("user")).thenReturn(user);
@@ -192,24 +206,24 @@ public class PagamentoControllerTest {
 		when(request.getParameter("tipoSpedizione")).thenReturn(modSpedizione);
 		when(request.getParameter("modalitaConsegna")).thenReturn(modConsegna);
 		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
-
+		
 		when(userDAO.doRetrieveFullUserByKey(username)).thenReturn(userComplete);
 
 		pagamentoController.doPost(request, response);
-
+		
 		ModalitaAssenteException ex = new ModalitaAssenteException("Specificare la modalità di pagamento: carta di credito, Paypal, contrassegno.");  
-
+		
 		verify(request.getSession()).setAttribute("error", ex.getMessage());            
 		verify(response).sendRedirect(request.getContextPath()+"/Pagamento");  
-
+		
 
 	}
 
 	@Test
 	public void testDoPost_TC11_1_1_5() throws ProdottoPresenteException, ProdottoNulloException, SQLException, OrdineVuotoException, IOException, ServletException {
-
+		
 		pagamentoController = new PagamentoController(gos, ps);
-
+		
 		String username = "sabrina";
 		String password = "30sabriNa02";
 		String email = "sabrina.30@gmail.com";
@@ -255,36 +269,31 @@ public class PagamentoControllerTest {
 		String noCard = "0000001111223456";
 		String expiredDate = "02-25";
 		String CVV = "123";
-
-
+		
+		Ordine order = new Ordine(0, null, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
+		order.setData(LocalDate.now());
+		order.setOra(LocalTime.now());
+		
 		when(request.getParameter("action")).thenReturn(action);
 		when(request.getParameter("selectedAddress")).thenReturn(idIndirizzo);
 		when(request.getSession().getAttribute("user")).thenReturn(user);
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-		when(request.getParameter("tipoSpedizione")).thenReturn(modSpedizione);
-		when(request.getParameter("modalitaConsegna")).thenReturn(modConsegna);
-		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
-		when(userDAO.doRetrieveFullUserByKey(username)).thenReturn(userComplete);
-
-		Ordine order = new Ordine(0, null, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
-		order.setData(LocalDate.now());
-		order.setOra(LocalTime.now());
-
 		when(request.getSession().getAttribute("preview_order")).thenReturn(order);
-		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
 		when(request.getParameter("titolare")).thenReturn(titolare);
 		when(request.getParameter("cc_number")).thenReturn(noCard);
 		when(request.getParameter("cc_expiry")).thenReturn(expiredDate);
 		when(request.getParameter("cc_cvc")).thenReturn(CVV);
+		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
 
+		
 		pagamentoController.doPost(request, response);
-
+		
 		assertThrows(FormatoTitolareCartaException.class, () -> {
 			PagamentoCartaCredito.checkValidate(titolare, noCard, expiredDate, CVV);
 		});
-
+		
 		FormatoTitolareCartaException ex = new FormatoTitolareCartaException("Il titolare deve essere una sequenza di lettere e spazi.");
-
+		
 		verify(request.getSession()).setAttribute("error", ex.getMessage());            
 		verify(response).sendRedirect(request.getContextPath()+"/Pagamento");  
 
@@ -292,9 +301,9 @@ public class PagamentoControllerTest {
 
 	@Test
 	public void testDoPost_TC11_1_1_6() throws ProdottoPresenteException, ProdottoNulloException, SQLException, OrdineVuotoException, IOException, ServletException {
-
+		
 		pagamentoController = new PagamentoController(gos, ps);
-
+		
 		String username = "sabrina";
 		String password = "30sabriNa02";
 		String email = "sabrina.30@gmail.com";
@@ -341,32 +350,27 @@ public class PagamentoControllerTest {
 		String expiredDate = "02-25";
 		String CVV = "123";
 
+		Ordine order = new Ordine(0, null, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
+		order.setData(LocalDate.now());
+		order.setOra(LocalTime.now());
+		
 		when(request.getParameter("action")).thenReturn(action);
 		when(request.getParameter("selectedAddress")).thenReturn(idIndirizzo);
 		when(request.getSession().getAttribute("user")).thenReturn(user);
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-		when(request.getParameter("tipoSpedizione")).thenReturn(modSpedizione);
-		when(request.getParameter("modalitaConsegna")).thenReturn(modConsegna);
-		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
-		when(userDAO.doRetrieveFullUserByKey(username)).thenReturn(userComplete);
-
-		Ordine order = new Ordine(0, null, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
-		order.setData(LocalDate.now());
-		order.setOra(LocalTime.now());
-
 		when(request.getSession().getAttribute("preview_order")).thenReturn(order);
-		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
 		when(request.getParameter("titolare")).thenReturn(titolare);
 		when(request.getParameter("cc_number")).thenReturn(noCard);
 		when(request.getParameter("cc_expiry")).thenReturn(expiredDate);
 		when(request.getParameter("cc_cvc")).thenReturn(CVV);
-
+		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
+		
 		pagamentoController.doPost(request, response);
-
+		
 		assertThrows(FormatoNumeroCartaException.class, () -> {
 			PagamentoCartaCredito.checkValidate(titolare, noCard, expiredDate, CVV);
 		});
-
+		
 		FormatoNumeroCartaException ex = new FormatoNumeroCartaException("Il numero della carta è formato da 16 numeri.");
 		verify(request.getSession()).setAttribute("error", ex.getMessage());            
 		verify(response).sendRedirect(request.getContextPath()+"/Pagamento");  
@@ -374,9 +378,9 @@ public class PagamentoControllerTest {
 
 	@Test
 	public void testDoPost_TC11_1_1_7() throws ProdottoPresenteException, ProdottoNulloException, SQLException, OrdineVuotoException, IOException, ServletException {
-
+		
 		pagamentoController = new PagamentoController(gos, ps);
-
+		
 		String username = "sabrina";
 		String password = "30sabriNa02";
 		String email = "sabrina.30@gmail.com";
@@ -423,32 +427,27 @@ public class PagamentoControllerTest {
 		String expiredDate = "17/29";
 		String CVV = "123";
 
+		Ordine order = new Ordine(0, null, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
+		order.setData(LocalDate.now());
+		order.setOra(LocalTime.now());
+		
 		when(request.getParameter("action")).thenReturn(action);
 		when(request.getParameter("selectedAddress")).thenReturn(idIndirizzo);
 		when(request.getSession().getAttribute("user")).thenReturn(user);
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-		when(request.getParameter("tipoSpedizione")).thenReturn(modSpedizione);
-		when(request.getParameter("modalitaConsegna")).thenReturn(modConsegna);
-		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
-		when(userDAO.doRetrieveFullUserByKey(username)).thenReturn(userComplete);
-
-		Ordine order = new Ordine(0, null, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
-		order.setData(LocalDate.now());
-		order.setOra(LocalTime.now());
-
 		when(request.getSession().getAttribute("preview_order")).thenReturn(order);
-		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
 		when(request.getParameter("titolare")).thenReturn(titolare);
 		when(request.getParameter("cc_number")).thenReturn(noCard);
 		when(request.getParameter("cc_expiry")).thenReturn(expiredDate);
 		when(request.getParameter("cc_cvc")).thenReturn(CVV);
-
+		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
+		
 		pagamentoController.doPost(request, response);
-
+		
 		assertThrows(FormatoDataCartaException.class, () -> {
 			PagamentoCartaCredito.checkValidate(titolare, noCard, expiredDate, CVV);
 		});
-
+		
 		FormatoDataCartaException ex = new FormatoDataCartaException("La data di scadenza della carta non è valida.");
 		verify(request.getSession()).setAttribute("error", ex.getMessage());            
 		verify(response).sendRedirect(request.getContextPath()+"/Pagamento"); 
@@ -457,9 +456,9 @@ public class PagamentoControllerTest {
 
 	@Test
 	public void testDoPost_TC11_1_1_8() throws ProdottoPresenteException, ProdottoNulloException, SQLException, OrdineVuotoException, IOException, ServletException {
-
+		
 		pagamentoController = new PagamentoController(gos, ps);
-
+		
 		String username = "sabrina";
 		String password = "30sabriNa02";
 		String email = "sabrina.30@gmail.com";
@@ -506,43 +505,39 @@ public class PagamentoControllerTest {
 		String expiredDate = "12/24";
 		String CVV = "3error";
 
+		Ordine order = new Ordine(0, null, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
+		order.setData(LocalDate.now());
+		order.setOra(LocalTime.now());
+		
 		when(request.getParameter("action")).thenReturn(action);
 		when(request.getParameter("selectedAddress")).thenReturn(idIndirizzo);
 		when(request.getSession().getAttribute("user")).thenReturn(user);
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-		when(request.getParameter("tipoSpedizione")).thenReturn(modSpedizione);
-		when(request.getParameter("modalitaConsegna")).thenReturn(modConsegna);
-		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
-		when(userDAO.doRetrieveFullUserByKey(username)).thenReturn(userComplete);
-
-		Ordine order = new Ordine(0, null, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
-		order.setData(LocalDate.now());
-		order.setOra(LocalTime.now());
-
 		when(request.getSession().getAttribute("preview_order")).thenReturn(order);
-		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
 		when(request.getParameter("titolare")).thenReturn(titolare);
 		when(request.getParameter("cc_number")).thenReturn(noCard);
 		when(request.getParameter("cc_expiry")).thenReturn(expiredDate);
 		when(request.getParameter("cc_cvc")).thenReturn(CVV);
-
+		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
+		
 		pagamentoController.doPost(request, response);
-
+		
 		assertThrows(FormatoCVVCartaException.class, () -> {
 			PagamentoCartaCredito.checkValidate(titolare, noCard, expiredDate, CVV);
 		});
-
+		
 		FormatoCVVCartaException ex = new FormatoCVVCartaException("Il numero CVV è formato da 3 numeri.");
+		
 		verify(request.getSession()).setAttribute("error", ex.getMessage());            
 		verify(response).sendRedirect(request.getContextPath()+"/Pagamento"); 
-
+		
 	}
 
 	@Test
 	public void testDoPost_TC11_1_1_9() throws ProdottoPresenteException, ProdottoNulloException, SQLException, OrdineVuotoException, ModalitaAssenteException, FormatoCVVCartaException, FormatoDataCartaException, FormatoTitolareCartaException, FormatoNumeroCartaException, IndirizzoSpedizioneNulloException, ErroreTipoSpedizioneException, ErroreTipoConsegnaException, IOException, ServletException, ProdottoNonPresenteException, CarrelloVuotoException, CloneNotSupportedException {
-
+		
 		pagamentoController = new PagamentoController(gos, ps);
-
+		
 		String username = "sabrina";
 		String password = "30sabriNa02";
 		String email = "sabrina.30@gmail.com";
@@ -570,6 +565,7 @@ public class PagamentoControllerTest {
 		item1.setNomeProdotto(product1.getNomeProdotto());
 		item1.setPrezzo(product1.getPrezzo());
 		item1.setCategoria(product1.getCategoria());
+		
 		item2.setCodiceProdotto(product2.getCodiceProdotto());
 		item2.setNomeProdotto(product2.getNomeProdotto());
 		item2.setPrezzo(product2.getPrezzo());
@@ -589,54 +585,64 @@ public class PagamentoControllerTest {
 		String expiredDate = "12/24";
 		String CVV = "312";
 
+		Ordine order = new Ordine(0, null, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
+		order.setData(LocalDate.now());
+		order.setOra(LocalTime.now());
+		
 		when(request.getParameter("action")).thenReturn(action);
 		when(request.getParameter("selectedAddress")).thenReturn(idIndirizzo);
 		when(request.getSession().getAttribute("user")).thenReturn(user);
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-		when(request.getParameter("tipoSpedizione")).thenReturn(modSpedizione);
-		when(request.getParameter("modalitaConsegna")).thenReturn(modConsegna);
-		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
-		when(userDAO.doRetrieveFullUserByKey(username)).thenReturn(userComplete);
-
-		Ordine order = new Ordine(0, null, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
-		order.setData(LocalDate.now());
-		order.setOra(LocalTime.now());
-
 		when(request.getSession().getAttribute("preview_order")).thenReturn(order);
-		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
 		when(request.getParameter("titolare")).thenReturn(titolare);
 		when(request.getParameter("cc_number")).thenReturn(noCard);
 		when(request.getParameter("cc_expiry")).thenReturn(expiredDate);
 		when(request.getParameter("cc_cvc")).thenReturn(CVV);
-
+		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
+		
 		when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(user);
-
-		when(gos.creaOrdine(cart, user, idIndirizzo, modSpedizione, modConsegna)).thenReturn(order);
-
-
-		PagamentoCartaCredito resultedPayment = new PagamentoCartaCredito();
-		resultedPayment.setCodicePagamento(0);
-		resultedPayment.setNumeroCarta(noCard);
-		resultedPayment.setTitolare(titolare);
-		resultedPayment.setDataPagamento(LocalDate.now());
-		resultedPayment.setOraPagamento(LocalTime.now());
-		resultedPayment.setImporto((float) cart.totalAmount());
-
+		
+		/* Ci si trova in gos.creaPagamento_cartaCredito(cart, preview_order, metodoPagamento, titolare, ccNumber, ccExpiry, ccCvc);
+		 	per determinare il reale pagamento.
+		 	*/
+		
+		PagamentoCartaCredito realPayment = (PagamentoCartaCredito) gos.creaPagamento_cartaCredito(cart, order, modPagamento, titolare, noCard, expiredDate, CVV);
+		PagamentoCartaCredito expectedPayment = new PagamentoCartaCredito(1, order, (float) cart.totalAmount(), titolare, noCard);
+		
+		
+		Ordine expectedCompletedOrder = new Ordine(0, Stato.Richiesta_effettuata, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
+		
+		/*Ci si trova in processPayment(request, pagamento, user, cart, preview_order); 
+		 * per verificare che le operazioni di checkout vadano a buon fine ed avere l'ordine
+		 * creato dal cliente.
+		 * Si passa in metodi:
+		 * 
+		 * - gos.commissionaOrdine(cart, preview_order, pagamento, user);
+		 * - pagamentoService.effettuaPagamento
+		 * - gestioneCarrelloService.svuotaCarrello(cart)
+		 * */
+		
+		Carrello temp = new Carrello();
+		temp.addProduct(item1);
+		temp.addProduct(item2);
+		
+		Carrello realCart = gos.commissionaOrdine(temp, order, realPayment, user);
 		Carrello cartEmpty = new Carrello();
-
-		when(gos.commissionaOrdine(cart, order, resultedPayment, user)).thenReturn(cartEmpty);
-
-
+		
 		pagamentoController.doPost(request, response);
-
-
+		
+		assertEquals(realCart, cartEmpty);
+		assertEquals(realPayment, expectedPayment);
+		
+		verify(orderDAO, times(2)).doSave(order);
+		verify(paymentDAO, times(2)).doSaveCard(any());
 		verify(request.getSession()).removeAttribute("usercart");
 		verify(request.getSession()).removeAttribute("preview_order"); 
 		verify(response).sendRedirect(request.getContextPath()+"/SuccessoPagamento");
 
 	}
-
-
+	
+	
 	/**
 	 * TEST CASES PER ACQUISTO PRODOTTI NEL CARRELLO (CHECK-OUT CARRELLO) - CON PAYPAL
 	 * 
@@ -661,12 +667,12 @@ public class PagamentoControllerTest {
 	 * 				si è specificato il metodo di pagamento == PAYPAL.
 	 * 
 	 * */
-
+	
 	@Test
 	public void testDoPost_TC11_2_1_4() throws ProdottoPresenteException, ProdottoNulloException, SQLException, OrdineVuotoException, IOException, ServletException {
-
+		
 		pagamentoController = new PagamentoController(gos, ps);
-
+		
 		String username = "sabrina";
 		String password = "30sabriNa02";
 		String email = "sabrina.30@gmail.com";
@@ -708,7 +714,7 @@ public class PagamentoControllerTest {
 		String modSpedizione = "SPEDIZIONE_STANDARD";
 		String modConsegna = "PUNTO_RITIRO";
 		String modPagamento = "";
-
+		
 		when(request.getParameter("action")).thenReturn(action);
 		when(request.getParameter("selectedAddress")).thenReturn(idIndirizzo);
 		when(request.getSession().getAttribute("user")).thenReturn(user);
@@ -716,24 +722,24 @@ public class PagamentoControllerTest {
 		when(request.getParameter("tipoSpedizione")).thenReturn(modSpedizione);
 		when(request.getParameter("modalitaConsegna")).thenReturn(modConsegna);
 		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
-
+		
 		when(userDAO.doRetrieveFullUserByKey(username)).thenReturn(userComplete);
 
 		pagamentoController.doPost(request, response);
-
+		
 		ModalitaAssenteException ex = new ModalitaAssenteException("Specificare la modalità di pagamento: carta di credito, Paypal, contrassegno.");  
-
+		
 		verify(request.getSession()).setAttribute("error", ex.getMessage());            
 		verify(response).sendRedirect(request.getContextPath()+"/Pagamento");  
-
+		
 
 	}
-
+	
 	@Test
 	public void testDoPost_TC11_2_1_5() throws ProdottoPresenteException, ProdottoNulloException, SQLException, OrdineVuotoException, ModalitaAssenteException, FormatoCVVCartaException, FormatoDataCartaException, FormatoTitolareCartaException, FormatoNumeroCartaException, IndirizzoSpedizioneNulloException, ErroreTipoSpedizioneException, ErroreTipoConsegnaException, IOException, ServletException, ProdottoNonPresenteException, CarrelloVuotoException, CloneNotSupportedException {
-
+		
 		pagamentoController = new PagamentoController(gos, ps);
-
+		
 		String username = "sabrina";
 		String password = "30sabriNa02";
 		String email = "sabrina.30@gmail.com";
@@ -776,46 +782,67 @@ public class PagamentoControllerTest {
 		String modConsegna = "PUNTO_RITIRO";
 		String modPagamento = "PAYPAL";
 
+		Ordine order = new Ordine(0, null, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
+		order.setData(LocalDate.now());
+		order.setOra(LocalTime.now());
+		
 		when(request.getParameter("action")).thenReturn(action);
 		when(request.getParameter("selectedAddress")).thenReturn(idIndirizzo);
 		when(request.getSession().getAttribute("user")).thenReturn(user);
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-		when(request.getParameter("tipoSpedizione")).thenReturn(modSpedizione);
-		when(request.getParameter("modalitaConsegna")).thenReturn(modConsegna);
-		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
-		when(userDAO.doRetrieveFullUserByKey(username)).thenReturn(userComplete);
-
-		Ordine order = new Ordine(0, null, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
-		order.setData(LocalDate.now());
-		order.setOra(LocalTime.now());
-
 		when(request.getSession().getAttribute("preview_order")).thenReturn(order);
-		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-
+		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
+		
 		when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(user);
-
-		when(gos.creaOrdine(cart, user, idIndirizzo, modSpedizione, modConsegna)).thenReturn(order);
-
+		
+		/* Ci si trova in gos.creaPagamento_cartaCredito(cart, preview_order, metodoPagamento, titolare, ccNumber, ccExpiry, ccCvc);
+		 	per determinare il reale pagamento.
+		 	*/
+		
+		PagamentoPaypal realPayment = (PagamentoPaypal) gos.creaPagamento_PaypalContrassegno(cart, order, modPagamento);
+		PagamentoPaypal expectedPayment = new PagamentoPaypal(1, order, (float) cart.totalAmount());
+		
+		
+		Ordine expectedCompletedOrder = new Ordine(0, Stato.Richiesta_effettuata, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
+		
+		/*Ci si trova in processPayment(request, pagamento, user, cart, preview_order); 
+		 * per verificare che le operazioni di checkout vadano a buon fine ed avere l'ordine
+		 * creato dal cliente.
+		 * Si passa in metodi:
+		 * 
+		 * - gos.commissionaOrdine(cart, preview_order, pagamento, user);
+		 * - pagamentoService.effettuaPagamento
+		 * - gestioneCarrelloService.svuotaCarrello(cart)
+		 * */
+		
+		Carrello temp = new Carrello();
+		temp.addProduct(item1);
+		temp.addProduct(item2);
+		
+		Carrello realCart = gos.commissionaOrdine(temp, order, realPayment, user);
+		Carrello cartEmpty = new Carrello();
+		
+		pagamentoController.doPost(request, response);
+		
+		
 		PagamentoPaypal resultedPayment = new PagamentoPaypal();
 		resultedPayment.setCodicePagamento(0);
 		resultedPayment.setDataPagamento(LocalDate.now());
 		resultedPayment.setOraPagamento(LocalTime.now());
 		resultedPayment.setImporto((float) cart.totalAmount());
-
-		Carrello cartEmpty = new Carrello();
-
-		when(gos.commissionaOrdine(cart, order, resultedPayment, user)).thenReturn(cartEmpty);
-
-
-		pagamentoController.doPost(request, response);
-
-
+		
+		
+		assertEquals(realCart, cartEmpty);
+		assertEquals(realPayment, expectedPayment);
+		
+		verify(orderDAO, times(2)).doSave(order);
+		verify(paymentDAO, times(2)).doSavePaypal(any());
 		verify(request.getSession()).removeAttribute("usercart");
 		verify(request.getSession()).removeAttribute("preview_order"); 
 		verify(response).sendRedirect(request.getContextPath()+"/SuccessoPagamento");
 
 	}
-
+	
 	/**
 	 * TEST CASES PER ACQUISTO PRODOTTI NEL CARRELLO (CHECK-OUT CARRELLO) - CON CONTRASSEGNO
 	 * 
@@ -840,13 +867,13 @@ public class PagamentoControllerTest {
 	 * 				si è specificato il metodo di pagamento == PAYPAL.
 	 * 
 	 * */
-
-
+	
+	
 	@Test
 	public void testDoPost_TC11_3_1_4() throws ProdottoPresenteException, ProdottoNulloException, SQLException, OrdineVuotoException, IOException, ServletException {
-
+		
 		pagamentoController = new PagamentoController(gos, ps);
-
+		
 		String username = "sabrina";
 		String password = "30sabriNa02";
 		String email = "sabrina.30@gmail.com";
@@ -888,7 +915,7 @@ public class PagamentoControllerTest {
 		String modSpedizione = "SPEDIZIONE_STANDARD";
 		String modConsegna = "PUNTO_RITIRO";
 		String modPagamento = "";
-
+		
 		when(request.getParameter("action")).thenReturn(action);
 		when(request.getParameter("selectedAddress")).thenReturn(idIndirizzo);
 		when(request.getSession().getAttribute("user")).thenReturn(user);
@@ -896,25 +923,25 @@ public class PagamentoControllerTest {
 		when(request.getParameter("tipoSpedizione")).thenReturn(modSpedizione);
 		when(request.getParameter("modalitaConsegna")).thenReturn(modConsegna);
 		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
-
+		
 		when(userDAO.doRetrieveFullUserByKey(username)).thenReturn(userComplete);
 
 		pagamentoController.doPost(request, response);
-
+		
 		ModalitaAssenteException ex = new ModalitaAssenteException("Specificare la modalità di pagamento: carta di credito, Paypal, contrassegno.");  
-
+		
 		verify(request.getSession()).setAttribute("error", ex.getMessage());            
 		verify(response).sendRedirect(request.getContextPath()+"/Pagamento");  
-
+		
 
 	}
-
-
+	
+	
 	@Test
-	public void testDoPost_TC11_3_1_5() throws ProdottoPresenteException, ProdottoNulloException, SQLException, OrdineVuotoException, ModalitaAssenteException, FormatoCVVCartaException, FormatoDataCartaException, FormatoTitolareCartaException, FormatoNumeroCartaException, IndirizzoSpedizioneNulloException, ErroreTipoSpedizioneException, ErroreTipoConsegnaException, IOException, ServletException, ProdottoNonPresenteException, CarrelloVuotoException, CloneNotSupportedException {
-
+	public void testDoPost_TC11_3_1_9() throws ProdottoPresenteException, ProdottoNulloException, SQLException, OrdineVuotoException, ModalitaAssenteException, FormatoCVVCartaException, FormatoDataCartaException, FormatoTitolareCartaException, FormatoNumeroCartaException, IndirizzoSpedizioneNulloException, ErroreTipoSpedizioneException, ErroreTipoConsegnaException, IOException, ServletException, ProdottoNonPresenteException, CarrelloVuotoException, CloneNotSupportedException {
+		
 		pagamentoController = new PagamentoController(gos, ps);
-
+		
 		String username = "sabrina";
 		String password = "30sabriNa02";
 		String email = "sabrina.30@gmail.com";
@@ -965,34 +992,65 @@ public class PagamentoControllerTest {
 		when(request.getParameter("modalitaConsegna")).thenReturn(modConsegna);
 		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
 		when(userDAO.doRetrieveFullUserByKey(username)).thenReturn(userComplete);
-
+		
 		Ordine order = new Ordine(0, null, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
 		order.setData(LocalDate.now());
 		order.setOra(LocalTime.now());
-
-		when(request.getSession().getAttribute("preview_order")).thenReturn(order);
+		
+		when(request.getParameter("action")).thenReturn(action);
+		when(request.getParameter("selectedAddress")).thenReturn(idIndirizzo);
+		when(request.getSession().getAttribute("user")).thenReturn(user);
 		when(request.getSession().getAttribute("usercart")).thenReturn(cart);
-
+		when(request.getSession().getAttribute("preview_order")).thenReturn(order);
+		when(request.getParameter("metodoPagamento")).thenReturn(modPagamento);
+		
 		when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(user);
+		
+		/* Ci si trova in gos.creaPagamento_cartaCredito(cart, preview_order, metodoPagamento, titolare, ccNumber, ccExpiry, ccCvc);
+		 	per determinare il reale pagamento.
+		 	*/
+		
+		PagamentoContrassegno realPayment = (PagamentoContrassegno) gos.creaPagamento_PaypalContrassegno(cart, order, modPagamento);
+		PagamentoContrassegno expectedPayment = new PagamentoContrassegno(1, order, (float) cart.totalAmount());
+		
+		
+		Ordine expectedCompletedOrder = new Ordine(0, Stato.Richiesta_effettuata, selectedAddress, ObjectOrdine.TipoSpedizione.Spedizione_standard, ObjectOrdine.TipoConsegna.Punto_ritiro, profile, cart.getProducts());
+		
+		/*Ci si trova in processPayment(request, pagamento, user, cart, preview_order); 
+		 * per verificare che le operazioni di checkout vadano a buon fine ed avere l'ordine
+		 * creato dal cliente.
+		 * Si passa in metodi:
+		 * 
+		 * - gos.commissionaOrdine(cart, preview_order, pagamento, user);
+		 * - pagamentoService.effettuaPagamento
+		 * - gestioneCarrelloService.svuotaCarrello(cart)
+		 * */
+		
+		Carrello temp = new Carrello();
+		temp.addProduct(item1);
+		temp.addProduct(item2);
+		
+		Carrello realCart = gos.commissionaOrdine(temp, order, realPayment, user);
+		Carrello cartEmpty = new Carrello();
+		
 
-		when(gos.creaOrdine(cart, user, idIndirizzo, modSpedizione, modConsegna)).thenReturn(order);
-
+		pagamentoController.doPost(request, response);
+		
+		
 		PagamentoContrassegno resultedPayment = new PagamentoContrassegno();
 		resultedPayment.setCodicePagamento(0);
 		resultedPayment.setDataPagamento(LocalDate.now());
 		resultedPayment.setOraPagamento(LocalTime.now());
 		resultedPayment.setImporto((float) cart.totalAmount());
-
-		Carrello cartEmpty = new Carrello();
-
-		when(gos.commissionaOrdine(cart, order, resultedPayment, user)).thenReturn(cartEmpty);
-
-		pagamentoController.doPost(request, response);
-
-
+		
+		
+		assertEquals(realCart, cartEmpty);
+		assertEquals(realPayment, expectedPayment);
+		
+		verify(orderDAO, times(2)).doSave(order);
+		verify(paymentDAO, times(2)).doSaveCash(any());
 		verify(request.getSession()).removeAttribute("usercart");
 		verify(request.getSession()).removeAttribute("preview_order"); 
 		verify(response).sendRedirect(request.getContextPath()+"/SuccessoPagamento");
-
 	}
 }

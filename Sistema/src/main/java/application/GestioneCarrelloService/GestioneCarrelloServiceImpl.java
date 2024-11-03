@@ -1,6 +1,7 @@
 package application.GestioneCarrelloService;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -26,13 +27,13 @@ import storage.NavigazioneDAO.ProdottoDAODataSource;
  * */
 
 public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
-	
+
 	private ProdottoDAODataSource productDAO;
-	
+
 	public GestioneCarrelloServiceImpl(ProdottoDAODataSource productDAO) {
 		this.productDAO = productDAO;
 	}
-	
+
 	/**
 	 * Il metodo fornisce i prodotti presenti nel carrello.
 	 * 
@@ -40,12 +41,12 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 	 * 
 	 * @return collezione di prodotti presenti nel carrello cart
 	 * */
-	
+
 	@Override
 	public Collection<ItemCarrello> visualizzaCarrello(Carrello cart) {
 		return cart.getProducts();
 	}
-	
+
 	/**
 	 * Il metodo aggiunge un prodotto nel carrello.
 	 * 
@@ -63,20 +64,20 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 	 * @throws QuantitaProdottoException : eccezione gestita nel caso in cui l'utente inserisce un prodotto 
 	 * 										avente numero di scorte pari a 0
 	 * */
-	
+
 	@Override
 	public Carrello aggiungiAlCarrello(Carrello cart, ItemCarrello item) throws ProdottoPresenteException, ProdottoNulloException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException, QuantitaProdottoException {
 		//Si verifica se ci sono scorte in magazzino per il prodotto item
-		
+
 		ProxyProdotto product = productDAO.doRetrieveProxyByKey(item.getCodiceProdotto());
-		
+
 		if(product.getQuantita() == 0)
 			throw new QuantitaProdottoException("Non è disponibile il prodotto per l’acquisto");
-		
+
 		cart.addProduct(item);
 		return cart;
 	}
-	
+
 	/**
 	 * Il metodo rimuove un prodotto nel carrello.
 	 * 
@@ -85,13 +86,13 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 	 * 
 	 * @return il carrello privo del prodotto item
 	 * */
-	
+
 	@Override
 	public Carrello rimuoviDalCarrello(Carrello cart, ItemCarrello item) throws ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException {
 		cart.deleteProduct(item);
 		return cart;
 	}
-	
+
 	/**
 	 * Il metodo incrementa il numero di pezzi di un prodotto del carrello.
 	 * 
@@ -105,14 +106,14 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 	 * @throws CategoriaProdottoException 
 	 * @throws SottocategoriaProdottoException 
 	 * */
-	
+
 	@Override
 	public Carrello aumentaQuantitaNelCarrello(Carrello cart, ItemCarrello item, int quantity) throws ProdottoNulloException, CarrelloVuotoException, ProdottoNonPresenteException, QuantitaProdottoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
 		ProxyProdotto product = productDAO.doRetrieveProxyByKey(item.getCodiceProdotto());
-		
+
 		if(quantity > product.getQuantita())
 			throw new QuantitaProdottoException("La quantità specificata supera il numero di scorte possibili del prodotto in magazzino.");
-		
+
 		if(item.getQuantita() >= quantity)
 			throw new QuantitaProdottoException("La quantità specificata è minore o uguale rispetto alla quantita\' del prodotto " + item.getNomeProdotto() + " nel carrello.");
 		else
@@ -120,7 +121,7 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 
 		return cart;
 	}
-	
+
 	/**
 	 * Il metodo decrementa il numero di pezzi di un prodotto del carrello.
 	 * 
@@ -134,15 +135,15 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 	 * @throws CategoriaProdottoException 
 	 * @throws SottocategoriaProdottoException 
 	 * */
-	
+
 	@Override
 	public Carrello decrementaQuantitaNelCarrello(Carrello cart, ItemCarrello item, int quantity) throws ProdottoNulloException, CarrelloVuotoException, ProdottoNonPresenteException, QuantitaProdottoException, SottocategoriaProdottoException, CategoriaProdottoException, SQLException {
-		
+
 		ProxyProdotto product = productDAO.doRetrieveProxyByKey(item.getCodiceProdotto());
-		
+
 		if(quantity > product.getQuantita())
 			throw new QuantitaProdottoException("La quantità specificata supera il numero di scorte possibili del prodotto in magazzino.");
-		
+
 		if(item.getQuantita() <= quantity) {
 			throw new QuantitaProdottoException("La quantità specificata è maggiore o uguale rispetto alla quantità del prodotto " + item.getNomeProdotto() + " nel carrello.");
 		}
@@ -150,10 +151,10 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 			throw new QuantitaProdottoException("La quantità specificata è zero.");
 		else
 			cart.updateProductQuantity(item, quantity);
-		
+
 		return cart;
 	}
-	
+
 	/**
 	 * Questo metodo implementa il servizio di svuotamento
 	 * del carrello.
@@ -169,14 +170,27 @@ public class GestioneCarrelloServiceImpl implements GestioneCarrelloService{
 	 * @throws ProdottoNonPresenteException :
 	 * 					@see application.GestioneCarrelloService.CarrelloException.ProdottoNonPresenteException
 	 * **/
-	
+
 	@Override
 	public Carrello svuotaCarrello(Carrello cart) throws ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException {
-		if(cart == null || cart.getNumProdotti() == 0)
-			return cart;
-		ArrayList<ItemCarrello> products = (ArrayList<ItemCarrello>) cart.getProducts();
-		for(ItemCarrello i : products)
-			cart.deleteProduct(i);
-		return cart;
+	    if (cart == null || cart.getNumProdotti() == 0) {
+	        return cart;
+	    }
+	    
+	    ArrayList<ItemCarrello> products = (ArrayList<ItemCarrello>) cart.getProducts();
+	    Iterator<ItemCarrello> iterator = products.iterator();
+	    
+	    while (iterator.hasNext()) {
+	        ItemCarrello i = iterator.next();
+	        System.out.println("***************");
+	        System.out.println("STO RIMUOVENDO " + i.toString());
+	        iterator.remove(); // Rimuove l'elemento corrente
+	    }
+
+	    cart.setProdotti(products); // Se necessario, aggiorna il carrello
+
+	    System.out.println("SVUOTA CARRELLO: CART SIZE: " + cart.getNumProdotti());
+	    return cart;
 	}
+
 }

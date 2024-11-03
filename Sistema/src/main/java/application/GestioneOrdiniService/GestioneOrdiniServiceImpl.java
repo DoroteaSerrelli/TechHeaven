@@ -243,11 +243,12 @@ public class GestioneOrdiniServiceImpl implements GestioneOrdiniService{
 	@Override
 	public <T extends Pagamento> Carrello commissionaOrdine(Carrello cart, Ordine order, T payment, ProxyUtente user) throws SQLException, ProdottoNonPresenteException, CarrelloVuotoException, ProdottoNulloException, OrdineVuotoException, ModalitaAssenteException, CloneNotSupportedException{
 		if(userDAO.doRetrieveProxyUserByKey(user.getUsername()) == null)
-			System.out.println("Errore utente!");
+			return null;
 		orderDAO.doSave(order);
 
 		//effettua il pagamento
 		PagamentoService gestionePagamentoService = new PagamentoServiceImpl(paymentDAO);
+		
 		gestionePagamentoService.effettuaPagamento(payment);
 
 		GestioneCarrelloService gestioneCarrelloService = new GestioneCarrelloServiceImpl(productDAO);

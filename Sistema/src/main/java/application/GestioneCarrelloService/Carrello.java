@@ -165,6 +165,16 @@ public class Carrello {
 	}
 	
 	/**
+	 * Metodo per impostare una lista di prodotti nel carrello
+	 * 
+	 * @param products : la lista di prodotti
+	 * */
+	
+	public void setProdotti(ArrayList<ItemCarrello> products) {
+		this.products = products;
+	}
+	
+	/**
 	 * Questo metodo determina il costo totale dei prodotti presenti nel carrello.
 	 * 
 	 * @return il costo totale della spesa
@@ -207,6 +217,9 @@ public class Carrello {
 	    if (this.products.size() != other.products.size()) {
 	        return false;
 	    }
+	    
+	    if(this.products.size() == 0 && other.products.size() == 0)
+	    	return true;
 	    
 	    // Verifica se tutti i prodotti presenti sono gli stessi
 	    for (ItemCarrello item : this.products) {

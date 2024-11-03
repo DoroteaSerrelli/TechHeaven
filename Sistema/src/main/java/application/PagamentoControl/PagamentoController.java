@@ -157,12 +157,14 @@ public class PagamentoController extends HttpServlet{
 
 
 				if(PagamentoCartaCredito.checkValidate(titolare, ccNumber, ccExpiry, ccCvc)){
-
+					
 					// Initialize the credit card payment object
 					pagamento = gos.creaPagamento_cartaCredito(cart, preview_order, metodoPagamento, titolare, ccNumber, ccExpiry, ccCvc);
 					//System.out.println(titolare);
 					success = processPayment(request, pagamento, user, cart, preview_order); 
 				}
+				
+				
 				break;
 			case "PAYPAL":
 				pagamento = gos.creaPagamento_PaypalContrassegno(cart, preview_order, metodoPagamento);
@@ -178,10 +180,12 @@ public class PagamentoController extends HttpServlet{
 				return;
 			}
 			response.sendRedirect(request.getContextPath()+"/SuccessoPagamento");
+		
 		} catch (ModalitaAssenteException | FormatoCVVCartaException | FormatoDataCartaException | FormatoTitolareCartaException | FormatoNumeroCartaException ex) {
 			Logger.getLogger(CheckoutCarrello.class.getName()).log(Level.SEVERE, null, ex);
 			request.getSession().setAttribute("error", ex.getMessage());            
 			response.sendRedirect(request.getContextPath()+"/Pagamento");  
+			
 		}
 	}
 

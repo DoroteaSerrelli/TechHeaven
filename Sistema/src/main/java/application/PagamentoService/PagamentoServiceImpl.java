@@ -87,6 +87,8 @@ public class PagamentoServiceImpl implements PagamentoService{
 			pagamentoCarta.setTitolare(pagamentoCartaOther.getTitolare());
 			pagamentoCarta.setNumeroCarta(pagamentoCartaOther.getNumeroCarta());
 			
+			System.out.println("STO EFFETTUANDO PAGAMENTO CARTA: " + pagamentoCarta.toString());
+			
 			paymentDAO.doSaveCard(pagamentoCarta);
 			
 			return pagamentoCarta;

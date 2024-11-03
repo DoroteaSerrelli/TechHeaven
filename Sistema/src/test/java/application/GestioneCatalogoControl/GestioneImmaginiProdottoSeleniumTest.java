@@ -529,6 +529,88 @@ public class GestioneImmaginiProdottoSeleniumTest {
         }
     } 
     @Test
+    public void TC16_7_1_2() throws Exception {
+      
+        // Set Chrome options (optional)
+    ChromeOptions options = new ChromeOptions();
+    options.addArguments("--start-maximized"); // Start browser maximized
+
+    // Create a new instance of the Chrome driver
+    WebDriver driver = new ChromeDriver(options);
+    driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS); // Set implicit wait
+
+    try {
+        // 1. Open the base URL
+        driver.get("https://localhost/"); // Update with your actual base URL
+
+        // 2. Click on 'Autenticazione' link
+        driver.findElement(By.linkText("Autenticazione")).click();
+
+        // 3. Fill in authentication details
+        driver.findElement(By.name("username")).sendKeys("mariaGestoreCatalogo");
+        driver.findElement(By.name("password")).sendKeys("01maria01");
+        driver.findElement(By.name("submit")).click();
+
+        // 4. Select 'GestoreCatalogo' from the dropdown
+        Select roleSelect = new Select(driver.findElement(By.name("ruolo")));
+        roleSelect.selectByVisibleText("GestoreCatalogo");
+        driver.findElement(By.name("submit")).click();
+
+        // 5. Click on the modify properties image
+        driver.findElement(By.cssSelector("#modifyProperties img")).click();
+
+        // 6. Type in product filter
+        driver.findElement(By.id("productFilter")).sendKeys("Apple AirPods Pro 2");
+        // 15. Click on the specific product's button
+        driver.findElement(By.xpath("//td[@class='productName']/h3[text()='Apple AirPods Pro 2']/ancestor::tr//button[1]")).click();
+        System.out.println("wono");
+        WebElement modifyPropertiesButton = driver.findElement(By.id("modifyProperties"));
+        ((JavascriptExecutor) driver).executeScript("arguments[0].click();", modifyPropertiesButton);
+        
+        driver.findElement(By.id("productFilter")).sendKeys("HP 15s-fq5040nl");
+        // 15. Click on the specific product's button
+        driver.findElement(By.xpath("//td[@class='productName']/h3[text()='HP 15s-fq5040nl']/ancestor::tr//button[1]")).click();
+
+        
+         // 7. Inject JavaScript to override product data in the front end
+        String newProductData = "{ \"codiceProdotto\": 0, \"nomeProdotto\": \"Apple AirPods Pro 2\", " +
+                                "\"topDescrizione\": \"Prova\", \"dettagli\": \"Prova\", \"prezzo\": 254.5, " +
+                                "\"categoria\": \"PRODOTTI_ELETTRONICA\", \"marca\": \"Apple\", \"modello\": \"AirPods Pro 2\", " +
+                                "\"quantita\": 4, \"inCatalogo\": true, \"inVetrina\": false }";
+        String script = "retrieveAllData = function(callback) {" +
+        "    callback({ product: " + newProductData + ", galleryImages: [] });" +
+        "};" +
+        "attachDeleteButtonListeners();";
+        
+        // Execute JavaScript to replace the product data and reattach delete listeners
+        ((JavascriptExecutor) driver).executeScript(script);
+
+        // 8. Manually trigger delete button click
+        WebElement deleteButton = driver.findElement(By.cssSelector(".delete-image-btn[data-image-index='0']"));
+        deleteButton.click();
+       
+        System.out.println("Delete button clicked successfully.");
+       // 9. Verify that the server response is handled and the message appears
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+        WebElement messageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='updatePhotoLog']/h2")));
+        String actualMessage = messageElement.getText();
+        String expectedMessage = "L'Immagine di dettaglio specificata non è associata al prodotto. Scegliere un'altra immagine di dettaglio.";
+
+        if (actualMessage.contains(expectedMessage)) {
+            System.out.println("Success message verified: " + actualMessage);
+        } else {
+            System.out.println("Text does not match! Expected: " + expectedMessage + ", but got: " + actualMessage);
+        }
+        
+        // Additional steps can be added as necessary
+    } catch (Exception e) {
+        e.printStackTrace(); // Print stack trace for any exceptions
+    } finally {
+        // Close the browser
+        driver.quit();
+    }
+    }
+    @Test
     public void TC16_7_1_3() throws Exception {
       
         // Set Chrome options (optional)

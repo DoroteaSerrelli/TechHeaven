@@ -664,7 +664,7 @@
       "command": "assertText",
       "target": "id=error",
       "targets": [],
-      "value": "Username o Password Errati"
+      "value": "Username o password non corretti"
     }]
   }, {
     "id": "7149cfaf-c0bc-4118-9bb4-c0e50843bf15",

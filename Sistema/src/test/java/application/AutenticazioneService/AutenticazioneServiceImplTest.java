@@ -1287,8 +1287,7 @@ public class AutenticazioneServiceImplTest {
 		ProxyUtente user = new ProxyUtente(username, password, roles, userDAO);
 		Utente existingUser = new Utente(username, password, profile);
 
-		Indirizzo doUpAddress = new Indirizzo(2, "Giacomo Matteotti", "10", "Avellino", "83100", "AV");
-
+		Indirizzo doUpAddress = new Indirizzo(2, "Alberto da Giusano", "25", "Roma", "00176", "RM");
 		String information = "AGGIORNARE-INDIRIZZO";
 
 		// Act & Assert
@@ -1306,7 +1305,7 @@ public class AutenticazioneServiceImplTest {
 		String username = "mariaGestoreCatalogo";
 		String password = "01maria01";
 		ArrayList<Indirizzo> addresses = new ArrayList<>();
-		addresses.add(new Indirizzo(3, "Platani", "13", "Teramo", "64100", "AQ"));
+		addresses.add(new Indirizzo(3, "Francesco la Francesca", "8", "Salerno", "84121", "SA"));
 
 		ArrayList<Ruolo> roles = new ArrayList<>();
 		roles.add(new Ruolo("Cliente"));
@@ -1321,7 +1320,7 @@ public class AutenticazioneServiceImplTest {
 		Utente existingUser = new Utente(username, password, profile);
 
 		String information = "AGGIORNARE-INDIRIZZO"; 
-		Indirizzo newAddress = new Indirizzo(3, "Platani1", "10", "Teramo", "64100", "AQ");
+		Indirizzo newAddress = new Indirizzo(3, "via Alb3rt0 <> da G1usan0", "10", "Avellino", "83100", "AV");
 
 
 		// Act & Assert
@@ -1338,7 +1337,7 @@ public class AutenticazioneServiceImplTest {
 		String username = "mariaGestoreCatalogo";
 		String password = "01maria01";
 		ArrayList<Indirizzo> addresses = new ArrayList<>();
-		addresses.add(new Indirizzo(3, "Platani", "13", "Teramo", "64100", "AQ"));
+		addresses.add(new Indirizzo(3, "Francesco la Francesca", "8", "Salerno", "84121", "SA"));
 
 		ArrayList<Ruolo> roles = new ArrayList<>();
 		roles.add(new Ruolo("Cliente"));
@@ -1353,7 +1352,7 @@ public class AutenticazioneServiceImplTest {
 		Utente existingUser = new Utente(username, password, profile);
 
 		String information = "AGGIORNARE-INDIRIZZO"; 
-		Indirizzo newAddress = new Indirizzo(3, "Platani", "1QQ0", "Teramo", "64100", "AQ");
+		Indirizzo newAddress = new Indirizzo(3, "via Alberto da Giussano", "newCiv1999", "Avellino", "83100", "AV");
 
 
 		// Act & Assert
@@ -1370,7 +1369,7 @@ public class AutenticazioneServiceImplTest {
 		String username = "mariaGestoreCatalogo";
 		String password = "01maria01";
 		ArrayList<Indirizzo> addresses = new ArrayList<>();
-		addresses.add(new Indirizzo(3, "Platani", "13", "Teramo", "64100", "AQ"));
+		addresses.add(new Indirizzo(3, "Francesco la Francesca", "8", "Salerno", "84121", "SA"));
 
 		ArrayList<Ruolo> roles = new ArrayList<>();
 		roles.add(new Ruolo("Cliente"));
@@ -1385,7 +1384,7 @@ public class AutenticazioneServiceImplTest {
 		Utente existingUser = new Utente(username, password, profile);
 
 		String information = "AGGIORNARE-INDIRIZZO"; 
-		Indirizzo newAddress = new Indirizzo(3, "Platani", "10", "Teramo5.", "64100", "AQ");
+		Indirizzo newAddress = new Indirizzo(3, "via Alberto da Giussano", "8", "newCitta!(1999)", "83100", "AV");
 
 
 		// Act & Assert
@@ -1402,7 +1401,7 @@ public class AutenticazioneServiceImplTest {
 		String username = "mariaGestoreCatalogo";
 		String password = "01maria01";
 		ArrayList<Indirizzo> addresses = new ArrayList<>();
-		addresses.add(new Indirizzo(3, "Platani", "13", "Teramo", "64100", "AQ"));
+		addresses.add(new Indirizzo(3, "Francesco la Francesca", "8", "Salerno", "84121", "SA"));
 
 		ArrayList<Ruolo> roles = new ArrayList<>();
 		roles.add(new Ruolo("Cliente"));
@@ -1417,7 +1416,7 @@ public class AutenticazioneServiceImplTest {
 		Utente existingUser = new Utente(username, password, profile);
 
 		String information = "AGGIORNARE-INDIRIZZO"; 
-		Indirizzo newAddress = new Indirizzo(3, "Platani", "10", "Teramo", "694100", "AQ");
+		Indirizzo newAddress = new Indirizzo(3, "via Alberto da Giussano", "8", "Roma", "R879", "AV");
 
 
 		// Act & Assert
@@ -1434,7 +1433,7 @@ public class AutenticazioneServiceImplTest {
 		String username = "mariaGestoreCatalogo";
 		String password = "01maria01";
 		ArrayList<Indirizzo> addresses = new ArrayList<>();
-		addresses.add(new Indirizzo(3, "Platani", "13", "Teramo", "64100", "AQ"));
+		addresses.add(new Indirizzo(3, "Francesco la Francesca", "8", "Salerno", "84121", "SA"));
 
 		ArrayList<Ruolo> roles = new ArrayList<>();
 		roles.add(new Ruolo("Cliente"));
@@ -1449,7 +1448,8 @@ public class AutenticazioneServiceImplTest {
 		Utente existingUser = new Utente(username, password, profile);
 
 		String information = "AGGIORNARE-INDIRIZZO"; 
-		Indirizzo newAddress = new Indirizzo(3, "Platani", "10", "Teramo", "64100", "AyQ");
+		Indirizzo newAddress = new Indirizzo(3, "via Alberto da Giussano", "8", "Roma", "00176", "(RM)");
+
 
 
 		// Act & Assert
@@ -1466,7 +1466,8 @@ public class AutenticazioneServiceImplTest {
 		String username = "mariaGestoreCatalogo";
 		String password = "01maria01";
 		ArrayList<Indirizzo> addresses = new ArrayList<>();
-		addresses.add(new Indirizzo(3, "Platani", "13", "Teramo", "64100", "AQ"));
+		addresses.add(new Indirizzo(3, "Francesco la Francesca", "8", "Salerno", "84121", "SA"));
+		addresses.add(new Indirizzo(41, "via Marco Polo", "13A", "Bologna", "40131", "BO"));
 
 		ArrayList<Ruolo> roles = new ArrayList<>();
 		roles.add(new Ruolo("Cliente"));
@@ -1481,7 +1482,7 @@ public class AutenticazioneServiceImplTest {
 		Utente existingUser = new Utente(username, password, profile);
 
 		String information = "AGGIORNARE-INDIRIZZO"; 
-		Indirizzo newAddress = new Indirizzo(3, "Platani", "13", "Teramo", "64100", "AQ");
+		Indirizzo newAddress = new Indirizzo(41, "via Marco Polo", "13A", "Bologna", "40131", "BO");
 
 
 		// Act & Assert
@@ -1498,8 +1499,8 @@ public class AutenticazioneServiceImplTest {
 		String username = "mariaGestoreCatalogo";
 		String password = "01maria01";
 		ArrayList<Indirizzo> addresses = new ArrayList<>();
-		addresses.add(new Indirizzo(3, "Platani", "13", "Teramo", "64100", "AQ"));
-		addresses.add(new Indirizzo(4, "Annunziata", "11", "Benevento", "82100", "BN"));
+		addresses.add(new Indirizzo(3, "Francesco la Francesca", "8", "Salerno", "84121", "SA"));
+		addresses.add(new Indirizzo(41, "via Marco Polo", "13A", "Bologna", "40131", "BO"));
 
 		ArrayList<Ruolo> roles = new ArrayList<>();
 		roles.add(new Ruolo("Cliente"));
@@ -1514,7 +1515,7 @@ public class AutenticazioneServiceImplTest {
 		Utente existingUser = new Utente(username, password, profile);
 
 		String information = "AGGIORNARE-INDIRIZZO"; 
-		Indirizzo newAddress = new Indirizzo(3, "Platani", "10", "Teramo", "64100", "AQ");
+		Indirizzo newAddress = new Indirizzo(3, "via Alberto da Giussano", "8", "Roma", "00176", "RM");
 
 
 		// Act

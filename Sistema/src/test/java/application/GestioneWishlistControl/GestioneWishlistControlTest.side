@@ -335,10 +335,10 @@
       "id": "400c1288-3a3b-424b-ab41-92fe2e926b4d",
       "comment": "",
       "command": "click",
-      "target": "xpath=//a[@id='removeBtn1']/button",
+      "target": "xpath=//a[@id='removeBtn7']/button",
       "targets": [
-        ["css=#removeBtn1 > .delete_button", "css:finder"],
-        ["xpath=//a[@id='removeBtn1']/button", "xpath:idRelative"],
+        ["css=#removeBtn7 > .delete_button", "css:finder"],
+        ["xpath=//a[@id='removeBtn7']/button", "xpath:idRelative"],
         ["xpath=//a[2]/button", "xpath:position"],
         ["xpath=//button[contains(.,'Rimuovi')]", "xpath:innerText"]
       ],

@@ -273,16 +273,16 @@ public class UpdateProfileControllerIntegrationTest {
 	/**
 	 * TEST CASES PER MODIFICA PROFILO : MODIFICA NUMERO DI TELEFONO
 	 * 
-	 * TC5_2.2_1 : informazione da modificare non specificata correttamente
-	 * TC5_2.2_2 : informazione da modificare == TELEFONO, formato del numero di telefono non corretto
-	 * TC5_2.2_3 : informazione da modificare == TELEFONO, formato del numero di telefono corretto,
+	 * TC5_2.1_1 : informazione da modificare non specificata correttamente
+	 * TC5_2.1_2 : informazione da modificare == TELEFONO, formato del numero di telefono non corretto
+	 * TC5_2.1_3 : informazione da modificare == TELEFONO, formato del numero di telefono corretto,
 	 * 			 nuovo numero di telefono == vecchio numero di telefono
-	 * TC5_2.2_4 : informazione da modificare = TELEFONO, formato del numero di telefono corretto,
+	 * TC5_2.1_4 : informazione da modificare = TELEFONO, formato del numero di telefono corretto,
 	 * 			 nuovo numero di telefono != vecchio numero di telefono
 	 * */
 
 	@Test
-	public void testDoPost_TC5_2_2_1() throws ServletException, IOException, SQLException {
+	public void testDoPost_TC5_2_1_1() throws ServletException, IOException, SQLException {
 
 		profiloController = new UpdateProfileController(loginController, loginService);
 
@@ -318,7 +318,7 @@ public class UpdateProfileControllerIntegrationTest {
 	}
 
 	@Test
-	public void testDoPost_TC5_2_2_2() throws ServletException, IOException, SQLException {
+	public void testDoPost_TC5_2_1_2() throws ServletException, IOException, SQLException {
 
 		profiloController = new UpdateProfileController(loginController, loginService);
 		
@@ -367,7 +367,7 @@ public class UpdateProfileControllerIntegrationTest {
 	}
 	
 	@Test
-	public void testDoPost_TC5_2_2_3() throws ServletException, IOException, SQLException {
+	public void testDoPost_TC5_2_1_3() throws ServletException, IOException, SQLException {
 
 		profiloController = new UpdateProfileController(loginController, loginService);
 		
@@ -415,7 +415,7 @@ public class UpdateProfileControllerIntegrationTest {
 	}
 
 	@Test
-	public void testDoPost_TC5_2_2_4() throws ServletException, IOException, SQLException, FormatoEmailException, ProfiloInesistenteException, EmailEsistenteException, TelefonoEsistenteException, FormatoTelefonoException, InformazioneDaModificareException {
+	public void testDoPost_TC5_2_1_4() throws ServletException, IOException, SQLException, FormatoEmailException, ProfiloInesistenteException, EmailEsistenteException, TelefonoEsistenteException, FormatoTelefonoException, InformazioneDaModificareException {
 
 		profiloController = new UpdateProfileController(loginController, loginService);
 		

@@ -179,12 +179,12 @@ public class AutenticazioneServiceImplTest {
 		});
 	}
 
-	@Test
+		@Test
 	public void TC3_1_3() throws SQLException, UtenteInesistenteException {
 		// Arrange
-		String username = "GestoreCatalogo";
-		String password = "GestoreCatalogo12";
-		Ruolo errorRole = new Ruolo("Admin34");
+		String username = "fulvioGestoreOrdini"; //Ruoli associati: Cliente e GestoreOrdini
+		String password = "fulvio0";
+		Ruolo errorRole = new Ruolo("RuoloErrato");
 		ArrayList<Ruolo> acceptedRoles = new ArrayList<>();
 		acceptedRoles.add(new Ruolo("Cliente"));
 		acceptedRoles.add(new Ruolo("GestoreOrdini"));
@@ -202,11 +202,14 @@ public class AutenticazioneServiceImplTest {
 			System.out.println(e);
 		}
 
-		ProxyUtente expectedUser = new ProxyUtente(username, password, new ArrayList<>());
+		ArrayList<Ruolo> rolesFulvio = new ArrayList<>();
+		rolesFulvio.add(new Ruolo("Cliente");
+		rolesFulvio.add(new Ruolo("GestoreOrdini");
+		ProxyUtente expectedUser = new ProxyUtente(username, password, rolesFulvio);
 
 		// Simula il comportamento del DAO per restituire l'utente corretto
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(expectedUser);
-		Mockito.when(roleDAO.doRetrieveByKey(username)).thenReturn(new ArrayList<>());
+		Mockito.when(roleDAO.doRetrieveByKey(username)).thenReturn(rolesFulvio);
 
 		// Act
 		ProxyUtente actualUser = autenticazioneService.login(username, password);
@@ -222,9 +225,9 @@ public class AutenticazioneServiceImplTest {
 	@Test
 	public void TC3_1_4() throws SQLException, UtenteInesistenteException {
 		// Arrange
-		String username = "GestoreCatalogo";
-		String password = "GestoreCatalogo12";
-		Ruolo selectedRole = new Ruolo("GestoreOrdini");
+		String username = "fulvioGestoreOrdini";
+		String password = "fulvio0";
+		Ruolo selectedRole = new Ruolo("GestoreCatalogo"); //Fulvio è un cliente ed un gestore ordini
 		ArrayList<Ruolo> acceptedRoles = new ArrayList<>();
 		acceptedRoles.add(new Ruolo("Cliente"));
 		acceptedRoles.add(new Ruolo("GestoreOrdini"));
@@ -241,15 +244,15 @@ public class AutenticazioneServiceImplTest {
 		} catch (NoSuchAlgorithmException e) {
 			System.out.println(e);
 		}
-
-		ProxyUtente expectedUser = new ProxyUtente(username, password, new ArrayList<>());
+		
+		ArrayList<Ruolo> rolesFulvio = new ArrayList<>();
+		rolesFulvio.add(new Ruolo("Cliente");
+		rolesFulvio.add(new Ruolo("GestoreOrdini");
+		ProxyUtente expectedUser = new ProxyUtente(username, password, rolesFulvio);
 
 		// Simula il comportamento del DAO per restituire l'utente corretto
 		Mockito.when(userDAO.doRetrieveProxyUserByKey(username)).thenReturn(expectedUser);
-		ArrayList<Ruolo> userRoles = new ArrayList<>();
-		userRoles.add(new Ruolo("Cliente"));
-		userRoles.add(new Ruolo("GestoreCatalogo"));
-		Mockito.when(roleDAO.doRetrieveByKey(username)).thenReturn(userRoles);
+		Mockito.when(roleDAO.doRetrieveByKey(username)).thenReturn(rolesFulvio);
 
 		// Act
 		ProxyUtente actualUser = autenticazioneService.login(username, password);
@@ -265,14 +268,14 @@ public class AutenticazioneServiceImplTest {
 	@Test
 	public void TC3_1_5() throws SQLException, UtenteInesistenteException {
 		// Arrange
-		String username = "GestoreCatalogo";
-		String password = "GestoreCatalogo12";
-
+		String username = "fulvioGestoreOrdini";
+		String password = "fulvio0";
+		Ruolo selectedRole = new Ruolo("GestoreOrdini");
 		ArrayList<Ruolo> acceptedRoles = new ArrayList<>();
 		acceptedRoles.add(new Ruolo("Cliente"));
 		acceptedRoles.add(new Ruolo("GestoreOrdini"));
 		acceptedRoles.add(new Ruolo("GestoreCatalogo"));
-		Ruolo selectedRole = new Ruolo("GestoreCatalogo");
+
 		// Hash della password
 		StringBuilder hashString = new StringBuilder();
 		try {

@@ -1170,7 +1170,7 @@
       "command": "type",
       "target": "name=email",
       "targets": [],
-      "value": "email@example.com"
+      "value": "topolino.email@example.com"
     }, {
       "id": "210e8df7-e986-44c4-a89d-87ad835424c4",
       "comment": "",

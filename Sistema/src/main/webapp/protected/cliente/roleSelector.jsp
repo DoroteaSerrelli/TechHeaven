@@ -27,7 +27,7 @@
 	<% if (ruoli != null && !ruoli.isEmpty()) { %>
 	<form action="/RoleChanger" method="post">
 		<select name="ruolo" onchange="redirectToRolePage(this)">
-			<option value="" disabled selected>Please select a role</option>
+			<option value="" disabled selected>Seleziona un Ruolo</option>
 			<% for (Ruolo ruolo : ruoli) { %>
 			<option value="<%= ruolo.getNomeRuolo() %>"><%= ruolo.getNomeRuolo() %></option>
 			<% } %>

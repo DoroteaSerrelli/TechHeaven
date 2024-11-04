@@ -186,8 +186,8 @@ public class GestioneOrdiniControllerIntegrationTest {
 		when(request.getParameterValues("product_id[]")).thenReturn(productIds);
 		when(request.getParameterValues("item_amount[]")).thenReturn(itemAmounts);
 
-		String imballaggio = "Cartone, scotch";
-		String corriere = "Spedizioni Damato Napoli";
+		String imballaggio = "imballaggio";
+		String corriere = "corriere";
 
 		when(request.getParameter("Imballaggio")).thenReturn(imballaggio);
 		when(request.getParameter("Corriere")).thenReturn(corriere);
@@ -265,8 +265,8 @@ public class GestioneOrdiniControllerIntegrationTest {
 		when(request.getParameterValues("product_id[]")).thenReturn(productIds);
 		when(request.getParameterValues("item_amount[]")).thenReturn(itemAmounts);
 
-		String imballaggio = "Cartone, scotch";
-		String corriere = "Spedizioni Damato Napoli";
+		String imballaggio = "imballaggio";
+		String corriere = "corriere";
 
 		when(request.getParameter("Imballaggio")).thenReturn(imballaggio);
 		when(request.getParameter("Corriere")).thenReturn(corriere);
@@ -335,7 +335,7 @@ public class GestioneOrdiniControllerIntegrationTest {
 		when(request.getParameterValues("item_amount[]")).thenReturn(itemAmounts);
 
 		String imballaggio = "";
-		String corriere = "Spedizioni Damato Napoli";
+		String corriere = "corriere";
 
 		when(request.getParameter("Imballaggio")).thenReturn(imballaggio);
 		when(request.getParameter("Corriere")).thenReturn(corriere);
@@ -403,8 +403,8 @@ public class GestioneOrdiniControllerIntegrationTest {
 		when(request.getParameterValues("product_id[]")).thenReturn(productIds);
 		when(request.getParameterValues("item_amount[]")).thenReturn(itemAmounts);
 
-		String imballaggio = "Cartone, scotch";
-		String corriere = "<azienda> di spedizione 1234!";
+		String imballaggio = "Scatola di cartone, polistirolo e nastro adesivo";
+		String corriere = "33SError";
 
 		when(request.getParameter("Imballaggio")).thenReturn(imballaggio);
 		when(request.getParameter("Corriere")).thenReturn(corriere);
@@ -481,8 +481,8 @@ public class GestioneOrdiniControllerIntegrationTest {
 		when(request.getParameterValues("product_id[]")).thenReturn(productIds);
 		when(request.getParameterValues("item_amount[]")).thenReturn(itemAmounts);
 
-		String imballaggio = "Cartone, scotch";
-		String corriere = "Spedizioni Damato Napoli";
+		String imballaggio = "Scatola di cartone, polistirolo e nastro adesivo";
+		String corriere = "BRT";
 
 		when(request.getParameter("Imballaggio")).thenReturn(imballaggio);
 		when(request.getParameter("Corriere")).thenReturn(corriere);

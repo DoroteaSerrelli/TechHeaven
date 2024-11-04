@@ -165,7 +165,7 @@ function fetchOrders(page, action) {
             moveToSidebar('viewOrders', 'viewOrdersForm');
             fetchOrders(1, action);
         } else {
-            moveToSidebar('viewOrders', 'viewOrdersForm');
+            //moveToSidebar('viewOrders', 'viewOrdersForm');
             fetchOrders(1, 'fetch_da_spedire');
         }
         $(window).resize(function() {

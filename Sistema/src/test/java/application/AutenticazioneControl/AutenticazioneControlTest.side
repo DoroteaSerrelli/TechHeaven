@@ -2,7 +2,7 @@
   "id": "c732900d-6119-4ea9-a2b7-658dd6efe081",
   "version": "2.0",
   "name": "AutenticazioneControlTest",
-  "url": "https://localhost/AreaRiservata",
+  "url": "https://localhost/Autenticazione",
   "tests": [{
     "id": "e0430a26-ce56-4168-97eb-15aee3c0c4a0",
     "name": "TC2_1_1Test",
@@ -3830,6 +3830,19 @@
       ],
       "value": ""
     }, {
+      "id": "cb0da2d3-eae9-4902-a397-83b692dad3de",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[@id='address_12']",
+      "targets": [
+        ["id=address_12", "id"],
+        ["css=#address_12", "css:finder"],
+        ["xpath=//div[@id='address_12']", "xpath:attributes"],
+        ["xpath=//div[@id='addressList']/div[2]", "xpath:idRelative"],
+        ["xpath=//div[2]/div/div[2]", "xpath:position"]
+      ],
+      "value": ""
+    }, {
       "id": "2c190fed-1c3e-442b-a44f-d70b1d95d702",
       "comment": "",
       "command": "click",
@@ -3934,6 +3947,46 @@
       "target": "TechHeaven - Area Riservata",
       "targets": [],
       "value": ""
+    }, {
+      "id": "74281bb1-da0a-423a-9f15-5731799162cf",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "xpath=//div[@id='address']/p",
+      "targets": [],
+      "value": "Via: Corso Garibaldi 67"
+    }, {
+      "id": "0a33d5cc-bac1-4c87-b0b8-5af66b407d0b",
+      "comment": "",
+      "command": "assertElementPresent",
+      "target": "xpath=//div[@id='address']/p[2]",
+      "targets": [
+        ["css=#address > p:nth-child(3)", "css:finder"],
+        ["xpath=//div[@id='address']/p[2]", "xpath:idRelative"],
+        ["xpath=//p[2]", "xpath:position"]
+      ],
+      "value": "82100 Benevento (BN)"
+    }, {
+      "id": "0e2612ce-44f7-4109-a270-8a5352199fa9",
+      "comment": "",
+      "command": "assertElementNotPresent",
+      "target": "xpath=//div[@id='address']/p[3]",
+      "targets": [
+        ["css=#address > p:nth-child(4)", "css:finder"],
+        ["xpath=//div[@id='address']/p[3]", "xpath:idRelative"],
+        ["xpath=//p[3]", "xpath:position"]
+      ],
+      "value": "Via: Platani 13"
+    }, {
+      "id": "cf8f78bf-8c9e-4218-9246-b2d1569aa4ea",
+      "comment": "",
+      "command": "assertElementNotPresent",
+      "target": "xpath=//div[@id='address']/p[4]",
+      "targets": [
+        ["css=#address > p:nth-child(5)", "css:finder"],
+        ["xpath=//div[@id='address']/p[4]", "xpath:idRelative"],
+        ["xpath=//p[4]", "xpath:position"]
+      ],
+      "value": "64100 Teramo (AQ)"
     }]
   }, {
     "id": "5baa439b-e932-4954-9aed-4238e38d7923",
@@ -4802,6 +4855,6 @@
     "timeout": 300,
     "tests": ["e0430a26-ce56-4168-97eb-15aee3c0c4a0"]
   }],
-  "urls": ["https://localhost/", "https://localhost/AreaRiservata", "https://localhost/cart", "https://localhost/Wishlist"],
+  "urls": ["https://localhost/", "https://localhost/AreaRiservata", "https://localhost/cart", "https://localhost/Wishlist", "https://localhost/Autenticazione"],
   "plugins": []
 }

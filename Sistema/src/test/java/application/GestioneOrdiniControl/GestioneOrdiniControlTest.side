@@ -132,15 +132,27 @@
       ],
       "value": ""
     }, {
+      "id": "eba4ab1a-2169-427d-9ec7-6daefd835439",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//img[@alt='Visualizza Ordini Clienti']",
+      "targets": [
+        ["css=#viewOrders > img", "css:finder"],
+        ["xpath=//img[@alt='Visualizza Ordini Clienti']", "xpath:img"],
+        ["xpath=//div[@id='viewOrders']/img", "xpath:idRelative"],
+        ["xpath=//section/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
       "id": "f1c32b0f-f89a-4847-baf1-01e331fb72b9",
       "comment": "",
       "command": "click",
-      "target": "css=tr:nth-child(2) input:nth-child(2)",
+      "target": "css=tr:nth-child(1) input:nth-child(2)",
       "targets": [
-        ["css=tr:nth-child(2) input:nth-child(2)", "css:finder"],
-        ["xpath=(//input[@value='Accetta'])[2]", "xpath:attributes"],
-        ["xpath=//table[@id='showpr']/tbody/tr[2]/td/form/input[2]", "xpath:idRelative"],
-        ["xpath=//tr[2]/td/form/input[2]", "xpath:position"]
+        ["css=tr:nth-child(1) input:nth-child(2)", "css:finder"],
+        ["xpath=//input[@value='Accetta']", "xpath:attributes"],
+        ["xpath=//table[@id='showpr']/tbody/tr/td/form/input[2]", "xpath:idRelative"],
+        ["xpath=//input[2]", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -305,10 +317,22 @@
       ],
       "value": ""
     }, {
+      "id": "0c36030e-2439-4a8b-b129-a12de9cd5dd8",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//img[@alt='Visualizza Ordini Clienti']",
+      "targets": [
+        ["css=#viewOrders > img", "css:finder"],
+        ["xpath=//img[@alt='Visualizza Ordini Clienti']", "xpath:img"],
+        ["xpath=//div[@id='viewOrders']/img", "xpath:idRelative"],
+        ["xpath=//section/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
       "id": "87616261-bd7d-4eef-812f-79e8186f60da",
       "comment": "",
       "command": "click",
-      "target": "css=tr:nth-child(3) input:nth-child(2)",
+      "target": "css=tr:nth-child(2) input:nth-child(2)",
       "targets": [
         ["css=tr:nth-child(3) input:nth-child(2)", "css:finder"],
         ["xpath=(//input[@value='Accetta'])[3]", "xpath:attributes"],
@@ -497,6 +521,18 @@
       ],
       "value": ""
     }, {
+      "id": "abe18f63-700c-4bc8-93c4-89c065493b27",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//img[@alt='Visualizza Ordini Clienti']",
+      "targets": [
+        ["css=#viewOrders > img", "css:finder"],
+        ["xpath=//img[@alt='Visualizza Ordini Clienti']", "xpath:img"],
+        ["xpath=//div[@id='viewOrders']/img", "xpath:idRelative"],
+        ["xpath=//section/div/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
       "id": "997f440d-f586-44ea-a77c-72e524e46af1",
       "comment": "",
       "command": "click",
@@ -675,6 +711,18 @@
         ["css=.confirm_button", "css:finder"],
         ["xpath=//input[@name='submit']", "xpath:attributes"],
         ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "4f62271d-e934-41e2-a9d9-e8a2c4d6ea01",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//img[@alt='Visualizza Ordini Clienti']",
+      "targets": [
+        ["css=#viewOrders > img", "css:finder"],
+        ["xpath=//img[@alt='Visualizza Ordini Clienti']", "xpath:img"],
+        ["xpath=//div[@id='viewOrders']/img", "xpath:idRelative"],
+        ["xpath=//section/div/img", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -884,6 +932,18 @@
         ["css=.confirm_button", "css:finder"],
         ["xpath=//input[@name='submit']", "xpath:attributes"],
         ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "85e1e020-2a65-4ea3-b9bf-e2fb6acb7f38",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//img[@alt='Visualizza Ordini Clienti']",
+      "targets": [
+        ["css=#viewOrders > img", "css:finder"],
+        ["xpath=//img[@alt='Visualizza Ordini Clienti']", "xpath:img"],
+        ["xpath=//div[@id='viewOrders']/img", "xpath:idRelative"],
+        ["xpath=//section/div/img", "xpath:position"]
       ],
       "value": ""
     }, {

@@ -349,7 +349,7 @@ public class GestioneCatalogoServiceImpl implements GestioneCatalogoService{
 			throw new ErroreSpecificaAggiornamentoException("Per modificare la messa in evidenza di un prodotto per la vetrina virtuale, seleziona l'apposita scelta.");
 		
 		if(!ObjectProdotto.checkValidateVetrina(updatedData))
-			throw new FormatoVetrinaException("Per aggiungere un prodotto in vetrina inserire TRUE,\nmentre per rimuovere un prodotto in vetrina inserire FALSE");
+			throw new FormatoVetrinaException("Specifica la messa in evidenza di un prodotto in vetrina: si o no");
 		
 		double viewDouble = Double.parseDouble(updatedData);
         int updatedDataInt = (int) viewDouble;

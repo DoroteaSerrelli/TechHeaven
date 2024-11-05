@@ -150,7 +150,8 @@ document.getElementById('imageUploadBtn').addEventListener('click', function(e) 
             contentType: false,
             success: function(response) {
                 console.log("Image uploaded successfully.");
-                if(response==='Immagine inserita con successo.')window.location.href = window.contextPath+"/Catalogo";
+                if(response==='Immagine inserita con successo.' || response==="L'Immagine Inserita e' Stata Aggiunta Correttamente alla Galleria")
+                    window.location.href = window.contextPath+"/Catalogo";
                 // Fetch and update session data for the current product
                 fetchSessionData(function(base64Gallery) {
                     updateGallery(base64Gallery); // Update the gallery UI with the updated session data

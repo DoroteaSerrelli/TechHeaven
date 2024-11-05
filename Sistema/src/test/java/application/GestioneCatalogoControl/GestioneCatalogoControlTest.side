@@ -11233,10 +11233,10 @@
       "command": "click",
       "target": "xpath=(//input[@name='productDetailsField'])[8]",
       "targets": [
-        ["css=#pricingGroup > input:nth-child(3)", "css:finder"],
-        ["xpath=(//input[@name='productDetailsField'])[5]", "xpath:attributes"],
-        ["xpath=//div[@id='pricingGroup']/input[2]", "xpath:idRelative"],
-        ["xpath=//div[3]/div/input[2]", "xpath:position"]
+        ["css=.form-group > label > input", "css:finder"],
+        ["xpath=(//input[@name='productDetailsField'])[8]", "xpath:attributes"],
+        ["xpath=//form[@id='productForm']/div[5]/label/input", "xpath:idRelative"],
+        ["xpath=//div[5]/label/input", "xpath:position"]
       ],
       "value": ""
     }, {
@@ -11267,6 +11267,13 @@
         ["xpath=//button[contains(.,'Update')]", "xpath:innerText"]
       ],
       "value": ""
+    }, {
+      "id": "9fd33248-f205-4d0f-8e0d-ff156d11efd9",
+      "comment": "",
+      "command": "waitForElementNotPresent",
+      "target": "id=addPrError",
+      "targets": [],
+      "value": "2000"
     }, {
       "id": "27ff2c80-9e48-4ca8-a879-10491cf0bcf2",
       "comment": "",

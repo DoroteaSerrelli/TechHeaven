@@ -444,20 +444,19 @@ document.getElementById('submitBtn').addEventListener('click', e => {
                 contentType: 'application/json',
                 data: jsonData,
                 success: response => {
-                    // Split the response to get status and message
-                    const responseParts = response.message.split(": ", 2); // Split into two parts: status and message
-                    const status = responseParts[0]; // This is the status
-                    const message = responseParts[1]; // This is the actual message
+                    
                     //Resetto il Messaggio visualizzato nella riga con id: errormsg
                     document.getElementById('addPrError').innerHTML="";
                     document.getElementById('addPrError').classList.remove('invalid');
-                    if (status === "invalid") {
-                        //Assegno il messaggio alla sezione per visualizzare eventuali errori
-                        document.getElementById('addPrError').innerHTML=message;
+                    // Check if the message starts with "invalid"
+                    if (response.message.startsWith("invalid: ")) {
+                        const actualMessage = response.message.substring("invalid: ".length); // Remove "invalid: " prefix
+                        document.getElementById('addPrError').innerHTML = actualMessage;
                         document.getElementById('addPrError').classList.add('invalid');
-                        console.log(message); // Optionally show the error message
-                }   else
+                        console.log(actualMessage); // Optionally show the error message
+                    } else {
                         window.location.href = response.redirectUrl;
+                    }
                 },
                 error: (xhr, status, error) =>  {
                     // Assuming the response is a JSON object with message and redirectUrl

@@ -1185,7 +1185,7 @@
       "command": "assertText",
       "target": "id=prodModelloError",
       "targets": [],
-      "value": "Il Modello deve contenere numeri e/o lettere"
+      "value": "Il Modello deve contenere lettere e, eventualmente numeri, spazi e trattini"
     }]
   }, {
     "id": "99fae043-cdc0-4f1e-95fa-505899c70f50",
@@ -4951,7 +4951,7 @@
       "id": "72cc4601-1f28-4c32-abb9-d92757d6dd63",
       "comment": "",
       "command": "click",
-      "target": "xpath=(//input[@name='productDetailsField'])[4]",
+      "target": "xpath=(//input[@name='productDetailsField'])[3]",
       "targets": [
         ["css=#descriptionGroup > label:nth-child(1) > input", "css:finder"],
         ["xpath=(//input[@name='productDetailsField'])[4]", "xpath:attributes"],
@@ -5199,7 +5199,7 @@
       "id": "439402e2-3f82-45a8-9d70-e66921d733ec",
       "comment": "",
       "command": "click",
-      "target": "xpath=(//input[@name='productDetailsField'])[4]",
+      "target": "xpath=(//input[@name='productDetailsField'])[3]",
       "targets": [
         ["css=label > input", "css:finder"],
         ["xpath=(//input[@name='productDetailsField'])[4]", "xpath:attributes"],
@@ -5435,15 +5435,15 @@
         ["xpath=//div[@id='descriptionGroup']/textarea", "xpath:idRelative"],
         ["xpath=//textarea", "xpath:position"]
       ],
-      "value": "Questa descrizione è una prova"
+      "value": "Questa descrizione e' una prova"
     }, {
       "id": "be1f0b06-d045-4cfa-97fb-a4e0d5f941a9",
       "comment": "",
       "command": "click",
-      "target": "xpath=(//input[@name='productDetailsField'])[4]",
+      "target": "xpath=(//input[@name='productDetailsField'])[3]",
       "targets": [
-        ["css=label > input", "css:finder"],
-        ["xpath=(//input[@name='productDetailsField'])[4]", "xpath:attributes"],
+        ["css=#descriptionGroup > label:nth-child(1) > input", "css:finder"],
+        ["xpath=(//input[@name='productDetailsField'])[3]", "xpath:attributes"],
         ["xpath=//div[@id='descriptionGroup']/label/input", "xpath:idRelative"],
         ["xpath=//label/input", "xpath:position"]
       ],
@@ -5675,10 +5675,10 @@
       "id": "6fbb6c85-ad0d-4973-b788-fe651a93f7f2",
       "comment": "",
       "command": "click",
-      "target": "xpath=(//input[@name='productDetailsField'])[5]",
+      "target": "xpath=(//input[@name='productDetailsField'])[4]",
       "targets": [
         ["css=label:nth-child(4) > input", "css:finder"],
-        ["xpath=(//input[@name='productDetailsField'])[5]", "xpath:attributes"],
+        ["xpath=(//input[@name='productDetailsField'])[4]", "xpath:attributes"],
         ["xpath=//div[@id='descriptionGroup']/label[2]/input", "xpath:idRelative"],
         ["xpath=//label[2]/input", "xpath:position"]
       ],
@@ -5916,7 +5916,7 @@
       "id": "609c36d2-27e5-4e97-abb6-cceecf7859e9",
       "comment": "",
       "command": "click",
-      "target": "xpath=(//input[@name='productDetailsField'])[5]",
+      "target": "xpath=(//input[@name='productDetailsField'])[4]",
       "targets": [
         ["css=label:nth-child(4) > input", "css:finder"],
         ["xpath=(//input[@name='productDetailsField'])[5]", "xpath:attributes"],
@@ -6152,12 +6152,12 @@
         ["xpath=//div[@id='descriptionGroup']/textarea", "xpath:idRelative"],
         ["xpath=//textarea", "xpath:position"]
       ],
-      "value": "Questa descrizione di dettaglio è una prova"
+      "value": "Questa descrizione di dettaglio e' una prova"
     }, {
       "id": "bd3bc0ba-f42e-49c6-a017-4768f3bddd19",
       "comment": "",
       "command": "click",
-      "target": "xpath=(//input[@name='productDetailsField'])[5]",
+      "target": "xpath=(//input[@name='productDetailsField'])[4]",
       "targets": [
         ["css=label:nth-child(4) > input", "css:finder"],
         ["xpath=(//input[@name='productDetailsField'])[5]", "xpath:attributes"],
@@ -7864,7 +7864,7 @@
         ["xpath=//section[@id='modifyPropertiesForm']/div/p", "xpath:idRelative"],
         ["xpath=//div/p", "xpath:position"]
       ],
-      "value": "La categoria inserita non esiste. Sono ammesse come categorie "
+      "value": "La categoria inserita non esiste. Sono ammesse come categorie : TELEFONIA, PRODOTTI_ELETTRONICA, PICCOLI_ELETTRODOMESTICI, GRANDI_ELETTRODOMESTICI."
     }]
   }, {
     "id": "c2ececce-48d8-4baa-ad9a-f3163ba77e3e",
@@ -8570,7 +8570,7 @@
         ["xpath=//section[@id='modifyPropertiesForm']/div/p", "xpath:idRelative"],
         ["xpath=//div/p", "xpath:position"]
       ],
-      "value": "La sottocategoria specificata non esiste. Sono ammesse le seguenti sottocategorie"
+      "value": "La sottocategoria specificata non esiste. Sono ammesse le seguenti sottocategorie: TABLET, SMARTPHONE, PC, SMARTWATCH."
     }]
   }, {
     "id": "1b1d0a61-0293-49ee-a5c4-6416e719cc0b",

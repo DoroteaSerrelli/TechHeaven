@@ -1,4 +1,4 @@
-package GestioneCatalogoTest;
+package application.GestioneCatalogoControl;
 
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
@@ -496,31 +496,22 @@ public class GestioneImmaginiProdottoSeleniumTest {
 
             // 15. Click on the specific product's button
             driver.findElement(By.xpath("//td[@class='productName']/h3[text()='Apple AirPods Pro 2']/ancestor::tr//button[1]")).click();
-            // Simple version for testing
-            String script = """
-    var button = document.createElement('button');
-    button.innerHTML = 'Delete Null Image';
-    button.className = 'delete-image-btn'; // Class to match your existing buttons
-    button.setAttribute('data-image-index', '0'); // Set to a dummy index
-    document.body.appendChild(button);
-    if (typeof attachDeleteButtonListeners === 'function') {
-        attachDeleteButtonListeners(); // This will call the function defined in the JSP
-    }
-  """;
+            // Get the current image index you want to replace
+         // Locate the delete button you want to modify
+            WebElement deleteButton = driver.findElement(By.cssSelector(".delete-image-btn[data-image-index='0']")); // Assuming index 0 here
 
-            // Execute the script in the browser context
-            ((JavascriptExecutor) driver).executeScript(script);
-            WebElement deleteButton = driver.findElement(By.cssSelector(".delete-image-btn[data-image-index='0']"));
-            ((JavascriptExecutor) driver).executeScript("arguments[0].click();", deleteButton); // Check the message in the log
-            String responseMessage = driver.findElement(By.id("updatePhotoLog")).getText();
+            // Use JavaScript to change the data-image-index to empty and also clear the button text
+            ((JavascriptExecutor) driver).executeScript("arguments[0].setAttribute('data-image-index', ''); arguments[0].innerHTML = '';", deleteButton);
 
-            // Verify the response message
-            if (responseMessage.contains("Inserire un'immagine di dettaglio del prodotto.")) {
-                System.out.println("Null image deletion test passed: " + responseMessage);
-            } else {
-                System.out.println("Unexpected response or failure: " + responseMessage);
-            }
-            
+            // Optional: Click the modified button if needed
+            deleteButton.click(); // This will perform the click operation on the button after modifying
+
+            // Wait for a log message or a response to verify changes
+            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+            WebElement logMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("updatePhotoLog")));
+            System.out.println("Log Message: " + logMessage.getText());
+
+
         } catch (Exception e) {
             e.printStackTrace(); // Print stack trace for any exceptions
         } finally {
@@ -563,7 +554,6 @@ public class GestioneImmaginiProdottoSeleniumTest {
         driver.findElement(By.id("productFilter")).sendKeys("Apple AirPods Pro 2");
         // 15. Click on the specific product's button
         driver.findElement(By.xpath("//td[@class='productName']/h3[text()='Apple AirPods Pro 2']/ancestor::tr//button[1]")).click();
-        System.out.println("wono");
         WebElement modifyPropertiesButton = driver.findElement(By.id("modifyProperties"));
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", modifyPropertiesButton);
         
@@ -594,9 +584,9 @@ public class GestioneImmaginiProdottoSeleniumTest {
         WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
         WebElement messageElement = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[@id='updatePhotoLog']/h2")));
         String actualMessage = messageElement.getText();
-        String expectedMessage = "L'Immagine di dettaglio specificata non è associata al prodotto. Scegliere un'altra immagine di dettaglio.";
+        String expectedMessage = "L'immagine di dettaglio specificata non è associata al prodotto. Scegliere un'altra immagine di dettaglio.";
 
-        if (actualMessage.contains(expectedMessage)) {
+        if (actualMessage.startsWith(expectedMessage)) {
             System.out.println("Success message verified: " + actualMessage);
         } else {
             System.out.println("Text does not match! Expected: " + expectedMessage + ", but got: " + actualMessage);

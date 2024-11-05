@@ -50,7 +50,8 @@ function attachDeleteButtonListeners() {
 
     deleteButtons.forEach(button => {
         button.addEventListener('click', function() {
-            const imageIndex = this.getAttribute('data-image-index');            
+            const imageIndex = this.getAttribute('data-image-index'); 
+            if(imageIndex==='')  document.getElementById("updatePhotoLog").innerHTML = `<h2 style="color:red;">Inserire un'immagine di dettaglio del prodotto.</h2>`;
             const imageContainer = document.getElementById(`image-container-${imageIndex}`);
 
             if (imageContainer) {

@@ -9,6 +9,13 @@ import java.util.ArrayList;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
 import application.Registrazione.RegistrazioneService.Cliente;
+import application.RegistrazioneService.Cliente;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.NamingException;
+import storage.NavigazioneDAO.ProdottoDAODataSource;
 
 
 public class ClienteDAODataSource{
@@ -17,10 +24,20 @@ public class ClienteDAODataSource{
 
 	private static final String TABLE_NAME = "Cliente_DatiPersonali";
 
-	public ClienteDAODataSource(DataSource dataSource) throws SQLException{
+        public ClienteDAODataSource(DataSource dataSource) throws SQLException{
 		this.ds = dataSource;
 	}
-	
+	 public ClienteDAODataSource(){
+            try {
+                Context initCtx = new InitialContext();
+                Context envCtx = (Context) initCtx.lookup("java:comp/env");
+                
+                this.ds = (DataSource) envCtx.lookup("jdbc/techheaven");
+            } catch (NamingException ex) {
+                Logger.getLogger(ProdottoDAODataSource.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+        }
 	public synchronized void doSave(Cliente user) throws SQLException {
 
 		Connection connection = null;

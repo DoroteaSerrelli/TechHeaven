@@ -52,7 +52,17 @@ public class UtenteDAODataSource{
 	public UtenteDAODataSource(DataSource dataSource) throws SQLException{
 		this.ds = dataSource;
 	}
-	
+	public UtenteDAODataSource(){
+		try {
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			
+			this.ds = (DataSource) envCtx.lookup("jdbc/techheaven");
+		} catch (NamingException ex) {
+			//Logger.getLogger(UtenteDAODataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+	}
 	/**
      * Il metodo memorizza un nuovo utente nel database.
      * 

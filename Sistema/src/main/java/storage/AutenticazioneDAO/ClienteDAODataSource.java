@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import org.apache.tomcat.jdbc.pool.DataSource;
 
 import application.Registrazione.RegistrazioneService.Cliente;
-import application.RegistrazioneService.Cliente;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.naming.Context;

@@ -54,7 +54,18 @@ public class IndirizzoDAODataSource {
 	public IndirizzoDAODataSource(DataSource dataSource) throws SQLException{
 		this.ds = dataSource;
 	}
+	
+	public IndirizzoDAODataSource(){
+		try {
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			
+			this.ds = (DataSource) envCtx.lookup("jdbc/techheaven");
+		} catch (NamingException ex) {
+			//Logger.getLogger(IndirizzoDAODataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
 
+	}
 	/**
 	 * Questo metodo salva un indirizzo nel database e lo associa all'utente specificato tramite username.
 	 * 

@@ -50,8 +50,18 @@ public class RuoloDAODataSource{
 	public RuoloDAODataSource(DataSource dataSource) throws SQLException{
 		this.ds = dataSource;
 	}
-	
-	
+	public RuoloDAODataSource(){
+		try {
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			
+			this.ds = (DataSource) envCtx.lookup("jdbc/techheaven");
+		} catch (NamingException ex) {
+			//Logger.getLogger(RuoloDAODataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+	}
+
 	/**
      * Il metodo memorizza nel database un nuovo ruolo associato ad un utente.
      *

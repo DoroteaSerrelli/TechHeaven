@@ -48,7 +48,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
+//import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 
 /**
  * Servlet per la gestione del catalogo prodotti.
@@ -86,7 +87,7 @@ public class GestioneCatalogoController extends HttpServlet {
 	 *
 	 * @throws ServletException : se si verifica un errore durante l'inizializzazione
 	 */
-
+	/*Init per Testing
 	public void init() throws ServletException {
 		ds = new DataSource();
 		photoControl = new PhotoControl(ds);
@@ -107,7 +108,30 @@ public class GestioneCatalogoController extends HttpServlet {
 		gos = new GestioneOrdiniServiceImpl(orderDAO,userDAO, productDAO, paymentDAO);
 		pu = new PaginationUtils(ns, gcs, gos);
 	}
+	*/
+	public void init() throws ServletException {
+		Context initContext = new InitialContext();
+		Context envContext = (Context) initContext.lookup("java:/comp/env");
+		ds = (DataSource) envContext.lookup("jdbc/techheaven");
+		photoControl = new PhotoControl(ds);
+		orderDAO = new OrdineDAODataSource(ds);
+		paymentDAO = new PagamentoDAODataSource(ds);
 
+		try {
+			productDAO = new ProdottoDAODataSource(ds, photoControl);
+			userDAO = new UtenteDAODataSource(ds);
+
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		ns = new NavigazioneServiceImpl(productDAO);
+		gcs = new GestioneCatalogoServiceImpl(productDAO, photoControl);
+		gos = new GestioneOrdiniServiceImpl(orderDAO,userDAO, productDAO, paymentDAO);
+		pu = new PaginationUtils(ns, gcs, gos);
+	}
+	
 	//Costruttore test
 	public GestioneCatalogoController(ProdottoDAODataSource productDAO, GestioneCatalogoServiceImpl gcs, PaginationUtils pu) {
 		this.gcs = gcs;

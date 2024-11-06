@@ -43,7 +43,9 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.tomcat.jdbc.pool.DataSource;
+
+//import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 
 import storage.AutenticazioneDAO.UtenteDAODataSource;
 import storage.GestioneOrdiniDAO.OrdineDAODataSource;
@@ -65,7 +67,7 @@ public class GestioneOrdiniController extends HttpServlet {
 	private OrdineDAODataSource orderDAO; 
 	private ProdottoDAODataSource pdao;
 	private PaginationUtils pu;
-
+	/*Init per Testing
 	@Override
 	public void init() throws ServletException {
 
@@ -91,9 +93,36 @@ public class GestioneOrdiniController extends HttpServlet {
 		orderDAO = new OrdineDAODataSource(ds);
 		gos = new GestioneOrdiniServiceImpl(orderDAO, userDAO, pdao, paymentDAO);
 		pu = new PaginationUtils(ns, gcs, gos);
-
 	}
+	*/
+	@Override
+	public void init() throws ServletException {
+		Context initContext = new InitialContext();
+		Context envContext = (Context) initContext.lookup("java:/comp/env");
+		DataSource ds = (DataSource) envContext.lookup("jdbc/techheaven");
+		PhotoControl photoControl = new PhotoControl(ds);
 
+		try {
+			pdao = new ProdottoDAODataSource(ds, photoControl);
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		GestioneCatalogoServiceImpl gcs = new GestioneCatalogoServiceImpl(pdao, photoControl);
+		NavigazioneServiceImpl ns = new NavigazioneServiceImpl(pdao);
+		PagamentoDAODataSource paymentDAO = new PagamentoDAODataSource(ds);
+		UtenteDAODataSource userDAO = null;
+		try {
+			userDAO = new UtenteDAODataSource(ds);
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		orderDAO = new OrdineDAODataSource(ds);
+		gos = new GestioneOrdiniServiceImpl(orderDAO, userDAO, pdao, paymentDAO);
+		pu = new PaginationUtils(ns, gcs, gos);
+	}
+	
 	//Costruttore per il test
 
 	public GestioneOrdiniController(ProdottoDAODataSource productDAO, OrdineDAODataSource orderDAO, GestioneOrdiniServiceImpl gos, PaginationUtils pu) {

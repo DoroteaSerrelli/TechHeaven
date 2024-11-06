@@ -24,7 +24,9 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.apache.tomcat.jdbc.pool.DataSource;
+
+//import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 
 import storage.NavigazioneDAO.PhotoControl;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
@@ -44,7 +46,7 @@ public class ImageServlet extends HttpServlet {
 	public PhotoControl photoControl;
 	public DataSource ds;
 
-
+	/*Init per Testing
 	public void init() throws ServletException {
 		ds = new DataSource();
 		photoControl = new PhotoControl(ds);
@@ -55,7 +57,19 @@ public class ImageServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
-
+	*/
+	public void init() throws ServletException {
+		Context initContext = new InitialContext();
+		Context envContext = (Context) initContext.lookup("java:/comp/env");		 
+		ds = new (DataSource) envContext.lookup("jdbc/techheaven");
+		photoControl = new PhotoControl(ds);
+		try {
+			productDAO = new ProdottoDAODataSource(ds, photoControl);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	// Costruttore per il test
 	public ImageServlet(DataSource ds, PhotoControl photoControl, ProdottoDAODataSource productDAO) {
 		this.ds = ds;

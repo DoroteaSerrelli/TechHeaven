@@ -13,7 +13,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
+//import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 
 import application.GestioneCarrello.GestioneCarrelloControl.CheckoutCarrello;
 import application.GestioneCarrello.GestioneCarrelloService.Carrello;
@@ -45,7 +46,7 @@ public class PagamentoController extends HttpServlet{
 
 	private GestioneOrdiniServiceImpl gos;
 	private PagamentoServiceImpl ps;
-
+	/*Init per Testing
 	@Override
 	public void init(){
 		DataSource ds = new DataSource();
@@ -66,7 +67,29 @@ public class PagamentoController extends HttpServlet{
 		gos = new GestioneOrdiniServiceImpl(orderDAO, userDAO, productDAO, paymentDAO);
 		ps = new PagamentoServiceImpl(paymentDAO);
 	}
+	*/
+	@Override
+	public void init(){
+		Context initContext = new InitialContext();
+		Context envContext = (Context) initContext.lookup("java:/comp/env");
+		DataSource ds = (DataSource) envContext.lookup("jdbc/techheaven");
+		OrdineDAODataSource orderDAO = new OrdineDAODataSource(ds);
+		UtenteDAODataSource userDAO = null;
+		ProdottoDAODataSource productDAO = null;
+		PhotoControl photoControl = new PhotoControl(ds);
+		try {
+			userDAO = new UtenteDAODataSource(ds);
+			productDAO = new ProdottoDAODataSource(ds, photoControl);
 
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+		PagamentoDAODataSource paymentDAO = new PagamentoDAODataSource(ds);
+
+		gos = new GestioneOrdiniServiceImpl(orderDAO, userDAO, productDAO, paymentDAO);
+		ps = new PagamentoServiceImpl(paymentDAO);
+	}
 	//Costruttore per test
 	public PagamentoController(GestioneOrdiniServiceImpl gos, PagamentoServiceImpl ps) {
 		this.gos = gos;

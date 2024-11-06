@@ -7,7 +7,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
+//import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 
 import application.Autenticazione.AutenticazioneService.AutenticazioneException.EmailEsistenteException;
 import application.Autenticazione.AutenticazioneService.AutenticazioneException.FormatoEmailException;
@@ -67,7 +68,7 @@ public class RegistrazioneController extends HttpServlet {
 	 *
 	 * @throws ServletException : se si verifica un errore durante l'inizializzazione
 	 */
-	
+	/*Init per Testing
 	@Override
 	public void init() throws ServletException {
 		
@@ -83,8 +84,23 @@ public class RegistrazioneController extends HttpServlet {
 		
 		rs = new RegistrazioneServiceImpl(userDAO, roleDAO, profileDAO, addressDAO);
 	}
-	
-	
+	*/
+	@Override
+	public void init() throws ServletException {
+		Context initContext = new InitialContext();
+		Context envContext = (Context) initContext.lookup("java:/comp/env");		 
+		ds = new (DataSource) envContext.lookup("jdbc/techheaven");
+		try {
+			userDAO = new UtenteDAODataSource(ds);
+			roleDAO = new RuoloDAODataSource(ds);
+			profileDAO = new ClienteDAODataSource(ds);
+			addressDAO = new IndirizzoDAODataSource(ds);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		rs = new RegistrazioneServiceImpl(userDAO, roleDAO, profileDAO, addressDAO);
+	}
 	//Costruttore per il testing
 	
 	public RegistrazioneController(RegistrazioneServiceImpl rs, UtenteDAODataSource userDAO,

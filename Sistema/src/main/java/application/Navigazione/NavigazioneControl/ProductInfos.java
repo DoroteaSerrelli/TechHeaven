@@ -28,7 +28,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
+//import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 
 /**
  *
@@ -45,9 +46,25 @@ public class ProductInfos extends HttpServlet {
 	private PhotoControl photoControl;
 	private DataSource ds;
 	private NavigazioneServiceImpl ns;
-
+	
+	/*Init per Testing
 	public void init() throws ServletException {
 		ds = new DataSource();
+		photoControl = new PhotoControl(ds);
+		try {
+			productDAO = new ProdottoDAODataSource(ds, photoControl);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+
+		ns = new NavigazioneServiceImpl(productDAO);
+	}
+	*/
+	public void init() throws ServletException {
+		Context initContext = new InitialContext();
+		Context envContext = (Context) initContext.lookup("java:/comp/env");		 
+		ds = new (DataSource) envContext.lookup("jdbc/techheaven");
 		photoControl = new PhotoControl(ds);
 		try {
 			productDAO = new ProdottoDAODataSource(ds, photoControl);

@@ -29,7 +29,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
+//import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 
 /**
  * Servlet per la gestione dell'aggiornamento delle immagini di un prodotto.
@@ -66,7 +67,8 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 	 *
 	 * @throws ServletException : se si verifica un errore durante l'inizializzazione
 	 */
-
+	 
+	/*Init per Testing
 	@Override
 	public void init() throws ServletException {
 		ds = new DataSource();
@@ -78,9 +80,23 @@ public class GestioneImmaginiProdotto extends HttpServlet {
 		}
 
 		gcs = new GestioneCatalogoServiceImpl(productDAO, photoControl);
-
 	}
+	*/
+	@Override
+	public void init() throws ServletException {
+		Context initContext = new InitialContext();
+		Context envContext = (Context) initContext.lookup("java:/comp/env");
+		ds = (DataSource) envContext.lookup("jdbc/techheaven");
+		photoControl = new PhotoControl(ds);
+		try {
+			productDAO = new ProdottoDAODataSource(new DataSource(), photoControl);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
+		gcs = new GestioneCatalogoServiceImpl(productDAO, photoControl);
+	}
+	
 	//Costruttore per test
 
 	public GestioneImmaginiProdotto(GestioneCatalogoServiceImpl gcs) {

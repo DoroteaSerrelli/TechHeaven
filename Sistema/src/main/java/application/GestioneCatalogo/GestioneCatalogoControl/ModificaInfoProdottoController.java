@@ -34,7 +34,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
+//import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 
 /**
  * Servlet per la modifica dei prodotti nel catalogo.
@@ -62,7 +63,7 @@ public class ModificaInfoProdottoController extends HttpServlet {
 	 *
 	 * @throws ServletException : se si verifica un errore durante l'inizializzazione
 	 */
-
+	/*Init per Testing
 	@Override
 	public void init() throws ServletException {
 		DataSource ds = new DataSource();
@@ -75,9 +76,24 @@ public class ModificaInfoProdottoController extends HttpServlet {
 			e.printStackTrace();
 		}
 		gcs = new GestioneCatalogoServiceImpl(productDAO, photoControl);
+	}
+	*/
+	@Override
+	public void init() throws ServletException {
+		Context initContext = new InitialContext();
+		Context envContext = (Context) initContext.lookup("java:/comp/env");
+		DataSource ds = (DataSource) envContext.lookup("jdbc/techheaven");
+		PhotoControl photoControl = new PhotoControl(ds);
+		ProdottoDAODataSource productDAO = null;
+		try {
+			productDAO = new ProdottoDAODataSource(ds, photoControl);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		gcs = new GestioneCatalogoServiceImpl(productDAO, photoControl);
 
 	}
-	
 	//Costruttore per il testing
 	
 	public ModificaInfoProdottoController(GestioneCatalogoServiceImpl gcs) {

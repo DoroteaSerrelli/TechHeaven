@@ -25,7 +25,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
+//import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 
 import storage.NavigazioneDAO.PhotoControl;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
@@ -44,7 +45,8 @@ public class GestioneCarrelloController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private GestioneCarrelloServiceImpl gc;
 	private ProdottoDAODataSource pdao;
-
+	
+	/*Init per Testing
 	public void init() throws ServletException {
 
 		DataSource ds = new DataSource();
@@ -59,8 +61,22 @@ public class GestioneCarrelloController extends HttpServlet {
 
 		gc = new GestioneCarrelloServiceImpl(pdao);
 	}
+	*/
+	public void init() throws ServletException {
+		Context initContext = new InitialContext();
+		Context envContext = (Context) initContext.lookup("java:/comp/env");
+		DataSource ds = (DataSource) envContext.lookup("jdbc/techheaven");
+		PhotoControl photoControl = new PhotoControl(ds);
 
+		try {
+			pdao = new ProdottoDAODataSource(ds, photoControl);
 
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		gc = new GestioneCarrelloServiceImpl(pdao);
+	}
 
 	//Costrutto per test
 	public GestioneCarrelloController(ProdottoDAODataSource pdao, GestioneCarrelloServiceImpl gc) {

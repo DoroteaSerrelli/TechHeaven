@@ -34,7 +34,8 @@ import storage.NavigazioneDAO.PhotoControl;
 import storage.NavigazioneDAO.ProdottoDAODataSource;
 import storage.GestioneApprovvigionamentiDAO.ApprovvigionamentoDAODataSource;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
+//import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 
 /**
  *
@@ -51,6 +52,7 @@ public class GestioneApprovigionamentiController extends HttpServlet {
 	private GestioneApprovvigionamentiServiceImpl gas;
 	private PaginationUtils pu;
 	
+	/*Init per Testing
 	public void init() throws ServletException {
 		DataSource ds = new DataSource();
 		PhotoControl photoControl = new PhotoControl(ds);
@@ -72,8 +74,30 @@ public class GestioneApprovigionamentiController extends HttpServlet {
 		pu = new PaginationUtils(ns, gcs, gos);
 		gas = new GestioneApprovvigionamentiServiceImpl(supplyDAO);
 	}
+	*/
+	public void init() throws ServletException {
+		Context initContext = new InitialContext();
+		Context envContext = (Context) initContext.lookup("java:/comp/env");
+		DataSource ds = (DataSource) envContext.lookup("jdbc/techheaven");
+		PhotoControl photoControl = new PhotoControl(ds);
+		OrdineDAODataSource orderDAO = new OrdineDAODataSource(ds);
+		PagamentoDAODataSource paymentDAO = new PagamentoDAODataSource(ds);
+		UtenteDAODataSource userDAO = null;
+		ApprovvigionamentoDAODataSource supplyDAO = new ApprovvigionamentoDAODataSource(ds);
+		try {
+			pdao = new ProdottoDAODataSource(ds, photoControl);
+			userDAO = new UtenteDAODataSource(ds);
 
-	
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		NavigazioneServiceImpl ns = new NavigazioneServiceImpl(pdao);
+		GestioneCatalogoServiceImpl gcs = new GestioneCatalogoServiceImpl(pdao, photoControl);
+		GestioneOrdiniServiceImpl gos = new GestioneOrdiniServiceImpl(orderDAO, userDAO, pdao, paymentDAO);
+		pu = new PaginationUtils(ns, gcs, gos);
+		gas = new GestioneApprovvigionamentiServiceImpl(supplyDAO);
+	}
 	
 	//Costrutto per test
 	public GestioneApprovigionamentiController(ProdottoDAODataSource pdao, GestioneApprovvigionamentiServiceImpl gas, 

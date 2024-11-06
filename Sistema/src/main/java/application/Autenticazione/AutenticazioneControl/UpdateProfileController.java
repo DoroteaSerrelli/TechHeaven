@@ -27,7 +27,8 @@ import storage.AutenticazioneDAO.UtenteDAODataSource;
 import storage.AutenticazioneDAO.RuoloDAODataSource;
 import storage.AutenticazioneDAO.ClienteDAODataSource;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
+//import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 
 /**
  * Servlet che gestisce la modifica del profilo utente.
@@ -48,7 +49,7 @@ public class UpdateProfileController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private AutenticazioneController loginController;
 	private AutenticazioneServiceImpl as;
-
+	/*Init per Testing
 	public void init() throws ServletException {
 		DataSource ds = new DataSource();
 		UtenteDAODataSource userDAO = null;
@@ -68,7 +69,25 @@ public class UpdateProfileController extends HttpServlet {
 		as = new AutenticazioneServiceImpl(userDAO, roleDAO, profileDAO, addressDAO);
 		loginController = new AutenticazioneController(as, addressDAO);
 	}
-
+	*/
+	public void init() throws ServletException {
+		try {
+			Context initContext = new InitialContext();
+			Context envContext = (Context) initContext.lookup("java:/comp/env");
+			DataSource ds = (DataSource) envContext.lookup("jdbc/techheaven");
+			RuoloDAODataSource roleDAO = null;
+			ClienteDAODataSource profileDAO = null;
+			IndirizzoDAODataSource addressDAO = null;
+			roleDAO = new RuoloDAODataSource(ds);
+			profileDAO = new ClienteDAODataSource(ds);
+			addressDAO = new IndirizzoDAODataSource(ds);
+			userDAO = new UtenteDAODataSource(ds);
+		
+		loginService = new AutenticazioneServiceImpl(userDAO, roleDAO, profileDAO, addressDAO);
+		} catch (NamingException | SQLException e) {
+			e.printStackTrace();
+		}
+	}
 
 	//Costrutto per test
 	public UpdateProfileController(AutenticazioneController loginController, AutenticazioneServiceImpl as) {

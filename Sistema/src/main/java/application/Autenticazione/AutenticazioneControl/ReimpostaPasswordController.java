@@ -16,7 +16,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
+//import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 
 import storage.AutenticazioneDAO.ClienteDAODataSource;
 import storage.AutenticazioneDAO.IndirizzoDAODataSource;
@@ -42,7 +43,7 @@ public class ReimpostaPasswordController extends HttpServlet {
 	private UtenteDAODataSource userDAO;
 	private AutenticazioneServiceImpl loginService;
 
-
+	/*Init per Testing
 	public void init() throws ServletException {
 		DataSource ds = new DataSource();
 		RuoloDAODataSource roleDAO = null;
@@ -59,8 +60,25 @@ public class ReimpostaPasswordController extends HttpServlet {
 		}
 
 		loginService = new AutenticazioneServiceImpl(userDAO, roleDAO, profileDAO, addressDAO);
+	}*/
+	public void init() throws ServletException {
+		try {
+			Context initContext = new InitialContext();
+			Context envContext = (Context) initContext.lookup("java:/comp/env");
+			DataSource ds = (DataSource) envContext.lookup("jdbc/techheaven");
+			RuoloDAODataSource roleDAO = null;
+			ClienteDAODataSource profileDAO = null;
+			IndirizzoDAODataSource addressDAO = null;
+			roleDAO = new RuoloDAODataSource(ds);
+			profileDAO = new ClienteDAODataSource(ds);
+			addressDAO = new IndirizzoDAODataSource(ds);
+			userDAO = new UtenteDAODataSource(ds);
+		
+		loginService = new AutenticazioneServiceImpl(userDAO, roleDAO, profileDAO, addressDAO);
+		} catch (NamingException | SQLException e) {
+			e.printStackTrace();
+		}
 	}
-
 
 	//Costrutto per test
 	public ReimpostaPasswordController(AutenticazioneServiceImpl loginService, UtenteDAODataSource userDAO) {

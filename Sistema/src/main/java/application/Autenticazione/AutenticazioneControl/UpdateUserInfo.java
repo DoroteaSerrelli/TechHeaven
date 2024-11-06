@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
+//import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 
 import application.Registrazione.RegistrazioneService.Indirizzo;
 import application.Registrazione.RegistrazioneService.ProxyUtente;
@@ -29,7 +30,7 @@ public class UpdateUserInfo extends HttpServlet {
 	
 	private IndirizzoDAODataSource addressDAO;
 	
-	
+	/*Init per Testing
 	public void init() throws ServletException {
 		DataSource ds = new DataSource();
 
@@ -40,8 +41,20 @@ public class UpdateUserInfo extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	*/
+	public void init() throws ServletException {
+		Context initContext = new InitialContext();
+		Context envContext = (Context) initContext.lookup("java:/comp/env");
+		DataSource ds = (DataSource) envContext.lookup("jdbc/techheaven");
 
+		try {
+			addressDAO = new IndirizzoDAODataSource(ds);
 
+		} catch (NamingException | SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	//Costrutto per test
 	public UpdateUserInfo(IndirizzoDAODataSource addressDAO) {
 		this.addressDAO = addressDAO;

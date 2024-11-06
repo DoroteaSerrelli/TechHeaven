@@ -50,6 +50,17 @@ public class ReportDAODataSource {
 		this.ds = ds;
 	}
 	
+	public ReportDAODataSource() {
+		 try {
+		   Context initCtx = new InitialContext();
+		   Context envCtx = (Context) initCtx.lookup("java:comp/env");
+				
+				this.ds = (DataSource) envCtx.lookup("jdbc/techheaven");
+			} catch (NamingException ex) {
+				//Logger.getLogger(ReportDAODataSource.class.getName()).log(Level.SEVERE, null, ex);
+			}
+	}
+	
 	private static final String TABLE_NAME = "Report_di_spedizione";
 	
 	/**

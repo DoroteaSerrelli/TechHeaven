@@ -38,7 +38,17 @@ public class ProdottoDAODataSource{
 		this.ds = dataSource;
 		this.pcDAO = pcDAO;
 	}
-	
+	public ProdottoDAODataSource(){
+		try {
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			
+			this.ds = (DataSource) envCtx.lookup("jdbc/techheaven");
+		} catch (NamingException ex) {
+			//Logger.getLogger(ProdottoDAODataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+
+	}
 	
 	/**
 	 * Il metodo permette di memorizzare un nuovo prodotto nel database.

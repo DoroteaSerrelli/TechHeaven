@@ -45,7 +45,18 @@ public class PhotoControl {
 	public PhotoControl(DataSource ds) {
 		this.ds = ds;
 	}
+	
+	public PhotoControl(){
+		try {
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
 
+			this.ds = (DataSource) envCtx.lookup("jdbc/techheaven");
+
+		} catch (NamingException e) {
+			System.out.println("Error:" + e.getMessage());
+		}		
+	}
 
 	/**
 	 * Il metodo effettua il recupero dell'immagine di presentazione di un prodotto dal database.

@@ -37,7 +37,18 @@ public class PagamentoDAODataSource {
 	public PagamentoDAODataSource(DataSource ds) {
 		this.ds = ds;
 	}
-
+	
+	public PagamentoDAODataSource(){
+		 try {
+	   Context initCtx = new InitialContext();
+	   Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			
+			this.ds = (DataSource) envCtx.lookup("jdbc/techheaven");
+		} catch (NamingException ex) {
+			//Logger.getLogger(PagamentoDAODataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}       
+	}
+	
 	private static final String TABLE_NAME = "Pagamento";
 	private static final String TABLE_NAME_CASH = "Contrassegno";
 	private static final String TABLE_NAME_PAYPAL = "Paypal";

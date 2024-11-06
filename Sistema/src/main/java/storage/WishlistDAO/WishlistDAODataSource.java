@@ -37,6 +37,16 @@ public class WishlistDAODataSource{
 		this.ds = dataSource;
 	}
 	
+	public WishlistDAODataSource() throws SQLException{
+		try {
+	   Context initCtx = new InitialContext();
+	   Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			
+			this.ds = (DataSource) envCtx.lookup("jdbc/techheaven");
+		} catch (NamingException ex) {
+			//Logger.getLogger(WishlistDAODataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 	/**
 	 * Crea una wishlist per l'utente.
 	 * 

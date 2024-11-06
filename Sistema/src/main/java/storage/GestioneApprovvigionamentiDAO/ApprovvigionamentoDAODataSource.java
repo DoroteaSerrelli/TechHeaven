@@ -43,7 +43,16 @@ public class ApprovvigionamentoDAODataSource {
 	public ApprovvigionamentoDAODataSource(DataSource ds) {
 		this.ds = ds;
 	}
-	
+	public ApprovvigionamentoDAODataSource(){
+		try {
+			Context initCtx = new InitialContext();
+			Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			
+			this.ds = (DataSource) envCtx.lookup("jdbc/techheaven");
+		} catch (NamingException ex) {
+			//Logger.getLogger(ApprovvigionamentoDAODataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 	//private static DataSource ds;
 
 	/*static {

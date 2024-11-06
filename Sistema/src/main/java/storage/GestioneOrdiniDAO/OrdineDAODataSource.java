@@ -41,7 +41,18 @@ public class OrdineDAODataSource {
 	public OrdineDAODataSource(DataSource ds) {
 		this.ds = ds;
 	}
-
+	
+	public OrdineDAODataSource(){
+		 try {
+	   Context initCtx = new InitialContext();
+	   Context envCtx = (Context) initCtx.lookup("java:comp/env");
+			
+			this.ds = (DataSource) envCtx.lookup("jdbc/techheaven");
+		} catch (NamingException ex) {
+			//Logger.getLogger(OrdineDAODataSource.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+	
 	private static final String TABLE_NAME = "ordine";
 	
 	/**

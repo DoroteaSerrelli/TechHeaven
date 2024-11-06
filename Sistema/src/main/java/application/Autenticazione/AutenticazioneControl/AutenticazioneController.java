@@ -24,8 +24,8 @@ import storage.AutenticazioneDAO.UtenteDAODataSource;
 import storage.AutenticazioneDAO.RuoloDAODataSource;
 import storage.AutenticazioneDAO.ClienteDAODataSource;
 
-import org.apache.tomcat.jdbc.pool.DataSource;
-
+//import org.apache.tomcat.jdbc.pool.DataSource;
+import javax.sql.DataSource;
 /**
  * Questa servlet gestisce l'autenticazione degli utenti e le loro informazioni.
  * 
@@ -52,7 +52,26 @@ public class AutenticazioneController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private AutenticazioneServiceImpl loginService;
 	private IndirizzoDAODataSource addressDAO;
+	@Override
+	public void init() throws ServletException {
+		try {
+			Context initContext = new InitialContext();
+			Context envContext = (Context) initContext.lookup("java:/comp/env");
+			DataSource ds = (DataSource) envContext.lookup("jdbc/techheaven");
 
+			// Initialize DAOs using javax.sql.DataSource (no casting to Tomcat-specific DataSource)
+			UtenteDAODataSource userDAO = new UtenteDAODataSource(ds);
+			RuoloDAODataSource roleDAO = new RuoloDAODataSource(ds);
+			ClienteDAODataSource profileDAO = new ClienteDAODataSource(ds);
+			this.addressDAO = new IndirizzoDAODataSource(ds);
+
+			this.loginService = new AutenticazioneServiceImpl(userDAO, roleDAO, profileDAO, addressDAO);
+		} catch (NamingException | SQLException e) {
+			e.printStackTrace();
+			throw new ServletException("Failed to initialize DataSource or DAOs", e);
+		}
+	}
+	/*Init per Testing
 	public void init() throws ServletException {
 		DataSource ds = new DataSource();
 		UtenteDAODataSource userDAO = null;
@@ -70,7 +89,7 @@ public class AutenticazioneController extends HttpServlet {
 		}
 
 		loginService = new AutenticazioneServiceImpl(userDAO, roleDAO, profileDAO, addressDAO);
-	}
+	}*/
 
 
 	//Costrutto per test

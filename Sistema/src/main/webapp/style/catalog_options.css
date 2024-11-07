@@ -1,0 +1,135 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 30 lug 2024, 13:30:40
+    Author     : raffa
+*/
+
+.options_sidebar {
+    width: 250px;
+    background-color: #f4f4f4;
+    padding: 20px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    left: -250px;
+    top: 35vh;
+    height: 40vh;
+    overflow-y: auto;
+    transition: all 0.3s ease;
+}
+
+.options_sidebar.visible {
+    left: 0;
+}
+
+#sidebar_toggle{
+    display: block;
+}
+
+.center-menu {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+
+.main-content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column; /* Arrange children vertically */
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+    
+}
+#forms{
+    padding-left: 15px;
+    padding: 5%;
+    width: 100%;
+    height: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.main-content.visible {
+    display: block;
+    flex-grow: 0;
+    width: 10px;
+    height: 10px;
+    margin: 2px;
+    padding: 0;
+}
+
+.hidden {
+    display: none;
+}
+
+.selected {
+    background-color: #e0e0e0; /* Change to desired highlight color */
+}
+
+#sidebar_toggle_menu{
+    position: fixed;
+    top: 25vh;
+}
+
+/* Styles for mobile screens */
+@media (max-width: 480px) {   
+    .main-content {
+        padding: 5px; /* Reduced padding */        
+    }
+
+    .center-menu {
+        font-size: 14px; /* Smaller font size */
+        gap: 5px; /* Reduced gap */
+    }
+
+    #forms {
+        padding: 5px; /* Further reduced padding */
+        width: 100%; /* Full width */
+    }
+
+    .fe-box img {
+        width: 80px; /* Smaller images */
+        height: 80px;
+    }
+    
+    .options_sidebar {
+        top: auto;
+        left: 98%; 
+        bottom: 0;
+        padding-left: 20px;
+        padding-right: 0px;
+    }
+    #sidebar_toggle_menu{
+        position: fixed;
+        bottom: 20%; /* Positioning the button */
+        right: 5px;
+        z-index: 1001; /* Ensure it's above the sidebar */
+        background-color: transparent;
+        border: none;
+        padding: 10px;
+        height: 30px;
+        width: 35px;
+        cursor: pointer;
+        display: block; /* Show the toggle button by default */
+        transition: opacity 0.3s ease;
+        transform: rotate(45deg);
+    }
+    #sidebar_toggle_menu img{
+        width: 40px;
+        height: 40px;
+    }
+    .options_sidebar .visible{
+        transform: translateY(0); /* Slide into view */
+    }
+    
+    #sidebar_toggle{
+        display: none;
+    }
+    
+}

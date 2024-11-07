@@ -1,0 +1,2334 @@
+{
+  "id": "b4c765b2-4d32-45ab-871b-4617a875b555",
+  "version": "2.0",
+  "name": "RegistrazioneControlTest",
+  "url": "https://localhost/",
+  "tests": [{
+    "id": "566f5047-dc73-44be-9f3b-763ba8bfaab7",
+    "name": "TC1_1_1Test",
+    "commands": [{
+      "id": "f79df512-6688-42c7-9d62-69540d6ef615",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "3f356121-2c9d-48fa-9c4c-3e95b973958d",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "62ff32c6-e9a3-4479-8ea8-0ac54c8a72a8",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newUsername34"
+    }, {
+      "id": "d6e39bdf-9b56-4f8e-9077-884869adc38b",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newPassword"
+    }, {
+      "id": "804a0b82-98c6-4ed8-91e5-96c990048dc3",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo"
+    }, {
+      "id": "069420a9-2e5d-4251-81cc-ddf5b3f9cc6d",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Pluto"
+    }, {
+      "id": "67700c66-ecb7-4882-b742-9c7f2354a888",
+      "comment": "",
+      "command": "select",
+      "target": "name=sesso",
+      "targets": [
+        ["name=sesso", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='sesso']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Uomo"
+    }, {
+      "id": "8736beae-5a33-4b06-93ec-4e74c5fdaefc",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "email@example.com"
+    }, {
+      "id": "73b0732a-06dd-4878-9e45-cb9a72279ce1",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111-234-4444"
+    }, {
+      "id": "4d049dae-9376-4b5a-b3c4-18ec6726bdcb",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "FantasyLand"
+    }, {
+      "id": "6fa3c15e-59b5-4bbc-84cf-daba2a2dfe42",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "aca6aba0-93b2-4753-9a38-059c0d01fdc7",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Disney"
+    }, {
+      "id": "2e4622ed-ae57-4c97-81be-45e87be2e35e",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "00000"
+    }, {
+      "id": "ef84dfe5-68b1-4f4f-a0fb-6766c2650eac",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "FL"
+    }, {
+      "id": "bd4ec61e-5abc-4532-a0bd-faf5ddc4bd22",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "0f0af360-1095-49b6-8048-3a83a78fa659",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=error",
+      "targets": [
+        ["id=error", "id"],
+        ["css=#error", "css:finder"],
+        ["xpath=//p[@id='error']", "xpath:attributes"],
+        ["xpath=//div[9]/p", "xpath:position"]
+      ],
+      "value": "L'username deve avere almeno lunghezza pari a 5 e contenere solo lettere."
+    }]
+  }, {
+    "id": "487dd178-ea9c-4669-b3f2-debea221b48b",
+    "name": "TC1_1_2Test",
+    "commands": [{
+      "id": "7193e775-83a6-4037-af4e-5d5fe4d79a79",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1c2f08b0-1b1d-4d21-b6e3-5594996c64dc",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "650bda45-c9ed-4b2f-9272-c552fd081808",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "topolino"
+    }, {
+      "id": "46ff64b3-e4e8-411c-8912-9cf33b9e5c3b",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newPassword12"
+    }, {
+      "id": "37c64b10-8a2b-426a-852d-03ee32c7bb7f",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo"
+    }, {
+      "id": "b008391f-a202-4fd9-9848-6c46c6b8c067",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Pluto"
+    }, {
+      "id": "ac305d58-d2f1-4a89-a296-362c2af7cb7e",
+      "comment": "",
+      "command": "select",
+      "target": "name=sesso",
+      "targets": [
+        ["name=sesso", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='sesso']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Uomo"
+    }, {
+      "id": "b616a721-3f95-4ff9-ae22-ed7d224e8eed",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "email@example.com"
+    }, {
+      "id": "9c3bac31-2799-4d97-aef9-bda28bbe3572",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111-234-4444"
+    }, {
+      "id": "8105f628-f840-4d6d-aee9-be5b6b15d11d",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "FantasyLand"
+    }, {
+      "id": "8cbb6e5b-74a2-4d1c-a987-7bfc786389e6",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "544051f6-3261-4d0a-853e-9f7766140138",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Disney"
+    }, {
+      "id": "67d15704-65bb-4e3f-96fd-803bcdf2d8a6",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "00000"
+    }, {
+      "id": "f7215c52-20c0-44c4-a5fd-de31ec3f0778",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "FL"
+    }, {
+      "id": "681769d8-1a30-4c20-81f1-1f507a04b1ca",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "29bdc451-71b7-4600-bcdd-ed762503b666",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "TechHeaven - Pagina errore",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "a8ae2d83-ea00-45da-8ea6-4a8ce3dacef8",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=span:nth-child(4)",
+      "targets": [],
+      "value": "Non è possibile associare l'username inserita al tuo account. Riprova la registrazione inserendo un'altra username."
+    }]
+  }, {
+    "id": "fd112dff-55c3-4c14-a825-03a0c6bccac1",
+    "name": "TC1_1_3Test",
+    "commands": [{
+      "id": "58fa7d9a-dec2-4b16-9f8c-dd33f4eb1802",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fd58200e-14c7-48ae-aedd-b57d52fbc44c",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "65568b30-616d-4ab3-8924-30d811594332",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "paperino"
+    }, {
+      "id": "320741de-f356-4c68-9096-8415ab8ce2ff",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "errorNewPassword"
+    }, {
+      "id": "ebb53a05-e091-4ba2-bc45-a7bdade114ad",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo"
+    }, {
+      "id": "d2dec028-8c29-4759-9b48-a2437ed2bf16",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Pluto"
+    }, {
+      "id": "9127826c-35ff-4db1-8776-54330f6fae9f",
+      "comment": "",
+      "command": "select",
+      "target": "name=sesso",
+      "targets": [
+        ["name=sesso", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='sesso']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Uomo"
+    }, {
+      "id": "6b6e28e9-555e-4513-bde6-f390f53548f7",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "email@example.com"
+    }, {
+      "id": "fb8c9b21-3de1-4293-9a74-d5a585fa8fc4",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111-234-4444"
+    }, {
+      "id": "83e4ffeb-287e-4216-b0a9-e9ad56ea3533",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "FantasyLand"
+    }, {
+      "id": "61a3bc77-3b57-4629-a69a-5d881c0e6ff8",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "d32042da-43e2-48c4-831d-c511dbafe87d",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Disney"
+    }, {
+      "id": "d1efcc61-8971-4a35-802e-075014aa2a10",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "00000"
+    }, {
+      "id": "e5da38b7-0666-44bd-89f5-028b4465f069",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "FL"
+    }, {
+      "id": "4c751df5-da48-4b69-86cb-fad1266d8a4e",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f8890d33-8f77-4f01-b95f-a43b70200cc8",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=error",
+      "targets": [
+        ["id=error", "id"],
+        ["css=#error", "css:finder"],
+        ["xpath=//p[@id='error']", "xpath:attributes"],
+        ["xpath=//div[9]/p", "xpath:position"],
+        ["xpath=//p[contains(.,'La password deve avere almeno 5 caratteri che siano lettere e numeri.')]", "xpath:innerText"]
+      ],
+      "value": "La password deve avere almeno 5 caratteri che siano lettere e numeri."
+    }]
+  }, {
+    "id": "7214b6ef-349c-4c41-9a54-a59ca77b6e37",
+    "name": "TC1_1_4Test",
+    "commands": [{
+      "id": "11fae5f6-6862-4529-87df-339a854a22ca",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "2a01c6d0-4c7a-42bd-a005-506666079620",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "4eba9d8f-8806-4807-98b6-094ec2a1d6f0",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "paperino"
+    }, {
+      "id": "fe6ad779-e103-4814-a531-972962580ff4",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newPassword56"
+    }, {
+      "id": "2f640d78-0024-470c-afaf-1f914884ee8f",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo2"
+    }, {
+      "id": "58dd7acf-fac5-4450-843c-7f02544640ec",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Pluto"
+    }, {
+      "id": "bd12930b-d38b-4881-9a0d-6b8ab6634f1e",
+      "comment": "",
+      "command": "select",
+      "target": "name=sesso",
+      "targets": [
+        ["name=sesso", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='sesso']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Uomo"
+    }, {
+      "id": "5fecfca9-ef91-443f-b5c8-ffb1e87948af",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "email@example.com"
+    }, {
+      "id": "30c0b878-cc0a-4556-a45a-216ca699f608",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111-234-4444"
+    }, {
+      "id": "2dcc2361-806d-4ea7-891e-71731abc2376",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "FantasyLand"
+    }, {
+      "id": "d404e7af-3e6a-48fb-9526-280c63066b62",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "a9d05f34-0692-4364-a725-3f8f60e34fb4",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Disney"
+    }, {
+      "id": "81cf2265-f803-42bb-ad43-2e1024b61c50",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "00000"
+    }, {
+      "id": "49981750-2a62-45fd-82e8-915cbea037ab",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "FL"
+    }, {
+      "id": "41254a75-6356-4679-8adc-fb2f319b3933",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "df101653-432c-4d7d-811b-ddad59c11a9a",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=error",
+      "targets": [
+        ["id=error", "id"],
+        ["css=#error", "css:finder"],
+        ["xpath=//p[@id='error']", "xpath:attributes"],
+        ["xpath=//div[9]/p", "xpath:position"],
+        ["xpath=//p[contains(.,'La password deve avere almeno 5 caratteri che siano lettere e numeri.')]", "xpath:innerText"]
+      ],
+      "value": "Il nome deve contenere solo lettere e, eventualmente, spazi."
+    }]
+  }, {
+    "id": "da8da3c0-194b-48e1-99f9-dd878f402d6f",
+    "name": "TC1_1_5Test",
+    "commands": [{
+      "id": "9c3e467e-bdde-44d3-85cc-9421d6e6aac6",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c788e009-d693-4c78-9f45-b718d32c9866",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2f7aa3dc-c56f-4160-bac4-b1d0aff5ae2f",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "paperino"
+    }, {
+      "id": "dd23db2e-d2e1-4326-a107-a8e6faca6c14",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newPassword56"
+    }, {
+      "id": "524de0a1-fc45-41be-b9aa-4c0fc33cc6a9",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo"
+    }, {
+      "id": "5db3e4c6-b937-4e4f-aa22-678c1ded2478",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Plu8 to"
+    }, {
+      "id": "e2800ada-e0d3-4e23-bef9-4577b0307840",
+      "comment": "",
+      "command": "select",
+      "target": "name=sesso",
+      "targets": [
+        ["name=sesso", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='sesso']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Uomo"
+    }, {
+      "id": "39f1275c-b748-4494-98cf-3087f9d9a25a",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "email@example.com"
+    }, {
+      "id": "9a5f090d-2e80-4c8b-b5c9-147e82818d21",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111-234-4444"
+    }, {
+      "id": "0a66fa08-23d4-4508-a157-85097126de40",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "FantasyLand"
+    }, {
+      "id": "1ba62307-6ea3-42c2-ad66-9d47ee6aabca",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "38b48d31-c235-478f-b650-f9ae8d3ec550",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Disney"
+    }, {
+      "id": "41a7c7e8-f611-42fa-a2d4-6464e3be7f02",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "00000"
+    }, {
+      "id": "03f71ac6-1530-4b50-aa97-e3ca210dd899",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "FL"
+    }, {
+      "id": "fab566fb-9ecc-463f-856f-ae733e32a346",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "50e78f17-9492-4c41-bcc9-a2e0fe1e4079",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=error",
+      "targets": [
+        ["id=error", "id"],
+        ["css=#error", "css:finder"],
+        ["xpath=//p[@id='error']", "xpath:attributes"],
+        ["xpath=//div[9]/p", "xpath:position"],
+        ["xpath=//p[contains(.,'La password deve avere almeno 5 caratteri che siano lettere e numeri.')]", "xpath:innerText"]
+      ],
+      "value": "Il cognome deve contenere solo lettere e, eventualmente, spazi."
+    }]
+  }, {
+    "id": "ba5928f1-eeca-457f-a9b6-81922440d1e4",
+    "name": "TC1_1_6Test",
+    "commands": [{
+      "id": "ad77e849-2955-4758-a8ce-6a1795708eb9",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "0dff4cce-520f-4fe1-b7d6-6911979a34a4",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "58b40f83-994e-4f41-8c12-4516ea582c05",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "paperino"
+    }, {
+      "id": "f6ca26f3-686f-4dae-ac0d-9a1f919cce07",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newPassword56"
+    }, {
+      "id": "ecf2c787-753e-454a-87d8-81e567dac8db",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo"
+    }, {
+      "id": "93a7a460-6618-4143-9d82-bde37c651d0b",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Pluto"
+    }, {
+      "id": "26f2f9bf-1be2-407a-ad02-9908a6dd2760",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "email@example.com"
+    }, {
+      "id": "dd317f26-5d0f-45ab-ae93-4de70e8b8084",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111-234-4444"
+    }, {
+      "id": "58792edc-ba06-41ab-83d4-8d260a67815c",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "FantasyLand"
+    }, {
+      "id": "d0fe1a74-7823-42af-b7e6-d0069b57565c",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "d5a049e1-a369-497e-8b70-fddaf5594c72",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Disney"
+    }, {
+      "id": "2118ba73-5ab9-4455-b7b7-5594ba5c8ff6",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "00000"
+    }, {
+      "id": "e92cb153-4e4a-43e2-b750-c5fc9062098f",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "FL"
+    }, {
+      "id": "7930a393-bf55-43a5-a411-31fea5fe5d1b",
+      "comment": "",
+      "command": "runScript",
+      "target": "document.querySelector('select[name=\"sesso\"]').innerHTML += '<option value=\"\" label=\"null\"></option>'",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "76eaa988-fd67-4ee1-83fe-14bd47f80f99",
+      "comment": "",
+      "command": "runScript",
+      "target": "document.querySelector('select[name=\"sesso\"]').value = '';",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9c034e30-7b94-490a-9fe9-dd0c4f6d0aa1",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "a262efbc-1042-4b0e-bd81-aaf665712de6",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//span[contains(.,'Specificare il genere.')]",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "ead1cd1e-0c03-4f0f-8d9a-89bf059212f3",
+    "name": "TC1_1_7Test",
+    "commands": [{
+      "id": "f4638f5b-b34c-4c0a-b06c-e0c72c3f037c",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "71201d94-0004-4d31-9dce-3d7be12223bf",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "fe8ae46f-c8b4-426f-b512-10cde136d9b5",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "paperino"
+    }, {
+      "id": "fe9de4b1-d68f-49a2-b5c0-002d34f89892",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newPassword56"
+    }, {
+      "id": "00886fe3-24cf-4ef2-97cf-b01932db9169",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo"
+    }, {
+      "id": "940dac7f-c7b1-4dc8-8269-2102df4938fe",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Pluto"
+    }, {
+      "id": "0b2bb920-2dd1-491d-bf61-e6d9bdabb813",
+      "comment": "",
+      "command": "select",
+      "target": "name=sesso",
+      "targets": [
+        ["name=sesso", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='sesso']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Uomo"
+    }, {
+      "id": "5d4c05cf-014d-4bb0-a6c4-ac571f168eb6",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "erroremail.example.com"
+    }, {
+      "id": "f5aab366-6329-4dbf-aac8-3345f825a6db",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111-234-4444"
+    }, {
+      "id": "8785c32c-1a10-4886-b9b3-f852e149d865",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "FantasyLand"
+    }, {
+      "id": "af6ac903-05f9-4a82-9e75-b4aee3927482",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "c4cfab08-9c7e-4e51-8278-a9ff12e00cd0",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Disney"
+    }, {
+      "id": "95300cb4-024c-4b69-b98a-ed177a1f3742",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "00000"
+    }, {
+      "id": "8663115b-f1e4-4939-b99a-ffd9c6599100",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "FL"
+    }, {
+      "id": "20d366fc-8484-40dd-a570-4f958d4b5129",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "042c273e-b7d1-428d-8858-b8a5bf885869",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=error",
+      "targets": [
+        ["id=error", "id"],
+        ["css=#error", "css:finder"],
+        ["xpath=//p[@id='error']", "xpath:attributes"],
+        ["xpath=//div[9]/p", "xpath:position"],
+        ["xpath=//p[contains(.,'La password deve avere almeno 5 caratteri che siano lettere e numeri.')]", "xpath:innerText"]
+      ],
+      "value": "L’email deve essere scritta nel formato nomeutente@dominio (es. mario.rossi10@gmail.com)."
+    }]
+  }, {
+    "id": "1513c31c-0c4f-448b-9d19-e06cd855302c",
+    "name": "TC1_1_8Test",
+    "commands": [{
+      "id": "7e469991-a9f0-475c-9fa5-4d681c06c432",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "920432da-ed02-4f7a-9901-9e3347b333d3",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "b8dd3b0a-1bfa-4bcb-81b6-18824aea45a1",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "paperino"
+    }, {
+      "id": "878a6972-dadd-4ae7-9b88-a9dec0827a2a",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newPassword56"
+    }, {
+      "id": "adfc573a-6f5e-424a-8227-e32394d47846",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo"
+    }, {
+      "id": "3eb3ae79-b319-492f-b3fb-632e5c2e6df3",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Pluto"
+    }, {
+      "id": "98cf099e-056b-4a8c-9dcf-2c60212cb3ea",
+      "comment": "",
+      "command": "select",
+      "target": "name=sesso",
+      "targets": [
+        ["name=sesso", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='sesso']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Uomo"
+    }, {
+      "id": "caf61a34-02fa-47e0-b10f-d822f5127f7d",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "pippoemail@example.com"
+    }, {
+      "id": "210e8df7-e986-44c4-a89d-87ad835424c4",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111-234-4444"
+    }, {
+      "id": "16fd7f49-68be-4dce-9b80-2663078e7ed7",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "FantasyLand"
+    }, {
+      "id": "7ff5e616-5e9f-49e0-8f01-fecd247919ea",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "b8007723-c946-440d-9a86-8d6d2ae3a564",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Disney"
+    }, {
+      "id": "a35bb43b-df78-48dd-84d4-d21d16d1135a",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "00000"
+    }, {
+      "id": "3ea55f67-2982-48c4-8cd0-8526ddc5aa0c",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "FL"
+    }, {
+      "id": "501bb209-9642-4ed1-bb2e-2292e8eb0cc0",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "aca5d93e-68f2-4290-90d2-e037906c25ca",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "TechHeaven - Pagina errore",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "09cdf883-5580-42e5-803e-b2d94af9d73d",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=span:nth-child(4)",
+      "targets": [
+        ["id=error", "id"],
+        ["css=#error", "css:finder"],
+        ["xpath=//p[@id='error']", "xpath:attributes"],
+        ["xpath=//div[9]/p", "xpath:position"],
+        ["xpath=//p[contains(.,'La password deve avere almeno 5 caratteri che siano lettere e numeri.')]", "xpath:innerText"]
+      ],
+      "value": "Non è possibile associare l'email inserita al tuo account. Riprova la registrazione inserendo un'altra email."
+    }]
+  }, {
+    "id": "f86639e3-b301-431c-b3a8-4a4d7ed4b234",
+    "name": "TC1_1_9Test",
+    "commands": [{
+      "id": "d4f4ad12-fbde-4b7d-9683-f0bb823f7b45",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1c45eddf-5929-4424-bad5-0aa7abf4451c",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "a03dc4aa-2d10-4590-8d0e-00bbbd9fa3ff",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "paperino"
+    }, {
+      "id": "6fe7b79c-3abe-4350-807f-b43d1e244916",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newPassword56"
+    }, {
+      "id": "c71da134-c954-4c6b-8647-50fd99eeb1eb",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo"
+    }, {
+      "id": "1d6fe343-a78e-4e65-b581-f9d5eca16719",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Pluto"
+    }, {
+      "id": "06033f2a-6347-4d27-8e9a-8fe797cca84d",
+      "comment": "",
+      "command": "select",
+      "target": "name=sesso",
+      "targets": [
+        ["name=sesso", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='sesso']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Uomo"
+    }, {
+      "id": "1d8a54b2-a386-4df4-a494-35e8ad5a548f",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "pippoemail@example.com"
+    }, {
+      "id": "916f0ef9-018c-4240-be2b-1beaaaf19d20",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111 234 4444"
+    }, {
+      "id": "9a4b4901-afb4-4e7d-9281-1ff0bb9ea880",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "c"
+    }, {
+      "id": "82ffd35a-a8ea-459d-968a-85a349afb71c",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "7fc165fb-bd10-4be2-b955-de3f5820d560",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Disney"
+    }, {
+      "id": "8ae84c66-b388-41eb-9467-2c4b6f94f266",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "00000"
+    }, {
+      "id": "66168b0f-f621-4123-aab6-5cf68a41d153",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "FL"
+    }, {
+      "id": "9d0bacdc-9bc1-4028-bbda-84946fc00edb",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "27e4e970-f0c7-4817-a567-7e99b2b89a5f",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=error",
+      "targets": [
+        ["id=error", "id"],
+        ["css=#error", "css:finder"],
+        ["xpath=//p[@id='error']", "xpath:attributes"],
+        ["xpath=//div[9]/p", "xpath:position"],
+        ["xpath=//p[contains(.,'La password deve avere almeno 5 caratteri che siano lettere e numeri.')]", "xpath:innerText"]
+      ],
+      "value": "Il formato del numero di telefono deve essere xxx-xxx-xxxx"
+    }]
+  }, {
+    "id": "46cf11ed-b982-4006-b3b4-b6beadb78048",
+    "name": "TC1_2_0Test",
+    "commands": [{
+      "id": "e004de1c-7a0e-46e3-81af-ee8846bda824",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "48dd3f47-e2cb-40fb-9975-7ed45cd4c3ae",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "056b5e10-1e84-40cf-b5cf-df823430cc34",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "paperino"
+    }, {
+      "id": "68c51988-1991-430d-b3cd-532ea2f499e5",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newPassword56"
+    }, {
+      "id": "b08b126e-a326-4a17-989a-04dd863374e3",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo"
+    }, {
+      "id": "19e9885b-970d-4fdf-ae52-c3afe72e9bf1",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Pluto"
+    }, {
+      "id": "799571c4-3ee0-4db0-9aa6-4c69b80ddd2a",
+      "comment": "",
+      "command": "select",
+      "target": "name=sesso",
+      "targets": [
+        ["name=sesso", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='sesso']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Uomo"
+    }, {
+      "id": "f55ced3f-65e8-4a96-8dab-4dbc1b483b45",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "pippoemail@example.com"
+    }, {
+      "id": "3feb07d6-b49c-4a62-bdab-eac0ec9b61c9",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111-234-4444"
+    }, {
+      "id": "e6f0e3eb-1488-4847-821a-9ea6a51e3c50",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "Fant8asyLand"
+    }, {
+      "id": "923f38ec-1d72-4438-95af-3677815b71bd",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "88787512-f7b2-4705-842f-956585f7c204",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Disney"
+    }, {
+      "id": "531174bb-4039-4642-9a7d-ee3e8a9f2f21",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "00000"
+    }, {
+      "id": "9166af02-fc2d-4bdc-9181-db10ffda9399",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "FL"
+    }, {
+      "id": "bb21e2bb-91b3-4815-9e15-0a0f625c5433",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "22398050-7069-47c4-9d83-d021b5828b1e",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=error road",
+      "targets": [
+        ["id=error road", "id"],
+        ["css=#error\\ road", "css:finder"],
+        ["xpath=//div[@id='error road']", "xpath:attributes"],
+        ["xpath=//div[5]/div/div/div", "xpath:position"]
+      ],
+      "value": "La via deve contenere solo lettere e spazi"
+    }]
+  }, {
+    "id": "06e4f28f-9afd-463e-bc92-63a049c48b61",
+    "name": "TC1_2_1Test",
+    "commands": [{
+      "id": "dcfdc3f9-d2ca-41c2-81bb-8801d4a98dda",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f9e04123-ff91-4b70-bee2-a3031e6e4399",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "2c1a3a77-bdd0-4082-b0f4-d6d71ee7453f",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "paperino"
+    }, {
+      "id": "e72b91b9-cd6b-4087-a785-6fe0acbeeede",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newPassword56"
+    }, {
+      "id": "6180f40b-2941-4658-aab6-6b401a48ef40",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo"
+    }, {
+      "id": "eefb60ed-34c4-4a82-a850-fe86f4968695",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Pluto"
+    }, {
+      "id": "c6f84571-0a3a-4f1f-8df0-a3c2de0e2f92",
+      "comment": "",
+      "command": "select",
+      "target": "name=sesso",
+      "targets": [
+        ["name=sesso", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='sesso']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Uomo"
+    }, {
+      "id": "44d91770-ec3b-4a16-aed2-14a6263cc59e",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "pippoemail@example.com"
+    }, {
+      "id": "aa4ed844-8c19-41d7-b0d1-99ae552d7691",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111-234-4444"
+    }, {
+      "id": "8267f6cc-a36c-490e-b612-75cd44a3b370",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "FantasyLand"
+    }, {
+      "id": "dca6da87-8c65-45f8-aa70-52285459ec6f",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "1RR 2"
+    }, {
+      "id": "f19f95f3-020a-4605-9a2d-141d299ebfc3",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Disney"
+    }, {
+      "id": "45c62489-3bae-41cf-a65e-0bdd5b5298fe",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "00000"
+    }, {
+      "id": "0a6bb6dd-b5f9-4f97-a6d2-97c2c51c0a3c",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "FL"
+    }, {
+      "id": "fd85d9d6-bf93-43df-a332-949ee307aa4b",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "5629519e-6c2b-425e-a8ac-abc6244bf2d9",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=error cv",
+      "targets": [
+        ["id=error cv", "id"],
+        ["css=#error\\ cv", "css:finder"],
+        ["xpath=//div[@id='error cv']", "xpath:attributes"],
+        ["xpath=//div[2]/div/div", "xpath:position"]
+      ],
+      "value": "Il numero civico è composto da numeri e, eventualmente, una lettera."
+    }]
+  }, {
+    "id": "c917ea3f-d5c5-41d0-a0bd-bc5441cfd165",
+    "name": "TC1_2_2Test",
+    "commands": [{
+      "id": "eee7de0b-0155-404d-86f3-889e6f400c00",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "b8154530-d129-4cee-9582-bc744b019209",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "bc09ecb9-e3d9-4749-bcca-0ac7b5643f6a",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "paperino"
+    }, {
+      "id": "00cb271a-77c2-4976-a1b1-6016c2024633",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newPassword56"
+    }, {
+      "id": "097c84d2-5f83-4a7a-b16c-a5c2fe06c212",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo"
+    }, {
+      "id": "e2d9f30e-7642-45cb-acf6-ccb9a9ba8996",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Pluto"
+    }, {
+      "id": "4c043d73-d33f-478d-a634-7856800414ff",
+      "comment": "",
+      "command": "select",
+      "target": "name=sesso",
+      "targets": [
+        ["name=sesso", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='sesso']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Uomo"
+    }, {
+      "id": "2685ec06-1a41-4e29-b08f-468d353c56fd",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "pippoemail@example.com"
+    }, {
+      "id": "efc69a04-885e-4d24-9998-63aef4d94ab9",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111-234-4444"
+    }, {
+      "id": "47b8db69-0273-441e-aa93-fe39485f3d5d",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "FantasyLand"
+    }, {
+      "id": "1cc629a9-6b6f-4c8c-b92f-af7c0fc61f82",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "6f3d312a-6f90-4b2e-a0f2-704322472f92",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Dis5ney"
+    }, {
+      "id": "f22e428b-e7f4-464f-a2b2-b682007e4649",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "00000"
+    }, {
+      "id": "355aaeae-1f8f-4d47-bdd7-4a83fbc9bb87",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "FL"
+    }, {
+      "id": "ef2a7acf-9adb-41cd-b067-8735ef48b1bc",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "70d2422d-b475-4d52-9291-8b7edd333e6f",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=error city",
+      "targets": [
+        ["id=error city", "id"],
+        ["css=#error\\ city", "css:finder"],
+        ["xpath=//div[@id='error city']", "xpath:attributes"],
+        ["xpath=//div[6]/div/div/div", "xpath:position"]
+      ],
+      "value": "La città deve essere composta solo da lettere e spazi."
+    }]
+  }, {
+    "id": "e5625e8b-fc5e-45ab-9c6c-050f701b2c2a",
+    "name": "TC1_2_3Test",
+    "commands": [{
+      "id": "dff9bd7f-3922-4d8b-80fa-292542ab3ab7",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9464ee42-2c24-49fc-8872-e2c0b9b17e55",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "13f4b0cc-6e4f-4bd3-ac0e-a063f43ecb73",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "paperino"
+    }, {
+      "id": "db303fb3-26ed-42eb-880f-b89a16c48de1",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newPassword56"
+    }, {
+      "id": "5765f6c2-9c94-4463-88db-c99c9747914e",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo"
+    }, {
+      "id": "7ed46900-b229-4bc1-9ff9-b22c3062deeb",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Pluto"
+    }, {
+      "id": "b37ca135-c88c-4396-af3f-8d79129a2bda",
+      "comment": "",
+      "command": "select",
+      "target": "name=sesso",
+      "targets": [
+        ["name=sesso", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='sesso']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Uomo"
+    }, {
+      "id": "ace2ffe2-8e96-4c5c-8409-f6fd96151a75",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "pippoemail@example.com"
+    }, {
+      "id": "9717e466-abce-4dca-b9e3-82c864e730c2",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111-234-4444"
+    }, {
+      "id": "d0b85018-5717-4360-86f7-ceb7935d4827",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "FantasyLand"
+    }, {
+      "id": "e3d32ee1-a75c-471c-b0df-efe76e0dfe09",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "ac753f78-34ed-4f75-85be-fb69183e051b",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Disney"
+    }, {
+      "id": "7919f395-8da8-4cd6-851f-3ccf411a8784",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "000"
+    }, {
+      "id": "4e1a493c-71c6-4c42-86e7-55dd238e3a34",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "FL"
+    }, {
+      "id": "37c01ccc-c535-45fa-9d30-f9ed429b7605",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "070333e6-41b3-452e-903a-21c2fc9e9272",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=error cap",
+      "targets": [
+        ["id=error cap", "id"],
+        ["css=#error\\ cap", "css:finder"],
+        ["xpath=//div[@id='error cap']", "xpath:attributes"],
+        ["xpath=//div[6]/div[2]/div/div", "xpath:position"]
+      ],
+      "value": "Il CAP deve essere formato da 5 numeri."
+    }]
+  }, {
+    "id": "bd4dd03d-cc3c-4a16-8cdc-b7067b1a3a4c",
+    "name": "TC1_2_4Test",
+    "commands": [{
+      "id": "b5ad21d1-5035-4aa1-b625-ee8302f0a6aa",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "cbf38d23-4317-409e-a744-397babb31f36",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "9b26e18b-8977-4709-91f9-de27b2b2e995",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "paperino"
+    }, {
+      "id": "d77837e6-ba13-40dc-9e54-321d376500c4",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newPassword56"
+    }, {
+      "id": "ea8ce1af-18dd-4853-871f-7397e8c09d5e",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo"
+    }, {
+      "id": "a804faf8-0a53-4e50-afb3-8caac9ea3456",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Pluto"
+    }, {
+      "id": "f9491124-9619-458f-b2c6-8e47804b44f9",
+      "comment": "",
+      "command": "select",
+      "target": "name=sesso",
+      "targets": [
+        ["name=sesso", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='sesso']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Uomo"
+    }, {
+      "id": "8d4785d3-bcd5-45bb-8d71-1f410ad36148",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "pippoemail@example.com"
+    }, {
+      "id": "cfce2264-897d-40dd-82f4-b38922a51858",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111-234-4444"
+    }, {
+      "id": "f6200e3d-518c-4412-904e-3f0cac24439e",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "FantasyLand"
+    }, {
+      "id": "2a7544e7-c072-4d02-9053-bad581a423ff",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "af8f826f-dcd6-4d2d-84b8-ae196682c1cf",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Disney"
+    }, {
+      "id": "40e58209-c582-40f9-9dd4-fac9df04bd36",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "00000"
+    }, {
+      "id": "0c2059e9-56c1-40ad-918c-a1537786e967",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "F1"
+    }, {
+      "id": "9cc4e058-c8c9-4b29-950b-7a2fd3c7dd4d",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "c46705f7-7a72-4f59-ab3a-1da1560512c2",
+      "comment": "",
+      "command": "assertText",
+      "target": "id=error province",
+      "targets": [
+        ["id=error province", "id"],
+        ["css=#error\\ province", "css:finder"],
+        ["xpath=//div[@id='error province']", "xpath:attributes"],
+        ["xpath=//div[7]/div/div/div", "xpath:position"]
+      ],
+      "value": "La provincia è composta da due lettere maiuscole."
+    }]
+  }, {
+    "id": "ae905b96-40c9-4c60-99f4-d958f81d0193",
+    "name": "TC1_2_5Test",
+    "commands": [{
+      "id": "313ffa7f-dec7-49a1-af92-629d7b588df9",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "dbee711e-4206-4aed-877e-49bb1337e178",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Registrazione",
+      "targets": [
+        ["linkText=Registrazione", "linkText"],
+        ["css=#navbar > li:nth-child(3) > a", "css:finder"],
+        ["xpath=//a[contains(text(),'Registrazione')]", "xpath:link"],
+        ["xpath=//ul[@id='navbar']/li[3]/a", "xpath:idRelative"],
+        ["xpath=//a[contains(@href, '/Registrazione')]", "xpath:href"],
+        ["xpath=//li[3]/a", "xpath:position"],
+        ["xpath=//a[contains(.,'Registrazione')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "fe5f035b-a5a1-4c4c-885e-a2bb88e04025",
+      "comment": "",
+      "command": "type",
+      "target": "name=username",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "paperino"
+    }, {
+      "id": "f38c16c7-8d20-4035-ada5-a19c12fd2ba8",
+      "comment": "",
+      "command": "type",
+      "target": "name=password",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "newPassword56"
+    }, {
+      "id": "1dd376d9-5067-41b6-a3a6-4e7898d5373b",
+      "comment": "",
+      "command": "type",
+      "target": "name=name",
+      "targets": [
+        ["name=username", "name"],
+        ["css=.row:nth-child(7) > .input-wrapper:nth-child(1) > input", "css:finder"],
+        ["xpath=//input[@name='username']", "xpath:attributes"],
+        ["xpath=//div/input", "xpath:position"]
+      ],
+      "value": "Pippo"
+    }, {
+      "id": "ca31f8bb-31bd-47e7-a9e3-63d70b2ceacd",
+      "comment": "",
+      "command": "type",
+      "target": "name=surname",
+      "targets": [],
+      "value": "Pluto"
+    }, {
+      "id": "33d8822d-7fbc-4c6a-a65f-03e41a51bb81",
+      "comment": "",
+      "command": "select",
+      "target": "name=sesso",
+      "targets": [
+        ["name=sesso", "name"],
+        ["css=select", "css:finder"],
+        ["xpath=//select[@name='sesso']", "xpath:attributes"],
+        ["xpath=//select", "xpath:position"]
+      ],
+      "value": "label=Uomo"
+    }, {
+      "id": "e27540a7-d21e-4474-8d6c-10fb6c7efc17",
+      "comment": "",
+      "command": "type",
+      "target": "name=email",
+      "targets": [],
+      "value": "pippoemail@example.com"
+    }, {
+      "id": "f95fb8ad-93d9-4da6-80d3-ba3f297e79e0",
+      "comment": "",
+      "command": "type",
+      "target": "name=phoneNumber",
+      "targets": [],
+      "value": "111-234-4444"
+    }, {
+      "id": "3f684f17-bce5-43c4-9158-fb5102569aff",
+      "comment": "",
+      "command": "type",
+      "target": "id=road",
+      "targets": [],
+      "value": "FantasyLand"
+    }, {
+      "id": "69c02aab-e0d4-43c4-97e8-3ee49d782771",
+      "comment": "",
+      "command": "type",
+      "target": "id=cv",
+      "targets": [],
+      "value": "12"
+    }, {
+      "id": "d37b6b21-c582-41e9-bf4d-e1ca90f84911",
+      "comment": "",
+      "command": "type",
+      "target": "id=city",
+      "targets": [],
+      "value": "Disney"
+    }, {
+      "id": "da7a9e68-fcd7-46b7-bdd7-dca63d8fbaf7",
+      "comment": "",
+      "command": "type",
+      "target": "id=cap",
+      "targets": [],
+      "value": "00000"
+    }, {
+      "id": "81ca9b25-ab55-4080-b074-e2ddb581b8a2",
+      "comment": "",
+      "command": "type",
+      "target": "id=province",
+      "targets": [],
+      "value": "FL"
+    }, {
+      "id": "0a4d889f-64e0-48b0-99a8-10cd3dfbaca5",
+      "comment": "",
+      "command": "click",
+      "target": "name=submit",
+      "targets": [
+        ["name=submit", "name"],
+        ["css=.confirm_button", "css:finder"],
+        ["xpath=//input[@name='submit']", "xpath:attributes"],
+        ["xpath=//div[8]/input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "12bcf143-2439-4610-b645-ebea413e7874",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "TechHeaven - Area Riservata",
+      "targets": [],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "65d0204f-2e38-41f0-9bb9-b770b73f1a66",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["566f5047-dc73-44be-9f3b-763ba8bfaab7"]
+  }],
+  "urls": ["https://localhost/"],
+  "plugins": []
+}

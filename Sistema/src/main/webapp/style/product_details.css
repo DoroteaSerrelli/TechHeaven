@@ -1,0 +1,136 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 24 set 2024, 09:48:20
+    Author     : raffa
+*/
+.product-page {
+	display: flex;
+	justify-content: space-between;
+	margin: 20px;
+}
+
+/* Main product image and gallery section */
+.pro {
+	display: flex;
+	flex-direction: column;
+	width: 60%;
+}
+
+.main-image {
+	width: 100%;
+	display: flex;
+	justify-content: center;
+}
+
+.main-image img {
+	max-width: 100%;
+	height: auto;
+}
+
+/* Thumbnails should be in a row below the main image */
+.thumbnails {
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
+}
+
+.thumbnails img {
+	width: 60px;
+	height: 60px;
+	object-fit: cover;
+	margin: 5px;
+	cursor: pointer;
+	border: 2px solid transparent;
+}
+
+.thumbnails img.selected {
+	border: 2px solid blue;
+}
+
+/* Product actions on the side */
+.product-actions {
+	width: 30%;
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: flex-start;
+	margin-left: 20px;
+}
+
+.prezzo {
+	font-size: 30px;
+	font-weight: bold;
+	margin-bottom: 20px;
+	color: goldenrod;
+}
+
+.suggerimenti {
+	font-size: 30px;
+	font-weight: bold;
+	margin-bottom: 20px;
+	color: goldenrod;
+}
+
+.add-to-cart, .add-to-wishlist {
+	margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.add-to-cart img, .add-to-wishlist img {
+	width: 50px;
+	height: 50px;
+	cursor: pointer;
+}
+
+/* Ensure product details are below the gallery and actions */
+.product-details {
+	line-height: 1.6;
+	font-size: 16px;
+	margin-top: 20px;
+	margin-left: 30px;
+	margin-right: 150px; 
+	flex : 1;
+	
+	/* Makes sure this section takes up the remaining space */
+	border: 2px solid #5B44F2;
+	border-radius: 8px;
+	padding: 5px;
+	flex: 1;
+}
+
+h1 {
+	text-shadow: 2px 2px 5px #A0D3F2;
+}
+
+.product-details h3.specifica {
+	color: #1d428a;
+}
+
+.product-details h3 {
+	color: #3F3E48;
+	font-size: 22px;
+}
+
+.product-details span {
+	font-size: 18px;
+	color: #8A2E1D;
+}
+
+.product-details hr{
+	border: 1px solid #5068f2;
+	margin-bottom: 25px;
+}
+
+.product-details p.specifica {
+	font-size: 18px;
+	color: #1d428a;
+}
+
+
+.product-details h4 {
+	color: goldenrod;
+}

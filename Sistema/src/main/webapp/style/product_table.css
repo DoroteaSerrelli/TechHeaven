@@ -1,0 +1,140 @@
+#msg{
+    width: 100%;
+    height: 2%;
+    margin: 5%;
+    padding: 8px;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+#showpr table td:hover{
+    box-shadow: 0 0 5px rgba(123,123,23,0.6);
+}
+
+#showpr img{
+    max-width: 50px; /* Adjust the width as needed */
+    max-height: 50px; /* Adjust the height as needed */
+    object-fit: cover; /* Ensures the image covers the area without distortion */
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+table, th, td {
+    border: 1px solid black;
+}
+
+th, td {
+    padding: 8px;
+    text-align: left;
+}
+
+/* Card Layout Styling */
+.order-card {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #f9f9f9;
+}
+
+/* Product Details Styling: */
+/* Container for Product Page */
+/* Ensure the main image doesn't overflow the container */
+.product-gallery .main-image img {
+    max-width: 100%; /* This will ensure the image scales down proportionally */
+    height: auto;    /* Maintain the aspect ratio */
+    display: block;
+    margin: 0 auto;  /* Center the image horizontally */
+}
+
+/* Set the container size for the main image */
+.product-gallery .main-image {
+    width: 50%;   /* You can adjust this based on your design */
+    max-width: 600px; /* Optional: Set a max width to avoid it becoming too large */
+    margin: 0 auto;  /* Center the container horizontally */
+}
+.product-image img {
+    border-radius: 8px;
+}
+
+#topImage{
+    max-width: 40%;
+    margin: 10px;
+}
+
+.product-gallery {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px; /* Spacing between images */
+}
+
+.thumbnail-container {
+    position: relative;
+    width: 150px; /* Fixed width for thumbnails */
+    height: 150px; /* Fixed height for thumbnails */
+    overflow: hidden;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.gallery-thumbnail {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* This will make the image fit within the container */
+    transition: transform 0.3s ease;
+}
+
+.gallery-thumbnail:hover {
+    transform: scale(1.05); /* Slight zoom on hover */
+}
+
+.delete-image-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #ff4d4d;
+    border: none;
+    color: white;
+    padding: 5px 10px;
+    cursor: pointer;
+    border-radius: 3px;
+    font-size: 12px;
+}
+
+.delete-image-btn:hover {
+    background-color: #ff0000;
+}
+
+.product-page {
+    display: flex;
+    max-width: 1200px;
+    margin: 20px auto;
+    background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.product-actions h2{
+    color: goldenrod;
+}
+.product-actions a {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+}
+
+/* Styles for mobile screens */
+@media (max-width: 480px) {
+    table #showpr{
+        margin-left: initial;
+        margin-right: 2%;
+    }
+}

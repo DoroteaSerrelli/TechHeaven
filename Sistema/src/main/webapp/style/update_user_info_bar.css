@@ -1,0 +1,136 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 9-mag-2024, 18.58.46
+    Author     : raffy
+*/
+.delete_button{
+    margin: 10px;
+    background-color: #F28C44;
+    border-radius: 30%;
+    width: 50px;
+}
+.update_bar {
+    position: absolute; /* Fix the position of the sidebar */
+    top: 25%; /* Align the sidebar to the top of the page */
+    left: 0; /* Align the sidebar to the left side of the page */
+    width: 200px; /* Set the width of the sidebar */
+    height: 36%; /* Make the sidebar take up the full height of the page */
+    background-color: #f4f4f4; /* Background color of the sidebar */
+    padding: 20px; /* Add some padding to the sidebar content */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Add a subtle shadow effect */
+}
+
+.update_bar ul {
+    list-style-type: none; /* Remove the default bullet points */
+    padding: 0; /* Remove any default padding */
+    margin: 0; /* Remove any default margin */
+    
+}
+
+.update_bar li {
+    margin-bottom: 10px; /* Add some space between each list item */
+}
+
+.update_bar a {
+    text-decoration: none; /* Remove underline from links */
+    color: #333; /* Set link color */
+}
+
+.update_bar a:hover {
+    color: #555; /* Change link color on hover */
+}
+
+.address-container {
+    flex: 1; /* Takes up available space */
+    margin-right: 10px; /* Spacing between address list and form */
+}
+
+.form-container {
+    padding-left: 10px;
+    flex: 1; /* Takes up more space */
+    margin-right: 20px;
+    display: flex;
+    justify-content: center; /* Align form to the far right */
+    
+}
+.container {
+    display: flex;
+    justify-content: space-between; /* Adjust space between items */
+    max-width: 1200px; /* Optional: Set a max width for the container */
+    margin: 0 auto; /* Center the container horizontally */
+    padding: 20px; /* Optional: Add padding for spacing */
+    box-sizing: border-box; /* Include padding in width calculations */
+}
+/* Optional: Add some basic styling for addressList */
+#addressList {
+    border: 1px solid #ddd;
+    padding: 10px;
+    background: #f9f9f9;
+}
+
+.address-item{
+    cursor: pointer;
+}
+
+.errormsgAddress{
+    justify-content: left;
+    text-align: center; 
+    width: 150px;
+    height: 30px; /* Adjust based on the height needed for your error messages */
+    color: red;
+    font-size: 15px;
+}
+
+.invalid-message {
+    color: red;
+    width: 180px;
+}
+
+.valid-message {
+    color: green;
+}
+
+input.invalid {
+    border-color: red;
+}
+
+input.valid {
+    border-color: green;
+}
+
+
+@media only screen and (max-width:799px){
+    .update_bar{
+        width: 100px; /* Set the width of the sidebar */    
+    }
+    
+}
+
+@media (max-width:477px){
+     .update_bar {
+        position: fixed;
+        left: -100%; /* Hide the sidebar off-screen by default */   
+        background-color: #f4f4f4;
+        padding: 20px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        z-index: 999; /* Ensure the sidebar is above other content */
+        transition: left 0.3s ease; /* Add a smooth transition effect */
+    }
+     .container {
+        flex-direction: column; /* Stack vertically on smaller screens */
+        align-items: center; /* Center items horizontally in column layout */
+    }
+
+    .address-container, .form-container {
+        width: 100%; /* Ensure they take full width on small screens */
+        margin-right: 0; /* Remove margin on smaller screens */
+        margin-bottom: 20px; /* Add bottom margin for spacing */
+    }
+
+    .form-container {
+        margin-bottom: 0; /* Remove bottom margin from the form container */
+    }
+}

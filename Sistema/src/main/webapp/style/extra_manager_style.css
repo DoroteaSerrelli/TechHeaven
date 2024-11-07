@@ -1,0 +1,122 @@
+/*
+Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/CascadeStyleSheet.css to edit this template
+*/
+/* 
+    Created on : 20 ago 2024, 17:45:41
+    Author     : raffa
+*/
+
+#supplyingRequestForm{
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    width: 60%;
+    justify-content: center;
+    margin: 0 auto;
+    display: flex;
+}
+
+#supplyingRequest .row{
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Space between flex items */
+    margin-bottom: 20px;
+}
+
+#supplyingRequestForm .input-wrapper{
+    flex: 1; /* Allow flex items to grow and shrink as needed */
+    min-width: 200px; /* Minimum width of each input-wrapper */
+}
+#order_details table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+#order_details th, #order_details td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+#order_details th {
+    color: #5b44f2;
+    font-size: 18px;
+    background-color: #f2f2f2;
+    width: 23%;
+}
+#order_details td {
+    width: 70%;
+    color: #3F3E48;
+    font-size: 18px;
+}
+#order_details{  
+    padding-left: 25px;
+    background-color: rgb(255, 255, 245);
+    box-shadow: 3px 3px rgba(28, 168, 248, 0.3);
+}
+
+
+.order_warning{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 20px;
+    border: 2px solid #6C1908; /* You can change the color */
+    max-width: 600px; /* Limits width for readability */
+    margin: 0 auto; /* Centers the div horizontally */
+}
+
+.order_warning h2 {
+    color: #3F3E48;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    line-height: 1.5; /* Ensures good line spacing */
+    word-wrap: break-word; /* Ensures long words are wrapped */
+}
+.order_warning ul {
+    list-style-type: square; /* Square bullets */
+    padding-left: 20px; /* Adjusts the indentation of the list */
+    margin-bottom: 20px;
+    text-align: left; /* Aligns the text to the left */
+}
+
+.order_warning ul li {
+    font-size: 1rem;
+    margin-bottom: 10px;
+    margin-left: 5px; /* Reduces space between bullet and text */
+}
+
+/* Styles for mobile screens */
+@media (max-width: 480px) {
+    #supplyingRequestForm{     
+        width: 100%;
+    }
+    #supplyingRequestForm .input-wrapper{      
+        width: 60%;
+        padding: 0px;
+        
+    }
+    
+       #showpr {
+        display: block;
+        overflow-x: auto;
+        border-color: rgb(91, 68, 242);
+    }
+    #showpr th, #showpr td {
+        display: block;
+        text-align: left;
+          border-color: rgb(91, 68, 242);
+    }
+    #showpr th {
+        display: none; /* Hide headers on small screens */
+    }
+    #showpr tr {
+        margin-bottom: 1em; /* Space between rows */
+    }
+    #showpr td:before {
+        content: attr(data-label); /* Show the header as a label */
+        font-weight: bold;
+        float: left;
+    }
+}

@@ -1,0 +1,424 @@
+{
+  "id": "e0628aaf-504e-4f54-b19f-061cfb023a7b",
+  "version": "2.0",
+  "name": "NavigazioneControlTest",
+  "url": "https://localhost/",
+  "tests": [{
+    "id": "1ae2f1ce-62f6-45c8-b1e7-87b2f810db06",
+    "name": "TC7_1_1Test",
+    "commands": [{
+      "id": "ac8952ad-679f-4312-8118-d8b6efa19de6",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/NavigazioneController?search_type=menu&keyword=errorCategory",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "739c0dff-4412-4381-993a-016d7bae20bc",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "TechHeaven - Homepage",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "3bcdd422-e7bf-4a91-b31a-ef33232f2ff4",
+    "name": "TC7_1_2Test",
+    "commands": [{
+      "id": "fc5b1eb2-9f3c-4e92-9d0b-8b03215e2473",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "c43db662-90b0-4b99-b07f-c7de186d1bb2",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1486x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f8668a71-b591-417e-9929-b630ed24e5cd",
+      "comment": "",
+      "command": "click",
+      "target": "linkText=Telefonia",
+      "targets": [
+        ["linkText=Telefonia", "linkText"],
+        ["css=#categories > li:nth-child(1) > a", "css:finder"],
+        ["xpath=(//a[contains(text(),'Telefonia')])[2]", "xpath:link"],
+        ["xpath=//ul[@id='categories']/li/a", "xpath:idRelative"],
+        ["xpath=(//a[contains(@href, '/NavigazioneController?search_type=menu&keyword=TELEFONIA')])[2]", "xpath:href"],
+        ["xpath=//ul[2]/li/a", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d486215e-2127-4466-a27a-b541a975c705",
+      "comment": "",
+      "command": "assertTitle",
+      "target": "TechHeaven - Risultati Ricerca",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "794a2187-eec7-4900-802c-d5bbd322673a",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//h1[contains(.,'Risultati prodotti dalla ricerca')]",
+      "targets": [],
+      "value": ""
+    }]
+  }, {
+    "id": "319d1b64-bf8e-4c9d-abf1-06e860f83bbd",
+    "name": "TC8_1_1Test",
+    "commands": [{
+      "id": "b6673460-ba89-4479-b4d3-d4dc40ed4431",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "fcdd088a-87bc-4e46-947b-6cdad99d5f33",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1486x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "8698e98c-c967-4e67-92df-eaaf6916d68a",
+      "comment": "",
+      "command": "click",
+      "target": "id=searchInput",
+      "targets": [
+        ["id=searchInput", "id"],
+        ["name=keyword", "name"],
+        ["css=#searchInput", "css:finder"],
+        ["xpath=//input[@id='searchInput']", "xpath:attributes"],
+        ["xpath=//form[@id='searchForm']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "8d2ab6f1-0fb5-4dd1-9550-2e06535e695e",
+      "comment": "",
+      "command": "type",
+      "target": "id=searchInput",
+      "targets": [
+        ["id=searchInput", "id"],
+        ["name=keyword", "name"],
+        ["css=#searchInput", "css:finder"],
+        ["xpath=//input[@id='searchInput']", "xpath:attributes"],
+        ["xpath=//form[@id='searchForm']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": " "
+    }, {
+      "id": "83ffb8f7-f775-46ab-958d-d273126bd9f4",
+      "comment": "",
+      "command": "runScript",
+      "target": "document.getElementById('searchForm').submit();",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "9ec654f1-cd38-4134-92cd-37cf452165bb",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//p[contains(.,'Compila questo campo.')]",
+      "targets": [
+        ["id=searchError", "id"],
+        ["css=#searchError", "css:finder"],
+        ["xpath=//p[@id='searchError']", "xpath:attributes"],
+        ["xpath=//form[@id='searchForm']/p", "xpath:idRelative"],
+        ["xpath=//p", "xpath:position"],
+        ["xpath=//p[contains(.,'Compila questo campo.')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "13282bca-c96c-486c-86d4-f66833fafba6",
+    "name": "TC8_1_2Test",
+    "commands": [{
+      "id": "6dfabaea-3047-4801-8769-a781c382f77e",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "ec44d514-bb4a-4976-b8d8-6ebfd199c738",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1486x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "4641e65e-5655-438c-a783-1efa836d0206",
+      "comment": "",
+      "command": "click",
+      "target": "id=searchInput",
+      "targets": [
+        ["id=searchInput", "id"],
+        ["name=keyword", "name"],
+        ["css=#searchInput", "css:finder"],
+        ["xpath=//input[@id='searchInput']", "xpath:attributes"],
+        ["xpath=//form[@id='searchForm']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "087d736d-fa83-495e-86e4-24bc864b0a91",
+      "comment": "",
+      "command": "type",
+      "target": "id=searchInput",
+      "targets": [
+        ["id=searchInput", "id"],
+        ["name=keyword", "name"],
+        ["css=#searchInput", "css:finder"],
+        ["xpath=//input[@id='searchInput']", "xpath:attributes"],
+        ["xpath=//form[@id='searchForm']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Nokia"
+    }, {
+      "id": "3fbc8d98-cd90-438b-9d18-c055c3694edd",
+      "comment": "",
+      "command": "click",
+      "target": "css=.search > img",
+      "targets": [
+        ["css=.search > img", "css:finder"],
+        ["xpath=//img[@alt='Search']", "xpath:img"],
+        ["xpath=//form[@id='searchForm']/button/img", "xpath:idRelative"],
+        ["xpath=//button/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "d2737683-7d94-49e5-b7c1-c35cabf89189",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//h4[contains(.,'Nessun prodotto trovato con la keyword: Nokia')]",
+      "targets": [
+        ["css=.search_results > h4", "css:finder"],
+        ["xpath=//h4", "xpath:position"],
+        ["xpath=//h4[contains(.,'Nessun prodotto trovato con la keyword: Nokia')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }, {
+    "id": "09353c7f-b053-4a4e-bb5b-285d60cda693",
+    "name": "TC8_1_3Test",
+    "commands": [{
+      "id": "b93adba4-3759-4049-96e8-48f0e317a4df",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7d3f384f-1e0a-4c7c-8f38-2a8147cf68b1",
+      "comment": "",
+      "command": "setWindowSize",
+      "target": "1486x816",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "1792b4fb-0819-4a94-b60a-5ebfd0a63652",
+      "comment": "",
+      "command": "click",
+      "target": "id=searchInput",
+      "targets": [
+        ["id=searchInput", "id"],
+        ["name=keyword", "name"],
+        ["css=#searchInput", "css:finder"],
+        ["xpath=//input[@id='searchInput']", "xpath:attributes"],
+        ["xpath=//form[@id='searchForm']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "f7a666b5-1bac-4af0-8bc1-47e03d0700c9",
+      "comment": "",
+      "command": "type",
+      "target": "id=searchInput",
+      "targets": [
+        ["id=searchInput", "id"],
+        ["name=keyword", "name"],
+        ["css=#searchInput", "css:finder"],
+        ["xpath=//input[@id='searchInput']", "xpath:attributes"],
+        ["xpath=//form[@id='searchForm']/input", "xpath:idRelative"],
+        ["xpath=//input", "xpath:position"]
+      ],
+      "value": "Prova"
+    }, {
+      "id": "115f088e-678d-4b07-8b96-8c772c52f4b5",
+      "comment": "",
+      "command": "click",
+      "target": "css=.search > img",
+      "targets": [
+        ["css=.search > img", "css:finder"],
+        ["xpath=//img[@alt='Search']", "xpath:img"],
+        ["xpath=//form[@id='searchForm']/button/img", "xpath:idRelative"],
+        ["xpath=//button/img", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "6d008ec1-6f54-480b-a540-4b17c207d67d",
+      "comment": "",
+      "command": "verifyElementNotPresent",
+      "target": "css=.search_results > h4",
+      "targets": [
+        ["css=.search_results > h4", "css:finder"],
+        ["xpath=//h4", "xpath:position"],
+        ["xpath=//h4[contains(.,'Nessun prodotto trovato con la keyword: Prova')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "e16006a0-3a38-4624-a156-d943b7d6dd21",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.pro:nth-child(1) h3",
+      "targets": [
+        ["css=.pro:nth-child(1) h3", "css:finder"],
+        ["xpath=//section[@id='product1']/div/div/div/h3", "xpath:idRelative"],
+        ["xpath=//h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'Smartphone')]", "xpath:innerText"]
+      ],
+      "value": "Smartphone"
+    }, {
+      "id": "6f4a56cb-bd1e-4ddd-b5b9-698b0ffabc68",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.pro:nth-child(2) h3",
+      "targets": [
+        ["css=.pro:nth-child(2) h3", "css:finder"],
+        ["xpath=//section[@id='product1']/div/div[2]/div/h3", "xpath:idRelative"],
+        ["xpath=//div[2]/div/h3", "xpath:position"],
+        ["xpath=//h3[contains(.,'Tablet')]", "xpath:innerText"]
+      ],
+      "value": "Tablet"
+    }, {
+      "id": "a3af1d2f-6314-4082-a9eb-8e587aa0c426",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.pro:nth-child(1) span",
+      "targets": [
+        ["css=.pro:nth-child(1) span", "css:finder"],
+        ["xpath=//section[@id='product1']/div/div/div/span", "xpath:idRelative"],
+        ["xpath=//div/div/div/span", "xpath:position"],
+        ["xpath=//span[contains(.,'Samsung')]", "xpath:innerText"]
+      ],
+      "value": "Samsung"
+    }, {
+      "id": "eab76052-ece1-4761-ae14-57795e6dbaec",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.pro:nth-child(2) span",
+      "targets": [
+        ["css=.pro:nth-child(2) span", "css:finder"],
+        ["xpath=//section[@id='product1']/div/div[2]/div/span", "xpath:idRelative"],
+        ["xpath=//div[2]/div/span", "xpath:position"],
+        ["xpath=//span[contains(.,'Lenovo')]", "xpath:innerText"]
+      ],
+      "value": "Lenovo"
+    }, {
+      "id": "28b6d0d6-fbf3-41e3-9893-b816836b86ab",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.pro:nth-child(1) .prezzo",
+      "targets": [
+        ["css=.pro:nth-child(1) .prezzo", "css:finder"],
+        ["xpath=//section[@id='product1']/div/div/div/h4", "xpath:idRelative"],
+        ["xpath=//h4", "xpath:position"],
+        ["xpath=//h4[contains(.,'219,90 €')]", "xpath:innerText"]
+      ],
+      "value": "439,99 €"
+    }, {
+      "id": "5a66c103-5d13-47c1-924a-394116814ef0",
+      "comment": "",
+      "command": "assertText",
+      "target": "css=.pro:nth-child(2) .prezzo",
+      "targets": [
+        ["css=.pro:nth-child(2) .prezzo", "css:finder"],
+        ["xpath=//section[@id='product1']/div/div[2]/div/h4", "xpath:idRelative"],
+        ["xpath=//div[2]/div/h4", "xpath:position"],
+        ["xpath=//h4[contains(.,'129,99 €')]", "xpath:innerText"]
+      ],
+      "value": "129,99 €"
+    }, {
+      "id": "bb3e95b4-ca72-4bc2-bc2f-7ccd006886de",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//p[contains(.,'Dettagli')]",
+      "targets": [
+        ["css=#\\33 0 > p", "css:finder"],
+        ["xpath=//a[@id='30']/p", "xpath:idRelative"],
+        ["xpath=//a/p", "xpath:position"],
+        ["xpath=//p[contains(.,'Dettagli')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "cbc1cf97-71f6-493c-9aa4-c5034669a823",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//h3[contains(.,'Prova')]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "62dc79f2-8752-412d-b7a9-6b49efe642a0",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//h2[contains(.,'Prova')]",
+      "targets": [
+        ["css=h2:nth-child(4)", "css:finder"],
+        ["xpath=//div[6]/h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Prova')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }, {
+      "id": "1fb88f84-fcf2-40b3-9bf6-4bd436551022",
+      "comment": "",
+      "command": "open",
+      "target": "https://localhost/ResultsPage",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "f7d918bb-6839-4030-ae37-fd0227d1ca61",
+      "comment": "",
+      "command": "click",
+      "target": "xpath=//div[2]/div/a/p",
+      "targets": [
+        ["css=#\\32 9 > p", "css:finder"],
+        ["xpath=//a[@id='29']/p", "xpath:idRelative"],
+        ["xpath=//div[2]/div/a/p", "xpath:position"]
+      ],
+      "value": ""
+    }, {
+      "id": "30a396c9-3452-4f9f-a697-c675371d9a22",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//h3[contains(.,'Prova')]",
+      "targets": [],
+      "value": ""
+    }, {
+      "id": "7b6df87f-3f9b-4d11-a5df-0654c68c0076",
+      "comment": "",
+      "command": "verifyElementPresent",
+      "target": "xpath=//h2[contains(.,'Prova')]",
+      "targets": [
+        ["css=h2:nth-child(4)", "css:finder"],
+        ["xpath=//div[6]/h2", "xpath:position"],
+        ["xpath=//h2[contains(.,'Prova')]", "xpath:innerText"]
+      ],
+      "value": ""
+    }]
+  }],
+  "suites": [{
+    "id": "3ba1763c-7bcd-47ad-80f6-40a2ed178be8",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["1ae2f1ce-62f6-45c8-b1e7-87b2f810db06"]
+  }],
+  "urls": ["https://localhost/"],
+  "plugins": []
+}

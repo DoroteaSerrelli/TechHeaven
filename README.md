@@ -23,35 +23,43 @@ Per la documentazione Javadoc del progetto, si consulti il seguente link: https:
 - Apache Tomcat (versione consigliata: [9.0])
 
 #### Avvio  
+
 Per avviare questa web application sulla tua macchina, segui i passaggi riportati di seguito:
 
 1. **Clonare il repository**
+
    Prima di tutto, clona il repository del progetto sulla tua macchina locale utilizzando Git:
 
    ```bash
    git clone https://github.com/DoroteaSerrelli/TechHeaven.git
 
-2. **Compilare il progetto con Maven**
+3. **Compilare il progetto con Maven**
+
    Questo comando scaricherà tutte le dipendenze e compilerà il progetto.
 
    ```bash
    cd TechHeaven
    mvn clean install
 
-3. **Configurazione di Apache Tomcat**
+5. **Configurazione di Apache Tomcat**
+
    Poiché si tratta di una web application Java, il software deve essere deployata su un server web come Apache Tomcat.
    Segui i seguenti passaggi per configurare Tomcat:
-        - Scarica e installa Apache Tomcat dal sito ufficiale: Tomcat Downloads.
-        - Una volta installato Tomcat, apri il file di configurazione server.xml, che si trova nella cartella conf della tua installazione di Tomcat.
+   
+   * Scarica e installa Apache Tomcat dal sito ufficiale: Tomcat Downloads.
+   * Una volta installato Tomcat, apri il file di configurazione server.xml, che si trova nella cartella conf della tua installazione di Tomcat.
 
-4. **Modificare il file server.xml per HTTPS**
+7. **Modificare il file server.xml per HTTPS**
+
    Modifica il file server.xml affinché supporti HTTPS, fornendo i dati del certificato keystore.jks presente nel branch Implementazione_Sistema/Semilavorati.
 
-5. **Deploy dell'applicazione**
+9. **Deploy dell'applicazione**
+
    Dopo aver configurato Tomcat, copia il file .war (il pacchetto web del progetto) generato da Maven nella cartella webapps di Tomcat.
    Il .war viene automaticamente deployato al riavvio di Tomcat, ma puoi anche farlo manualmente.
 
-6. **Avviare il server**
+11. **Avviare il server**
+
    Avvia Tomcat eseguendo il comando:
 
    ```bash
@@ -61,11 +69,13 @@ Per avviare questa web application sulla tua macchina, segui i passaggi riportat
    ```
    Tomcat ora avvierà il server sulla porta 8443 con HTTPS.
 
-7. **Accedere alla web application**
+11. **Accedere alla web application**
+
    Una volta avviato Tomcat, apri il tuo browser e accedi all'applicazione all'indirizzo:
 
    ```bash
    https://localhost:8443/TechHeaven
+   ```
 
 La web application dovrebbe essere ora in esecuzione nel tuo browser.
 
